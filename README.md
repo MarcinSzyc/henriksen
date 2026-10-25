@@ -7,6 +7,14 @@ instaluje się na ekranie telefonu, działa bez internetu i pamięta postęp.
 
 ## Co potrafi
 
+- **Ekran startowy** z dwoma kaflami: *Matematyka* (wybór ćwiczeń albo dokończenie rozpoczętych) i *Statystyki*.
+- **Statystyki i historia każdej sesji:**
+  - wykres wyniku za 1. razem i średniego czasu na działanie,
+  - ile było jakich ocen,
+  - Top 10 najtrudniejszych działań i przycisk „Poćwicz trudne”,
+  - tabliczka mnożenia pokolorowana według błędów,
+  - tabela sesji z typem ćwiczeń; po dotknięciu wszystkie odpowiedzi (złe próby, podpowiedzi, czas),
+  - filtr według działania, kopia historii do pliku i wczytanie jej z powrotem.
 - **Cztery działania:** dodawanie, odejmowanie, mnożenie i dzielenie, osobno albo wymieszane.
 - **Ustawienia sesji:**
   - zakres liczb (10, 20, 100, 1000 albo własny),

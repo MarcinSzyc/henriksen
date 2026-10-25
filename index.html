@@ -39,6 +39,62 @@ body{background:var(--bg);color:var(--fg);font-family:var(--body);
 .wrap{max-width:440px;margin:0 auto;display:flex;flex-direction:column;gap:14px;padding-block:14px 20px;min-height:100%;box-sizing:border-box}
 header{display:flex;justify-content:space-between;align-items:center;gap:8px}
 header .right{display:flex;align-items:center;gap:10px}
+header .grow{flex:1;min-width:0}
+.home{gap:16px}
+.tile{flex:1;min-height:170px;border:0;border-radius:28px;color:#fff;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px;padding:22px;text-align:left;position:relative;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.18)}
+.tile.math{background:linear-gradient(135deg,#5c7cfa,#3b2bb5)}
+.tile.stat{background:linear-gradient(135deg,#20c997,#0b7285)}
+.tile .ti{position:absolute;top:18px;right:20px;font-size:3rem;line-height:1}
+.tile .tt{font-family:var(--display);font-weight:800;font-size:2.1rem;line-height:1}
+.tile small{font-weight:800;font-size:.95rem;opacity:.92}
+.tile:active{transform:scale(.98)}
+.tile:focus-visible{outline:3px solid var(--fg);outline-offset:3px}
+.scard{background:var(--card);border:2px solid var(--line);border-radius:22px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.scard h2{font-family:var(--display);font-weight:800;font-size:1.1rem;margin:0}
+.fchips{display:flex;gap:6px;flex-wrap:wrap}
+.fchips button{font:inherit;font-weight:800;min-width:44px;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:var(--key);color:var(--key-fg);cursor:pointer}
+.fchips button.sel{background:var(--accent);border-color:var(--accent);color:#fff}
+.chart svg{width:100%;height:auto;display:block}
+.chart .empty{color:var(--muted);font-weight:700;font-size:.9rem;text-align:center;padding:18px 0}
+.ctip{min-height:1.3em;font-weight:800;font-size:.85rem;color:var(--muted);text-align:center}
+.hist{width:100%;border-collapse:collapse;font-size:.88rem}
+.hist th{text-align:left;color:var(--muted);font-size:.72rem;font-weight:800;padding:2px 4px;text-transform:uppercase;letter-spacing:.04em}
+.hist td{padding:8px 4px;border-top:1px solid var(--line);vertical-align:middle}
+.hist .row{cursor:pointer}
+.hist .row td:first-child{white-space:nowrap;font-weight:800}
+.hist .row small{display:block;color:var(--muted);font-weight:700}
+.hist .num{text-align:right;font-weight:800;font-variant-numeric:tabular-nums;white-space:nowrap}
+.tchips{display:flex;flex-wrap:wrap;gap:3px}
+.tchips span{background:var(--key);color:var(--key-fg);border-radius:6px;padding:1px 6px;font-size:.72rem;font-weight:800;white-space:nowrap}
+.tchips span.stop{background:var(--bad-soft);color:var(--bad)}
+.gb{display:inline-flex;width:28px;height:28px;border-radius:50%;align-items:center;justify-content:center;color:#fff;font-family:var(--display);font-weight:800;background:var(--gc,var(--muted))}
+.det td{background:var(--key);border-top:0;border-radius:0 0 12px 12px}
+.det .ds{font-weight:800;color:var(--muted);font-size:.8rem}
+.det ul{list-style:none;margin:6px 0 0;padding:0;columns:2 150px;column-gap:14px;font-size:.85rem}
+.det li{break-inside:avoid;padding:2px 0;font-variant-numeric:tabular-nums}
+.det .rbad .rq{color:var(--bad);font-weight:800}
+.det s{color:var(--bad)}
+.det small{color:var(--muted)}
+.top10{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.top10 li{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 10px;padding:8px 10px;border-radius:12px;font-weight:700;
+  background:linear-gradient(90deg,color-mix(in srgb,var(--bad) 22%,var(--key)) var(--w),var(--key) var(--w))}
+.top10 b{font-family:var(--display);font-size:1.15rem}
+.top10 .rate{margin-left:auto;font-weight:800;font-variant-numeric:tabular-nums}
+.top10 small{flex-basis:100%;color:var(--muted);font-size:.78rem}
+.top10 .none{background:none;color:var(--muted);padding:4px 0}
+.gdist{display:grid;grid-template-columns:auto 1fr auto;gap:6px 10px;align-items:center;font-weight:800;font-size:.9rem}
+.gdist .gl{display:flex;align-items:center;gap:8px;white-space:nowrap}
+.gdist .gbar{height:14px;border-radius:0 4px 4px 0;background:var(--gc);min-width:2px}
+.gdist .gbar.z{background:var(--line)}
+.gdist .gn{font-variant-numeric:tabular-nums;text-align:right;color:var(--muted)}
+.heat{display:grid;grid-template-columns:repeat(11,1fr);gap:3px}
+.heat>div{aspect-ratio:1;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:800;font-variant-numeric:tabular-nums;min-width:0}
+.heat .hh{color:var(--muted);font-size:.8rem}
+.heat .he{border:1px dashed var(--line)}
+.heat .hd{cursor:pointer;background:color-mix(in srgb,var(--bad) var(--p),var(--card));color:var(--fg)}
+.heat .hd.hot{color:#fff}
+.heat .hd.on{outline:2px solid var(--fg);outline-offset:1px}
+.ask-btns.bk button{font-size:.9rem}
 .menu-btn{width:40px;height:40px;flex:none;display:flex;align-items:center;justify-content:center;border:2px solid var(--line);border-radius:12px;background:transparent;color:var(--fg);cursor:pointer;padding:0}
 .menu-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
@@ -206,9 +262,29 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 </head><body>
 <canvas id="fw"></canvas>
 
-<div class="wrap">
-  <header><h1 id="title">Mnożenie do 100</h1><div class="right"><span class="count" id="count">1 / 100</span>
-    <button type="button" class="menu-btn" id="menu-btn" aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+<div class="wrap home" id="home">
+  <header><h1>Henriksen ⚽</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <button type="button" class="tile math" id="t-math"><span class="ti" aria-hidden="true">✖️➗</span><span class="tt">Matematyka</span><small id="t-math-s">Wybierz ćwiczenia i zaczynamy</small></button>
+  <button type="button" class="tile stat" id="t-stats"><span class="ti" aria-hidden="true">📈</span><span class="tt">Statystyki</span><small id="t-stats-s">Tu zobaczysz swoje wyniki</small></button>
+</div>
+
+<div class="wrap" id="stats-v" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć do startu"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Statystyki</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="fchips" id="sf" role="group" aria-label="Filtr działań"><button type="button" data-f="all" class="sel">Wszystko</button><button type="button" data-f="+">+</button><button type="button" data-f="−">−</button><button type="button" data-f="×">×</button><button type="button" data-f=":">:</button></div>
+  <section class="scard"><h2>Dobrze za 1. razem</h2><div class="chart" id="ch-pct"></div>
+    <h2>Średni czas na działanie</h2><div class="chart" id="ch-time"></div></section>
+  <section class="scard"><h2>Oceny</h2><div class="gdist" id="gdist"></div></section>
+  <section class="scard"><h2>Top 10 najtrudniejszych</h2><ol class="top10" id="top10"></ol>
+    <button type="button" class="again" id="practice">💪 Poćwicz trudne</button></section>
+  <section class="scard" id="heat-sec"><h2>Tabliczka – gdzie są błędy</h2><div class="heat" id="heat"></div><div class="ctip" id="heat-tip">Dotknij kratki, żeby zobaczyć szczegóły</div></section>
+  <section class="scard"><h2>Historia</h2><table class="hist" id="hist"></table></section>
+</div>
+
+<div class="wrap" id="play" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć do startu"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 id="title" class="grow">Mnożenie do 100</h1><div class="right"><span class="count" id="count">1 / 100</span>
+    <button type="button" class="menu-btn" id="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div class="dots" id="dots"></div>
   <div class="live" id="live" hidden><span class="chip" id="live-pct"></span><span class="chip" id="live-g"></span></div>
   <div class="card" id="card">
@@ -282,6 +358,10 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <div class="ask-sub">Telefon</div>
     <button type="button" class="tens" id="o-sound" aria-pressed="true"><b>🔊</b><span>Dźwięki<small>dobrze, źle, gratulacje</small></span></button>
     <button type="button" class="tens" id="awake" aria-pressed="true"><b>☀</b><span>Ekran nie gaśnie<small id="awake-s">gdy aplikacja jest otwarta</small></span></button>
+    <div class="ask-sub">Kopia danych</div>
+    <div class="ask-btns bk"><button type="button" id="bk-save">⬇ Zapisz kopię</button><button type="button" id="bk-load">⬆ Wczytaj kopię</button></div>
+    <input type="file" id="bk-file" accept="application/json,.json" hidden>
+    <div class="abnote" id="bk-msg">Historia jest tylko na tym telefonie. Zrób czasem kopię do pliku.</div>
     <div class="ask-btns"><button type="button" class="yes" id="menu-ok">Gotowe</button></div>
   </div>
 </div>
@@ -291,6 +371,9 @@ let N=100;
 let CFG={cr:[null,null],m:100,ops:["×"],tens:false,frac:false,div:"tab",ab:false,ar:[2,10],br:[2,10]};
 let ALEN=3;
 let tasks=[],i=0,input="",errors=0,hintsUsed=0,state=[],locked=false;
+// historia: id i start sesji, log[k]={tries:[wpisane odpowiedzi],h:podpowiedzi,ms:czas}; ACTIVE = jest prawdziwa sesja
+let SID=0,T0=0,log=[],tShow=0,ACTIVE=false;
+const newLog=n=>Array.from({length:n},()=>({tries:[],h:0,ms:0}));
 const $=id=>document.getElementById(id);
 /* ustawienia z menu ☰ (wczytane przed pierwszym show) */
 const PKEY="henriksen-ustawienia";
@@ -300,7 +383,7 @@ try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={theme:["light","
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
 function save(){
-  try{localStorage.setItem(KEY,JSON.stringify({n:N,cfg:CFG,tasks,i,errors,hints:hintsUsed,state}));}catch(e){}
+  try{localStorage.setItem(KEY,JSON.stringify({n:N,cfg:CFG,tasks,i,errors,hints:hintsUsed,state,id:SID,t0:T0,log}));}catch(e){}
 }
 function load(){
   try{
@@ -308,7 +391,8 @@ function load(){
     const n=d&&Number.isInteger(d.n)?d.n:100;
     if(d&&Array.isArray(d.tasks)&&d.tasks.length===n&&Array.isArray(d.state)&&d.state.length===n&&Number.isInteger(d.i)&&d.i>=0&&d.i<=n){
       N=n;tasks=d.tasks.map(t=>t.length===2?[t[0],"×",t[1]]:t);
-      if(d.cfg&&Array.isArray(d.cfg.ops)&&d.cfg.ops.length&&d.cfg.m>=10) CFG={m:+d.cfg.m,ops:d.cfg.ops,tens:!!d.cfg.tens,frac:!!d.cfg.frac,div:d.cfg.div==="any"?"any":"tab",ab:!!d.cfg.ab,ar:d.cfg.ar||[2,10],br:d.cfg.br||[2,10],cr:d.cfg.cr||[null,null]};i=d.i;hintsUsed=+d.hints||0;state=d.state.map((x,k)=>x==="hint"?(k<d.i?"ok":""):x);errors=state.filter(x=>x==="fix").length;return true;
+      if(d.cfg&&Array.isArray(d.cfg.ops)&&d.cfg.ops.length&&d.cfg.m>=10) CFG={m:+d.cfg.m,ops:d.cfg.ops,tens:!!d.cfg.tens,frac:!!d.cfg.frac,div:d.cfg.div==="any"?"any":"tab",ab:!!d.cfg.ab,ar:d.cfg.ar||[2,10],br:d.cfg.br||[2,10],cr:d.cfg.cr||[null,null],practice:!!d.cfg.practice};i=d.i;hintsUsed=+d.hints||0;state=d.state.map((x,k)=>x==="hint"?(k<d.i?"ok":""):x);errors=state.filter(x=>x==="fix").length;
+      SID=d.id||Date.now();T0=d.t0||SID;log=Array.isArray(d.log)&&d.log.length===n?d.log:newLog(n);ACTIVE=true;return true;
     }
   }catch(e){}
   return false;
@@ -412,6 +496,7 @@ function title(){
   EQFS=0; // nowa sesja: nowy rozmiar działania
   ALEN=Math.max(1,...tasks.map(t=>fmt(answer(t)).length));
   buildPad();
+  if(CFG.practice){$("title").textContent="Poćwicz trudne";document.title="Henriksen · Poćwicz trudne";return;}
   const o=["+","−","×",":"].filter(x=>CFG.ops.includes(x));
   let t=o.length===1?OPNAME[o[0]]:o.length===2?OPNAME[o[0]]+" i "+OPNAME[o[1]].toLowerCase():"Działania";
   const tab=o.includes(":")&&CFG.div!=="any";
@@ -430,6 +515,7 @@ function title(){
 let EQFS=0;
 function fitEq(){
   const eq=document.querySelector(".eq"),card=$("card"),max=card.clientWidth-28;
+  if(!card.clientWidth) return; // ekran gry schowany: dopasujemy po wejściu
   $("box").style.minWidth=Math.max(1.9,ALEN*.62+.5)+"em";
   if(!EQFS){
     const len=t=>String(t[0]).length+String(t[2]).length;
@@ -445,9 +531,10 @@ function fitEq(){
 const refit=()=>{EQFS=0;if(!$("card").hidden&&i<N) fitEq();};
 if(document.fonts) document.fonts.ready.then(refit);
 
-function start(n){
+function start(n,list){
   if(n) N=n;
-  tasks=gen();i=0;input="";errors=0;hintsUsed=0;state=Array(N).fill("");locked=false;
+  tasks=list||gen();i=0;input="";errors=0;hintsUsed=0;state=Array(N).fill("");locked=false;
+  SID=T0=Date.now();log=newLog(N);ACTIVE=true;
   save();
   render();
 }
@@ -459,7 +546,7 @@ function render(){
   show();
 }
 function show(){
-  const [a,op,b]=tasks[i];
+  const [a,op,b]=tasks[i];tShow=Date.now();
   $("a").textContent=a;$("op").textContent=op;$("b").textContent=b;$("box").textContent=input;
   fitEq();
   $("num").textContent="Działanie "+(i+1);$("count").textContent=(i+1)+" / "+N;
@@ -521,7 +608,7 @@ function resetHint(){hintStep=0;$("hint").hidden=true;$("hint").innerHTML="";$("
 function nextHint(){
   if(i>=N) return;
   // podpowiedzi liczone osobno (każdy pokazany krok), bez wpływu na ocenę
-  const h=hints(tasks[i]);if(hintStep<h.length){hintStep++;hintsUsed++;save();showStats();}
+  const h=hints(tasks[i]);if(hintStep<h.length){hintStep++;hintsUsed++;if(log[i]) log[i].h++;save();showStats();}
   // tylko ostatni krok (każdy ma sens sam), bez łamania linii w środku działania
   $("hint").innerHTML=h[hintStep-1].replace(/ ([:×+−=]) /g," $1 ");$("hint").hidden=false;
   if(hintStep>=h.length) $("hint-btn").hidden=true; else $("hint-btn").textContent="💡 Jeszcze podpowiedź";
@@ -549,8 +636,10 @@ function press(v){
 function check(){
   if(!input) return;
   const card=$("card");
+  if(log[i]) log[i].tries.push(input);
   if(Math.abs(+input.replace(",",".")-answer(tasks[i]))<1e-9&&!input.endsWith(",")){
     card.classList.add("ok");$("msg").textContent="Dobrze!";sfx("ok");
+    if(log[i]) log[i].ms=Math.min(Date.now()-tShow,120000);
     if(!state[i]) state[i]="ok";
     save();
     locked=true;
@@ -568,6 +657,7 @@ function check(){
   }
 }
 function finish(quiet){
+  archive("done");
   $("card").hidden=true;$("pad").hidden=true;$("live").hidden=true;$("count").textContent=N+" / "+N;
   const dots=$("dots").children;for(let k=0;k<N;k++) dots[k].className="dot "+state[k];
   const good=state.filter(s=>s==="ok").length;
@@ -708,12 +798,13 @@ $("pad").addEventListener("click",e=>{const b=e.target.closest("button");if(b) p
 document.addEventListener("keydown",e=>{
   if(!$("menu").hidden){if(e.key==="Escape") closeMenu();return;}
   if(!$("ask").hidden){if(e.key==="Escape") closeAsk();return;}
+  if($("play").hidden) return;
   if(/^[0-9]$/.test(e.key)) press(e.key);
   else if(e.key==="Backspace") press("del");
   else if((e.key===","||e.key===".")&&padFrac) press(",");
   else if(e.key==="Enter") press("ok");
 });
-let pick=N,firstRun=false,pm=100,pops=["×"],ptens=false,pab=false,pfrac=false,pdiv="tab";
+let pick=N,pm=100,pops=["×"],ptens=false,pab=false,pfrac=false,pdiv="tab";
 function selOpt(){
   for(const b of $("opts").children) b.classList.toggle("sel",+b.dataset.n===pick&&!$("ask-n").value);
   for(const b of $("ranges").children) b.classList.toggle("sel",+b.dataset.m===pm&&!$("ask-m").value);
@@ -748,16 +839,18 @@ function abHint(){
   if(pops.includes(":")&&pdiv==="any"){const t=makeTask(":",0,ptens,c);if(t) ex.push(`${t[0]} : ${t[2]} = ${t[0]/t[2]}`);else{$("abhint").innerHTML=`<span class="np">${"Dzielenie: przy tych zakresach nie da się podzielić bez reszty z wynikiem w c"}</span>`;return;}}
   $("abhint").innerHTML='<span class="np">Np.</span>'+ex.map(x=>`<span>${x}</span>`).join("");
 }
-function openAsk(first){
-  firstRun=!!first;pick=N;$("ask-n").value="";$("ask-err").textContent="";
+function openAsk(mode){
+  const fresh=mode!=="replace"||!(ACTIVE&&i<N); // bez ostrzeżenia, gdy nie ma czego kasować
+  pick=N;$("ask-n").value="";$("ask-err").textContent="";
   pops=[...CFG.ops];ptens=CFG.tens;pm=CFG.m;pab=CFG.ab;pfrac=CFG.frac;pdiv=CFG.div||"tab";
   $("a-lo").value=CFG.ar[0];$("a-hi").value=CFG.ar[1];$("b-lo").value=CFG.br[0];$("b-hi").value=CFG.br[1];
   $("c-lo").value=CFG.cr&&CFG.cr[0]!=null?CFG.cr[0]:"";$("c-hi").value=CFG.cr&&CFG.cr[1]!=null?CFG.cr[1]:"";$("ask-m").value=[10,20,100,1000].includes(pm)?"":pm;
-  $("ask-warn").hidden=firstRun;$("ask-no").hidden=firstRun;
-  $("ask-yes").classList.toggle("warn",!firstRun);$("ask-yes").textContent=firstRun?"Start":"Tak, od nowa";
+  $("ask-warn").hidden=fresh;$("ask-no").hidden=false;
+  $("ask-warn").textContent="Na pewno? Obecne działania trafią do historii jako przerwane.";
+  $("ask-yes").classList.toggle("warn",!fresh);$("ask-yes").textContent=fresh?"Start":"Tak, od nowa";
   selOpt();$("ask").hidden=false;$("ask-yes").focus();
 }
-function closeAsk(){if(firstRun) return;$("ask").hidden=true;$("again").focus();}
+function closeAsk(){$("ask").hidden=true;($("play").hidden?$("t-math"):$("again")).focus();}
 function confirmAsk(){
   const v=$("ask-n").value.trim();
   let n=pick;
@@ -770,7 +863,8 @@ function confirmAsk(){
   if(useAB){ab=readAB();if(typeof ab==="string"){$("ask-err").textContent=ab;return;}}
   const cfg={m,ops:[...pops],tens:ptens,frac:pfrac&&pops.includes(":")&&pdiv==="any",div:pdiv,ab:useAB,ar:ab.ar,br:ab.br,cr:ab.cr};
   if(!canMake(cfg)){$("ask-err").textContent=cfg.ab?"Przy tych zakresach a, b i c nie da się ułożyć działania – zmień zakresy":ptens?"Za mały zakres na pełne dziesiątki – wybierz większy":"Za mały zakres dla wybranych działań";return;}
-  CFG=cfg;$("ask").hidden=true;start(n);
+  if(ACTIVE&&i>0&&i<N) archive("przerwana");
+  CFG=cfg;$("ask").hidden=true;start(n);go("play");
 }
 $("opts").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;pick=+b.dataset.n;$("ask-n").value="";$("ask-err").textContent="";selOpt();});
 $("ask-n").addEventListener("input",()=>{$("ask-err").textContent="";selOpt();});
@@ -787,13 +881,10 @@ $("frac").addEventListener("click",()=>{pfrac=!pfrac;$("ask-err").textContent=""
 ["a-lo","a-hi","b-lo","b-hi","c-lo","c-hi"].forEach(id=>{$(id).addEventListener("input",()=>{$("ask-err").textContent="";abHint();});
   $(id).addEventListener("keydown",e=>{if(e.key==="Enter") confirmAsk();});});
 addEventListener("resize",refit);
-$("again").addEventListener("click",()=>openAsk(false));
+$("again").addEventListener("click",()=>openAsk("replace"));
 $("ask-no").addEventListener("click",closeAsk);
 $("ask").addEventListener("click",e=>{if(e.target.id==="ask") closeAsk();});
 $("ask-yes").addEventListener("click",confirmAsk);
-if(load()){
-  if(i>=N){render0();finish(true);} else render0();
-}else{tasks=gen();state=Array(N).fill("");render0();openAsk(true);}
 function render0(){
   title();
   $("dots").innerHTML=Array.from({length:N},()=>'<span class="dot"></span>').join("");
@@ -813,9 +904,10 @@ function selMenu(){
   for(const [id,k] of TOGGLES){$(id).classList.toggle("sel",PREFS[k]);$(id).setAttribute("aria-pressed",PREFS[k]);}
   $("awake-s").textContent="wakeLock" in navigator?"gdy aplikacja jest otwarta":"ten telefon tego nie obsługuje";
 }
-function openMenu(){selMenu();$("menu").hidden=false;$("menu-ok").focus();}
-function closeMenu(){$("menu").hidden=true;$("menu-btn").focus();}
-$("menu-btn").addEventListener("click",openMenu);
+let menuFrom=null;
+function openMenu(e){menuFrom=e&&e.currentTarget;selMenu();$("bk-msg").textContent="Historia jest tylko na tym telefonie. Zrób czasem kopię do pliku.";$("menu").hidden=false;$("menu-ok").focus();}
+function closeMenu(){$("menu").hidden=true;if(menuFrom) menuFrom.focus();}
+document.querySelectorAll("[data-menu]").forEach(b=>b.addEventListener("click",openMenu));
 $("menu-ok").addEventListener("click",closeMenu);
 $("menu").addEventListener("click",e=>{if(e.target.id==="menu") closeMenu();});
 $("theme").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;PREFS.theme=b.dataset.t;savePrefs();applyTheme();selMenu();});
@@ -889,6 +981,196 @@ function unwake(){if(wl){wl.release().catch(()=>{});wl=null;}}
 document.addEventListener("visibilitychange",wake);
 document.addEventListener("pointerdown",wake); // Safari wymaga dotknięcia
 wake();
+
+/* Historia sesji: localStorage pod HKEY, każda sesja z pełną listą odpowiedzi.
+   Ukończone -> "done", porzucone (nowe działania w trakcie) -> "przerwana". */
+const HKEY="henriksen-historia";
+function loadHist(){try{const h=JSON.parse(localStorage.getItem(HKEY));return Array.isArray(h)?h:[];}catch(e){return [];}}
+function saveHist(h){
+  try{localStorage.setItem(HKEY,JSON.stringify(h));}catch(e){}
+  if(navigator.storage&&navigator.storage.persist) navigator.storage.persist().catch(()=>{});
+}
+const recsOf=upto=>tasks.slice(0,upto).map((t,k)=>({t,ok:state[k]==="ok",tries:(log[k]&&log[k].tries)||[],h:(log[k]&&log[k].h)||0,ms:(log[k]&&log[k].ms)||0}));
+function archive(status){
+  const done=status==="done"?N:i;if(!ACTIVE||!done) return;
+  const H=loadHist(),k=H.findIndex(s=>s.id===SID);
+  if(k>=0&&H[k].status==="done") return; // już zapisana
+  const recs=recsOf(done),good=recs.filter(r=>r.ok).length,pct=Math.floor(good*100/done);
+  const s={id:SID,start:T0,end:Date.now(),status,cfg:CFG,n:N,done,recs,pct,grade:grade(pct).n,errors:done-good,hints:hintsUsed};
+  if(k>=0) H[k]=s; else H.push(s);
+  saveHist(H);
+}
+const sesji=n=>n===1?"sesja":n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?"sesje":"sesji";
+const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
+const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
+
+/* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
+const HASH={home:"",play:"#gra",stats:"#statystyki"};
+function showView(v){
+  $("home").hidden=v!=="home";$("play").hidden=v!=="play";$("stats-v").hidden=v!=="stats";
+  if(v==="home") renderHome();
+  if(v==="stats") renderStats();
+  if(v==="play") refit();
+  scrollTo(0,0);
+}
+function go(v){
+  if(location.hash!==HASH[v]) history.pushState(null,"",HASH[v]||location.pathname+location.search);
+  showView(v);
+}
+addEventListener("popstate",()=>showView(location.hash==="#gra"&&ACTIVE?"play":location.hash==="#statystyki"?"stats":"home"));
+document.querySelectorAll("[data-back]").forEach(b=>b.addEventListener("click",()=>{if(location.hash) history.back(); else showView("home");}));
+$("t-math").addEventListener("click",()=>{if(ACTIVE&&i<N) go("play"); else openAsk("home");});
+$("t-stats").addEventListener("click",()=>go("stats"));
+function renderHome(){
+  const H=loadHist(),done=H.filter(s=>s.status==="done");
+  $("t-math-s").textContent=ACTIVE&&i<N?`W trakcie: ${i} / ${N} · dotknij, żeby grać dalej`:"Wybierz ćwiczenia i zaczynamy";
+  $("t-stats-s").textContent=H.length?`${H.length} ${sesji(H.length)}`+(done.length?` · ostatnio ${done[done.length-1].pct}%`:""):"Tu zobaczysz swoje wyniki";
+}
+
+/* Statystyki */
+let SF="all";
+$("sf").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;SF=b.dataset.f;
+  for(const x of $("sf").children) x.classList.toggle("sel",x===b);renderStats();});
+function typeChips(c){
+  const o=["+","−","×",":"].filter(x=>c.ops.includes(x)),ch=[o.join(" ")];
+  if(c.practice) return ch.concat("trudne");
+  const tab=o.includes(":")&&c.div!=="any";
+  if(!c.ab||tab) ch.push("do "+c.m);
+  if(o.includes(":")) ch.push(tab?"tabliczka":"dowolne");
+  if(c.ab){const cr=c.cr||[null,null];ch.push(`a ${c.ar.join("–")}`,`b ${c.br.join("–")}`);
+    if(cr[0]!=null||cr[1]!=null) ch.push(`c ${cr[0]!=null?cr[0]:0}–${cr[1]!=null?cr[1]:"∞"}`);}
+  if(c.tens) ch.push("dziesiątki");
+  if(c.frac&&!tab) ch.push("ułamki");
+  return ch;
+}
+const avgMs=s=>{const v=s.recs.filter(r=>r.ms>0).map(r=>Math.min(r.ms,60000));return v.length?v.reduce((a,b)=>a+b,0)/v.length:null;};
+const fdate=t=>{const d=new Date(t),z=n=>String(n).padStart(2,"0");return [`${z(d.getDate())}.${z(d.getMonth()+1)}`,`${z(d.getHours())}:${z(d.getMinutes())}`];};
+// wykres liniowy: jedna seria, jedna oś; dotknięcie punktu pokazuje wartość pod wykresem
+function lineChart(el,pts,o){
+  if(!pts.length){el.innerHTML=`<div class="empty">${o.empty}</div>`;return;}
+  const W=340,H=150,L=30,R=o.bands?22:12,T=10,B=20,cw=W-L-R,ch=H-T-B;
+  const x=k=>L+(pts.length===1?cw/2:k*cw/(pts.length-1)),y=v=>T+ch*(1-(v-o.min)/(o.max-o.min));
+  let g="";
+  for(const v of o.ticks) g+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1"${o.dash&&o.dash.includes(v)?' stroke-dasharray="3 3"':""}/>`+
+    `<text x="${L-6}" y="${y(v)+4}" text-anchor="end" font-size="10" font-weight="700" fill="var(--muted)">${o.tick(v)}</text>`;
+  if(o.bands) for(const [v,lab] of o.bands) g+=`<line x1="${L}" x2="${W-R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--line)" stroke-width="1" stroke-dasharray="2 4"/><text x="${W-4}" y="${y(v)+3}" text-anchor="end" font-size="9" font-weight="800" fill="var(--muted)">${lab}</text>`;
+  const first=fdate(pts[0].t)[0],last=fdate(pts[pts.length-1].t)[0];
+  g+=`<text x="${L}" y="${H-4}" font-size="10" font-weight="700" fill="var(--muted)">${first}</text>`;
+  if(pts.length>1) g+=`<text x="${W-R}" y="${H-4}" text-anchor="end" font-size="10" font-weight="700" fill="var(--muted)">${last}</text>`;
+  const line=pts.map((p,k)=>`${x(k).toFixed(1)},${y(p.v).toFixed(1)}`).join(" ");
+  g+=`<polyline points="${line}" fill="none" stroke="var(--accent)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+  pts.forEach((p,k)=>{g+=`<circle cx="${x(k)}" cy="${y(p.v)}" r="4" fill="var(--accent)" stroke="var(--card)" stroke-width="2"/>`+
+    `<circle class="hit" data-k="${k}" cx="${x(k)}" cy="${y(p.v)}" r="13" fill="transparent" style="cursor:pointer"/>`;});
+  el.innerHTML=`<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${o.label}">${g}</svg><div class="ctip">${o.hint}</div>`;
+  const tip=el.querySelector(".ctip");
+  el.querySelectorAll(".hit").forEach(c=>{const f=()=>{tip.textContent=o.tip(pts[+c.dataset.k]);};c.addEventListener("click",f);c.addEventListener("pointerenter",f);});
+}
+// najtrudniejsze: odsetek złych pierwszych odpowiedzi, min. 2 wystąpienia, znika po 3 dobrych z rzędu
+function topHard(recs){
+  const m=new Map();
+  for(const r of recs){const k=r.t.join(" ");let e=m.get(k);if(!e){e={t:r.t,n:0,bad:0,seq:[],wrong:[]};m.set(k,e);}
+    e.n++;if(!r.ok) e.bad++;e.seq.push(r.ok);r.tries.forEach(x=>{if(isWrong(x,r.t)) e.wrong.push(x);});}
+  return [...m.values()].filter(e=>e.n>=2&&e.bad&&!(e.seq.length>=3&&e.seq.slice(-3).every(Boolean)))
+    .sort((a,b)=>b.bad/b.n-a.bad/a.n||b.bad-a.bad||b.n-a.n).slice(0,10);
+}
+let HARD=[];
+function renderStats(){
+  const H=loadHist().sort((a,b)=>a.start-b.start),S=H.filter(s=>SF==="all"||s.cfg.ops.includes(SF));
+  const done=S.filter(s=>s.status==="done").slice(-30);
+  lineChart($("ch-pct"),done.map(s=>({t:s.start,v:s.pct,s})),{min:0,max:100,ticks:[0,50,100],dash:[50],tick:v=>v+"%",
+    bands:[[98,"6"],[86,"5"],[70,"4"],[51,"3"],[31,"2"]],label:"Procent dobrych odpowiedzi za pierwszym razem w kolejnych sesjach",
+    empty:"Jeszcze nie ma ukończonych sesji",hint:"Dotknij punktu, żeby zobaczyć sesję",
+    tip:p=>`${fdate(p.t).join(" ")} · ${p.v}% · ocena ${p.s.grade} · ${p.s.n} działań`});
+  const tp=done.map(s=>({t:s.start,v:avgMs(s),s})).filter(p=>p.v!=null).map(p=>({...p,v:p.v/1000}));
+  const tmax=Math.max(5,Math.ceil(Math.max(0,...tp.map(p=>p.v))/5)*5);
+  lineChart($("ch-time"),tp,{min:0,max:tmax,ticks:[0,tmax/2,tmax],tick:v=>(Math.round(v*10)/10+"").replace(".",",")+" s",
+    label:"Średni czas na działanie w kolejnych sesjach",empty:"Czas liczymy od tej wersji aplikacji",hint:"Mniej = szybciej",
+    tip:p=>`${fdate(p.t).join(" ")} · ${sec(p.v*1000)} na działanie`});
+  // ile było jakich ocen (ukończone sesje, z filtrem)
+  const all=S.filter(s=>s.status==="done"),cnt=GRADES.map(g=>all.filter(s=>s.grade===g.n).length),cmax=Math.max(1,...cnt);
+  $("gdist").innerHTML=all.length?GRADES.map((g,k)=>`<div class="gl"><span class="gb" style="--gc:${g.c}">${g.n}</span>${g.name}</div>`+
+    `<div class="gbar${cnt[k]?"":" z"}" style="--gc:${g.c};width:${cnt[k]?Math.max(3,cnt[k]*100/cmax):1}%"></div><div class="gn">${cnt[k]}</div>`).join("")
+    :`<div class="ctip" style="grid-column:1/-1">Jeszcze nie ma ukończonych sesji</div>`;
+  // wszystkie odpowiedzi (z bieżącą sesją) do Top 10 i tabliczki
+  let recs=[];H.forEach(s=>recs.push(...s.recs));
+  if(ACTIVE&&i>0&&i<N&&!H.some(s=>s.id===SID)) recs.push(...recsOf(i));
+  if(SF!=="all") recs=recs.filter(r=>r.t[1]===SF);
+  HARD=topHard(recs);
+  $("top10").innerHTML=HARD.length?HARD.map(e=>{const p=Math.round(e.bad*100/e.n),w=[...new Set(e.wrong)].slice(0,4);
+    return `<li style="--w:${p}%"><b>${e.t[0]} ${e.t[1]} ${e.t[2]}</b> = ${fmt(answer(e.t))}<span class="rate">${e.bad} z ${e.n} źle · ${p}%</span>${w.length?`<small>wpisywał: ${w.join(", ")}</small>`:""}</li>`;}).join("")
+    :`<li class="none">Brak – świetnie! Działanie trafia tu, gdy pojawi się co najmniej 2 razy i bywa źle.</li>`;
+  $("practice").hidden=!HARD.length;
+  heatmap(recs);
+  // tabela: najnowsze na górze, wiersz rozwija wszystkie odpowiedzi
+  const rows=S.slice().reverse().map(s=>{const [d,h]=fdate(s.start),g=GRADES.find(x=>x.n===s.grade),stop=s.status!=="done",a=avgMs(s);
+    const det=`<tr class="det" hidden><td colspan="4"><div class="ds">${s.done}${stop?" z "+s.n:""} ${dzialan(s.done)} · błędy: ${s.errors} · podpowiedzi: ${s.hints}${a?" · śr. "+sec(a):""}${s.end?" · razem "+Math.max(1,Math.round((s.end-s.start)/60000))+" min":""}</div>
+      <ul>${s.recs.map(r=>{const w=r.tries.filter(x=>isWrong(x,r.t));
+        return `<li class="${r.ok?"":"rbad"}"><span class="rq">${r.t[0]} ${r.t[1]} ${r.t[2]} = ${fmt(answer(r.t))}</span> ${r.ok?"✓":"✗"}${w.length?" "+w.map(x=>`<s>${x}</s>`).join(" "):""}${r.h?" 💡":""}${r.ms?` <small>${sec(r.ms)}</small>`:""}</li>`;}).join("")}</ul></td></tr>`;
+    return `<tr class="row"><td>${d}<small>${h}</small></td><td><div class="tchips">${typeChips(s.cfg).map(c=>`<span>${c}</span>`).join("")}${stop?'<span class="stop">przerwana</span>':""}</div></td>
+      <td class="num">${s.pct}%</td><td class="num">${stop?"–":`<span class="gb" style="--gc:${g.c}">${s.grade}</span>`}</td></tr>${det}`;}).join("");
+  $("hist").innerHTML=rows?`<thead><tr><th>Data</th><th>Typ</th><th class="num">Wynik</th><th class="num">Ocena</th></tr></thead><tbody>${rows}</tbody>`
+    :`<tbody><tr><td class="ctip">Tu pojawi się każda sesja</td></tr></tbody>`;
+}
+$("hist").addEventListener("click",e=>{const r=e.target.closest("tr.row");if(r) r.nextElementSibling.hidden=!r.nextElementSibling.hidden;});
+// tabliczka 1–10: mnożenie i dzielenie z tabliczki; kolor = odsetek złych odpowiedzi (jeden odcień)
+function heatmap(recs){
+  const show=SF==="all"||SF==="×"||SF===":";$("heat-sec").hidden=!show;if(!show) return;
+  const g={};
+  for(const r of recs){const [a,op,b]=r.t;let x,y;
+    if(op==="×"){x=a;y=b;} else if(op===":"&&Number.isInteger(a/b)){x=b;y=a/b;} else continue;
+    if(x<1||y<1||x>10||y>10) continue;
+    const k=Math.min(x,y)+"x"+Math.max(x,y),c=g[k]||(g[k]={n:0,bad:0});c.n++;if(!r.ok) c.bad++;}
+  let h='<div class="hh">×</div>';for(let c=1;c<=10;c++) h+=`<div class="hh">${c}</div>`;
+  for(let r=1;r<=10;r++){h+=`<div class="hh">${r}</div>`;
+    for(let c=1;c<=10;c++){const e=g[Math.min(r,c)+"x"+Math.max(r,c)];
+      if(!e){h+=`<div class="he"></div>`;continue;}
+      const p=e.bad/e.n;h+=`<div class="hd${p>=.5?" hot":""}" style="--p:${Math.round(8+p*82)}%" data-r="${r}" data-c="${c}" data-n="${e.n}" data-b="${e.bad}">${r*c}</div>`;}}
+  $("heat").innerHTML=h;$("heat-tip").textContent="Dotknij kratki, żeby zobaczyć szczegóły";
+}
+$("heat").addEventListener("click",e=>{const d=e.target.closest(".hd");if(!d) return;
+  $("heat").querySelectorAll(".on").forEach(x=>x.classList.remove("on"));d.classList.add("on");
+  const r=+d.dataset.r,c=+d.dataset.c,n=+d.dataset.n,b=+d.dataset.b;
+  $("heat-tip").textContent=`${r} × ${c} = ${r*c} (i dzielenie ${r*c} : ${c}) · ${b} z ${n} źle · ${Math.round(b*100/n)}%`;});
+// "Poćwicz trudne": każde z Top 10 dwa razy, wymieszane
+$("practice").addEventListener("click",()=>{
+  if(!HARD.length) return;
+  if(ACTIVE&&i>0&&i<N){if(!confirm("Przerwać obecne działania i poćwiczyć trudne?")) return;archive("przerwana");}
+  // losowa kolejność, bez tego samego działania dwa razy z rzędu
+  const pool=HARD.flatMap(e=>[e.t.slice(),e.t.slice()]),t=[];
+  while(pool.length){let c=pool.map((x,k)=>k).filter(k=>!t.length||pool[k].join()!==t[t.length-1].join());if(!c.length) c=[0];
+    t.push(pool.splice(c[Math.floor(Math.random()*c.length)],1)[0]);}
+  for(let k=1;k<t.length;k++) if(t[k].join()===t[k-1].join()){ // na końcu mogły zostać dwa takie same: przenieś jedno
+    const x=t.splice(k,1)[0],j=t.findIndex((y,m)=>y.join()!==x.join()&&(m===0||t[m-1].join()!==x.join()));t.splice(j<0?t.length:j,0,x);}
+  CFG={...CFG,ops:[...new Set(t.map(x=>x[1]))],practice:true,ab:false,frac:t.some(x=>!Number.isInteger(answer(x))),
+    m:Math.max(10,...t.map(x=>Math.max(x[0],x[2],Math.ceil(answer(x)))))};
+  start(t.length,t);go("play");
+});
+
+/* Kopia danych: zapis historii do pliku i wczytanie (łączy po id sesji) */
+$("bk-save").addEventListener("click",()=>{
+  const blob=new Blob([JSON.stringify({app:"henriksen",v:1,date:new Date().toISOString(),history:loadHist(),prefs:PREFS})],{type:"application/json"});
+  const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="henriksen-kopia-"+new Date().toISOString().slice(0,10)+".json";
+  document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000);
+  $("bk-msg").textContent="Zapisano plik z kopią.";
+});
+$("bk-load").addEventListener("click",()=>$("bk-file").click());
+$("bk-file").addEventListener("change",()=>{
+  const f=$("bk-file").files[0];$("bk-file").value="";if(!f) return;
+  f.text().then(txt=>{const d=JSON.parse(txt);if(!d||d.app!=="henriksen"||!Array.isArray(d.history)) throw new Error("format");
+    const H=loadHist(),ids=new Set(H.map(s=>s.id));let add=0;
+    for(const s of d.history) if(s&&s.id&&Array.isArray(s.recs)&&s.cfg&&!ids.has(s.id)){H.push(s);add++;}
+    saveHist(H);$("bk-msg").textContent=`Wczytano: ${add} (pominięto sesje, które już były).`;
+    if(!$("stats-v").hidden) renderStats();renderHome();
+  }).catch(()=>{$("bk-msg").textContent="To nie jest plik kopii Henriksena.";});
+});
+
+// wczytanie zapisanej sesji: dopiero teraz, bo finish() zapisuje do historii (HKEY wyżej)
+if(load()){
+  if(i>=N){render0();finish(true);} else render0();
+}else{tasks=gen();state=Array(N).fill("");log=newLog(N);render0();}
+// start zawsze na ekranie z kaflami
+history.replaceState(null,"",location.pathname+location.search);
+showView("home");
 
 /* PWA: działanie offline */
 if("serviceWorker" in navigator&&location.protocol.startsWith("http")){
