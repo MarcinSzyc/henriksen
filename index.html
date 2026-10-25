@@ -564,8 +564,12 @@ function finish(quiet){
 const cv=$("fw"),cx=cv.getContext("2d");let parts=[],raf=0;
 const cols=["#ff4d6d","#ffd43b","#51cf66","#4dabf7","#cc5de8","#ff922b"];
 /* gratulacje co 5 działań: duże hasło + osobisty tekst, losowane bez powtórki z poprzednim */
-const praise=["ESSA!!","Jesteś zwycięzcą!","Sztos!","Kozak!","Wymiatasz!","Petarda!","Legenda!","Mistrzunio!","GOAT 🐐","Ale akcja!","Gigant!","Mega!"];
-const praiseSub=["Zawsze w Ciebie wierzyłem!","Nikt Cię nie zatrzyma!","Mózg jak superkomputer 🧠","Tak się to robi, szefie!","Grasz jak Lewy w formie ⚽","Jestem z Ciebie dumny!","Lecisz jak rakieta 🚀","Tabliczka się Ciebie boi!","Ten poziom to już Liga Mistrzów!","Ogień! 🔥 Tak trzymaj!"];
+const praise=["ESSA!!","Jesteś zwycięzcą!","Sztos!","Kozak!","Wymiatasz!","Petarda!","Legenda!","Mistrzunio!","Ale akcja!","Gigant!","Mega!",
+  "GOAT 🐐","Ty to GOAT! 🐐","Absolutny GOAT 🐐","GOAT mode: ON 🐐","🐐🐐🐐",
+  "6️⃣7️⃣!!","SIX SEVEN! 🤲","67 🤲","Sześć siedem!! 🤲","67 ESSA!!"];
+const praiseSub=["Zawsze w Ciebie wierzyłem!","Nikt Cię nie zatrzyma!","Mózg jak superkomputer 🧠","Tak się to robi, szefie!","Grasz jak Lewy w formie ⚽","Jestem z Ciebie dumny!","Lecisz jak rakieta 🚀","Tabliczka się Ciebie boi!","Ten poziom to już Liga Mistrzów!","Ogień! 🔥 Tak trzymaj!",
+  "Prawdziwy GOAT 🐐 jest tylko jeden – Ty!","GOAT matematyki 🐐 to Ty!","Nawet Messi by klaskał 👏 GOAT!","Kozy się kłaniają 🐐 GOAT!","Zostajesz GOATem tej tabliczki 🐐","Ronaldo? Messi? Nie, TY jesteś GOAT 🐐",
+  "To był poziom 6-7 🤲","Six seven, bo Ty wymiatasz 🤲","Twój mózg robi 67 na sekundę 🧠","67% mocy? Nie, 100%! 🤲","6… 7… i kolejna piątka zaliczona!","Sześć siedem, mistrzu! 🤲"];
 let lastP=-1,lastS=-1;
 const pickNew=(arr,last)=>{let k;do k=Math.floor(Math.random()*arr.length);while(arr.length>1&&k===last);return k;};
 
