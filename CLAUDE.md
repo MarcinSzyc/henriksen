@@ -12,7 +12,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
 
 ## Architektura `index.html`
 - **Stan sesji:** `N` (liczba zadań), `tasks` (tablica `[a, op, b]`, op ∈ `+ − × :`),
-  `i` (bieżące zadanie), `state[k]` (`"ok"` = dobrze za 1. razem, `"fix"` = był błąd, `"hint"` = z podpowiedzią), `errors`.
+  `i` (bieżące zadanie), `state[k]` (`"ok"` = dobrze za 1. razem, `"fix"` = był błąd), `errors`, `hintsUsed` (pokazane kroki podpowiedzi, zapisywane jako `hints`).
 - **Ustawienia:** obiekt `CFG`:
   - `m`: zakres liczb,
   - `ops`: lista działań,
@@ -30,8 +30,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `hints` (przycisk „Podpowiedź”).
 - **Podpowiedzi:** `hints(t)` zwraca kroki (HTML) dla `+ − × :`; przycisk pokazuje kolejny krok,
   widoczny jest tylko ostatni (każdy musi mieć sens sam). Dzielenie tłumaczone jako odwrotność mnożenia
-  („ile piątek potrzebujesz…”). Użycie podpowiedzi ustawia `state[i]="hint"` (pomarańczowa kropka),
-  więc działanie nie liczy się jako dobrze za 1. razem; wcześniejszy błąd `"fix"` zostaje.
+  („ile piątek potrzebujesz…”). Każdy pokazany krok zwiększa `hintsUsed` (stopka i ekran końcowy);
+  podpowiedzi celowo nie wpływają na procent ani ocenę.
 - **Generator:** `makeTask(op, M, tens, cfg)`, `tabDiv`, `fracDiv`, `multPair`, `pickIn`.
   Wynik liczy `answer(t)`, a `fmt()` formatuje go z przecinkiem.
   Semantyka zakresów: przy dzieleniu `a` to dzielna, `b` to dzielnik, `c` to wynik.

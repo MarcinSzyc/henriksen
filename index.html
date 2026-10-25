@@ -17,17 +17,17 @@
 :root{
   --bg:#f3f6fb; --card:#ffffff; --fg:#1d2540; --muted:#6b7593; --line:#dde3ef;
   --accent:#3b5bdb; --ok:#1f9d55; --ok-soft:#d8f5e3; --bad:#d6336c; --bad-soft:#fde2ea;
-  --key:#e9eef8; --key-fg:#1d2540; --hint:#f08c00;
+  --key:#e9eef8; --key-fg:#1d2540;
   --display:"Baloo 2","Nunito",system-ui,sans-serif; --body:"Nunito",system-ui,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#12162a; --card:#1b2140; --fg:#eef1fb; --muted:#97a0c0; --line:#2b3358;
   --accent:#7d97ff; --ok:#45d483; --ok-soft:#163a2a; --bad:#ff6b95; --bad-soft:#47192a;
-  --key:#262e55; --key-fg:#eef1fb; --hint:#ffb340; color-scheme:dark}}
+  --key:#262e55; --key-fg:#eef1fb; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#12162a; --card:#1b2140; --fg:#eef1fb; --muted:#97a0c0; --line:#2b3358;
   --accent:#7d97ff; --ok:#45d483; --ok-soft:#163a2a; --bad:#ff6b95; --bad-soft:#47192a;
-  --key:#262e55; --key-fg:#eef1fb; --hint:#ffb340; color-scheme:dark}
+  --key:#262e55; --key-fg:#eef1fb; color-scheme:dark}
 html,body{height:100%}
 *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 input{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
@@ -44,7 +44,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .count{font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums}
 .dots{display:grid;grid-template-columns:repeat(20,1fr);gap:3px}
 .dot{aspect-ratio:1;border-radius:50%;background:var(--line);max-width:100%}
-.dot.ok{background:var(--ok)} .dot.fix{background:var(--bad)} .dot.hint{background:var(--hint)} .dot.now{background:var(--accent);transform:scale(1.25)}
+.dot.ok{background:var(--ok)} .dot.fix{background:var(--bad)} .dot.now{background:var(--accent);transform:scale(1.25)}
 .card{background:var(--card);border-radius:22px;padding:22px 16px;display:flex;flex-direction:column;align-items:center;gap:10px;
   border:2px solid var(--line);transition:background .2s,border-color .2s}
 .card.ok{background:var(--ok-soft);border-color:var(--ok)}
@@ -267,7 +267,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tens" id="o-dots" aria-pressed="true"><b>••</b><span>Kropki postępu<small>mapa wszystkich działań u góry</small></span></button>
     <button type="button" class="tens" id="o-pct" aria-pressed="false"><b>%</b><span>Wynik w procentach<small>ile dobrze za pierwszym razem</small></span></button>
     <button type="button" class="tens" id="o-grade" aria-pressed="false"><b>6</b><span>Ocena na bieżąco<small>liczona z dotychczasowych odpowiedzi</small></span></button>
-    <button type="button" class="tens" id="o-hints" aria-pressed="true"><b>💡</b><span>Podpowiedzi<small>krok po kroku; z podpowiedzią nie liczy się jako dobrze za 1. razem</small></span></button>
+    <button type="button" class="tens" id="o-hints" aria-pressed="true"><b>💡</b><span>Podpowiedzi<small>krok po kroku; liczone osobno, bez wpływu na ocenę</small></span></button>
     <div class="ask-sub">Telefon</div>
     <button type="button" class="tens" id="awake" aria-pressed="true"><b>☀</b><span>Ekran nie gaśnie<small id="awake-s">gdy aplikacja jest otwarta</small></span></button>
     <div class="ask-btns"><button type="button" class="yes" id="menu-ok">Gotowe</button></div>
@@ -278,7 +278,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 let N=100;
 let CFG={cr:[null,null],m:100,ops:["×"],tens:false,frac:false,div:"tab",ab:false,ar:[2,10],br:[2,10]};
 let ALEN=3;
-let tasks=[],i=0,input="",errors=0,state=[],locked=false;
+let tasks=[],i=0,input="",errors=0,hintsUsed=0,state=[],locked=false;
 const $=id=>document.getElementById(id);
 /* ustawienia z menu ☰ (wczytane przed pierwszym show) */
 const PKEY="henriksen-ustawienia";
@@ -288,7 +288,7 @@ try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={theme:["light","
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
 function save(){
-  try{localStorage.setItem(KEY,JSON.stringify({n:N,cfg:CFG,tasks,i,errors,state}));}catch(e){}
+  try{localStorage.setItem(KEY,JSON.stringify({n:N,cfg:CFG,tasks,i,errors,hints:hintsUsed,state}));}catch(e){}
 }
 function load(){
   try{
@@ -296,7 +296,7 @@ function load(){
     const n=d&&Number.isInteger(d.n)?d.n:100;
     if(d&&Array.isArray(d.tasks)&&d.tasks.length===n&&Array.isArray(d.state)&&d.state.length===n&&Number.isInteger(d.i)&&d.i>=0&&d.i<=n){
       N=n;tasks=d.tasks.map(t=>t.length===2?[t[0],"×",t[1]]:t);
-      if(d.cfg&&Array.isArray(d.cfg.ops)&&d.cfg.ops.length&&d.cfg.m>=10) CFG={m:+d.cfg.m,ops:d.cfg.ops,tens:!!d.cfg.tens,frac:!!d.cfg.frac,div:d.cfg.div==="any"?"any":"tab",ab:!!d.cfg.ab,ar:d.cfg.ar||[2,10],br:d.cfg.br||[2,10],cr:d.cfg.cr||[null,null]};i=d.i;errors=+d.errors||0;state=d.state;return true;
+      if(d.cfg&&Array.isArray(d.cfg.ops)&&d.cfg.ops.length&&d.cfg.m>=10) CFG={m:+d.cfg.m,ops:d.cfg.ops,tens:!!d.cfg.tens,frac:!!d.cfg.frac,div:d.cfg.div==="any"?"any":"tab",ab:!!d.cfg.ab,ar:d.cfg.ar||[2,10],br:d.cfg.br||[2,10],cr:d.cfg.cr||[null,null]};i=d.i;errors=+d.errors||0;hintsUsed=+d.hints||0;state=d.state.map((x,k)=>x==="hint"?(k<d.i?"ok":""):x);return true;
     }
   }catch(e){}
   return false;
@@ -421,7 +421,7 @@ function fitEq(){
 
 function start(n){
   if(n) N=n;
-  tasks=gen();i=0;input="";errors=0;state=Array(N).fill("");locked=false;
+  tasks=gen();i=0;input="";errors=0;hintsUsed=0;state=Array(N).fill("");locked=false;
   save();
   render();
 }
@@ -437,7 +437,7 @@ function show(){
   $("a").textContent=a;$("op").textContent=op;$("b").textContent=b;$("box").textContent=input;
   fitEq();
   $("num").textContent="Działanie "+(i+1);$("count").textContent=(i+1)+" / "+N;
-  $("stats").textContent="Błędy: "+errors;
+  showStats();
   const dots=$("dots").children;
   for(let k=0;k<N;k++) dots[k].className="dot"+(state[k]?" "+state[k]:"")+(k===i?" now":"");
   resetHint();updateLive();
@@ -490,12 +490,12 @@ function hints(t){
     U?`${a} − ${T} = ${a-T}. Teraz ${Q(`${a-T} − ${U}`)}`:`${b} to ${dzies(T/10)}. Odejmij je od ${a}.`];
 }
 let hintStep=0;
+function showStats(){$("stats").textContent="Błędy: "+errors+(PREFS.hints||hintsUsed?" · Podpowiedzi: "+hintsUsed:"");}
 function resetHint(){hintStep=0;$("hint").hidden=true;$("hint").innerHTML="";$("hint-btn").hidden=!PREFS.hints;$("hint-btn").textContent="💡 Podpowiedź";}
 function nextHint(){
   if(i>=N) return;
-  // z podpowiedzią działanie nie liczy się jako dobrze za 1. razem (błąd "fix" zostaje błędem)
-  if(!state[i]){state[i]="hint";save();$("dots").children[i].className="dot hint now";}
-  const h=hints(tasks[i]);hintStep=Math.min(hintStep+1,h.length);
+  // podpowiedzi liczone osobno (każdy pokazany krok), bez wpływu na ocenę
+  const h=hints(tasks[i]);if(hintStep<h.length){hintStep++;hintsUsed++;save();showStats();}
   // tylko ostatni krok (każdy ma sens sam), bez łamania linii w środku działania
   $("hint").innerHTML=h[hintStep-1].replace(/ ([:×+−=]) /g," $1 ");$("hint").hidden=false;
   if(hintStep>=h.length) $("hint-btn").hidden=true; else $("hint-btn").textContent="💡 Jeszcze podpowiedź";
@@ -535,7 +535,7 @@ function check(){
     errors++;state[i]="fix";save();
     card.classList.add("bad");$("msg").textContent="Źle, popraw wynik";
     card.classList.remove("shake");void card.offsetWidth;card.classList.add("shake");
-    input="";$("box").textContent="";$("stats").textContent="Błędy: "+errors;
+    input="";$("box").textContent="";showStats();
     $("dots").children[i].className="dot fix now";
   }
 }
@@ -547,7 +547,7 @@ function finish(quiet){
   const d=document.createElement("div");d.className="done card";
   d.innerHTML=`${art(g)}<div>${N===1?"Działanie zrobione.":"Wszystkie "+N+" "+dzialan(N)+" zrobione."}</div>
   <div class="grade" style="--gc:${g.c}"><div class="g" aria-hidden="true">${g.n}</div><div class="gn">Ocena: ${g.n} – ${g.name}</div>
-  <div class="gp">Za pierwszym razem dobrze: ${good} / ${N} (${pct}%)</div></div>
+  <div class="gp">Za pierwszym razem dobrze: ${good} / ${N} (${pct}%)</div>${hintsUsed?`<div class="gp">Użyte podpowiedzi: ${hintsUsed}</div>`:""}</div>
   <table class="scale" aria-label="Skala ocen">${GRADES.map(x=>`<tr class="${x.n===g.n?"me":""}"><td>${x.n} – ${x.name}</td><td>${x.label}</td></tr>`).join("")}</table>`;
   $("dots").after(d);
   const v6=d.querySelector(".fb6");
@@ -849,7 +849,7 @@ function render0(){
 /* Ustawienia (menu ☰): motyw i ekran bez wygaszania */
 function savePrefs(){try{localStorage.setItem(PKEY,JSON.stringify(PREFS));}catch(e){}}
 const TOGGLES=[["o-dots","dots"],["o-pct","pct"],["o-grade","grade"],["o-hints","hints"],["awake","awake"]];
-function applyView(){$("dots").hidden=!PREFS.dots;updateLive();if(i<N) resetHint();}
+function applyView(){$("dots").hidden=!PREFS.dots;updateLive();showStats();if(i<N) resetHint();}
 $("hint-btn").addEventListener("click",nextHint);
 function applyTheme(){
   if(PREFS.theme==="auto") delete document.documentElement.dataset.theme;
