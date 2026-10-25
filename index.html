@@ -29,6 +29,7 @@
   --accent:#7d97ff; --ok:#45d483; --ok-soft:#163a2a; --bad:#ff6b95; --bad-soft:#47192a;
   --key:#262e55; --key-fg:#eef1fb; color-scheme:dark}
 html,body{height:100%}
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 input{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
 button{touch-action:manipulation}
@@ -408,6 +409,7 @@ function gen(){
 }
 const OPNAME={"+":"Dodawanie","−":"Odejmowanie","×":"Mnożenie",":":"Dzielenie"};
 function title(){
+  EQFS=0; // nowa sesja: nowy rozmiar działania
   ALEN=Math.max(1,...tasks.map(t=>fmt(answer(t)).length));
   buildPad();
   const o=["+","−","×",":"].filter(x=>CFG.ops.includes(x));
@@ -423,12 +425,25 @@ function title(){
   if(CFG.frac&&o.includes(":")&&!tab) t+=" · ułamki";
   $("title").textContent=t;document.title="Henriksen · "+t;
 }
+/* Jeden rozmiar działania na całą sesję (dopasowany do najdłuższego działania),
+   żeby karta i klawiatura nie skakały między zadaniami. Liczone od nowa po obrocie i po wczytaniu czcionki. */
+let EQFS=0;
 function fitEq(){
   const eq=document.querySelector(".eq"),card=$("card"),max=card.clientWidth-28;
   $("box").style.minWidth=Math.max(1.9,ALEN*.62+.5)+"em";
-  let fs=58;eq.style.fontSize=fs+"px";
-  while(fs>20&&eq.getBoundingClientRect().width>max){fs-=2;eq.style.fontSize=fs+"px";}
+  if(!EQFS){
+    const len=t=>String(t[0]).length+String(t[2]).length;
+    const w=tasks.reduce((m,t)=>len(t)>len(m)?t:m,tasks[i]);
+    const els=[$("a"),$("op"),$("b")],cur=els.map(e=>e.textContent);
+    els[0].textContent=w[0];els[1].textContent="×";els[2].textContent=w[2];
+    let fs=58;eq.style.fontSize=fs+"px";
+    while(fs>20&&eq.getBoundingClientRect().width>max){fs-=2;eq.style.fontSize=fs+"px";}
+    EQFS=fs;els.forEach((e,k)=>e.textContent=cur[k]);
+  }
+  eq.style.fontSize=EQFS+"px";
 }
+const refit=()=>{EQFS=0;if(!$("card").hidden&&i<N) fitEq();};
+if(document.fonts) document.fonts.ready.then(refit);
 
 function start(n){
   if(n) N=n;
@@ -771,7 +786,7 @@ $("divmode").addEventListener("click",e=>{const b=e.target.closest("button");if(
 $("frac").addEventListener("click",()=>{pfrac=!pfrac;$("ask-err").textContent="";selOpt();});
 ["a-lo","a-hi","b-lo","b-hi","c-lo","c-hi"].forEach(id=>{$(id).addEventListener("input",()=>{$("ask-err").textContent="";abHint();});
   $(id).addEventListener("keydown",e=>{if(e.key==="Enter") confirmAsk();});});
-addEventListener("resize",()=>{if(!$("card").hidden&&i<N) fitEq();});
+addEventListener("resize",refit);
 $("again").addEventListener("click",()=>openAsk(false));
 $("ask-no").addEventListener("click",closeAsk);
 $("ask").addEventListener("click",e=>{if(e.target.id==="ask") closeAsk();});

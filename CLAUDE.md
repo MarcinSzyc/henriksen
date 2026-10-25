@@ -8,6 +8,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
 - **Interfejs po polsku**, młodzieżowy ton, duże przyciski pod telefon (głównie iPhone).
 - Tryb jasny/ciemny przez zmienne CSS na `:root`.
 - Zaznaczanie tekstu i menu po przytrzymaniu są celowo wyłączone (poza polami `input`).
+- Interfejs nie może „pływać”: rozmiar działania (`EQFS` w `fitEq()`) jest jeden na sesję,
+  dopasowany do najdłuższego działania; liczony od nowa tylko po zmianie rozmiaru okna i po wczytaniu czcionek.
 - Po zmianie ikon/manifestu podbij `VERSION` w `sw.js`.
 
 ## Architektura `index.html`
