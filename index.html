@@ -138,6 +138,10 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 #menu .tens::before{content:"";position:absolute;right:30px;top:50%;width:16px;height:16px;margin-top:-8px;border-radius:50%;background:#fff;z-index:1;transition:right .15s}
 #menu .tens.sel::after{background:rgba(255,255,255,.4)}
 #menu .tens.sel::before{right:15px}
+.hint-btn{font:inherit;font-weight:800;font-size:.9rem;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:transparent;color:var(--accent);cursor:pointer}
+.hint-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.hint{font-weight:700;font-size:.9rem;line-height:1.35;text-align:center;background:var(--key);color:var(--key-fg);border-radius:14px;padding:8px 12px;width:100%;box-sizing:border-box}
+.hq{display:inline-block;margin-top:2px;font-family:var(--display);font-size:1.25rem;font-weight:800;color:var(--accent)}
 .live{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
 .chip{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:.95rem;padding:5px 12px 5px 6px;border-radius:999px;background:var(--card);border:2px solid var(--line)}
 .chip .cb{min-width:30px;height:30px;padding:0 4px;box-sizing:border-box;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-family:var(--display);font-size:1.05rem;color:#fff;background:var(--gc,var(--muted))}
@@ -202,6 +206,8 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <div class="num" id="num">Działanie 1</div>
     <div class="eq"><span id="a">3</span><span id="op">×</span><span id="b">4</span><span>=</span><span class="box" id="box"></span></div>
     <div class="msg" id="msg">Wpisz wynik i naciśnij OK</div>
+    <div class="hint" id="hint" hidden aria-live="polite"></div>
+    <button type="button" class="hint-btn" id="hint-btn">💡 Podpowiedź</button>
   </div>
   <div class="pad" id="pad"></div>
   <div class="foot"><span id="stats">Błędy: 0</span><button class="again" id="again" type="button">Nowe działania</button></div>
@@ -261,8 +267,9 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tens" id="o-dots" aria-pressed="true"><b>••</b><span>Kropki postępu<small>mapa wszystkich działań u góry</small></span></button>
     <button type="button" class="tens" id="o-pct" aria-pressed="false"><b>%</b><span>Wynik w procentach<small>ile dobrze za pierwszym razem</small></span></button>
     <button type="button" class="tens" id="o-grade" aria-pressed="false"><b>6</b><span>Ocena na bieżąco<small>liczona z dotychczasowych odpowiedzi</small></span></button>
+    <button type="button" class="tens" id="o-hints" aria-pressed="true"><b>💡</b><span>Podpowiedzi<small>przycisk pod działaniem, krok po kroku</small></span></button>
     <div class="ask-sub">Telefon</div>
-    <button type="button" class="tens" id="awake" aria-pressed="true"><b>💡</b><span>Ekran nie gaśnie<small id="awake-s">gdy aplikacja jest otwarta</small></span></button>
+    <button type="button" class="tens" id="awake" aria-pressed="true"><b>☀</b><span>Ekran nie gaśnie<small id="awake-s">gdy aplikacja jest otwarta</small></span></button>
     <div class="ask-btns"><button type="button" class="yes" id="menu-ok">Gotowe</button></div>
   </div>
 </div>
@@ -275,8 +282,8 @@ let tasks=[],i=0,input="",errors=0,state=[],locked=false;
 const $=id=>document.getElementById(id);
 /* ustawienia z menu ☰ (wczytane przed pierwszym show) */
 const PKEY="henriksen-ustawienia";
-let PREFS={theme:"auto",awake:true,dots:true,pct:false,grade:false};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade};}catch(e){}
+let PREFS={theme:"auto",awake:true,dots:true,pct:false,grade:false,hints:true};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,hints:p.hints!==false};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -433,7 +440,63 @@ function show(){
   $("stats").textContent="Błędy: "+errors;
   const dots=$("dots").children;
   for(let k=0;k<N;k++) dots[k].className="dot"+(state[k]?" "+state[k]:"")+(k===i?" now":"");
-  updateLive();
+  resetHint();updateLive();
+}
+/* Podpowiedzi: kolejne kroki, każdy kolejny mówi trochę więcej */
+const NAZWY={2:"dwójek",3:"trójek",4:"czwórek",5:"piątek",6:"szóstek",7:"siódemek",8:"ósemek",9:"dziewiątek",10:"dziesiątek"};
+const ileRazy=b=>NAZWY[b]?"ile "+NAZWY[b]:"ile razy "+b;
+const dzies=n=>{const j=n%10,d=n%100;return n+(n===1?" dziesiątka":j>=2&&j<=4&&!(d>=12&&d<=14)?" dziesiątki":" dziesiątek");};
+function hints(t){
+  const [a,op,b]=t, Q=s=>`<span class="hq">${s}</span>`;
+  if(op===":"){
+    const s=[`Dzielenie to odwrotność mnożenia. ${a} : ${b} pyta: <b>${ileRazy(b)}</b> potrzebujesz, żeby dostać ${a}?<br>${Q(`${b} × ? = ${a}`)}`];
+    if(a%b){const q=Math.floor(a/b),r=a-b*q;
+      s[0]+="<br>Tu nie wyjdzie równo, wynik będzie z przecinkiem.";
+      s.push(`${b} × ${q} = ${b*q}, zostaje ${r}. Ile to ${r} : ${b}? Np. 1 : 2 = 0,5, 1 : 4 = 0,25.`);
+    }else{const q=a/b;
+      if(q<=12) s.push(`Licz co ${b}: ${Array.from({length:q},(_,k)=>b*(k+1)).join(", ")}. Ile liczb wyszło?`);
+      else{const qt=Math.floor(q/10)*10,qu=q-qt;
+        s.push(qu?`Rozbij ${a} na ${b*qt} + ${b*qu}. ${ileRazy(b)[0].toUpperCase()+ileRazy(b).slice(1)} jest w ${b*qt}, a ${ileRazy(b)} w ${b*qu}? Dodaj oba wyniki.`
+          :`${b} × 10 = ${b*10}. Ile razy ${b*10} mieści się w ${a}? Ten wynik pomnóż przez 10.`);}
+    }
+    return s;
+  }
+  if(op==="×"){
+    const s=Math.min(a,b),L=Math.max(a,b);
+    const out=[`Mnożenie to dodawanie tej samej liczby. ${a} × ${b} to ${s} razy po ${L}.`];
+    if(L%10===0&&L>10) out.push(`${L} to ${dzies(L/10)}. Policz ${s} × ${L/10} i dopisz 0.`);
+    else if(L>10){const T=Math.floor(L/10)*10;out.push(`Rozbij ${L} na ${T} + ${L-T}:<br>${Q(`${s} × ${T} + ${s} × ${L-T}`)}`);}
+    else if(s<=5) out.push(Q(Array(s).fill(L).join(" + ")));
+    else out.push(`5 × ${L} = ${5*L}. Dodaj jeszcze ${s-5} × ${L}.`);
+    return out;
+  }
+  if(op==="+"){
+    const x=Math.max(a,b),y=Math.min(a,b),first=a<b?`Łatwiej zacząć od większej liczby: ${x} + ${y}. `:"";
+    if(y>=10){const T=Math.floor(y/10)*10,U=y-T;
+      return U?[`${first}Rozbij ${y} na dziesiątki i jedności: ${T} i ${U}.`,`${x} + ${T} = ${x+T}. Teraz ${Q(`${x+T} + ${U}`)}`]
+        :[`${first}${y} to ${dzies(T/10)}. Dodaj je do ${x}.`];}
+    const d=10-x%10;
+    if(x%10&&y>d) return [`${first}Dopełnij ${x} do pełnej dziesiątki: ile brakuje do ${x+d}?`,`${x} + ${d} = ${x+d}, zostaje jeszcze ${y-d}.<br>${Q(`${x+d} + ${y-d}`)}`];
+    return [`${first}Policz dalej od ${x}, o ${y}.`];
+  }
+  // odejmowanie
+  // małe b: od razu konkretny krok; większe: najpierw "odwrotność dodawania"
+  if(b<10){
+    if(a>=10&&b>a%10&&a%10) return [`Zejdź do pełnej dziesiątki: ${a} − ${a%10} = ${a-a%10}. Zostaje odjąć ${b-a%10}.<br>${Q(`${a-a%10} − ${b-a%10}`)}`];
+    return [`Licz w dół od ${a}, o ${b}.`];
+  }
+  const T=Math.floor(b/10)*10,U=b-T;
+  return [`Odejmowanie to odwrotność dodawania. Ile trzeba dodać do ${b}, żeby dostać ${a}?<br>${Q(`${b} + ? = ${a}`)}`,
+    U?`${a} − ${T} = ${a-T}. Teraz ${Q(`${a-T} − ${U}`)}`:`${b} to ${dzies(T/10)}. Odejmij je od ${a}.`];
+}
+let hintStep=0;
+function resetHint(){hintStep=0;$("hint").hidden=true;$("hint").innerHTML="";$("hint-btn").hidden=!PREFS.hints;$("hint-btn").textContent="💡 Podpowiedź";}
+function nextHint(){
+  if(i>=N) return;
+  const h=hints(tasks[i]);hintStep=Math.min(hintStep+1,h.length);
+  // tylko ostatni krok (każdy ma sens sam), bez łamania linii w środku działania
+  $("hint").innerHTML=h[hintStep-1].replace(/ ([:×+−=]) /g," $1 ");$("hint").hidden=false;
+  if(hintStep>=h.length) $("hint-btn").hidden=true; else $("hint-btn").textContent="💡 Jeszcze podpowiedź";
 }
 /* procent i ocena na bieżąco: z działań już skończonych (0…i-1) */
 function updateLive(){
@@ -783,8 +846,9 @@ function render0(){
 }
 /* Ustawienia (menu ☰): motyw i ekran bez wygaszania */
 function savePrefs(){try{localStorage.setItem(PKEY,JSON.stringify(PREFS));}catch(e){}}
-const TOGGLES=[["o-dots","dots"],["o-pct","pct"],["o-grade","grade"],["awake","awake"]];
-function applyView(){$("dots").hidden=!PREFS.dots;updateLive();}
+const TOGGLES=[["o-dots","dots"],["o-pct","pct"],["o-grade","grade"],["o-hints","hints"],["awake","awake"]];
+function applyView(){$("dots").hidden=!PREFS.dots;updateLive();if(i<N) resetHint();}
+$("hint-btn").addEventListener("click",nextHint);
 function applyTheme(){
   if(PREFS.theme==="auto") delete document.documentElement.dataset.theme;
   else document.documentElement.dataset.theme=PREFS.theme;

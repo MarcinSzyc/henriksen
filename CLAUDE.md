@@ -26,7 +26,11 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `theme` (`auto` / `light` / `dark` → `data-theme` na `<html>`, ustawiane już w `<head>`, żeby nie migało)
   i `awake` (Wake Lock: ekran nie gaśnie, ponawiane przy `visibilitychange` i dotknięciu).
   Widok: `dots` (kropki postępu), `pct` i `grade` (procent i ocena na bieżąco w `#live`,
-  `updateLive()` liczy z działań `0…i-1`, tą samą skalą `GRADES` co ekran końcowy).
+  `updateLive()` liczy z działań `0…i-1`, tą samą skalą `GRADES` co ekran końcowy),
+  `hints` (przycisk „Podpowiedź”).
+- **Podpowiedzi:** `hints(t)` zwraca kroki (HTML) dla `+ − × :`; przycisk pokazuje kolejny krok,
+  widoczny jest tylko ostatni (każdy musi mieć sens sam). Dzielenie tłumaczone jako odwrotność mnożenia
+  („ile piątek potrzebujesz…”). Podpowiedź nie wpływa na ocenę.
 - **Generator:** `makeTask(op, M, tens, cfg)`, `tabDiv`, `fracDiv`, `multPair`, `pickIn`.
   Wynik liczy `answer(t)`, a `fmt()` formatuje go z przecinkiem.
   Semantyka zakresów: przy dzieleniu `a` to dzielna, `b` to dzielnik, `c` to wynik.
