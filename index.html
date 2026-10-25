@@ -17,17 +17,17 @@
 :root{
   --bg:#f3f6fb; --card:#ffffff; --fg:#1d2540; --muted:#6b7593; --line:#dde3ef;
   --accent:#3b5bdb; --ok:#1f9d55; --ok-soft:#d8f5e3; --bad:#d6336c; --bad-soft:#fde2ea;
-  --key:#e9eef8; --key-fg:#1d2540;
+  --key:#e9eef8; --key-fg:#1d2540; --hint:#f08c00;
   --display:"Baloo 2","Nunito",system-ui,sans-serif; --body:"Nunito",system-ui,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#12162a; --card:#1b2140; --fg:#eef1fb; --muted:#97a0c0; --line:#2b3358;
   --accent:#7d97ff; --ok:#45d483; --ok-soft:#163a2a; --bad:#ff6b95; --bad-soft:#47192a;
-  --key:#262e55; --key-fg:#eef1fb; color-scheme:dark}}
+  --key:#262e55; --key-fg:#eef1fb; --hint:#ffb340; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#12162a; --card:#1b2140; --fg:#eef1fb; --muted:#97a0c0; --line:#2b3358;
   --accent:#7d97ff; --ok:#45d483; --ok-soft:#163a2a; --bad:#ff6b95; --bad-soft:#47192a;
-  --key:#262e55; --key-fg:#eef1fb; color-scheme:dark}
+  --key:#262e55; --key-fg:#eef1fb; --hint:#ffb340; color-scheme:dark}
 html,body{height:100%}
 *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
 input{-webkit-user-select:text;user-select:text;-webkit-touch-callout:default}
@@ -44,7 +44,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .count{font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums}
 .dots{display:grid;grid-template-columns:repeat(20,1fr);gap:3px}
 .dot{aspect-ratio:1;border-radius:50%;background:var(--line);max-width:100%}
-.dot.ok{background:var(--ok)} .dot.fix{background:var(--bad)} .dot.now{background:var(--accent);transform:scale(1.25)}
+.dot.ok{background:var(--ok)} .dot.fix{background:var(--bad)} .dot.hint{background:var(--hint)} .dot.now{background:var(--accent);transform:scale(1.25)}
 .card{background:var(--card);border-radius:22px;padding:22px 16px;display:flex;flex-direction:column;align-items:center;gap:10px;
   border:2px solid var(--line);transition:background .2s,border-color .2s}
 .card.ok{background:var(--ok-soft);border-color:var(--ok)}
@@ -267,7 +267,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tens" id="o-dots" aria-pressed="true"><b>••</b><span>Kropki postępu<small>mapa wszystkich działań u góry</small></span></button>
     <button type="button" class="tens" id="o-pct" aria-pressed="false"><b>%</b><span>Wynik w procentach<small>ile dobrze za pierwszym razem</small></span></button>
     <button type="button" class="tens" id="o-grade" aria-pressed="false"><b>6</b><span>Ocena na bieżąco<small>liczona z dotychczasowych odpowiedzi</small></span></button>
-    <button type="button" class="tens" id="o-hints" aria-pressed="true"><b>💡</b><span>Podpowiedzi<small>przycisk pod działaniem, krok po kroku</small></span></button>
+    <button type="button" class="tens" id="o-hints" aria-pressed="true"><b>💡</b><span>Podpowiedzi<small>krok po kroku; z podpowiedzią nie liczy się jako dobrze za 1. razem</small></span></button>
     <div class="ask-sub">Telefon</div>
     <button type="button" class="tens" id="awake" aria-pressed="true"><b>☀</b><span>Ekran nie gaśnie<small id="awake-s">gdy aplikacja jest otwarta</small></span></button>
     <div class="ask-btns"><button type="button" class="yes" id="menu-ok">Gotowe</button></div>
@@ -493,6 +493,8 @@ let hintStep=0;
 function resetHint(){hintStep=0;$("hint").hidden=true;$("hint").innerHTML="";$("hint-btn").hidden=!PREFS.hints;$("hint-btn").textContent="💡 Podpowiedź";}
 function nextHint(){
   if(i>=N) return;
+  // z podpowiedzią działanie nie liczy się jako dobrze za 1. razem (błąd "fix" zostaje błędem)
+  if(!state[i]){state[i]="hint";save();$("dots").children[i].className="dot hint now";}
   const h=hints(tasks[i]);hintStep=Math.min(hintStep+1,h.length);
   // tylko ostatni krok (każdy ma sens sam), bez łamania linii w środku działania
   $("hint").innerHTML=h[hintStep-1].replace(/ ([:×+−=]) /g," $1 ");$("hint").hidden=false;
