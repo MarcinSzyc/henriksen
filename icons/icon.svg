@@ -3,43 +3,29 @@
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#5c7cfa"/><stop offset="1" stop-color="#3b2bb5"/>
     </linearGradient>
-    <radialGradient id="glow" cx="0.41" cy="0.41" r="0.35">
-      <stop offset="0" stop-color="#ffe066" stop-opacity=".55"/><stop offset="1" stop-color="#ffe066" stop-opacity="0"/>
+    <radialGradient id="glow" cx=".5" cy=".5" r=".5">
+      <stop offset=".55" stop-color="#ffe066" stop-opacity=".35"/><stop offset="1" stop-color="#ffe066" stop-opacity="0"/>
     </radialGradient>
-    <clipPath id="netc"><rect x="270" y="270" width="754" height="754"/></clipPath>
-    <radialGradient id="ballg" cx=".38" cy=".35" r=".75">
-      <stop offset="0" stop-color="#ffffff"/><stop offset="1" stop-color="#dfe4f2"/>
+    <radialGradient id="ball" cx=".36" cy=".32" r=".8">
+      <stop offset="0" stop-color="#ffffff"/><stop offset=".7" stop-color="#e9edf7"/><stop offset="1" stop-color="#b9c2dc"/>
     </radialGradient>
+    <radialGradient id="shine" cx=".33" cy=".27" r=".3">
+      <stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </radialGradient>
+    <clipPath id="clip"><circle r="300"/></clipPath>
   </defs>
-  <g id="art">
-    <rect width="1024" height="1024" fill="url(#bg)"/>
-    <g clip-path="url(#netc)" stroke="#fff" stroke-width="7" opacity=".22">
-      <path d="M270 330L964 1024M270 450L844 1024M270 570L724 1024M270 690L604 1024M270 810L484 1024M330 270L1084 1024M450 270L1204 1024M570 270L1324 1024M690 270L1444 1024M810 270L1564 1024"/>
-      <path d="M1024 330L330 1024M1024 450L450 1024M1024 570L570 1024M1024 690L690 1024M1024 810L810 1024M964 270L270 964M844 270L270 844M724 270L270 724M604 270L270 604M484 270L270 484"/>
-    </g>
-    <rect width="1024" height="1024" fill="url(#glow)"/>
-    <rect x="200" y="200" width="70" height="824" rx="14" fill="#fff"/>
-    <rect x="200" y="200" width="824" height="70" rx="14" fill="#fff"/>
-    <g stroke="#ffd43b" stroke-linecap="round" fill="none">
-      <path d="M930 900 Q760 700 560 560" stroke-width="34" opacity=".9"/>
-      <path d="M1000 760 Q820 640 640 520" stroke-width="22" opacity=".6"/>
-      <path d="M800 1000 Q700 800 540 640" stroke-width="22" opacity=".6"/>
-    </g>
-    <g transform="translate(420 420) rotate(-12)">
-      <circle r="138" fill="url(#ballg)" stroke="#1d2540" stroke-width="12"/>
-      <polygon points="0,-48 45.6,-14.8 28.2,38.8 -28.2,38.8 -45.6,-14.8" fill="#1d2540"/>
-      <g stroke="#1d2540" stroke-width="10" stroke-linecap="round">
-        <path d="M0 -48V-128M45.6 -14.8L121.7 -39.5M28.2 38.8L75.2 103.5M-28.2 38.8L-75.2 103.5M-45.6 -14.8L-121.7 -39.5"/>
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <circle cx="512" cy="512" r="410" fill="url(#glow)"/>
+  <ellipse cx="530" cy="830" rx="234" ry="34" fill="#1a1450" opacity=".35"/>
+  <g transform="translate(512 512) rotate(-14)">
+    <circle r="300" fill="url(#ball)"/>
+    <g clip-path="url(#clip)">
+      <g fill="#1d2540">
+        <polygon points="0.0,-96.0 91.3,-29.7 56.4,77.7 -56.4,77.7 -91.3,-29.7"/>
+        <polygon points="232.8,-320.4 267.6,-213.0 176.3,-146.7 85.0,-213.0 119.9,-320.4"/><polygon points="376.6,122.4 285.3,188.7 194.0,122.4 228.9,15.0 341.7,15.0"/><polygon points="0.0,396.0 -91.3,329.7 -56.4,222.3 56.4,222.3 91.3,329.7"/><polygon points="-376.6,122.4 -341.7,15.0 -228.9,15.0 -194.0,122.4 -285.3,188.7"/><polygon points="-232.8,-320.4 -119.9,-320.4 -85.0,-213.0 -176.3,-146.7 -267.6,-213.0"/>
       </g>
-      <path d="M-58 -126L0 -128L58 -126L70 -100L0 -96L-70 -100Z" fill="#1d2540"/>
-      <path d="M121.7 -39.5L134 6L110 48L92 30L102 -20Z" fill="#1d2540"/>
-      <path d="M-121.7 -39.5L-134 6L-110 48L-92 30L-102 -20Z" fill="#1d2540"/>
-      <path d="M75.2 103.5L40 128L4 136L14 112L56 92Z" fill="#1d2540"/>
-      <path d="M-75.2 103.5L-40 128L-4 136L-14 112L-56 92Z" fill="#1d2540"/>
+      <path d="M0.0 -96.0L0.0 -172.0 M0.0 -172.0L85.0 -213.0 M0.0 -172.0L-85.0 -213.0 M91.3 -29.7L163.6 -53.2 M163.6 -53.2L176.3 -146.7 M163.6 -53.2L228.9 15.0 M56.4 77.7L101.1 139.2 M101.1 139.2L194.0 122.4 M101.1 139.2L56.4 222.3 M-56.4 77.7L-101.1 139.2 M-101.1 139.2L-56.4 222.3 M-101.1 139.2L-194.0 122.4 M-91.3 -29.7L-163.6 -53.2 M-163.6 -53.2L-228.9 15.0 M-163.6 -53.2L-176.3 -146.7 M232.8 -320.4L315.1 -433.6 M267.6 -213.0L400.8 -169.8 M119.9 -320.4L37.6 -433.6 M376.6 122.4L509.8 165.6 M285.3 188.7L285.3 328.7 M341.7 15.0L424.0 -98.2 M0.0 396.0L0.0 536.0 M-91.3 329.7L-224.4 372.9 M91.3 329.7L224.4 372.9 M-376.6 122.4L-509.8 165.6 M-341.7 15.0L-424.0 -98.2 M-285.3 188.7L-285.3 328.7 M-232.8 -320.4L-315.1 -433.6 M-119.9 -320.4L-37.6 -433.6 M-267.6 -213.0L-400.8 -169.8" stroke="#1d2540" stroke-width="14" stroke-linecap="round" fill="none"/>
     </g>
-    <g fill="#ffd43b">
-      <path d="M640 300l14 38 38 14-38 14-14 38-14-38-38-14 38-14z"/>
-      <path d="M300 640l10 26 26 10-26 10-10 26-10-26-26-10 26-10z"/>
-    </g>
+    <circle r="294" fill="none" stroke="#1d2540" stroke-width="12"/>
   </g>
 </svg>
