@@ -41,7 +41,12 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   - 1–3: grafika „DO PORZYGU!”,
   - 4: piłka w słupek,
   - 5: gol,
-  - 6: 5-sekundowy klip „w samo okienko”: `fb6Svg()` + `fb6Render(svg, t)`, odtwarzany przez `fb6Play()` po zniknięciu modala.
+  - 6: losowa animacja gola z `GOALS` w `.end-anim` (po zniknięciu modala), przycisk „Obejrzyj jeszcze raz”.
+- **Animacje goli:** `anim/gol-1..4.json` (Lottie, LottieFiles, Lottie Simple License, autorzy w README),
+  odtwarzane przez `vendor/lottie_light.min.js` (ładowany leniwie w `loadLottie()`; light = bez expressions).
+  `showGoal()` co 10 dobrych: po zamknięciu modala (`celebrate(n,false,after)`), albo od razu gdy modale wyłączone.
+  `GOALS[k].loops` – ile razy odtworzyć. Pliki są w `SHELL` w `sw.js` (offline).
+  Przełączniki `modals` i `goals` w menu.
 - **Gratulacje co 5 zadań:** modal na 2,6 s (`celebrate`) plus fajerwerki na `<canvas id="fw">`.
   Hasło z `praise` + osobisty tekst z `praiseSub` (losowane, bez powtórki z poprzednim), młodzieżowy ton.
 - **Dźwięki:** `SFX` (ok / bad / cheer / final) syntezowane przez Web Audio w `tone()`, bez plików;

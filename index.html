@@ -186,8 +186,13 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .fb5 .gol{transform-origin:150px 30px;opacity:0;animation:gol5 2.8s infinite}
 @keyframes gol5{0%,48%{opacity:0;transform:scale(.4)}56%{opacity:1;transform:scale(1.15)}62%,88%{opacity:1;transform:scale(1)}96%,100%{opacity:0}}
 /* 6: okienko, odtwarzane raz */
-.video{position:relative;width:100%;max-width:320px;border-radius:18px;overflow:hidden;border:4px solid #1d2540;background:#1d2540}
-.video .fb{border-radius:0}
+.video{position:relative;width:100%;max-width:320px;border-radius:18px;overflow:hidden;border:4px solid #1d2540;background:#fff}
+.end-anim,.goal-anim{width:100%;aspect-ratio:1.4}
+.goal-wrap{position:fixed;inset:0;z-index:26;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,14,30,.7);cursor:pointer;animation:gfade .25s}
+.goal-box{background:#fff;border-radius:24px;padding:10px;max-width:400px;width:100%;box-sizing:border-box;box-shadow:0 18px 50px rgba(0,0,0,.35);animation:gpop .35s ease-out}
+.goal-tap{text-align:center;font-weight:800;color:#6b7593;font-size:.8rem;margin-top:2px}
+@keyframes gfade{from{opacity:0}}
+@keyframes gpop{from{transform:scale(.7)}}
 .rec{position:absolute;top:8px;left:10px;z-index:1;color:#fff;font-weight:800;font-size:.75rem;letter-spacing:.06em;background:rgba(0,0,0,.45);padding:3px 8px;border-radius:8px}
 .replay{margin-top:-2px}
 @media (prefers-reduced-motion:reduce){.shake,.cheer,.puke *{animation:none!important}.card{transition:none}
@@ -269,6 +274,8 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tens" id="o-pct" aria-pressed="false"><b>%</b><span>Wynik w procentach<small>ile dobrze za pierwszym razem</small></span></button>
     <button type="button" class="tens" id="o-grade" aria-pressed="false"><b>6</b><span>Ocena na bieżąco<small>liczona z dotychczasowych odpowiedzi</small></span></button>
     <button type="button" class="tens" id="o-hints" aria-pressed="true"><b>💡</b><span>Podpowiedzi<small>krok po kroku; liczone osobno, bez wpływu na ocenę</small></span></button>
+    <button type="button" class="tens" id="o-modals" aria-pressed="true"><b>🎉</b><span>Okienka z gratulacjami<small>co 5 dobrych odpowiedzi i na koniec</small></span></button>
+    <button type="button" class="tens" id="o-goals" aria-pressed="true"><b>⚽</b><span>Animacje goli<small>co 10 dobrych odpowiedzi, losowo jedna z 4</small></span></button>
     <div class="ask-sub">Telefon</div>
     <button type="button" class="tens" id="o-sound" aria-pressed="true"><b>🔊</b><span>Dźwięki<small>dobrze, źle, gratulacje</small></span></button>
     <button type="button" class="tens" id="awake" aria-pressed="true"><b>☀</b><span>Ekran nie gaśnie<small id="awake-s">gdy aplikacja jest otwarta</small></span></button>
@@ -284,8 +291,8 @@ let tasks=[],i=0,input="",errors=0,hintsUsed=0,state=[],locked=false;
 const $=id=>document.getElementById(id);
 /* ustawienia z menu ☰ (wczytane przed pierwszym show) */
 const PKEY="henriksen-ustawienia";
-let PREFS={theme:"auto",awake:true,dots:true,pct:false,grade:false,hints:true,sound:true};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,hints:p.hints!==false,sound:p.sound!==false};}catch(e){}
+let PREFS={theme:"auto",awake:true,dots:true,pct:false,grade:false,hints:true,sound:true,modals:true,goals:true};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -513,7 +520,7 @@ function updateLive(){
   $("live-g").innerHTML=`<span class="cb">${g?g.n:"–"}</span>${g?g.name:"ocena po 1. działaniu"}`;
 }
 function press(v){
-  if(locked||document.querySelector(".cheer-wrap")) return;
+  if(locked||document.querySelector(".cheer-wrap,.goal-wrap")) return;
   const card=$("card");
   if(card.classList.contains("bad")){card.classList.remove("bad");$("msg").textContent="Spróbuj jeszcze raz";}
   if(v==="del"){input=input.slice(0,-1);}
@@ -530,7 +537,8 @@ function check(){
     if(!state[i]) state[i]="ok";
     save();
     locked=true;
-    if((i+1)%5===0&&i+1<N) celebrate(i+1);
+    const done=i+1,goal=done%10===0&&done<N&&PREFS.goals;
+    if(done%5===0&&done<N){if(PREFS.modals) celebrate(done,false,goal?showGoal:null); else if(goal) showGoal();}
     setTimeout(()=>{card.classList.remove("ok");locked=false;input="";i++;save();
       if(i>=N) finish(); else {$("msg").textContent="Wpisz wynik i naciśnij OK";show();}},650);
   }else{
@@ -552,12 +560,14 @@ function finish(quiet){
   <div class="gp">Za pierwszym razem dobrze: ${good} / ${N} (${pct}%)</div>${hintsUsed?`<div class="gp">Użyte podpowiedzi: ${hintsUsed}</div>`:""}</div>
   <table class="scale" aria-label="Skala ocen">${GRADES.map(x=>`<tr class="${x.n===g.n?"me":""}"><td>${x.n} – ${x.name}</td><td>${x.label}</td></tr>`).join("")}</table>`;
   $("dots").after(d);
-  const v6=d.querySelector(".fb6");
+  const v6=d.querySelector(".end-anim");
   if(v6){
-    fb6Play(v6,quiet?300:2800); // poczekaj aż zniknie okienko z gratulacjami
-    d.querySelector(".replay").addEventListener("click",()=>fb6Play(v6,0));
+    const k=nextGoal();let a=null;
+    const play=()=>{if(a) a.destroy();a=null;v6.innerHTML="";playGoal(v6,k).then(x=>{a=x;}).catch(()=>{});};
+    setTimeout(play,quiet||!PREFS.modals?300:2800); // poczekaj aż zniknie okienko z gratulacjami
+    d.querySelector(".replay").addEventListener("click",play);
   }
-  if(!quiet) celebrate(N,true);
+  if(!quiet){if(PREFS.modals) celebrate(N,true); else sfx("final");}
 }
 
 /* fajerwerki */
@@ -609,13 +619,6 @@ function pitch(net){
   <g class="${net}"><rect x="62" y="52" width="176" height="118" fill="#fff" opacity=".18"/><g stroke="#fff" stroke-width="1.3" opacity=".75">${lines}</g></g>`;
 }
 const POSTS=`<g fill="#fff" stroke="#c9d2e3" stroke-width="1"><rect x="54" y="44" width="8" height="126" rx="2"/><rect class="post-r" x="238" y="44" width="8" height="126" rx="2"/><rect x="54" y="44" width="192" height="8" rx="2"/></g>`;
-const KEEPER=`<g class="keeper"><g transform="translate(150 170)">
-  <path d="M-8 0L-6 -26M8 0L6 -26" stroke="#1d2540" stroke-width="7" stroke-linecap="round"/>
-  <rect x="-13" y="-58" width="26" height="34" rx="8" fill="#ff922b"/>
-  <path d="M-12 -52L-30 -74M12 -52L30 -74" stroke="#ff922b" stroke-width="7" stroke-linecap="round"/>
-  <circle cx="-31" cy="-76" r="5" fill="#ffd43b"/><circle cx="31" cy="-76" r="5" fill="#ffd43b"/>
-  <circle cy="-68" r="10" fill="#f2c49b"/><path d="M-10 -70Q0 -84 10 -70" fill="#5a3e2b"/>
-</g></g>`;
 function art(g){
   const head=`<div class="ghead" style="color:${g.c}">${g.head}</div>`;
   if(g.n<=3) return `<div class="puke-title">DO PORZYGU!</div>${PUKE}${head}`;
@@ -627,88 +630,7 @@ function art(g){
     ${pitch("net")}${POSTS}
     <g class="ball">${BALL}</g>
     <text class="gol" x="150" y="38" font-family="Baloo 2,Nunito,sans-serif" font-weight="800" font-size="34" fill="#1f9d55" text-anchor="middle" stroke="#fff" stroke-width="5" paint-order="stroke">GOL!</text></svg>`;
-  return head+`<div class="video"><div class="rec">▶ POWTÓRKA</div>${fb6Svg()}</div><button type="button" class="again replay">▶ Obejrzyj jeszcze raz</button>`;
-}
-
-/* Klip "w samo okienko" – 5 s, sterowany czasem (requestAnimationFrame) */
-const FB6_LEN=5;
-function fb6Svg(){
-  let conf="";const cc=["#ff4d6d","#ffd43b","#51cf66","#4dabf7","#cc5de8","#ff922b"];
-  for(let k=0;k<36;k++) conf+=`<rect class="cf" width="5" height="3" fill="${cc[k%cc.length]}" opacity="0"/>`;
-  return `<svg class="fb fb6" viewBox="0 0 300 230" role="img" aria-label="Animacja: strzał w samo okienko, bramkarz nie sięga, gol">
-  <g class="cam">${pitch("net")}${KEEPER}${POSTS}
-  <g class="ball">${BALL}</g>
-  <circle class="flash" cx="82" cy="72" r="26" fill="#ffd43b" opacity="0"/>
-  <g class="conf">${conf}</g>
-  <g class="leg"><path d="M40 260 L118 214" stroke="#3b5bdb" stroke-width="22" stroke-linecap="round"/>
-    <path d="M70 242 L100 224" stroke="#fff" stroke-width="22" stroke-linecap="butt" opacity=".9"/>
-    <path d="M108 206 Q132 196 140 212 Q138 224 120 226 Z" fill="#1d2540"/></g></g>
-  <text class="gol" x="175" y="120" font-family="Baloo 2,Nunito,sans-serif" font-weight="800" font-size="46" fill="#ffd43b" text-anchor="middle" stroke="#1d2540" stroke-width="6" paint-order="stroke" opacity="0">GOOOL!</text>
-  <text class="sub" x="175" y="150" font-family="Baloo 2,Nunito,sans-serif" font-weight="800" font-size="20" fill="#fff" text-anchor="middle" stroke="#1d2540" stroke-width="5" paint-order="stroke" opacity="0">w samo okienko!</text>
-  </svg>`;
-}
-const clamp01=x=>x<0?0:x>1?1:x;
-const seg=(t,a,b)=>clamp01((t-a)/(b-a));
-const lerp=(a,b,u)=>a+(b-a)*u;
-const eOutC=u=>1-Math.pow(1-u,3), eInOut=u=>u<.5?2*u*u:1-Math.pow(-2*u+2,2)/2, eInQ=u=>u*u;
-const eOutBack=u=>{const c=1.9;return 1+(c+1)*Math.pow(u-1,3)+c*Math.pow(u-1,2);};
-const eBounce=u=>{const n=7.5625,d=2.75;if(u<1/d)return n*u*u;if(u<2/d)return n*(u-=1.5/d)*u+.75;if(u<2.5/d)return n*(u-=2.25/d)*u+.9375;return n*(u-=2.625/d)*u+.984375;};
-function bez(u,p){const v=1-u;return [v*v*v*p[0][0]+3*v*v*u*p[1][0]+3*v*u*u*p[2][0]+u*u*u*p[3][0], v*v*v*p[0][1]+3*v*v*u*p[1][1]+3*v*u*u*p[2][1]+u*u*u*p[3][1]];}
-const PATH=[[150,212],[222,165],[150,52],[82,72]];
-function fb6Render(svg,t){
-  const q=s=>svg.querySelector(s);
-  const T=(el,tr)=>{el.style.transformOrigin="0 0";el.style.transform=tr;};
-  const O=(el,o)=>{el.style.opacity=o;};
-  const rotAt=(a,cx,cy)=>`translate(${cx}px,${cy}px) rotate(${a}deg) translate(${-cx}px,${-cy}px)`;
-  const sclAt=(k,cx,cy)=>`translate(${cx}px,${cy}px) scale(${k}) translate(${-cx}px,${-cy}px)`;
-  // noga strzelca
-  const kick=t<.85?lerp(-22,2,eInQ(seg(t,.45,.85))):lerp(2,-40,eOutC(seg(t,.85,1.6)));
-  T(q(".leg"),rotAt(kick,30,300));
-  O(q(".leg"),t<1.6?1:1-seg(t,1.6,1.9));
-  // piłka
-  let x,y,sc,rot;
-  if(t<.85){x=150;y=212;sc=1.3;rot=0;}
-  else if(t<2.6){const u=eOutC(seg(t,.85,2.6))*.92+seg(t,.85,2.6)*.08;[x,y]=bez(u,PATH);sc=lerp(1.3,.58,u);rot=u*900;}
-  else if(t<2.9){const u=eOutC(seg(t,2.6,2.9));x=lerp(82,78,u);y=lerp(72,75,u);sc=lerp(.58,.54,u);rot=900+u*60;}
-  else{const u=eOutC(seg(t,2.95,3.6));x=lerp(78,80,u);y=lerp(75,82,u)+1.5*Math.sin(seg(t,2.95,4.4)*Math.PI*3)*(1-seg(t,2.95,4.4));sc=.54;rot=960+u*40;}
-  T(q(".ball"),`translate(${x}px,${y}px) scale(${sc})`);
-  const sp=q(".spin");sp.style.animation="none";T(sp,`rotate(${rot}deg)`);
-  // bramkarz
-  let dx=Math.sin(t*4.2)*5*(1-seg(t,1.2,1.5)),dy=0,a=0;
-  if(t>=1.4){dy=4*Math.sin(Math.PI*seg(t,1.4,1.65));}
-  if(t>=1.65){const u=eOutC(seg(t,1.65,2.55));dx=lerp(0,-44,u);dy=lerp(0,2,u);a=lerp(0,-52,u);}
-  if(t>=2.55){const u=eInQ(seg(t,2.55,3.1));dx=lerp(-44,-52,u);dy=lerp(2,6,u);a=lerp(-52,-88,u);
-    if(t>3.1){dy=6-3*Math.sin(Math.PI*seg(t,3.1,3.35));}}
-  T(q(".keeper"),`translate(${dx}px,${dy}px) `+rotAt(a,150,150));
-  // siatka
-  const nu=seg(t,2.6,3.6),ns=1-.07*Math.sin(nu*Math.PI*3)*(1-nu);
-  T(q(".net"),sclAt(ns,70,60));
-  // błysk
-  const fu=seg(t,2.6,3.05);O(q(".flash"),t<2.6?0:.85*(1-fu));
-  q(".flash").setAttribute("r",26*(.4+1.6*fu));
-  // konfetti
-  const cf=svg.querySelectorAll(".cf");
-  cf.forEach((r,k)=>{if(t<2.62){O(r,0);return;}
-    const tt=t-2.62,ang=-Math.PI*(.05+.9*((k*37)%36)/36),sp=60+((k*53)%40)*2.2;
-    const px=82+Math.cos(ang)*sp*tt, py=72+Math.sin(ang)*sp*tt+70*tt*tt;
-    T(r,`translate(${px}px,${py}px) rotate(${k*40+tt*400}deg)`);
-    O(r,Math.max(0,1-tt/2.2));});
-  // kamera: lekki najazd
-  const cz=eInOut(seg(t,2.6,3.6))*.06;
-  T(q(".cam"),sclAt(1+cz,110,95));
-  // napisy
-  const gu=seg(t,2.85,3.35);O(q(".gol"),gu>0?1:0);
-  T(q(".gol"),sclAt(gu>0?Math.max(.01,eOutBack(gu)):.01,175,105));
-  const su=eOutC(seg(t,3.35,3.75));O(q(".sub"),su);
-  T(q(".sub"),`translateY(${10*(1-su)}px)`);
-}
-function fb6Play(svg,delay){
-  cancelAnimationFrame(svg._raf);clearTimeout(svg._tm);
-  fb6Render(svg,0);
-  if(matchMedia("(prefers-reduced-motion: reduce)").matches){fb6Render(svg,FB6_LEN);return;}
-  svg._tm=setTimeout(()=>{const t0=performance.now();
-    const step=now=>{const t=Math.min((now-t0)/1000,FB6_LEN);fb6Render(svg,t);if(t<FB6_LEN) svg._raf=requestAnimationFrame(step);};
-    svg._raf=requestAnimationFrame(step);},delay||0);
+  return head+`<div class="video"><div class="rec">▶ POWTÓRKA</div><div class="end-anim" role="img" aria-label="Animacja: gol"></div></div><button type="button" class="again replay">▶ Obejrzyj jeszcze raz</button>`;
 }
 
 /* Skala ocen (typowa szkolna skala procentowa, kl. IV–VIII) */
@@ -722,7 +644,7 @@ const GRADES=[
 ];
 function grade(p){return GRADES.find(x=>p>=x.min);}
 function dzialan(n){const j=n%10,d=n%100;return j>=2&&j<=4&&!(d>=12&&d<=14)?"działania":"działań";}
-function celebrate(n,final){
+function celebrate(n,final,after){
   const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
   const old=document.querySelector(".cheer-wrap");if(old) old.remove();
   const w=document.createElement("div");w.className="cheer-wrap";w.setAttribute("role","alertdialog");
@@ -732,7 +654,7 @@ function celebrate(n,final){
   const sub=final?n+" / "+n+" ✓":"Masz już "+n+" ✓";
   w.innerHTML=`<div class="cheer"><div class="t">${title}</div>${msg}<div class="s">${sub}</div></div>`;
   sfx(final?"final":"cheer");
-  const close=()=>{clearTimeout(tm);w.remove();};
+  const close=()=>{clearTimeout(tm);w.remove();if(after) after();};
   const tm=setTimeout(close,2600);
   w.addEventListener("click",close);
   document.body.appendChild(w);
@@ -861,7 +783,7 @@ function render0(){
 }
 /* Ustawienia (menu ☰): motyw i ekran bez wygaszania */
 function savePrefs(){try{localStorage.setItem(PKEY,JSON.stringify(PREFS));}catch(e){}}
-const TOGGLES=[["o-dots","dots"],["o-pct","pct"],["o-grade","grade"],["o-hints","hints"],["o-sound","sound"],["awake","awake"]];
+const TOGGLES=[["o-dots","dots"],["o-pct","pct"],["o-grade","grade"],["o-hints","hints"],["o-modals","modals"],["o-goals","goals"],["o-sound","sound"],["awake","awake"]];
 function applyView(){$("dots").hidden=!PREFS.dots;updateLive();showStats();if(i<N) resetHint();}
 $("hint-btn").addEventListener("click",nextHint);
 function applyTheme(){
@@ -899,12 +821,45 @@ function tone(f,at,dur,type,vol,f2){
 }
 const SFX={
   ok:()=>{tone(660,0,.12);tone(990,.09,.2);},
+  goal:()=>{tone(2700,0,.12,"sine",.1);tone(2700,.17,.4,"sine",.1);[523,659,784,1047].forEach((f,k)=>tone(f,.65+k*.08,.22,"triangle",.15));},
   bad:()=>tone(200,0,.28,"square",.07,110),
   cheer:()=>[523,659,784,1047].forEach((f,k)=>tone(f,.25+k*.09,.25,"triangle",.17)),
   final:()=>[523,659,784,1047,784,1047,1319].forEach((f,k)=>tone(f,.25+k*.13,k===6?.6:.28,"triangle",.17))
 };
 function sfx(n){if(PREFS.sound) try{SFX[n]();}catch(e){}}
 document.addEventListener("pointerdown",()=>{if(PREFS.sound) ac();},{passive:true}); // iOS/Android odblokowują dźwięk po dotknięciu
+
+/* Animacje goli (LottieFiles, Lottie Simple License): co 10 dobrych i na koniec przy 6.
+   Odtwarzacz i pliki ładowane dopiero gdy potrzebne; service worker trzyma je offline. */
+const GOALS=[{f:"anim/gol-1.json",loops:1},{f:"anim/gol-2.json",loops:2},{f:"anim/gol-3.json",loops:2},{f:"anim/gol-4.json",loops:2}];
+let lastGoal=-1,lottieP=null;const goalData={};
+function loadLottie(){
+  return lottieP||(lottieP=new Promise((ok,no)=>{const s=document.createElement("script");s.src="vendor/lottie_light.min.js";
+    s.onload=()=>ok(window.lottie);s.onerror=()=>{lottieP=null;no();};document.head.appendChild(s);}));
+}
+function loadGoal(k){
+  return goalData[k]||(goalData[k]=fetch(GOALS[k].f).then(r=>{if(!r.ok) throw new Error(r.status);return r.json();}).catch(e=>{delete goalData[k];throw e;}));
+}
+function nextGoal(){lastGoal=pickNew(GOALS,lastGoal);return lastGoal;}
+async function playGoal(el,k,onEnd){
+  const [L,data]=await Promise.all([loadLottie(),loadGoal(k)]);
+  el.style.aspectRatio=data.w+"/"+data.h;
+  let n=0;const a=L.loadAnimation({container:el,renderer:"svg",loop:false,autoplay:true,animationData:data});
+  a.addEventListener("complete",()=>{if(++n<GOALS[k].loops) a.goToAndPlay(0,true); else if(onEnd) onEnd();});
+  return a;
+}
+function showGoal(){
+  if(!PREFS.goals) return;
+  const k=nextGoal(),w=document.createElement("div");
+  w.className="goal-wrap";w.setAttribute("role","dialog");w.setAttribute("aria-label","Animacja: gol");
+  w.innerHTML='<div class="goal-box"><div class="goal-anim"></div><div class="goal-tap">dotknij, żeby grać dalej</div></div>';
+  document.body.appendChild(w);sfx("goal");
+  let anim=null;
+  const close=()=>{clearTimeout(tm);if(anim) anim.destroy();w.remove();};
+  const tm=setTimeout(close,9000); // awaryjnie, gdyby animacja nie skończyła się sama
+  w.addEventListener("click",close);
+  playGoal(w.querySelector(".goal-anim"),k,()=>setTimeout(close,500)).then(a=>{anim=a;if(!w.isConnected) a.destroy();}).catch(close);
+}
 
 /* Wake Lock: ekran nie gaśnie, póki aplikacja jest na wierzchu (system zwalnia blokadę po schowaniu) */
 let wl=null;
