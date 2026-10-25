@@ -42,7 +42,10 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   - 4: piłka w słupek,
   - 5: gol,
   - 6: 5-sekundowy klip „w samo okienko”: `fb6Svg()` + `fb6Render(svg, t)`, odtwarzany przez `fb6Play()` po zniknięciu modala.
-- **Gratulacje co 5 zadań:** modal na 2 s (`celebrate`) plus fajerwerki na `<canvas id="fw">`.
+- **Gratulacje co 5 zadań:** modal na 2,6 s (`celebrate`) plus fajerwerki na `<canvas id="fw">`.
+  Hasło z `praise` + osobisty tekst z `praiseSub` (losowane, bez powtórki z poprzednim), młodzieżowy ton.
+- **Dźwięki:** `SFX` (ok / bad / cheer / final) syntezowane przez Web Audio w `tone()`, bez plików;
+  przełącznik `sound` w menu, `AudioContext` odblokowywany przy dotknięciu.
 
 ## Testowanie
 Lokalnie: `python3 -m http.server 8000`. Do testów automatycznych sprawdzał się Playwright (Chromium):

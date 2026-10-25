@@ -71,11 +71,12 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .done .big{font-family:var(--display);font-size:3rem;font-weight:800;color:var(--ok);line-height:1}
 #fw{position:fixed;inset:0;width:100%;height:100%;pointer-events:none;z-index:25}
 .cheer-wrap{position:fixed;inset:0;z-index:24;display:flex;align-items:center;justify-content:center;padding:20px;
-  background:rgba(10,14,30,.55);animation:cw 2s forwards;cursor:pointer}
+  background:rgba(10,14,30,.55);animation:cw 2.6s forwards;cursor:pointer}
 .cheer{background:var(--card);border:3px solid var(--accent);border-radius:26px;padding:26px 30px;text-align:center;
-  max-width:320px;width:100%;box-sizing:border-box;box-shadow:0 18px 50px rgba(0,0,0,.3);animation:pop 2s forwards}
+  max-width:320px;width:100%;box-sizing:border-box;box-shadow:0 18px 50px rgba(0,0,0,.3);animation:pop 2.6s forwards}
 .cheer .t{font-family:var(--display);font-weight:800;font-size:clamp(2.2rem,11vw,3rem);color:var(--accent);line-height:1.1}
 .cheer .s{font-weight:800;color:var(--muted);margin-top:6px;font-size:1.05rem}
+.cheer .p{font-family:var(--display);font-weight:800;font-size:1.3rem;line-height:1.2;margin-top:8px;color:var(--fg)}
 @keyframes cw{0%{opacity:0}10%{opacity:1}85%{opacity:1}100%{opacity:0}}
 @keyframes pop{0%{transform:scale(.6)}12%{transform:scale(1.06)}20%{transform:scale(1)}100%{transform:scale(1)}}
 .puke{width:100%;max-width:300px;height:auto}
@@ -269,6 +270,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tens" id="o-grade" aria-pressed="false"><b>6</b><span>Ocena na bieżąco<small>liczona z dotychczasowych odpowiedzi</small></span></button>
     <button type="button" class="tens" id="o-hints" aria-pressed="true"><b>💡</b><span>Podpowiedzi<small>krok po kroku; liczone osobno, bez wpływu na ocenę</small></span></button>
     <div class="ask-sub">Telefon</div>
+    <button type="button" class="tens" id="o-sound" aria-pressed="true"><b>🔊</b><span>Dźwięki<small>dobrze, źle, gratulacje</small></span></button>
     <button type="button" class="tens" id="awake" aria-pressed="true"><b>☀</b><span>Ekran nie gaśnie<small id="awake-s">gdy aplikacja jest otwarta</small></span></button>
     <div class="ask-btns"><button type="button" class="yes" id="menu-ok">Gotowe</button></div>
   </div>
@@ -282,8 +284,8 @@ let tasks=[],i=0,input="",errors=0,hintsUsed=0,state=[],locked=false;
 const $=id=>document.getElementById(id);
 /* ustawienia z menu ☰ (wczytane przed pierwszym show) */
 const PKEY="henriksen-ustawienia";
-let PREFS={theme:"auto",awake:true,dots:true,pct:false,grade:false,hints:true};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,hints:p.hints!==false};}catch(e){}
+let PREFS={theme:"auto",awake:true,dots:true,pct:false,grade:false,hints:true,sound:true};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,hints:p.hints!==false,sound:p.sound!==false};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -524,7 +526,7 @@ function check(){
   if(!input) return;
   const card=$("card");
   if(Math.abs(+input.replace(",",".")-answer(tasks[i]))<1e-9&&!input.endsWith(",")){
-    card.classList.add("ok");$("msg").textContent="Dobrze!";
+    card.classList.add("ok");$("msg").textContent="Dobrze!";sfx("ok");
     if(!state[i]) state[i]="ok";
     save();
     locked=true;
@@ -532,7 +534,7 @@ function check(){
     setTimeout(()=>{card.classList.remove("ok");locked=false;input="";i++;save();
       if(i>=N) finish(); else {$("msg").textContent="Wpisz wynik i naciśnij OK";show();}},650);
   }else{
-    errors++;state[i]="fix";save();
+    errors++;state[i]="fix";save();sfx("bad");
     card.classList.add("bad");$("msg").textContent="Źle, popraw wynik";
     card.classList.remove("shake");void card.offsetWidth;card.classList.add("shake");
     input="";$("box").textContent="";showStats();
@@ -552,7 +554,7 @@ function finish(quiet){
   $("dots").after(d);
   const v6=d.querySelector(".fb6");
   if(v6){
-    fb6Play(v6,quiet?300:2200); // poczekaj aż zniknie okienko z gratulacjami
+    fb6Play(v6,quiet?300:2800); // poczekaj aż zniknie okienko z gratulacjami
     d.querySelector(".replay").addEventListener("click",()=>fb6Play(v6,0));
   }
   if(!quiet) celebrate(N,true);
@@ -561,7 +563,11 @@ function finish(quiet){
 /* fajerwerki */
 const cv=$("fw"),cx=cv.getContext("2d");let parts=[],raf=0;
 const cols=["#ff4d6d","#ffd43b","#51cf66","#4dabf7","#cc5de8","#ff922b"];
-const praise=["Super!","Ekstra!","Brawo!","Mistrz!","Wow!","Tak trzymaj!"];
+/* gratulacje co 5 działań: duże hasło + osobisty tekst, losowane bez powtórki z poprzednim */
+const praise=["ESSA!!","Jesteś zwycięzcą!","Sztos!","Kozak!","Wymiatasz!","Petarda!","Legenda!","Mistrzunio!","GOAT 🐐","Ale akcja!","Gigant!","Mega!"];
+const praiseSub=["Zawsze w Ciebie wierzyłem!","Nikt Cię nie zatrzyma!","Mózg jak superkomputer 🧠","Tak się to robi, szefie!","Grasz jak Lewy w formie ⚽","Jestem z Ciebie dumny!","Lecisz jak rakieta 🚀","Tabliczka się Ciebie boi!","Ten poziom to już Liga Mistrzów!","Ogień! 🔥 Tak trzymaj!"];
+let lastP=-1,lastS=-1;
+const pickNew=(arr,last)=>{let k;do k=Math.floor(Math.random()*arr.length);while(arr.length>1&&k===last);return k;};
 
 /* Grafiki końcowe */
 const PUKE=`<svg class="puke" viewBox="0 0 300 280" role="img" aria-label="Rysunkowy ludzik wymiotuje po wszystkich działaniach">
@@ -716,11 +722,14 @@ function celebrate(n,final){
   const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
   const old=document.querySelector(".cheer-wrap");if(old) old.remove();
   const w=document.createElement("div");w.className="cheer-wrap";w.setAttribute("role","alertdialog");
-  const title=final?"Koniec!":praise[(n/5-1)%praise.length];
+  if(!final){lastP=pickNew(praise,lastP);lastS=pickNew(praiseSub,lastS);}
+  const title=final?"Koniec!":praise[lastP];
+  const msg=final?"":`<div class="p">${praiseSub[lastS]}</div>`;
   const sub=final?n+" / "+n+" ✓":"Masz już "+n+" ✓";
-  w.innerHTML=`<div class="cheer"><div class="t">${title}</div><div class="s">${sub}</div></div>`;
+  w.innerHTML=`<div class="cheer"><div class="t">${title}</div>${msg}<div class="s">${sub}</div></div>`;
+  sfx(final?"final":"cheer");
   const close=()=>{clearTimeout(tm);w.remove();};
-  const tm=setTimeout(close,2000);
+  const tm=setTimeout(close,2600);
   w.addEventListener("click",close);
   document.body.appendChild(w);
   if(reduce) return;
@@ -848,7 +857,7 @@ function render0(){
 }
 /* Ustawienia (menu ☰): motyw i ekran bez wygaszania */
 function savePrefs(){try{localStorage.setItem(PKEY,JSON.stringify(PREFS));}catch(e){}}
-const TOGGLES=[["o-dots","dots"],["o-pct","pct"],["o-grade","grade"],["o-hints","hints"],["awake","awake"]];
+const TOGGLES=[["o-dots","dots"],["o-pct","pct"],["o-grade","grade"],["o-hints","hints"],["o-sound","sound"],["awake","awake"]];
 function applyView(){$("dots").hidden=!PREFS.dots;updateLive();showStats();if(i<N) resetHint();}
 $("hint-btn").addEventListener("click",nextHint);
 function applyTheme(){
@@ -869,6 +878,29 @@ $("theme").addEventListener("click",e=>{const b=e.target.closest("button");if(!b
 for(const [id,k] of TOGGLES) $(id).addEventListener("click",()=>{PREFS[k]=!PREFS[k];savePrefs();selMenu();
   if(k==="awake") PREFS.awake?wake():unwake(); else applyView();});
 applyTheme();applyView();
+
+/* Dźwięki: krótkie tony z Web Audio, bez plików (działa offline) */
+let AC=null;
+function ac(){
+  if(!AC){const C=window.AudioContext||window.webkitAudioContext;if(!C) return null;AC=new C();}
+  if(AC.state==="suspended") AC.resume();
+  return AC;
+}
+function tone(f,at,dur,type,vol,f2){
+  const c=ac();if(!c) return;
+  const t=c.currentTime+at,o=c.createOscillator(),g=c.createGain();
+  o.type=type||"sine";o.frequency.setValueAtTime(f,t);if(f2) o.frequency.exponentialRampToValueAtTime(f2,t+dur);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol||.18,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  o.connect(g).connect(c.destination);o.start(t);o.stop(t+dur+.05);
+}
+const SFX={
+  ok:()=>{tone(660,0,.12);tone(990,.09,.2);},
+  bad:()=>tone(200,0,.28,"square",.07,110),
+  cheer:()=>[523,659,784,1047].forEach((f,k)=>tone(f,.25+k*.09,.25,"triangle",.17)),
+  final:()=>[523,659,784,1047,784,1047,1319].forEach((f,k)=>tone(f,.25+k*.13,k===6?.6:.28,"triangle",.17))
+};
+function sfx(n){if(PREFS.sound) try{SFX[n]();}catch(e){}}
+document.addEventListener("pointerdown",()=>{if(PREFS.sound) ac();},{passive:true}); // iOS/Android odblokowują dźwięk po dotknięciu
 
 /* Wake Lock: ekran nie gaśnie, póki aplikacja jest na wierzchu (system zwalnia blokadę po schowaniu) */
 let wl=null;
