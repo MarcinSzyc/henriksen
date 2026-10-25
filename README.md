@@ -20,11 +20,11 @@ instaluje się na ekranie telefonu, działa bez internetu i pamięta postęp.
   - za 1–3 „do porzygu”,
   - za 4 strzał w słupek,
   - za 5 gol,
-  - za 6 losowa animacja gola (jedna z 4).
+  - za 6 losowy filmik z golem (jeden z 4).
 - **Postęp zapisuje się automatycznie.** Po zamknięciu aplikacja wraca w to samo miejsce, a reset jest tylko po potwierdzeniu.
-- **Gratulacje co 5 zadań** (młodzieżowe teksty), fajerwerki, a co 10 zadań animacja gola.
+- **Gratulacje co 5 zadań** (młodzieżowe teksty), fajerwerki, a co 10 zadań krótki filmik z golem.
 - **Menu ☰:** motyw jasny/ciemny, kropki postępu, procent i ocena na bieżąco, podpowiedzi,
-  okienka z gratulacjami, animacje, dźwięki, ekran bez wygaszania.
+  okienka z gratulacjami, filmiki, dźwięki, ekran bez wygaszania.
 
 ## Instalacja na telefonie
 
@@ -43,20 +43,19 @@ index.html             cała aplikacja (HTML + CSS + JS w jednym pliku)
 manifest.webmanifest   manifest PWA (nazwa, ikony, kolory)
 sw.js                  service worker – działanie offline
 icons/                 ikony aplikacji (SVG + PNG 32/180/192/512 + maskable)
-anim/                  animacje goli (Lottie JSON)
-vendor/                lottie_light.min.js (lottie-web 5.12.2, MIT)
+video/                 filmiki z golami (MP4 360p, bez dźwięku)
 .nojekyll              GitHub Pages bez Jekylla
 ```
 
-## Animacje
+## Filmiki
 
-Animacje goli pochodzą z [LottieFiles](https://lottiefiles.com) i są na licencji
-[Lottie Simple License](https://lottiefiles.com/page/license):
+Filmiki z golami pochodzą z [Mixkit](https://mixkit.co) i są na licencji
+[Mixkit Stock Video Free License](https://mixkit.co/license/#videoFree):
 
-- `gol-1.json` – [Football Freekick](https://lottiefiles.com/free-animation/football-freekick-UycnHhgCB5), autor: Zaid
-- `gol-2.json` – [Soccer player kick on the goal post](https://lottiefiles.com/free-animation/soccer-player-kick-on-the-goal-post-HB0Yj8GCuM), autor: Abdul Latif
-- `gol-3.json` – [Soccer player kick the ball on goal post](https://lottiefiles.com/free-animation/soccer-player-kick-the-ball-on-goal-post-ndbbpx7cCQ), autor: Abdul Latif
-- `gol-4.json` – [Soccer player flying kick the ball](https://lottiefiles.com/free-animation/soccer-player-flying-kick-the-ball-XPMiq5OvFB), autor: Abdul Latif
+- `gol-1.mp4` – [Soccer football player does an overhead kick goal](https://mixkit.co/free-stock-video/soccer-football-player-does-an-overhead-kick-goal-2916/)
+- `gol-2.mp4` – [Goal play in a semi-professional soccer game](https://mixkit.co/free-stock-video/goal-play-in-a-semi-professional-soccer-game-43499/)
+- `gol-3.mp4` – [Skillful soccer player shoots on goal](https://mixkit.co/free-stock-video/skillful-soccer-player-shoots-on-goal-43497/)
+- `gol-4.mp4` – [Friends from different countries celebrating a goal](https://mixkit.co/free-stock-video/friends-from-different-countries-celebrating-a-goal-44602/)
 
 ## Uruchomienie lokalnie
 

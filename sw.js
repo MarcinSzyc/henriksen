@@ -2,10 +2,10 @@
    Strona: najpierw sieć (żeby nowe wersje docierały od razu), offline z pamięci.
    Ikony, manifest, czcionki: z pamięci, w tle odświeżane.
    Przy większych zmianach podbij VERSION. */
-const VERSION = "henriksen-v11";
+const VERSION = "henriksen-v12";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png", "./icons/icon.svg",
-  "./vendor/lottie_light.min.js", "./anim/gol-1.json", "./anim/gol-2.json", "./anim/gol-3.json", "./anim/gol-4.json"];
+  "./video/gol-1.mp4", "./video/gol-2.mp4", "./video/gol-3.mp4", "./video/gol-4.mp4"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
@@ -31,6 +31,12 @@ self.addEventListener("fetch", e => {
     return;
   }
 
+  // Filmiki: Safari prosi o kawałki pliku (Range), więc odpowiadamy 206 z pliku w pamięci
+  if (req.headers.has("range") && url.origin === location.origin) {
+    e.respondWith(rangeFromCache(req));
+    return;
+  }
+
   // Pliki z tej strony i czcionki Google: z pamięci + odświeżenie w tle
   const sameOrigin = url.origin === location.origin;
   const fonts = url.hostname === "fonts.googleapis.com" || url.hostname === "fonts.gstatic.com";
@@ -41,3 +47,26 @@ self.addEventListener("fetch", e => {
     return hit || net;
   })));
 });
+
+async function rangeFromCache(req) {
+  const c = await caches.open(VERSION);
+  let res = await c.match(req.url);
+  if (!res) {
+    try {
+      res = await fetch(req.url);
+      if (res.ok) c.put(req.url, res.clone());
+    } catch (err) { return fetch(req); }
+  }
+  if (!res.ok) return res;
+  const buf = await res.arrayBuffer(), size = buf.byteLength;
+  const m = /bytes=(\d*)-(\d*)/.exec(req.headers.get("range") || "");
+  let start = 0, end = size - 1;
+  if (m && m[1]) { start = +m[1]; if (m[2]) end = Math.min(+m[2], size - 1); }
+  else if (m && m[2]) start = Math.max(0, size - +m[2]);
+  if (start >= size) return new Response(null, { status: 416, headers: { "Content-Range": `bytes */${size}` } });
+  return new Response(buf.slice(start, end + 1), { status: 206, headers: {
+    "Content-Type": res.headers.get("Content-Type") || "video/mp4",
+    "Content-Range": `bytes ${start}-${end}/${size}`,
+    "Content-Length": String(end - start + 1),
+    "Accept-Ranges": "bytes" } });
+}

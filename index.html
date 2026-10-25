@@ -186,11 +186,13 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .fb5 .gol{transform-origin:150px 30px;opacity:0;animation:gol5 2.8s infinite}
 @keyframes gol5{0%,48%{opacity:0;transform:scale(.4)}56%{opacity:1;transform:scale(1.15)}62%,88%{opacity:1;transform:scale(1)}96%,100%{opacity:0}}
 /* 6: okienko, odtwarzane raz */
-.video{position:relative;width:100%;max-width:320px;border-radius:18px;overflow:hidden;border:4px solid #1d2540;background:#fff}
-.end-anim,.goal-anim{width:100%;aspect-ratio:1.4}
+.video{position:relative;width:100%;max-width:320px;border-radius:18px;overflow:hidden;border:4px solid #1d2540;background:#000}
+.end-anim,.goal-anim{width:100%;aspect-ratio:16/9;background:#000;border-radius:16px;overflow:hidden}
+.video .end-anim{border-radius:0}
+.end-anim video,.goal-anim video{width:100%;height:100%;object-fit:cover;display:block}
 .goal-wrap{position:fixed;inset:0;z-index:26;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,14,30,.7);cursor:pointer;animation:gfade .25s}
-.goal-box{background:#fff;border-radius:24px;padding:10px;max-width:400px;width:100%;box-sizing:border-box;box-shadow:0 18px 50px rgba(0,0,0,.35);animation:gpop .35s ease-out}
-.goal-tap{text-align:center;font-weight:800;color:#6b7593;font-size:.8rem;margin-top:2px}
+.goal-box{background:#1d2540;border-radius:24px;padding:10px;max-width:400px;width:100%;box-sizing:border-box;box-shadow:0 18px 50px rgba(0,0,0,.35);animation:gpop .35s ease-out}
+.goal-tap{text-align:center;font-weight:800;color:#97a0c0;font-size:.8rem;margin-top:2px}
 @keyframes gfade{from{opacity:0}}
 @keyframes gpop{from{transform:scale(.7)}}
 .rec{position:absolute;top:8px;left:10px;z-index:1;color:#fff;font-weight:800;font-size:.75rem;letter-spacing:.06em;background:rgba(0,0,0,.45);padding:3px 8px;border-radius:8px}
@@ -275,7 +277,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tens" id="o-grade" aria-pressed="false"><b>6</b><span>Ocena na bieżąco<small>liczona z dotychczasowych odpowiedzi</small></span></button>
     <button type="button" class="tens" id="o-hints" aria-pressed="true"><b>💡</b><span>Podpowiedzi<small>krok po kroku; liczone osobno, bez wpływu na ocenę</small></span></button>
     <button type="button" class="tens" id="o-modals" aria-pressed="true"><b>🎉</b><span>Okienka z gratulacjami<small>co 5 dobrych odpowiedzi i na koniec</small></span></button>
-    <button type="button" class="tens" id="o-goals" aria-pressed="true"><b>⚽</b><span>Animacje goli<small>co 10 dobrych odpowiedzi, losowo jedna z 4</small></span></button>
+    <button type="button" class="tens" id="o-goals" aria-pressed="true"><b>⚽</b><span>Filmiki z golami<small>krótki filmik co 10 dobrych odpowiedzi</small></span></button>
     <div class="ask-sub">Telefon</div>
     <button type="button" class="tens" id="o-sound" aria-pressed="true"><b>🔊</b><span>Dźwięki<small>dobrze, źle, gratulacje</small></span></button>
     <button type="button" class="tens" id="awake" aria-pressed="true"><b>☀</b><span>Ekran nie gaśnie<small id="awake-s">gdy aplikacja jest otwarta</small></span></button>
@@ -305,7 +307,7 @@ function load(){
     const n=d&&Number.isInteger(d.n)?d.n:100;
     if(d&&Array.isArray(d.tasks)&&d.tasks.length===n&&Array.isArray(d.state)&&d.state.length===n&&Number.isInteger(d.i)&&d.i>=0&&d.i<=n){
       N=n;tasks=d.tasks.map(t=>t.length===2?[t[0],"×",t[1]]:t);
-      if(d.cfg&&Array.isArray(d.cfg.ops)&&d.cfg.ops.length&&d.cfg.m>=10) CFG={m:+d.cfg.m,ops:d.cfg.ops,tens:!!d.cfg.tens,frac:!!d.cfg.frac,div:d.cfg.div==="any"?"any":"tab",ab:!!d.cfg.ab,ar:d.cfg.ar||[2,10],br:d.cfg.br||[2,10],cr:d.cfg.cr||[null,null]};i=d.i;errors=+d.errors||0;hintsUsed=+d.hints||0;state=d.state.map((x,k)=>x==="hint"?(k<d.i?"ok":""):x);return true;
+      if(d.cfg&&Array.isArray(d.cfg.ops)&&d.cfg.ops.length&&d.cfg.m>=10) CFG={m:+d.cfg.m,ops:d.cfg.ops,tens:!!d.cfg.tens,frac:!!d.cfg.frac,div:d.cfg.div==="any"?"any":"tab",ab:!!d.cfg.ab,ar:d.cfg.ar||[2,10],br:d.cfg.br||[2,10],cr:d.cfg.cr||[null,null]};i=d.i;hintsUsed=+d.hints||0;state=d.state.map((x,k)=>x==="hint"?(k<d.i?"ok":""):x);errors=state.filter(x=>x==="fix").length;return true;
     }
   }catch(e){}
   return false;
@@ -542,7 +544,8 @@ function check(){
     setTimeout(()=>{card.classList.remove("ok");locked=false;input="";i++;save();
       if(i>=N) finish(); else {$("msg").textContent="Wpisz wynik i naciśnij OK";show();}},650);
   }else{
-    errors++;state[i]="fix";save();sfx("bad");
+    if(state[i]!=="fix") errors++; // kolejne próby przy tym samym działaniu to nadal jeden błąd
+    state[i]="fix";save();sfx("bad");
     card.classList.add("bad");$("msg").textContent="Źle, popraw wynik";
     card.classList.remove("shake");void card.offsetWidth;card.classList.add("shake");
     input="";$("box").textContent="";showStats();
@@ -829,24 +832,24 @@ const SFX={
 function sfx(n){if(PREFS.sound) try{SFX[n]();}catch(e){}}
 document.addEventListener("pointerdown",()=>{if(PREFS.sound) ac();},{passive:true}); // iOS/Android odblokowują dźwięk po dotknięciu
 
-/* Animacje goli (LottieFiles, Lottie Simple License): co 10 dobrych i na koniec przy 6.
-   Odtwarzacz i pliki ładowane dopiero gdy potrzebne; service worker trzyma je offline. */
-const GOALS=[{f:"anim/gol-1.json",loops:1},{f:"anim/gol-2.json",loops:2},{f:"anim/gol-3.json",loops:2},{f:"anim/gol-4.json",loops:2}];
-let lastGoal=-1,lottieP=null;const goalData={};
-function loadLottie(){
-  return lottieP||(lottieP=new Promise((ok,no)=>{const s=document.createElement("script");s.src="vendor/lottie_light.min.js";
-    s.onload=()=>ok(window.lottie);s.onerror=()=>{lottieP=null;no();};document.head.appendChild(s);}));
-}
-function loadGoal(k){
-  return goalData[k]||(goalData[k]=fetch(GOALS[k].f).then(r=>{if(!r.ok) throw new Error(r.status);return r.json();}).catch(e=>{delete goalData[k];throw e;}));
-}
+/* Klipy goli (Mixkit, Mixkit Stock Video Free License, 360p, bez dźwięku): co 10 dobrych i na koniec przy 6.
+   Service worker trzyma je offline. */
+const GOALS=["video/gol-1.mp4","video/gol-2.mp4","video/gol-3.mp4","video/gol-4.mp4"];
+let lastGoal=-1;
 function nextGoal(){lastGoal=pickNew(GOALS,lastGoal);return lastGoal;}
-async function playGoal(el,k,onEnd){
-  const [L,data]=await Promise.all([loadLottie(),loadGoal(k)]);
-  el.style.aspectRatio=data.w+"/"+data.h;
-  let n=0;const a=L.loadAnimation({container:el,renderer:"svg",loop:false,autoplay:true,animationData:data});
-  a.addEventListener("complete",()=>{if(++n<GOALS[k].loops) a.goToAndPlay(0,true); else if(onEnd) onEnd();});
-  return a;
+// odtwarza klip w kontenerze; onEnd po zakończeniu; zwraca obiekt z destroy() jak wcześniej
+function playGoal(el,k,onEnd){
+  const v=document.createElement("video");
+  v.muted=true;v.playsInline=true;v.autoplay=true;v.preload="auto";
+  v.setAttribute("muted","");v.setAttribute("playsinline","");
+  v.src=GOALS[k];el.innerHTML="";el.appendChild(v);
+  return new Promise((ok,no)=>{
+    v.addEventListener("ended",()=>{if(onEnd) onEnd();});
+    v.addEventListener("error",()=>no(new Error("video")),{once:true});
+    v.addEventListener("loadedmetadata",()=>{el.style.aspectRatio=v.videoWidth+"/"+v.videoHeight;},{once:true});
+    const p=v.play();if(p&&p.catch) p.catch(()=>{});
+    ok({destroy(){v.pause();v.removeAttribute("src");v.load();v.remove();}});
+  });
 }
 function showGoal(){
   if(!PREFS.goals) return;
@@ -856,9 +859,9 @@ function showGoal(){
   document.body.appendChild(w);sfx("goal");
   let anim=null;
   const close=()=>{clearTimeout(tm);if(anim) anim.destroy();w.remove();};
-  const tm=setTimeout(close,9000); // awaryjnie, gdyby animacja nie skończyła się sama
+  const tm=setTimeout(close,16000); // awaryjnie, gdyby klip nie skończył się sam
   w.addEventListener("click",close);
-  playGoal(w.querySelector(".goal-anim"),k,()=>setTimeout(close,500)).then(a=>{anim=a;if(!w.isConnected) a.destroy();}).catch(close);
+  playGoal(w.querySelector(".goal-anim"),k,()=>setTimeout(close,300)).then(a=>{anim=a;if(!w.isConnected) a.destroy();}).catch(close);
 }
 
 /* Wake Lock: ekran nie gaśnie, póki aplikacja jest na wierzchu (system zwalnia blokadę po schowaniu) */
