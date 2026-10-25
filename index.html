@@ -36,7 +36,10 @@ body{background:var(--bg);color:var(--fg);font-family:var(--body);
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
   -webkit-tap-highlight-color:transparent;user-select:none}
 .wrap{max-width:440px;margin:0 auto;display:flex;flex-direction:column;gap:14px;padding-block:14px 20px;min-height:100%;box-sizing:border-box}
-header{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+header{display:flex;justify-content:space-between;align-items:center;gap:8px}
+header .right{display:flex;align-items:center;gap:10px}
+.menu-btn{width:40px;height:40px;flex:none;display:flex;align-items:center;justify-content:center;border:2px solid var(--line);border-radius:12px;background:transparent;color:var(--fg);cursor:pointer;padding:0}
+.menu-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .count{font-weight:800;color:var(--muted);font-variant-numeric:tabular-nums}
 .dots{display:grid;grid-template-columns:repeat(20,1fr);gap:3px}
@@ -129,6 +132,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .seg button.sel{background:var(--accent);border-color:var(--accent);color:#fff}
 .seg button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 #divsec{display:flex;flex-direction:column;gap:8px}#divsec[hidden]{display:none}
+.seg.seg3{grid-template-columns:repeat(3,1fr)}.seg3 button b{font-size:1.4rem;line-height:1.1}
 .ask-err{color:var(--bad);font-weight:800;min-height:1.2em;font-size:.9rem}
 .ask-btns button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .grade{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:4px}
@@ -175,11 +179,14 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 @media (prefers-reduced-motion:reduce){.shake,.cheer,.puke *{animation:none!important}.card{transition:none}
   .fb *{animation-duration:.01s!important;animation-iteration-count:1!important;animation-delay:0s!important}}
 </style>
+<script>/* motyw z ustawień przed narysowaniem strony, bez mignięcia */
+try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t==="light"||t==="dark") document.documentElement.dataset.theme=t;}catch(e){}</script>
 </head><body>
 <canvas id="fw"></canvas>
 
 <div class="wrap">
-  <header><h1 id="title">Mnożenie do 100</h1><span class="count" id="count">1 / 100</span></header>
+  <header><h1 id="title">Mnożenie do 100</h1><div class="right"><span class="count" id="count">1 / 100</span>
+    <button type="button" class="menu-btn" id="menu-btn" aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div class="dots" id="dots"></div>
   <div class="card" id="card">
     <div class="num" id="num">Działanie 1</div>
@@ -209,7 +216,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
     <button type="button" class="tens" id="tens" aria-pressed="false"><b>10</b><span>Wielokrotności 10<small>tylko pełne dziesiątki: 20, 30, 40…</small></span></button>
     <button type="button" class="tens" id="frac" aria-pressed="false"><b>½</b><span>Dzielenie z ułamkami<small>wynik z przecinkiem, np. 7 : 2 = 3,5</small></span></button>
     <div id="absec">
-      <button type="button" class="tens" id="abon" aria-pressed="false"><b>a·b</b><span>Zakres a, b, wynik c<small class="exl"><i>a + b = c</i><i>a − b = c</i><i>a × b = c</i><i>a : b = c</i></small></span></button>
+      <button type="button" class="tens" id="abon" aria-pressed="false"><span>Zakres a, b, wynik c<small class="exl"><i>a + b = c</i><i>a − b = c</i><i>a × b = c</i><i>a : b = c</i></small></span></button>
       <div class="abr" id="abr" hidden>
         <b>a</b><span>od</span><input id="a-lo" type="number" inputmode="numeric" min="1" max="10000" aria-label="a od"><span>do</span><input id="a-hi" type="number" inputmode="numeric" min="1" max="10000" aria-label="a do">
         <b>b</b><span>od</span><input id="b-lo" type="number" inputmode="numeric" min="1" max="10000" aria-label="b od"><span>do</span><input id="b-hi" type="number" inputmode="numeric" min="1" max="10000" aria-label="b do">
@@ -228,6 +235,20 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
     <input id="ask-n" type="number" inputmode="numeric" min="5" max="200" placeholder="albo wpisz: 5–200" aria-label="Liczba działań">
     <div class="ask-err" id="ask-err"></div>
     <div class="ask-btns"><button type="button" id="ask-no">Anuluj</button><button type="button" class="yes" id="ask-yes">Start</button></div>
+  </div>
+</div>
+
+<div class="ask" id="menu" hidden role="dialog" aria-modal="true" aria-labelledby="menu-t">
+  <div class="ask-box">
+    <h2 id="menu-t">Ustawienia</h2>
+    <div class="ask-sub">Wygląd</div>
+    <div class="seg seg3" id="theme">
+      <button type="button" data-t="auto"><b>◐</b><small>Jak telefon</small></button>
+      <button type="button" data-t="light"><b>☀</b><small>Jasny</small></button>
+      <button type="button" data-t="dark"><b>☾</b><small>Ciemny</small></button>
+    </div>
+    <button type="button" class="tens" id="awake" aria-pressed="true"><b>💡</b><span>Ekran nie gaśnie<small id="awake-s">gdy aplikacja jest otwarta</small></span></button>
+    <div class="ask-btns"><button type="button" class="yes" id="menu-ok">Gotowe</button></div>
   </div>
 </div>
 
@@ -637,6 +658,7 @@ function buildPad(){
 buildPad();
 $("pad").addEventListener("click",e=>{const b=e.target.closest("button");if(b) press(b.dataset.k);});
 document.addEventListener("keydown",e=>{
+  if(!$("menu").hidden){if(e.key==="Escape") closeMenu();return;}
   if(!$("ask").hidden){if(e.key==="Escape") closeAsk();return;}
   if(/^[0-9]$/.test(e.key)) press(e.key);
   else if(e.key==="Backspace") press("del");
@@ -729,6 +751,40 @@ function render0(){
   $("dots").innerHTML=Array.from({length:N},()=>'<span class="dot"></span>').join("");
   if(i<N) show();
 }
+/* Ustawienia (menu ☰): motyw i ekran bez wygaszania */
+const PKEY="henriksen-ustawienia";
+let PREFS={theme:"auto",awake:true};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false};}catch(e){}
+function savePrefs(){try{localStorage.setItem(PKEY,JSON.stringify(PREFS));}catch(e){}}
+function applyTheme(){
+  if(PREFS.theme==="auto") delete document.documentElement.dataset.theme;
+  else document.documentElement.dataset.theme=PREFS.theme;
+}
+function selMenu(){
+  for(const b of $("theme").children) b.classList.toggle("sel",b.dataset.t===PREFS.theme);
+  $("awake").classList.toggle("sel",PREFS.awake);$("awake").setAttribute("aria-pressed",PREFS.awake);
+  $("awake-s").textContent="wakeLock" in navigator?"gdy aplikacja jest otwarta":"ten telefon tego nie obsługuje";
+}
+function openMenu(){selMenu();$("menu").hidden=false;$("menu-ok").focus();}
+function closeMenu(){$("menu").hidden=true;$("menu-btn").focus();}
+$("menu-btn").addEventListener("click",openMenu);
+$("menu-ok").addEventListener("click",closeMenu);
+$("menu").addEventListener("click",e=>{if(e.target.id==="menu") closeMenu();});
+$("theme").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;PREFS.theme=b.dataset.t;savePrefs();applyTheme();selMenu();});
+$("awake").addEventListener("click",()=>{PREFS.awake=!PREFS.awake;savePrefs();selMenu();PREFS.awake?wake():unwake();});
+applyTheme();
+
+/* Wake Lock: ekran nie gaśnie, póki aplikacja jest na wierzchu (system zwalnia blokadę po schowaniu) */
+let wl=null;
+async function wake(){
+  if(!PREFS.awake||wl||!("wakeLock" in navigator)||document.visibilityState!=="visible") return;
+  try{wl=await navigator.wakeLock.request("screen");wl.addEventListener("release",()=>{wl=null;});}catch(e){wl=null;}
+}
+function unwake(){if(wl){wl.release().catch(()=>{});wl=null;}}
+document.addEventListener("visibilitychange",wake);
+document.addEventListener("pointerdown",wake); // Safari wymaga dotknięcia
+wake();
+
 /* PWA: działanie offline */
 if("serviceWorker" in navigator&&location.protocol.startsWith("http")){
   addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{}));
