@@ -2,7 +2,7 @@
    Strona: najpierw sieć (żeby nowe wersje docierały od razu), offline z pamięci.
    Ikony, manifest, czcionki: z pamięci, w tle odświeżane.
    Przy większych zmianach podbij VERSION. */
-const VERSION = "henriksen-v4";
+const VERSION = "henriksen-v5";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png", "./icons/icon.svg"];
 

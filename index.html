@@ -133,6 +133,15 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .seg button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 #divsec{display:flex;flex-direction:column;gap:8px}#divsec[hidden]{display:none}
 .seg.seg3{grid-template-columns:repeat(3,1fr)}.seg3 button b{font-size:1.4rem;line-height:1.1}
+#menu .tens{position:relative;padding-right:60px}
+#menu .tens::after{content:"";position:absolute;right:12px;top:50%;width:38px;height:22px;margin-top:-11px;border-radius:999px;background:var(--line)}
+#menu .tens::before{content:"";position:absolute;right:30px;top:50%;width:16px;height:16px;margin-top:-8px;border-radius:50%;background:#fff;z-index:1;transition:right .15s}
+#menu .tens.sel::after{background:rgba(255,255,255,.4)}
+#menu .tens.sel::before{right:15px}
+.live{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:.95rem;padding:5px 12px 5px 6px;border-radius:999px;background:var(--card);border:2px solid var(--line)}
+.chip .cb{min-width:30px;height:30px;padding:0 4px;box-sizing:border-box;border-radius:999px;display:inline-flex;align-items:center;justify-content:center;font-family:var(--display);font-size:1.05rem;color:#fff;background:var(--gc,var(--muted))}
+.chip small{font-weight:700;color:var(--muted)}
 .ask-err{color:var(--bad);font-weight:800;min-height:1.2em;font-size:.9rem}
 .ask-btns button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .grade{display:flex;flex-direction:column;align-items:center;gap:6px;margin-top:4px}
@@ -188,6 +197,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <header><h1 id="title">Mnożenie do 100</h1><div class="right"><span class="count" id="count">1 / 100</span>
     <button type="button" class="menu-btn" id="menu-btn" aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div class="dots" id="dots"></div>
+  <div class="live" id="live" hidden><span class="chip" id="live-pct"></span><span class="chip" id="live-g"></span></div>
   <div class="card" id="card">
     <div class="num" id="num">Działanie 1</div>
     <div class="eq"><span id="a">3</span><span id="op">×</span><span id="b">4</span><span>=</span><span class="box" id="box"></span></div>
@@ -247,6 +257,11 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
       <button type="button" data-t="light"><b>☀</b><small>Jasny</small></button>
       <button type="button" data-t="dark"><b>☾</b><small>Ciemny</small></button>
     </div>
+    <div class="ask-sub">Podczas ćwiczeń</div>
+    <button type="button" class="tens" id="o-dots" aria-pressed="true"><b>••</b><span>Kropki postępu<small>mapa wszystkich działań u góry</small></span></button>
+    <button type="button" class="tens" id="o-pct" aria-pressed="false"><b>%</b><span>Wynik w procentach<small>ile dobrze za pierwszym razem</small></span></button>
+    <button type="button" class="tens" id="o-grade" aria-pressed="false"><b>6</b><span>Ocena na bieżąco<small>liczona z dotychczasowych odpowiedzi</small></span></button>
+    <div class="ask-sub">Telefon</div>
     <button type="button" class="tens" id="awake" aria-pressed="true"><b>💡</b><span>Ekran nie gaśnie<small id="awake-s">gdy aplikacja jest otwarta</small></span></button>
     <div class="ask-btns"><button type="button" class="yes" id="menu-ok">Gotowe</button></div>
   </div>
@@ -258,6 +273,10 @@ let CFG={cr:[null,null],m:100,ops:["×"],tens:false,frac:false,div:"tab",ab:fals
 let ALEN=3;
 let tasks=[],i=0,input="",errors=0,state=[],locked=false;
 const $=id=>document.getElementById(id);
+/* ustawienia z menu ☰ (wczytane przed pierwszym show) */
+const PKEY="henriksen-ustawienia";
+let PREFS={theme:"auto",awake:true,dots:true,pct:false,grade:false};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -414,6 +433,17 @@ function show(){
   $("stats").textContent="Błędy: "+errors;
   const dots=$("dots").children;
   for(let k=0;k<N;k++) dots[k].className="dot"+(state[k]?" "+state[k]:"")+(k===i?" now":"");
+  updateLive();
+}
+/* procent i ocena na bieżąco: z działań już skończonych (0…i-1) */
+function updateLive(){
+  const on=(PREFS.pct||PREFS.grade)&&i<N;$("live").hidden=!on;if(!on) return;
+  const good=state.slice(0,i).filter(s=>s==="ok").length, pct=i?Math.floor(good*100/i):null, g=i?grade(pct):null;
+  $("live-pct").hidden=!PREFS.pct;
+  $("live-pct").innerHTML=`<span class="cb">${i?pct+"%":"–"}</span>dobrze <small>${good} / ${i}</small>`;
+  $("live-g").hidden=!PREFS.grade;
+  $("live-g").style.setProperty("--gc",g?g.c:"");
+  $("live-g").innerHTML=`<span class="cb">${g?g.n:"–"}</span>${g?g.name:"ocena po 1. działaniu"}`;
 }
 function press(v){
   if(locked||document.querySelector(".cheer-wrap")) return;
@@ -445,7 +475,7 @@ function check(){
   }
 }
 function finish(quiet){
-  $("card").hidden=true;$("pad").hidden=true;$("count").textContent=N+" / "+N;
+  $("card").hidden=true;$("pad").hidden=true;$("live").hidden=true;$("count").textContent=N+" / "+N;
   const dots=$("dots").children;for(let k=0;k<N;k++) dots[k].className="dot "+state[k];
   const good=state.filter(s=>s==="ok").length;
   const pct=Math.floor(good*100/N), g=grade(pct);
@@ -752,17 +782,16 @@ function render0(){
   if(i<N) show();
 }
 /* Ustawienia (menu ☰): motyw i ekran bez wygaszania */
-const PKEY="henriksen-ustawienia";
-let PREFS={theme:"auto",awake:true};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false};}catch(e){}
 function savePrefs(){try{localStorage.setItem(PKEY,JSON.stringify(PREFS));}catch(e){}}
+const TOGGLES=[["o-dots","dots"],["o-pct","pct"],["o-grade","grade"],["awake","awake"]];
+function applyView(){$("dots").hidden=!PREFS.dots;updateLive();}
 function applyTheme(){
   if(PREFS.theme==="auto") delete document.documentElement.dataset.theme;
   else document.documentElement.dataset.theme=PREFS.theme;
 }
 function selMenu(){
   for(const b of $("theme").children) b.classList.toggle("sel",b.dataset.t===PREFS.theme);
-  $("awake").classList.toggle("sel",PREFS.awake);$("awake").setAttribute("aria-pressed",PREFS.awake);
+  for(const [id,k] of TOGGLES){$(id).classList.toggle("sel",PREFS[k]);$(id).setAttribute("aria-pressed",PREFS[k]);}
   $("awake-s").textContent="wakeLock" in navigator?"gdy aplikacja jest otwarta":"ten telefon tego nie obsługuje";
 }
 function openMenu(){selMenu();$("menu").hidden=false;$("menu-ok").focus();}
@@ -771,8 +800,9 @@ $("menu-btn").addEventListener("click",openMenu);
 $("menu-ok").addEventListener("click",closeMenu);
 $("menu").addEventListener("click",e=>{if(e.target.id==="menu") closeMenu();});
 $("theme").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;PREFS.theme=b.dataset.t;savePrefs();applyTheme();selMenu();});
-$("awake").addEventListener("click",()=>{PREFS.awake=!PREFS.awake;savePrefs();selMenu();PREFS.awake?wake():unwake();});
-applyTheme();
+for(const [id,k] of TOGGLES) $(id).addEventListener("click",()=>{PREFS[k]=!PREFS[k];savePrefs();selMenu();
+  if(k==="awake") PREFS.awake?wake():unwake(); else applyView();});
+applyTheme();applyView();
 
 /* Wake Lock: ekran nie gaśnie, póki aplikacja jest na wierzchu (system zwalnia blokadę po schowaniu) */
 let wl=null;
