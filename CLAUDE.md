@@ -26,6 +26,9 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   z rzędu; `heatmap()` 1–10 (mnożenie i dzielenie z tabliczki, jeden odcień); „Poćwicz trudne” = Top 10 × 2 z `CFG.practice`.
 - **Stan sesji:** `N` (liczba zadań), `tasks` (tablica `[a, op, b]`, op ∈ `+ − × :`),
   `i` (bieżące zadanie), `state[k]` (`"ok"` = dobrze za 1. razem, `"fix"` = był błąd), `errors` (liczba działań z błędem, nie prób; przeliczane z `state` przy wczytaniu), `hintsUsed` (pokazane kroki podpowiedzi, zapisywane jako `hints`).
+- **Nowa sesja (`#ask`):** najpierw lista zestawów `SETS` (`{id,name,n,cfg,info?}`, brakujące pola z `CFG0`;
+  ostatni wynik po `cfg.set` w historii) plus „Poćwicz trudne” (`practice(allHard())`), potem „Ułóż własne”:
+  działania, „Liczby do”, licznik `NSTEPS` i zwinięte „Więcej opcji” (dzielenie, dziesiątki, ułamki, zakres a/b/c, inny zakres).
 - **Ustawienia:** obiekt `CFG`:
   - `m`: zakres liczb,
   - `ops`: lista działań,
@@ -33,6 +36,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   - `div`: `"tab"` = odwrotność tabliczki (domyślne) albo `"any"`,
   - `frac`: ułamki, tylko przy `div:"any"`,
   - `ab`, `ar`, `br`, `cr`: własne zakresy a, b i wyniku c (`null` = bez limitu).
+  - `set`: id zestawu z `SETS`, gdy sesja wystartowała z zestawu (tytuł = nazwa zestawu).
 - **Zapis:** `localStorage` pod kluczem `tabliczka100-postep`, zapisywany po każdej odpowiedzi.
   Reset tylko przyciskiem „Nowe działania” po potwierdzeniu.
 - **Ustawienia (menu ☰):** `PREFS` w `localStorage` pod `henriksen-ustawienia`:

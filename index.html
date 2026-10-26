@@ -17,17 +17,17 @@
 :root{
   --bg:#f3f6fb; --card:#ffffff; --fg:#1d2540; --muted:#6b7593; --line:#dde3ef;
   --accent:#3b5bdb; --ok:#1f9d55; --ok-soft:#d8f5e3; --bad:#d6336c; --bad-soft:#fde2ea;
-  --key:#e9eef8; --key-fg:#1d2540; --badge:#e8590c;
+  --key:#e9eef8; --key-fg:#1d2540; --badge:#e8590c; --on-accent:#ffffff;
   --display:"Baloo 2","Nunito",system-ui,sans-serif; --body:"Nunito",system-ui,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#12162a; --card:#1b2140; --fg:#eef1fb; --muted:#97a0c0; --line:#2b3358;
   --accent:#7d97ff; --ok:#45d483; --ok-soft:#163a2a; --bad:#ff6b95; --bad-soft:#47192a;
-  --key:#262e55; --key-fg:#eef1fb; --badge:#ffd43b; color-scheme:dark}}
+  --key:#262e55; --key-fg:#eef1fb; --badge:#ffd43b; --on-accent:#0b0e1c; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#12162a; --card:#1b2140; --fg:#eef1fb; --muted:#97a0c0; --line:#2b3358;
   --accent:#7d97ff; --ok:#45d483; --ok-soft:#163a2a; --bad:#ff6b95; --bad-soft:#47192a;
-  --key:#262e55; --key-fg:#eef1fb; --badge:#ffd43b; color-scheme:dark}
+  --key:#262e55; --key-fg:#eef1fb; --badge:#ffd43b; --on-accent:#0b0e1c; color-scheme:dark}
 html,body{height:100%}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
@@ -222,11 +222,6 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .seg button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 #divsec{display:flex;flex-direction:column;gap:8px}#divsec[hidden]{display:none}
 .seg.seg3{grid-template-columns:repeat(3,1fr)}.seg3 button b{font-size:1.4rem;line-height:1.1}
-#menu .tens{position:relative;padding-right:60px}
-#menu .tens::after{content:"";position:absolute;right:12px;top:50%;width:38px;height:22px;margin-top:-11px;border-radius:999px;background:var(--line)}
-#menu .tens::before{content:"";position:absolute;right:30px;top:50%;width:16px;height:16px;margin-top:-8px;border-radius:50%;background:#fff;z-index:1;transition:right .15s}
-#menu .tens.sel::after{background:rgba(255,255,255,.4)}
-#menu .tens.sel::before{right:15px}
 .hint-btn{font:inherit;font-weight:800;font-size:.9rem;padding:6px 14px;border-radius:999px;border:2px solid var(--line);background:transparent;color:var(--accent);cursor:pointer}
 .hint-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .hint{font-weight:700;font-size:.9rem;line-height:1.35;text-align:center;background:var(--key);color:var(--key-fg);border-radius:14px;padding:8px 12px;width:100%;box-sizing:border-box}
@@ -285,6 +280,54 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 @keyframes gpop{from{transform:scale(.7)}}
 .rec{position:absolute;top:8px;left:10px;z-index:1;color:#fff;font-weight:800;font-size:.75rem;letter-spacing:.06em;background:rgba(0,0,0,.45);padding:3px 8px;border-radius:8px}
 .replay{margin-top:-2px}
+/* Arkusze: nowa sesja (zestawy / własne) i ustawienia */
+.sheet{text-align:left;max-width:420px;gap:12px}
+.sheet>*,.pane>*{flex-shrink:0}
+.shd{display:flex;align-items:center;justify-content:space-between;gap:10px}.shd .grow{flex:1}
+.shd h2{text-align:left;line-height:1.1}.shs{font-size:.85rem;font-weight:800;color:var(--muted)}
+.xbtn{width:44px;height:44px;flex:none;border:0;border-radius:12px;background:var(--key);color:var(--key-fg);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0}
+.pane{display:flex;flex-direction:column;gap:12px}.pane[hidden]{display:none}
+.lbl{font-size:.75rem;font-weight:800;color:var(--muted);letter-spacing:.05em;text-transform:uppercase;padding:0 4px;margin-bottom:-4px}
+.sets{display:flex;flex-direction:column;gap:8px}
+.set-i{min-height:68px;border:0;border-radius:18px;background:var(--key);color:var(--key-fg);padding:8px 12px 8px 8px;display:flex;align-items:center;gap:12px;font:inherit;text-align:left;cursor:pointer}
+.set-i .gl{width:52px;height:52px;flex:none;border-radius:14px;background:var(--gc);color:var(--gf,#fff);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:1.6rem;line-height:1}
+.set-i .gl.s2{font-size:1.3rem}.set-i .gl.s3{font-size:1.05rem}
+.set-i .sn{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}
+.set-i .sn b{font-family:var(--display);font-weight:800;font-size:1.12rem;line-height:1.15}
+.set-i .sn small{font-weight:800;font-size:.8rem;color:var(--muted)}
+.lr{flex:none;font-size:.78rem;font-weight:800;padding:4px 9px;border-radius:999px;background:var(--ok-soft);color:var(--ok)}
+.set-i:active,.own:active,.go-btn:active{transform:scale(.98)}
+.own{min-height:64px;border:2px dashed var(--line);border-radius:18px;background:transparent;color:var(--fg);padding:0 14px;display:flex;align-items:center;gap:12px;font:inherit;text-align:left;cursor:pointer}
+.own>svg:first-child{color:var(--accent);flex:none}.own svg:last-child{color:var(--muted);flex:none}
+.own span{flex:1;display:flex;flex-direction:column;gap:1px}.own b{font-family:var(--display);font-size:1.1rem;line-height:1.1}.own small{font-weight:800;font-size:.8rem;color:var(--muted)}
+.ask-warn{margin:0;color:var(--muted);font-weight:800;font-size:.85rem;text-align:center}
+.ops4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.ops4 button{height:62px;border-radius:16px;border:2px solid var(--line);background:var(--key);color:var(--key-fg);font-family:var(--display);font-weight:800;font-size:1.9rem;line-height:1;cursor:pointer}
+.ops4 button.sel{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.segs{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:4px;background:var(--bg);padding:4px;border-radius:16px}
+.segs button{min-height:46px;border:0;border-radius:12px;background:transparent;color:var(--muted);font:inherit;font-weight:800;font-size:.95rem;cursor:pointer}
+#ranges button{font-family:var(--display);font-size:1.25rem}
+.segs button.sel{background:var(--key);color:var(--fg);box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.step{display:flex;align-items:center;justify-content:space-between;background:var(--bg);padding:4px;border-radius:16px}
+.step button{width:60px;height:48px;border:0;border-radius:12px;background:var(--key);color:var(--key-fg);font-family:var(--display);font-weight:800;font-size:1.7rem;line-height:1;cursor:pointer}
+.step button:disabled{opacity:.35;cursor:default}
+.step output{font-family:var(--display);font-weight:800;font-size:1.7rem}
+.more{min-height:54px;border:0;background:transparent;color:var(--fg);padding:0 4px;display:flex;align-items:center;gap:10px;font:inherit;text-align:left;cursor:pointer}
+.more span{flex:1;display:flex;flex-direction:column;gap:1px}.more b{font-size:1rem}.more small{font-weight:800;font-size:.8rem;color:var(--muted)}
+.more .chev{color:var(--muted);transition:transform .15s}.more[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.morebox{display:flex;flex-direction:column;gap:10px;margin-top:-6px}.morebox[hidden]{display:none}
+#msec,#msec2{display:flex;flex-direction:column;gap:12px}#msec[hidden],#msec2[hidden]{display:none}
+.sum{text-align:center;color:var(--muted);font-weight:800;font-size:.9rem}
+.go-btn{min-height:58px;border:0;border-radius:18px;background:var(--accent);color:var(--on-accent);font-family:var(--display);font-weight:800;font-size:1.3rem;cursor:pointer}
+.set-i:focus-visible,.own:focus-visible,.ops4 button:focus-visible,.segs button:focus-visible,.step button:focus-visible,.more:focus-visible,.go-btn:focus-visible,.xbtn:focus-visible,.row:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.grp{background:var(--bg);border-radius:18px;overflow:hidden}
+.row{width:100%;min-height:56px;border:0;background:transparent;color:var(--fg);padding:10px 14px;display:flex;align-items:center;gap:12px;font:inherit;text-align:left;cursor:pointer}
+.row+.row{border-top:1px solid var(--line)}
+.rt{flex:1;min-width:0;display:flex;flex-direction:column;gap:1px}.rt b{font-weight:800;font-size:1rem}.rt small{font-weight:700;font-size:.8rem;color:var(--muted)}
+.rv{font-weight:800;font-size:.9rem;color:var(--muted);max-width:45%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.chv{color:var(--muted);flex:none}
+.tg{width:52px;height:32px;flex:none;border-radius:999px;background:var(--line);position:relative;transition:background .15s}
+.tg::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .15s}
+.row.sel .tg{background:var(--ok)}.row.sel .tg::after{transform:translateX(20px)}
 @media (prefers-reduced-motion:reduce){.shake,.cheer,.puke *{animation:none!important}.card{transition:none}
   .fb *{animation-duration:.01s!important;animation-iteration-count:1!important;animation-delay:0s!important}}
 </style>
@@ -339,72 +382,78 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 </div>
 
 <div class="ask" id="ask" hidden role="dialog" aria-modal="true" aria-labelledby="ask-t">
-  <div class="ask-box">
-    <h2 id="ask-t">Nowa sesja</h2>
-    <p id="ask-warn">Na pewno? Obecny postęp zostanie skasowany.</p>
-    <div class="ask-sub">Jakie działania?</div>
-    <div class="ops" id="ops">
-      <button type="button" data-op="+"><b>+</b>Dodawanie</button><button type="button" data-op="−"><b>−</b>Odejmowanie</button>
-      <button type="button" data-op="×"><b>×</b>Mnożenie</button><button type="button" data-op=":"><b>:</b>Dzielenie</button>
+  <div class="ask-box sheet">
+    <div id="ask-sets" class="pane">
+      <div class="shd"><div><h2 id="ask-t">Co dziś ćwiczymy?</h2><span class="shs">Jedno dotknięcie i grasz</span></div>
+        <button type="button" class="xbtn" id="ask-x" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+      <div class="sets" id="sets"></div>
+      <button type="button" class="own" id="ask-own"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h4M12 17h8"/><circle cx="16" cy="7" r="2"/><circle cx="10" cy="17" r="2"/></svg>
+        <span><b>Ułóż własne</b><small>Wybierz działania, liczby i ile ich</small></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+      <p class="ask-warn" id="ask-warn" hidden></p>
     </div>
-    <div id="divsec">
-      <div class="ask-sub">Jakie dzielenie?</div>
-      <div class="seg" id="divmode">
-        <button type="button" data-d="tab"><b>Odwrotność tabliczki</b><small>np. 56 : 7 = 8</small></button>
-        <button type="button" data-d="any"><b>Dowolne</b><small>np. 390 : 5 = 78</small></button>
+    <div id="ask-custom" class="pane" hidden>
+      <div class="shd"><button type="button" class="xbtn" id="ask-back" aria-label="Wróć do zestawów"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 5l-7 7 7 7"/></svg></button><h2 class="grow">Ułóż własne</h2></div>
+      <div class="lbl">Działania</div>
+      <div class="ops4" id="ops">
+        <button type="button" data-op="+" aria-label="Dodawanie">+</button><button type="button" data-op="−" aria-label="Odejmowanie">−</button><button type="button" data-op="×" aria-label="Mnożenie">×</button><button type="button" data-op=":" aria-label="Dzielenie">:</button>
       </div>
-    </div>
-    <button type="button" class="tens" id="tens" aria-pressed="false"><b>10</b><span>Wielokrotności 10<small>tylko pełne dziesiątki: 20, 30, 40…</small></span></button>
-    <button type="button" class="tens" id="frac" aria-pressed="false"><b>½</b><span>Dzielenie z ułamkami<small>wynik z przecinkiem, np. 7 : 2 = 3,5</small></span></button>
-    <div id="absec">
-      <button type="button" class="tens" id="abon" aria-pressed="false"><span>Zakres a, b, wynik c<small class="exl"><i>a + b = c</i><i>a − b = c</i><i>a × b = c</i><i>a : b = c</i></small></span></button>
-      <div class="abr" id="abr" hidden>
-        <b>a</b><span>od</span><input id="a-lo" type="number" inputmode="numeric" min="1" max="10000" aria-label="a od"><span>do</span><input id="a-hi" type="number" inputmode="numeric" min="1" max="10000" aria-label="a do">
-        <b>b</b><span>od</span><input id="b-lo" type="number" inputmode="numeric" min="1" max="10000" aria-label="b od"><span>do</span><input id="b-hi" type="number" inputmode="numeric" min="1" max="10000" aria-label="b do">
-        <b>c</b><span>od</span><input id="c-lo" type="number" inputmode="numeric" min="0" max="1000000" placeholder="—" aria-label="wynik od"><span>do</span><input id="c-hi" type="number" inputmode="numeric" min="0" max="1000000" placeholder="—" aria-label="wynik do">
-        <div class="abnote">puste pole = bez limitu</div>
-        <div class="abhint" id="abhint"></div>
+      <div id="msec">
+        <div class="lbl" id="m-label">Liczby do</div>
+        <div class="segs" id="ranges"><button type="button" data-m="10">10</button><button type="button" data-m="20">20</button><button type="button" data-m="100">100</button><button type="button" data-m="1000">1000</button></div>
       </div>
+      <div class="lbl">Ile działań</div>
+      <div class="step"><button type="button" id="n-minus" aria-label="Mniej działań">−</button><output id="n-val" aria-live="polite">20</output><button type="button" id="n-plus" aria-label="Więcej działań">+</button></div>
+      <button type="button" class="more" id="more-btn" aria-expanded="false" aria-controls="more"><span><b>Więcej opcji</b><small id="more-s">Rodzaj dzielenia, dziesiątki, zakres a, b, c</small></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button>
+      <div class="morebox" id="more" hidden>
+        <div id="divsec">
+          <div class="lbl">Jakie dzielenie?</div>
+          <div class="seg" id="divmode">
+            <button type="button" data-d="tab"><b>Odwrotność tabliczki</b><small>np. 56 : 7 = 8</small></button>
+            <button type="button" data-d="any"><b>Dowolne</b><small>np. 390 : 5 = 78</small></button>
+          </div>
+        </div>
+        <button type="button" class="tens" id="tens" aria-pressed="false"><b>10</b><span>Wielokrotności 10<small>tylko pełne dziesiątki: 20, 30, 40…</small></span></button>
+        <button type="button" class="tens" id="frac" aria-pressed="false"><b>½</b><span>Dzielenie z ułamkami<small>wynik z przecinkiem, np. 7 : 2 = 3,5</small></span></button>
+        <div id="absec">
+          <button type="button" class="tens" id="abon" aria-pressed="false"><span>Zakres a, b, wynik c<small class="exl"><i>a + b = c</i><i>a − b = c</i><i>a × b = c</i><i>a : b = c</i></small></span></button>
+          <div class="abr" id="abr" hidden>
+            <b>a</b><span>od</span><input id="a-lo" type="number" inputmode="numeric" min="1" max="10000" aria-label="a od"><span>do</span><input id="a-hi" type="number" inputmode="numeric" min="1" max="10000" aria-label="a do">
+            <b>b</b><span>od</span><input id="b-lo" type="number" inputmode="numeric" min="1" max="10000" aria-label="b od"><span>do</span><input id="b-hi" type="number" inputmode="numeric" min="1" max="10000" aria-label="b do">
+            <b>c</b><span>od</span><input id="c-lo" type="number" inputmode="numeric" min="0" max="1000000" placeholder="—" aria-label="wynik od"><span>do</span><input id="c-hi" type="number" inputmode="numeric" min="0" max="1000000" placeholder="—" aria-label="wynik do">
+            <div class="abnote">puste pole = bez limitu</div>
+            <div class="abhint" id="abhint"></div>
+          </div>
+        </div>
+        <div id="msec2"><div class="lbl">Inny zakres liczb</div>
+        <input id="ask-m" type="number" inputmode="numeric" min="10" max="10000" placeholder="wpisz: 10–10000" aria-label="Zakres liczb"></div>
+      </div>
+      <div class="sum" id="ask-sum"></div>
+      <div class="ask-err" id="ask-err"></div>
+      <button type="button" class="go-btn" id="ask-yes">Start</button>
     </div>
-    <div id="msec">
-    <div class="ask-sub" id="m-label">Do jakiej liczby?</div>
-    <div class="opts" id="ranges"><button type="button" data-m="10">10</button><button type="button" data-m="20">20</button><button type="button" data-m="100">100</button><button type="button" data-m="1000">1000</button></div>
-    <input id="ask-m" type="number" inputmode="numeric" min="10" max="10000" placeholder="albo wpisz: 10–10000" aria-label="Zakres liczb">
-    </div>
-    <div class="ask-sub">Ile działań?</div>
-    <div class="opts" id="opts"><button type="button" data-n="10">10</button><button type="button" data-n="20">20</button><button type="button" data-n="50">50</button><button type="button" data-n="100">100</button></div>
-    <input id="ask-n" type="number" inputmode="numeric" min="5" max="200" placeholder="albo wpisz: 5–200" aria-label="Liczba działań">
-    <div class="ask-err" id="ask-err"></div>
-    <div class="ask-btns"><button type="button" id="ask-no">Anuluj</button><button type="button" class="yes" id="ask-yes">Start</button></div>
   </div>
 </div>
 
 <div class="ask" id="menu" hidden role="dialog" aria-modal="true" aria-labelledby="menu-t">
-  <div class="ask-box">
-    <h2 id="menu-t">Ustawienia</h2>
-    <div class="ask-sub">Wygląd</div>
-    <div class="seg seg3" id="theme">
-      <button type="button" data-t="auto"><b>◐</b><small>Jak telefon</small></button>
-      <button type="button" data-t="light"><b>☀</b><small>Jasny</small></button>
-      <button type="button" data-t="dark"><b>☾</b><small>Ciemny</small></button>
+  <div class="ask-box sheet set">
+    <div class="shd"><h2 id="menu-t" class="grow">Ustawienia</h2><button type="button" class="xbtn" id="menu-x" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="lbl">Wygląd</div>
+    <div class="segs" id="theme">
+      <button type="button" data-t="auto">Jak telefon</button><button type="button" data-t="light">Jasny</button><button type="button" data-t="dark">Ciemny</button>
     </div>
-    <div class="ask-sub">Nagłówek</div>
-    <button type="button" class="tens" id="o-hdr"><b>✎</b><span>Zmień nagłówek<small>nazwa, znaczek i to, co nad nią</small></span></button>
-    <div class="ask-sub">Podczas ćwiczeń</div>
-    <button type="button" class="tens" id="o-dots" aria-pressed="true"><b>••</b><span>Kropki postępu<small>mapa wszystkich działań u góry</small></span></button>
-    <button type="button" class="tens" id="o-pct" aria-pressed="false"><b>%</b><span>Wynik w procentach<small>ile dobrze za pierwszym razem</small></span></button>
-    <button type="button" class="tens" id="o-grade" aria-pressed="false"><b>6</b><span>Ocena na bieżąco<small>liczona z dotychczasowych odpowiedzi</small></span></button>
-    <button type="button" class="tens" id="o-hints" aria-pressed="true"><b>💡</b><span>Podpowiedzi<small>krok po kroku; liczone osobno, bez wpływu na ocenę</small></span></button>
-    <button type="button" class="tens" id="o-modals" aria-pressed="true"><b>🎉</b><span>Okienka z gratulacjami<small>co 5 dobrych odpowiedzi i na koniec</small></span></button>
-    <button type="button" class="tens" id="o-goals" aria-pressed="true"><b>⚽</b><span>Filmiki z golami<small>krótki filmik co 10 dobrych odpowiedzi</small></span></button>
-    <div class="ask-sub">Telefon</div>
-    <button type="button" class="tens" id="o-sound" aria-pressed="true"><b>🔊</b><span>Dźwięki<small>dobrze, źle, gratulacje</small></span></button>
-    <button type="button" class="tens" id="awake" aria-pressed="true"><b>☀</b><span>Ekran nie gaśnie<small id="awake-s">gdy aplikacja jest otwarta</small></span></button>
-    <div class="ask-sub">Kopia danych</div>
-    <div class="ask-btns bk"><button type="button" id="bk-save">⬇ Zapisz kopię</button><button type="button" id="bk-load">⬆ Wczytaj kopię</button></div>
+    <div class="lbl">Ty</div>
+    <div class="grp"><button type="button" class="row" id="o-hdr"><span class="rt"><b>Nagłówek</b></span><span class="rv" id="o-hdr-v"></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
+    <div class="lbl">Podczas ćwiczeń</div>
+    <div class="grp"><button type="button" class="row sw" id="o-dots" aria-pressed="true"><span class="rt"><b>Kropki postępu</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-pct" aria-pressed="true"><span class="rt"><b>Wynik w procentach</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-grade" aria-pressed="true"><span class="rt"><b>Ocena na bieżąco</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-hints" aria-pressed="true"><span class="rt"><b>Podpowiedzi</b><small>Nie wpływają na ocenę</small></span><i class="tg" aria-hidden="true"></i></button></div>
+    <div class="lbl">Nagrody</div>
+    <div class="grp"><button type="button" class="row sw" id="o-modals" aria-pressed="true"><span class="rt"><b>Gratulacje co 5 dobrych</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-goals" aria-pressed="true"><span class="rt"><b>Filmik z golem co 10 dobrych</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-sound" aria-pressed="true"><span class="rt"><b>Dźwięki</b></span><i class="tg" aria-hidden="true"></i></button></div>
+    <div class="lbl">Telefon</div>
+    <div class="grp"><button type="button" class="row sw" id="awake" aria-pressed="true"><span class="rt"><b>Ekran nie gaśnie</b><small id="awake-s">gdy aplikacja jest otwarta</small></span><i class="tg" aria-hidden="true"></i></button></div>
+    <div class="lbl">Kopia historii</div>
+    <div class="grp"><button type="button" class="row" id="bk-save"><span class="rt"><b>Zapisz kopię do pliku</b></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" class="row" id="bk-load"><span class="rt"><b>Wczytaj kopię</b></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
     <input type="file" id="bk-file" accept="application/json,.json" hidden>
     <div class="abnote" id="bk-msg">Historia jest tylko na tym telefonie. Zrób czasem kopię do pliku.</div>
-    <div class="ask-btns"><button type="button" class="yes" id="menu-ok">Gotowe</button></div>
+    <button type="button" class="go-btn" id="menu-ok">Gotowe</button>
   </div>
 </div>
 <div class="ask" id="hdr" hidden role="dialog" aria-modal="true" aria-labelledby="hdr-t">
@@ -424,7 +473,17 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 
 <script>
 let N=100;
-let CFG={cr:[null,null],m:100,ops:["×"],tens:false,frac:false,div:"tab",ab:false,ar:[2,10],br:[2,10]};
+const CFG0={cr:[null,null],m:100,ops:["×"],tens:false,frac:false,div:"tab",ab:false,ar:[2,10],br:[2,10]};
+let CFG={...CFG0};
+/* Gotowe zestawy na start nowej sesji. cfg = te same pola co CFG (brakujące biorą się z CFG0),
+   n = ile działań; info = opcjonalny opis zamiast „do m”; id musi być stałe (po nim jest ostatni wynik w historii). */
+const SETS=[
+  {id:"tab",  name:"Tabliczka mnożenia",      n:20, cfg:{ops:["×"],m:100}},
+  {id:"div",  name:"Dzielenie z tabliczki",   n:20, cfg:{ops:[":"],m:100,div:"tab"}, info:"np. 56 : 7"},
+  {id:"muldiv",name:"Mnożenie i dzielenie",   n:30, cfg:{ops:["×",":"],m:100,div:"tab"}},
+  {id:"addsub",name:"Dodawanie i odejmowanie",n:20, cfg:{ops:["+","−"],m:1000}},
+  {id:"tens", name:"Pełne dziesiątki",        n:20, cfg:{ops:["×"],m:1000,tens:true}, info:"np. 40 × 30"},
+];
 let ALEN=3;
 let tasks=[],i=0,input="",errors=0,hintsUsed=0,state=[],locked=false;
 // historia: id i start sesji, log[k]={tries:[wpisane odpowiedzi],h:podpowiedzi,ms:czas}; ACTIVE = jest prawdziwa sesja
@@ -457,7 +516,7 @@ function load(){
     const n=d&&Number.isInteger(d.n)?d.n:100;
     if(d&&Array.isArray(d.tasks)&&d.tasks.length===n&&Array.isArray(d.state)&&d.state.length===n&&Number.isInteger(d.i)&&d.i>=0&&d.i<=n){
       N=n;tasks=d.tasks.map(t=>t.length===2?[t[0],"×",t[1]]:t);
-      if(d.cfg&&Array.isArray(d.cfg.ops)&&d.cfg.ops.length&&d.cfg.m>=10) CFG={m:+d.cfg.m,ops:d.cfg.ops,tens:!!d.cfg.tens,frac:!!d.cfg.frac,div:d.cfg.div==="any"?"any":"tab",ab:!!d.cfg.ab,ar:d.cfg.ar||[2,10],br:d.cfg.br||[2,10],cr:d.cfg.cr||[null,null],practice:!!d.cfg.practice};i=d.i;hintsUsed=+d.hints||0;state=d.state.map((x,k)=>x==="hint"?(k<d.i?"ok":""):x);errors=state.filter(x=>x==="fix").length;
+      if(d.cfg&&Array.isArray(d.cfg.ops)&&d.cfg.ops.length&&d.cfg.m>=10) CFG={m:+d.cfg.m,ops:d.cfg.ops,tens:!!d.cfg.tens,frac:!!d.cfg.frac,div:d.cfg.div==="any"?"any":"tab",ab:!!d.cfg.ab,ar:d.cfg.ar||[2,10],br:d.cfg.br||[2,10],cr:d.cfg.cr||[null,null],practice:!!d.cfg.practice,set:SETS.some(x=>x.id===d.cfg.set)?d.cfg.set:undefined};i=d.i;hintsUsed=+d.hints||0;state=d.state.map((x,k)=>x==="hint"?(k<d.i?"ok":""):x);errors=state.filter(x=>x==="fix").length;
       SID=d.id||Date.now();T0=d.t0||SID;log=Array.isArray(d.log)&&d.log.length===n?d.log:newLog(n);ACTIVE=true;return true;
     }
   }catch(e){}
@@ -563,6 +622,7 @@ function title(){
   ALEN=Math.max(1,...tasks.map(t=>fmt(answer(t)).length));
   buildPad();
   if(CFG.practice){$("title").textContent="Poćwicz trudne";document.title=appName()+" · Poćwicz trudne";return;}
+  const st=SETS.find(x=>x.id===CFG.set);if(st){$("title").textContent=st.name;document.title=appName()+" · "+st.name;return;}
   const o=["+","−","×",":"].filter(x=>CFG.ops.includes(x));
   let t=o.length===1?OPNAME[o[0]]:o.length===2?OPNAME[o[0]]+" i "+OPNAME[o[1]].toLowerCase():"Działania";
   const tab=o.includes(":")&&CFG.div!=="any";
@@ -873,7 +933,7 @@ document.addEventListener("keydown",e=>{
 });
 let pick=N,pm=100,pops=["×"],ptens=false,pab=false,pfrac=false,pdiv="tab";
 function selOpt(){
-  for(const b of $("opts").children) b.classList.toggle("sel",+b.dataset.n===pick&&!$("ask-n").value);
+  $("n-val").textContent=pick;$("n-minus").disabled=pick<=NSTEPS[0];$("n-plus").disabled=pick>=NSTEPS[NSTEPS.length-1];
   for(const b of $("ranges").children) b.classList.toggle("sel",+b.dataset.m===pm&&!$("ask-m").value);
   for(const b of $("ops").children) b.classList.toggle("sel",pops.includes(b.dataset.op));
   $("tens").classList.toggle("sel",ptens);$("tens").setAttribute("aria-pressed",ptens);
@@ -882,8 +942,13 @@ function selOpt(){
   $("divsec").hidden=!dv;for(const b of $("divmode").children) b.classList.toggle("sel",b.dataset.d===pdiv);
   $("frac").hidden=!dany;$("frac").classList.toggle("sel",pfrac);$("frac").setAttribute("aria-pressed",pfrac);
   $("absec").hidden=!md;$("abon").classList.toggle("sel",pab);$("abon").setAttribute("aria-pressed",pab);
-  $("abr").hidden=!pab;$("msec").hidden=md&&pab&&!as;
-  $("m-label").textContent=md&&pab?"Dzielenie z tabliczki do jakiej liczby?":"Do jakiej liczby?";
+  $("abr").hidden=!pab;$("msec").hidden=$("msec2").hidden=md&&pab&&!as;
+  $("m-label").textContent=md&&pab?"Dzielenie z tabliczki do":"Liczby do";
+  $("more-btn").setAttribute("aria-expanded",!$("more").hidden);
+  const extra=[dv&&(dany?"dowolne dzielenie":"odwrotność tabliczki"),ptens&&"dziesiątki",pfrac&&dany&&"ułamki",pab&&md&&"zakres a, b, c",$("ask-m").value&&"zakres "+$("ask-m").value].filter(Boolean);
+  $("more-s").textContent=extra.length?extra.join(", "):"Rodzaj dzielenia, dziesiątki, zakres a, b, c";
+  const o=["+","−","×",":"].filter(x=>pops.includes(x)),m=$("ask-m").value||pm;
+  $("ask-sum").textContent=o.length?`${pick} ${dzialan(pick)}: ${o.join(" i ")}`+(md&&pab?" · własne zakresy":" do "+m):"Wybierz przynajmniej jedno działanie";
   abHint();
 }
 function readAB(){
@@ -906,22 +971,42 @@ function abHint(){
   if(pops.includes(":")&&pdiv==="any"){const t=makeTask(":",0,ptens,c);if(t) ex.push(`${t[0]} : ${t[2]} = ${t[0]/t[2]}`);else{$("abhint").innerHTML=`<span class="np">${"Dzielenie: przy tych zakresach nie da się podzielić bez reszty z wynikiem w c"}</span>`;return;}}
   $("abhint").innerHTML='<span class="np">Np.</span>'+ex.map(x=>`<span>${x}</span>`).join("");
 }
+const NSTEPS=[5,10,15,20,25,30,40,50,60,75,100,150,200];
+const SET_TONE={"×":"#4054d6",":":"#0b7285","+":"#c2410c","−":"#c2410c"};
+function setLast(id){const d=loadHist().filter(s=>s.status==="done"&&s.cfg&&s.cfg.set===id);return d.length?d[d.length-1].pct:null;}
+function allHard(){let recs=[];loadHist().forEach(s=>recs.push(...s.recs));
+  if(ACTIVE&&i>0&&i<N&&!loadHist().some(s=>s.id===SID)) recs.push(...recsOf(i));return topHard(recs);}
+function renderSets(){
+  const hard=allHard();
+  const row=(k,gl,gc,gf,name,meta,last)=>`<button type="button" class="set-i" data-k="${k}"><span class="gl${gl.length>2?" s3":gl.length>1?" s2":""}" style="--gc:${gc}${gf?";--gf:"+gf:""}" aria-hidden="true">${gl}</span>`+
+    `<span class="sn"><b>${name}</b><small>${meta}</small></span>${last==null?"":`<span class="lr">${last}%</span>`}</button>`;
+  $("sets").innerHTML=(hard.length?row("hard","!","#ffd43b","#12162a","Poćwicz trudne",`${hard.length*2} działań, które sprawiały kłopot`,null):"")+
+    SETS.map((st,k)=>{const c={...CFG0,...st.cfg},o=["+","−","×",":"].filter(x=>c.ops.includes(x));
+      const gl=c.tens&&o.length===1?o[0]+"10":o.join(""),gc=o.length>1&&SET_TONE[o[0]]!==SET_TONE[o[1]]?"#7048e8":SET_TONE[o[0]];
+      const l=setLast(st.id);return row(k,gl,gc,"",st.name,`${st.n} ${dzialan(st.n)} · ${st.info||"do "+c.m}`,l);}).join("");
+}
+function askPane(custom){$("ask-sets").hidden=custom;$("ask-custom").hidden=!custom;
+  $("ask").querySelector(".ask-box").scrollTop=0;(custom?$("ask-back"):$("ask-x")).focus();}
 function openAsk(mode){
-  const fresh=mode!=="replace"||!(ACTIVE&&i<N); // bez ostrzeżenia, gdy nie ma czego kasować
-  pick=N;$("ask-n").value="";$("ask-err").textContent="";
-  pops=[...CFG.ops];ptens=CFG.tens;pm=CFG.m;pab=CFG.ab;pfrac=CFG.frac;pdiv=CFG.div||"tab";
+  const fresh=!(ACTIVE&&i>0&&i<N); // ostrzeżenie tylko, gdy jest co przerwać
+  pick=NSTEPS.includes(N)?N:20;$("ask-err").textContent="";
+  pops=[...CFG.ops];ptens=CFG.tens;pm=[10,20,100,1000].includes(CFG.m)?CFG.m:100;pab=CFG.ab;pfrac=CFG.frac;pdiv=CFG.div||"tab";
   $("a-lo").value=CFG.ar[0];$("a-hi").value=CFG.ar[1];$("b-lo").value=CFG.br[0];$("b-hi").value=CFG.br[1];
-  $("c-lo").value=CFG.cr&&CFG.cr[0]!=null?CFG.cr[0]:"";$("c-hi").value=CFG.cr&&CFG.cr[1]!=null?CFG.cr[1]:"";$("ask-m").value=[10,20,100,1000].includes(pm)?"":pm;
-  $("ask-warn").hidden=fresh;$("ask-no").hidden=false;
-  $("ask-warn").textContent="Na pewno? Obecne działania trafią do historii jako przerwane.";
-  $("ask-yes").classList.toggle("warn",!fresh);$("ask-yes").textContent=fresh?"Start":"Tak, od nowa";
-  selOpt();$("ask").hidden=false;$("ask-yes").focus();
+  $("c-lo").value=CFG.cr&&CFG.cr[0]!=null?CFG.cr[0]:"";$("c-hi").value=CFG.cr&&CFG.cr[1]!=null?CFG.cr[1]:"";$("ask-m").value=[10,20,100,1000].includes(CFG.m)?"":CFG.m;
+  $("more").hidden=!(CFG.tens||CFG.ab||CFG.frac||CFG.div==="any"||$("ask-m").value);
+  $("ask-warn").hidden=fresh;$("ask-warn").textContent=`Masz działania w trakcie (${i} / ${N}) – zapiszemy je w historii jako przerwane.`;
+  renderSets();selOpt();$("ask").hidden=false;askPane(false);
+}
+function startSet(k){
+  if(k==="hard") return practice(allHard(),true);
+  const st=SETS[+k],cfg={...CFG0,...st.cfg,set:st.id};
+  if(!canMake(cfg)) return;
+  if(ACTIVE&&i>0&&i<N) archive("przerwana");
+  CFG=cfg;$("ask").hidden=true;start(st.n);go("play");
 }
 function closeAsk(){$("ask").hidden=true;($("play").hidden?$("t-math"):$("again")).focus();}
 function confirmAsk(){
-  const v=$("ask-n").value.trim();
-  let n=pick;
-  if(v){n=+v;if(!Number.isInteger(n)||n<5||n>200){$("ask-err").textContent="Ile działań: wpisz liczbę od 5 do 200";return;}}
+  const n=pick;
   let m=pm;const mv=$("ask-m").value.trim();
   if(mv){m=+mv;if(!Number.isInteger(m)||m<10||m>10000){$("ask-err").textContent="Zakres: wpisz liczbę od 10 do 10000";return;}}
   if(!pops.length){$("ask-err").textContent="Wybierz przynajmniej jedno działanie";return;}
@@ -933,9 +1018,12 @@ function confirmAsk(){
   if(ACTIVE&&i>0&&i<N) archive("przerwana");
   CFG=cfg;$("ask").hidden=true;start(n);go("play");
 }
-$("opts").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;pick=+b.dataset.n;$("ask-n").value="";$("ask-err").textContent="";selOpt();});
-$("ask-n").addEventListener("input",()=>{$("ask-err").textContent="";selOpt();});
-$("ask-n").addEventListener("keydown",e=>{if(e.key==="Enter") confirmAsk();});
+$("n-minus").addEventListener("click",()=>{pick=[...NSTEPS].reverse().find(x=>x<pick)||NSTEPS[0];selOpt();});
+$("n-plus").addEventListener("click",()=>{pick=NSTEPS.find(x=>x>pick)||NSTEPS[NSTEPS.length-1];selOpt();});
+$("sets").addEventListener("click",e=>{const b=e.target.closest("button");if(b) startSet(b.dataset.k);});
+$("ask-own").addEventListener("click",()=>askPane(true));
+$("ask-back").addEventListener("click",()=>askPane(false));
+$("more-btn").addEventListener("click",()=>{$("more").hidden=!$("more").hidden;selOpt();});
 $("ask-m").addEventListener("keydown",e=>{if(e.key==="Enter") confirmAsk();});
 $("ask-m").addEventListener("input",()=>{$("ask-err").textContent="";selOpt();});
 $("ranges").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;pm=+b.dataset.m;$("ask-m").value="";$("ask-err").textContent="";selOpt();});
@@ -949,7 +1037,7 @@ $("frac").addEventListener("click",()=>{pfrac=!pfrac;$("ask-err").textContent=""
   $(id).addEventListener("keydown",e=>{if(e.key==="Enter") confirmAsk();});});
 addEventListener("resize",refit);
 $("again").addEventListener("click",()=>openAsk("replace"));
-$("ask-no").addEventListener("click",closeAsk);
+$("ask-x").addEventListener("click",closeAsk);
 $("ask").addEventListener("click",e=>{if(e.target.id==="ask") closeAsk();});
 $("ask-yes").addEventListener("click",confirmAsk);
 function render0(){
@@ -985,6 +1073,7 @@ function applyTheme(){
   else document.documentElement.dataset.theme=PREFS.theme;
 }
 function selMenu(){
+  $("o-hdr-v").textContent=appName();
   for(const b of $("theme").children) b.classList.toggle("sel",b.dataset.t===PREFS.theme);
   for(const [id,k] of TOGGLES){$(id).classList.toggle("sel",PREFS[k]);$(id).setAttribute("aria-pressed",PREFS[k]);}
   $("awake-s").textContent="wakeLock" in navigator?"gdy aplikacja jest otwarta":"ten telefon tego nie obsługuje";
@@ -994,6 +1083,7 @@ function openMenu(e){menuFrom=e&&e.currentTarget;selMenu();$("bk-msg").textConte
 function closeMenu(){$("menu").hidden=true;if(menuFrom) menuFrom.focus();}
 document.querySelectorAll("[data-menu]").forEach(b=>b.addEventListener("click",openMenu));
 $("menu-ok").addEventListener("click",closeMenu);
+$("menu-x").addEventListener("click",closeMenu);
 $("menu").addEventListener("click",e=>{if(e.target.id==="menu") closeMenu();});
 $("theme").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;PREFS.theme=b.dataset.t;savePrefs();applyTheme();selMenu();});
 /* Edycja nagłówka: nazwa, znaczek, linijka nad nazwą; podgląd na żywo */
@@ -1244,19 +1334,21 @@ $("heat").addEventListener("click",e=>{const d=e.target.closest(".hd");if(!d) re
   const r=+d.dataset.r,c=+d.dataset.c,n=+d.dataset.n,b=+d.dataset.b;
   $("heat-tip").textContent=`${r} × ${c} = ${r*c} (i dzielenie ${r*c} : ${c}) · ${b} z ${n} źle · ${Math.round(b*100/n)}%`;});
 // "Poćwicz trudne": każde z Top 10 dwa razy, wymieszane
-$("practice").addEventListener("click",()=>{
-  if(!HARD.length) return;
-  if(ACTIVE&&i>0&&i<N){if(!confirm("Przerwać obecne działania i poćwiczyć trudne?")) return;archive("przerwana");}
+function practice(hard,asked){
+  if(!hard.length) return;
+  if(ACTIVE&&i>0&&i<N){if(!asked&&!confirm("Przerwać obecne działania i poćwiczyć trudne?")) return;archive("przerwana");}
+  $("ask").hidden=true;
   // losowa kolejność, bez tego samego działania dwa razy z rzędu
-  const pool=HARD.flatMap(e=>[e.t.slice(),e.t.slice()]),t=[];
+  const pool=hard.flatMap(e=>[e.t.slice(),e.t.slice()]),t=[];
   while(pool.length){let c=pool.map((x,k)=>k).filter(k=>!t.length||pool[k].join()!==t[t.length-1].join());if(!c.length) c=[0];
     t.push(pool.splice(c[Math.floor(Math.random()*c.length)],1)[0]);}
   for(let k=1;k<t.length;k++) if(t[k].join()===t[k-1].join()){ // na końcu mogły zostać dwa takie same: przenieś jedno
     const x=t.splice(k,1)[0],j=t.findIndex((y,m)=>y.join()!==x.join()&&(m===0||t[m-1].join()!==x.join()));t.splice(j<0?t.length:j,0,x);}
   CFG={...CFG,ops:[...new Set(t.map(x=>x[1]))],practice:true,ab:false,frac:t.some(x=>!Number.isInteger(answer(x))),
-    m:Math.max(10,...t.map(x=>Math.max(x[0],x[2],Math.ceil(answer(x)))))};
+    m:Math.max(10,...t.map(x=>Math.max(x[0],x[2],Math.ceil(answer(x))))),set:undefined};
   start(t.length,t);go("play");
-});
+}
+$("practice").addEventListener("click",()=>practice(HARD));
 
 /* Kopia danych: zapis historii do pliku i wczytanie (łączy po id sesji) */
 $("bk-save").addEventListener("click",()=>{
