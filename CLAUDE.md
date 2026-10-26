@@ -36,6 +36,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
 - **Zapis:** `localStorage` pod kluczem `tabliczka100-postep`, zapisywany po każdej odpowiedzi.
   Reset tylko przyciskiem „Nowe działania” po potwierdzeniu.
 - **Ustawienia (menu ☰):** `PREFS` w `localStorage` pod `henriksen-ustawienia`:
+  `name` (nazwa w nagłówku `#app-name` i w tytule karty, pusta = „Henriksen”),
   `theme` (`auto` / `light` / `dark` → `data-theme` na `<html>`, ustawiane już w `<head>`, żeby nie migało)
   i `awake` (Wake Lock: ekran nie gaśnie, ponawiane przy `visibilitychange` i dotknięciu).
   Widok: `dots` (kropki postępu), `pct` i `grade` (procent i ocena na bieżąco w `#live`,
