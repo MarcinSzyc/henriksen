@@ -71,11 +71,13 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `showGoal()` co 10 dobrych: po zamknięciu modala (`celebrate(n,false,after)`), albo od razu gdy modale wyłączone.
   Pliki są w `SHELL` w `sw.js`; `rangeFromCache()` w SW odpowiada 206 na żądania Range (Safari bez tego nie odtworzy wideo offline).
   Przełączniki `modals` i `goals` w menu.
-- **Efekty odpowiedzi (`FX`, przełącznik `fx` w ustawieniach):** `FX.bad` / `FX.ok` to rejestry efektów
-  `{ms, run(c)}`, `playFx(kind)` losuje jeden, rysuje go w warstwie `.fx` (position: fixed) wokół środka działania `c`
-  i zwraca funkcję sprzątającą. Na razie bomba (zła: spada, lont 0,45 s, wybuch; cyfry lecą jako kopie w warstwie,
-  żeby strona nie poszerzała się na telefonie; wejście zablokowane 2,5 s) i rakieta (dobra, 1,5 s przed następnym działaniem).
-  Wyłączone przy `prefers-reduced-motion`. Nowy efekt = nowy wpis w `FX`.
+- **Efekty odpowiedzi (`FX`, przełącznik `fx` w ustawieniach):** `FX` to lista `{id,kind:"ok"|"bad",tier,name,ms,boom?,run(g)}`.
+  `playFx(kind)` losuje dostępny efekt (odblokowany i nie w `PREFS.fxOff`), rysuje go w warstwie `.fx` (position: fixed)
+  i zwraca `{ms,boom,end}` albo `null` (wtedy zwykłe potrząśnięcie). Cyfry lecące daleko to kopie z `ghost()`,
+  żeby strona nie poszerzała się na telefonie. Poziomy `TIERS`: 1 = rakieta, bomba; 2 = piłkarz, tornado (od 1000
+  rozwiązanych zadań); 3 = skok w nadprzestrzeń, stopa (od 2000 dobrych za 1. razem); liczone w `fxCounts()` z historii.
+  `checkUnlock()` po dobrej odpowiedzi pokazuje okienko „Nowa animacja!” (`PREFS.fxTier` pamięta ostatni poziom).
+  Wybór animacji: arkusz `#fxs` (Ustawienia › Wybierz animacje). Wyłączone przy `prefers-reduced-motion`.
 - **Gratulacje co 5 zadań:** modal na 2,6 s (`celebrate`) plus fajerwerki na `<canvas id="fw">`.
   Hasło z `praise` + osobisty tekst z `praiseSub` (losowane, bez powtórki z poprzednim), młodzieżowy ton.
 - **Dźwięki:** `SFX` (ok / bad / cheer / final) syntezowane przez Web Audio w `tone()`, bez plików;

@@ -306,6 +306,43 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 @keyframes fx-flame{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.35)}}
 @keyframes fx-puff{0%,45%{transform:translate(-50%,-50%) scale(0);opacity:.9}46%{opacity:.9}100%{transform:translate(calc(-50% + var(--dx)),calc(-50% + 20px)) scale(2.4);opacity:0}}
 @keyframes fx-spark{0%{transform:translate(0,0) scale(0);opacity:0}30%{opacity:1}100%{transform:translate(var(--sx),var(--sy)) scale(1);opacity:0}}
+.fx div,.fx span{position:absolute}
+.fx-shrink{display:inline-block;animation:fx-shrink 2.2s ease-out both}
+.fx-fade{display:inline-block;animation:fx-fade 2.4s ease-out both}
+.fx-squash{display:inline-block;transform-origin:50% 100%;animation:fx-squash 2.4s cubic-bezier(.3,.7,.4,1) both}
+.fx-spin{animation:fx-spin 1.3s cubic-bezier(.4,0,.3,1) both}
+.card.fx-thud{animation:fx-thud 2.4s ease-out both}
+@keyframes fx-shrink{0%{transform:none;opacity:1}30%,100%{transform:scale(.3);opacity:0}}
+@keyframes fx-fade{0%{opacity:1;transform:none}18%,100%{opacity:0;transform:scale(.6)}}
+@keyframes fx-runin{0%{transform:translateX(calc(-1 * var(--run)))}38%,100%{transform:translateX(0)}}
+@keyframes fx-bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+@keyframes fx-legrun{0%,100%{transform:rotate(25deg)}50%{transform:rotate(-25deg)}}
+@keyframes fx-kick{0%,36%{transform:rotate(10deg)}44%{transform:rotate(-70deg)}52%{transform:rotate(-55deg)}70%,100%{transform:rotate(0)}}
+@keyframes fx-ballx{0%,42%{transform:translateX(0)}76%{transform:translateX(calc(var(--dx) - 8px))}100%{transform:translateX(var(--dx))}}
+@keyframes fx-bally{0%,42%{transform:translateY(0) rotate(0)}60%{transform:translateY(calc(var(--dy) - 90px)) rotate(380deg)}76%{transform:translateY(calc(var(--dy) - 32px)) rotate(720deg) scale(.88)}85%{transform:translateY(var(--dy)) rotate(800deg) scale(.88)}91%{transform:translateY(calc(var(--dy) - 10px)) rotate(830deg) scale(.88)}100%{transform:translateY(var(--dy)) rotate(850deg) scale(.88)}}
+@keyframes fx-ballin{0%,40%{opacity:0;transform:scale(.3)}42%,100%{opacity:1;transform:scale(1)}}
+@keyframes fx-net{0%,75%{transform:scale(1)}80%{transform:scale(1.12,.92)}87%{transform:scale(.97,1.04)}94%,100%{transform:scale(1)}}
+@keyframes fx-goalin{0%{opacity:0;transform:translateY(-20px)}20%,100%{opacity:1;transform:none}}
+@keyframes fx-gol{0%,77%{opacity:0;transform:translate(-50%,0) scale(.3)}86%{opacity:1;transform:translate(-50%,0) scale(1.25)}92%,100%{opacity:1;transform:translate(-50%,0) scale(1)}}
+@keyframes fx-tw{from{transform:translateX(0)}to{transform:translateX(var(--tw))}}
+@keyframes fx-sway{0%,100%{transform:skewX(-7deg)}50%{transform:skewX(7deg)}}
+@keyframes fx-swirl{from{background-position:0 0,0 0,0 0}to{background-position:72px 0,-54px 0,0 0}}
+@keyframes fx-debris{from{transform:rotate(0) translateX(30px)}to{transform:rotate(720deg) translateX(30px)}}
+@keyframes fx-spin{0%{transform:none;opacity:1}10%{transform:translateY(-6px) rotate(-20deg)}50%{transform:translate(140px,-260px) rotate(900deg) scale(.4);opacity:0}80%{transform:translateY(-12px);opacity:0}100%{transform:none;opacity:1}}
+@keyframes fx-space{0%{opacity:0}12%,80%{opacity:1}100%{opacity:0}}
+@keyframes fx-star{0%,30%{transform:rotate(var(--a)) translateX(var(--r)) scaleX(.04);opacity:.9}58%{transform:rotate(var(--a)) translateX(calc(var(--r) * 1.6)) scaleX(1);opacity:1}80%,100%{transform:rotate(var(--a)) translateX(calc(var(--r) * 3)) scaleX(1.4);opacity:0}}
+@keyframes fx-ship{0%{transform:translate(-50%,-50%) translateY(90px) scale(.4);opacity:0}14%{opacity:1}28%{transform:translate(-50%,-50%) translateY(10px) scale(1)}38%{transform:translate(-50%,-50%) translateY(12px) rotate(-1deg)}44%{transform:translate(-50%,-50%) translateY(8px) rotate(1deg)}50%{transform:translate(-50%,-50%) translateY(10px);filter:blur(0)}66%{transform:translate(-50%,-50%) translateY(-6px) scale(.06);filter:blur(1px);opacity:1}70%,100%{transform:translate(-50%,-50%) translateY(-6px) scale(.02);opacity:0}}
+@keyframes fx-engine{0%,100%{opacity:.75;transform:scale(1)}50%{opacity:1;transform:scale(1.25)}}
+@keyframes fx-point{0%,64%{transform:translate(-50%,-50%) scale(0);opacity:0;filter:blur(0)}68%{transform:translate(-50%,-50%) scale(1);opacity:1;filter:blur(0)}86%,100%{transform:translate(-50%,-50%) scale(9);opacity:0;filter:blur(10px)}}
+@keyframes fx-foot{0%{transform:translateY(-110vh)}15%{transform:translateY(0) scaleY(.94)}19%{transform:translateY(-6px)}22%,46%{transform:translateY(0)}50%{transform:rotate(-2deg)}54%{transform:rotate(1deg)}58%{transform:none}75%,100%{transform:translateY(-110vh)}}
+@keyframes fx-squash{0%,14%{transform:none}17%,66%{transform:translateY(6px) scale(1.6,.12)}76%{transform:translateY(-14px) scale(.9,1.2)}84%{transform:translateY(4px) scale(1.05,.95)}92%,100%{transform:none}}
+@keyframes fx-dust{0%,14%{transform:translate(-50%,0) scale(.2);opacity:0}18%{opacity:.85}60%,100%{transform:translate(calc(-50% + var(--dx)),-22px) scale(2.2);opacity:0}}
+@keyframes fx-thud{0%,14%,40%,100%{transform:none}16%{transform:translateY(10px)}20%{transform:translateY(-4px)}24%{transform:translateY(2px)}28%{transform:none}}
+.fxs-list{display:flex;flex-direction:column;gap:10px}
+.fxs-list small{font-weight:800;font-size:.8rem;color:var(--muted);padding:0 4px}
+.fxbar{height:10px;border-radius:999px;background:var(--bg);overflow:hidden;margin:0 4px}.fxbar i{display:block;height:100%;border-radius:999px;background:#ffd43b}
+.row[disabled]{opacity:.55;cursor:default}.row .lock{color:var(--muted);flex:none}
+.fxnew-i{font-size:3.2rem;line-height:1;color:#ffd43b;animation:pop 1.2s both}
 /* Statystyki dla dziecka */
 .subj button{font-size:.9rem}
 .soonbox{background:var(--card);border-radius:22px;padding:36px 20px;text-align:center;display:flex;flex-direction:column;gap:6px}.soonbox[hidden]{display:none}
@@ -507,7 +544,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <div class="lbl">Podczas ćwiczeń</div>
     <div class="grp"><button type="button" class="row sw" id="o-dots" aria-pressed="true"><span class="rt"><b>Kropki postępu</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-pct" aria-pressed="true"><span class="rt"><b>Wynik w procentach</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-grade" aria-pressed="true"><span class="rt"><b>Ocena na bieżąco</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-hints" aria-pressed="true"><span class="rt"><b>Podpowiedzi</b><small>Nie wpływają na ocenę</small></span><i class="tg" aria-hidden="true"></i></button></div>
     <div class="lbl">Nagrody</div>
-    <div class="grp"><button type="button" class="row sw" id="o-modals" aria-pressed="true"><span class="rt"><b>Gratulacje co 5 dobrych</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-goals" aria-pressed="true"><span class="rt"><b>Filmik z golem co 10 dobrych</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-fx" aria-pressed="true"><span class="rt"><b>Animacje odpowiedzi</b><small>bomba przy złej, rakieta przy dobrej</small></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-sound" aria-pressed="true"><span class="rt"><b>Dźwięki</b></span><i class="tg" aria-hidden="true"></i></button></div>
+    <div class="grp"><button type="button" class="row sw" id="o-modals" aria-pressed="true"><span class="rt"><b>Gratulacje co 5 dobrych</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-goals" aria-pressed="true"><span class="rt"><b>Filmik z golem co 10 dobrych</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-fx" aria-pressed="true"><span class="rt"><b>Animacje odpowiedzi</b><small>przy dobrej i złej odpowiedzi</small></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row" id="o-fxs" aria-haspopup="dialog"><span class="rt"><b>Wybierz animacje</b><small>kolejne odblokujesz, rozwiązując zadania</small></span><span class="rv" id="o-fxs-v"></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" class="row sw" id="o-sound" aria-pressed="true"><span class="rt"><b>Dźwięki</b></span><i class="tg" aria-hidden="true"></i></button></div>
     <div class="lbl">Telefon</div>
     <div class="grp"><button type="button" class="row sw" id="awake" aria-pressed="true"><span class="rt"><b>Ekran nie gaśnie</b><small id="awake-s">gdy aplikacja jest otwarta</small></span><i class="tg" aria-hidden="true"></i></button></div>
     <div class="lbl">Kopia historii</div>
@@ -516,6 +553,17 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <div class="abnote" id="bk-msg">Historia jest tylko na tym telefonie. Zrób czasem kopię do pliku.</div>
     <button type="button" class="go-btn" id="menu-ok">Gotowe</button>
   </div>
+</div>
+<div class="ask" id="fxs" hidden role="dialog" aria-modal="true" aria-labelledby="fxs-t">
+  <div class="ask-box sheet">
+    <div class="shd"><div><h2 id="fxs-t">Animacje</h2><span class="shs">Włączone losują się przy każdej odpowiedzi</span></div><button type="button" class="xbtn" id="fxs-x" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="fxs-list" id="fxs-list"></div>
+    <button type="button" class="go-btn" id="fxs-ok">Gotowe</button>
+  </div>
+</div>
+<div class="ask" id="fxnew" hidden role="dialog" aria-modal="true" aria-labelledby="fxnew-h">
+  <div class="ask-box"><div class="fxnew-i" aria-hidden="true">★</div><h2 id="fxnew-h">Nowa animacja!</h2><p>Odblokowałeś: <b id="fxnew-t"></b></p>
+    <button type="button" class="go-btn" id="fxnew-ok">Super!</button></div>
 </div>
 <div class="ask" id="hdr" hidden role="dialog" aria-modal="true" aria-labelledby="hdr-t">
   <div class="ask-box">
@@ -563,8 +611,8 @@ const BADGES={
 const BADGE_NAMES={ball:"Piłka",crown:"Korona",bolt:"Błyskawica",rocket:"Rakieta",none:"Bez znaczka"};
 const SUBS=[["streak","Seria dni"],["date","Data"],["none","Nic"]];
 const NAME_PRESETS=["Henriksen","Kapitan H","Nr 10","Ekipa H"];
-let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,hints:true,sound:true,modals:true,goals:true,fx:true};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:p.fx!==false};}catch(e){}
+let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,hints:true,sound:true,modals:true,goals:true,fx:true,fxOff:[],fxTier:1};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:p.fx!==false,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1))};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -826,22 +874,24 @@ function check(){
   if(log[i]) log[i].tries.push(input);
   if(Math.abs(+input.replace(",",".")-answer(tasks[i]))<1e-9&&!input.endsWith(",")){
     card.classList.add("ok");$("msg").textContent="Dobrze!";sfx("ok");
-    const fx=fxOn()&&playFx("ok");
+    const fx=fxOn()?playFx("ok"):null;
     if(log[i]) log[i].ms=Math.min(Date.now()-tShow,120000);
     if(!state[i]) state[i]="ok";
     save();
     locked=true;
     const done=i+1,goal=done%10===0&&done<N&&PREFS.goals;
     if(done%5===0&&done<N){if(PREFS.modals) celebrate(done,false,goal?showGoal:null); else if(goal) showGoal();}
-    setTimeout(()=>{if(fx) fx();card.classList.remove("ok");locked=false;input="";i++;save();
-      if(i>=N) finish(); else {$("msg").textContent="Wpisz wynik i naciśnij OK";show();}},fx?FX.ok.rocket.ms:650);
+    setTimeout(()=>{if(fx) fx.end();card.classList.remove("ok");locked=false;input="";i++;save();
+      if(i>=N) finish(); else {$("msg").textContent="Wpisz wynik i naciśnij OK";show();}
+      checkUnlock();},fx?fx.ms:650);
   }else{
     if(state[i]!=="fix") errors++; // kolejne próby przy tym samym działaniu to nadal jeden błąd
     state[i]="fix";save();
     card.classList.add("bad");$("msg").textContent="Źle, popraw wynik";
-    if(fxOn()){ // zła odpowiedź zostaje w okienku i wylatuje razem z działaniem
-      locked=true;const end=playFx("bad");setTimeout(()=>sfx("bad"),FX.bad.bomb.boom);
-      setTimeout(()=>{end();locked=false;input="";$("box").textContent="";},FX.bad.bomb.ms);
+    const fx=fxOn()?playFx("bad"):null;
+    if(fx){ // zła odpowiedź zostaje w okienku i znika razem z działaniem
+      locked=true;setTimeout(()=>sfx("bad"),fx.boom);
+      setTimeout(()=>{fx.end();locked=false;input="";$("box").textContent="";},fx.ms);
     }else{
       sfx("bad");card.classList.remove("shake");void card.offsetWidth;card.classList.add("shake");
       input="";$("box").textContent="";
@@ -850,18 +900,32 @@ function check(){
     $("dots").children[i].className="dot fix now";
   }
 }
-/* Efekty odpowiedzi. Każdy efekt: ms (ile trwa), run(c) rysuje warstwę wokół środka działania c={x,y},
-   zwraca HTML warstwy i ustawia klasy na cyfrach. Nowy efekt = nowy wpis w FX.ok albo FX.bad. */
+/* Efekty odpowiedzi. Każdy efekt: id, kind ("ok"/"bad"), tier (poziom odblokowania), ms (ile trwa),
+   boom (kiedy zagrać dźwięk złej odpowiedzi), run(g) rysuje HTML warstwy .fx. g: c = środek działania,
+   card / eq / box = prostokąty w oknie, parts = cyfry działania. Nowy efekt = nowy wpis w FX. */
 const fxOn=()=>PREFS.fx&&!matchMedia("(prefers-reduced-motion: reduce)").matches;
 const eqParts=()=>[...$("card").querySelector(".eq").children];
-const FX={
-  bad:{bomb:{ms:2500,boom:900,run(c){
-    const B=[[-300,-200,-110],[-130,-300,160],[80,-320,-200],[240,-230,260],[290,120,60]];
-    // lecą kopie cyfr w warstwie efektu (fixed), żeby strona nie poszerzała się na telefonie
-    const ghosts=eqParts().map((el,k)=>{const r=el.getBoundingClientRect(),cs=getComputedStyle(el),b=B[k%B.length];el.classList.add("fx-hide");
-      return `<span class="fx-blast" style="left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px;display:flex;align-items:center;justify-content:center;box-sizing:border-box;z-index:4;font:${cs.font.replace(/"/g,"'")};color:${cs.color};border:${cs.border};border-radius:${cs.borderRadius};background:${cs.backgroundColor};--bx:${b[0]}px;--by:${b[1]}px;--br:${b[2]}deg">${el.textContent}</span>`;}).join("");
+const at=(x,y)=>`left:${Math.round(x)}px;top:${Math.round(y)}px`;
+// kopia cyfry w warstwie efektu (fixed), żeby lecące cyfry nie poszerzały strony na telefonie
+function ghost(el,cls,vars){const r=el.getBoundingClientRect(),cs=getComputedStyle(el);el.classList.add("fx-hide");
+  return `<span class="${cls}" style="${at(r.left,r.top)};width:${r.width}px;height:${r.height}px;display:flex;align-items:center;justify-content:center;box-sizing:border-box;z-index:4;font:${cs.font.replace(/"/g,"'")};color:${cs.color};border:${cs.border};border-radius:${cs.borderRadius};background:${cs.backgroundColor};${vars||""}">${el.textContent}</span>`;}
+const TIERS=[{n:1,need:0},{n:2,need:1000,unit:"zadań",key:"done",label:"rozwiązanych zadań"},{n:3,need:2000,unit:"dobrych",key:"good",label:"dobrych odpowiedzi za 1. razem"}];
+const FX=[
+  {id:"rocket",kind:"ok",tier:1,name:"Rakieta",ms:1500,run(g){
+    g.parts.forEach((el,k)=>{el.style.animationDelay=k*.03+"s";el.classList.add("fx-suck");});const c=g.c;
+    let h=`<div style="${at(c.x,c.y)};z-index:3;animation:fx-rocket 1.6s cubic-bezier(.55,0,.75,.2) both"><svg width="64" height="110" viewBox="0 0 64 110" style="display:block;overflow:visible">
+      <g style="transform-origin:32px 82px;animation:fx-flame .12s ease-in-out infinite"><path d="M22 80 Q32 112 42 80 Z" fill="#ffb020"/><path d="M26 80 Q32 100 38 80 Z" fill="#fff3b0"/></g>
+      <path d="M32 4 C46 18 50 40 46 70 L18 70 C14 40 18 18 32 4 Z" fill="#eef1fb"/><path d="M32 4 C40 12 44 22 45.5 32 L18.5 32 C20 22 24 12 32 4 Z" fill="#ff5c7a"/>
+      <circle cx="32" cy="46" r="8" fill="#4054d6" stroke="#c5d0ff" stroke-width="3"/><path d="M18 56 L6 76 L19 72 Z" fill="#ff5c7a"/><path d="M46 56 L58 76 L45 72 Z" fill="#ff5c7a"/>
+      <rect x="24" y="70" width="16" height="8" rx="2" fill="#97a0c0"/></svg></div>`;
+    for(let k=0;k<5;k++) h+=`<span style="${at(c.x,c.y+60)};width:34px;height:34px;border-radius:50%;background:#c5cbe3;--dx:${(k-2)*34}px;animation:fx-puff 1.6s ease-out ${k*.04}s both"></span>`;
+    for(let k=0;k<8;k++){const a=k/8*Math.PI*2;h+=`<span style="${at(c.x-5,c.y-5)};width:10px;height:10px;border-radius:3px;background:${["#ffd43b","#7d97ff","#45d483","#ff8787"][k%4]};--sx:${Math.round(Math.cos(a)*90)}px;--sy:${Math.round(Math.sin(a)*63)}px;animation:fx-spark .9s ease-out .45s both"></span>`;}
+    return h;}},
+  {id:"bomb",kind:"bad",tier:1,name:"Bomba",ms:2500,boom:900,run(g){
+    const B=[[-300,-200,-110],[-130,-300,160],[80,-320,-200],[240,-230,260],[290,120,60]],c=g.c;
+    const ghosts=g.parts.map((el,k)=>{const b=B[k%B.length];return ghost(el,"fx-blast",`--bx:${b[0]}px;--by:${b[1]}px;--br:${b[2]}deg`);}).join("");
     $("card").classList.add("fx-jolt");
-    const at=(x,y)=>`left:${x}px;top:${y}px`,fire=(x,y,w,d,t)=>`<span style="${at(x,y)};width:${w}px;height:${w}px;border-radius:50%;background:radial-gradient(circle,#fff 0%,#fff3b0 14%,#ffd43b 26%,#ff922b 44%,#e03131 60%,rgba(120,20,20,0) 72%);animation:fx-fire ${t}s cubic-bezier(.2,.7,.3,1) ${d}s both"></span>`;
+    const fire=(x,y,w,d,t)=>`<span style="${at(x,y)};width:${w}px;height:${w}px;border-radius:50%;background:radial-gradient(circle,#fff 0%,#fff3b0 14%,#ffd43b 26%,#ff922b 44%,#e03131 60%,rgba(120,20,20,0) 72%);animation:fx-fire ${t}s cubic-bezier(.2,.7,.3,1) ${d}s both"></span>`;
     let h=ghosts+`<div style="${at(c.x+6,c.y-60)};width:100px;height:100px;z-index:5;animation:fx-drop .45s cubic-bezier(.55,0,.85,.35) both,fx-vanish .01s linear .9s both">
       <div style="width:100px;height:100px;position:relative;transform-origin:50% 60%;animation:fx-throb .14s ease-in-out .45s infinite">
       <svg width="100" height="100" viewBox="0 0 100 100" style="display:block;overflow:visible"><path d="M62 30 Q70 10 88 8" fill="none" stroke="#e8d5a8" stroke-width="5" stroke-linecap="round" pathLength="1" style="stroke-dasharray:1 1;animation:fx-burn .45s linear .45s both"/>
@@ -874,28 +938,88 @@ const FX={
     for(let k=0;k<5;k++) h+=`<span style="${at(c.x,c.y)};width:90px;height:90px;border-radius:50%;background:radial-gradient(circle,rgba(110,100,110,.95),rgba(60,50,60,0) 70%);--sx:${(k-2)*60}px;--sy:${-40-(k%2)*40}px;animation:fx-smoke 1.8s ease-out ${1+k*.04}s both"></span>`;
     for(let k=0;k<22;k++){const a=k/22*Math.PI*2+(k%2)*.2,r=170+(k*47)%130,w=6+k%3*3;
       h+=`<span style="${at(c.x-4,c.y-4)};width:${w}px;height:${w}px;border-radius:50%;background:${["#fff3b0","#ffd43b","#ff922b","#ff5c5c"][k%4]};box-shadow:0 0 8px #ff922b;--ex:${Math.round(Math.cos(a)*r)}px;--ey:${Math.round(Math.sin(a)*r*.8)}px;animation:fx-ember 1.6s cubic-bezier(.1,.7,.3,1) ${.9+(k%4)*.02}s both"></span>`;}
-    return h;}}},
-  ok:{rocket:{ms:1500,run(c){
-    eqParts().forEach((el,k)=>{el.style.animationDelay=k*.03+"s";el.classList.add("fx-suck");});
-    const at=(x,y)=>`left:${x}px;top:${y}px`;
-    let h=`<div style="${at(c.x,c.y)};z-index:3;animation:fx-rocket 1.6s cubic-bezier(.55,0,.75,.2) both"><svg width="64" height="110" viewBox="0 0 64 110" style="display:block;overflow:visible">
-      <g style="transform-origin:32px 82px;animation:fx-flame .12s ease-in-out infinite"><path d="M22 80 Q32 112 42 80 Z" fill="#ffb020"/><path d="M26 80 Q32 100 38 80 Z" fill="#fff3b0"/></g>
-      <path d="M32 4 C46 18 50 40 46 70 L18 70 C14 40 18 18 32 4 Z" fill="#eef1fb"/><path d="M32 4 C40 12 44 22 45.5 32 L18.5 32 C20 22 24 12 32 4 Z" fill="#ff5c7a"/>
-      <circle cx="32" cy="46" r="8" fill="#4054d6" stroke="#c5d0ff" stroke-width="3"/><path d="M18 56 L6 76 L19 72 Z" fill="#ff5c7a"/><path d="M46 56 L58 76 L45 72 Z" fill="#ff5c7a"/>
-      <rect x="24" y="70" width="16" height="8" rx="2" fill="#97a0c0"/></svg></div>`;
-    for(let k=0;k<5;k++) h+=`<span style="${at(c.x,c.y+60)};width:34px;height:34px;border-radius:50%;background:#c5cbe3;--dx:${(k-2)*34}px;animation:fx-puff 1.6s ease-out ${k*.04}s both"></span>`;
-    for(let k=0;k<8;k++){const a=k/8*Math.PI*2;h+=`<span style="${at(c.x-5,c.y-5)};width:10px;height:10px;border-radius:3px;background:${["#ffd43b","#7d97ff","#45d483","#ff8787"][k%4]};--sx:${Math.round(Math.cos(a)*90)}px;--sy:${Math.round(Math.sin(a)*63)}px;animation:fx-spark .9s ease-out .45s both"></span>`;}
-    return h;}}}
-};
-// uruchamia efekt i zwraca funkcję sprzątającą (cyfry wracają do zwykłego wyglądu)
+    return h;}},
+  {id:"goal",kind:"ok",tier:2,name:"Piłkarz",ms:2700,run(g){
+    g.parts.forEach(el=>el.classList.add("fx-shrink"));
+    const cr=g.card,br=g.box,gx=cr.right-136,gy=cr.top-90,bx=br.left+br.width/2-17,by=br.top+br.height/2-17;
+    const dx=gx+60-17-bx,dy=gy+84-38-by,px=bx-58,py=by+17-106;
+    return `<div style="${at(gx,gy)};width:120px;height:84px;z-index:3;animation:fx-goalin .5s ease-out both"><svg width="120" height="84" viewBox="0 0 120 84" style="display:block;overflow:visible;transform-origin:60% 50%;animation:fx-net 2.2s ease-out both">
+      <path d="M8 80 V8 H112 V80" fill="none" stroke="#fff" stroke-width="6" stroke-linejoin="round"/><g stroke="#c5cbe3" stroke-width="1.5" opacity=".7"><path d="M20 8 V80M34 8 V80M48 8 V80M62 8 V80M76 8 V80M90 8 V80M104 8 V80"/><path d="M8 20 H112M8 34 H112M8 48 H112M8 62 H112"/></g></svg></div>
+      <span style="${at(gx+60,gy-40)};z-index:5;font-family:var(--display);font-weight:800;font-size:3.2rem;line-height:1;color:#ffd43b;text-shadow:0 4px 0 #b35c00,0 0 24px rgba(255,212,59,.6);animation:fx-gol 2.2s ease-out both">GOL!</span>
+      <div style="${at(bx,by)};z-index:4;--dx:${Math.round(dx)}px;animation:fx-ballx 2.2s linear both"><div style="--dy:${Math.round(dy)}px;animation:fx-bally 2.2s cubic-bezier(.3,0,.6,1) both">
+      <svg width="34" height="34" viewBox="0 0 34 34" style="display:block;animation:fx-ballin 2.2s linear both"><circle cx="17" cy="17" r="15" fill="#fff" stroke="#141621" stroke-width="2"/><path d="M17 9 L23 13.5 L21 20.5 H13 L11 13.5 Z" fill="#141621"/><path d="M17 2 V9M23 13.5 L31 11M21 20.5 L26 28M13 20.5 L8 28M11 13.5 L3 11" stroke="#141621" stroke-width="1.6"/></svg></div></div>
+      <div style="${at(px,py)};z-index:4;--run:${Math.round(px+100)}px;animation:fx-runin 2.2s cubic-bezier(.3,.6,.4,1) both"><div style="animation:fx-bob .22s ease-in-out 4">
+      <svg width="80" height="118" viewBox="0 0 80 118" style="display:block;overflow:visible"><circle cx="40" cy="16" r="12" fill="#f1c27d"/><path d="M28 12 Q40 -2 52 12 Q46 6 40 7 Q34 6 28 12 Z" fill="#3b2314"/>
+      <rect x="24" y="30" width="32" height="34" rx="9" fill="#e03131"/><rect x="36" y="30" width="8" height="34" fill="#fff"/><text x="40" y="54" text-anchor="middle" font-family="Baloo 2, sans-serif" font-weight="800" font-size="14" fill="#141621">10</text>
+      <rect x="26" y="62" width="28" height="12" rx="3" fill="#141621"/>
+      <g style="transform-origin:33px 72px;animation:fx-legrun .22s ease-in-out 4"><rect x="29" y="70" width="8" height="34" rx="4" fill="#f1c27d"/><rect x="27" y="100" width="14" height="8" rx="3" fill="#141621"/></g>
+      <g style="transform-origin:47px 72px;animation:fx-kick 2.2s ease-out both"><rect x="43" y="70" width="8" height="34" rx="4" fill="#f1c27d"/><rect x="43" y="100" width="16" height="8" rx="3" fill="#141621"/></g>
+      <path d="M24 36 L12 54" stroke="#f1c27d" stroke-width="7" stroke-linecap="round"/><path d="M56 36 L66 52" stroke="#f1c27d" stroke-width="7" stroke-linecap="round"/></svg></div></div>`;}},
+  {id:"tornado",kind:"bad",tier:2,name:"Tornado",ms:3000,boom:350,run(g){
+    const cr=g.card,x0=cr.left-150,span=cr.width+170,T=2;
+    const ghosts=g.parts.map(el=>{const r=el.getBoundingClientRect(),d=Math.max(0,(r.left+r.width/2-(x0+65))/span*T);
+      return ghost(el,"fx-spin",`animation-delay:${d.toFixed(2)}s`);}).join("");
+    let bits="";for(let k=0;k<6;k++) bits+=`<span style="left:50%;top:${30+k*26}px;width:0;height:0;animation:fx-debris ${.5+k*.07}s linear infinite"><span style="position:absolute;width:${5+k%3*2}px;height:${5+k%3*2}px;border-radius:2px;background:${["#97a0c0","#c5cbe3","#6b7593"][k%3]}"></span></span>`;
+    return ghosts+`<div style="${at(x0,cr.top-40)};width:130px;height:${Math.round(cr.height+60)}px;z-index:3;--tw:${Math.round(span)}px;animation:fx-tw ${T}s cubic-bezier(.4,.1,.6,.9) both">
+      <div style="position:absolute;inset:0;transform-origin:50% 100%;animation:fx-sway .7s ease-in-out infinite"><div style="position:absolute;inset:0;clip-path:polygon(0 0,100% 0,64% 70%,56% 100%,46% 100%,36% 70%);background:repeating-linear-gradient(96deg,rgba(225,232,248,0) 0 7px,rgba(225,232,248,.6) 7px 9px,rgba(225,232,248,0) 9px 18px),repeating-linear-gradient(84deg,rgba(180,190,215,0) 0 5px,rgba(180,190,215,.45) 5px 6px,rgba(180,190,215,0) 6px 13px),linear-gradient(90deg,rgba(120,130,160,.15),rgba(170,180,205,.42) 50%,rgba(120,130,160,.15));animation:fx-swirl .5s linear infinite"></div></div>${bits}</div>`;}},
+  {id:"warp",kind:"ok",tier:3,name:"Skok w nadprzestrzeń",ms:2400,run(g){
+    g.parts.forEach(el=>el.classList.add("fx-fade"));const cr=g.card;
+    let st="";for(let k=0;k<28;k++){const a=Math.round(k*360/28+(k%3)*4),r=18+(k*23)%50;
+      st+=`<span style="left:50%;top:46%;width:70px;height:2px;margin-top:-1px;border-radius:2px;transform-origin:0 50%;background:linear-gradient(90deg,rgba(255,255,255,0),#fff);--a:${a}deg;--r:${r}px;animation:fx-star 2.4s cubic-bezier(.6,0,.4,1) both"></span>`;}
+    return `<div style="${at(cr.left,cr.top)};width:${cr.width}px;height:${cr.height}px;border-radius:22px;overflow:hidden;z-index:3;background:radial-gradient(circle at 50% 46%,#1b2a5c 0%,#070a18 70%);animation:fx-space 2.4s ease-in-out both">${st}
+      <div style="left:50%;top:46%;width:120px;height:90px;animation:fx-ship 2.4s cubic-bezier(.5,0,.3,1) both"><svg width="120" height="90" viewBox="0 0 120 90" style="display:block;overflow:visible">
+      <path d="M60 6 L74 52 L114 66 L114 74 L72 70 L66 84 H54 L48 70 L6 74 L6 66 L46 52 Z" fill="#c5cbe3"/><path d="M60 6 L68 50 H52 Z" fill="#eef1fb"/><path d="M54 40 L60 22 L66 40 Z" fill="#4054d6"/>
+      <circle cx="24" cy="72" r="5" fill="#7dd3fc" style="transform-origin:24px 72px;animation:fx-engine .1s linear infinite"/><circle cx="96" cy="72" r="5" fill="#7dd3fc" style="transform-origin:96px 72px;animation:fx-engine .1s linear infinite"/><circle cx="60" cy="82" r="7" fill="#a5f3fc" style="transform-origin:60px 82px;animation:fx-engine .1s linear infinite"/></svg></div>
+      <span style="left:50%;top:45%;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle,#fff 0%,#c7f0ff 40%,rgba(125,211,252,0) 72%);box-shadow:0 0 24px 8px rgba(165,243,252,.7);animation:fx-point 2.4s ease-out both"></span></div>`;}},
+  {id:"stomp",kind:"bad",tier:3,name:"Stopa",ms:2400,boom:360,run(g){
+    g.parts.forEach(el=>el.classList.add("fx-squash"));$("card").classList.add("fx-thud");
+    const e=g.eq,c=g.c;let d="";
+    for(let k=0;k<6;k++) d+=`<span style="${at(c.x,e.bottom-30)};width:70px;height:50px;border-radius:50%;background:radial-gradient(circle,rgba(220,200,170,.95),rgba(180,160,130,0) 70%);--dx:${(k-2.5)*70}px;animation:fx-dust 2.4s ease-out both"></span>`;
+    return d+`<div style="${at(c.x-150,e.bottom-340)};width:300px;height:360px;z-index:5;animation:fx-foot 2.4s cubic-bezier(.6,0,.4,1) both">${FOOT}</div>`;}}
+];
+const FOOT=`<svg width="300" height="360" viewBox="0 0 300 360" style="display:block;overflow:visible">
+  <path d="M22 -70 H132 V24 L120 34 L108 22 L94 36 L80 22 L66 36 L52 22 L38 36 L22 24 Z" fill="#5b4632" stroke="#3a2a1c" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M30 24 L30 250 C22 290 8 318 14 334 C18 346 30 348 52 348 L262 348 C290 348 300 330 294 312 C290 298 278 290 262 288 L172 262 C148 254 134 240 128 222 L124 30 Z" fill="#e0a96d" stroke="#9a6233" stroke-width="5" stroke-linejoin="round"/>
+  <g fill="#e8b57e" stroke="#9a6233" stroke-width="4"><ellipse cx="210" cy="280" rx="15" ry="13"/><ellipse cx="231" cy="288" rx="17" ry="15"/><ellipse cx="270" cy="318" rx="28" ry="27"/></g>
+  <ellipse cx="286" cy="306" rx="7" ry="10" fill="#f6e3c4" stroke="#9a6233" stroke-width="2.5"/><ellipse cx="238" cy="281" rx="5" ry="4" fill="#f6e3c4" stroke="#9a6233" stroke-width="2"/>
+  <path d="M60 318 Q110 330 160 320" fill="none" stroke="#9a6233" stroke-width="4" stroke-linecap="round" opacity=".55"/><path d="M118 236 Q112 252 120 262" fill="none" stroke="#9a6233" stroke-width="4" stroke-linecap="round" opacity=".55"/>
+  <path d="M55 -9 q5 -7 3 -13 M48 7 q5 -7 3 -13 M100 29 q-5 -7 3 -13 M58 42 q-5 -7 3 -13 M53 64 q5 -7 3 -13 M51 77 q5 -7 -2 -13 M104 94 q5 -7 -2 -13 M50 112 q-5 -7 3 -13 M37 128 q5 -7 -2 -13 M69 147 q5 -7 3 -13 M49 162 q-5 -7 -2 -13 M40 181 q5 -7 3 -13 M92 195 q-5 -7 -2 -13 M69 212 q5 -7 3 -13 M140 246 q-3 -9 3 -14 M153 250 q-3 -9 3 -14 M166 255 q-3 -9 3 -14 M179 260 q-3 -9 3 -14 M192 264 q-3 -9 3 -14 M205 268 q-3 -9 3 -14 M218 273 q-3 -9 3 -14 M231 278 q-3 -9 3 -14 M244 282 q-3 -9 3 -14 M196 268 q-2 -8 4 -12 M204 264 q-2 -8 4 -12 M218 272 q-2 -8 4 -12 M226 268 q-2 -8 4 -12 M240 276 q-2 -8 4 -12 M250 272 q-2 -8 4 -12 M262 288 q-2 -8 4 -12 M272 284 q-2 -8 4 -12 M282 292 q-2 -8 4 -12" fill="none" stroke="#4a2c17" stroke-width="3" stroke-linecap="round"/></svg>`;
+// postęp do odblokowania: wszystkie rozwiązane zadania i dobre za 1. razem (historia + bieżąca sesja)
+function fxCounts(){let done=0,good=0;const H=loadHist();
+  H.forEach(s=>{done+=s.done||0;good+=(s.recs||[]).filter(r=>r.ok).length;});
+  if(ACTIVE&&!H.some(s=>s.id===SID)){done+=i;good+=state.slice(0,i).filter(x=>x==="ok").length;}
+  return {done,good};}
+const fxTier=(n=fxCounts())=>TIERS.filter(t=>!t.need||n[t.key]>=t.need).length;
+const fxUsable=f=>f.tier<=fxTier()&&!PREFS.fxOff.includes(f.id);
+// uruchamia losowy dostępny efekt; zwraca {ms,boom,end} albo null, gdy żaden nie jest włączony
 function playFx(kind){
-  const list=Object.values(FX[kind]),f=list[Math.floor(Math.random()*list.length)];
-  const r=$("card").querySelector(".eq").getBoundingClientRect(),c={x:r.left+r.width/2,y:r.top+r.height/2};
+  const list=FX.filter(f=>f.kind===kind&&fxUsable(f));if(!list.length) return null;
+  const f=list[Math.floor(Math.random()*list.length)],card=$("card"),eq=card.querySelector(".eq");
+  const er=eq.getBoundingClientRect(),g={c:{x:er.left+er.width/2,y:er.top+er.height/2},eq:er,card:card.getBoundingClientRect(),box:$("box").getBoundingClientRect(),parts:eqParts()};
   const layer=document.createElement("div");layer.className="fx";layer.setAttribute("aria-hidden","true");
-  layer.innerHTML=f.run(c);document.body.appendChild(layer);
-  return ()=>{layer.remove();$("card").classList.remove("fx-jolt");
-    eqParts().forEach(el=>{el.classList.remove("fx-hide","fx-suck");el.style.removeProperty("animation-delay");});};
+  layer.innerHTML=f.run(g);document.body.appendChild(layer);
+  return {ms:f.ms,boom:f.boom||0,end(){layer.remove();card.classList.remove("fx-jolt","fx-thud");
+    eqParts().forEach(el=>{el.classList.remove("fx-hide","fx-suck","fx-shrink","fx-fade","fx-squash");el.style.removeProperty("animation-delay");});}};
 }
+// nowy poziom animacji: okienko „Nowa animacja!” (pokazywane po skończonym efekcie)
+function checkUnlock(){
+  const t=fxTier();if(t<=PREFS.fxTier) return;
+  const names=FX.filter(f=>f.tier>PREFS.fxTier&&f.tier<=t).map(f=>f.name);
+  PREFS.fxTier=t;savePrefs();
+  $("fxnew-t").textContent=names.length>1?names.slice(0,-1).join(", ")+" i "+names[names.length-1]:names[0];
+  $("fxnew").hidden=false;sfx("cheer");$("fxnew-ok").focus();
+}
+function renderFxs(){
+  const n=fxCounts(),t=fxTier(n);
+  $("fxs-list").innerHTML=TIERS.map(T=>{const open=T.n<=t,list=FX.filter(f=>f.tier===T.n);
+    const prog=T.need?`<div class="fxbar"><i style="width:${Math.min(100,Math.round(n[T.key]*100/T.need))}%"></i></div><small>${open?"Odblokowane":`${n[T.key]} / ${T.need} ${T.label}`}</small>`:"";
+    return `<div class="lbl">Poziom ${T.n}${T.need?` · od ${T.need} ${T.unit}`:""}</div>${prog}<div class="grp">`+list.map(f=>{const on=open&&!PREFS.fxOff.includes(f.id);
+      return `<button type="button" class="row sw${on?" sel":""}" data-fx="${f.id}" ${open?`aria-pressed="${on}"`:'disabled aria-disabled="true"'}><span class="rt"><b>${f.name}</b><small>${f.kind==="ok"?"dobra odpowiedź":"zła odpowiedź"}</small></span>${open?'<i class="tg" aria-hidden="true"></i>':'<svg class="lock" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>'}</button>`;}).join("")+`</div>`;}).join("");
+  $("o-fxs-v").textContent=`${FX.filter(fxUsable).length} z ${FX.length}`;
+}
+let fxsFrom=null;
+function openFxs(){fxsFrom=document.activeElement;$("menu").hidden=true;renderFxs();$("fxs").hidden=false;$("fxs-x").focus();}
+function closeFxs(){$("fxs").hidden=true;$("menu").hidden=false;selMenu();if(fxsFrom) fxsFrom.focus();}
 function finish(quiet){
   archive("done");
   $("card").hidden=true;$("pad").hidden=true;$("live").hidden=true;$("count").textContent=N+" / "+N;
@@ -1036,6 +1160,8 @@ function buildPad(){
 buildPad();
 $("pad").addEventListener("click",e=>{const b=e.target.closest("button");if(b) press(b.dataset.k);});
 document.addEventListener("keydown",e=>{
+  if(!$("fxnew").hidden){if(e.key==="Escape"||e.key==="Enter") $("fxnew").hidden=true;return;}
+  if(!$("fxs").hidden){if(e.key==="Escape") closeFxs();return;}
   if(!$("hdr").hidden){if(e.key==="Escape") closeHdr();return;}
   if(!$("menu").hidden){if(e.key==="Escape") closeMenu();return;}
   if(!$("ask").hidden){if(e.key==="Escape") closeAsk();return;}
@@ -1187,6 +1313,7 @@ function applyTheme(){
   else document.documentElement.dataset.theme=PREFS.theme;
 }
 function selMenu(){
+  $("o-fxs-v").textContent=`${FX.filter(fxUsable).length} z ${FX.length}`;
   $("o-hdr-v").textContent=appName();
   for(const b of $("theme").children) b.classList.toggle("sel",b.dataset.t===PREFS.theme);
   for(const [id,k] of TOGGLES){$(id).classList.toggle("sel",PREFS[k]);$(id).setAttribute("aria-pressed",PREFS[k]);}
@@ -1216,6 +1343,11 @@ function closeHdr(){$("hdr").hidden=true;if(hdrFrom) hdrFrom.focus();}
 $("hdr-btn").addEventListener("click",openHdr);
 $("o-hdr").addEventListener("click",openHdr);
 $("hdr-ok").addEventListener("click",closeHdr);
+$("o-fxs").addEventListener("click",openFxs);
+$("fxs-x").addEventListener("click",closeFxs);$("fxs-ok").addEventListener("click",closeFxs);
+$("fxs").addEventListener("click",e=>{if(e.target.id==="fxs") return closeFxs();const b=e.target.closest("[data-fx]");if(!b||b.disabled) return;
+  const id=b.dataset.fx;PREFS.fxOff=PREFS.fxOff.includes(id)?PREFS.fxOff.filter(x=>x!==id):[...PREFS.fxOff,id];savePrefs();renderFxs();});
+$("fxnew-ok").addEventListener("click",()=>{$("fxnew").hidden=true;});
 $("hdr").addEventListener("click",e=>{if(e.target.id==="hdr") return closeHdr();const b=e.target.closest("button");if(!b) return;
   if(b.dataset.n){PREFS.name=b.dataset.n==="Henriksen"?"":b.dataset.n;$("o-name").value=PREFS.name;hdrChanged();}
   else if(b.dataset.b){PREFS.badge=b.dataset.b;hdrChanged();}
