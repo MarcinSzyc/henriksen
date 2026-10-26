@@ -18,9 +18,13 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   Wczytanie zapisanej sesji (`load()` → `render0()`/`finish(true)`) jest na samym końcu skryptu – `finish()` zapisuje
   do historii i używa stałych zdefiniowanych niżej (wcześniej powodowało to błąd TDZ przy starcie).
 - **Historia:** `localStorage` pod `henriksen-historia`, tablica sesji
-  `{id,start,end,status:"done"|"przerwana",cfg,n,done,recs:[{t,ok,tries,h,ms}],pct,grade,errors,hints}`.
+  `{id,subj,start,end,status:"done"|"przerwana",cfg,n,done,recs:[{t,ok,tries,h,ms}],pct,grade,errors,hints}`.
   `archive(status)` przy `finish()` i przy rozpoczęciu nowych działań w trakcie (przerwana). Bieżąca sesja trzyma `SID`, `T0`
   i `log[k]={tries,h,ms}` w zapisie postępu. Kopia: eksport/import JSON w menu (łączenie po `id`).
+- **Statystyki dla dziecka (`renderKid`, na górze):** zakładki przedmiotu `SUBJ` (all/mat/pl/his; Polski i Historia = „wkrótce”),
+  sesje mają `subj` (brak = `"mat"`). Seria, zadania dziś / wczoraj / w tygodniu (od poniedziałku, z `done` sesji + bieżąca),
+  słupki tygodnia, jedno zdanie motywacji (seria → rekord dnia → wczoraj), szóstki i najszybszy czas w tygodniu.
+  Reszta jest zwinięta pod „Szczegóły dla rodzica” (`#par`).
 - **Statystyki (`renderStats`):** filtr `SF` po działaniu; `lineChart()` (SVG, jedna seria, jedna oś) dla % i czasu;
   rozkład ocen; `topHard()` – odsetek złych pierwszych odpowiedzi, dokładne działanie, min. 2 wystąpienia, znika po 3 dobrych
   z rzędu; `heatmap()` 1–10 (mnożenie i dzielenie z tabliczki, jeden odcień); „Poćwicz trudne” = Top 10 × 2 z `CFG.practice`.
@@ -67,6 +71,11 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `showGoal()` co 10 dobrych: po zamknięciu modala (`celebrate(n,false,after)`), albo od razu gdy modale wyłączone.
   Pliki są w `SHELL` w `sw.js`; `rangeFromCache()` w SW odpowiada 206 na żądania Range (Safari bez tego nie odtworzy wideo offline).
   Przełączniki `modals` i `goals` w menu.
+- **Efekty odpowiedzi (`FX`, przełącznik `fx` w ustawieniach):** `FX.bad` / `FX.ok` to rejestry efektów
+  `{ms, run(c)}`, `playFx(kind)` losuje jeden, rysuje go w warstwie `.fx` (position: fixed) wokół środka działania `c`
+  i zwraca funkcję sprzątającą. Na razie bomba (zła: spada, lont 0,45 s, wybuch; cyfry lecą jako kopie w warstwie,
+  żeby strona nie poszerzała się na telefonie; wejście zablokowane 2,5 s) i rakieta (dobra, 1,5 s przed następnym działaniem).
+  Wyłączone przy `prefers-reduced-motion`. Nowy efekt = nowy wpis w `FX`.
 - **Gratulacje co 5 zadań:** modal na 2,6 s (`celebrate`) plus fajerwerki na `<canvas id="fw">`.
   Hasło z `praise` + osobisty tekst z `praiseSub` (losowane, bez powtórki z poprzednim), młodzieżowy ton.
 - **Dźwięki:** `SFX` (ok / bad / cheer / final) syntezowane przez Web Audio w `tone()`, bez plików;
