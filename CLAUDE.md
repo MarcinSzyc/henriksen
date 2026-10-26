@@ -13,7 +13,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
 - Po zmianie ikon/manifestu podbij `VERSION` w `sw.js`.
 
 ## Architektura `index.html`
-- **Widoki:** `#home` (kafle Matematyka / Statystyki), `#play` (gra), `#stats-v` (statystyki); `go(v)` + `history.pushState`
+- **Widoki:** `#home` (kafel Matematyka, Polski i Historia jako „Wkrótce” – `[data-soon]`, tylko potrząśnięcie; pasek Statystyki), `#play` (gra), `#stats-v` (statystyki); `go(v)` + `history.pushState`
   (`#gra`, `#statystyki`), więc „wstecz” w telefonie wraca na start. Aplikacja zawsze startuje na `#home`.
   Wczytanie zapisanej sesji (`load()` → `render0()`/`finish(true)`) jest na samym końcu skryptu – `finish()` zapisuje
   do historii i używa stałych zdefiniowanych niżej (wcześniej powodowało to błąd TDZ przy starcie).
@@ -37,6 +37,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   Reset tylko przyciskiem „Nowe działania” po potwierdzeniu.
 - **Ustawienia (menu ☰):** `PREFS` w `localStorage` pod `henriksen-ustawienia`:
   `name` (nazwa w nagłówku `#app-name` i w tytule karty, pusta = „Henriksen”),
+  `badge` (znaczek przy nazwie z `BADGES`: ball/crown/bolt/rocket/none), `sub` (linijka nad nazwą na starcie:
+  `streak` = seria dni z `streak()` liczona z historii, `date`, `none`); edycja w oknie `#hdr` (ołówek przy nazwie albo menu),
   `theme` (`auto` / `light` / `dark` → `data-theme` na `<html>`, ustawiane już w `<head>`, żeby nie migało)
   i `awake` (Wake Lock: ekran nie gaśnie, ponawiane przy `visibilitychange` i dotknięciu).
   Widok: `dots` (kropki postępu), `pct` i `grade` (procent i ocena na bieżąco w `#live`,

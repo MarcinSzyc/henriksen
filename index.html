@@ -17,17 +17,17 @@
 :root{
   --bg:#f3f6fb; --card:#ffffff; --fg:#1d2540; --muted:#6b7593; --line:#dde3ef;
   --accent:#3b5bdb; --ok:#1f9d55; --ok-soft:#d8f5e3; --bad:#d6336c; --bad-soft:#fde2ea;
-  --key:#e9eef8; --key-fg:#1d2540;
+  --key:#e9eef8; --key-fg:#1d2540; --badge:#e8590c;
   --display:"Baloo 2","Nunito",system-ui,sans-serif; --body:"Nunito",system-ui,sans-serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
   --bg:#12162a; --card:#1b2140; --fg:#eef1fb; --muted:#97a0c0; --line:#2b3358;
   --accent:#7d97ff; --ok:#45d483; --ok-soft:#163a2a; --bad:#ff6b95; --bad-soft:#47192a;
-  --key:#262e55; --key-fg:#eef1fb; color-scheme:dark}}
+  --key:#262e55; --key-fg:#eef1fb; --badge:#ffd43b; color-scheme:dark}}
 :root[data-theme="dark"]{
   --bg:#12162a; --card:#1b2140; --fg:#eef1fb; --muted:#97a0c0; --line:#2b3358;
   --accent:#7d97ff; --ok:#45d483; --ok-soft:#163a2a; --bad:#ff6b95; --bad-soft:#47192a;
-  --key:#262e55; --key-fg:#eef1fb; color-scheme:dark}
+  --key:#262e55; --key-fg:#eef1fb; --badge:#ffd43b; color-scheme:dark}
 html,body{height:100%}
 html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 *{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
@@ -41,10 +41,41 @@ header{display:flex;justify-content:space-between;align-items:center;gap:8px}
 header .right{display:flex;align-items:center;gap:10px}
 header .grow{flex:1;min-width:0}
 .home{gap:16px}
+.home .hd{align-items:flex-end}
+.hname{display:flex;flex-direction:column;gap:2px;min-width:0}
+.hsub{font-size:.8rem;font-weight:800;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+.hrow{display:flex;align-items:center;gap:6px;min-width:0}
+.hrow h1{font-size:1.75rem;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.badge{display:inline-flex;color:var(--badge)}.badge svg{width:24px;height:24px;display:block}
+.edit-btn{width:44px;height:44px;flex:none;border:0;background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;margin-left:-6px}
+.tiles2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .tile{flex:1;min-height:170px;border:0;border-radius:28px;color:#fff;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px;padding:22px;text-align:left;position:relative;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.18)}
 .tile.math{background:linear-gradient(135deg,#5c7cfa,#3b2bb5)}
-.tile.stat{background:linear-gradient(135deg,#20c997,#0b7285)}
-.tile .ti{position:absolute;top:18px;right:20px;font-size:3rem;line-height:1}
+.tile.math{flex:none;min-height:0;height:210px}
+.tile.pl{background:linear-gradient(135deg,#f76707,#b93a0a)}
+.tile.his{background:linear-gradient(135deg,#c2255c,#7a2440)}
+.tiles2 .tile{aspect-ratio:1/1;min-height:0;padding:18px}
+.tiles2 .tile .tt{font-size:1.75rem}
+.tiles2 .tile small{font-size:.88rem;line-height:1.3}
+.tile .wm{position:absolute;top:10px;right:16px;left:16px;text-align:right;font-family:var(--display);font-weight:800;font-size:4.6rem;line-height:1;color:rgba(255,255,255,.17);white-space:nowrap;pointer-events:none}
+.tiles2 .wm{font-size:2.1rem;top:12px;left:14px;right:14px;letter-spacing:.02em}
+.tile.his .wm{font-size:2.6rem;top:8px}
+.soon{align-self:flex-start;margin-bottom:4px;font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:rgba(0,0,0,.35);padding:5px 9px;border-radius:999px}
+.sbar{display:flex;align-items:center;gap:14px;min-height:84px;border:2px solid var(--line);border-radius:24px;background:var(--card);color:var(--fg);padding:0 18px;font:inherit;cursor:pointer;text-align:left}
+.sbar .si{width:48px;height:48px;flex:none;border-radius:14px;background:linear-gradient(135deg,#20c997,#0b7285);display:flex;align-items:center;justify-content:center}
+.sbar .st{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
+.sbar b{font-family:var(--display);font-weight:800;font-size:1.35rem;line-height:1}
+.sbar small{font-weight:800;font-size:.88rem;color:var(--muted)}
+.sbar:active{transform:scale(.98)}
+.sbar:focus-visible,.edit-btn:focus-visible{outline:3px solid var(--fg);outline-offset:3px}
+.hprev{background:var(--bg);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:2px;text-align:left}
+.chips{display:flex;flex-wrap:wrap;gap:8px;justify-content:center}
+.chips button{font:inherit;font-weight:800;min-height:44px;padding:0 14px;border-radius:999px;border:2px solid var(--line);background:var(--key);color:var(--key-fg);cursor:pointer}
+.bdg{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}
+.bdg button{min-height:52px;border-radius:14px;border:2px solid var(--line);background:var(--key);color:var(--badge);cursor:pointer;display:flex;align-items:center;justify-content:center;font:inherit;font-weight:800;font-size:.8rem}
+.bdg button svg{width:24px;height:24px}
+.bdg button.sel,.chips button.sel{border-color:var(--accent);box-shadow:inset 0 0 0 1px var(--accent)}
+.bdg button span{color:var(--key-fg)}
 .tile .tt{font-family:var(--display);font-weight:800;font-size:2.1rem;line-height:1}
 .tile small{font-weight:800;font-size:.95rem;opacity:.92}
 .tile:active{transform:scale(.98)}
@@ -263,10 +294,19 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 <canvas id="fw"></canvas>
 
 <div class="wrap home" id="home">
-  <header><h1><span id="app-name">Henriksen</span> ⚽</h1><div class="right">
+  <header class="hd"><div class="hname"><span class="hsub" id="app-sub" hidden></span>
+    <div class="hrow"><h1 id="app-name">Henriksen</h1><span class="badge" id="app-badge" aria-hidden="true"></span>
+    <button type="button" class="edit-btn" id="hdr-btn" aria-label="Zmień nagłówek" aria-haspopup="dialog"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button></div></div>
+    <div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
-  <button type="button" class="tile math" id="t-math"><span class="ti" aria-hidden="true">✖️➗</span><span class="tt">Matematyka</span><small id="t-math-s">Wybierz ćwiczenia i zaczynamy</small></button>
-  <button type="button" class="tile stat" id="t-stats"><span class="ti" aria-hidden="true">📈</span><span class="tt">Statystyki</span><small id="t-stats-s">Tu zobaczysz swoje wyniki</small></button>
+  <button type="button" class="tile math" id="t-math"><span class="wm" aria-hidden="true">+−×:</span><span class="tt">Matematyka</span><small id="t-math-s">Wybierz ćwiczenia i zaczynamy</small></button>
+  <div class="tiles2">
+    <button type="button" class="tile pl" data-soon aria-describedby="soon-pl"><span class="wm" aria-hidden="true">ą ę ć ż ó</span><span class="soon">Wkrótce</span><span class="tt">Polski</span><small id="soon-pl">ó/u, rz/ż – na czas</small></button>
+    <button type="button" class="tile his" data-soon aria-describedby="soon-his"><span class="wm" aria-hidden="true">1410</span><span class="soon">Wkrótce</span><span class="tt">Historia</span><small id="soon-his">Daty, bitwy, królowie</small></button>
+  </div>
+  <button type="button" class="sbar" id="t-stats"><span class="si" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg></span>
+    <span class="st"><b>Statystyki</b><small id="t-stats-s">Tu zobaczysz swoje wyniki</small></span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
 </div>
 
 <div class="wrap" id="stats-v" hidden>
@@ -348,8 +388,8 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
       <button type="button" data-t="light"><b>☀</b><small>Jasny</small></button>
       <button type="button" data-t="dark"><b>☾</b><small>Ciemny</small></button>
     </div>
-    <div class="ask-sub">Nazwa na górze</div>
-    <input id="o-name" type="text" maxlength="20" autocomplete="off" autocapitalize="words" spellcheck="false" placeholder="Henriksen" aria-label="Nazwa na górze">
+    <div class="ask-sub">Nagłówek</div>
+    <button type="button" class="tens" id="o-hdr"><b>✎</b><span>Zmień nagłówek<small>nazwa, znaczek i to, co nad nią</small></span></button>
     <div class="ask-sub">Podczas ćwiczeń</div>
     <button type="button" class="tens" id="o-dots" aria-pressed="true"><b>••</b><span>Kropki postępu<small>mapa wszystkich działań u góry</small></span></button>
     <button type="button" class="tens" id="o-pct" aria-pressed="false"><b>%</b><span>Wynik w procentach<small>ile dobrze za pierwszym razem</small></span></button>
@@ -367,6 +407,20 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <div class="ask-btns"><button type="button" class="yes" id="menu-ok">Gotowe</button></div>
   </div>
 </div>
+<div class="ask" id="hdr" hidden role="dialog" aria-modal="true" aria-labelledby="hdr-t">
+  <div class="ask-box">
+    <h2 id="hdr-t">Twój nagłówek</h2>
+    <div class="hprev" aria-hidden="true"><span class="hsub" id="hp-sub"></span><div class="hrow"><h1 id="hp-name"></h1><span class="badge" id="hp-badge"></span></div></div>
+    <div class="ask-sub">Nazwa</div>
+    <input id="o-name" type="text" maxlength="20" autocomplete="off" autocapitalize="words" spellcheck="false" placeholder="Henriksen" aria-label="Nazwa">
+    <div class="chips" id="hdr-pre"></div>
+    <div class="ask-sub">Znaczek</div>
+    <div class="bdg" id="hdr-badge" role="group" aria-label="Znaczek"></div>
+    <div class="ask-sub">Nad nazwą</div>
+    <div class="fchips" id="hdr-sub" role="group" aria-label="Nad nazwą" style="justify-content:center"></div>
+    <div class="ask-btns"><button type="button" class="yes" id="hdr-ok">Gotowe</button></div>
+  </div>
+</div>
 
 <script>
 let N=100;
@@ -379,8 +433,18 @@ const newLog=n=>Array.from({length:n},()=>({tries:[],h:0,ms:0}));
 const $=id=>document.getElementById(id);
 /* ustawienia z menu ☰ (wczytane przed pierwszym show) */
 const PKEY="henriksen-ustawienia";
-let PREFS={name:"",theme:"auto",awake:true,dots:true,pct:false,grade:false,hints:true,sound:true,modals:true,goals:true};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false};}catch(e){}
+/* Znaczki przy nazwie w nagłówku (kolor z --badge) */
+const BADGES={
+  ball:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 7l4 3-1.5 4.5h-5L8 10z"/><path d="M12 2v5M16 10l5-1.5M14.5 14.5l3 5M9.5 14.5l-3 5M8 10L3 8.5"/></svg>',
+  crown:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 11H5z"/></svg>',
+  bolt:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round"><path d="M13 2L4 14h7l-1 8 9-12h-7z"/></svg>',
+  rocket:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"><path d="M12 15l-3-3c1.5-5 5-8.5 11-9-.5 6-4 9.5-9 11z"/><path d="M9 12H5l2-4h4M12 15v4l4-2v-4"/><path d="M6 17c-1.5 1-2 3-2 3s2-.5 3-2"/></svg>',
+  none:""};
+const BADGE_NAMES={ball:"Piłka",crown:"Korona",bolt:"Błyskawica",rocket:"Rakieta",none:"Bez znaczka"};
+const SUBS=[["streak","Seria dni"],["date","Data"],["none","Nic"]];
+const NAME_PRESETS=["Henriksen","Kapitan H","Nr 10","Ekipa H"];
+let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,hints:true,sound:true,modals:true,goals:true};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -798,6 +862,7 @@ function buildPad(){
 buildPad();
 $("pad").addEventListener("click",e=>{const b=e.target.closest("button");if(b) press(b.dataset.k);});
 document.addEventListener("keydown",e=>{
+  if(!$("hdr").hidden){if(e.key==="Escape") closeHdr();return;}
   if(!$("menu").hidden){if(e.key==="Escape") closeMenu();return;}
   if(!$("ask").hidden){if(e.key==="Escape") closeAsk();return;}
   if($("play").hidden) return;
@@ -898,13 +963,28 @@ const TOGGLES=[["o-dots","dots"],["o-pct","pct"],["o-grade","grade"],["o-hints",
 function applyView(){$("dots").hidden=!PREFS.dots;updateLive();showStats();if(i<N) resetHint();}
 $("hint-btn").addEventListener("click",nextHint);
 function appName(){return PREFS.name||"Henriksen";}
-function applyName(){$("app-name").textContent=appName();}
+function applyName(){$("app-name").textContent=appName();$("app-badge").innerHTML=BADGES[PREFS.badge];}
+/* Seria: ile dni z rzędu było choć jedno zrobione działanie; dziś jeszcze bez ćwiczeń nie przerywa serii */
+function streak(){
+  const day=t=>{const d=new Date(t);d.setHours(0,0,0,0);return d.getTime();};
+  const days=new Set(loadHist().filter(s=>s.done>0).map(s=>day(s.start)));
+  if(ACTIVE&&i>0) days.add(day(Date.now()));
+  let d=new Date();d.setHours(0,0,0,0);
+  if(!days.has(d.getTime())) d.setDate(d.getDate()-1);
+  let n=0;while(days.has(d.getTime())){n++;d.setDate(d.getDate()-1);}
+  return n;
+}
+function subText(){
+  if(PREFS.sub==="date"){const t=new Date().toLocaleDateString("pl-PL",{weekday:"long",day:"numeric",month:"long"});return t[0].toUpperCase()+t.slice(1);}
+  if(PREFS.sub!=="streak") return "";
+  const n=streak();return n?`Seria: ${n} ${n===1?"dzień":"dni"} z rzędu`:"Zacznij serię dziś";
+}
+function applySub(){const t=subText();$("app-sub").textContent=t;$("app-sub").hidden=!t;}
 function applyTheme(){
   if(PREFS.theme==="auto") delete document.documentElement.dataset.theme;
   else document.documentElement.dataset.theme=PREFS.theme;
 }
 function selMenu(){
-  $("o-name").value=PREFS.name;
   for(const b of $("theme").children) b.classList.toggle("sel",b.dataset.t===PREFS.theme);
   for(const [id,k] of TOGGLES){$(id).classList.toggle("sel",PREFS[k]);$(id).setAttribute("aria-pressed",PREFS[k]);}
   $("awake-s").textContent="wakeLock" in navigator?"gdy aplikacja jest otwarta":"ten telefon tego nie obsługuje";
@@ -916,7 +996,28 @@ document.querySelectorAll("[data-menu]").forEach(b=>b.addEventListener("click",o
 $("menu-ok").addEventListener("click",closeMenu);
 $("menu").addEventListener("click",e=>{if(e.target.id==="menu") closeMenu();});
 $("theme").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;PREFS.theme=b.dataset.t;savePrefs();applyTheme();selMenu();});
-$("o-name").addEventListener("input",e=>{PREFS.name=e.target.value.trim().slice(0,20);savePrefs();applyName();});
+/* Edycja nagłówka: nazwa, znaczek, linijka nad nazwą; podgląd na żywo */
+let hdrFrom=null;
+function selHdr(){
+  const t=subText();$("hp-sub").textContent=t;$("hp-sub").hidden=!t;
+  $("hp-name").textContent=appName();$("hp-badge").innerHTML=BADGES[PREFS.badge];
+  $("hdr-pre").innerHTML=NAME_PRESETS.map(n=>`<button type="button" data-n="${n}" class="${appName()===n?"sel":""}">${n}</button>`).join("");
+  $("hdr-badge").innerHTML=Object.keys(BADGES).map(k=>`<button type="button" data-b="${k}" aria-label="${BADGE_NAMES[k]}" aria-pressed="${PREFS.badge===k}" class="${PREFS.badge===k?"sel":""}">${BADGES[k]||"<span>Brak</span>"}</button>`).join("");
+  $("hdr-sub").innerHTML=SUBS.map(([k,l])=>`<button type="button" data-s="${k}" aria-pressed="${PREFS.sub===k}" class="${PREFS.sub===k?"sel":""}">${l}</button>`).join("");
+}
+function hdrChanged(){savePrefs();applyName();applySub();selHdr();}
+function openHdr(e){hdrFrom=e&&e.currentTarget;if(!$("menu").hidden){$("menu").hidden=true;hdrFrom=$("hdr-btn");}
+  $("o-name").value=PREFS.name;selHdr();$("hdr").hidden=false;$("hdr-ok").focus();}
+function closeHdr(){$("hdr").hidden=true;if(hdrFrom) hdrFrom.focus();}
+$("hdr-btn").addEventListener("click",openHdr);
+$("o-hdr").addEventListener("click",openHdr);
+$("hdr-ok").addEventListener("click",closeHdr);
+$("hdr").addEventListener("click",e=>{if(e.target.id==="hdr") return closeHdr();const b=e.target.closest("button");if(!b) return;
+  if(b.dataset.n){PREFS.name=b.dataset.n==="Henriksen"?"":b.dataset.n;$("o-name").value=PREFS.name;hdrChanged();}
+  else if(b.dataset.b){PREFS.badge=b.dataset.b;hdrChanged();}
+  else if(b.dataset.s){PREFS.sub=b.dataset.s;hdrChanged();}});
+$("o-name").addEventListener("input",e=>{PREFS.name=e.target.value.trim().slice(0,20);savePrefs();applyName();
+  $("hp-name").textContent=appName();for(const b of $("hdr-pre").children) b.classList.toggle("sel",b.dataset.n===appName());});
 $("o-name").addEventListener("keydown",e=>{if(e.key==="Enter") e.target.blur();});
 for(const [id,k] of TOGGLES) $(id).addEventListener("click",()=>{PREFS[k]=!PREFS[k];savePrefs();selMenu();
   if(k==="awake") PREFS.awake?wake():unwake(); else applyView();});
@@ -1028,7 +1129,11 @@ addEventListener("popstate",()=>showView(location.hash==="#gra"&&ACTIVE?"play":l
 document.querySelectorAll("[data-back]").forEach(b=>b.addEventListener("click",()=>{if(location.hash) history.back(); else showView("home");}));
 $("t-math").addEventListener("click",()=>{if(ACTIVE&&i<N) go("play"); else openAsk("home");});
 $("t-stats").addEventListener("click",()=>go("stats"));
+/* Polski i Historia: na razie tylko zapowiedź */
+document.querySelectorAll("[data-soon]").forEach(b=>b.addEventListener("click",()=>{
+  b.classList.remove("shake");void b.offsetWidth;b.classList.add("shake");sfx("bad");}));
 function renderHome(){
+  applySub();
   const H=loadHist(),done=H.filter(s=>s.status==="done");
   $("t-math-s").textContent=ACTIVE&&i<N?`W trakcie: ${i} / ${N} · dotknij, żeby grać dalej`:"Wybierz ćwiczenia i zaczynamy";
   $("t-stats-s").textContent=H.length?`${H.length} ${sesji(H.length)}`+(done.length?` · ostatnio ${done[done.length-1].pct}%`:""):"Tu zobaczysz swoje wyniki";
