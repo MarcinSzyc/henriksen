@@ -80,7 +80,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   Wybór animacji: arkusz `#fxs` (Ustawienia › Wybierz animacje). Wyłączone przy `prefers-reduced-motion`.
 - **Gratulacje co 5 zadań:** modal na 2,6 s (`celebrate`) plus fajerwerki na `<canvas id="fw">`.
   Hasło z `praise` + osobisty tekst z `praiseSub` (losowane, bez powtórki z poprzednim), młodzieżowy ton.
-- **Dźwięki:** `SFX` (ok / bad / cheer / final) syntezowane przez Web Audio w `tone()`, bez plików;
+- **Dźwięki:** `SFX` (ok / bad / cheer / final, a dla efektów launch / fuse / boom) syntezowane przez Web Audio w `tone()`
+  i `noise()` (szum przez filtr); wyjątek: start rakiety to próbka `sound/rakieta.m4a` (Mixkit, `SAMPLES` / `sample()`, w `SHELL`); efekt podaje swoje dźwięki w `sounds`, bomba gra własny wybuch zamiast `bad`;
   przełącznik `sound` w menu, `AudioContext` odblokowywany przy dotknięciu.
 
 ## Testowanie

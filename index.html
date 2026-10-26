@@ -890,7 +890,7 @@ function check(){
     card.classList.add("bad");$("msg").textContent="Źle, popraw wynik";
     const fx=fxOn()?playFx("bad"):null;
     if(fx){ // zła odpowiedź zostaje w okienku i znika razem z działaniem
-      locked=true;setTimeout(()=>sfx("bad"),fx.boom);
+      locked=true;if(fx.boom!=null) setTimeout(()=>sfx("bad"),fx.boom); // bomba ma własny wybuch
       setTimeout(()=>{fx.end();locked=false;input="";$("box").textContent="";},fx.ms);
     }else{
       sfx("bad");card.classList.remove("shake");void card.offsetWidth;card.classList.add("shake");
@@ -901,7 +901,7 @@ function check(){
   }
 }
 /* Efekty odpowiedzi. Każdy efekt: id, kind ("ok"/"bad"), tier (poziom odblokowania), ms (ile trwa),
-   boom (kiedy zagrać dźwięk złej odpowiedzi), run(g) rysuje HTML warstwy .fx. g: c = środek działania,
+   boom (kiedy zagrać dźwięk złej odpowiedzi; bez boom = efekt ma własny), sounds ([sekunda, nazwa z SFX]), run(g) rysuje HTML warstwy .fx. g: c = środek działania,
    card / eq / box = prostokąty w oknie, parts = cyfry działania. Nowy efekt = nowy wpis w FX. */
 const fxOn=()=>PREFS.fx&&!matchMedia("(prefers-reduced-motion: reduce)").matches;
 const eqParts=()=>[...$("card").querySelector(".eq").children];
@@ -911,7 +911,7 @@ function ghost(el,cls,vars){const r=el.getBoundingClientRect(),cs=getComputedSty
   return `<span class="${cls}" style="${at(r.left,r.top)};width:${r.width}px;height:${r.height}px;display:flex;align-items:center;justify-content:center;box-sizing:border-box;z-index:4;font:${cs.font.replace(/"/g,"'")};color:${cs.color};border:${cs.border};border-radius:${cs.borderRadius};background:${cs.backgroundColor};${vars||""}">${el.textContent}</span>`;}
 const TIERS=[{n:1,need:0},{n:2,need:1000,unit:"zadań",key:"done",label:"rozwiązanych zadań"},{n:3,need:2000,unit:"dobrych",key:"good",label:"dobrych odpowiedzi za 1. razem"}];
 const FX=[
-  {id:"rocket",kind:"ok",tier:1,name:"Rakieta",ms:1500,run(g){
+  {id:"rocket",kind:"ok",tier:1,name:"Rakieta",ms:1500,sounds:[[.35,"launch"]],run(g){
     g.parts.forEach((el,k)=>{el.style.animationDelay=k*.03+"s";el.classList.add("fx-suck");});const c=g.c;
     let h=`<div style="${at(c.x,c.y)};z-index:3;animation:fx-rocket 1.6s cubic-bezier(.55,0,.75,.2) both"><svg width="64" height="110" viewBox="0 0 64 110" style="display:block;overflow:visible">
       <g style="transform-origin:32px 82px;animation:fx-flame .12s ease-in-out infinite"><path d="M22 80 Q32 112 42 80 Z" fill="#ffb020"/><path d="M26 80 Q32 100 38 80 Z" fill="#fff3b0"/></g>
@@ -921,7 +921,7 @@ const FX=[
     for(let k=0;k<5;k++) h+=`<span style="${at(c.x,c.y+60)};width:34px;height:34px;border-radius:50%;background:#c5cbe3;--dx:${(k-2)*34}px;animation:fx-puff 1.6s ease-out ${k*.04}s both"></span>`;
     for(let k=0;k<8;k++){const a=k/8*Math.PI*2;h+=`<span style="${at(c.x-5,c.y-5)};width:10px;height:10px;border-radius:3px;background:${["#ffd43b","#7d97ff","#45d483","#ff8787"][k%4]};--sx:${Math.round(Math.cos(a)*90)}px;--sy:${Math.round(Math.sin(a)*63)}px;animation:fx-spark .9s ease-out .45s both"></span>`;}
     return h;}},
-  {id:"bomb",kind:"bad",tier:1,name:"Bomba",ms:2500,boom:900,run(g){
+  {id:"bomb",kind:"bad",tier:1,name:"Bomba",ms:2500,sounds:[[.45,"fuse"],[.9,"boom"]],run(g){
     const B=[[-300,-200,-110],[-130,-300,160],[80,-320,-200],[240,-230,260],[290,120,60]],c=g.c;
     const ghosts=g.parts.map((el,k)=>{const b=B[k%B.length];return ghost(el,"fx-blast",`--bx:${b[0]}px;--by:${b[1]}px;--br:${b[2]}deg`);}).join("");
     $("card").classList.add("fx-jolt");
@@ -998,7 +998,8 @@ function playFx(kind){
   const er=eq.getBoundingClientRect(),g={c:{x:er.left+er.width/2,y:er.top+er.height/2},eq:er,card:card.getBoundingClientRect(),box:$("box").getBoundingClientRect(),parts:eqParts()};
   const layer=document.createElement("div");layer.className="fx";layer.setAttribute("aria-hidden","true");
   layer.innerHTML=f.run(g);document.body.appendChild(layer);
-  return {ms:f.ms,boom:f.boom||0,end(){layer.remove();card.classList.remove("fx-jolt","fx-thud");
+  (f.sounds||[]).forEach(([d,n])=>setTimeout(()=>sfx(n),d*1000));
+  return {ms:f.ms,boom:f.boom,end(){layer.remove();card.classList.remove("fx-jolt","fx-thud");
     eqParts().forEach(el=>{el.classList.remove("fx-hide","fx-suck","fx-shrink","fx-fade","fx-squash");el.style.removeProperty("animation-delay");});}};
 }
 // nowy poziom animacji: okienko „Nowa animacja!” (pokazywane po skończonym efekcie)
@@ -1373,7 +1374,31 @@ function tone(f,at,dur,type,vol,f2){
   g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol||.18,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+dur);
   o.connect(g).connect(c.destination);o.start(t);o.stop(t+dur+.05);
 }
+// szum przez filtr (rakieta, lont, wybuch): typ filtra, częstotliwość od f1 do f2, narastanie do vol w att s, potem wygaszenie
+let NOISE=null;
+function noise(at,dur,vol,type,f1,f2,att){
+  const c=ac();if(!c) return;
+  if(!NOISE){NOISE=c.createBuffer(1,c.sampleRate*2,c.sampleRate);const d=NOISE.getChannelData(0);for(let k=0;k<d.length;k++) d[k]=Math.random()*2-1;}
+  const t=c.currentTime+at,src=c.createBufferSource(),f=c.createBiquadFilter(),g=c.createGain();
+  src.buffer=NOISE;src.loop=true;f.type=type;f.frequency.setValueAtTime(f1,t);f.frequency.exponentialRampToValueAtTime(f2,t+dur);
+  g.gain.setValueAtTime(.0001,t);g.gain.exponentialRampToValueAtTime(vol,t+(att||.01));g.gain.exponentialRampToValueAtTime(.0001,t+dur);
+  src.connect(f).connect(g).connect(c.destination);src.start(t);src.stop(t+dur+.05);
+}
+// próbki z plików (sound/*.m4a, offline w service workerze): wczytywane przy pierwszym dotknięciu
+const SAMPLES={launch:"sound/rakieta.m4a"},BUF={};
+function loadSamples(){const c=ac();if(!c) return;
+  for(const [k,u] of Object.entries(SAMPLES)) if(!BUF[k]){BUF[k]="…";
+    fetch(u).then(r=>r.arrayBuffer()).then(a=>new Promise((ok,no)=>c.decodeAudioData(a,ok,no))).then(b=>{BUF[k]=b;}).catch(()=>{delete BUF[k];});}}
+function sample(k,vol){const c=ac(),b=BUF[k];if(!c||!b||b==="…") return false;
+  const s=c.createBufferSource(),g=c.createGain();s.buffer=b;g.gain.value=vol||.9;s.connect(g).connect(c.destination);s.start();return true;}
 const SFX={
+  // start rakiety: „Fast rocket whoosh” z Mixkit; zanim się wczyta – syntezowany świst
+  launch:()=>{if(!sample("launch")) noise(.1,1.2,.25,"bandpass",500,3200,.4);},
+  // lont: krótkie syczące trzaski
+  fuse:()=>{for(let k=0;k<9;k++) noise(k*.05,.05,.05+(k%3)*.03,"highpass",3500,5000,.005);},
+  // wybuch: uderzenie basu, grzmot opadający w dół i trzaski odłamków
+  boom:()=>{tone(120,0,.7,"sine",.6,32);noise(0,1.5,.7,"lowpass",3000,120,.008);noise(.02,.35,.3,"highpass",1500,600,.005);
+    for(let k=0;k<6;k++) noise(.25+k*.09,.06,.08,"bandpass",2500-k*200,1800,.004);},
   ok:()=>{tone(660,0,.12);tone(990,.09,.2);},
   goal:()=>{tone(2700,0,.12,"sine",.1);tone(2700,.17,.4,"sine",.1);[523,659,784,1047].forEach((f,k)=>tone(f,.65+k*.08,.22,"triangle",.15));},
   bad:()=>tone(200,0,.28,"square",.07,110),
@@ -1381,7 +1406,7 @@ const SFX={
   final:()=>[523,659,784,1047,784,1047,1319].forEach((f,k)=>tone(f,.25+k*.13,k===6?.6:.28,"triangle",.17))
 };
 function sfx(n){if(PREFS.sound) try{SFX[n]();}catch(e){}}
-document.addEventListener("pointerdown",()=>{if(PREFS.sound) ac();},{passive:true}); // iOS/Android odblokowują dźwięk po dotknięciu
+document.addEventListener("pointerdown",()=>{if(PREFS.sound){ac();loadSamples();}},{passive:true}); // iOS/Android odblokowują dźwięk po dotknięciu
 
 /* Klipy goli (Mixkit, Mixkit Stock Video Free License, 360p, bez dźwięku): co 10 dobrych i na koniec przy 6.
    Service worker trzyma je offline. */

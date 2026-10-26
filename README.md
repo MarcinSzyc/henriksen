@@ -52,6 +52,7 @@ manifest.webmanifest   manifest PWA (nazwa, ikony, kolory)
 sw.js                  service worker – działanie offline
 icons/                 ikony aplikacji (SVG + PNG 32/180/192/512 + maskable)
 video/                 filmiki z golami (MP4 360p, bez dźwięku)
+sound/                 próbki dźwięków (AAC .m4a)
 .nojekyll              GitHub Pages bez Jekylla
 ```
 
@@ -64,6 +65,13 @@ Filmiki z golami pochodzą z [Mixkit](https://mixkit.co) i są na licencji
 - `gol-2.mp4` – [Goal play in a semi-professional soccer game](https://mixkit.co/free-stock-video/goal-play-in-a-semi-professional-soccer-game-43499/)
 - `gol-3.mp4` – [Skillful soccer player shoots on goal](https://mixkit.co/free-stock-video/skillful-soccer-player-shoots-on-goal-43497/)
 - `gol-4.mp4` – [Friends from different countries celebrating a goal](https://mixkit.co/free-stock-video/friends-from-different-countries-celebrating-a-goal-44602/)
+
+## Dźwięki
+
+Pozostałe dźwięki są syntezowane w przeglądarce (Web Audio). Start rakiety pochodzi z [Mixkit](https://mixkit.co)
+i jest na licencji [Mixkit Sound Effects Free License](https://mixkit.co/license/#sfxFree):
+
+- `sound/rakieta.m4a` – [Fast rocket whoosh](https://mixkit.co/free-sound-effects/rocket/) (przycięty do 2,6 s, z wyciszeniem)
 
 ## Uruchomienie lokalnie
 
