@@ -77,7 +77,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   żeby strona nie poszerzała się na telefonie. Poziomy `TIERS`: 1 = rakieta, bomba; 2 = piłkarz, tornado (od 1000
   rozwiązanych zadań); 3 = skok w nadprzestrzeń, stopa (od 2000 dobrych za 1. razem); liczone w `fxCounts()` z historii.
   `checkUnlock()` po dobrej odpowiedzi pokazuje okienko „Nowa animacja!” (`PREFS.fxTier` pamięta ostatni poziom).
-  Wybór animacji: arkusz `#fxs` (Ustawienia › Wybierz animacje). Wyłączone przy `prefers-reduced-motion`.
+  Wybór animacji: arkusz `#fxs` (Ustawienia › Wybierz animacje). Decyduje przełącznik `fx`; `prefers-reduced-motion`
+  („Ogranicz ruch” na iPhonie) ustawia tylko wartość domyślną (wcześniej blokowało efekty mimo włączonego przełącznika).
 - **Gratulacje co 5 zadań:** modal na 2,6 s (`celebrate`) plus fajerwerki na `<canvas id="fw">`.
   Hasło z `praise` + osobisty tekst z `praiseSub` (losowane, bez powtórki z poprzednim), młodzieżowy ton.
 - **Dźwięki:** `SFX` (ok / bad / cheer / final, a dla efektów launch / fuse / boom) syntezowane przez Web Audio w `tone()`

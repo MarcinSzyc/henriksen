@@ -611,8 +611,8 @@ const BADGES={
 const BADGE_NAMES={ball:"Piłka",crown:"Korona",bolt:"Błyskawica",rocket:"Rakieta",none:"Bez znaczka"};
 const SUBS=[["streak","Seria dni"],["date","Data"],["none","Nic"]];
 const NAME_PRESETS=["Henriksen","Kapitan H","Nr 10","Ekipa H"];
-let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,hints:true,sound:true,modals:true,goals:true,fx:true,fxOff:[],fxTier:1};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:p.fx!==false,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1))};}catch(e){}
+let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1))};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -903,7 +903,8 @@ function check(){
 /* Efekty odpowiedzi. Każdy efekt: id, kind ("ok"/"bad"), tier (poziom odblokowania), ms (ile trwa),
    boom (kiedy zagrać dźwięk złej odpowiedzi; bez boom = efekt ma własny), sounds ([sekunda, nazwa z SFX]), run(g) rysuje HTML warstwy .fx. g: c = środek działania,
    card / eq / box = prostokąty w oknie, parts = cyfry działania. Nowy efekt = nowy wpis w FX. */
-const fxOn=()=>PREFS.fx&&!matchMedia("(prefers-reduced-motion: reduce)").matches;
+// decyduje przełącznik w aplikacji; „Ogranicz ruch” w telefonie ustawia tylko wartość domyślną (PREFS.fx)
+const fxOn=()=>PREFS.fx;
 const eqParts=()=>[...$("card").querySelector(".eq").children];
 const at=(x,y)=>`left:${Math.round(x)}px;top:${Math.round(y)}px`;
 // kopia cyfry w warstwie efektu (fixed), żeby lecące cyfry nie poszerzały strony na telefonie
