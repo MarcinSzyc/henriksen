@@ -430,7 +430,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .pl-bar{height:12px;border-radius:6px;background:var(--line);overflow:hidden;margin:0 4px}.pl-bar i{display:block;height:100%;width:0;background:var(--ok);border-radius:6px;transition:width .3s}
 .pl-game{display:flex;flex-direction:column;gap:14px;flex:1}
 .pl-card{padding:20px 16px 16px}
-.pl-tags{display:flex;gap:8px;justify-content:center}
+.pl-tags{display:flex;flex-wrap:wrap;gap:6px 8px;justify-content:center}.pl-tag{white-space:nowrap}
 .pl-tag{padding:4px 12px;border-radius:999px;background:var(--key);color:var(--accent);font-weight:800;font-size:.8rem}
 .pl-tag.hard{background:#fff0e0;color:#b93a0a}
 .pl-word{gap:.04em;white-space:nowrap;margin:6px 0}
@@ -484,6 +484,42 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .det .rq u{text-decoration:none;color:var(--ok)}.det .rbad .rq u{color:var(--bad)}
 .set-i .lr.new{background:#fff0e0;color:#b93a0a;font-size:.75rem;padding:3px 8px;border-radius:999px}
 .pl-why i{font-style:normal;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:3px}
+.pl-t{height:150px}.pl-t3{background:linear-gradient(135deg,#d9480f,#5f1d06)}.pl-t3 .wm{font-size:4rem}
+.pz-day{border:2px dashed #e8590c;border-radius:22px;background:var(--card);color:var(--fg);padding:14px 18px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;font:inherit;text-align:left;cursor:pointer}
+.pz-day .k{font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#e8590c}
+.pz-day b{font-family:var(--display);font-size:1.6rem;line-height:1.1}.pz-day small{font-weight:800;color:var(--muted);font-size:.85rem}
+.pz-day.done{border-style:solid;border-color:var(--ok)}.pz-day.done .k{color:var(--ok)}
+.pz-coll{border:0;border-radius:22px;background:var(--card);color:var(--fg);padding:16px 18px;display:flex;flex-direction:column;gap:8px;font:inherit;text-align:left;cursor:pointer}
+.pz-ct{display:flex;align-items:baseline;gap:8px}.pz-ct b{font-family:var(--display);font-size:2.4rem;line-height:1;color:var(--ok)}.pz-ct small{font-weight:800;color:var(--muted)}
+.pz-cbar{height:10px;border-radius:5px;background:var(--line);overflow:hidden}.pz-cbar i{display:block;height:100%;background:var(--ok);border-radius:5px;min-width:2px}
+.pz-cl{display:flex;align-items:center;gap:4px;font-weight:800;color:var(--accent)}
+.pz-lvls{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.pz-lvls button{min-height:70px;border-radius:18px;border:2px solid var(--line);background:var(--card);color:var(--fg);font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:2px;padding:8px 14px;text-align:left}
+.pz-lvls b{font-family:var(--display);font-size:1.25rem;line-height:1.1;display:flex;align-items:center;gap:6px}.pz-lvls small{font-weight:800;font-size:.75rem;opacity:.8}
+.pz-lvls button.sel{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.pz-lvls button:disabled{opacity:.5;cursor:default}
+.pz-q{flex-wrap:wrap;justify-content:center;text-align:center;line-height:1.15;margin:6px 0;font-size:clamp(2rem,10vw,2.8rem)}
+.pz-q.long{font-family:var(--body);font-size:1.25rem;line-height:1.45;font-weight:800}
+.pz-opts{display:flex;flex-direction:column;gap:10px}
+.pz-opts button{min-height:62px;border:0;border-radius:18px;background:var(--key);color:var(--key-fg);font:inherit;font-weight:800;font-size:1.02rem;line-height:1.3;text-align:left;padding:10px 16px;cursor:pointer;box-shadow:0 3px 0 var(--line)}
+.pz-opts button.w{font-family:var(--display);font-size:1.45rem;text-align:center}
+.pz-opts button:active{transform:translateY(2px);box-shadow:0 1px 0 var(--line)}
+.pz-opts button.no{background:var(--bad-soft);color:var(--bad);text-decoration:line-through;box-shadow:none;opacity:.65;cursor:default}
+.pz-opts button.ok{background:var(--ok-soft);color:var(--ok);box-shadow:inset 0 0 0 3px var(--ok)}
+.pz-opts button:focus-visible,.pz-day:focus-visible,.pz-coll:focus-visible,.pz-lvls button:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
+.pl-why .ex{font-style:italic;color:var(--muted)}.pl-why small{color:var(--muted);font-weight:800}
+.pzk-sum{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.pzk-sum div{background:var(--card);border-radius:18px;padding:12px;display:flex;flex-direction:column}
+.pzk-sum .k{font-size:.7rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.pzk-sum b{font-family:var(--display);font-size:1.8rem;line-height:1.1}.pzk-sum small{font-weight:800;color:var(--muted);font-size:.8rem}
+.pzk-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.pzk-list li{background:var(--card);border-radius:16px;padding:10px 14px;border-left:0}
+.pzk-list li div{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
+.pzk-list b{font-family:var(--display);font-size:1.25rem}.pzk-list span{font-weight:800;font-size:.8rem;color:var(--muted);white-space:nowrap}
+.pzk-list li.ok span{color:var(--ok)}.pzk-list li.bad span{color:var(--bad)}
+.pzk-list p{margin:2px 0 0;font-weight:700;color:var(--muted);font-size:.9rem;line-height:1.35}
+.pzk-list .none{color:var(--muted);font-weight:800;text-align:center;background:none}
+.pl-miss p s{color:var(--bad)}
 </style>
 <script>/* motyw z ustawień przed narysowaniem strony, bez mignięcia */
 try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t==="light"||t==="dark") document.documentElement.dataset.theme=t;}catch(e){}</script>
@@ -531,9 +567,10 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <section class="scard"><h2>Historia</h2><table class="hist" id="hist"></table></section>
   </div>
   <div class="par" id="par-pl" hidden>
-  <div class="fchips" id="plsf" role="group" aria-label="Filtr ćwiczeń"><button type="button" data-f="all" class="sel">Wszystko</button><button type="button" data-f="slowka">Słówka</button><button type="button" data-f="dyktando">Dyktanda</button></div>
+  <div class="fchips" id="plsf" role="group" aria-label="Filtr ćwiczeń"><button type="button" data-f="all" class="sel">Wszystko</button><button type="button" data-f="slowka">Słówka</button><button type="button" data-f="dyktando">Dyktanda</button><button type="button" data-f="znaczenia">Znaczenia</button></div>
   <section class="scard"><h2>Dobrze za 1. razem</h2><div class="chart" id="plc-pct"></div></section>
-  <section class="scard"><h2>Która trudność</h2><div class="gdist" id="plc-pairs"></div></section>
+  <section class="scard" id="plc-zsec"><h2>Znaczenie słów</h2><div class="gdist" id="plc-z"></div></section>
+  <section class="scard" id="plc-psec"><h2>Która trudność</h2><div class="gdist" id="plc-pairs"></div></section>
   <section class="scard"><h2>Top 10 mylonych słów</h2><ol class="top10" id="plc-top"></ol></section>
   <section class="scard" id="plc-dsec"><h2>Dyktanda</h2><table class="hist" id="plc-dicts"></table></section>
   <section class="scard"><h2>Historia</h2><table class="hist" id="plc-hist"></table></section>
@@ -562,6 +599,8 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <button type="button" class="tile pl pl-t" id="pl-t-w"><span class="wm" aria-hidden="true">_leb</span><span class="pl-pills" aria-hidden="true"><i>ch</i><i>h</i></span><span class="tt">Słówka</span><small id="pl-t-w-s">Brakuje jednej litery: ó czy u, rz czy ż, ch czy h</small></button>
   <button type="button" class="tile pl pl-t pl-t2" id="pl-t-d"><span class="pl-lines" aria-hidden="true"><i></i><i></i><i></i></span><span class="tt">Dyktanda</span><small id="pl-t-d-s">Cały tekst z lukami – krótkie, średnie albo długie</small></button>
+  <button type="button" class="tile pl pl-t pl-t3" id="pl-t-z"><span class="wm" aria-hidden="true">?!</span><span class="tt">Znaczenie słów</span><small id="pl-t-z-s">Co znaczy „skrupulatny”? Sprawdź się</small></button>
+  <button type="button" class="pz-day" id="pz-day"><span class="k">Słowo dnia</span><b id="pz-day-w"></b><small id="pz-day-s">Co znaczy? Dotknij i sprawdź się</small></button>
 </div>
 
 <div class="wrap" id="plws" hidden>
@@ -614,6 +653,43 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="go-btn" id="pd-check" disabled>Sprawdź dyktando</button>
   </div>
   <div id="pd-end" class="pl-end" hidden></div>
+</div>
+
+<!-- Polski: Znaczenie słów (ustawienia, gra, słownik) -->
+<div class="wrap" id="plzs" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Znaczenie słów</h1></header>
+  <button type="button" class="pz-coll" id="pz-coll"><span class="pz-ct"><b id="pz-known">0</b><small id="pz-known-s">z 300 słów znasz na pewno</small></span>
+    <span class="pz-cbar" aria-hidden="true"><i id="pz-cbar"></i></span><span class="pz-cl">Twój słownik<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></span></button>
+  <div class="lbl">Poziom</div>
+  <div class="pz-lvls" id="pz-lvls" role="group" aria-label="Poziom"></div>
+  <div class="lbl">Ile słów</div>
+  <div class="step"><button type="button" id="pz-minus" aria-label="Mniej słów">−</button><output id="pz-n" aria-live="polite">10</output><button type="button" id="pz-plus" aria-label="Więcej słów">+</button></div>
+  <button type="button" class="go-btn" id="pz-go">Start</button>
+</div>
+
+<div class="wrap" id="plz" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Zakończ"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="pl-bar grow" aria-hidden="true"><i id="pz-bar"></i></div><div class="right"><span class="count" id="pz-count">1 / 10</span>
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div id="pz-game" class="pl-game">
+    <div class="card pl-card" id="pz-card">
+      <div class="pl-tags"><span class="pl-tag" id="pz-type">Co znaczy to słowo?</span><span class="pl-tag hard" id="pz-new" hidden>Nowe słowo</span></div>
+      <div class="eq pz-q" id="pz-q" aria-live="polite"><span id="pz-qt"></span></div>
+      <div class="msg" id="pz-msg"></div>
+    </div>
+    <div class="pl-why" id="pz-why" hidden></div>
+    <div class="pz-opts" id="pz-opts"></div>
+    <button type="button" class="go-btn pl-next" id="pz-next" hidden>Dalej</button>
+    <div class="foot"><span id="pz-stats">Dobrze: 0 · Błędy: 0</span></div>
+  </div>
+  <div id="pz-end" class="pl-end" hidden></div>
+</div>
+
+<div class="wrap" id="plzk" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Twój słownik</h1></header>
+  <div class="k3 pzk-sum" id="pzk-sum"></div>
+  <div class="segs pl-len" id="pzk-f" role="group" aria-label="Pokaż"><button type="button" data-f="all" class="sel">Wszystkie</button><button type="button" data-f="ok">Znane</button><button type="button" data-f="rep">Do powtórki</button></div>
+  <ul class="pzk-list" id="pzk-list"></ul>
 </div>
 
 <div class="ask" id="ask" hidden role="dialog" aria-modal="true" aria-labelledby="ask-t">
@@ -1616,8 +1692,8 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando"};
-const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt"};
+const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik"};
+const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk"};
 let CUR="home";
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
@@ -1633,7 +1709,7 @@ function go(v){
   showView(v);
 }
 addEventListener("popstate",()=>{const v=Object.keys(HASH).find(k=>HASH[k]&&HASH[k]===location.hash)||"home";
-  showView(v==="play"&&!ACTIVE?"home":v==="plw"&&!PW?"plws":v==="pldt"&&!PD?"pld":v);});
+  showView(v==="play"&&!ACTIVE?"home":v==="plw"&&!PW?"plws":v==="pldt"&&!PD?"pld":v==="plz"&&!PZ?"plzs":v);});
 document.querySelectorAll("[data-back]").forEach(b=>b.addEventListener("click",()=>{if(location.hash) history.back(); else showView("home");}));
 $("t-math").addEventListener("click",()=>{if(ACTIVE&&i<N) go("play"); else openAsk("home");});
 $("t-stats").addEventListener("click",()=>go("stats"));
@@ -1934,8 +2010,8 @@ const PL_LEN={s:"krótkie",m:"średnie",l:"długie"};
 
 /* ustawienia Polskiego (osobno od PREFS): pary w Słówkach, ile słówek, długość i tryb dyktanda */
 const PLKEY="henriksen-polski",PL_STEPS=[5,10,15,20,25,30,40,50];
-let PLP={pairs:["ou","rz","ch"],n:20,len:"s",now:false};
-try{const p=JSON.parse(localStorage.getItem(PLKEY));if(p) PLP={pairs:Array.isArray(p.pairs)?p.pairs.filter(x=>PL_PAIRS[x]):PLP.pairs,n:PL_STEPS.includes(p.n)?p.n:20,len:PL_LEN[p.len]?p.len:"s",now:!!p.now};}catch(e){}
+let PLP={pairs:["ou","rz","ch"],n:20,len:"s",now:false,zl:"1",zn:10};
+try{const p=JSON.parse(localStorage.getItem(PLKEY));if(p) PLP={pairs:Array.isArray(p.pairs)?p.pairs.filter(x=>PL_PAIRS[x]):PLP.pairs,n:PL_STEPS.includes(p.n)?p.n:20,len:PL_LEN[p.len]?p.len:"s",now:!!p.now,zl:["1","2","3","mix"].includes(p.zl)?p.zl:"1",zn:[5,10,15,20,30].includes(p.zn)?p.zn:10};}catch(e){}
 const savePLP=()=>{try{localStorage.setItem(PLKEY,JSON.stringify(PLP));}catch(e){}};
 const shuffle=a=>{for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]];}return a;};
 const slowek=n=>n===1?"słówko":n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?"słówka":"słówek";
@@ -1949,25 +2025,28 @@ function plArchive(P,status){
   const H=loadHist(),k=H.findIndex(s=>s.id===P.id);if(k>=0&&H[k].status==="done") return;
   const good=recs.filter(r=>r.ok).length,pct=Math.floor(good*100/done);
   const s={id:P.id,subj:"pl",start:P.start,end:Date.now(),status,cfg:P.cfg,n:P.recs.length,done,
-    recs:recs.map(r=>({t:r.t,a:r.a,m:r.m,ok:r.ok,tries:r.tries,h:0,ms:r.ms||0})),pct,grade:grade(pct).n,errors:done-good,hints:0};
+    recs:recs.map(r=>({t:r.t,a:r.a,m:r.m,q:r.q,c:r.c,ok:r.ok,tries:r.tries,h:0,ms:r.ms||0})),pct,grade:grade(pct).n,errors:done-good,hints:0};
   if(k>=0) H[k]=s; else H.push(s);saveHist(H);
 }
 // wyjście z gry w trakcie = sesja przerwana
 function plLeave(v){
   if(v==="plw"&&PW&&!PW.over){plArchive(PW,"przerwana");PW=null;}
   if(v==="pldt"&&PD&&!PD.over){if(PD.cfg.now) plArchive(PD,"przerwana");PD=null;}
-  if(v==="plw"||v==="pldt") FXC=null;
+  if(v==="plz"&&PZ&&!PZ.over){plArchive(PZ,"przerwana");PZ=null;}
+  if(v==="plw"||v==="pldt"||v==="plz") FXC=null;
 }
 function plShow(v){
   if(v==="pl") renderPl();
   if(v==="plws") renderPws();
   if(v==="pld") renderPd();
+  if(v==="plzs") renderPzs();
+  if(v==="plzk") renderPzk();
 }
 /* Szczegóły dla rodzica z polskiego: wykres %, skuteczność par, Top 10 mylonych słów, dyktanda, historia */
 let PSF="all";
 const plRecPair=r=>r.a?plPair(r.a):(plFind(r.t.toLowerCase())||{}).pair;
 const plWordHtml=r=>r.m?r.m.replace("_",`<u>${r.a}</u>`):r.t; // brakująca litera wyróżniona
-const plName=s=>s.cfg.mode==="dyktando"?"„"+((DICTS.find(d=>d.id===s.cfg.dict)||{}).title||"dyktando")+"”":"słówka";
+const plName=s=>s.cfg.mode==="znaczenia"?(s.cfg.daily?"słowo dnia":"znaczenia"):s.cfg.mode==="dyktando"?"„"+((DICTS.find(d=>d.id===s.cfg.dict)||{}).title||"dyktando")+"”":"słówka";
 function renderPlPar(){
   const all=plHist().sort((a,b)=>a.start-b.start),S=all.filter(s=>PSF==="all"||s.cfg.mode===PSF),done=S.filter(s=>s.status==="done");
   lineChart($("plc-pct"),done.slice(-30).map(s=>({t:s.start,v:s.pct,s})),{min:0,max:100,ticks:[0,50,100],dash:[50],tick:v=>v+"%",
@@ -1975,18 +2054,25 @@ function renderPlPar(){
     empty:"Jeszcze nie ma ukończonych sesji",hint:"Dotknij punktu, żeby zobaczyć sesję",
     tip:p=>`${fdate(p.t).join(" ")} · ${plName(p.s)} · ${p.v}% · ocena ${p.s.grade}`});
   const recs=S.flatMap(s=>s.recs);
-  const pr=Object.keys(PL_PAIRS).map(k=>{const r=recs.filter(x=>plRecPair(x)===k);return {k,n:r.length,good:r.filter(x=>x.ok).length};});
+  // znaczenia: ile słów z każdego poziomu znane / poznane
+  $("plc-zsec").hidden=PSF==="slowka"||PSF==="dyktando";
+  const zst=pzStats();
+  $("plc-z").innerHTML=PZ_LVL.map(L=>{const pool=MEAN.filter(x=>x.lvl===L.n),k=pool.filter(x=>zst.get(x.w)&&zst.get(x.w).known).length,se=pool.filter(x=>zst.get(x.w)).length;
+    return `<div class="gl"><b>${L.name}</b></div><div class="gbar${k?"":" z"}" style="--gc:#1f9d55;width:${k?Math.max(3,k*100/pool.length):1}%"></div><div class="gn">${k} / ${pool.length} · poznane ${se}</div>`;}).join("");
+  $("plc-psec").hidden=PSF==="znaczenia";
+  const recsP=S.filter(s=>s.cfg.mode!=="znaczenia").flatMap(s=>s.recs);
+  const pr=Object.keys(PL_PAIRS).map(k=>{const r=recsP.filter(x=>plRecPair(x)===k);return {k,n:r.length,good:r.filter(x=>x.ok).length};});
   $("plc-pairs").innerHTML=pr.some(x=>x.n)?pr.map(x=>{const p=x.n?Math.round(x.good*100/x.n):0,c=x.n?grade(p).c:"";
     return `<div class="gl"><b>${PL_PAIRS[x.k].name}</b></div><div class="gbar${x.n?"":" z"}" style="--gc:${c};width:${x.n?Math.max(3,p):1}%"></div><div class="gn">${x.n?`${p}% · ${x.good}/${x.n}`:"–"}</div>`;}).join("")
     :`<div class="ctip" style="grid-column:1/-1">Jeszcze nie ma odpowiedzi</div>`;
   // mylone słowa: odsetek złych pierwszych odpowiedzi; znika po 3 dobrych z rzędu
   const m=new Map();
   for(const r of recs){const k=(r.m||r.t).toLowerCase()+"|"+(r.a||"");let e=m.get(k);if(!e){e={r,n:0,bad:0,seq:[],wrong:[]};m.set(k,e);}
-    e.n++;if(!r.ok) e.bad++;e.seq.push(r.ok);r.tries.forEach(x=>{if(r.a&&x!==r.a) e.wrong.push(x);});}
+    e.n++;if(!r.ok) e.bad++;e.seq.push(r.ok);r.tries.forEach(x=>{const ok=r.a||r.c;if(ok&&x!==ok) e.wrong.push(x);});}
   const top=[...m.values()].filter(e=>e.bad&&!(e.seq.length>=3&&e.seq.slice(-3).every(Boolean)))
     .sort((a,b)=>b.bad/b.n-a.bad/a.n||b.bad-a.bad||b.n-a.n).slice(0,10);
   $("plc-top").innerHTML=top.length?top.map(e=>{const p=Math.round(e.bad*100/e.n),w=[...new Set(e.wrong)];
-    return `<li style="--w:${p}%"><b>${plWordHtml(e.r)}</b><span class="rate">${e.bad} z ${e.n} źle · ${p}%</span>${w.length?`<small>wybierał: ${w.join(", ")}</small>`:""}</li>`;}).join("")
+    return `<li style="--w:${p}%"><b>${plWordHtml(e.r)}</b><span class="rate">${e.bad} z ${e.n} źle · ${p}%</span>${w.length?`<small>wybierał: ${w.map(x=>cut(x)).join(", ")}</small>`:""}</li>`;}).join("")
     :`<li class="none">Brak – świetnie! Słowo trafia tu po pierwszym błędzie i znika po 3 dobrych z rzędu.</li>`;
   // dyktanda: ile razy, ostatni wynik, najlepsza ocena
   $("plc-dsec").hidden=PSF==="slowka";
@@ -1997,10 +2083,10 @@ function renderPlPar(){
     :`<tbody><tr><td class="ctip">Tu pojawi się każde napisane dyktando</td></tr></tbody>`;
   // historia sesji; wiersz rozwija każde słowo z tym, co było wybrane
   const rows=S.slice().reverse().map(s=>{const [d,h]=fdate(s.start),g=GRADES.find(x=>x.n===s.grade),stop=s.status!=="done";
-    const chips=s.cfg.mode==="dyktando"?["dyktando",plName(s)]:["słówka",...(s.cfg.pairs||[]).map(k=>PL_PAIRS[k]?PL_PAIRS[k].name:k)].concat(s.cfg.practice?["trudne"]:[]);
-    const unit=s.cfg.mode==="dyktando"?luk(s.done):slowek(s.done);
+    const chips=s.cfg.mode==="znaczenia"?[plName(s),s.cfg.lvl==="mix"?"mieszane":(PZ_LVL[+s.cfg.lvl-1]||{name:""}).name.toLowerCase()]:s.cfg.mode==="dyktando"?["dyktando",plName(s)]:["słówka",...(s.cfg.pairs||[]).map(k=>PL_PAIRS[k]?PL_PAIRS[k].name:k)].concat(s.cfg.practice?["trudne"]:[]);
+    const unit=s.cfg.mode==="dyktando"?luk(s.done):s.cfg.mode==="znaczenia"?slow(s.done):slowek(s.done);
     const det=`<tr class="det" hidden><td colspan="4"><div class="ds">${s.done}${stop?" z "+s.n:""} ${unit} · błędy: ${s.errors}${s.end?" · razem "+Math.max(1,Math.round((s.end-s.start)/60000))+" min":""}</div>
-      <ul>${s.recs.map(r=>{const w=r.tries.filter(x=>r.a&&x!==r.a);
+      <ul>${s.recs.map(r=>{const w=r.tries.filter(x=>(r.a||r.c)&&x!==(r.a||r.c)).map(x=>cut(x,30));
         return `<li class="${r.ok?"":"rbad"}"><span class="rq">${plWordHtml(r)}</span> ${r.ok?"✓":"✗"}${w.length?" "+[...new Set(w)].map(x=>`<s>${x}</s>`).join(" "):""}${r.ms?` <small>${sec(r.ms)}</small>`:""}</li>`;}).join("")}</ul></td></tr>`;
     return `<tr class="row"><td>${d}<small>${h}</small></td><td><div class="tchips">${chips.map(c=>`<span>${c}</span>`).join("")}${stop?'<span class="stop">przerwana</span>':""}</div></td>
       <td class="num">${s.pct}%</td><td class="num">${stop?"–":`<span class="gb" style="--gc:${g.c}">${s.grade}</span>`}</td></tr>${det}`;}).join("");
@@ -2011,7 +2097,10 @@ $("plsf").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)
   for(const x of $("plsf").children) x.classList.toggle("sel",x===b);renderPlPar();});
 $("plc-hist").addEventListener("click",e=>{const r=e.target.closest("tr.row");if(r) r.nextElementSibling.hidden=!r.nextElementSibling.hidden;});
 function renderPl(){
-  const w=plHist("slowka"),d=plHist("dyktando");
+  const w=plHist("slowka"),d=plHist("dyktando"),st=pzStats(),known=[...st.values()].filter(e=>e.known).length;
+  $("pl-t-z-s").textContent=st.size?`Znasz ${known} z ${MEAN.length} słów · poznane: ${st.size}`:"Co znaczy „skrupulatny”? Sprawdź się";
+  const dd=pzDaily();$("pz-day-w").textContent=dd.x.w;$("pz-day").classList.toggle("done",dd.done);
+  $("pz-day-s").textContent=dd.done?"✓ Dziś zaliczone – dotknij, żeby powtórzyć":"Co znaczy? Dotknij i sprawdź się";
   $("pl-t-w-s").textContent=w.length?`Ostatnio: ${w[w.length-1].done} ${slowek(w[w.length-1].done)}, ${w[w.length-1].pct}%`:"Brakuje jednej litery: ó czy u, rz czy ż, ch czy h";
   $("pl-t-d-s").textContent=d.length?`Ostatnio: „${(DICTS.find(x=>x.id===d[d.length-1].cfg.dict)||{title:"dyktando"}).title}”, ${d[d.length-1].pct}%`:"Cały tekst z lukami – krótkie, średnie albo długie";
 }
@@ -2107,7 +2196,7 @@ function plEnd(el,P,good,n,unit,miss,again,quiet){
   el.innerHTML=`<div class="done card">${art(g)}
     <div class="grade" style="--gc:${g.c}"><div class="g" aria-hidden="true">${g.n}</div><div class="gn">Ocena: ${g.n} – ${g.name}</div>
     <div class="gp">Za pierwszym razem dobrze: ${good} / ${n} ${unit} (${pct}%)</div></div></div>
-    ${miss.length?`<div class="lbl">Do poprawy</div><ul class="pl-miss">${miss.map(m=>`<li><div class="mw"><b>${markAns(m.w,m.w.ans)}</b>${m.bad.length?`<span>wybrane: ${m.bad.map(x=>`<s>${x}</s>`).join(" ")}</span>`:""}</div>${m.w.desc?`<p><b>Znaczenie:</b> ${m.w.desc}</p>`:""}${m.w.why?`<p>${m.w.why}</p>`:""}</li>`).join("")}</ul>`:""}
+    ${miss.length?`<div class="lbl">Do poprawy</div><ul class="pl-miss">${miss.map(m=>`<li><div class="mw"><b>${m.html||markAns(m.w,m.w.ans)}</b>${m.bad.length?`<span>wybrane: ${m.bad.map(x=>`<s>${x}</s>`).join(" ")}</span>`:""}</div>${(m.notes||[m.w.desc?`<b>Znaczenie:</b> ${m.w.desc}`:"",m.w.why]).filter(Boolean).map(x=>`<p>${x}</p>`).join("")}</li>`).join("")}</ul>`:""}
     <div class="btns"><button type="button" class="again" data-a="again">${again}</button><button type="button" class="go-btn" data-a="back">Gotowe</button></div>`;
   el.hidden=false;
   const v6=el.querySelector(".end-anim");
@@ -2251,6 +2340,504 @@ function pdStartSame(d){ // ten sam tekst od nowa, bez nowego wpisu w historii p
     recs:pdRecs(d)};
   $("pd-end").hidden=true;$("pd-panel").hidden=false;pdRender();scrollTo(0,0);
 }
+
+/* Znaczenie słów: "słowo|część mowy|znaczenie|przykład|synonim|przeciwieństwo".
+   Część mowy: p przymiotnik, r rzeczownik, c czasownik, s przysłówek. [słowo] w przykładzie = luka do pytania „uzupełnij zdanie”
+   (tylko gdy w nawiasie jest dokładnie to słowo). Złe odpowiedzi losują się z innych słów tej samej części mowy. */
+const MEAN_RAW=[[
+  // poziom 1 – łatwe
+  "ponury|p|smutny i przygnębiający, bez radości|Za oknem był [ponury], deszczowy dzień.|posępny|radosny",
+  "zwinny|p|szybki i zręczny w ruchach|Kot jest [zwinny] i łatwo wskakuje na szafę.|zręczny|niezdarny",
+  "hojny|p|chętnie daje innym, niczego nie żałuje|Dziadek jest [hojny] i zawsze dzieli się słodyczami.|szczodry|skąpy",
+  "skąpy|p|nie lubi dawać ani wydawać, żałuje każdej rzeczy|[Skąpy] kupiec liczył każdą monetę po trzy razy.||hojny",
+  "odważny|p|nie boi się niebezpieczeństwa|[Odważny] strażak wbiegł do płonącego domu.|mężny|tchórzliwy",
+  "tchórzliwy|p|łatwo się boi i ucieka od trudności|[Tchórzliwy] pies schował się pod łóżko.|bojaźliwy|odważny",
+  "leniwy|p|nie lubi pracować ani się wysilać|[Leniwy] kot przespał cały dzień.||pracowity",
+  "pracowity|p|chętnie i dużo pracuje|[Pracowity] uczeń codziennie odrabia lekcje.|pilny|leniwy",
+  "uprzejmy|p|grzeczny i miły dla innych|[Uprzejmy] pan przepuścił nas w drzwiach.|grzeczny|opryskliwy",
+  "dumny|p|zadowolony z siebie albo z kogoś bliskiego|Tata był [dumny] z mojego świadectwa.||",
+  "ciekawski|p|chce wszystko wiedzieć i wszędzie zagląda|[Ciekawski] chłopiec zajrzał do każdej szuflady.|wścibski|",
+  "cierpliwy|p|umie spokojnie czekać i się nie złości|[Cierpliwy] wędkarz czekał na rybę cały ranek.||niecierpliwy",
+  "szczery|p|mówi prawdę i nie udaje|[Szczery] przyjaciel powie ci prawdę, nawet trudną.|prawdomówny|fałszywy",
+  "uparty|p|nie zmienia zdania, choć inni go przekonują|[Uparty] osioł nie chciał ruszyć z miejsca.||ustępliwy",
+  "nieśmiały|p|wstydzi się i boi się odezwać przy obcych|[Nieśmiały] Kuba schował się za mamą.|wstydliwy|śmiały",
+  "zarozumiały|p|uważa, że jest lepszy od innych|[Zarozumiały] kolega chwalił się bez przerwy.|pyszałkowaty|skromny",
+  "skromny|p|nie chwali się, choć coś mu dobrze wychodzi|Mistrz był [skromny] i nie mówił o swoich medalach.||zarozumiały",
+  "łakomy|p|lubi dużo jeść, zwłaszcza słodycze|[Łakomy] pies zjadł wszystkie ciastka.|łasy|",
+  "troskliwy|p|dba o innych i martwi się o nich|[Troskliwy] tata przykrył śpiącą córkę kocem.|opiekuńczy|",
+  "przezorny|p|myśli o tym, co może się stać, i jest na to przygotowany|[Przezorny] turysta zabrał płaszcz przeciwdeszczowy.|zapobiegliwy|",
+  "lekkomyślny|p|robi coś bez zastanowienia nad skutkami|[Lekkomyślny] chłopak wszedł na cienki lód.|nierozważny|rozważny",
+  "rozgadany|p|dużo i chętnie mówi|[Rozgadany] kolega nie przestawał mówić przez całą lekcję.|gadatliwy|małomówny",
+  "małomówny|p|mało mówi, raczej milczy|[Małomówny] dziadek odzywał się tylko czasem.|milczący|gadatliwy",
+  "punktualny|p|przychodzi dokładnie na czas|[Punktualny] autobus przyjechał co do minuty.||spóźnialski",
+  "ostrożny|p|uważa, żeby nic złego się nie stało|[Ostrożny] kierowca zwolnił przed szkołą.||nieostrożny",
+  "wytrwały|p|nie poddaje się, choć jest trudno|[Wytrwały] biegacz dobiegł do mety mimo zmęczenia.||",
+  "pomysłowy|p|wymyśla ciekawe i nowe rzeczy|[Pomysłowy] Kuba zbudował robota z pudełek.|kreatywny|",
+  "roztargniony|p|zapomina o rzeczach, bo myśli o czymś innym|[Roztargniony] profesor szukał okularów, które miał na nosie.|rozkojarzony|uważny",
+  "marudny|p|ciągle narzeka i jest niezadowolony|[Marudny] maluch płakał przez całą drogę.|kapryśny|",
+  "przyjazny|p|życzliwy i miły dla innych|[Przyjazny] pies merdał ogonem na nasz widok.|życzliwy|wrogi",
+  "wrogi|p|nieprzyjazny, chce komuś zaszkodzić|[Wrogi] okręt zbliżał się do portu.||przyjazny",
+  "bezludny|p|taki, gdzie nie mieszkają ludzie|Rozbitek trafił na bezludną wyspę.||zaludniony",
+  "przejrzysty|p|czysty, że widać przez niego na wylot; albo łatwy do zrozumienia|Ten [przejrzysty] plan każdy od razu zrozumiał.|klarowny|mętny",
+  "mętny|p|brudny i nieprzejrzysty, nic przez niego nie widać|Po burzy woda w rzece była mętna.||przejrzysty",
+  "stromy|p|bardzo pochyły, prawie pionowy|[Stromy] szlak prowadził na sam szczyt.||łagodny",
+  "wilgotny|p|trochę mokry|Ręcznik był jeszcze [wilgotny] po kąpieli.||suchy",
+  "duszny|p|taki, w którym brakuje świeżego powietrza|Przed burzą był [duszny] wieczór.|parny|rześki",
+  "rześki|p|świeży i chłodny, dodaje sił|[Rześki] wiatr obudził nas nad jeziorem.|orzeźwiający|duszny",
+  "mroźny|p|bardzo zimny, z temperaturą poniżej zera|[Mroźny] poranek pokrył szyby szronem.||upalny",
+  "upalny|p|bardzo gorący|W [upalny] dzień poszliśmy nad jezioro.|skwarny|mroźny",
+  "ogromny|p|bardzo duży|Nad miastem wisiał [ogromny] balon.|olbrzymi|maleńki",
+  "kruchy|p|łatwo się łamie albo kruszy|[Kruchy] wafelek rozpadł się w palcach.||wytrzymały",
+  "lśniący|p|błyszczący, odbija światło|Na stole stał [lśniący] puchar.|błyszczący|matowy",
+  "matowy|p|bez połysku, nie błyszczy|Do rysowania wybrał [matowy] papier.||błyszczący",
+  "zamieszanie|r|bałagan i hałas, gdy wszyscy biegają w różne strony|Na przerwie zrobiło się wielkie [zamieszanie].|zamęt|porządek",
+  "zachwyt|r|wielka radość i podziw dla czegoś pięknego|Fajerwerki wzbudziły [zachwyt] wszystkich widzów.|podziw|",
+  "obawa|r|lęk, że stanie się coś złego|Moja [obawa] okazała się niepotrzebna.|lęk|",
+  "kłopot|r|trudna sytuacja, problem|Zgubiony klucz to duży [kłopot].|problem|",
+  "przysmak|r|bardzo smaczne jedzenie, które ktoś szczególnie lubi|Naleśniki to mój ulubiony [przysmak].|smakołyk|",
+  "schronienie|r|miejsce, gdzie można się ukryć i być bezpiecznym|Pod drzewem znaleźliśmy [schronienie] przed deszczem.|kryjówka|",
+  "ślad|r|znak, który ktoś albo coś zostawił|Na śniegu został [ślad] łapy zająca.|trop|",
+  "zapas|r|rzeczy odłożone na później|Wiewiórka zrobiła [zapas] orzechów na zimę.|rezerwa|",
+  "zguba|r|rzecz, którą ktoś zgubił|Ta [zguba] leżała pod ławką cały dzień.||znalezisko",
+  "znalezisko|r|rzecz, którą ktoś znalazł|Archeolodzy pokazali ciekawe [znalezisko].||zguba",
+  "tłum|r|bardzo dużo ludzi w jednym miejscu|Na koncercie był ogromny [tłum].||",
+  "wysiłek|r|duża praca siłą albo głową|Ten [wysiłek] się opłacił, bo wygraliśmy.|trud|odpoczynek",
+  "przeszkoda|r|coś, co utrudnia przejście albo zrobienie czegoś|Największa [przeszkoda] to strach.|utrudnienie|",
+  "zwycięstwo|r|wygrana w meczu, walce albo konkursie|Drużyna świętowała [zwycięstwo].|wygrana|porażka",
+  "porażka|r|przegrana|Jedna [porażka] nie przekreśla całego sezonu.|przegrana|zwycięstwo",
+  "okazja|r|dobry moment, żeby coś zrobić|Wycieczka to świetna [okazja], żeby poznać nowych kolegów.|sposobność|",
+  "marzenie|r|coś, czego bardzo się chce i o czym się często myśli|Lot w kosmos to jego wielkie [marzenie].|pragnienie|",
+  "ciekawostka|r|zaskakująca, mało znana informacja|Ta [ciekawostka] o mrówkach zaskoczyła całą klasę.||",
+  "pośpiech|r|robienie czegoś bardzo szybko, bo brakuje czasu|[Pośpiech] nie pomaga w odrabianiu lekcji.||spokój",
+  "kłótnia|r|głośna sprzeczka, gdy ludzie się nie zgadzają|Ta [kłótnia] skończyła się przeprosinami.|sprzeczka|zgoda",
+  "zgoda|r|sytuacja, gdy ludzie się nie kłócą i dobrze się rozumieją|W naszej klasie panuje [zgoda].|porozumienie|kłótnia",
+  "pędzić|c|bardzo szybko jechać albo biec|Karetka musiała [pędzić] do szpitala.|gnać|wlec się",
+  "wlec się|c|iść bardzo wolno i ociężale|Po meczu ledwo mogliśmy się wlec do domu.||pędzić",
+  "szeptać|c|mówić bardzo cicho|W bibliotece trzeba [szeptać].||krzyczeć",
+  "podziwiać|c|patrzeć na coś z zachwytem|Lubię [podziwiać] zachód słońca.||",
+  "marnować|c|tracić coś bez sensu|Nie wolno [marnować] jedzenia.|trwonić|oszczędzać",
+  "oszczędzać|c|odkładać pieniądze albo używać czegoś mało, żeby starczyło na dłużej|Chcę [oszczędzać] na nowy rower.||marnować",
+  "ukrywać|c|chować coś, żeby nikt tego nie znalazł|Wiewiórka lubi [ukrywać] orzechy.|chować|pokazywać",
+  "przechwalać się|c|chwalić się za bardzo|Nie warto się przechwalać przed kolegami.|chełpić się|",
+  "naśladować|c|robić to samo co ktoś inny|Papuga potrafi [naśladować] głos człowieka.|imitować|",
+  "zachęcać|c|namawiać kogoś, żeby coś zrobił|Trener umie [zachęcać] nas do biegania.|namawiać|zniechęcać",
+  "pocieszać|c|mówić coś miłego komuś, kto jest smutny|Mama zawsze umie mnie [pocieszać].||",
+  "obserwować|c|uważnie się czemuś przyglądać|Lubię [obserwować] ptaki w karmniku.|przyglądać się|",
+  "wahać się|c|nie móc się zdecydować|Długo się wahał, który loda wybrać.||",
+  "spierać się|c|kłócić się o coś, mieć inne zdanie|Bracia często spierają się o pilota.|sprzeczać się|zgadzać się",
+  "ostrzegać|c|mówić komuś o niebezpieczeństwie|Ten znak ma [ostrzegać] przed spadającymi kamieniami.|przestrzegać|",
+  "gromadzić|c|zbierać dużo rzeczy w jednym miejscu|Chomik lubi [gromadzić] ziarna w policzkach.|zbierać|rozdawać",
+  "drżeć|c|trząść się z zimna albo ze strachu|Mokry piesek zaczął [drżeć] z zimna.|dygotać|",
+  "zerkać|c|szybko i ukradkiem spoglądać|Na sprawdzianie nie wolno [zerkać] do zeszytu kolegi.|spoglądać|",
+  "dokuczać|c|złośliwie przeszkadzać komuś, sprawiać mu przykrość|Nie wolno [dokuczać] młodszym.||",
+  "lekceważyć|c|nie traktować czegoś poważnie|Nie wolno [lekceważyć] burzy.||szanować",
+  "ostrożnie|s|uważnie, żeby nic złego się nie stało|Zejdź [ostrożnie] po schodach.||nieostrożnie",
+  "natychmiast|s|od razu, bez czekania|Przyjdź tu [natychmiast]!|niezwłocznie|później",
+  "stopniowo|s|powoli, krok po kroku|Śnieg [stopniowo] topniał.|powoli|nagle",
+  "nagle|s|niespodziewanie, w jednej chwili|[Nagle] zgasło światło.|raptem|stopniowo",
+  "dokładnie|s|starannie, bez pomyłek|Przeczytaj polecenie [dokładnie].|starannie|niedbale",
+  "niedbale|s|byle jak, bez staranności|Zeszyt był prowadzony [niedbale].|byle jak|starannie",
+  "wspólnie|s|razem z innymi|Posprzątaliśmy klasę [wspólnie].|razem|osobno",
+  "ukradkiem|s|po cichu, tak żeby nikt nie zauważył|Kot [ukradkiem] wszedł do kuchni.|potajemnie|otwarcie",
+  "cierpliwie|s|spokojnie, bez złości i pośpiechu|Czekaliśmy [cierpliwie] na swoją kolej.||niecierpliwie",
+  "przypadkiem|s|niechcący, bez planu|[Przypadkiem] spotkałem kolegę w sklepie.|przypadkowo|celowo",
+  "celowo|s|specjalnie, z zamiarem|Zrobił to [celowo], żeby nas rozśmieszyć.|umyślnie|przypadkiem",
+  "wkrótce|s|niedługo, za chwilę|[Wkrótce] zaczną się wakacje.|niebawem|",
+  "dawniej|s|kiedyś, w przeszłości|[Dawniej] ludzie pisali piórem.|niegdyś|obecnie",
+  "obecnie|s|teraz, w tych czasach|[Obecnie] prawie każdy ma telefon.|teraz|dawniej"
+],[
+  // poziom 2 – średnie
+  "wytrzymały|p|odporny, długo się nie psuje i nie męczy|Ten plecak jest bardzo [wytrzymały].|odporny|delikatny",
+  "staranny|p|zrobiony dokładnie i z dbałością|Masz [staranny] charakter pisma.||niedbały",
+  "skrupulatny|p|bardzo dokładny, pilnuje każdego szczegółu|[Skrupulatny] księgowy sprawdził każdą liczbę.|drobiazgowy|",
+  "pochopny|p|zrobiony za szybko, bez namysłu|[Pochopny] wybór często kończy się kłopotem.||przemyślany",
+  "rozważny|p|zastanawia się, zanim coś zrobi|[Rozważny] kapitan zawrócił przed burzą.|roztropny|lekkomyślny",
+  "uczynny|p|chętnie pomaga innym|[Uczynny] sąsiad pomógł nam wnieść szafę.|pomocny|",
+  "zuchwały|p|bezczelny i zbyt śmiały|[Zuchwały] złodziej ukradł rower w biały dzień.|bezczelny|pokorny",
+  "pokorny|p|cichy i uległy, nie wywyższa się i nie sprzeciwia|[Pokorny] uczeń przyjął uwagę bez dyskusji.|uległy|zuchwały",
+  "bezradny|p|nie wie, co zrobić, i nie umie sobie pomóc|[Bezradny] kotek siedział na drzewie i miauczał.||zaradny",
+  "zaradny|p|umie sobie poradzić w trudnej sytuacji|[Zaradny] harcerz rozpalił ognisko bez zapałek.||bezradny",
+  "dociekliwy|p|zadaje dużo pytań, chce poznać przyczynę wszystkiego|[Dociekliwy] detektyw rozwiązał zagadkę.||",
+  "zawzięty|p|uparcie dąży do celu, nie odpuszcza|[Zawzięty] obrońca nie przepuścił żadnej piłki.|nieustępliwy|",
+  "drażliwy|p|łatwo się obraża albo złości|[Drażliwy] sąsiad denerwował się o każdy hałas.|przewrażliwiony|",
+  "osobliwy|p|dziwny, niezwykły, niepodobny do innych|W muzeum stał [osobliwy] zegar bez wskazówek.|dziwaczny|zwyczajny",
+  "zagadkowy|p|tajemniczy, trudny do wyjaśnienia|Na strychu znaleźliśmy [zagadkowy] list.|tajemniczy|oczywisty",
+  "oczywisty|p|jasny dla każdego, nie trzeba go tłumaczyć|To [oczywisty] błąd, każdy go zauważy.||zagadkowy",
+  "zbędny|p|niepotrzebny|Ten [zbędny] bagaż zostawiliśmy w domu.|niepotrzebny|niezbędny",
+  "niezbędny|p|bardzo potrzebny, nie można się bez niego obejść|Latarka to [niezbędny] sprzęt na biwaku.|konieczny|zbędny",
+  "obfity|p|występujący w dużej ilości|Babcia podała [obfity] obiad.|suty|",
+  "rozległy|p|zajmujący bardzo dużo miejsca|Z wieży widać było [rozległy] las.||",
+  "przytulny|p|ciepły i miły, dobrze się w nim czuć|Mamy [przytulny] pokój na poddaszu.|zaciszny|",
+  "gwarny|p|pełen głosów i hałasu|To był [gwarny] targ pełen ludzi.|hałaśliwy|cichy",
+  "zaniedbany|p|taki, o który nikt nie dbał|Za domem był [zaniedbany] ogród.|zapuszczony|zadbany",
+  "wyborny|p|bardzo smaczny, doskonały|Babcia upiekła [wyborny] sernik.|wyśmienity|niesmaczny",
+  "zdumiony|p|bardzo zdziwiony|[Zdumiony] widz nie wierzył własnym oczom.|zdziwiony|",
+  "oszołomiony|p|tak zaskoczony albo zmęczony, że nie może zebrać myśli|Po zjeździe z karuzeli byłem [oszołomiony].||",
+  "wyczerpany|p|bardzo zmęczony, bez sił|Po maratonie biegacz był [wyczerpany].|wykończony|wypoczęty",
+  "stanowczy|p|zdecydowany, nie zmienia zdania|[Stanowczy] głos nauczyciela uciszył klasę.|zdecydowany|niezdecydowany",
+  "ociężały|p|powolny i ciężki w ruchach|Po obfitym obiedzie byłem [ociężały].||",
+  "niezdarny|p|niezgrabny, wszystko mu leci z rąk|[Niezdarny] kelner potknął się o dywan.|niezgrabny|zwinny",
+  "gościnny|p|chętnie przyjmuje gości i dobrze się nimi zajmuje|Mamy [gościnny] dom, zawsze ktoś nas odwiedza.||",
+  "pogodny|p|wesoły i spokojny|Dziadek ma [pogodny] charakter.|radosny|",
+  "markotny|p|smutny i bez humoru|[Markotny] Staś siedział sam w kącie.|smętny|wesoły",
+  "ospały|p|senny i powolny|[Ospały] miś wyszedł z gawry.|senny|",
+  "bystry|p|szybko myśli i łatwo wszystko rozumie|[Bystry] uczeń od razu znalazł odpowiedź.|rozgarnięty|",
+  "nieufny|p|nie wierzy łatwo innym, jest podejrzliwy|[Nieufny] kot nie dał się pogłaskać.|podejrzliwy|ufny",
+  "dziarski|p|pełen energii, żwawy|[Dziarski] staruszek codziennie biega.|żwawy|",
+  "zgiełk|r|duży hałas i ruch wielu ludzi|Miejski [zgiełk] męczy dziadka.|harmider|cisza",
+  "upór|r|trzymanie się swojego zdania albo celu, mimo przeszkód|Jego [upór] pomógł mu wygrać.||",
+  "odwaga|r|brak strachu w trudnej sytuacji|Ta [odwaga] uratowała kotka.|męstwo|tchórzostwo",
+  "skrucha|r|żal, że zrobiło się coś złego|Jego [skrucha] była szczera.|żal|",
+  "wdzięczność|r|uczucie, gdy chcemy podziękować za dobro|Czuję [wdzięczność] dla pani za pomoc.||niewdzięczność",
+  "zazdrość|r|przykrość, że ktoś ma coś, czego my nie mamy|[Zazdrość] to nieprzyjemne uczucie.|zawiść|",
+  "niepokój|r|uczucie, że może stać się coś złego|W nocy ogarnął mnie [niepokój].||spokój",
+  "tęsknota|r|smutek, gdy brakuje kogoś bliskiego albo jakiegoś miejsca|Na koloniach dopadła mnie [tęsknota] za domem.||",
+  "zapał|r|wielka chęć do działania|Nasz [zapał] nie słabł do końca meczu.|entuzjazm|zniechęcenie",
+  "nawyk|r|coś, co robimy często, prawie bez myślenia|Mycie zębów to dobry [nawyk].|przyzwyczajenie|",
+  "korzyść|r|zysk, coś dobrego, co się otrzymuje|Ćwiczenia przynoszą dużą [korzyść].|pożytek|strata",
+  "strata|r|utrata czegoś cennego|Zgubienie klucza to wielka [strata].||zysk",
+  "ciekawość|r|chęć dowiedzenia się czegoś|Moja [ciekawość] nie dawała mi zasnąć.||obojętność",
+  "zamiar|r|to, co ktoś planuje zrobić|Mam [zamiar] nauczyć się pływać.|plan|",
+  "wynalazek|r|nowe urządzenie albo sposób, którego wcześniej nie było|Telefon to wspaniały [wynalazek].||",
+  "zabytek|r|stary budynek albo przedmiot, ważny dla historii|Ten zamek to cenny [zabytek].||",
+  "krajobraz|r|widok okolicy, np. gór, pól i lasów|Z okna pociągu widać piękny [krajobraz].|pejzaż|",
+  "ulewa|r|bardzo mocny deszcz|Nagła [ulewa] zalała ulice.|nawałnica|mżawka",
+  "mżawka|r|bardzo drobny, słaby deszcz|Od rana padała [mżawka].||ulewa",
+  "susza|r|długi czas bez deszczu|Tego lata trwała długa [susza].||powódź",
+  "powódź|r|zalanie terenu przez wodę z rzeki|Wiosenna [powódź] zalała wioskę.||susza",
+  "zmierzch|r|pora, gdy słońce zachodzi i robi się ciemno|[Zmierzch] zapadł bardzo szybko.|zmrok|świt",
+  "świt|r|pora, gdy rano zaczyna się robić jasno|[Świt] zastał nas w drodze.|brzask|zmierzch",
+  "schronisko|r|dom w górach dla turystów albo miejsce dla bezdomnych zwierząt|Na szlaku stało drewniane [schronisko].||",
+  "pogarda|r|traktowanie kogoś jak gorszego od siebie|Jego [pogarda] dla przegranych była niemiła.|lekceważenie|szacunek",
+  "szacunek|r|uznanie i poważanie dla kogoś|Okazujemy [szacunek] starszym.|poważanie|pogarda",
+  "zmartwienie|r|kłopot, który nie daje spokoju|Chory pies to wielkie [zmartwienie].|troska|",
+  "otucha|r|nadzieja i siła, która wraca w trudnej chwili|Słowa trenera dodały nam otuchy.|pokrzepienie|",
+  "podstęp|r|sprytny sposób, żeby kogoś oszukać|Koń trojański to słynny [podstęp].|fortel|",
+  "zasadzka|r|ukrycie się, żeby kogoś niespodziewanie napaść|Za skałą czekała [zasadzka].||",
+  "sprzeciw|r|powiedzenie „nie”, niezgoda na coś|Mój [sprzeciw] nic nie dał.|protest|",
+  "pogłoska|r|niesprawdzona wiadomość przekazywana dalej|Po szkole krążyła [pogłoska] o nowym nauczycielu.|plotka|",
+  "zakątek|r|ciche, ukryte miejsce|Znaleźliśmy cichy [zakątek] w parku.||",
+  "gąszcz|r|gęste zarośla, przez które trudno przejść|Za płotem rósł gęsty [gąszcz].|zarośla|",
+  "podejrzewać|c|myśleć, że ktoś mógł zrobić coś złego|Nie można nikogo [podejrzewać] bez dowodu.||ufać",
+  "ufać|c|wierzyć, że ktoś jest uczciwy i nie zawiedzie|Przyjacielowi trzeba [ufać].|wierzyć|podejrzewać",
+  "zaniedbywać|c|nie dbać o coś, o co powinno się dbać|Nie wolno [zaniedbywać] nauki.||dbać",
+  "zachwalać|c|bardzo chwalić, zwykle żeby ktoś coś kupił|Sprzedawca zaczął [zachwalać] swoje jabłka.||",
+  "ganić|c|mówić komuś, że źle zrobił|Trener nie lubi [ganić] zawodników.|krytykować|chwalić",
+  "przewidywać|c|wiedzieć wcześniej, co się stanie|Synoptycy umieją [przewidywać] pogodę.|przepowiadać|",
+  "rozstrzygać|c|decydować, kto ma rację albo kto wygrał|Sędzia musi [rozstrzygać] spory na boisku.||",
+  "unikać|c|starać się z kimś albo z czymś nie spotykać|Kot woli [unikać] wody.|omijać|szukać",
+  "ociągać się|c|robić coś powoli, bo się nie chce|Rano ociągał się z wyjściem do szkoły.|guzdrać się|spieszyć się",
+  "zachwycać|c|bardzo się komuś podobać|Te obrazy potrafią [zachwycać].|olśniewać|nudzić",
+  "zdumiewać|c|bardzo dziwić|Sztuczki magika potrafią [zdumiewać].|zadziwiać|",
+  "wypatrywać|c|długo patrzeć i czekać, aż coś się pojawi|Zaczęliśmy [wypatrywać] autobusu.||",
+  "krzątać się|c|chodzić tu i tam, robiąc różne rzeczy|Od rana mama krzątała się po kuchni.||",
+  "mamrotać|c|mówić niewyraźnie i cicho pod nosem|Zaczął [mamrotać] coś pod nosem.|mruczeć|",
+  "dąsać się|c|obrażać się i milczeć|Siostra dąsała się przez cały wieczór.|boczyć się|",
+  "psocić|c|robić psikusy i małe figle|Kotek lubi [psocić] w nocy.|broić|",
+  "zmagać się|c|walczyć z czymś trudnym|Wspinacze zmagali się z wiatrem.|borykać się|",
+  "wybaczać|c|przestać się gniewać za krzywdę|Trzeba umieć [wybaczać].|przebaczać|",
+  "żałować|c|smucić się, że coś się zrobiło albo straciło|Nie warto długo [żałować] przegranego meczu.||",
+  "zniechęcać|c|odbierać komuś chęć do czegoś|Deszcz potrafi [zniechęcać] do spaceru.||zachęcać",
+  "oznajmić|c|powiedzieć coś ważnego wszystkim|Dyrektor musiał [oznajmić] ważną wiadomość.|ogłosić|",
+  "wtrącać się|c|mieszać się do cudzych spraw|Nie wtrącaj się do rozmowy dorosłych.||",
+  "gorliwie|s|z wielkim zaangażowaniem i zapałem|Uczniowie [gorliwie] ćwiczyli przed występem.||opieszale",
+  "opieszale|s|powoli i niechętnie|Robotnicy pracowali [opieszale].|ospale|gorliwie",
+  "pospiesznie|s|szybko, w pośpiechu|Zjadł śniadanie [pospiesznie].|w biegu|",
+  "uważnie|s|z całą uwagą|Słuchaj [uważnie] poleceń.||nieuważnie",
+  "otwarcie|s|szczerze, nic nie ukrywając|Powiedział [otwarcie], co myśli.|szczerze|skrycie",
+  "wyjątkowo|s|inaczej niż zwykle, rzadko|Dziś [wyjątkowo] wyszliśmy wcześniej.||zazwyczaj",
+  "zazwyczaj|s|prawie zawsze, tak jak zwykle|[Zazwyczaj] wstaję o siódmej.|zwykle|wyjątkowo",
+  "wielokrotnie|s|wiele razy|Czytałem tę książkę [wielokrotnie].||jednorazowo",
+  "ledwo|s|z trudem, prawie nie|[Ledwo] zdążyłem na autobus.|ledwie|",
+  "zawzięcie|s|z wielkim uporem i siłą|Drużyny walczyły [zawzięcie].|zaciekle|",
+  "beztrosko|s|bez zmartwień|Dzieci bawiły się [beztrosko] na łące.||",
+  "naprędce|s|szybko, bez przygotowania|Zbudowali szałas [naprędce].||",
+  "stanowczo|s|zdecydowanie, bez wahania|Mama [stanowczo] powiedziała: nie.|zdecydowanie|",
+  "łapczywie|s|szybko i chciwie|Pies [łapczywie] zjadł obiad.|zachłannie|"
+],[
+  // poziom 3 – trudne
+  "lakoniczny|p|bardzo krótki, zwięzły|Dostałem [lakoniczny] SMS: „Jestem”.|zwięzły|rozwlekły",
+  "rozwlekły|p|za długi, z niepotrzebnymi szczegółami|[Rozwlekły] film znudził widzów.|przydługi|lakoniczny",
+  "wnikliwy|p|dokładnie badający sprawę, docierający do sedna|[Wnikliwy] dziennikarz odkrył prawdę.||powierzchowny",
+  "powierzchowny|p|płytki i niedokładny, dotyczący tylko wierzchu|To był tylko [powierzchowny] opis.|pobieżny|wnikliwy",
+  "nonszalancki|p|swobodny i niedbały, jakby nic go nie obchodziło|Miał [nonszalancki] sposób bycia.||",
+  "niefrasobliwy|p|beztroski, niczym się nie przejmuje|[Niefrasobliwy] turysta poszedł w góry w klapkach.|beztroski|",
+  "zatroskany|p|pełen zmartwienia|[Zatroskany] tata czekał na wiadomość ze szpitala.|zmartwiony|",
+  "melancholijny|p|lekko smutny i zamyślony|Skrzypce zagrały [melancholijny] utwór.|tęskny|",
+  "efemeryczny|p|trwający bardzo krótko, szybko znikający|Bańka mydlana to [efemeryczny] cud.|ulotny|trwały",
+  "nieodparty|p|tak silny, że nie da się mu oprzeć|Szczeniak miał [nieodparty] urok.||",
+  "dobroduszny|p|łagodny, życzliwy i wyrozumiały|[Dobroduszny] olbrzym pomógł dzieciom.|poczciwy|złośliwy",
+  "pedantyczny|p|przesadnie dokładny, wszystko musi być idealnie|[Pedantyczny] wujek układa skarpetki według kolorów.|drobiazgowy|",
+  "wszechstronny|p|umie wiele różnych rzeczy|[Wszechstronny] sportowiec gra w piłkę, pływa i biega.||",
+  "porywczy|p|łatwo i gwałtownie wpada w złość|[Porywczy] kapitan krzyknął na załogę.|wybuchowy|opanowany",
+  "opanowany|p|spokojny, panuje nad sobą|[Opanowany] pilot spokojnie wylądował w burzy.||porywczy",
+  "wyrozumiały|p|rozumie innych i łatwo wybacza|[Wyrozumiały] tata nie gniewał się o stłuczony kubek.|pobłażliwy|surowy",
+  "surowy|p|wymagający, niczego nie odpuszcza|[Surowy] sędzia dał czerwoną kartkę.|srogi|wyrozumiały",
+  "dostojny|p|poważny i pełen godności|[Dostojny] król wszedł do sali tronowej.|majestatyczny|",
+  "ponadczasowy|p|wciąż ważny i ciekawy, choć minęło dużo czasu|To [ponadczasowy] utwór, który lubi każde pokolenie.||",
+  "monotonny|p|nudny, ciągle taki sam|[Monotonny] szum deszczu mnie uśpił.|jednostajny|urozmaicony",
+  "urozmaicony|p|pełen różnych rzeczy, wcale nie nudny|Mieliśmy [urozmaicony] program wycieczki.|różnorodny|monotonny",
+  "absurdalny|p|bez sensu, śmiesznie nielogiczny|To [absurdalny] pomysł, żeby jeść zupę widelcem.|niedorzeczny|sensowny",
+  "autentyczny|p|prawdziwy, nie podrobiony|W muzeum jest [autentyczny] miecz rycerza.|oryginalny|podrobiony",
+  "fikcyjny|p|wymyślony, nieprawdziwy|Harry Potter to [fikcyjny] bohater.|zmyślony|prawdziwy",
+  "anonimowy|p|taki, którego autor jest nieznany|Dostałem [anonimowy] liścik.|bezimienny|",
+  "prowizoryczny|p|zrobiony na chwilę, tymczasowy|Zbudowaliśmy [prowizoryczny] most z desek.|tymczasowy|trwały",
+  "ekscentryczny|p|dziwaczny, zachowuje się inaczej niż wszyscy|[Ekscentryczny] artysta nosił dwa różne buty.|dziwaczny|",
+  "apatyczny|p|bez chęci do czegokolwiek, obojętny na wszystko|Po długiej chorobie był [apatyczny].|zobojętniały|",
+  "sceptyczny|p|nie wierzy łatwo, ma wątpliwości|Dziadek był [sceptyczny] wobec nowego pomysłu.||łatwowierny",
+  "łatwowierny|p|wierzy we wszystko, co usłyszy|[Łatwowierny] Kuba uwierzył, że krowy latają.|naiwny|sceptyczny",
+  "obiektywny|p|sprawiedliwy, ocenia bez faworyzowania nikogo|Sędzia musi być [obiektywny].|bezstronny|stronniczy",
+  "kategoryczny|p|stanowczy, nie dopuszcza sprzeciwu|Usłyszeliśmy [kategoryczny] zakaz.||",
+  "zdeterminowany|p|bardzo zdecydowany, żeby osiągnąć cel|[Zdeterminowany] wspinacz zdobył szczyt.||",
+  "innowacyjny|p|wprowadzający coś zupełnie nowego|Firma pokazała [innowacyjny] wynalazek.|nowatorski|",
+  "uniwersalny|p|pasujący do wielu rzeczy i sytuacji|To [uniwersalny] klucz do wszystkich drzwi.||",
+  "nieprzenikniony|p|taki, przez który nie da się przejść ani przejrzeć|Zapadł [nieprzenikniony] mrok.||",
+  "dotkliwy|p|bardzo bolesny albo przykry|Mróz był wtedy [dotkliwy].||",
+  "ambiwalentny|p|mający mieszane uczucia, jednocześnie na „tak” i na „nie”|Mam [ambiwalentny] stosunek do szpinaku.||",
+  "hierarchia|r|układ, w którym ktoś jest wyżej, a ktoś niżej|W wilczym stadzie panuje ścisła [hierarchia].||",
+  "dylemat|r|trudny wybór między dwiema możliwościami|Miałem [dylemat]: lody czy ciastko?||",
+  "kompromis|r|porozumienie, w którym każdy trochę ustępuje|Zawarliśmy [kompromis]: pół godziny piłki i pół kosza.|ugoda|",
+  "konsekwencja|r|skutek, który wynika z czyjegoś działania|Każde spóźnienie ma swoje konsekwencje.|skutek|przyczyna",
+  "motywacja|r|to, co zachęca do działania|Nagroda to dobra [motywacja] do nauki.|bodziec|",
+  "intuicja|r|przeczucie, wiedza bez myślenia krok po kroku|[Intuicja] podpowiedziała mi, że to pułapka.|przeczucie|",
+  "empatia|r|umiejętność odczuwania tego, co czuje ktoś inny|[Empatia] pomaga dogadać się z innymi.|współczucie|",
+  "dyskrecja|r|umiejętność zachowania czegoś w tajemnicy|[Dyskrecja] to ważna cecha przyjaciela.||",
+  "rywalizacja|r|współzawodnictwo, walka o to, kto będzie lepszy|Na boisku trwała zacięta [rywalizacja].|współzawodnictwo|współpraca",
+  "kontrast|r|wyraźna różnica między dwiema rzeczami|Czerń i biel tworzą mocny [kontrast].||podobieństwo",
+  "ironia|r|mówienie odwrotnie do tego, co się myśli, żeby zakpić|W jego głosie słychać było ironię.|kpina|",
+  "chaos|r|wielki bałagan, zupełny brak porządku|W pokoju panował [chaos].|nieład|ład",
+  "harmonia|r|zgodne połączenie, gdy wszystko do siebie pasuje|W lesie panowała [harmonia].||",
+  "epizod|r|krótkie zdarzenie, fragment większej historii|To był tylko krótki [epizod] w jego życiu.||",
+  "inicjatywa|r|pomysł i chęć, żeby samemu coś zacząć|Zbiórka dla schroniska to [inicjatywa] naszej klasy.||",
+  "dorobek|r|wszystko, co ktoś osiągnął albo stworzył|[Dorobek] pisarza to dwadzieścia książek.||",
+  "rekompensata|r|coś, co się dostaje w zamian za stratę|Bilet do kina to [rekompensata] za odwołaną wycieczkę.|odszkodowanie|",
+  "prestiż|r|szacunek i znaczenie w oczach innych|Ta nagroda ma ogromny [prestiż].|renoma|",
+  "fenomen|r|niezwykłe zjawisko albo ktoś wyjątkowy|Zorza polarna to prawdziwy [fenomen].||",
+  "żywioł|r|potężna siła przyrody, np. ogień, woda albo wiatr|Ogień to groźny [żywioł].||",
+  "charakter|r|to, jaki ktoś jest w środku, np. odważny albo uparty|Kapitan ma silny [charakter].|usposobienie|",
+  "autorytet|r|osoba, którą się szanuje i której zdanie się liczy|Trener to [autorytet] dla całej drużyny.||",
+  "tolerancja|r|szacunek dla ludzi, którzy myślą albo żyją inaczej|[Tolerancja] jest ważna w każdej klasie.||nietolerancja",
+  "solidarność|r|wspieranie się nawzajem, trzymanie się razem|Okazaliśmy [solidarność] z chorym kolegą.||",
+  "anegdota|r|krótka, zabawna historyjka z życia|Ta [anegdota] rozśmieszyła wszystkich.||",
+  "aluzja|r|ukryta wskazówka, powiedziana nie wprost|To była [aluzja] do mojego spóźnienia.|przytyk|",
+  "paradoks|r|coś, co wydaje się sprzeczne, a jednak jest prawdą|To [paradoks]: im bardziej się spieszę, tym bardziej się spóźniam.||",
+  "priorytet|r|najważniejsza sprawa, która jest na pierwszym miejscu|Bezpieczeństwo to [priorytet] na wycieczce.||",
+  "argument|r|powód, który ma kogoś przekonać|Twój [argument] mnie przekonał.||",
+  "hipoteza|r|przypuszczenie, które trzeba jeszcze sprawdzić|Ta [hipoteza] okazała się prawdziwa.|przypuszczenie|",
+  "iluzja|r|złudzenie, coś, co tylko wydaje się prawdą|Ten rysunek to [iluzja] – kreski są równe.|złudzenie|",
+  "improwizować|c|robić coś bez przygotowania, wymyślać na bieżąco|Aktor zapomniał tekstu i musiał [improwizować].||",
+  "kontemplować|c|długo i spokojnie się czemuś przyglądać i rozmyślać|Lubię [kontemplować] gwiazdy.|rozmyślać|",
+  "negocjować|c|rozmawiać, żeby dojść do porozumienia|Musieliśmy [negocjować] godzinę powrotu.|pertraktować|",
+  "manipulować|c|sprytnie wpływać na kogoś, żeby zrobił to, czego my chcemy|Nie pozwól sobą [manipulować].||",
+  "prowokować|c|celowo zaczepiać, żeby ktoś się zdenerwował|On lubi [prowokować] kłótnie.|zaczepiać|",
+  "asystować|c|pomagać komuś przy jakiejś pracy|Mogę [asystować] tacie przy naprawie roweru.||",
+  "interweniować|c|wtrącić się, żeby coś zatrzymać albo naprawić|Nauczyciel musiał [interweniować] na korytarzu.||",
+  "dominować|c|być najsilniejszym, przewyższać innych|Nasza drużyna zaczęła [dominować] na boisku.|przeważać|",
+  "inspirować|c|dawać pomysł albo zachętę do tworzenia|Przyroda potrafi [inspirować] malarzy.||",
+  "akceptować|c|zgadzać się na coś, przyjmować coś takim, jakie jest|Trzeba [akceptować] innych takimi, jacy są.|przyjmować|odrzucać",
+  "eliminować|c|usuwać, wykluczać|Musimy [eliminować] błędy z wypracowania.|usuwać|",
+  "symulować|c|udawać, że coś się dzieje|Piłkarz próbował [symulować] faul.|udawać|",
+  "weryfikować|c|sprawdzać, czy coś jest prawdziwe|Trzeba [weryfikować] informacje z internetu.|sprawdzać|",
+  "ignorować|c|udawać, że się kogoś albo czegoś nie widzi|Nie warto [ignorować] ostrzeżeń.||",
+  "mobilizować|c|zbierać siły do działania albo pobudzać do niego innych|Kapitan umie [mobilizować] drużynę.||",
+  "analizować|c|dokładnie badać, kawałek po kawałku|Detektyw zaczął [analizować] ślady.|badać|",
+  "deklarować|c|oficjalnie obiecywać albo zapowiadać|Wszyscy zaczęli [deklarować] pomoc.|zapewniać|",
+  "ewoluować|c|powoli się zmieniać i rozwijać|Zwierzęta mogą [ewoluować] przez miliony lat.||",
+  "skwapliwie|s|chętnie i szybko, jakby się na to czekało|[Skwapliwie] skorzystał z okazji.|ochoczo|niechętnie",
+  "sukcesywnie|s|po kolei, stopniowo|Remont szkoły postępował [sukcesywnie].||",
+  "pobieżnie|s|szybko i niedokładnie|Przeczytał tekst [pobieżnie].|powierzchownie|",
+  "spontanicznie|s|bez planu, z własnej chęci|[Spontanicznie] zaczęliśmy tańczyć.|samorzutnie|",
+  "konsekwentnie|s|stale tak samo, trzymając się planu|Ćwiczył [konsekwentnie] każdego dnia.|wytrwale|",
+  "ironicznie|s|kpiąco, mówiąc odwrotnie niż się myśli|Uśmiechnął się [ironicznie].|kpiąco|",
+  "zdawkowo|s|krótko i obojętnie, tylko dla formy|Odpowiedział [zdawkowo]: „dobrze”.||",
+  "bezwiednie|s|nieświadomie, bez zastanowienia|[Bezwiednie] zaczął nucić piosenkę.|odruchowo|świadomie",
+  "dobitnie|s|wyraźnie i stanowczo|Powiedział to bardzo [dobitnie].||",
+  "ostentacyjnie|s|na pokaz, tak żeby wszyscy widzieli|[Ostentacyjnie] odwrócił się plecami.|demonstracyjnie|dyskretnie",
+  "dyskretnie|s|po cichu, tak żeby nie zwracać uwagi|[Dyskretnie] podał mi karteczkę.||ostentacyjnie",
+  "sporadycznie|s|bardzo rzadko, od czasu do czasu|Śnieg pada tu [sporadycznie].|rzadko|",
+  "notorycznie|s|ciągle, nagminnie (zwykle o czymś złym)|[Notorycznie] spóźniał się na lekcje.|nagminnie|",
+  "precyzyjnie|s|bardzo dokładnie|Zegarmistrz pracuje [precyzyjnie].||",
+  "nieoczekiwanie|s|niespodziewanie|[Nieoczekiwanie] przyszła burza.|niespodziewanie|"
+]];
+// słowa o bliskim znaczeniu: nigdy nie są dla siebie „złą” odpowiedzią
+const MEAN_NEAR=[
+  ["przezorny","rozważny","ostrożny","staranny"],["uczynny","troskliwy","przyjazny","dobroduszny","wyrozumiały"],["pokorny","skromny"],
+  ["zaradny","pomysłowy","innowacyjny","wszechstronny"],["dociekliwy","ciekawski","wnikliwy"],["zawzięty","uparty","wytrwały","zdeterminowany","stanowczy","kategoryczny"],
+  ["drażliwy","porywczy","marudny"],["osobliwy","zagadkowy","ekscentryczny","nieprzenikniony"],["rozległy","ogromny"],["zdumiony","oszołomiony"],
+  ["wyczerpany","ociężały","ospały","apatyczny","leniwy"],["markotny","ponury","melancholijny","zatroskany"],["pogodny","dziarski"],
+  ["nieufny","sceptyczny"],["lekkomyślny","pochopny","niefrasobliwy","nonszalancki"],["skrupulatny","pedantyczny","staranny"],
+  ["zgiełk","zamieszanie","chaos","tłum"],["upór","zapał","motywacja"],["niepokój","obawa","zmartwienie","kłopot"],["podstęp","zasadzka","manipulować"],
+  ["zgoda","kompromis","solidarność","harmonia"],["pogłoska","anegdota"],["korzyść","rekompensata"],["konsekwencja","dylemat"],
+  ["zaniedbywać","lekceważyć","ignorować"],["ociągać się","wlec się"],["zachwycać","zdumiewać","podziwiać","inspirować"],
+  ["wypatrywać","obserwować","zerkać","kontemplować"],["mamrotać","szeptać"],["psocić","dokuczać","prowokować"],["zachęcać","mobilizować","inspirować","zachwalać"],
+  ["analizować","weryfikować","obserwować"],["gromadzić","oszczędzać"],["dąsać się","żałować"],
+  ["gorliwie","zawzięcie","skwapliwie"],["pospiesznie","naprędce","natychmiast"],["uważnie","dokładnie","precyzyjnie","ostrożnie"],["ukradkiem","dyskretnie"],
+  ["nagle","nieoczekiwanie"],["pobieżnie","niedbale","zdawkowo"],["przypadkiem","bezwiednie","spontanicznie"],["stanowczo","dobitnie","otwarcie"],
+  ["stopniowo","sukcesywnie","konsekwentnie"],["zazwyczaj","wielokrotnie","notorycznie"],["zwinny","dziarski"],["zuchwały","odważny"],["duszny","wilgotny","upalny"],["surowy","kategoryczny","stanowczy"],["aluzja","ironia"]
+];
+
+/* --- Znaczenie słów: quiz z 4 odpowiedziami (słowo → znaczenie, znaczenie → słowo, synonim, przeciwieństwo, zdanie z luką) --- */
+const MEAN=MEAN_RAW.flatMap((l,k)=>l.map(s=>{const [w,p,d,e,syn,ant]=s.split("|"),m=e.match(/\[([^\]]+)\]/);
+  return {w,p,d,lvl:k+1,ex:e.replace(/[\[\]]/g,""),gap:m&&m[1].toLowerCase()===w?e.replace(/\[[^\]]+\]/,"_____"):"",syn:syn||"",ant:ant||""};}));
+const MEAN_BY=new Map(MEAN.map(x=>[x.w,x]));
+const NEAR_IDX=new Map();MEAN_NEAR.forEach((g,k)=>g.forEach(w=>{if(!NEAR_IDX.has(w)) NEAR_IDX.set(w,new Set());NEAR_IDX.get(w).add(k);}));
+// bliskie znaczeniem: synonimy, to samo przeciwieństwo albo ta sama grupa z MEAN_NEAR
+function pzNear(a,b){
+  if(a===b||a.syn&&(a.syn===b.w||a.syn===b.syn)||b.syn&&b.syn===a.w||a.ant&&a.ant===b.ant) return true;
+  const A=NEAR_IDX.get(a.w),B=NEAR_IDX.get(b.w);if(A&&B) for(const k of A) if(B.has(k)) return true;
+  return false;
+}
+const PZ_LVL=[{n:1,name:"Łatwe"},{n:2,name:"Średnie",need:30},{n:3,name:"Trudne",need:30}];
+const PZ_Q={def:"Co znaczy to słowo?",rev:"Które słowo pasuje do opisu?",syn:"Które słowo znaczy prawie to samo?",ant:"Co jest przeciwieństwem?",gap:"Które słowo najlepiej pasuje do zdania?"};
+const PZ_STEPS=[5,10,15,20,30];
+const slow=n=>n===1?"słowo":n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?"słowa":"słów";
+const cut=(x,n=42)=>x.length>n?x.slice(0,n-1)+"…":x;
+// stan słów z historii: ok = dobrze za 1. razem, days = dni z dobrą odpowiedzią; „znasz” = 3 różne dni i ostatnio dobrze
+function pzStats(){
+  const m=new Map();
+  plHist("znaczenia").sort((a,b)=>a.start-b.start).forEach(s=>s.recs.forEach(r=>{
+    let e=m.get(r.t);if(!e){e={n:0,ok:0,days:new Set(),last:true};m.set(r.t,e);}
+    e.n++;e.last=r.ok;if(r.ok){e.ok++;e.days.add(dayKey(s.start));}}));
+  m.forEach(e=>{e.known=e.days.size>=3&&e.last;});
+  return m;
+}
+const pzOpen=(n,st)=>{const L=PZ_LVL[n-1];return !L.need||MEAN.filter(x=>x.lvl===n-1&&st.get(x.w)&&st.get(x.w).ok).length>=L.need;};
+const pzLevels=(zl,st)=>zl==="mix"?PZ_LVL.filter(L=>pzOpen(L.n,st)).map(L=>L.n):[+zl];
+// losowanie słów: z błędem ostatnio > nowe > poznane > znane
+function pzPick(n,lvls,st){
+  const pool=MEAN.filter(x=>lvls.includes(x.lvl)),out=[];
+  const wt=x=>{const s=st.get(x.w);return !s?2:!s.last?5:s.known?.3:1.5;};
+  let left=pool.slice();
+  while(out.length<n){
+    if(!left.length) left=pool.filter(x=>x!==out[out.length-1]);
+    let r=Math.random()*left.reduce((a,x)=>a+wt(x),0),k=0;
+    for(;k<left.length-1;k++){r-=wt(left[k]);if(r<=0) break;}
+    out.push(left.splice(k,1)[0]);
+  }
+  return out;
+}
+// 3 złe odpowiedzi: ta sama część mowy, najpierw z tego samego poziomu, żadna bliska znaczeniem
+function pzWrong(x,ok){
+  const same=MEAN.filter(b=>b.p===x.p&&!pzNear(x,b)&&ok(b)),out=[];
+  for(const b of [...shuffle(same.filter(b=>b.lvl===x.lvl)),...shuffle(same.filter(b=>b.lvl!==x.lvl))]){
+    if(out.length>=3) break;if(!out.some(o=>pzNear(o,b))) out.push(b);}
+  return out;
+}
+function pzQuestion(x,type){
+  const ty=["def","def","def","rev","rev"];if(x.syn) ty.push("syn","syn");if(x.ant) ty.push("ant","ant");if(x.gap&&x.p!=="s") ty.push("gap","gap");
+  const t=type||ty[Math.floor(Math.random()*ty.length)];
+  let q=x.w,c,o;
+  if(t==="def"){c=x.d;o=pzWrong(x,()=>true).map(b=>b.d);}
+  else if(t==="rev"){q=x.d;c=x.w;o=pzWrong(x,()=>true).map(b=>b.w);}
+  // w zdaniu przeciwieństwo też zwykle pasuje gramatycznie, więc go nie dajemy
+  else if(t==="gap"){q=x.gap;c=x.w;o=pzWrong(x,b=>b.w!==x.ant&&b.ant!==x.w&&!(x.ant&&(b.syn===x.ant||b.ant===x.syn))).map(b=>b.w);}
+  else if(t==="syn"){c=x.syn;const S=MEAN_BY.get(x.syn);
+    o=pzWrong(x,b=>b.w!==x.syn&&b.w!==x.ant&&b.ant!==x.w&&b.syn!==x.syn&&!(S&&pzNear(S,b))).map(b=>b.w);}
+  else{c=x.ant;const A=MEAN_BY.get(x.ant);
+    o=pzWrong(x,b=>b.w!==x.ant&&b.w!==x.syn&&b.ant!==x.w&&b.syn!==x.ant&&!(A&&pzNear(A,b))).map(b=>b.w);}
+  return {t,q,c,opts:shuffle([c,...o]),word:t!=="def"};
+}
+
+/* ustawienia */
+function renderPzs(){
+  const st=pzStats(),known=[...st.values()].filter(e=>e.known).length;
+  $("pz-known").textContent=known;$("pz-known-s").textContent=`z ${MEAN.length} słów znasz na pewno · poznane: ${st.size}`;
+  $("pz-cbar").style.width=Math.round(known*100/MEAN.length)+"%";
+  if(PLP.zl!=="mix"&&!pzOpen(+PLP.zl,st)) PLP.zl="1";
+  $("pz-lvls").innerHTML=PZ_LVL.map(L=>{const open=pzOpen(L.n,st),pool=MEAN.filter(x=>x.lvl===L.n),k=pool.filter(x=>st.get(x.w)&&st.get(x.w).known).length;
+    const prev=L.need?MEAN.filter(x=>x.lvl===L.n-1&&st.get(x.w)&&st.get(x.w).ok).length:0;
+    const sub=open?`znasz ${k} z ${pool.length}`:`poznaj ${L.need-prev} ${slow(L.need-prev)} z poziomu ${L.n-1}`;
+    return `<button type="button" data-l="${L.n}" class="${PLP.zl==String(L.n)?"sel":""}"${open?` aria-pressed="${PLP.zl==String(L.n)}"`:" disabled"}><b>${open?"":'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>'}${L.name}</b><small>${sub}</small></button>`;}).join("")+
+    `<button type="button" data-l="mix" class="${PLP.zl==="mix"?"sel":""}" aria-pressed="${PLP.zl==="mix"}"><b>Mieszane</b><small>wszystkie otwarte poziomy</small></button>`;
+  $("pz-n").textContent=PLP.zn;$("pz-minus").disabled=PLP.zn===PZ_STEPS[0];$("pz-plus").disabled=PLP.zn===PZ_STEPS[PZ_STEPS.length-1];
+}
+$("pz-lvls").addEventListener("click",e=>{const b=e.target.closest("button");if(!b||b.disabled) return;PLP.zl=b.dataset.l;savePLP();renderPzs();});
+$("pz-minus").addEventListener("click",()=>{PLP.zn=PZ_STEPS[Math.max(0,PZ_STEPS.indexOf(PLP.zn)-1)];savePLP();renderPzs();});
+$("pz-plus").addEventListener("click",()=>{PLP.zn=PZ_STEPS[Math.min(PZ_STEPS.length-1,PZ_STEPS.indexOf(PLP.zn)+1)];savePLP();renderPzs();});
+$("pz-coll").addEventListener("click",()=>go("plzk"));
+$("pz-go").addEventListener("click",()=>{const st=pzStats();pzStart(pzPick(PLP.zn,pzLevels(PLP.zl,st),st),{mode:"znaczenia",lvl:PLP.zl},st);});
+$("pl-t-z").addEventListener("click",()=>go("plzs"));
+
+/* słowo dnia: to samo przez cały dzień, z otwartych poziomów, jeszcze nie znane */
+function pzDaily(){
+  const st=pzStats(),open=PZ_LVL.filter(L=>pzOpen(L.n,st)).map(L=>L.n);
+  let pool=MEAN.filter(x=>open.includes(x.lvl)&&!(st.get(x.w)&&st.get(x.w).known));if(!pool.length) pool=MEAN;
+  const d=Math.round(dayKey(Date.now())/864e5),done=plHist("znaczenia").some(s=>s.cfg.daily&&s.status==="done"&&dayKey(s.start)===dayKey(Date.now()));
+  return {x:pool[(d*7919)%pool.length],done};
+}
+$("pz-day").addEventListener("click",()=>{const {x}=pzDaily();pzStart([x],{mode:"znaczenia",lvl:String(x.lvl),daily:true},pzStats(),"def");});
+
+/* gra */
+let PZ=null; // {id,start,cfg,words,qs,i,recs,seen,locked,over,t0}
+function pzStart(words,cfg,st,type){
+  PZ={id:Date.now(),start:Date.now(),cfg,words,qs:words.map(x=>pzQuestion(x,type)),i:0,locked:false,over:false,seen:new Set(st.keys())};
+  PZ.recs=PZ.qs.map((q,k)=>({t:words[k].w,q:q.t,c:q.c,ok:true,tries:[],ms:0,done:false}));
+  $("pz-game").hidden=false;$("pz-end").hidden=true;$("pz-end").innerHTML="";
+  if(CUR==="plz"){pzShow();scrollTo(0,0);} else {go("plz");pzShow();}
+}
+function pzShow(){
+  const P=PZ,x=P.words[P.i],q=P.qs[P.i],n=P.words.length;
+  FXC={card:$("pz-card"),eq:$("pz-q"),box:$("pz-qt")};
+  $("pz-card").classList.remove("ok","bad");P.t0=Date.now();
+  $("pz-count").textContent=`${P.i+1} / ${n}`;$("pz-bar").style.width=Math.round(P.i*100/n)+"%";
+  $("pz-type").textContent=PZ_Q[q.t];$("pz-new").hidden=P.seen.has(x.w);
+  $("pz-qt").textContent=q.q;$("pz-q").classList.toggle("long",q.t==="rev"||q.t==="gap");
+  $("pz-msg").textContent="";$("pz-why").hidden=true;$("pz-next").hidden=true;$("pz-opts").hidden=false;
+  $("pz-opts").replaceChildren(...q.opts.map(o=>{const b=document.createElement("button");b.type="button";b.textContent=o;b.dataset.o=o;if(q.word) b.className="w";return b;}));
+  pzStatsLine();
+}
+function pzStatsLine(){$("pz-stats").textContent=`Dobrze: ${PZ.recs.filter(r=>r.done&&r.ok).length} · Błędy: ${PZ.recs.filter(r=>!r.ok).length}`;}
+const pzWhy=x=>`<b>${x.w}</b> – ${x.d}<br><span class="ex">„${x.ex}”</span>`+
+  (x.syn||x.ant?`<br><small>${[x.syn?"podobnie: "+x.syn:"",x.ant?"przeciwnie: "+x.ant:""].filter(Boolean).join(" · ")}</small>`:"");
+$("pz-opts").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b||!PZ||PZ.locked||b.classList.contains("no")||document.querySelector(".cheer-wrap,.goal-wrap")) return;
+  const P=PZ,x=P.words[P.i],q=P.qs[P.i],r=P.recs[P.i],o=b.dataset.o,card=$("pz-card");
+  r.tries.push(o);
+  if(o===q.c){
+    r.done=true;r.ms=Math.min(Date.now()-P.t0,120000);b.classList.add("ok");
+    card.classList.remove("bad");card.classList.add("ok");$("pz-msg").textContent="Dobrze!";sfx("ok");
+    const fx=fxOn()?playFx("ok"):null;P.locked=true;
+    const done=P.i+1,last=done>=P.words.length,goal=done%10===0&&!last&&PREFS.goals;
+    if(done%5===0&&!last){if(PREFS.modals) celebrate(done,false,goal?showGoal:null); else if(goal) showGoal();}
+    setTimeout(()=>{if(fx) fx.end();P.locked=false;
+      $("pz-opts").hidden=true;$("pz-why").innerHTML=pzWhy(x);$("pz-why").hidden=false;
+      $("pz-next").textContent=last?"Zobacz wynik":"Dalej";$("pz-next").hidden=false;$("pz-next").focus();
+      pzStatsLine();checkUnlock();},fx?fx.ms:450);
+  }else{
+    r.ok=false;b.classList.add("no");b.setAttribute("aria-disabled","true");
+    card.classList.add("bad");$("pz-msg").textContent="Nie tym razem – spróbuj jeszcze";
+    const fx=fxOn()?playFx("bad"):null;
+    if(fx){P.locked=true;if(fx.boom!=null) setTimeout(()=>sfx("bad"),fx.boom);setTimeout(()=>{fx.end();P.locked=false;card.classList.remove("bad");},fx.ms);}
+    else{sfx("bad");card.classList.remove("shake");void card.offsetWidth;card.classList.add("shake");}
+    pzStatsLine();
+  }
+});
+$("pz-next").addEventListener("click",()=>{if(!PZ||PZ.locked) return;if(PZ.i+1>=PZ.words.length) pzFinish(); else {PZ.i++;pzShow();}});
+function pzFinish(){
+  const P=PZ;P.over=true;plArchive(P,"done");FXC=null;
+  $("pz-bar").style.width="100%";$("pz-count").textContent=`${P.words.length} / ${P.words.length}`;$("pz-game").hidden=true;
+  const seen=new Set(),miss=[];
+  P.recs.forEach((r,k)=>{if(r.ok||seen.has(r.t)) return;seen.add(r.t);const x=P.words[k],bad=[...new Set(r.tries.filter(t=>t!==r.c))];
+    miss.push({html:x.w,bad:[],notes:[x.d,`<i>„${x.ex}”</i>`,`wybrane: ${bad.map(t=>`<s>${cut(t)}</s>`).join(", ")}`]});});
+  plEnd($("pz-end"),P,P.recs.filter(r=>r.ok).length,P.words.length,slow(P.words.length),miss,P.cfg.daily?"Zagraj więcej":"Jeszcze raz");
+}
+$("pz-end").addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b||!PZ) return;
+  if(b.dataset.a==="back") return history.back();
+  const st=pzStats(),zl=PZ.cfg.daily?PLP.zl:PZ.cfg.lvl;pzStart(pzPick(PZ.cfg.daily?PLP.zn:PZ.words.length,pzLevels(zl,st),st),{mode:"znaczenia",lvl:zl},st);});
+
+/* słownik: tylko poznane słowa, z postępem do „znasz” */
+let PZK="all";
+function renderPzk(){
+  const st=pzStats(),known=[...st.values()].filter(e=>e.known).length;
+  $("pzk-sum").innerHTML=[["Znasz",known],["Poznane",st.size],["Do odkrycia",MEAN.length-st.size]].map(([k,v])=>`<div><span class="k">${k}</span><b>${v}</b><small>${slow(v)}</small></div>`).join("");
+  for(const b of $("pzk-f").children){const on=b.dataset.f===PZK;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
+  const list=MEAN.filter(x=>{const s=st.get(x.w);return s&&(PZK==="all"||PZK==="ok"&&s.known||PZK==="rep"&&!s.known&&(!s.last||s.ok<s.n));})
+    .sort((a,b)=>a.w.localeCompare(b.w,"pl"));
+  $("pzk-list").innerHTML=list.length?list.map(x=>{const s=st.get(x.w),lab=s.known?"✓ znasz":!s.last?"do powtórki":`${s.days.size} z 3 dni`;
+    return `<li class="${s.known?"ok":!s.last?"bad":""}"><div><b>${x.w}</b><span>${lab}</span></div><p>${x.d}</p></li>`;}).join("")
+    :`<li class="none">${st.size?"Nic tu jeszcze nie ma.":"Zagraj, a każde poznane słowo trafi do słownika."}</li>`;
+}
+$("pzk-f").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;PZK=b.dataset.f;renderPzk();});
 
 // wczytanie zapisanej sesji: dopiero teraz, bo finish() zapisuje do historii (HKEY wyżej)
 if(load()){

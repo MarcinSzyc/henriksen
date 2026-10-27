@@ -17,10 +17,15 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   (`#gra`, `#statystyki`), więc „wstecz” w telefonie wraca na start. Aplikacja zawsze startuje na `#home`.
   Wczytanie zapisanej sesji (`load()` → `render0()`/`finish(true)`) jest na samym końcu skryptu – `finish()` zapisuje
   do historii i używa stałych zdefiniowanych niżej (wcześniej powodowało to błąd TDZ przy starcie).
-- **Polski** (widoki `#pl` → `#plws`/`#plw` Słówka, `#pld`/`#pldt` Dyktanda; hashe `#polski`, `#slowka`, `#slowka-gra`, `#dyktanda`, `#dyktando`;
+- **Polski** (widoki `#pl` → `#plws`/`#plw` Słówka, `#pld`/`#pldt` Dyktanda, `#plzs`/`#plz`/`#plzk` Znaczenie słów; hashe `#polski`, `#slowka`, `#slowka-gra`, `#dyktanda`, `#dyktando`, `#znaczenia`, `#znaczenia-gra`, `#slownik`;
   `showView` przełącza wszystko z `VIEWS`, `plLeave()` zapisuje przerwaną sesję, `plShow()` rysuje listy):
   - `WORDS`: `"g[ó]ra|podpowiedź|reguła|opis"` – opis = trudne słowo (pokazywane znaczenie, bez całego słowa). Para (ó/u, rz/ż, ch/h) z `plPair()`.
   - `DICTS`: `{id,len:"s"|"m"|"l",title,text}`, luki w tekście jako `[litery]`; długość i liczba słów liczone same.
+  - Znaczenie słów: `MEAN_RAW` (3 poziomy, ~300 słów) `"słowo|p/r/c/s|znaczenie|przykład z [słowem]|synonim|przeciwieństwo"`.
+    Pytania `pzQuestion()`: def (słowo → znaczenie), rev (znaczenie → słowo), syn, ant, gap (zdanie z luką; nie dla przysłówków).
+    Złe odpowiedzi z tej samej części mowy, bez słów bliskich (`pzNear`: synonimy, wspólne przeciwieństwo, grupy `MEAN_NEAR` –
+    tam dopisuj słowa, które mogą się mylić). Stan słów liczony z historii (`pzStats`): „znasz” = dobrze za 1. razem w 3 różne dni
+    i ostatnio dobrze. Poziom 2/3 otwiera się po 30 słowach poprzedniego odpowiedzianych dobrze. Słowo dnia (`pzDaily`) na ekranie Polskiego.
   - Ustawienia w `localStorage` pod `henriksen-polski` (`PLP`: pairs, n, len, now = „Sprawdzaj od razu”).
   - Gra w Słówka (`PW`) i Dyktando (`PD`) używa tych samych `playFx`/`sfx`/`celebrate`/`showGoal` co matematyka:
     efekty rysują się na karcie z `FXC={card,eq,box}` (null = karta matematyki). Dyktando bez „od razu” sprawdza się na końcu, bez efektów na luce.
