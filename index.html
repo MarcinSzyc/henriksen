@@ -477,6 +477,11 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .pl-len{background:var(--key)}.pl-len button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;min-height:56px}
 .pl-len button b{font-size:1rem}.pl-len button small{font-size:.72rem;opacity:.8}
 .pl-len button.sel{background:var(--card)}
+#plc-hist .tchips span{white-space:normal}
+#plc-hist,#plc-dicts{table-layout:fixed}#plc-hist th:nth-child(1){width:56px}#plc-hist th:nth-child(3){width:48px}#plc-hist th:nth-child(4){width:48px}
+#plc-dicts th:nth-child(2){width:40px}#plc-dicts th:nth-child(3){width:66px}#plc-dicts th:nth-child(4){width:74px}#plc-hist li{overflow-wrap:anywhere}
+.top10 li u{text-decoration:none;color:var(--accent)}
+.det .rq u{text-decoration:none;color:var(--ok)}.det .rbad .rq u{color:var(--bad)}
 .set-i .lr.new{background:#fff0e0;color:#b93a0a;font-size:.75rem;padding:3px 8px;border-radius:999px}
 .pl-why i{font-style:normal;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:3px}
 </style>
@@ -514,7 +519,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <div class="motiv" id="k-motiv"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4"/></svg><span id="k-motiv-t"></span></div>
     <div class="k2"><div><span class="k">Szóstki</span><b id="k-six"></b></div><div><span class="k">Najszybciej</span><b id="k-fast"></b></div></div>
   </div>
-  <button type="button" class="more pmore" id="par-btn" aria-expanded="false" aria-controls="par"><span><b>Szczegóły dla rodzica</b><small>Wykresy, oceny, trudne działania, tabliczka</small></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button>
+  <button type="button" class="more pmore" id="par-btn" aria-expanded="false" aria-controls="par"><span><b>Szczegóły dla rodzica</b><small id="par-s">Wykresy, oceny, trudne działania, tabliczka</small></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button>
   <div class="par" id="par" hidden>
   <div class="fchips" id="sf" role="group" aria-label="Filtr działań"><button type="button" data-f="all" class="sel">Wszystko</button><button type="button" data-f="+">+</button><button type="button" data-f="−">−</button><button type="button" data-f="×">×</button><button type="button" data-f=":">:</button></div>
   <section class="scard"><h2>Dobrze za 1. razem</h2><div class="chart" id="ch-pct"></div>
@@ -524,6 +529,14 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="again" id="practice">💪 Poćwicz trudne</button></section>
   <section class="scard" id="heat-sec"><h2>Tabliczka – gdzie są błędy</h2><div class="heat" id="heat"></div><div class="ctip" id="heat-tip">Dotknij kratki, żeby zobaczyć szczegóły</div></section>
   <section class="scard"><h2>Historia</h2><table class="hist" id="hist"></table></section>
+  </div>
+  <div class="par" id="par-pl" hidden>
+  <div class="fchips" id="plsf" role="group" aria-label="Filtr ćwiczeń"><button type="button" data-f="all" class="sel">Wszystko</button><button type="button" data-f="slowka">Słówka</button><button type="button" data-f="dyktando">Dyktanda</button></div>
+  <section class="scard"><h2>Dobrze za 1. razem</h2><div class="chart" id="plc-pct"></div></section>
+  <section class="scard"><h2>Która trudność</h2><div class="gdist" id="plc-pairs"></div></section>
+  <section class="scard"><h2>Top 10 mylonych słów</h2><ol class="top10" id="plc-top"></ol></section>
+  <section class="scard" id="plc-dsec"><h2>Dyktanda</h2><table class="hist" id="plc-dicts"></table></section>
+  <section class="scard"><h2>Historia</h2><table class="hist" id="plc-hist"></table></section>
   </div>
 </div>
 
@@ -1693,8 +1706,11 @@ const dni=n=>n===1?"dzień":"dni";
 function renderKid(){
   const soon=!!SUBJ_SOON[SUBJ];
   $("soonbox").hidden=!soon;$("soon-t").textContent=SUBJ_SOON[SUBJ]||"";
-  $("kid").hidden=soon;$("par-btn").hidden=soon||SUBJ==="pl";$("par").hidden=soon||SUBJ==="pl"||!parOpen;
-  $("par-btn").setAttribute("aria-expanded",!$("par").hidden);
+  $("kid").hidden=soon;$("par-btn").hidden=soon;$("par").hidden=soon||SUBJ==="pl"||!parOpen;
+  // Polski ma własne szczegóły rodzica (#par-pl); „Wszystko” i Matma pokazują matematyczne
+  $("par-pl").hidden=soon||SUBJ!=="pl"||!parOpen;if(!$("par-pl").hidden) renderPlPar();
+  $("par-s").textContent=SUBJ==="pl"?"Wykresy, ó/u · rz/ż · ch/h, mylone słowa, dyktanda":"Wykresy, oceny, trudne działania, tabliczka";
+  $("par-btn").setAttribute("aria-expanded",parOpen);
   if(soon) return;
   const H=loadHist().filter(s=>SUBJ==="all"||subjOf(s)===SUBJ),per=new Map();
   const add=(t,n)=>{if(n>0){const k=dayKey(t);per.set(k,(per.get(k)||0)+n);}};
@@ -1933,7 +1949,7 @@ function plArchive(P,status){
   const H=loadHist(),k=H.findIndex(s=>s.id===P.id);if(k>=0&&H[k].status==="done") return;
   const good=recs.filter(r=>r.ok).length,pct=Math.floor(good*100/done);
   const s={id:P.id,subj:"pl",start:P.start,end:Date.now(),status,cfg:P.cfg,n:P.recs.length,done,
-    recs:recs.map(r=>({t:r.t,ok:r.ok,tries:r.tries,h:0,ms:r.ms||0})),pct,grade:grade(pct).n,errors:done-good,hints:0};
+    recs:recs.map(r=>({t:r.t,a:r.a,m:r.m,ok:r.ok,tries:r.tries,h:0,ms:r.ms||0})),pct,grade:grade(pct).n,errors:done-good,hints:0};
   if(k>=0) H[k]=s; else H.push(s);saveHist(H);
 }
 // wyjście z gry w trakcie = sesja przerwana
@@ -1947,6 +1963,53 @@ function plShow(v){
   if(v==="plws") renderPws();
   if(v==="pld") renderPd();
 }
+/* Szczegóły dla rodzica z polskiego: wykres %, skuteczność par, Top 10 mylonych słów, dyktanda, historia */
+let PSF="all";
+const plRecPair=r=>r.a?plPair(r.a):(plFind(r.t.toLowerCase())||{}).pair;
+const plWordHtml=r=>r.m?r.m.replace("_",`<u>${r.a}</u>`):r.t; // brakująca litera wyróżniona
+const plName=s=>s.cfg.mode==="dyktando"?"„"+((DICTS.find(d=>d.id===s.cfg.dict)||{}).title||"dyktando")+"”":"słówka";
+function renderPlPar(){
+  const all=plHist().sort((a,b)=>a.start-b.start),S=all.filter(s=>PSF==="all"||s.cfg.mode===PSF),done=S.filter(s=>s.status==="done");
+  lineChart($("plc-pct"),done.slice(-30).map(s=>({t:s.start,v:s.pct,s})),{min:0,max:100,ticks:[0,50,100],dash:[50],tick:v=>v+"%",
+    bands:[[98,"6"],[86,"5"],[70,"4"],[51,"3"],[31,"2"]],label:"Procent dobrych odpowiedzi za pierwszym razem w kolejnych sesjach z polskiego",
+    empty:"Jeszcze nie ma ukończonych sesji",hint:"Dotknij punktu, żeby zobaczyć sesję",
+    tip:p=>`${fdate(p.t).join(" ")} · ${plName(p.s)} · ${p.v}% · ocena ${p.s.grade}`});
+  const recs=S.flatMap(s=>s.recs);
+  const pr=Object.keys(PL_PAIRS).map(k=>{const r=recs.filter(x=>plRecPair(x)===k);return {k,n:r.length,good:r.filter(x=>x.ok).length};});
+  $("plc-pairs").innerHTML=pr.some(x=>x.n)?pr.map(x=>{const p=x.n?Math.round(x.good*100/x.n):0,c=x.n?grade(p).c:"";
+    return `<div class="gl"><b>${PL_PAIRS[x.k].name}</b></div><div class="gbar${x.n?"":" z"}" style="--gc:${c};width:${x.n?Math.max(3,p):1}%"></div><div class="gn">${x.n?`${p}% · ${x.good}/${x.n}`:"–"}</div>`;}).join("")
+    :`<div class="ctip" style="grid-column:1/-1">Jeszcze nie ma odpowiedzi</div>`;
+  // mylone słowa: odsetek złych pierwszych odpowiedzi; znika po 3 dobrych z rzędu
+  const m=new Map();
+  for(const r of recs){const k=(r.m||r.t).toLowerCase()+"|"+(r.a||"");let e=m.get(k);if(!e){e={r,n:0,bad:0,seq:[],wrong:[]};m.set(k,e);}
+    e.n++;if(!r.ok) e.bad++;e.seq.push(r.ok);r.tries.forEach(x=>{if(r.a&&x!==r.a) e.wrong.push(x);});}
+  const top=[...m.values()].filter(e=>e.bad&&!(e.seq.length>=3&&e.seq.slice(-3).every(Boolean)))
+    .sort((a,b)=>b.bad/b.n-a.bad/a.n||b.bad-a.bad||b.n-a.n).slice(0,10);
+  $("plc-top").innerHTML=top.length?top.map(e=>{const p=Math.round(e.bad*100/e.n),w=[...new Set(e.wrong)];
+    return `<li style="--w:${p}%"><b>${plWordHtml(e.r)}</b><span class="rate">${e.bad} z ${e.n} źle · ${p}%</span>${w.length?`<small>wybierał: ${w.join(", ")}</small>`:""}</li>`;}).join("")
+    :`<li class="none">Brak – świetnie! Słowo trafia tu po pierwszym błędzie i znika po 3 dobrych z rzędu.</li>`;
+  // dyktanda: ile razy, ostatni wynik, najlepsza ocena
+  $("plc-dsec").hidden=PSF==="slowka";
+  const dd=DICTS.map(d=>({d,h:all.filter(s=>s.status==="done"&&s.cfg.dict===d.id)})).filter(x=>x.h.length);
+  $("plc-dicts").innerHTML=dd.length?`<thead><tr><th>Dyktando</th><th class="num">Razy</th><th class="num">Ostatnio</th><th class="num">Najlepiej</th></tr></thead><tbody>`+
+    dd.map(({d,h})=>{const b=Math.max(...h.map(s=>s.grade)),g=GRADES.find(x=>x.n===b);
+      return `<tr><td><b>${d.title}</b><small style="display:block;color:var(--muted);font-weight:700">${PL_LEN[d.len]} · ${d.gaps} ${luk(d.gaps)}</small></td><td class="num">${h.length}</td><td class="num">${h[h.length-1].pct}%</td><td class="num"><span class="gb" style="--gc:${g.c}">${b}</span></td></tr>`;}).join("")+"</tbody>"
+    :`<tbody><tr><td class="ctip">Tu pojawi się każde napisane dyktando</td></tr></tbody>`;
+  // historia sesji; wiersz rozwija każde słowo z tym, co było wybrane
+  const rows=S.slice().reverse().map(s=>{const [d,h]=fdate(s.start),g=GRADES.find(x=>x.n===s.grade),stop=s.status!=="done";
+    const chips=s.cfg.mode==="dyktando"?["dyktando",plName(s)]:["słówka",...(s.cfg.pairs||[]).map(k=>PL_PAIRS[k]?PL_PAIRS[k].name:k)].concat(s.cfg.practice?["trudne"]:[]);
+    const unit=s.cfg.mode==="dyktando"?luk(s.done):slowek(s.done);
+    const det=`<tr class="det" hidden><td colspan="4"><div class="ds">${s.done}${stop?" z "+s.n:""} ${unit} · błędy: ${s.errors}${s.end?" · razem "+Math.max(1,Math.round((s.end-s.start)/60000))+" min":""}</div>
+      <ul>${s.recs.map(r=>{const w=r.tries.filter(x=>r.a&&x!==r.a);
+        return `<li class="${r.ok?"":"rbad"}"><span class="rq">${plWordHtml(r)}</span> ${r.ok?"✓":"✗"}${w.length?" "+[...new Set(w)].map(x=>`<s>${x}</s>`).join(" "):""}${r.ms?` <small>${sec(r.ms)}</small>`:""}</li>`;}).join("")}</ul></td></tr>`;
+    return `<tr class="row"><td>${d}<small>${h}</small></td><td><div class="tchips">${chips.map(c=>`<span>${c}</span>`).join("")}${stop?'<span class="stop">przerwana</span>':""}</div></td>
+      <td class="num">${s.pct}%</td><td class="num">${stop?"–":`<span class="gb" style="--gc:${g.c}">${s.grade}</span>`}</td></tr>${det}`;}).join("");
+  $("plc-hist").innerHTML=rows?`<thead><tr><th>Data</th><th>Typ</th><th class="num">Wynik</th><th class="num">Ocena</th></tr></thead><tbody>${rows}</tbody>`
+    :`<tbody><tr><td class="ctip">Tu pojawi się każda sesja</td></tr></tbody>`;
+}
+$("plsf").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;PSF=b.dataset.f;
+  for(const x of $("plsf").children) x.classList.toggle("sel",x===b);renderPlPar();});
+$("plc-hist").addEventListener("click",e=>{const r=e.target.closest("tr.row");if(r) r.nextElementSibling.hidden=!r.nextElementSibling.hidden;});
 function renderPl(){
   const w=plHist("slowka"),d=plHist("dyktando");
   $("pl-t-w-s").textContent=w.length?`Ostatnio: ${w[w.length-1].done} ${slowek(w[w.length-1].done)}, ${w[w.length-1].pct}%`:"Brakuje jednej litery: ó czy u, rz czy ż, ch czy h";
@@ -1982,10 +2045,11 @@ $("pw-hard").addEventListener("click",()=>{const h=plHard();if(!h.length) return
   pwStart(list,{mode:"slowka",pairs:[...new Set(h.map(w=>w.pair))],practice:true});});
 
 /* --- Słówka: gra --- */
+const pwRec=w=>({t:w.full,a:w.ans,m:w.pre+"_"+w.post,ok:true,tries:[],ms:0,done:false});
 let PW=null; // {id,start,cfg,words,i,recs:[{t,ok,tries,ms,done}],wrong:[],locked,over,t0}
 function pwStart(words,cfg){
   PW={id:Date.now(),start:Date.now(),cfg,words,i:0,wrong:[],locked:false,over:false,
-    recs:words.map(w=>({t:w.full,ok:true,tries:[],ms:0,done:false}))};
+    recs:words.map(pwRec)};
   $("pw-game").hidden=false;$("pw-end").hidden=true;$("pw-end").innerHTML="";
   go("plw");pwShow();
 }
@@ -2068,7 +2132,7 @@ function pwStartAgain(P){ // te same ustawienia, nowe losowanie (albo te same tr
   const pool=WORDS.filter(w=>P.cfg.pairs.includes(w.pair)),list=[];
   while(list.length<P.words.length) list.push(...shuffle(pool.slice()));
   PW={id:Date.now(),start:Date.now(),cfg:P.cfg,words:list.slice(0,P.words.length),i:0,wrong:[],locked:false,over:false};
-  PW.recs=PW.words.map(w=>({t:w.full,ok:true,tries:[],ms:0,done:false}));
+  PW.recs=PW.words.map(pwRec);
   $("pw-game").hidden=false;$("pw-end").hidden=true;pwShow();scrollTo(0,0);
 }
 
@@ -2092,10 +2156,13 @@ $("pd-rand").addEventListener("click",()=>{const l=DICTS.filter(d=>d.len===PLP.l
   const fresh=l.filter(d=>!H.some(s=>s.cfg.dict===d.id));const c=fresh.length?fresh:l;pdStart(c[Math.floor(Math.random()*c.length)]);});
 
 /* --- Dyktando --- */
+// inne luki w tym samym słowie (ż[ó]łtym) wypełnione poprawnie
+const pdAll=d=>Object.fromEntries(d.segs.filter(s=>s.ans).map(s=>[s.gap,s.ans]));
+const pdRecs=d=>d.segs.filter(s=>s.ans).map(s=>{const p=pdWord(d,s.gap,pdAll(d));return {t:pdWord(d,s.gap,null,true),a:s.ans,m:p.pre+"_"+p.post,ok:true,tries:[],ms:0,done:false};});
 let PD=null; // {id,start,cfg,d,fill:{},act,recs,checked,over,locked}
 function pdStart(d){
   PD={id:Date.now(),start:Date.now(),cfg:{mode:"dyktando",dict:d.id,now:PLP.now},d,fill:{},act:0,checked:false,over:false,locked:false,
-    recs:d.segs.filter(s=>s.ans).map(s=>({t:pdWord(d,s.gap,null,true),ok:true,tries:[],ms:0,done:false}))};
+    recs:pdRecs(d)};
   $("pd-title").textContent=d.title;$("pd-end").hidden=true;$("pd-end").innerHTML="";$("pd-panel").hidden=false;
   go("pldt");pdRender();
 }
@@ -2172,7 +2239,7 @@ function pdFinish(){
   const P=PD;P.checked=true;P.over=true;FXC=null;plArchive(P,"done");
   $("pd-panel").hidden=true;pdRender();$("pd-count").textContent=`${P.d.gaps} / ${P.d.gaps}`;
   const miss=P.d.segs.filter(s=>s.ans&&!P.recs[s.gap].ok).map(s=>{const t=P.recs[s.gap].t.toLowerCase(),w=plFind(t);
-    const p=pdWord(P.d,s.gap,null);return {w:{pre:p.pre,ans:s.ans,post:p.post,why:w?w.why:"",desc:w?w.desc:""},bad:[...new Set(P.recs[s.gap].tries.filter(x=>x!==s.ans))]};});
+    const p=pdWord(P.d,s.gap,pdAll(P.d));return {w:{pre:p.pre,ans:s.ans,post:p.post,why:w?w.why:"",desc:w?w.desc:""},bad:[...new Set(P.recs[s.gap].tries.filter(x=>x!==s.ans))]};});
   const good=P.recs.filter(r=>r.ok).length;
   plEnd($("pd-end"),P,good,P.d.gaps,luk(P.d.gaps),miss,"Jeszcze raz",false);
   $("pd-end").scrollIntoView({block:"start"});
@@ -2181,7 +2248,7 @@ $("pd-end").addEventListener("click",e=>{const b=e.target.closest("[data-a]");if
   if(b.dataset.a==="again"){const d=PD.d;PD=null;pdStartSame(d);} else history.back();});
 function pdStartSame(d){ // ten sam tekst od nowa, bez nowego wpisu w historii przeglądarki
   PD={id:Date.now(),start:Date.now(),cfg:{mode:"dyktando",dict:d.id,now:PLP.now},d,fill:{},act:0,checked:false,over:false,locked:false,
-    recs:d.segs.filter(s=>s.ans).map(s=>({t:pdWord(d,s.gap,null,true),ok:true,tries:[],ms:0,done:false}))};
+    recs:pdRecs(d)};
   $("pd-end").hidden=true;$("pd-panel").hidden=false;pdRender();scrollTo(0,0);
 }
 

@@ -24,7 +24,10 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   - Ustawienia w `localStorage` pod `henriksen-polski` (`PLP`: pairs, n, len, now = „Sprawdzaj od razu”).
   - Gra w Słówka (`PW`) i Dyktando (`PD`) używa tych samych `playFx`/`sfx`/`celebrate`/`showGoal` co matematyka:
     efekty rysują się na karcie z `FXC={card,eq,box}` (null = karta matematyki). Dyktando bez „od razu” sprawdza się na końcu, bez efektów na luce.
-  - Sesje w historii z `subj:"pl"`, `cfg.mode` = `slowka`/`dyktando`, `recs[].t` = całe słowo. Szczegóły rodzica, Top 10, `allHard`, `setLast` biorą tylko `subj` mat.
+  - Sesje w historii z `subj:"pl"`, `cfg.mode` = `slowka`/`dyktando`, `recs[].t` = całe słowo. Matematyczne szczegóły rodzica, Top 10, `allHard`, `setLast` biorą tylko `subj` mat.
+    Rekord słowa ma też `a` (brakująca litera) i `m` (słowo z „_” w miejscu luki).
+  - Szczegóły rodzica z polskiego (`#par-pl`, `renderPlPar()`, filtr `PSF` słówka/dyktanda): wykres %, skuteczność ó/u · rz/ż · ch/h,
+    Top 10 mylonych słów (znika po 3 dobrych z rzędu), tabela dyktand (razy, ostatnio, najlepiej) i historia sesji z rozwinięciem.
 - **Historia:** `localStorage` pod `henriksen-historia`, tablica sesji
   `{id,subj,start,end,status:"done"|"przerwana",cfg,n,done,recs:[{t,ok,tries,h,ms}],pct,grade,errors,hints}`.
   `archive(status)` przy `finish()` i przy rozpoczęciu nowych działań w trakcie (przerwana). Bieżąca sesja trzyma `SID`, `T0`
