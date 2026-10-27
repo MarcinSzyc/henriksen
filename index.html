@@ -415,6 +415,70 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .row.sel .tg{background:var(--ok)}.row.sel .tg::after{transform:translateX(20px)}
 @media (prefers-reduced-motion:reduce){.shake,.cheer,.puke *{animation:none!important}.card{transition:none}
   .fb *{animation-duration:.01s!important;animation-iteration-count:1!important;animation-delay:0s!important}}
+/* Polski: Słówka i Dyktanda */
+.wrap>.grp,.wrap>.step{background:var(--card)}
+.pl-t{flex:none;height:210px;min-height:0}
+.pl-t2{background:linear-gradient(135deg,#e8590c,#862e0b)}
+.pl-pills{display:flex;gap:8px;margin-bottom:6px}.pl-pills i{font-style:normal;font-weight:800;font-size:1.15rem;padding:5px 14px;border-radius:999px;background:rgba(255,255,255,.22)}
+.pl-lines{position:absolute;top:22px;left:22px;right:22px;display:flex;flex-direction:column;gap:10px;pointer-events:none}
+.pl-lines i{height:10px;border-radius:5px;background:rgba(255,255,255,.2)}.pl-lines i:nth-child(1){width:92%}.pl-lines i:nth-child(2){width:70%}.pl-lines i:nth-child(3){width:84%}
+.pl-pairs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.pl-pairs button{min-height:76px;border-radius:18px;border:2px solid var(--line);background:var(--card);color:var(--fg);font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:6px}
+.pl-pairs b{font-family:var(--display);font-weight:800;font-size:1.5rem;line-height:1}.pl-pairs small{font-weight:800;font-size:.75rem;opacity:.75}
+.pl-pairs button.sel{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.pl-pairs button:focus-visible,.pl-opts button:focus-visible,.pl-arrow:focus-visible,.pl-gap:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
+.pl-bar{height:12px;border-radius:6px;background:var(--line);overflow:hidden;margin:0 4px}.pl-bar i{display:block;height:100%;width:0;background:var(--ok);border-radius:6px;transition:width .3s}
+.pl-game{display:flex;flex-direction:column;gap:14px;flex:1}
+.pl-card{padding:20px 16px 16px}
+.pl-tags{display:flex;gap:8px;justify-content:center}
+.pl-tag{padding:4px 12px;border-radius:999px;background:var(--key);color:var(--accent);font-weight:800;font-size:.8rem}
+.pl-tag.hard{background:#fff0e0;color:#b93a0a}
+.pl-word{gap:.04em;white-space:nowrap;margin:6px 0}
+.pl-word .box{min-width:1.35em;height:1.25em;margin:0 .06em;padding:0 .1em;border-style:dashed}
+.pl-card.ok .box,.pl-panel.ok .box{border-style:solid}
+.pl-word.sm{font-size:1.7rem;margin:0}.pl-word.sm .box{border-width:3px;border-radius:10px}
+.pl-hint{margin:0;display:flex;gap:8px;align-items:flex-start;color:var(--muted);font-weight:700;font-size:.95rem;line-height:1.4;text-align:left}
+.pl-hint svg{flex:none;margin-top:1px}
+.pl-desc{align-self:stretch;padding:10px 14px;border-radius:14px;background:#fff7ed;color:#5c2a07;font-size:.92rem;line-height:1.45}
+:root[data-theme="dark"] .pl-desc,:root[data-theme="dark"] .pl-tag.hard{background:#3a2412;color:#ffd8a8}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .pl-desc,:root:not([data-theme="light"]) .pl-tag.hard{background:#3a2412;color:#ffd8a8}}
+.pl-why{padding:12px 16px;border-radius:18px;background:var(--ok-soft);color:var(--fg);font-weight:700;line-height:1.4}
+.pl-why b{color:var(--ok);font-family:var(--display);font-size:1.15rem}
+.pl-opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.pl-opts button{min-height:104px;border:0;border-radius:24px;background:var(--key);color:var(--key-fg);font-family:var(--display);font-weight:800;font-size:2.8rem;line-height:1;cursor:pointer;box-shadow:0 4px 0 var(--line)}
+.pl-opts button:active{transform:translateY(2px);box-shadow:0 2px 0 var(--line)}
+.pl-opts button.no{background:var(--bad-soft);color:var(--bad);text-decoration:line-through;box-shadow:none;opacity:.6;cursor:default}
+.pl-opts button.sel{background:var(--accent);color:var(--on-accent);box-shadow:0 4px 0 color-mix(in srgb,var(--accent) 60%,#000)}
+.pl-next{min-height:84px;font-size:1.6rem}
+.pl-text{background:var(--card);border-radius:22px;padding:16px 16px 18px;font-size:1.2rem;line-height:2.15;font-weight:700;-webkit-user-select:none;user-select:none}
+.pl-gap{display:inline-flex;align-items:center;justify-content:center;min-width:1.7em;height:1.6em;padding:0 .25em;margin:0 .05em;box-sizing:border-box;border-radius:9px;vertical-align:.08em;font:inherit;font-weight:800;line-height:1;cursor:pointer;border:2px dashed var(--muted);background:var(--bg);color:var(--muted)}
+.pl-gap.fill{min-width:0;padding:0 1px;margin:0;border:0;border-bottom:3px solid var(--accent);border-radius:0;background:none;color:var(--accent)}
+.pl-text .nw{white-space:nowrap}
+.pl-gap.now{border:2px solid var(--accent);background:color-mix(in srgb,var(--accent) 14%,var(--card));color:var(--accent);box-shadow:0 0 0 3px color-mix(in srgb,var(--accent) 22%,transparent)}
+.pl-gap.ok{min-width:0;padding:0 2px;margin:0;border:0;border-bottom:3px solid var(--ok);border-radius:0;background:var(--ok-soft);color:var(--ok)}
+.pl-gap.bad{border:2px solid var(--bad);background:var(--bad-soft);color:var(--bad)}
+.pl-gap s{opacity:.6;margin-right:.15em}
+.pl-panel{position:sticky;bottom:max(8px,env(safe-area-inset-bottom,0px));align-items:stretch;gap:10px;padding:14px;box-shadow:0 -6px 24px rgba(29,37,64,.12);z-index:2}
+.pl-ph{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.pl-popts{display:grid;grid-template-columns:48px minmax(0,1fr) 48px;gap:8px}
+.pl-popts .pl-opts button{min-height:78px;font-size:2.2rem}
+.pl-arrow{border:0;border-radius:16px;background:var(--bg);color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer}
+.go-btn:disabled{background:var(--key);color:var(--muted);cursor:default}
+.pl-end{display:flex;flex-direction:column;gap:12px}
+.pl-end .done{padding-bottom:18px}
+.pl-miss{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.pl-miss li{background:var(--card);border-radius:18px;padding:12px 16px;display:flex;flex-direction:column;gap:4px}
+.pl-miss .mw{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+.pl-miss .mw b{font-family:var(--display);font-size:1.5rem;line-height:1.1}.pl-miss .mw b i{font-style:normal;color:var(--ok)}
+.pl-miss .mw span{font-weight:800;font-size:.85rem;color:var(--bad);white-space:nowrap}
+.pl-miss p{margin:0;font-size:.9rem;color:var(--muted);font-weight:700;line-height:1.4}
+.pl-end .btns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pl-end .btns .again{min-height:58px;border-radius:18px}
+.pl-len{background:var(--key)}.pl-len button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;min-height:56px}
+.pl-len button b{font-size:1rem}.pl-len button small{font-size:.72rem;opacity:.8}
+.pl-len button.sel{background:var(--card)}
+.set-i .lr.new{background:#fff0e0;color:#b93a0a;font-size:.75rem;padding:3px 8px;border-radius:999px}
+.pl-why i{font-style:normal;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:3px}
 </style>
 <script>/* motyw z ustawień przed narysowaniem strony, bez mignięcia */
 try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t==="light"||t==="dark") document.documentElement.dataset.theme=t;}catch(e){}</script>
@@ -429,7 +493,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <button type="button" class="tile math" id="t-math"><span class="wm" aria-hidden="true">+−×:</span><span class="tt">Matematyka</span><small id="t-math-s">Wybierz ćwiczenia i zaczynamy</small></button>
   <div class="tiles2">
-    <button type="button" class="tile pl" data-soon aria-describedby="soon-pl"><span class="wm" aria-hidden="true">ą ę ć ż ó</span><span class="soon">Wkrótce</span><span class="tt">Polski</span><small id="soon-pl">ó/u, rz/ż – na czas</small></button>
+    <button type="button" class="tile pl" id="t-pl"><span class="wm" aria-hidden="true">ą ę ć ż ó</span><span class="tt">Polski</span><small>Słówka i dyktanda</small></button>
     <button type="button" class="tile his" data-soon aria-describedby="soon-his"><span class="wm" aria-hidden="true">1410</span><span class="soon">Wkrótce</span><span class="tt">Historia</span><small id="soon-his">Daty, bitwy, królowie</small></button>
   </div>
   <button type="button" class="sbar" id="t-stats"><span class="si" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg></span>
@@ -477,6 +541,66 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   </div>
   <div class="pad" id="pad"></div>
   <div class="foot"><span id="stats">Błędy: 0</span><button class="again" id="again" type="button">Nowe działania</button></div>
+</div>
+
+<!-- Polski: wybór modułu, Słówka (ustawienia + gra), Dyktanda (lista + tekst) -->
+<div class="wrap" id="pl" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć do startu"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Polski</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <button type="button" class="tile pl pl-t" id="pl-t-w"><span class="wm" aria-hidden="true">_leb</span><span class="pl-pills" aria-hidden="true"><i>ch</i><i>h</i></span><span class="tt">Słówka</span><small id="pl-t-w-s">Brakuje jednej litery: ó czy u, rz czy ż, ch czy h</small></button>
+  <button type="button" class="tile pl pl-t pl-t2" id="pl-t-d"><span class="pl-lines" aria-hidden="true"><i></i><i></i><i></i></span><span class="tt">Dyktanda</span><small id="pl-t-d-s">Cały tekst z lukami – krótkie, średnie albo długie</small></button>
+</div>
+
+<div class="wrap" id="plws" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Słówka</h1></header>
+  <div class="lbl">Co ćwiczysz</div>
+  <div class="pl-pairs" id="pw-pairs" role="group" aria-label="Co ćwiczysz"></div>
+  <div class="lbl">Ile słówek</div>
+  <div class="step"><button type="button" id="pw-minus" aria-label="Mniej słówek">−</button><output id="pw-n" aria-live="polite">20</output><button type="button" id="pw-plus" aria-label="Więcej słówek">+</button></div>
+  <button type="button" class="own" id="pw-hard" hidden><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M2 11v2M22 11v2"/></svg>
+    <span><b>Poćwicz trudne</b><small id="pw-hard-s"></small></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  <div class="ask-err" id="pw-err"></div>
+  <button type="button" class="go-btn" id="pw-go">Start</button>
+</div>
+
+<div class="wrap" id="plw" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Zakończ"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+    <div class="pl-bar grow" aria-hidden="true"><i id="pw-bar"></i></div><div class="right"><span class="count" id="pw-count">1 / 20</span>
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div id="pw-game" class="pl-game">
+    <div class="card pl-card" id="pw-card">
+      <div class="pl-tags"><span class="pl-tag" id="pw-pair">ch / h</span><span class="pl-tag hard" id="pw-hardtag" hidden>Trudne słowo</span></div>
+      <div class="eq pl-word" id="pw-word" aria-live="polite"><span id="pw-pre"></span><span class="box" id="pw-box"></span><span id="pw-post"></span></div>
+      <p class="pl-hint"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg><span id="pw-hint"></span></p>
+      <div class="pl-desc" id="pw-desc" hidden></div>
+      <div class="msg" id="pw-msg"></div>
+    </div>
+    <div class="pl-why" id="pw-why" hidden></div>
+    <div class="pl-opts" id="pw-opts"></div>
+    <button type="button" class="go-btn pl-next" id="pw-next" hidden>Dalej</button>
+    <div class="foot"><span id="pw-stats">Dobrze: 0 · Błędy: 0</span></div>
+  </div>
+  <div id="pw-end" class="pl-end" hidden></div>
+</div>
+
+<div class="wrap" id="pld" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Dyktanda</h1></header>
+  <div class="segs pl-len" id="pd-len" role="group" aria-label="Długość"><button type="button" data-l="s"><b>Krótkie</b><small>do 40 słów</small></button><button type="button" data-l="m"><b>Średnie</b><small>40–80 słów</small></button><button type="button" data-l="l"><b>Długie</b><small>ponad 80</small></button></div>
+  <div class="sets" id="pd-list"></div>
+  <div class="grp"><button type="button" class="row sw" id="pd-now" aria-pressed="false"><span class="rt"><b>Sprawdzaj od razu</b><small id="pd-now-s">Sprawdzasz cały tekst na końcu</small></span><i class="tg" aria-hidden="true"></i></button></div>
+  <button type="button" class="go-btn" id="pd-rand">Losuj krótkie</button>
+</div>
+
+<div class="wrap" id="pldt" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Zakończ"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow" id="pd-title">Dyktando</h1><div class="right"><span class="count" id="pd-count">0 / 0</span>
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="pl-text" id="pd-text"></div>
+  <div class="card pl-panel" id="pd-panel">
+    <div class="pl-ph"><span class="num" id="pd-no">Luka 1 z 13</span><span class="eq pl-word sm" id="pd-word"><span id="pd-pre"></span><span class="box" id="pd-box"></span><span id="pd-post"></span></span></div>
+    <div class="pl-popts"><button type="button" class="pl-arrow" id="pd-prev" aria-label="Poprzednia luka"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button><div class="pl-opts" id="pd-opts"></div><button type="button" class="pl-arrow" id="pd-next" aria-label="Następna luka"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
+    <button type="button" class="go-btn" id="pd-check" disabled>Sprawdź dyktando</button>
+  </div>
+  <div id="pd-end" class="pl-end" hidden></div>
 </div>
 
 <div class="ask" id="ask" hidden role="dialog" aria-modal="true" aria-labelledby="ask-t">
@@ -749,7 +873,7 @@ function title(){
    żeby karta i klawiatura nie skakały między zadaniami. Liczone od nowa po obrocie i po wczytaniu czcionki. */
 let EQFS=0;
 function fitEq(){
-  const eq=document.querySelector(".eq"),card=$("card"),max=card.clientWidth-28;
+  const card=$("card"),eq=card.querySelector(".eq"),max=card.clientWidth-28;
   if(!card.clientWidth) return; // ekran gry schowany: dopasujemy po wejściu
   $("box").style.minWidth=Math.max(1.9,ALEN*.62+.5)+"em";
   if(!EQFS){
@@ -905,7 +1029,10 @@ function check(){
    card / eq / box = prostokąty w oknie, parts = cyfry działania. Nowy efekt = nowy wpis w FX. */
 // decyduje przełącznik w aplikacji; „Ogranicz ruch” w telefonie ustawia tylko wartość domyślną (PREFS.fx)
 const fxOn=()=>PREFS.fx;
-const eqParts=()=>[...$("card").querySelector(".eq").children];
+// FXC = {card,eq,box}: inna karta niż matematyczna (Polski); null = karta z gry w matmę
+let FXC=null;
+const fxCard=()=>FXC?FXC.card:$("card"),fxEq=()=>FXC?FXC.eq:$("card").querySelector(".eq");
+const eqParts=()=>[...fxEq().children];
 const at=(x,y)=>`left:${Math.round(x)}px;top:${Math.round(y)}px`;
 // kopia cyfry w warstwie efektu (fixed), żeby lecące cyfry nie poszerzały strony na telefonie
 function ghost(el,cls,vars){const r=el.getBoundingClientRect(),cs=getComputedStyle(el);el.classList.add("fx-hide");
@@ -925,7 +1052,7 @@ const FX=[
   {id:"bomb",kind:"bad",tier:1,name:"Bomba",ms:2500,sounds:[[.45,"fuse"],[.9,"boom"]],run(g){
     const B=[[-300,-200,-110],[-130,-300,160],[80,-320,-200],[240,-230,260],[290,120,60]],c=g.c;
     const ghosts=g.parts.map((el,k)=>{const b=B[k%B.length];return ghost(el,"fx-blast",`--bx:${b[0]}px;--by:${b[1]}px;--br:${b[2]}deg`);}).join("");
-    $("card").classList.add("fx-jolt");
+    fxCard().classList.add("fx-jolt");
     const fire=(x,y,w,d,t)=>`<span style="${at(x,y)};width:${w}px;height:${w}px;border-radius:50%;background:radial-gradient(circle,#fff 0%,#fff3b0 14%,#ffd43b 26%,#ff922b 44%,#e03131 60%,rgba(120,20,20,0) 72%);animation:fx-fire ${t}s cubic-bezier(.2,.7,.3,1) ${d}s both"></span>`;
     let h=ghosts+`<div style="${at(c.x+6,c.y-60)};width:100px;height:100px;z-index:5;animation:fx-drop .45s cubic-bezier(.55,0,.85,.35) both,fx-vanish .01s linear .9s both">
       <div style="width:100px;height:100px;position:relative;transform-origin:50% 60%;animation:fx-throb .14s ease-in-out .45s infinite">
@@ -973,7 +1100,7 @@ const FX=[
       <circle cx="24" cy="72" r="5" fill="#7dd3fc" style="transform-origin:24px 72px;animation:fx-engine .1s linear infinite"/><circle cx="96" cy="72" r="5" fill="#7dd3fc" style="transform-origin:96px 72px;animation:fx-engine .1s linear infinite"/><circle cx="60" cy="82" r="7" fill="#a5f3fc" style="transform-origin:60px 82px;animation:fx-engine .1s linear infinite"/></svg></div>
       <span style="left:50%;top:45%;width:18px;height:18px;border-radius:50%;background:radial-gradient(circle,#fff 0%,#c7f0ff 40%,rgba(125,211,252,0) 72%);box-shadow:0 0 24px 8px rgba(165,243,252,.7);animation:fx-point 2.4s ease-out both"></span></div>`;}},
   {id:"stomp",kind:"bad",tier:3,name:"Stopa",ms:2400,boom:360,run(g){
-    g.parts.forEach(el=>el.classList.add("fx-squash"));$("card").classList.add("fx-thud");
+    g.parts.forEach(el=>el.classList.add("fx-squash"));fxCard().classList.add("fx-thud");
     const e=g.eq,c=g.c;let d="";
     for(let k=0;k<6;k++) d+=`<span style="${at(c.x,e.bottom-30)};width:70px;height:50px;border-radius:50%;background:radial-gradient(circle,rgba(220,200,170,.95),rgba(180,160,130,0) 70%);--dx:${(k-2.5)*70}px;animation:fx-dust 2.4s ease-out both"></span>`;
     return d+`<div style="${at(c.x-150,e.bottom-340)};width:300px;height:360px;z-index:5;animation:fx-foot 2.4s cubic-bezier(.6,0,.4,1) both">${FOOT}</div>`;}}
@@ -995,13 +1122,14 @@ const fxUsable=f=>f.tier<=fxTier()&&!PREFS.fxOff.includes(f.id);
 // uruchamia losowy dostępny efekt; zwraca {ms,boom,end} albo null, gdy żaden nie jest włączony
 function playFx(kind){
   const list=FX.filter(f=>f.kind===kind&&fxUsable(f));if(!list.length) return null;
-  const f=list[Math.floor(Math.random()*list.length)],card=$("card"),eq=card.querySelector(".eq");
-  const er=eq.getBoundingClientRect(),g={c:{x:er.left+er.width/2,y:er.top+er.height/2},eq:er,card:card.getBoundingClientRect(),box:$("box").getBoundingClientRect(),parts:eqParts()};
+  const f=list[Math.floor(Math.random()*list.length)],card=fxCard(),eq=fxEq();
+  const er=eq.getBoundingClientRect(),g={c:{x:er.left+er.width/2,y:er.top+er.height/2},eq:er,card:card.getBoundingClientRect(),box:(FXC?FXC.box:$("box")).getBoundingClientRect(),parts:eqParts()};
   const layer=document.createElement("div");layer.className="fx";layer.setAttribute("aria-hidden","true");
   layer.innerHTML=f.run(g);document.body.appendChild(layer);
   (f.sounds||[]).forEach(([d,n])=>setTimeout(()=>sfx(n),d*1000));
+  const parts=eqParts();
   return {ms:f.ms,boom:f.boom,end(){layer.remove();card.classList.remove("fx-jolt","fx-thud");
-    eqParts().forEach(el=>{el.classList.remove("fx-hide","fx-suck","fx-shrink","fx-fade","fx-squash");el.style.removeProperty("animation-delay");});}};
+    parts.forEach(el=>{el.classList.remove("fx-hide","fx-suck","fx-shrink","fx-fade","fx-squash");el.style.removeProperty("animation-delay");});}};
 }
 // nowy poziom animacji: okienko „Nowa animacja!” (pokazywane po skończonym efekcie)
 function checkUnlock(){
@@ -1215,8 +1343,8 @@ function abHint(){
 }
 const NSTEPS=[5,10,15,20,25,30,40,50,60,75,100,150,200];
 const SET_TONE={"×":"#4054d6",":":"#0b7285","+":"#c2410c","−":"#c2410c"};
-function setLast(id){const d=loadHist().filter(s=>s.status==="done"&&s.cfg&&s.cfg.set===id);return d.length?d[d.length-1].pct:null;}
-function allHard(){let recs=[];loadHist().forEach(s=>recs.push(...s.recs));
+function setLast(id){const d=loadHist().filter(s=>s.status==="done"&&subjOf(s)==="mat"&&s.cfg&&s.cfg.set===id);return d.length?d[d.length-1].pct:null;}
+function allHard(){let recs=[];loadHist().filter(s=>subjOf(s)==="mat").forEach(s=>recs.push(...s.recs));
   if(ACTIVE&&i>0&&i<N&&!loadHist().some(s=>s.id===SID)) recs.push(...recsOf(i));return topHard(recs);}
 function renderSets(){
   const hard=allHard();
@@ -1475,9 +1603,13 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",play:"#gra",stats:"#statystyki"};
+const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando"};
+const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt"};
+let CUR="home";
 function showView(v){
-  $("home").hidden=v!=="home";$("play").hidden=v!=="play";$("stats-v").hidden=v!=="stats";
+  if(CUR!==v) plLeave(CUR);CUR=v;
+  for(const k in VIEWS) $(VIEWS[k]).hidden=k!==v;
+  plShow(v);
   if(v==="home") renderHome();
   if(v==="stats") renderStats();
   if(v==="play") refit();
@@ -1487,11 +1619,13 @@ function go(v){
   if(location.hash!==HASH[v]) history.pushState(null,"",HASH[v]||location.pathname+location.search);
   showView(v);
 }
-addEventListener("popstate",()=>showView(location.hash==="#gra"&&ACTIVE?"play":location.hash==="#statystyki"?"stats":"home"));
+addEventListener("popstate",()=>{const v=Object.keys(HASH).find(k=>HASH[k]&&HASH[k]===location.hash)||"home";
+  showView(v==="play"&&!ACTIVE?"home":v==="plw"&&!PW?"plws":v==="pldt"&&!PD?"pld":v);});
 document.querySelectorAll("[data-back]").forEach(b=>b.addEventListener("click",()=>{if(location.hash) history.back(); else showView("home");}));
 $("t-math").addEventListener("click",()=>{if(ACTIVE&&i<N) go("play"); else openAsk("home");});
 $("t-stats").addEventListener("click",()=>go("stats"));
-/* Polski i Historia: na razie tylko zapowiedź */
+$("t-pl").addEventListener("click",()=>go("pl"));
+/* Historia: na razie tylko zapowiedź */
 document.querySelectorAll("[data-soon]").forEach(b=>b.addEventListener("click",()=>{
   b.classList.remove("shake");void b.offsetWidth;b.classList.add("shake");sfx("bad");}));
 function renderHome(){
@@ -1550,7 +1684,7 @@ function topHard(recs){
 let HARD=[];
 /* Statystyki dla dziecka: przedmiot (zakładki), seria, zadania dziennie, rekordy, jedno zdanie motywacji */
 let SUBJ="all",parOpen=false;
-const SUBJ_SOON={pl:"Polski już wkrótce",his:"Historia już wkrótce"};
+const SUBJ_SOON={his:"Historia już wkrótce"};
 const subjOf=s=>s.subj||"mat"; // starsze sesje są z matematyki
 const dayKey=t=>{const d=new Date(t);d.setHours(0,0,0,0);return d.getTime();};
 const addDays=(k,n)=>{const d=new Date(k);d.setDate(d.getDate()+n);return d.getTime();};
@@ -1559,7 +1693,7 @@ const dni=n=>n===1?"dzień":"dni";
 function renderKid(){
   const soon=!!SUBJ_SOON[SUBJ];
   $("soonbox").hidden=!soon;$("soon-t").textContent=SUBJ_SOON[SUBJ]||"";
-  $("kid").hidden=$("par-btn").hidden=soon;$("par").hidden=soon||!parOpen;
+  $("kid").hidden=soon;$("par-btn").hidden=soon||SUBJ==="pl";$("par").hidden=soon||SUBJ==="pl"||!parOpen;
   $("par-btn").setAttribute("aria-expanded",!$("par").hidden);
   if(soon) return;
   const H=loadHist().filter(s=>SUBJ==="all"||subjOf(s)===SUBJ),per=new Map();
@@ -1595,7 +1729,7 @@ $("subj").addEventListener("click",e=>{const b=e.target.closest("button");if(!b)
 $("par-btn").addEventListener("click",()=>{parOpen=!parOpen;renderKid();});
 function renderStats(){
   renderKid();
-  const H=loadHist().sort((a,b)=>a.start-b.start),S=H.filter(s=>SF==="all"||s.cfg.ops.includes(SF));
+  const H=loadHist().filter(s=>subjOf(s)==="mat").sort((a,b)=>a.start-b.start),S=H.filter(s=>SF==="all"||s.cfg.ops.includes(SF));
   const done=S.filter(s=>s.status==="done").slice(-30);
   lineChart($("ch-pct"),done.map(s=>({t:s.start,v:s.pct,s})),{min:0,max:100,ticks:[0,50,100],dash:[50],tick:v=>v+"%",
     bands:[[98,"6"],[86,"5"],[70,"4"],[51,"3"],[31,"2"]],label:"Procent dobrych odpowiedzi za pierwszym razem w kolejnych sesjach",
@@ -1685,6 +1819,371 @@ $("bk-file").addEventListener("change",()=>{
     if(!$("stats-v").hidden) renderStats();renderHome();
   }).catch(()=>{$("bk-msg").textContent="To nie jest plik kopii Henriksena.";});
 });
+
+/* ===== Polski: Słówka i Dyktanda =====
+   Słówko: "g[ó]ra|podpowiedź|reguła|opis" – w nawiasie brakująca litera; opis = trudne słowo (pokazujemy znaczenie).
+   Dyktando: tekst z lukami [odpowiedź]; para (ó/u, rz/ż, ch/h) wynika z odpowiedzi. */
+const PL_PAIRS={ou:{name:"ó / u",opts:["ó","u"],ex:"g_ra, d_ży"},rz:{name:"rz / ż",opts:["rz","ż"],ex:"mo_e, _aba"},ch:{name:"ch / h",opts:["ch","h"],ex:"_leb, _erbata"}};
+const plPair=a=>{a=a.toLowerCase();return a==="ó"||a==="u"?"ou":a==="rz"||a==="ż"?"rz":"ch";};
+const plOpts=a=>{const o=PL_PAIRS[plPair(a)].opts;return a[0]!==a[0].toLowerCase()?o.map(x=>x[0].toUpperCase()+x.slice(1)):o;};
+const R_O="ó, bo wymienia się na o: ",R_END="Na końcu wyrazu prawie zawsze piszemy ch.";
+const WORDS=[
+  // ó / u
+  "st[ó]ł|Mebel, przy którym jesz obiad|"+R_O+"stół → stoły",
+  "w[ó]z|Ciągnie go koń|"+R_O+"wóz → wozy",
+  "r[ó]g|Ma go jeleń, jest też na skrzyżowaniu ulic|"+R_O+"róg → rogi",
+  "n[ó]ż|Kroisz nim chleb|"+R_O+"nóż → noże",
+  "d[ó]ł|Przeciwieństwo góry|"+R_O+"dół → doły",
+  "s[ó]l|Biała, słona przyprawa|"+R_O+"sól → solić",
+  "ogr[ó]d|Rosną w nim kwiaty i warzywa|"+R_O+"ogród → ogrody",
+  "m[ó]j|Należy do mnie|"+R_O+"mój → moja",
+  "pszcz[ó]łka|Mała, zbiera nektar i robi miód|"+R_O+"pszczółka → pszczoła",
+  "g[ó]ra|Wysoka, wchodzi się na nią w Tatrach|Zapamiętaj: góra, górka, górski.",
+  "kr[ó]l|Rządzi królestwem i nosi koronę|Zapamiętaj: król, królowa, królewna.",
+  "ż[ó]łw|Nosi skorupę i chodzi powoli|Zapamiętaj: żółw, żółty.",
+  "wr[ó]bel|Mały szary ptak, często w mieście|Zapamiętaj: wróbel, wróbelek.",
+  "kr[ó]tki|Przeciwieństwo długiego|Zapamiętaj: krótki, skrót.",
+  "d[u]ży|Przeciwieństwo małego|Tu nie ma wymiany na o, więc piszemy u.",
+  "k[u]chnia|Tu gotuje się obiad|Tu nie ma wymiany na o, więc piszemy u.",
+  "b[u]rza|Pioruny i grzmoty|Tu nie ma wymiany na o, więc piszemy u.",
+  "k[u]ra|Znosi jajka|Tu nie ma wymiany na o, więc piszemy u.",
+  "ł[u]k|Strzela się z niego strzałami|Tu nie ma wymiany na o, więc piszemy u.",
+  "[u]cho|Słyszysz nim|Na początku wyrazu piszemy u (wyjątki: ósmy, ósemka, ów).",
+  "kwiat[u]szek|Mały kwiatek|Zdrobnienia na -uszek piszemy przez u.",
+  "rys[u]nek|Obrazek narysowany kredkami|Końcówkę -unek piszemy przez u.",
+  "p[u]łapka|Łapie się w nią myszy|Tu nie ma wymiany na o, więc piszemy u.",
+  "wsp[ó]łczucie|Gdy komuś jest smutno, a ty to czujesz razem z nim|Początek współ- piszemy zawsze przez ó.|uczucie, kiedy rozumiesz, że komuś jest źle, i chcesz mu pomóc.",
+  "skr[u]pulatny|Robi wszystko bardzo dokładnie|Tu nie ma wymiany na o, więc piszemy u.|ktoś bardzo dokładny, kto pilnuje każdego szczegółu.",
+  // rz / ż
+  "mo[rz]e|Duża słona woda, np. Bałtyk|rz, bo wymienia się na r: morze → morski",
+  "d[rz]ewo|Rośnie w lesie, ma pień i gałęzie|Po d piszemy rz.",
+  "g[rz]yb|Zbierasz go w lesie jesienią|Po g piszemy rz.",
+  "ko[rz]eń|Część rośliny pod ziemią|Zapamiętaj: korzeń, korzonek.",
+  "[rz]eka|Płynie nią woda do morza|Zapamiętaj: rzeka, rzeczka.",
+  "tale[rz]|Jesz z niego zupę|Końcówki -arz i -erz piszemy przez rz.",
+  "kucha[rz]|Gotuje w restauracji|Końcówki -arz i -erz piszemy przez rz.",
+  "żołnie[rz]|Służy w wojsku|Końcówki -arz i -erz piszemy przez rz.",
+  "p[rz]yjaciel|Ktoś, z kim się bardzo lubicie|Po p piszemy rz.",
+  "t[rz]y|Liczba po dwóch|Po t piszemy rz.",
+  "k[rz]esło|Siadasz na nim przy stole|Po k piszemy rz.",
+  "[ż]aba|Zielona, skacze i kumka|Zapamiętaj: żaba, żabka.",
+  "[ż]yrafa|Zwierzę z najdłuższą szyją|Zapamiętaj: żyrafa.",
+  "ka[ż]dy|Wszyscy po kolei, bez wyjątku|Zapamiętaj: każdy, każda.",
+  "pla[ż]a|Piasek nad morzem|Zapamiętaj: plaża, plażowy.",
+  "ksią[ż]ka|Czytasz ją przed snem|ż, bo wymienia się na g: książka → księga",
+  "mro[ż]ony|Prosto z zamrażarki|ż, bo wymienia się na z: mróz → mrożony",
+  "wie[ż]a|Wysoka budowla, np. w zamku|Zapamiętaj: wieża, wieżowiec.",
+  "wa[ż]ka|Owad z przezroczystymi skrzydłami, lata nad wodą|Zapamiętaj: ważka.",
+  "[rz]etelny|Ktoś solidny i uczciwy|Zapamiętaj: rzetelny, rzetelność.|solidny i uczciwy – robi wszystko porządnie i można na nim polegać.",
+  "[ż]ywioł|Wielka siła przyrody|Zapamiętaj: żywioł, żywy.|potężna siła przyrody, której trudno się oprzeć, np. ogień, woda albo wiatr.",
+  // ch / h
+  "[ch]leb|Kroisz go na kanapki|Zapamiętaj: chleb, chlebek.",
+  "[ch]mura|Pływa po niebie, czasem pada z niej deszcz|Zapamiętaj: chmura, pochmurno.",
+  "[ch]łopiec|Kolega z klasy|Zapamiętaj: chłopiec, chłopak.",
+  "mu[ch]a|Bzyczy i lata po kuchni|Zapamiętaj: mucha, muszka.",
+  "[ch]oinka|Ubierasz ją na święta|Zapamiętaj: choinka.",
+  "[ch]omik|Małe zwierzątko, chowa jedzenie w policzkach|Zapamiętaj: chomik.",
+  "[ch]ętnie|Z przyjemnością, bardzo chcę|Zapamiętaj: chętnie, chcieć.",
+  "du[ch]|Straszy w starym zamku|"+R_END,
+  "stra[ch]|Czujesz go w ciemnym lesie|"+R_END,
+  "da[ch]|Jest na samej górze domu|"+R_END,
+  "[h]erbata|Ciepły napój z liści|Zapamiętaj: herbata.",
+  "[h]ulajnoga|Jeździsz na niej, odpychając się nogą|Zapamiętaj: hulajnoga.",
+  "[h]ałas|Bardzo głośne dźwięki|Zapamiętaj: hałas, hałasować.",
+  "[h]istoria|Przedmiot o dawnych czasach|Zapamiętaj: historia, historyk.",
+  "[h]erb|Znak miasta albo rodu, np. orzeł|Zapamiętaj: herb.",
+  "[h]ipopotam|Duże zwierzę, lubi siedzieć w wodzie|Zapamiętaj: hipopotam.",
+  "bo[h]ater|Ktoś odważny z książki albo filmu|Zapamiętaj: bohater, bohaterski.",
+  "dru[h]|Tak mówią do siebie harcerze|h, bo wymienia się na ż: druh → drużyna|dawne słowo na przyjaciela i towarzysza; dziś tak zwracają się do siebie harcerze.",
+  "[h]ierarchia|Kto jest ważniejszy, a kto mniej|Zapamiętaj: hierarchia.|układ, w którym ktoś jest wyżej, a ktoś niżej – np. w drużynie: trener, kapitan, zawodnicy.",
+  "[h]oryzont|Tam, gdzie niebo styka się z ziemią|Zapamiętaj: horyzont.|linia, gdzie niebo wydaje się stykać z ziemią albo z morzem.",
+  "[ch]aos|Wielki bałagan|Zapamiętaj: chaos.|wielki bałagan i zamieszanie, gdy nic nie jest na swoim miejscu.",
+  "[ch]arakter|To, jaki ktoś jest|Zapamiętaj: charakter.|to, jaki ktoś jest w środku – np. odważny, uparty albo wesoły."
+].map(s=>{const [w,hint,why,desc]=s.split("|"),m=w.match(/^(.*)\[(.+)\](.*)$/);
+  return {pre:m[1],ans:m[2],post:m[3],full:m[1]+m[2]+m[3],pair:plPair(m[2]),hint,why:why||"",desc:desc||""};});
+
+const DICTS=[
+  {id:"morze",len:"s",title:"Nad morzem",text:"W sobotę [H]ania wyjec[h]ała z bratem nad mo[rz]e. Na pla[ż]y było gorąco, więc [ch]łopcy szukali [ch]łodnego cienia pod d[rz]ewem. Mama zrobiła [h]erbatę i [ch]leb z [ż][ó]łtym serem. Wieczorem wszyscy patrzyli, jak słońce [ch]owa się za [h]oryzontem."},
+  {id:"ogrod",len:"s",title:"W ogrodzie babci",text:"Babcia ma d[u]ży ogr[ó]d za domem. Rosną w nim r[ó]że, tr[u]skawki i stara gr[u]sza. Pod k[rz]akiem mieszka je[ż], który [ch]odzi nocą po trawie. Rano babcia podlewa kwiaty, a ja pomagam jej nosić konewkę."},
+  {id:"mecz",len:"s",title:"Mecz na podwórku",text:"Po szkole [ch]łopcy grali w piłkę na podw[ó]rku. [H]ubert stał na bramce, a K[u]ba st[rz]elał. Nagle piłka wpadła w kał[u][ż]ę i wszyscy byli mok[rz]y. Mimo to mecz skończył się wesoło, wynikiem t[rz]y do dw[ó][ch]."},
+  {id:"gory",len:"m",title:"Wycieczka w góry",text:"W wakacje pojechaliśmy z rodzicami w g[ó]ry. Pierwszego dnia weszliśmy na wysoki szczyt. Droga była stroma i dł[u]ga, ale widok z g[ó]ry wynagrodził nam zmęczenie. Na szlaku spotkaliśmy paste[rz]a z owcami i dwa psy. Tata zrobił zdjęcia, a mama rozdała kanapki z [ż]ółtym serem. Wieczorem w sc[h]ronisku piliśmy gorącą [h]erbatę i sł[u]c[h]aliśmy, jak za oknem sz[u]mi wiatr."},
+  {id:"ferie",len:"m",title:"Zimowe ferie",text:"Na ferie pojechałam do babci na wieś. Rano za oknem było biało, bo całą noc padał śnieg. Razem z bratem ulepiliśmy d[u]żego bałwana z mar[ch]ewką zamiast nosa. Potem zje[ż]d[ż]aliśmy na sankach z wysokiej g[ó]rki, aż zrobiło się ciemno. Babcia czekała na nas z ciepłym kakao i dro[ż]d[ż]owym ciastem. Wieczorem przy kominku czytała nam ksią[ż]kę o odważnym ryce[rz]u, który walczył ze smokiem."},
+  {id:"muzeum",len:"l",title:"Przygoda w muzeum",text:"W piątek cała nasza klasa pojechała do m[u]zeum [h]istorii w Krakowie. Pani przewodnik opowiadała o dawnych kr[ó]lach i ryce[rz]ach, kt[ó][rz]y bronili zamku przed wrogami. W jednej z sal stała ogromna zbroja, a obok niej le[ż]ał miecz dł[u][ż]szy ode mnie. [H]ubert [ch]ciał go dotknąć, ale stra[ż]nik pokręcił głową. Najbardziej podobała mi się komnata z obrazami, na których widać było bitwy i dumne konie. Na koniec ka[ż]dy dostał mały [h]erb miasta na pamiątkę. W drodze powrotnej w autob[u]sie wszyscy [ch][ó]rem śpiewali piosenki, a pani się uśmie[ch]ała. To była najlepsza wycieczka w tym roku."}
+].map(d=>{const segs=[],re=/\[([^\]]+)\]/g;let last=0,m,g=0;
+  while((m=re.exec(d.text))){if(m.index>last) segs.push({t:d.text.slice(last,m.index)});segs.push({gap:g++,ans:m[1],opts:plOpts(m[1])});last=re.lastIndex;}
+  segs.push({t:d.text.slice(last)});
+  const plain=d.text.replace(/[\[\]]/g,""),pairs=[...new Set(segs.filter(s=>s.ans).map(s=>plPair(s.ans)))];
+  return {...d,segs,gaps:g,words:plain.split(/\s+/).filter(Boolean).length,pairs};});
+const PL_LEN={s:"krótkie",m:"średnie",l:"długie"};
+
+/* ustawienia Polskiego (osobno od PREFS): pary w Słówkach, ile słówek, długość i tryb dyktanda */
+const PLKEY="henriksen-polski",PL_STEPS=[5,10,15,20,25,30,40,50];
+let PLP={pairs:["ou","rz","ch"],n:20,len:"s",now:false};
+try{const p=JSON.parse(localStorage.getItem(PLKEY));if(p) PLP={pairs:Array.isArray(p.pairs)?p.pairs.filter(x=>PL_PAIRS[x]):PLP.pairs,n:PL_STEPS.includes(p.n)?p.n:20,len:PL_LEN[p.len]?p.len:"s",now:!!p.now};}catch(e){}
+const savePLP=()=>{try{localStorage.setItem(PLKEY,JSON.stringify(PLP));}catch(e){}};
+const shuffle=a=>{for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]];}return a;};
+const slowek=n=>n===1?"słówko":n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?"słówka":"słówek";
+const luk=n=>n===1?"luka":n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?"luki":"luk";
+const plHist=mode=>loadHist().filter(s=>subjOf(s)==="pl"&&(!mode||s.cfg.mode===mode));
+const markAns=(w,a)=>w.pre+`<i>${a}</i>`+w.post;
+
+// zapis sesji z polskiego do wspólnej historii (statystyki dziecka liczą ją razem z matmą)
+function plArchive(P,status){
+  const recs=P.recs.filter(r=>r.done),done=recs.length;if(!done) return;
+  const H=loadHist(),k=H.findIndex(s=>s.id===P.id);if(k>=0&&H[k].status==="done") return;
+  const good=recs.filter(r=>r.ok).length,pct=Math.floor(good*100/done);
+  const s={id:P.id,subj:"pl",start:P.start,end:Date.now(),status,cfg:P.cfg,n:P.recs.length,done,
+    recs:recs.map(r=>({t:r.t,ok:r.ok,tries:r.tries,h:0,ms:r.ms||0})),pct,grade:grade(pct).n,errors:done-good,hints:0};
+  if(k>=0) H[k]=s; else H.push(s);saveHist(H);
+}
+// wyjście z gry w trakcie = sesja przerwana
+function plLeave(v){
+  if(v==="plw"&&PW&&!PW.over){plArchive(PW,"przerwana");PW=null;}
+  if(v==="pldt"&&PD&&!PD.over){if(PD.cfg.now) plArchive(PD,"przerwana");PD=null;}
+  if(v==="plw"||v==="pldt") FXC=null;
+}
+function plShow(v){
+  if(v==="pl") renderPl();
+  if(v==="plws") renderPws();
+  if(v==="pld") renderPd();
+}
+function renderPl(){
+  const w=plHist("slowka"),d=plHist("dyktando");
+  $("pl-t-w-s").textContent=w.length?`Ostatnio: ${w[w.length-1].done} ${slowek(w[w.length-1].done)}, ${w[w.length-1].pct}%`:"Brakuje jednej litery: ó czy u, rz czy ż, ch czy h";
+  $("pl-t-d-s").textContent=d.length?`Ostatnio: „${(DICTS.find(x=>x.id===d[d.length-1].cfg.dict)||{title:"dyktando"}).title}”, ${d[d.length-1].pct}%`:"Cały tekst z lukami – krótkie, średnie albo długie";
+}
+$("pl-t-w").addEventListener("click",()=>go("plws"));
+$("pl-t-d").addEventListener("click",()=>go("pld"));
+
+/* --- Słówka: ustawienia --- */
+// trudne: słówka, w których ostatnio był błąd za 1. razem (znikają po 2 dobrych z rzędu)
+function plHard(){
+  const m=new Map();plHist().forEach(s=>s.recs.forEach(r=>{const e=m.get(r.t)||[];e.push(r.ok);m.set(r.t,e);}));
+  return [...m].filter(([,e])=>e.includes(false)&&!(e.length>=2&&e.slice(-2).every(Boolean))).map(([t])=>WORDS.find(w=>w.full===t)).filter(Boolean);
+}
+function renderPws(){
+  $("pw-pairs").innerHTML=Object.entries(PL_PAIRS).map(([id,p])=>`<button type="button" data-p="${id}" class="${PLP.pairs.includes(id)?"sel":""}" aria-pressed="${PLP.pairs.includes(id)}"><b>${p.name}</b><small>${p.ex}</small></button>`).join("");
+  $("pw-n").textContent=PLP.n;$("pw-minus").disabled=PLP.n===PL_STEPS[0];$("pw-plus").disabled=PLP.n===PL_STEPS[PL_STEPS.length-1];
+  const h=plHard();$("pw-hard").hidden=!h.length;$("pw-hard-s").textContent=`${h.length} ${slowek(h.length)}, w których był błąd`;
+  $("pw-err").textContent="";
+}
+$("pw-pairs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;const p=b.dataset.p;
+  PLP.pairs=PLP.pairs.includes(p)?PLP.pairs.filter(x=>x!==p):[...PLP.pairs,p];savePLP();renderPws();});
+$("pw-minus").addEventListener("click",()=>{PLP.n=PL_STEPS[Math.max(0,PL_STEPS.indexOf(PLP.n)-1)];savePLP();renderPws();});
+$("pw-plus").addEventListener("click",()=>{PLP.n=PL_STEPS[Math.min(PL_STEPS.length-1,PL_STEPS.indexOf(PLP.n)+1)];savePLP();renderPws();});
+$("pw-go").addEventListener("click",()=>{
+  if(!PLP.pairs.length){$("pw-err").textContent="Wybierz co najmniej jedno: ó / u, rz / ż albo ch / h.";return;}
+  const pool=WORDS.filter(w=>PLP.pairs.includes(w.pair)),list=[];
+  while(list.length<PLP.n){const b=shuffle(pool.slice());if(list.length&&b[0]===list[list.length-1]) b.push(b.shift());list.push(...b);}
+  pwStart(list.slice(0,PLP.n),{mode:"slowka",pairs:[...PLP.pairs]});
+});
+$("pw-hard").addEventListener("click",()=>{const h=plHard();if(!h.length) return;
+  const list=shuffle([...h,...h]);for(let k=1;k<list.length;k++) if(list[k]===list[k-1]){const x=list.splice(k,1)[0];list.unshift(x);}
+  pwStart(list,{mode:"slowka",pairs:[...new Set(h.map(w=>w.pair))],practice:true});});
+
+/* --- Słówka: gra --- */
+let PW=null; // {id,start,cfg,words,i,recs:[{t,ok,tries,ms,done}],wrong:[],locked,over,t0}
+function pwStart(words,cfg){
+  PW={id:Date.now(),start:Date.now(),cfg,words,i:0,wrong:[],locked:false,over:false,
+    recs:words.map(w=>({t:w.full,ok:true,tries:[],ms:0,done:false}))};
+  $("pw-game").hidden=false;$("pw-end").hidden=true;$("pw-end").innerHTML="";
+  go("plw");pwShow();
+}
+function pwFit(){ // jedno słowo na ekranie: zmniejszamy tylko, gdy się nie mieści
+  const el=$("pw-word"),max=$("pw-card").clientWidth-28;if(!max) return;
+  let fs=56;el.style.fontSize=fs+"px";while(fs>24&&el.scrollWidth>max){fs-=2;el.style.fontSize=fs+"px";}
+}
+function pwShow(){
+  const P=PW,w=P.words[P.i],n=P.words.length;
+  FXC={card:$("pw-card"),eq:$("pw-word"),box:$("pw-box")};
+  $("pw-card").classList.remove("ok","bad");P.wrong=[];P.t0=Date.now();
+  $("pw-count").textContent=`${P.i+1} / ${n}`;$("pw-bar").style.width=Math.round(P.i*100/n)+"%";
+  $("pw-pair").textContent=PL_PAIRS[w.pair].name;$("pw-hardtag").hidden=!w.desc;
+  $("pw-pre").textContent=w.pre;$("pw-post").textContent=w.post;$("pw-box").textContent="";
+  $("pw-hint").textContent=w.hint;
+  $("pw-desc").hidden=!w.desc;$("pw-desc").innerHTML=w.desc?`<b>Co to znaczy:</b> ${w.desc}`:""; // bez całego słowa, żeby nie zdradzić litery
+  $("pw-msg").textContent="Którą literę wstawisz?";
+  $("pw-why").hidden=true;$("pw-next").hidden=true;$("pw-opts").hidden=false;
+  $("pw-opts").innerHTML=plOpts(w.ans).map(o=>`<button type="button" data-o="${o}">${o}</button>`).join("");
+  pwStats();pwFit();
+}
+function pwStats(){const r=PW.recs.filter(x=>x.done);
+  $("pw-stats").textContent=`Dobrze: ${r.filter(x=>x.ok).length} · Błędy: ${PW.recs.filter(x=>x.done&&!x.ok||x.tries.length&&!x.done).length}`;}
+$("pw-opts").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b||!PW||PW.locked||b.classList.contains("no")||document.querySelector(".cheer-wrap,.goal-wrap")) return;
+  const P=PW,w=P.words[P.i],r=P.recs[P.i],o=b.dataset.o,card=$("pw-card");
+  r.tries.push(o);
+  if(o===w.ans){
+    r.done=true;r.ms=Math.min(Date.now()-P.t0,120000);
+    card.classList.remove("bad");card.classList.add("ok");$("pw-box").textContent=o;$("pw-msg").textContent="Dobrze!";sfx("ok");
+    const fx=fxOn()?playFx("ok"):null;P.locked=true;
+    const done=P.i+1,last=done>=P.words.length,goal=done%10===0&&!last&&PREFS.goals;
+    if(done%5===0&&!last){if(PREFS.modals) celebrate(done,false,goal?showGoal:null); else if(goal) showGoal();}
+    setTimeout(()=>{if(fx) fx.end();P.locked=false;
+      $("pw-opts").hidden=true;
+      if(w.why){$("pw-why").innerHTML=`<b>${markAns(w,w.ans)}</b><br>${w.why}`;$("pw-why").hidden=false;}
+      $("pw-next").textContent=last?"Zobacz wynik":"Dalej";$("pw-next").hidden=false;$("pw-next").focus();
+      pwStats();checkUnlock();},fx?fx.ms:450);
+  }else{
+    r.ok=false;b.classList.add("no");b.setAttribute("aria-disabled","true");
+    card.classList.add("bad");$("pw-box").textContent=o;$("pw-msg").textContent="Nie tym razem – spróbuj drugą";
+    const fx=fxOn()?playFx("bad"):null;
+    if(fx){P.locked=true;if(fx.boom!=null) setTimeout(()=>sfx("bad"),fx.boom);
+      setTimeout(()=>{fx.end();P.locked=false;$("pw-box").textContent="";card.classList.remove("bad");},fx.ms);}
+    else{sfx("bad");card.classList.remove("shake");void card.offsetWidth;card.classList.add("shake");}
+    pwStats();
+  }
+});
+$("pw-next").addEventListener("click",()=>{if(!PW||PW.locked) return;
+  if(PW.i+1>=PW.words.length) pwFinish(); else {PW.i++;pwShow();}});
+
+// ekran końcowy wspólny dla Słówek i Dyktand: ocena jak w matmie + lista słów do poprawy
+function plEnd(el,P,good,n,unit,miss,again,quiet){
+  const pct=Math.floor(good*100/n),g=grade(pct);
+  el.innerHTML=`<div class="done card">${art(g)}
+    <div class="grade" style="--gc:${g.c}"><div class="g" aria-hidden="true">${g.n}</div><div class="gn">Ocena: ${g.n} – ${g.name}</div>
+    <div class="gp">Za pierwszym razem dobrze: ${good} / ${n} ${unit} (${pct}%)</div></div></div>
+    ${miss.length?`<div class="lbl">Do poprawy</div><ul class="pl-miss">${miss.map(m=>`<li><div class="mw"><b>${markAns(m.w,m.w.ans)}</b>${m.bad.length?`<span>wybrane: ${m.bad.map(x=>`<s>${x}</s>`).join(" ")}</span>`:""}</div>${m.w.desc?`<p><b>Znaczenie:</b> ${m.w.desc}</p>`:""}${m.w.why?`<p>${m.w.why}</p>`:""}</li>`).join("")}</ul>`:""}
+    <div class="btns"><button type="button" class="again" data-a="again">${again}</button><button type="button" class="go-btn" data-a="back">Gotowe</button></div>`;
+  el.hidden=false;
+  const v6=el.querySelector(".end-anim");
+  if(v6){const k=nextGoal();let a=null;
+    const play=()=>{if(a) a.destroy();a=null;v6.innerHTML="";playGoal(v6,k).then(x=>{a=x;}).catch(()=>{});};
+    setTimeout(play,quiet||!PREFS.modals?300:2800);el.querySelector(".replay").addEventListener("click",play);}
+  if(!quiet){if(PREFS.modals) celebrate(n,true); else sfx("final");}
+  scrollTo(0,0);
+}
+function pwFinish(){
+  const P=PW;P.over=true;plArchive(P,"done");FXC=null;
+  $("pw-bar").style.width="100%";$("pw-count").textContent=`${P.words.length} / ${P.words.length}`;
+  $("pw-game").hidden=true;
+  const seen=new Set(),miss=[];
+  P.recs.forEach((r,k)=>{if(!r.ok&&!seen.has(r.t)){seen.add(r.t);const w=P.words[k];miss.push({w,bad:[...new Set(r.tries.filter(x=>x!==w.ans))]});}});
+  plEnd($("pw-end"),P,P.recs.filter(r=>r.ok).length,P.words.length,slowek(P.words.length),miss,"Jeszcze raz");
+}
+$("pw-end").addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b||!PW) return;
+  if(b.dataset.a==="again"){const P=PW;pwStartAgain(P);} else history.back();});
+function pwStartAgain(P){ // te same ustawienia, nowe losowanie (albo te same trudne)
+  if(P.cfg.practice){PW=null;$("pw-hard").click();return;}
+  const pool=WORDS.filter(w=>P.cfg.pairs.includes(w.pair)),list=[];
+  while(list.length<P.words.length) list.push(...shuffle(pool.slice()));
+  PW={id:Date.now(),start:Date.now(),cfg:P.cfg,words:list.slice(0,P.words.length),i:0,wrong:[],locked:false,over:false};
+  PW.recs=PW.words.map(w=>({t:w.full,ok:true,tries:[],ms:0,done:false}));
+  $("pw-game").hidden=false;$("pw-end").hidden=true;pwShow();scrollTo(0,0);
+}
+
+/* --- Dyktanda: lista --- */
+function renderPd(){
+  for(const b of $("pd-len").children){const on=b.dataset.l===PLP.len;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
+  const H=plHist("dyktando").filter(s=>s.status==="done");
+  $("pd-list").innerHTML=DICTS.filter(d=>d.len===PLP.len).map(d=>{const h=H.filter(s=>s.cfg.dict===d.id),last=h.length?h[h.length-1]:null,g=last&&GRADES.find(x=>x.n===last.grade);
+    return `<button type="button" class="set-i" data-d="${d.id}"><span class="gl s2" style="--gc:${g?g.c:"#e8590c"}">${g?g.n:d.gaps}</span>`+
+      `<span class="sn"><b>${d.title}</b><small>${d.words} słów · ${d.gaps} ${luk(d.gaps)} · ${d.pairs.map(p=>PL_PAIRS[p].name).join(", ")}</small></span>`+
+      (last?`<span class="lr">${last.pct}%</span>`:`<span class="lr new">nowe</span>`)+`</button>`;}).join("");
+  $("pd-now").classList.toggle("sel",PLP.now);$("pd-now").setAttribute("aria-pressed",PLP.now);
+  $("pd-now-s").textContent=PLP.now?"Każda luka sprawdzana od razu":"Sprawdzasz cały tekst na końcu";
+  $("pd-rand").textContent="Losuj "+PL_LEN[PLP.len];
+}
+$("pd-len").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;PLP.len=b.dataset.l;savePLP();renderPd();});
+$("pd-now").addEventListener("click",()=>{PLP.now=!PLP.now;savePLP();renderPd();});
+$("pd-list").addEventListener("click",e=>{const b=e.target.closest("[data-d]");if(b) pdStart(DICTS.find(d=>d.id===b.dataset.d));});
+$("pd-rand").addEventListener("click",()=>{const l=DICTS.filter(d=>d.len===PLP.len),H=plHist("dyktando");
+  // najpierw te, których jeszcze nie było
+  const fresh=l.filter(d=>!H.some(s=>s.cfg.dict===d.id));const c=fresh.length?fresh:l;pdStart(c[Math.floor(Math.random()*c.length)]);});
+
+/* --- Dyktando --- */
+let PD=null; // {id,start,cfg,d,fill:{},act,recs,checked,over,locked}
+function pdStart(d){
+  PD={id:Date.now(),start:Date.now(),cfg:{mode:"dyktando",dict:d.id,now:PLP.now},d,fill:{},act:0,checked:false,over:false,locked:false,
+    recs:d.segs.filter(s=>s.ans).map(s=>({t:pdWord(d,s.gap,null,true),ok:true,tries:[],ms:0,done:false}))};
+  $("pd-title").textContent=d.title;$("pd-end").hidden=true;$("pd-end").innerHTML="";$("pd-panel").hidden=false;
+  go("pldt");pdRender();
+}
+// słowo z luką k: other = wpisane litery w innych lukach; full = całe poprawne słowo
+function pdWord(d,k,fill,full){
+  const S=d.segs,i=S.findIndex(s=>s.gap===k),val=s=>!s.ans?s.t:full?s.ans:fill&&fill[s.gap]!=null?fill[s.gap]:"_";
+  let l="",r="";
+  for(let j=i-1;j>=0;j--){const v=val(S[j]);if(S[j].ans){l=v+l;continue;}const p=v.split(/[\s.,;:!?„”]/);l=p[p.length-1]+l;if(p.length>1) break;}
+  for(let j=i+1;j<S.length;j++){const v=val(S[j]);if(S[j].ans){r+=v;continue;}const p=v.split(/[\s.,;:!?„”]/);r+=p[0];if(p.length>1) break;}
+  return full?l+S[i].ans+r:{pre:l,post:r};
+}
+function pdRender(){
+  const P=PD,d=P.d,n=d.gaps,filled=Object.keys(P.fill).length;
+  $("pd-count").textContent=`${P.cfg.now?P.recs.filter(r=>r.done).length:filled} / ${n}`;
+  // luki jako znaczniki \u0001k\u0001, żeby słowo z luką nie łamało się między wiersze (span .nw)
+  const btn={};
+  const txt=d.segs.map(s=>{
+    if(!s.ans) return s.t.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+    const v=P.fill[s.gap],res=P.checked||P.cfg.now&&v!=null,ok=res&&v===s.ans,bad=res&&v!=null&&v!==s.ans;
+    const cls=ok?"ok":bad?"bad":!P.checked&&s.gap===P.act?"now":v!=null?"fill":"";
+    const lab=P.checked&&bad?`<s>${v}</s>${s.ans}`:v!=null?v:"?";
+    btn[s.gap]=`<button type="button" class="pl-gap ${cls}" data-g="${s.gap}" aria-label="Luka ${s.gap+1}${v!=null?", wpisane "+v:", pusta"}">${lab}</button>`;
+    return "\u0001"+s.gap+"\u0001";}).join("");
+  $("pd-text").innerHTML=txt.split(/(\s+)/).map(w=>w.includes("\u0001")?`<span class="nw">${w.replace(/\u0001(\d+)\u0001/g,(m,k)=>btn[k])}</span>`:w).join("");
+  if(P.checked) return;
+  const g=d.segs.find(s=>s.gap===P.act),w=pdWord(d,P.act,P.fill);
+  $("pd-no").textContent=`Luka ${P.act+1} z ${n}`;
+  $("pd-pre").textContent=w.pre;$("pd-post").textContent=w.post;
+  const v=P.fill[P.act];$("pd-box").textContent=v!=null?v:"";
+  $("pd-panel").classList.toggle("ok",P.cfg.now&&v===g.ans);
+  $("pd-opts").innerHTML=g.opts.map(o=>`<button type="button" data-o="${o}" class="${v===o&&!P.cfg.now?"sel":""}${P.cfg.now&&P.recs[P.act].tries.includes(o)&&o!==g.ans?"no":""}">${o}</button>`).join("");
+  const left=n-filled;
+  $("pd-check").hidden=P.cfg.now;$("pd-check").disabled=left>0;
+  $("pd-check").textContent=left?`Zostało: ${left} ${luk(left)}`:"Sprawdź dyktando";
+}
+const pdNextEmpty=(P,from)=>{const n=P.d.gaps;for(let k=1;k<=n;k++){const j=(from+k)%n;if(P.fill[j]==null||P.cfg.now&&P.fill[j]!==P.d.segs.find(s=>s.gap===j).ans) return j;}return from;};
+$("pd-text").addEventListener("click",e=>{const b=e.target.closest(".pl-gap");if(!b||!PD||PD.checked||PD.locked) return;
+  PD.act=+b.dataset.g;pdRender();$("pd-panel").scrollIntoView({block:"nearest"});});
+$("pd-prev").addEventListener("click",()=>{if(!PD||PD.locked) return;PD.act=(PD.act-1+PD.d.gaps)%PD.d.gaps;pdRender();});
+$("pd-next").addEventListener("click",()=>{if(!PD||PD.locked) return;PD.act=(PD.act+1)%PD.d.gaps;pdRender();});
+$("pd-opts").addEventListener("click",e=>{
+  const b=e.target.closest("button");if(!b||!PD||PD.locked||PD.checked||b.classList.contains("no")||document.querySelector(".cheer-wrap,.goal-wrap")) return;
+  const P=PD,k=P.act,g=P.d.segs.find(s=>s.gap===k),r=P.recs[k],o=b.dataset.o;
+  if(!P.cfg.now){r.tries=[o];P.fill[k]=o;P.act=pdNextEmpty(P,k);pdRender();return;}
+  // tryb „od razu”: jak w Słówkach – efekt, dźwięk, gratulacje co 5
+  if(P.fill[k]===g.ans) return;
+  r.tries.push(o);P.fill[k]=o;
+  FXC={card:$("pd-panel"),eq:$("pd-word"),box:$("pd-box")};
+  pdRender();
+  const card=$("pd-panel");
+  if(o===g.ans){
+    r.done=true;card.classList.add("ok");sfx("ok");
+    const fx=fxOn()?playFx("ok"):null;P.locked=true;
+    const done=P.recs.filter(x=>x.done).length,last=done>=P.d.gaps,goal=done%10===0&&!last&&PREFS.goals;
+    if(done%5===0&&!last){if(PREFS.modals) celebrate(done,false,goal?showGoal:null); else if(goal) showGoal();}
+    setTimeout(()=>{if(fx) fx.end();P.locked=false;card.classList.remove("ok");
+      if(last) pdFinish(); else {P.act=pdNextEmpty(P,k);pdRender();}checkUnlock();},fx?fx.ms:550);
+  }else{
+    r.ok=false;card.classList.add("bad");
+    const fx=fxOn()?playFx("bad"):null;
+    const reset=()=>{delete P.fill[k];card.classList.remove("bad");pdRender();};
+    if(fx){P.locked=true;if(fx.boom!=null) setTimeout(()=>sfx("bad"),fx.boom);setTimeout(()=>{fx.end();P.locked=false;reset();},fx.ms);}
+    else{sfx("bad");card.classList.remove("shake");void card.offsetWidth;card.classList.add("shake");setTimeout(reset,600);}
+  }
+});
+$("pd-check").addEventListener("click",()=>{const P=PD;if(!P||Object.keys(P.fill).length<P.d.gaps) return;
+  P.d.segs.filter(s=>s.ans).forEach(s=>{const r=P.recs[s.gap];r.done=true;r.ok=P.fill[s.gap]===s.ans;});
+  pdFinish();});
+// słowo z dyktanda w bazie Słówek, także w innej formie (herbatę → herbata, horyzontem → horyzont)
+function plFind(t){
+  return WORDS.find(x=>x.full===t)||WORDS.find(x=>{const f=x.full,stem=f.slice(0,Math.max(x.pre.length+x.ans.length+1,f.length-1));return f.length>3&&t.startsWith(stem);});
+}
+function pdFinish(){
+  const P=PD;P.checked=true;P.over=true;FXC=null;plArchive(P,"done");
+  $("pd-panel").hidden=true;pdRender();$("pd-count").textContent=`${P.d.gaps} / ${P.d.gaps}`;
+  const miss=P.d.segs.filter(s=>s.ans&&!P.recs[s.gap].ok).map(s=>{const t=P.recs[s.gap].t.toLowerCase(),w=plFind(t);
+    const p=pdWord(P.d,s.gap,null);return {w:{pre:p.pre,ans:s.ans,post:p.post,why:w?w.why:"",desc:w?w.desc:""},bad:[...new Set(P.recs[s.gap].tries.filter(x=>x!==s.ans))]};});
+  const good=P.recs.filter(r=>r.ok).length;
+  plEnd($("pd-end"),P,good,P.d.gaps,luk(P.d.gaps),miss,"Jeszcze raz",false);
+  $("pd-end").scrollIntoView({block:"start"});
+}
+$("pd-end").addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b||!PD) return;
+  if(b.dataset.a==="again"){const d=PD.d;PD=null;pdStartSame(d);} else history.back();});
+function pdStartSame(d){ // ten sam tekst od nowa, bez nowego wpisu w historii przeglądarki
+  PD={id:Date.now(),start:Date.now(),cfg:{mode:"dyktando",dict:d.id,now:PLP.now},d,fill:{},act:0,checked:false,over:false,locked:false,
+    recs:d.segs.filter(s=>s.ans).map(s=>({t:pdWord(d,s.gap,null,true),ok:true,tries:[],ms:0,done:false}))};
+  $("pd-end").hidden=true;$("pd-panel").hidden=false;pdRender();scrollTo(0,0);
+}
 
 // wczytanie zapisanej sesji: dopiero teraz, bo finish() zapisuje do historii (HKEY wyżej)
 if(load()){
