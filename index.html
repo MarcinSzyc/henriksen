@@ -697,7 +697,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tile en" id="t-en"><span class="wm wm-img" aria-hidden="true"><svg width="58" height="36" viewBox="0 0 60 36"><rect x="1.5" y="1.5" width="57" height="33" rx="3" fill="none" stroke="#fff" stroke-width="3"/><rect x="3" y="3" width="25" height="17" fill="#fff"/><path d="M28 7.5H57M28 13.5H57M28 19.5H57M3 25.5H57M3 31H57" stroke="#fff" stroke-width="3"/></svg><svg width="58" height="36" viewBox="0 0 60 36"><rect x="1.5" y="1.5" width="57" height="33" rx="3" fill="none" stroke="#fff" stroke-width="3"/><path d="M3 3L57 33M57 3L3 33" stroke="#fff" stroke-width="4"/><path d="M30 3V33M3 18H57" stroke="#fff" stroke-width="8"/></svg></span><span class="tt">Angielski</span><small>Słówka i tematyczne zadania</small></button>
     <button type="button" class="tile his" data-soon aria-describedby="soon-his"><span class="wm wm-img" aria-hidden="true"><svg width="104" height="84" viewBox="0 0 120 96" fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><path d="M40 44C52 40 70 40 82 42C88 36 94 26 100 18L104 15L106 21C110 26 114 32 114 37C114 40 110 41 106 39C102 37 98 38 96 42C94 50 92 56 88 60C84 66 70 68 56 67C46 67 36 64 34 56C33 50 35 46 40 44Z" stroke="none"/><path d="M84 62L88 93M78 64L74 93M46 64L42 93M54 66L54 93" fill="none" stroke-width="5"/><path d="M36 48C26 50 24 62 28 74" fill="none" stroke-width="5"/><path d="M57 44L70 44L73 24L62 22Z" stroke="none"/><circle cx="68" cy="15" r="6" stroke="none"/><path d="M68 9V3" fill="none" stroke-width="2.5"/><path d="M64 44L71 58M71 28L82 32" fill="none" stroke-width="5"/><path d="M60 42C46 34 44 12 56 1" fill="none" stroke-width="4"/><path d="M52 32L43 30M49 24L40 21M49 16L40 12M51 9L44 3" fill="none" stroke-width="3"/><path d="M38 59L117 10" fill="none" stroke-width="2.5"/><path d="M107 16L117 10L113 21Z" stroke="none"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Historia</span><small id="soon-his">Daty, bitwy, królowie</small></button>
     <button type="button" class="tile nat" data-soon aria-describedby="soon-nat"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 32C6 14 18 4 36 4c0 18-10 28-26 28z" fill="#fff"/><path d="M6 32L24 14" stroke="rgba(0,0,0,.35)"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Przyroda</span><small id="soon-nat">Rośliny, zwierzęta, mapa</small></button>
-    <button type="button" class="tile hea" data-soon aria-describedby="soon-hea"><span class="wm wm-img" aria-hidden="true"><svg width="42" height="36" viewBox="0 0 42 36" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 33C8 24 3 17 3 11a9 9 0 0 1 18-2 9 9 0 0 1 18 2c0 6-5 13-18 22z" fill="#fff"/><path d="M7 17h7l3-5 4 9 3-6h11" stroke="rgba(0,0,0,.35)" stroke-width="2.5"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Edukacja zdrowotna</span><small id="soon-hea">Ciało, jedzenie, ruch</small></button>
+    <button type="button" class="tile hea" id="t-zd"><span class="wm wm-img" aria-hidden="true"><svg width="42" height="36" viewBox="0 0 42 36" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 33C8 24 3 17 3 11a9 9 0 0 1 18-2 9 9 0 0 1 18 2c0 6-5 13-18 22z" fill="#fff"/><path d="M7 17h7l3-5 4 9 3-6h11" stroke="rgba(0,0,0,.35)" stroke-width="2.5"/></svg></span><span class="tt">Edukacja zdrowotna</span><small id="t-zd-s">Sprawdzian 29.10 i ćwiczenia</small></button>
   </div>
   <button type="button" class="sbar" id="t-stats"><span class="si" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg></span>
     <span class="st"><b>Statystyki</b><small id="t-stats-s">Tu zobaczysz swoje wyniki</small></span>
@@ -721,7 +721,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div class="fchips who" id="who" hidden role="group" aria-label="Czyje wyniki"></div><p class="abnote" id="who-msg" hidden></p>
   <button type="button" class="sbar" id="st-cups"><span class="si cupsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10v6a5 5 0 0 1-10 0z"/><path d="M7 5H4a3 3 0 0 0 3 4M17 5h3a3 3 0 0 1-3 4M12 14v3M8 21h8l-1-4H9z"/></svg></span><span class="st"><b>Puchary</b><small>Brąz, srebro, złoto i diament – ile już jest</small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
-  <div class="segs subj" id="subj" role="tablist" aria-label="Przedmiot"><button type="button" role="tab" data-s="all" class="sel" aria-selected="true">Wszystko</button><button type="button" role="tab" data-s="mat" aria-selected="false">Matma</button><button type="button" role="tab" data-s="pl" aria-selected="false">Polski</button><button type="button" role="tab" data-s="en" aria-selected="false">Angielski</button><button type="button" role="tab" data-s="his" aria-selected="false">Historia</button></div>
+  <div class="segs subj" id="subj" role="tablist" aria-label="Przedmiot"><button type="button" role="tab" data-s="all" class="sel" aria-selected="true">Wszystko</button><button type="button" role="tab" data-s="mat" aria-selected="false">Matma</button><button type="button" role="tab" data-s="pl" aria-selected="false">Polski</button><button type="button" role="tab" data-s="en" aria-selected="false">Angielski</button><button type="button" role="tab" data-s="zd" aria-selected="false">Zdrowie</button><button type="button" role="tab" data-s="his" aria-selected="false">Historia</button></div>
   <div class="soonbox" id="soonbox" hidden><b id="soon-t">Polski już wkrótce</b><span>Tu pojawią się wyniki, gdy zaczniesz ćwiczyć.</span></div>
   <div class="kid" id="kid">
     <section class="streakc"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 2c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2.5 1.2-4 2.5-5 .2 2 1 3 2 3 0-3-1-5.5.5-9z"/></svg>
@@ -877,6 +877,15 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="k3 pzk-sum" id="pzk-sum"></div>
   <div class="segs pl-len" id="pzk-f" role="group" aria-label="Pokaż"><button type="button" data-f="all" class="sel">Wszystkie</button><button type="button" data-f="ok">Znane</button><button type="button" data-f="rep">Do powtórki</button></div>
   <ul class="pzk-list" id="pzk-list"></ul>
+</div>
+
+<!-- Edukacja zdrowotna: sprawdzian i tematy (quiz jak w angielskim, #enq) -->
+<div class="wrap" id="zd" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć do startu"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Edukacja zdrowotna</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <button type="button" class="tile hea pl-t" id="zd-spr"><span class="wm" aria-hidden="true">29.10</span><span class="tt">Sprawdzian 29.10</span><small id="zd-spr-s"></small></button>
+  <div id="zd-tw"><div class="lbl">Ćwicz temat</div>
+  <div class="tiles2 mat-tiles" id="zd-topics"></div></div>
 </div>
 
 <!-- Angielski: To be -->
@@ -2150,8 +2159,8 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
@@ -2245,7 +2254,7 @@ const dni=n=>n===1?"dzień":"dni";
 function renderKid(){
   const soon=!!SUBJ_SOON[SUBJ];
   $("soonbox").hidden=!soon;$("soon-t").textContent=SUBJ_SOON[SUBJ]||"";
-  $("kid").hidden=soon;$("par-btn").hidden=soon||SUBJ==="en";$("par").hidden=soon||SUBJ==="pl"||SUBJ==="en"||!parOpen;
+  $("kid").hidden=soon;$("par-btn").hidden=soon||SUBJ==="en"||SUBJ==="zd";$("par").hidden=soon||SUBJ==="pl"||SUBJ==="en"||SUBJ==="zd"||!parOpen;
   // Polski ma własne szczegóły rodzica (#par-pl); „Wszystko” i Matma pokazują matematyczne
   $("par-pl").hidden=soon||SUBJ!=="pl"||!parOpen;if(!$("par-pl").hidden) renderPlPar();
   $("par-s").textContent=SUBJ==="pl"?"Wykresy, ó/u · rz/ż · ch/h, mylone słowa, dyktanda":"Wykresy, oceny, trudne działania, tabliczka";
@@ -2539,6 +2548,7 @@ function plShow(v){
   if(v==="reqs") renderReqs();
   if(v==="admin") renderAdmin();
   if(v==="en") renderEnHub();
+  if(v==="zd") renderZd();
   if(v==="ent") renderEn();
   if(v==="enset") renderEnSet();
 }
@@ -3463,8 +3473,8 @@ function enToBeQs(n,types){
 function enStart(make,cfg){
   const qs=make();
   EN={id:Date.now(),start:Date.now(),cfg,make,qs,i:0,locked:false,over:false};
-  $("enq-title").textContent=cfg.mode==="tobe"?"To be":EN_MODES[cfg.mode].title;
-  EN.recs=qs.map(q=>({t:q.q,c:q.c,w:ptsW({subj:"en",cfg},{t:q.q,c:q.c}),ok:true,tries:[],ms:0,done:false}));
+  $("enq-title").textContent=cfg.title||(cfg.mode==="tobe"?"To be":EN_MODES[cfg.mode].title);
+  EN.recs=qs.map(q=>({t:q.q,c:q.c,w:ptsW({subj:cfg.subj||"en",cfg},{t:q.q,c:q.c}),ok:true,tries:[],ms:0,done:false}));
   $("enq-game").hidden=false;$("enq-end").hidden=true;$("enq-end").innerHTML="";
   if(CUR==="enq"){enShow();scrollTo(0,0);} else {go("enq");enShow();}
 }
@@ -3508,7 +3518,7 @@ function enArchive(P,status){
   const recs=P.recs.filter(r=>r.done),done=recs.length;if(!done) return;
   const H=loadHist(),k=H.findIndex(s=>s.id===P.id);if(k>=0&&H[k].status==="done") return;
   const good=recs.filter(r=>r.ok).length,pct=Math.floor(good*100/done);
-  const s={id:P.id,subj:"en",start:P.start,end:Date.now(),status,cfg:P.cfg,n:P.recs.length,done,
+  const s={id:P.id,subj:P.cfg.subj||"en",start:P.start,end:Date.now(),status,cfg:P.cfg,n:P.recs.length,done,
     recs:recs.map(r=>({t:r.t,c:r.c,w:r.w,ok:r.ok,tries:r.tries,h:0,ms:r.ms})),pct,grade:grade(pct).n,errors:done-good,hints:0,pts:recs.reduce((a,r)=>a+(r.ok?r.w:0),0),ptsMax:recs.reduce((a,r)=>a+r.w,0)};
   if(k>=0) H[k]=s; else H.push(s);saveHist(H);
 }
@@ -3517,10 +3527,80 @@ function enFinish(){
   $("enq-count").textContent=`${P.qs.length} / ${P.qs.length}`;$("enq-game").hidden=true;
   const miss=P.recs.map((r,k)=>({r,q:P.qs[k]})).filter(x=>!x.r.ok).map(({r,q})=>({html:q.c,bad:[],
     notes:[q.q,`wybrane: ${[...new Set(r.tries.filter(t=>t!==q.c))].map(t=>`<s>${t}</s>`).join(", ")}`,q.why]}));
-  plEnd($("enq-end"),P,P.recs.filter(r=>r.ok).length,P.qs.length,P.cfg.mode==="tobe"?zadan(P.qs.length):EN_MODES[P.cfg.mode].unit,miss,"Jeszcze raz");
+  plEnd($("enq-end"),P,P.recs.filter(r=>r.ok).length,P.qs.length,P.cfg.unit||(P.cfg.mode==="tobe"?zadan(P.qs.length):EN_MODES[P.cfg.mode].unit),miss,"Jeszcze raz");
 }
 $("enq-end").addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b||!EN) return;
   if(b.dataset.a==="back") history.back(); else enStart(EN.make,EN.cfg);});
+
+/* ===== Edukacja zdrowotna: pytania z lekcji (karta „Zdrowie jako wartość” i zeszyt), quiz z angielskiego (enStart) =====
+   Pytanie: {q, c, bad:[złe], why} – why to zdanie z notatki. Prawda/fałsz: c "Prawda"/"Fałsz", bez bad.
+   „Sprawdzian 29.10” = wszystkie pytania w losowej kolejności; tematy osobno. Temat „Miejsce zdrowia w hierarchii” nie ma notatek. */
+const ZD_DATE="29.10";
+const ZD_DEF="Zdrowie to stan pełnego dobrostanu fizycznego, psychicznego i społecznego, a nie tylko brak choroby lub niepełnosprawności.";
+const ZD_DIMS=[["fizyczne","Dobra kondycja fizyczna i brak chorób."],["psychiczne","Umiejętność radzenia sobie ze stresem."],
+  ["społeczne","Utrzymywanie dobrych relacji z innymi."],["środowiskowe","Życie w bezpiecznym i czystym otoczeniu, z dostępem do wody i czystego powietrza."],
+  ["duchowe","Poczucie sensu życia, wiara, wyznawane wartości, harmonia wewnętrzna."]];
+const PF=(q,ok,why)=>({q,c:ok?"Prawda":"Fałsz",pf:true,why});
+const ZD_TOPICS=[
+  {id:"wartosc",name:"Zdrowie jako wartość",qs:[
+    {q:"Zdrowie to stan pełnego dobrostanu…",c:"fizycznego, psychicznego i społecznego",bad:["tylko fizycznego","fizycznego i finansowego","szkolnego, domowego i sportowego"],why:ZD_DEF},
+    {q:"Dokończ: zdrowie to nie tylko brak choroby lub…",c:"niepełnosprawności",bad:["zmęczenia","smutku","bólu głowy"],why:ZD_DEF},
+    ...ZD_DIMS.map(([d,ex],k)=>({lab:"Który to wymiar zdrowia?",q:`„${ex}”`,c:`zdrowie ${d}`,
+      bad:ZD_DIMS.filter((_,j)=>j!==k).map(x=>`zdrowie ${x[0]}`),why:`<b>Zdrowie ${d}</b>: ${ex.toLowerCase()}`})),
+    {q:"Który przykład dotyczy zdrowia psychicznego?",c:"Akceptacja samego siebie",bad:["Sprawny układ odpornościowy","Segregacja śmieci","Prawidłowa waga ciała"],
+      why:"Zdrowie psychiczne: radzenie sobie ze stresem, akceptacja samego siebie, poczucie własnej wartości."},
+    {q:"Który przykład dotyczy zdrowia społecznego?",c:"Rozwiązywanie konfliktów bez przemocy",bad:["Poczucie własnej wartości","Sprawny organizm","Oszczędzanie wody"],
+      why:"Zdrowie społeczne: okazywanie sympatii, dobra komunikacja, rozwiązywanie konfliktów bez przemocy."},
+    {q:"Który przykład dotyczy zdrowia fizycznego?",c:"Sprawny układ odpornościowy",bad:["Okazywanie sympatii","Radzenie sobie ze stresem","Dobra komunikacja z innymi"],
+      why:"Zdrowie fizyczne: sprawny organizm, sprawny układ odpornościowy, prawidłowa waga ciała."},
+    PF("Zdrowie to tylko brak chorób.",false,ZD_DEF),
+    PF("Dbanie o zdrowie psychiczne jest tak samo ważne jak dbanie o zdrowie fizyczne.",true,"Wszystkie wymiary zdrowia są ważne – psychiczne tak samo jak fizyczne."),
+    PF("Spotkania z przyjaciółmi wpływają na zdrowie społeczne.",true,"Dobre relacje z innymi to zdrowie społeczne."),
+    PF("Aktywność fizyczna wpływa pozytywnie na zdrowie psychiczne.",true,"Ruch pomaga nie tylko ciału, ale też samopoczuciu."),
+    PF("Sen nie ma wpływu na zdrowie człowieka.",false,"Sen to jeden ze zdrowych nawyków – ma duży wpływ na zdrowie.")]},
+  {id:"styl",name:"Zdrowy styl życia",qs:[
+    {q:"Zdrowie mierzymy nie tylko brakiem chorób, ale też…",c:"wydolnością, siłą i odpornością organizmu",bad:["liczbą ocen w szkole","wzrostem i kolorem oczu","liczbą znajomych w internecie"],
+      why:"Zapamiętaj: zdrowie mierzymy nie tylko brakiem chorób, ale poziomem pozytywnych mierników, takich jak wydolność, siła i odporność organizmu."},
+    {q:"Co wzmacnia organizm?",c:"Hartowanie organizmu",bad:["Siedzenie cały dzień w domu","Spanie tylko 4 godziny","Jedzenie samych słodyczy"],
+      why:"Na lekcji: zdrowy styl życia to zdrowy organizm, a hartowanie go wzmacnia."},
+    PF("Zdrowy styl życia to zdrowy organizm.",true,"Temat lekcji: zdrowy styl życia to zdrowy organizm."),
+    PF("Odporność organizmu to jeden z mierników zdrowia.",true,"Mierniki zdrowia to m.in. wydolność, siła i odporność organizmu.")]},
+  {id:"cialo",name:"Moje ciało się zmienia",qs:[
+    {q:"Dojrzewanie to…",c:"naturalny etap szybkich zmian ciała, gdy kształtują się dorosłe cechy",bad:["choroba, którą trzeba leczyć","zmiana, która dotyczy tylko dziewcząt","etap, który zaczyna się po 30. roku życia"],
+      why:"Dojrzewanie to naturalny etap gwałtownych zmian fizycznych, w którym kształtują się dorosłe cechy ciała dziewcząt i chłopców."},
+    {q:"Więcej potu i łoju (tłuszczu na skórze) w czasie dojrzewania wymaga…",c:"codziennej higieny i częstej zmiany ubrań",bad:["mycia się raz w tygodniu","noszenia tych samych ubrań przez kilka dni","używania tylko perfum"],
+      why:"Zwiększone wydzielanie potu i substancji tłuszczowych wymaga codziennej higieny, częstej zmiany odzieży i delikatnej pielęgnacji skóry."},
+    PF("Wypryski najlepiej wyciskać.",false,"Skórę pielęgnujemy delikatnie, bez wyciskania wyprysków."),
+    {q:"Dieta bogata w żelazo chroni organizm przed niedoborami w czasie…",c:"intensywnego wzrostu i miesiączkowania",bad:["wakacji","snu","zimy"],
+      why:"Dieta bogata w żelazo chroni organizm przed niedoborami w czasie intensywnego wzrostu i miesiączkowania."},
+    PF("Dojrzewanie dotyczy i dziewcząt, i chłopców.",true,"W czasie dojrzewania kształtują się dorosłe cechy ciała dziewcząt i chłopców.")]},
+  {id:"zach",name:"Zachowania chroniące i ryzykowne",qs:[
+    {q:"Które zachowanie chroni zdrowie środowiskowe?",c:"Segregacja śmieci",bad:["Wyrzucanie śmieci w lesie","Wrzucanie baterii do zwykłego kosza","Zostawianie zapalonego światła"],
+      why:"Zachowania chroniące środowisko: segregacja śmieci i oszczędzanie wody."},
+    {q:"Które zachowanie też chroni środowisko?",c:"Oszczędzanie wody",bad:["Odkręcona woda przy myciu zębów","Wyrzucanie śmieci w lesie","Wrzucanie baterii do zwykłego kosza"],
+      why:"Zachowania chroniące środowisko: segregacja śmieci i oszczędzanie wody."},
+    {q:"Który z tych nawyków NIE jest zdrowy?",c:"Granie na telefonie do późna w nocy",bad:["Odpowiednia ilość snu","Ruch każdego dnia","Spotkania z przyjaciółmi"],
+      why:"Zdrowe nawyki to sen, ruch i relacje społeczne."},
+    {q:"Zdrowe nawyki z lekcji to…",c:"sen, ruch i relacje społeczne",bad:["słodycze, gry i telewizja","tylko nauka","tylko sport"],
+      why:"Zdrowe nawyki: sen, ruch, relacje społeczne."},
+    PF("Wyrzucanie śmieci do jednego worka, bez segregacji, chroni środowisko.",false,"Środowisko chroni segregacja śmieci.")]}
+];
+const zdQ=(x,t)=>({lab:x.lab||t.name,q:x.q,c:x.c,pf:!!x.pf,three:false,long:!x.pf,
+  opts:x.pf?["Prawda","Fałsz"]:shuffle([x.c,...x.bad]),why:x.why});
+const zdAll=()=>shuffle(ZD_TOPICS.flatMap(t=>t.qs.map(x=>zdQ(x,t))));
+const zdTopic=id=>{const t=ZD_TOPICS.find(x=>x.id===id);return shuffle(t.qs.map(x=>zdQ(x,t)));};
+const ZD_N=ZD_TOPICS.reduce((a,t)=>a+t.qs.length,0);
+const zdLast=mode=>{const h=loadHist().filter(s=>s.subj==="zd"&&s.status==="done"&&s.cfg.mode===mode);return h.length?h[h.length-1]:null;};
+const ZD_TONE={wartosc:"#0c8599",styl:"#2b8a3e",cialo:"#d6336c",zach:"#e8590c"};
+function renderZd(){
+  const l=zdLast("spr");$("zd-spr-s").textContent=l?`Ostatnio: ${l.pct}% · ocena ${l.grade}`:`Wszystkie tematy · ${ZD_N} pytań`;
+  $("zd-topics").innerHTML=ZD_TOPICS.map(t=>{const x=zdLast(t.id);
+    return `<button type="button" class="tile mt" data-t="${t.id}" style="--gc:${ZD_TONE[t.id]}">${x?`<span class="mt-last">${x.pct}%</span>`:""}<span class="tt">${t.name}</span><small>${t.qs.length} pytań</small></button>`;}).join("");
+}
+$("t-zd").addEventListener("click",()=>go("zd"));
+$("zd-spr").addEventListener("click",()=>enStart(zdAll,{subj:"zd",mode:"spr",title:`Sprawdzian ${ZD_DATE}`,unit:"pytań"}));
+$("zd-topics").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(!b) return;const t=ZD_TOPICS.find(x=>x.id===b.dataset.t);
+  enStart(()=>zdTopic(t.id),{subj:"zd",mode:t.id,title:t.name,unit:"pytań"});});
 
 /* --- Angielski: Słówka (A1/A2, w tematach) i Zdania; ten sam quiz co To be (enStart / enShow) ---
    Zdanie: "angielski|polski|3 złe angielskie (;)|3 złe polskie (;)" – złe wersje to typowe pomyłki i zmienione szczegóły. */
@@ -3946,19 +4026,20 @@ if(syncOn()) syncSoon(2500);
    Próg brązu ustawia rodzic (PREFS.cups[kategoria], domyślnie base), kolejne poziomy = próg × x. Nagrody od rodzica:
    PREFS.cupRewards[poziom]. Liczone z historii, więc obejmują też wcześniejsze wyniki; PREFS.cupSeen pamięta pokazane
    puchary, żeby „Nowy puchar!” wyskoczył raz. Rodzic zmienia progi dziecka przez jego wiersz w settings (sync go dociąga). */
-const CUP_SUBJ={mat:"Matematyka",pl:"Polski",en:"Angielski"};
+const CUP_SUBJ={mat:"Matematyka",pl:"Polski",en:"Angielski",zd:"Edukacja zdrowotna"};
 const CUP_CATS=[
   {id:"mat×",subj:"mat",name:"Mnożenie",base:150},{id:"mat:",subj:"mat",name:"Dzielenie",base:150},
   {id:"mat+",subj:"mat",name:"Dodawanie",base:100},{id:"mat−",subj:"mat",name:"Odejmowanie",base:100},
   {id:"pl-slowka",subj:"pl",name:"Słówka: ó/u, rz/ż, ch/h",base:75},{id:"pl-dyktando",subj:"pl",name:"Dyktanda",base:75},
   {id:"pl-znaczenia",subj:"pl",name:"Znaczenie słów",base:100},
-  {id:"en-tobe",subj:"en",name:"To be",base:50},{id:"en-slowka",subj:"en",name:"Słówka angielskie",base:75},{id:"en-zdania",subj:"en",name:"Zdania",base:100}
+  {id:"en-tobe",subj:"en",name:"To be",base:50},{id:"en-slowka",subj:"en",name:"Słówka angielskie",base:75},{id:"en-zdania",subj:"en",name:"Zdania",base:100},
+  {id:"zd",subj:"zd",name:"Edukacja zdrowotna",base:60}
 ];
 const CUP_LV=[{k:"b",name:"Brąz",to:"brązu",x:1,c:"#cd7f32"},{k:"s",name:"Srebro",to:"srebra",x:3,c:"#b4bfcf"},
   {k:"g",name:"Złoto",to:"złota",x:8,c:"#f2c230"},{k:"d",name:"Diament",to:"diamentu",x:20,c:"#4dd4ff"}];
 const CUP_STEPS=[20,30,50,75,100,150,200,300,400,500,750,1000,1500,2000,3000,4000,5000,7500,10000];
 const PARENT_KEYS=["cups","cupRewards","mods"]; // ustawia rodzic – przy konflikcie wygrywa wersja z bazy
-const cupCat=(s,r)=>{const sj=s.subj||"mat";return sj==="mat"?"mat"+(Array.isArray(r.t)?r.t[1]:""):sj+"-"+((s.cfg&&s.cfg.mode)||(sj==="en"?"tobe":"slowka"));};
+const cupCat=(s,r)=>{const sj=s.subj||"mat";if(sj==="zd") return "zd";return sj==="mat"?"mat"+(Array.isArray(r.t)?r.t[1]:""):sj+"-"+((s.cfg&&s.cfg.mode)||(sj==="en"?"tobe":"slowka"));};
 function cupCounts(H){const c={};for(const s of H) for(const r of s.recs||[]) if(r.ok){const k=cupCat(s,r);c[k]=(c[k]||0)+recW(s,r);}return c;} // punkty, nie liczba zadań
 const cupBase=(P,id)=>(P&&P.cups&&+P.cups[id])||CUP_CATS.find(x=>x.id===id).base;
 const cupLevel=(n,base)=>CUP_LV.reduce((l,L,k)=>n>=base*L.x?k:l,-1);
@@ -4114,6 +4195,7 @@ function ptsW(s,r){
     if(m==="zdania"){const x=ENS.find(y=>y.en===r.c||y.en===r.t);return (x&&x.lvl==="a2"?5:3)+(x&&r.c===x.en?1:0);}
     return /[?.]$/.test(r.c||"")?2:1; // To be: pytania i krótkie odpowiedzi 2, odmiana i am/is/are 1
   }
+  if(sj==="zd") return r.c==="Prawda"||r.c==="Fałsz"?1:2; // edukacja zdrowotna: prawda/fałsz 1, wybór z 4 – 2
   return 1;
 }
 const recW=(s,r)=>r.w||ptsW(s,r);
@@ -4164,7 +4246,7 @@ function histSummary(H,P){
   let n=0,d=act.has(T)?T:addDays(T,-1);while(act.has(d)){n++;d=addDays(d,-1);}
   const c=cupCounts(H),cups={b:0,s:0,g:0,d:0}; // najwyższy puchar w każdej kategorii
   CUP_CATS.forEach(x=>{const l=cupLevel(c[x.id]||0,cupBase(P,x.id));if(l>=0) cups[CUP_LV[l].k]++;});
-  subj._on=["mat","pl","en"].filter(k=>subjOn(k));
+  subj._on=["mat","pl","en","zd"].filter(k=>subjOn(k));
   return {week_start:ymd(MON),week_pts:week,total_pts:total,streak:n,cups,subj};
 }
 async function ligPublish(){ // osobno od reszty synchronizacji: brak tabel lig nie może jej zatrzymać
@@ -4295,7 +4377,8 @@ const MODS=[
     {k:"mat-tens",name:"Pełne dziesiątki",sub:"np. 40 × 30"},{k:"mat-hard",name:"Poćwicz trudne",sub:"działania z błędami"},{k:"mat-own",name:"Ułóż własne",sub:"własne działania i zakresy"}]},
   {g:"Polski",items:[{k:"pl-slowka",name:"Słówka",sub:"ó/u, rz/ż, ch/h"},{k:"pl-dyktando",name:"Dyktanda",sub:"cały tekst z lukami"},{k:"pl-znaczenia",name:"Znaczenie słów",sub:"quiz i słowo dnia"}]},
   {g:"Angielski",items:[{k:"en-tobe",name:"To be",sub:"am, is, are"},{k:"en-slowka",name:"Słówka",sub:"A1 i A2 w tematach"},{k:"en-zdania",name:"Zdania",sub:"tłumaczenie całych zdań"}]},
-  {g:"Inne",items:[{k:"lig",name:"Ligi",sub:"ranking z kolegami"},{k:"soon",name:"Kafle „Wkrótce”",sub:"Historia, Przyroda, Edukacja zdrowotna"}]}
+  {g:"Edukacja zdrowotna",items:[{k:"zd-spr",name:"Sprawdzian 29.10",sub:"wszystkie tematy"},{k:"zd-temat",name:"Ćwicz temat",sub:"4 tematy z lekcji"}]},
+  {g:"Inne",items:[{k:"lig",name:"Ligi",sub:"ranking z kolegami"},{k:"soon",name:"Kafle „Wkrótce”",sub:"Historia, Przyroda"}]}
 ];
 // stare ustawienie mods.mat === false (cała matematyka) wyłącza wszystkie jej kafle
 const modOn=(k,P=PREFS)=>!(P&&P.mods&&(P.mods[k]===false||k.startsWith("mat-")&&P.mods.mat===false));
@@ -4305,6 +4388,7 @@ function applyMods(){
   show("t-math",subjOn("mat"));if(CUR==="mat") renderMat();show("t-pl",subjOn("pl"));show("t-en",subjOn("en"));
   show("pl-t-w",modOn("pl-slowka"));show("pl-t-d",modOn("pl-dyktando"));show("pl-t-z",modOn("pl-znaczenia"));show("pz-day",modOn("pl-znaczenia"));
   show("en-t-tobe",modOn("en-tobe"));show("en-t-v",modOn("en-slowka"));show("en-t-z",modOn("en-zdania"));
+  show("t-zd",subjOn("zd"));show("zd-spr",modOn("zd-spr"));show("zd-tw",modOn("zd-temat"));
   document.querySelectorAll("#home [data-soon]").forEach(b=>{b.hidden=!modOn("soon");});
   if($("t-lig")&&!modOn("lig")) $("t-lig").hidden=true;
   // kafel dla rodzica na samej górze
@@ -4342,7 +4426,7 @@ async function renderKidCfg(){
 // podgląd: kopia prawdziwego ekranu startowego w skali, z kaflami tak, jak zobaczy je dziecko
 function kcPreview(){
   const inner=$("kc-inner"),P={mods:KC.mods},grid=$("home").querySelector(".tiles2").cloneNode(true);
-  const vis={"t-math":subjOn("mat",P),"t-pl":subjOn("pl",P),"t-en":subjOn("en",P)};
+  const vis={"t-math":subjOn("mat",P),"t-pl":subjOn("pl",P),"t-en":subjOn("en",P),"t-zd":subjOn("zd",P)};
   grid.querySelectorAll("button").forEach(b=>{const on=b.id in vis?vis[b.id]:b.hasAttribute("data-soon")?modOn("soon",P):true;b.hidden=!on;});
   const bars=["t-stats","t-cups","t-lig","t-help"].filter(id=>id!=="t-lig"||modOn("lig",P)).map(id=>{const b=$(id).cloneNode(true);b.hidden=false;return b;});
   inner.replaceChildren(grid,...bars);
