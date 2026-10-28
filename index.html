@@ -961,7 +961,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
       <li>Wpisz <b>kod rodziny</b>, <b>imię dziecka</b> i <b>hasło dziecka</b> – wymyślasz je Ty (co najmniej 6 znaków), zapisz je sobie.</li>
       <li><b>Dołącz do rodziny</b> → ustaw z dzieckiem <b>PIN</b> (4 cyfry). Od teraz dziecko otwiera aplikację PIN-em.</li>
       <li>Na swoim telefonie zatwierdź dziecko: na górze ekranu startowego pojawi się <b>Prośby o zgodę</b> → <b>Zgoda</b>. Dopiero wtedy wyniki dziecka zapisują się w chmurze.</li>
-      <li>Wyniki, które już były na tym telefonie, dopiszą się do konta dziecka.</li>
+      <li>Bez konta nic się nie zapisuje, więc wyniki, puchary i ligi liczą się od chwili dołączenia.</li>
       <li>Nowy telefon albo ponowne logowanie: To telefon dziecka → <b>To dziecko ma już konto – zaloguj</b> (kod rodziny, imię, hasło).</li></ol>
   </div>
   <button type="button" class="more lig-help-b hacc" aria-expanded="false" aria-controls="h-acc-2"><span><b>Dziecko zapomniało PIN-u</b></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
@@ -1166,6 +1166,14 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="go-btn" id="cupset-ok">Zapisz</button>
   </div>
 </div>
+<div class="ask" id="guest" hidden role="dialog" aria-modal="true" aria-labelledby="guest-t">
+  <div class="ask-box">
+    <h2 id="guest-t">Zaloguj się</h2>
+    <p id="guest-p"></p>
+    <p class="abnote">Bez konta możesz ćwiczyć do woli, ale nic się nie zapisuje – po zamknięciu aplikacji wszystko znika. Konto zakłada rodzic: ☰ → Konto rodziny. Telefon dziecka dołącza kodem rodziny.</p>
+    <div class="ask-btns"><button type="button" id="guest-no">Nie teraz</button><button type="button" class="yes" id="guest-go">Konto rodziny</button></div>
+  </div>
+</div>
 <div class="ask" id="cupnew" hidden role="dialog" aria-modal="true" aria-labelledby="cupnew-h">
   <div class="ask-box"><div class="cupnew-i" id="cupnew-i" aria-hidden="true"></div><h2 id="cupnew-h">Nowy puchar!</h2><p><b id="cupnew-t"></b></p><p class="cupnew-rw" id="cupnew-rw" hidden></p>
     <button type="button" class="go-btn" id="cupnew-ok">Super!</button></div>
@@ -1215,6 +1223,17 @@ let tasks=[],i=0,input="",errors=0,hintsUsed=0,state=[],locked=false;
 let SID=0,T0=0,log=[],tShow=0,ACTIVE=false;
 const newLog=n=>Array.from({length:n},()=>({tries:[],h:0,ms:0}));
 const $=id=>document.getElementById(id);
+/* Gość = bez konta rodziny (nikt się nie zalogował albo konto bez rodziny). Gość może ćwiczyć, ale aplikacja nic dla niego
+   nie zapisuje: wyniki, rozpoczęte działania i ustawienia żyją tylko do zamknięcia aplikacji. Zapis tych kluczy jest tu blokowany,
+   a stare dane z telefonu, na którym nikt nie jest zalogowany, kasowane przy starcie. Klucze konta (me/auth/pin/sync) bez zmian. */
+const STATE_KEYS=["henriksen-ustawienia","tabliczka100-postep","henriksen-historia","henriksen-polski"];
+function isGuest(){try{const m=JSON.parse(localStorage.getItem("henriksen-me"));return !(m&&m.role);}catch(e){return true;}}
+(()=>{const set=Storage.prototype.setItem;
+  Storage.prototype.setItem=function(k,v){if(this===localStorage&&STATE_KEYS.includes(k)&&isGuest()) return;return set.call(this,k,v);};
+  // tylko telefon, na którym nikt nie jest i nie był zalogowany: bez logowania i bez stanu synchronizacji. Wygasła sesja zostawia
+  // henriksen-sync, więc niewysłane wyniki czekają na ponowne logowanie; zwykłe wylogowanie najpierw wysyła i czyści sync.
+  try{if(isGuest()&&!localStorage.getItem("henriksen-auth")&&!localStorage.getItem("henriksen-sync")) STATE_KEYS.forEach(k=>localStorage.removeItem(k));}catch(e){}
+})();
 /* ustawienia z menu ☰ (wczytane przed pierwszym show) */
 const PKEY="henriksen-ustawienia";
 /* Znaczki przy nazwie w nagłówku (kolor z --badge) */
@@ -1956,7 +1975,7 @@ function selMenu(){
   $("awake-s").textContent="wakeLock" in navigator?"gdy aplikacja jest otwarta":"ten telefon tego nie obsługuje";
 }
 let menuFrom=null;
-function openMenu(e){menuFrom=e&&e.currentTarget;selMenu();$("bk-msg").textContent="Historia jest tylko na tym telefonie. Zrób czasem kopię do pliku.";$("menu").hidden=false;$("menu-ok").focus();}
+function openMenu(e){menuFrom=e&&e.currentTarget;selMenu();$("bk-msg").textContent=isGuest()?"Bez konta nic się nie zapisuje – kopia jest dla zalogowanych.":"Historia jest tylko na tym telefonie. Zrób czasem kopię do pliku.";$("menu").hidden=false;$("menu-ok").focus();}
 function closeMenu(){$("menu").hidden=true;if(menuFrom) menuFrom.focus();}
 document.querySelectorAll("[data-menu]").forEach(b=>b.addEventListener("click",openMenu));
 $("menu-ok").addEventListener("click",closeMenu);
@@ -2147,7 +2166,8 @@ function renderHome(){
   renderCupsBar();ligHomeLine();applyMods();
   const T=dayKey(Date.now()),MON=addDays(T,-((new Date(T).getDay()+6)%7)),pt=s=>sesPts(s).p;
   const dz=H.filter(s=>dayKey(s.start)===T).reduce((a,s)=>a+pt(s),0),tg=H.filter(s=>s.start>=MON).reduce((a,s)=>a+pt(s),0);
-  $("t-stats-s").textContent=H.length?`Dziś ${dz} pkt · w tygodniu ${tg} pkt`:"Tu zobaczysz swoje wyniki";
+  try{ligHomeLine();}catch(e){}
+  $("t-stats-s").textContent=isGuest()?"Zaloguj się, żeby zbierać wyniki":H.length?`Dziś ${dz} pkt · w tygodniu ${tg} pkt`:"Tu zobaczysz swoje wyniki";
 }
 
 /* Statystyki */
@@ -2332,6 +2352,7 @@ $("bk-save").addEventListener("click",()=>{
 $("bk-load").addEventListener("click",()=>$("bk-file").click());
 $("bk-file").addEventListener("change",()=>{
   const f=$("bk-file").files[0];$("bk-file").value="";if(!f) return;
+  if(isGuest()){$("bk-msg").textContent="Kopię wczytasz po zalogowaniu (Konto rodziny) – bez konta nic się nie zapisuje.";return;}
   f.text().then(txt=>{const d=JSON.parse(txt);if(!d||d.app!=="henriksen"||!Array.isArray(d.history)) throw new Error("format");
     const H=loadOwnHist(),ids=new Set(H.map(s=>s.id));let add=0;
     for(const s of d.history) if(s&&s.id&&Array.isArray(s.recs)&&s.cfg&&!ids.has(s.id)){H.push(s);add++;}
@@ -3637,7 +3658,7 @@ $("enset-go").addEventListener("click",()=>{const m=ENM,o={...enSetO(),topics:[.
   enStart(()=>{const q=first||enVocabQs(m,o);first=null;return q;},{mode:m,lvl:o.lvl,dir:o.dir,topics:o.topics});});
 
 /* ===== Konto (Supabase): rodzic zakłada rodzinę, telefon dziecka dołącza kodem, dziecko otwiera aplikację PIN-em =====
-   Biblioteka supabase-js ładuje się dopiero, gdy jest potrzebna (bez konta aplikacja działa jak dotąd, także offline).
+   Biblioteka supabase-js ładuje się dopiero, gdy jest potrzebna (bez konta można ćwiczyć, ale nic się nie zapisuje; zalogowani działają też offline).
    Dziecko nie ma maila: konto to „imię.kod@dziecko.henriksen.app”, hasło wpisuje rodzic raz; potem 4-cyfrowy PIN
    sprawdzany tylko w aplikacji (skrót SHA-256 w localStorage). URL i klucz są publiczne, dostęp pilnują reguły w bazie. */
 const SB_URL="https://avhnxpfgwilqcmzjears.supabase.co",SB_KEY="sb_publishable_bOM44paG7HhxbCcePeR0Ow_Srh3DHwr";
@@ -3694,7 +3715,7 @@ function renderAcct(){
   if(ACCT==="start") b.innerHTML=`
     <button type="button" class="own" data-go="parent"><span><b>Jestem rodzicem</b><small>Załóż konto rodziny albo zaloguj się</small></span></button>
     <button type="button" class="own" data-go="kid"><span><b>To telefon dziecka</b><small>Dołącz do rodziny kodem – robi to rodzic, raz</small></span></button>
-    <p class="abnote">Bez konta aplikacja działa jak dotąd, a wyniki zostają tylko na tym telefonie.</p>`;
+    <p class="abnote">Bez konta możesz ćwiczyć, ale nic się nie zapisuje: nie ma statystyk, pucharów ani lig, a po zamknięciu aplikacji wszystko znika.</p>`;
   else if(ACCT==="parent") b.innerHTML=back+field("a-mail","E-mail","email",'autocomplete="email" autocapitalize="off" spellcheck="false"')+
     field("a-pass","Hasło (min. 6 znaków)","password",'autocomplete="current-password"')+field("a-name","Twoje imię (przy zakładaniu)","text",'maxlength="20" autocomplete="given-name"')+
     `<button type="button" class="go-btn" data-do="parent-in">Zaloguj się</button><button type="button" class="again" data-do="parent-up">Załóż nowe konto rodziny</button>`;
@@ -4035,7 +4056,7 @@ function cupShowNext(){
 }
 $("cupnew-ok").addEventListener("click",()=>{$("cupnew").hidden=true;if(CUP_VIEW_OPEN()) renderCups();setTimeout(cupShowNext,300);});
 const CUP_VIEW_OPEN=()=>CUR==="cups";
-function renderCupsBar(){const n=cupTotal(loadOwnHist(),PREFS);$("t-cups-s").textContent=n?`Masz ${n} · zobacz, ile brakuje do kolejnych`:"Zdobywaj brąz, srebro, złoto i diament";}
+function renderCupsBar(){const n=cupTotal(loadOwnHist(),PREFS);$("t-cups-s").textContent=isGuest()?"Puchary zbiera się na koncie rodziny":n?`Masz ${n} · zobacz, ile brakuje do kolejnych`:"Zdobywaj brąz, srebro, złoto i diament";}
 setTimeout(cupsCheck,1500);
 
 /* ===== Punkty: najłatwiejsze zadanie = 1 pkt, trudniejsze więcej; zestaw = suma wag jego pytań =====
@@ -4136,7 +4157,8 @@ async function ligPublish(){ // osobno od reszty synchronizacji: brak tabel lig 
 }
 let LIGROWS=null,LIGSEL=null,LIGMODE="week",LIGFORM=null;
 function ligHomeLine(){
-  const el=$("t-lig");el.hidden=!(ME&&ME.role)||!modOn("lig");if(el.hidden) return;
+  const el=$("t-lig");el.hidden=!modOn("lig");if(el.hidden) return;
+  if(!(ME&&ME.role)){$("t-lig-s").textContent="Zaloguj się, żeby grać w lidze z kolegami";el.classList.remove("alert");return;} // gość: zaproszenie
   const R=LIGROWS||[],req=R.filter(r=>r.member_status==="pending"&&r.user_id!==ME.id),mine=[...new Set(R.filter(r=>r.user_id===ME.id).map(r=>r.league_id))];
   $("t-lig-s").textContent=ME.role==="parent"&&req.length?`Prośby o zgodę: ${req.length}`:mine.length?`${mine.length===1?"Twoja liga":"Twoje ligi: "+mine.length} · zobacz ranking`:"Ścigaj się z kolegami na punkty";
   el.classList.toggle("alert",ME.role==="parent"&&req.length>0);
@@ -4376,6 +4398,18 @@ $("req-list").addEventListener("click",async e=>{const b=e.target.closest("butto
   if(r.error){$("req-err").textContent=acctErr(r.error);b.disabled=false;return;}
   FAMILY=null;await loadReqs();});
 $("t-req").addEventListener("click",()=>go("reqs"));
+
+/* Gość: Statystyki, Puchary i Ligi zapraszają do logowania (nasłuch w fazie przechwytywania, przed zwykłymi kliknięciami) */
+const GUEST_TXT={"t-stats":"Statystyki pokazują wyniki z wielu dni – zbieramy je tylko na koncie.",
+  "t-cups":"Puchary zdobywa się za punkty z wielu dni – zbieramy je tylko na koncie.",
+  "t-lig":"W ligach ścigasz się z kolegami na punkty – to działa tylko na koncie."};
+let guestFrom=null;
+document.addEventListener("click",e=>{const t=e.target.closest&&e.target.closest("#t-stats,#t-cups,#t-lig");if(!t||!isGuest()) return;
+  e.preventDefault();e.stopImmediatePropagation();guestFrom=t;$("guest-p").textContent=GUEST_TXT[t.id];$("guest").hidden=false;$("guest-go").focus();},true);
+const closeGuest=()=>{$("guest").hidden=true;if(guestFrom) guestFrom.focus();};
+$("guest-no").addEventListener("click",closeGuest);
+$("guest").addEventListener("click",e=>{if(e.target.id==="guest") closeGuest();});
+$("guest-go").addEventListener("click",()=>{$("guest").hidden=true;openMenu();openAcct();});
 
 /* ===== Administracja (admin.sql): proste liczby o wszystkich kontach, tylko dla admina ===== */
 async function renderAdmin(){

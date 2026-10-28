@@ -58,6 +58,11 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `admin_stats()` (security definer, rzuca błąd dla nie-admina) zwraca liczby: użytkownicy, nowi w 7 dni, rodzice, dzieci
   (czekające), rodziny (czekające), aktywni i sesje w 7 dni, ligi, konta bez profilu, ostatnia sesja. `renderAdmin()` rysuje kafle
   `.adm-k`; brak funkcji w bazie = komunikat „uruchom admin.sql”. SQL testowany lokalnie na Postgresie z atrapą `auth`.
+- **Gość (bez konta rodziny, `isGuest()` = brak roli w `henriksen-me`):** może ćwiczyć, ale nic nie jest zapisywane.
+  Na początku skryptu `Storage.prototype.setItem` pomija zapis kluczy `STATE_KEYS` (ustawienia, postęp, historia, polski) dla gościa,
+  a przy starcie kasuje je na telefonie bez `henriksen-auth` i bez `henriksen-sync` (wygasłe logowanie zostawia sync, więc
+  niewysłane wyniki czekają; wylogowanie najpierw wysyła i czyści sync). Statystyki, Puchary i Ligi: okno `#guest` z zaproszeniem
+  do Konta rodziny (nasłuch kliknięć w fazie przechwytywania), podpisy kafli „Zaloguj się…”. Kopii gość nie wczyta.
 - **Synchronizacja (etap 2):** `localStorage` zostaje główną pamięcią. `saveHist()` zapisuje lokalnie (`saveHistLocal`) i budzi
   `syncSoon()` → `syncNow()`: wysyła sesje, których podpis `sesSig` zmienił się od ostatniej wysyłki, pobiera nowsze z bazy
   (po `updated_at`) i łączy po `id` (ukończona > przerwana > dłuższa); ustawienia `PREFS`/`PLP` – wygrywa nowszy zapis
