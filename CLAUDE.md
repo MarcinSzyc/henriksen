@@ -13,7 +13,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
 - Po zmianie ikon/manifestu podbij `VERSION` w `sw.js`.
 
 ## Architektura `index.html`
-- **Widoki:** `#home` (kafle Matematyka, Polski i Angielski, Historia jako „Wkrótce” – szeroki pasek – `[data-soon]`, tylko potrząśnięcie; pasek Statystyki), `#play` (gra), `#stats-v` (statystyki); `go(v)` + `history.pushState`
+- **Widoki:** `#home` (kafle Matematyka, Polski i Angielski, Historia jako „Wkrótce” – kwadrat w osobnym rzędzie – `[data-soon]`, tylko potrząśnięcie; pasek Statystyki), `#play` (gra), `#stats-v` (statystyki); `go(v)` + `history.pushState`
   (`#gra`, `#statystyki`), więc „wstecz” w telefonie wraca na start. Aplikacja zawsze startuje na `#home`.
   Wczytanie zapisanej sesji (`load()` → `render0()`/`finish(true)`) jest na samym końcu skryptu – `finish()` zapisuje
   do historii i używa stałych zdefiniowanych niżej (wcześniej powodowało to błąd TDZ przy starcie).

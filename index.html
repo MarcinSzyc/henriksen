@@ -521,7 +521,6 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .pzk-list .none{color:var(--muted);font-weight:800;text-align:center;background:none}
 .pl-miss p s{color:var(--bad)}
 .tile.en{background:linear-gradient(135deg,#12b886,#0b5e46)}
-.tile.his.wide{flex:none;height:96px;min-height:0;padding:16px 20px}.tile.his.wide .tt{font-size:1.6rem}.tile.his.wide .wm{font-size:3rem;top:16px}
 .en-t{flex:none;height:150px;min-height:0;cursor:default}.en-t:active{transform:none}
 .en-q{font-size:clamp(1.7rem,8vw,2.3rem)}
 #enq-opts.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}#enq-opts.three button{min-height:84px;font-size:1.8rem}
@@ -544,7 +543,9 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tile pl" id="t-pl"><span class="wm" aria-hidden="true">ą ę ć ż ó</span><span class="tt">Polski</span><small>Słówka i dyktanda</small></button>
     <button type="button" class="tile en" id="t-en"><span class="wm" aria-hidden="true">ABC</span><span class="tt">Angielski</span><small>To be: am, is, are</small></button>
   </div>
-  <button type="button" class="tile his wide" data-soon aria-describedby="soon-his"><span class="wm" aria-hidden="true">1410</span><span class="soon">Wkrótce</span><span class="tt">Historia</span><small id="soon-his">Daty, bitwy, królowie</small></button>
+  <div class="tiles2">
+    <button type="button" class="tile his" data-soon aria-describedby="soon-his"><span class="wm" aria-hidden="true">1410</span><span class="soon">Wkrótce</span><span class="tt">Historia</span><small id="soon-his">Daty, bitwy, królowie</small></button>
+  </div>
   <button type="button" class="sbar" id="t-stats"><span class="si" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg></span>
     <span class="st"><b>Statystyki</b><small id="t-stats-s">Tu zobaczysz swoje wyniki</small></span>
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
