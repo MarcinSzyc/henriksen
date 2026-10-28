@@ -55,6 +55,8 @@ header .grow{flex:1;min-width:0}
 .tiles2 .tile.math{height:auto}
 .tile.pl{background:linear-gradient(135deg,#f76707,#b93a0a)}
 .tile.his{background:linear-gradient(135deg,#c2255c,#7a2440)}
+.tile.nat{background:linear-gradient(135deg,#94d82d,#4a7a0c)}.tile.hea{background:linear-gradient(135deg,#22b8cf,#0b5e75)}
+.tile.hea .tt{line-height:1.05}
 .tiles2 .tile{aspect-ratio:1/1;min-height:0;padding:18px}
 .tiles2 .tile .tt{font-size:min(1.75rem,6vw)} /* „Matematyka” mieści się w kwadracie na wąskim telefonie */
 .tiles2 .tile small{font-size:.88rem;line-height:1.3}
@@ -611,6 +613,20 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .lig-rank .none{color:var(--muted);font-weight:800;justify-content:center;background:none}
 .lig-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.lig-actions .again{min-height:50px}
 .lig-form{display:flex;flex-direction:column;gap:8px}.lig-form input{font:inherit;font-weight:800;font-size:1.1rem;padding:10px 12px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--fg);-webkit-user-select:text;user-select:text}
+.lig-cats button{font-size:.85rem}
+.lig-podium{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;align-items:end;margin-top:6px}
+.pod{display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;min-width:0}
+.pod b{font-size:.9rem;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.pod .pp{font-weight:800;font-size:.8rem;color:var(--muted)}
+.pod .ava{width:52px;height:52px;border-radius:50%;background:var(--ac);color:#fff;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800;font-size:1.5rem;border:3px solid var(--card)}
+.pod.p1 .ava{width:64px;height:64px;font-size:1.9rem;border-color:#f2c230}
+.pod .step{width:100%;border-radius:14px 14px 4px 4px;display:flex;align-items:flex-start;justify-content:center;padding-top:6px;font-family:var(--display);font-weight:800;font-size:1.4rem;color:#fff}
+.pod.p1 .step{height:84px;background:linear-gradient(#f2c230,#c79a10)}.pod.p2 .step{height:60px;background:linear-gradient(#b4bfcf,#8792a6)}.pod.p3 .step{height:44px;background:linear-gradient(#cd7f32,#9a5c22)}
+.pod.me b{color:var(--accent)}.pod .crown{margin-bottom:-6px}
+.lig-n .lbar{height:6px;border-radius:3px;background:var(--line);overflow:hidden;margin:3px 0}.lig-n .lbar i{display:block;height:100%;border-radius:3px;min-width:2px}
+.lig-champs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.champ{background:var(--card);border-radius:16px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;border-top:4px solid var(--cc)}
+.champ .cn{font-weight:800;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}.champ b{font-size:.92rem;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.champ span:last-child{font-weight:800;font-size:.78rem;color:var(--muted)}.champ .nobody{color:var(--muted)}
 </style>
 <script>/* motyw z ustawień przed narysowaniem strony, bez mignięcia */
 try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t==="light"||t==="dark") document.documentElement.dataset.theme=t;}catch(e){}</script>
@@ -628,6 +644,8 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tile pl" id="t-pl"><span class="wm" aria-hidden="true">ą ę ć ż ó</span><span class="tt">Polski</span><small>Słówka i dyktanda</small></button>
     <button type="button" class="tile en" id="t-en"><span class="wm wm-img" aria-hidden="true"><svg width="58" height="36" viewBox="0 0 60 36"><rect x="1.5" y="1.5" width="57" height="33" rx="3" fill="none" stroke="#fff" stroke-width="3"/><rect x="3" y="3" width="25" height="17" fill="#fff"/><path d="M28 7.5H57M28 13.5H57M28 19.5H57M3 25.5H57M3 31H57" stroke="#fff" stroke-width="3"/></svg><svg width="58" height="36" viewBox="0 0 60 36"><rect x="1.5" y="1.5" width="57" height="33" rx="3" fill="none" stroke="#fff" stroke-width="3"/><path d="M3 3L57 33M57 3L3 33" stroke="#fff" stroke-width="4"/><path d="M30 3V33M3 18H57" stroke="#fff" stroke-width="8"/></svg></span><span class="tt">Angielski</span><small>Słówka i tematyczne zadania</small></button>
     <button type="button" class="tile his" data-soon aria-describedby="soon-his"><span class="wm wm-img" aria-hidden="true"><svg width="104" height="84" viewBox="0 0 120 96" fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><path d="M40 44C52 40 70 40 82 42C88 36 94 26 100 18L104 15L106 21C110 26 114 32 114 37C114 40 110 41 106 39C102 37 98 38 96 42C94 50 92 56 88 60C84 66 70 68 56 67C46 67 36 64 34 56C33 50 35 46 40 44Z" stroke="none"/><path d="M84 62L88 93M78 64L74 93M46 64L42 93M54 66L54 93" fill="none" stroke-width="5"/><path d="M36 48C26 50 24 62 28 74" fill="none" stroke-width="5"/><path d="M57 44L70 44L73 24L62 22Z" stroke="none"/><circle cx="68" cy="15" r="6" stroke="none"/><path d="M68 9V3" fill="none" stroke-width="2.5"/><path d="M64 44L71 58M71 28L82 32" fill="none" stroke-width="5"/><path d="M60 42C46 34 44 12 56 1" fill="none" stroke-width="4"/><path d="M52 32L43 30M49 24L40 21M49 16L40 12M51 9L44 3" fill="none" stroke-width="3"/><path d="M38 59L117 10" fill="none" stroke-width="2.5"/><path d="M107 16L117 10L113 21Z" stroke="none"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Historia</span><small id="soon-his">Daty, bitwy, królowie</small></button>
+    <button type="button" class="tile nat" data-soon aria-describedby="soon-nat"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 32C6 14 18 4 36 4c0 18-10 28-26 28z" fill="#fff"/><path d="M6 32L24 14" stroke="rgba(0,0,0,.35)"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Przyroda</span><small id="soon-nat">Rośliny, zwierzęta, mapa</small></button>
+    <button type="button" class="tile hea" data-soon aria-describedby="soon-hea"><span class="wm wm-img" aria-hidden="true"><svg width="42" height="36" viewBox="0 0 42 36" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 33C8 24 3 17 3 11a9 9 0 0 1 18-2 9 9 0 0 1 18 2c0 6-5 13-18 22z" fill="#fff"/><path d="M7 17h7l3-5 4 9 3-6h11" stroke="rgba(0,0,0,.35)" stroke-width="2.5"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Edukacja zdrowotna</span><small id="soon-hea">Ciało, jedzenie, ruch</small></button>
   </div>
   <button type="button" class="sbar" id="t-stats"><span class="si" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg></span>
     <span class="st"><b>Statystyki</b><small id="t-stats-s">Tu zobaczysz swoje wyniki</small></span>
@@ -3918,14 +3936,16 @@ document.querySelectorAll("#menu .macc").forEach(b=>{
 const ymd=t=>{const d=new Date(t);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;};
 function histSummary(H,P){
   const T=dayKey(Date.now()),MON=addDays(T,-((new Date(T).getDay()+6)%7)),act=new Set();let week=0,total=0;
-  for(const s of H){const p=sesPts(s).p;total+=p;if(s.start>=MON) week+=p;if(s.done>0) act.add(dayKey(s.start));}
+  const subj={};
+  for(const s of H){const p=sesPts(s).p,sj=subjOf(s),x=subj[sj]||(subj[sj]={w:0,t:0});total+=p;x.t+=p;if(s.start>=MON){week+=p;x.w+=p;}if(s.done>0) act.add(dayKey(s.start));}
   let n=0,d=act.has(T)?T:addDays(T,-1);while(act.has(d)){n++;d=addDays(d,-1);}
   const c=cupCounts(H),cups={b:0,s:0,g:0,d:0}; // najwyższy puchar w każdej kategorii
   CUP_CATS.forEach(x=>{const l=cupLevel(c[x.id]||0,cupBase(P,x.id));if(l>=0) cups[CUP_LV[l].k]++;});
-  return {week_start:ymd(MON),week_pts:week,total_pts:total,streak:n,cups};
+  return {week_start:ymd(MON),week_pts:week,total_pts:total,streak:n,cups,subj};
 }
 async function ligPublish(){ // osobno od reszty synchronizacji: brak tabel lig nie może jej zatrzymać
-  try{await SB.from("public_stats").upsert(histSummary(loadOwnHist(),PREFS),{onConflict:"user_id"});}catch(e){}
+  try{const sum=histSummary(loadOwnHist(),PREFS);let r=await SB.from("public_stats").upsert(sum,{onConflict:"user_id"});
+    if(r.error){delete sum.subj;await SB.from("public_stats").upsert(sum,{onConflict:"user_id"});}}catch(e){} // bez kolumny subj (leagues2.sql) – samo podsumowanie
   try{const {data}=await SB.rpc("my_leagues");if(data){LIGROWS=data;ligHomeLine();}}catch(e){}
 }
 let LIGROWS=null,LIGSEL=null,LIGMODE="week",LIGFORM=null;
@@ -3960,19 +3980,41 @@ async function renderLig(){
   }
   body.innerHTML=`<div class="lig-card"><b>${esc(l.name)}</b>${l.code?`<span class="lig-code">Kod dla kolegów: <b>${l.code}</b></span>`:""}</div>
     <div class="segs pl-len" id="lig-mode" role="group" aria-label="Okres"><button type="button" data-m="week" class="${LIGMODE==="week"?"sel":""}">Ten tydzień</button><button type="button" data-m="all" class="${LIGMODE==="all"?"sel":""}">Od początku</button></div>
-    <ol class="lig-rank" id="lig-rank"><li class="none">Wczytuję ranking…</li></ol>${leave}`;
+    <div class="fchips lig-cats" role="group" aria-label="Przedmiot">${Object.entries(LIG_CATS).map(([k,c])=>`<button type="button" data-c="${k}" class="${k===LIGCAT?"sel":""}" aria-pressed="${k===LIGCAT}">${c.name}</button>`).join("")}</div>
+    <div id="lig-podium" class="lig-podium"></div><ol class="lig-rank" id="lig-rank"><li class="none">Wczytuję ranking…</li></ol>
+    <div class="lbl">Mistrzowie przedmiotów</div><div class="lig-champs" id="lig-champs"></div>${leave}`;
   try{
     const {data,error}=await SB.rpc("league_ranking",{p_league:l.id});if(error) throw error;
-    const k=LIGMODE==="week"?"week_pts":"total_pts",rows=data.slice().sort((a,b)=>b[k]-a[k]||b.streak-a.streak),mine=new Set([ME.id,...kids.map(r=>r.user_id)]);
-    $("lig-rank").innerHTML=rows.length?rows.map((r,i)=>{const c=r.cups||{};
-      return `<li class="${mine.has(r.user_id)?"me":""}"><span class="lig-pos">${i+1}</span><span class="lig-n"><b>${esc(r.name||"–")}${r.user_id===ME.id?" (Ty)":""}</b><small>seria: ${r.streak} ${dni(r.streak)}${CUP_LV.filter(L=>c[L.k]).map(L=>` · ${c[L.k]}× ${L.name.toLowerCase()}`).join("")}</small></span><span class="lig-p">${r[k]}<small>pkt</small></span></li>`;}).join("")
-      :'<li class="none">Jeszcze nikt nie ma punktów.</li>';
+    const mine=new Set([ME.id,...kids.map(r=>r.user_id)]);
+    const rows=data.slice().sort((a,b)=>ligVal(b,LIGCAT)-ligVal(a,LIGCAT)||b.streak-a.streak),top=Math.max(1,...rows.map(r=>ligVal(r,LIGCAT)));
+    const who=r=>`${esc(r.name||"–")}${r.user_id===ME.id?" (Ty)":""}`;
+    // podium: 2. – 1. – 3. miejsce
+    $("lig-podium").innerHTML=rows.length?[1,0,2].filter(k=>rows[k]).map(k=>{const r=rows[k];
+      return `<div class="pod p${k+1}${mine.has(r.user_id)?" me":""}">${k===0?LIG_CROWN:""}<span class="ava" style="--ac:${ligColor(r.name)}">${esc((r.name||"?")[0].toUpperCase())}</span>
+        <b>${who(r)}</b><span class="pp">${ligVal(r,LIGCAT)} pkt</span><span class="step">${k+1}</span></div>`;}).join(""):"";
+    const rest=rows.slice(3);
+    $("lig-rank").innerHTML=!rows.length?'<li class="none">Jeszcze nikt nie ma punktów.</li>':rest.map((r,i)=>{const c=r.cups||{},v=ligVal(r,LIGCAT);
+      return `<li class="${mine.has(r.user_id)?"me":""}"><span class="lig-pos">${i+4}</span><span class="lig-n"><b>${who(r)}</b>
+        <span class="lbar"><i style="width:${Math.round(v*100/top)}%;background:${LIG_CATS[LIGCAT].c}"></i></span>
+        <small>seria: ${r.streak} ${dni(r.streak)}${CUP_LV.filter(L=>c[L.k]).map(L=>` · ${c[L.k]}× ${L.name.toLowerCase()}`).join("")}</small></span><span class="lig-p">${v}<small>pkt</small></span></li>`;}).join("");
+    // kto prowadzi w każdym przedmiocie
+    $("lig-champs").innerHTML=Object.entries(LIG_CATS).filter(([k])=>k!=="all").map(([k,c])=>{
+      const best=data.slice().sort((a,b)=>ligVal(b,k)-ligVal(a,k))[0],v=best?ligVal(best,k):0;
+      return `<div class="champ" style="--cc:${c.c}"><span class="cn">${c.name}</span>${v?`${LIG_CROWN}<b>${who(best)}</b><span>${v} pkt</span>`:`<b class="nobody">Jeszcze nikt</b><span>zdobądź pierwsze punkty</span>`}</div>`;}).join("");
   }catch(x){$("lig-rank").innerHTML='<li class="none">Nie udało się wczytać rankingu.</li>';}
 }
+// punkty w rankingu dla okresu (LIGMODE) i przedmiotu; „ten tydzień” z nieaktualnym podsumowaniem = 0
+const LIG_CATS={all:{name:"Wszystko",c:"var(--accent)"},mat:{name:"Matematyka",c:"#5c7cfa"},pl:{name:"Polski",c:"#f76707"},en:{name:"Angielski",c:"#12b886"}};
+let LIGCAT="all";
+function ligVal(r,cat){const wk=LIGMODE==="week";if(cat==="all") return wk?r.week_pts:r.total_pts;
+  const x=(r.subj||{})[cat]||{};return wk?(r.this_week===false?0:x.w||0):x.t||0;}
+const ligColor=n=>["#5c7cfa","#f76707","#12b886","#c2255c","#7048e8","#0c8599","#e8590c"][[...String(n||"")].reduce((a,ch)=>a+ch.charCodeAt(0),0)%7];
+const LIG_CROWN='<svg class="crown" width="26" height="20" viewBox="0 0 26 20" aria-hidden="true"><path d="M2 17L4 5l6 6 3-9 3 9 6-6 2 12z" fill="#f2c230" stroke="#b07d00" stroke-width="1.5" stroke-linejoin="round"/></svg>';
 $("t-lig").addEventListener("click",()=>go("lig"));
 $("lig-tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;LIGSEL=b.dataset.l;renderLig();});
 $("lig-body").addEventListener("click",async e=>{
   const m=e.target.closest("[data-m]");if(m){LIGMODE=m.dataset.m;renderLig();return;}
+  const c=e.target.closest("[data-c]");if(c){LIGCAT=c.dataset.c;renderLig();return;}
   const lv=e.target.closest("[data-leave]");if(!lv) return;
   if(!confirm("Na pewno wypisać z tej ligi?")) return;
   const {error}=await SB.rpc("leave_league",{p_league:LIGSEL,p_user:lv.dataset.leave});if(error) $("lig-err").textContent=acctErr(error);else renderLig();

@@ -13,7 +13,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
 - Po zmianie ikon/manifestu podbij `VERSION` w `sw.js`.
 
 ## Architektura `index.html`
-- **Widoki:** `#home` (cztery kwadratowe kafle 2×2: Matematyka, Polski, Angielski, Historia jako „Wkrótce” – `[data-soon]`, tylko potrząśnięcie; pasek Statystyki), `#play` (gra), `#stats-v` (statystyki); `go(v)` + `history.pushState`
+- **Widoki:** `#home` (kwadratowe kafle 2×3: Matematyka, Polski, Angielski oraz Historia, Przyroda i Edukacja zdrowotna jako „Wkrótce” – `[data-soon]`, tylko potrząśnięcie; pasek Statystyki), `#play` (gra), `#stats-v` (statystyki); `go(v)` + `history.pushState`
   (`#gra`, `#statystyki`), więc „wstecz” w telefonie wraca na start. Aplikacja zawsze startuje na `#home`.
   Wczytanie zapisanej sesji (`load()` → `render0()`/`finish(true)`) jest na samym końcu skryptu – `finish()` zapisuje
   do historii i używa stałych zdefiniowanych niżej (wcześniej powodowało to błąd TDZ przy starcie).
@@ -73,7 +73,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   liga i każde dołączenie dziecka czekają na zgodę jego rodzica (`decide_league`, prośby na górze ekranu Ligi i na pasku startu).
   Ranking (`league_ranking`) czyta tylko `public_stats` – podsumowanie (`histSummary`: punkty w tygodniu i od początku, seria,
   najwyższe puchary), które telefon wysyła na końcu `syncNow()` (`ligPublish`, osobny try, żeby brak tabel nie psuł synchronizacji).
-  Sesji innych dzieci nikt nie widzi. Wypisanie: `leave_league` (dziecko albo jego rodzic).
+  Sesji innych dzieci nikt nie widzi. Wypisanie: `leave_league` (dziecko albo jego rodzic). Ranking ma okres (tydzień / od początku),
+  przedmiot (`LIG_CATS`, punkty z `public_stats.subj` – `supabase/leagues2.sql`), podium 1–3, paski i „Mistrzów przedmiotów”.
 - **Historia:** `localStorage` pod `henriksen-historia`, tablica sesji
   `{id,subj,start,end,status:"done"|"przerwana",cfg,n,done,recs:[{t,ok,tries,h,ms}],pct,grade,errors,hints}`.
   `archive(status)` przy `finish()` i przy rozpoczęciu nowych działań w trakcie (przerwana). Bieżąca sesja trzyma `SID`, `T0`
