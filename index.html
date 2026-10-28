@@ -483,6 +483,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .top10 li u{text-decoration:none;color:var(--accent)}
 .det .rq u{text-decoration:none;color:var(--ok)}.det .rbad .rq u{color:var(--bad)}
 .set-i .lr.new{background:#fff0e0;color:#b93a0a;font-size:.75rem;padding:3px 8px;border-radius:999px}
+.dot.fil{background:var(--muted)}
 .pl-why i{font-style:normal;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:3px}
 .pl-t{height:150px}.pl-t3{background:linear-gradient(135deg,#d9480f,#5f1d06)}.pl-t3 .wm{font-size:4rem}
 .pz-day{border:2px dashed #e8590c;border-radius:22px;background:var(--card);color:var(--fg);padding:14px 18px;display:flex;flex-direction:column;align-items:flex-start;gap:2px;font:inherit;text-align:left;cursor:pointer}
@@ -626,8 +627,10 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 
 <div class="wrap" id="plw" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Zakończ"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <div class="pl-bar grow" aria-hidden="true"><i id="pw-bar"></i></div><div class="right"><span class="count" id="pw-count">1 / 20</span>
+    <h1 class="grow">Słówka</h1><div class="right"><span class="count" id="pw-count">1 / 20</span>
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="dots" id="pw-dots"></div>
+  <div class="live" id="pw-live" hidden><span class="chip"></span><span class="chip"></span></div>
   <div id="pw-game" class="pl-game">
     <div class="card pl-card" id="pw-card">
       <div class="pl-tags"><span class="pl-tag" id="pw-pair">ch / h</span><span class="pl-tag hard" id="pw-hardtag" hidden>Trudne słowo</span></div>
@@ -655,6 +658,8 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 <div class="wrap" id="pldt" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Zakończ"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow" id="pd-title">Dyktando</h1><div class="right"><span class="count" id="pd-count">0 / 0</span>
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="dots" id="pd-dots"></div>
+  <div class="live" id="pd-live" hidden><span class="chip"></span><span class="chip"></span></div>
   <div class="pl-text" id="pd-text"></div>
   <div class="card pl-panel" id="pd-panel">
     <div class="pl-ph"><span class="num" id="pd-no">Luka 1 z 13</span><span class="eq pl-word sm" id="pd-word"><span id="pd-pre"></span><span class="box" id="pd-box"></span><span id="pd-post"></span></span></div>
@@ -678,8 +683,10 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 
 <div class="wrap" id="plz" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Zakończ"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <div class="pl-bar grow" aria-hidden="true"><i id="pz-bar"></i></div><div class="right"><span class="count" id="pz-count">1 / 10</span>
+    <h1 class="grow">Znaczenie słów</h1><div class="right"><span class="count" id="pz-count">1 / 10</span>
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="dots" id="pz-dots"></div>
+  <div class="live" id="pz-live" hidden><span class="chip"></span><span class="chip"></span></div>
   <div id="pz-game" class="pl-game">
     <div class="card pl-card" id="pz-card">
       <div class="pl-tags"><span class="pl-tag" id="pz-type">Co znaczy to słowo?</span><span class="pl-tag hard" id="pz-new" hidden>Nowe słowo</span></div>
@@ -716,8 +723,10 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 
 <div class="wrap" id="enq" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Zakończ"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <div class="pl-bar grow" aria-hidden="true"><i id="enq-bar"></i></div><div class="right"><span class="count" id="enq-count">1 / 15</span>
+    <h1 class="grow">To be</h1><div class="right"><span class="count" id="enq-count">1 / 15</span>
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="dots" id="enq-dots"></div>
+  <div class="live" id="enq-live" hidden><span class="chip"></span><span class="chip"></span></div>
   <div id="enq-game" class="pl-game">
     <div class="card pl-card" id="enq-card">
       <div class="pl-tags"><span class="pl-tag" id="enq-type">Jak to powiesz po angielsku?</span></div>
@@ -1615,7 +1624,7 @@ $("o-name").addEventListener("input",e=>{PREFS.name=e.target.value.trim().slice(
   $("hp-name").textContent=appName();for(const b of $("hdr-pre").children) b.classList.toggle("sel",b.dataset.n===appName());});
 $("o-name").addEventListener("keydown",e=>{if(e.key==="Enter") e.target.blur();});
 for(const [id,k] of TOGGLES) $(id).addEventListener("click",()=>{PREFS[k]=!PREFS[k];savePrefs();selMenu();
-  if(k==="awake") PREFS.awake?wake():unwake(); else applyView();});
+  if(k==="awake") PREFS.awake?wake():unwake(); else {applyView();plLiveNow();}});
 applyTheme();applyName();applyView();
 
 /* Dźwięki: krótkie tony z Web Audio, bez plików (działa offline) */
@@ -2076,6 +2085,23 @@ function plLeave(v){
   if(v==="enq"&&EN&&!EN.over){enArchive(EN,"przerwana");EN=null;}
   if(v==="plw"||v==="pldt"||v==="plz"||v==="enq") FXC=null;
 }
+// kropki postępu i wynik na żywo jak w matematyce (PREFS.dots / pct / grade); cur = bieżące zadanie, null = koniec
+// fill: dyktando sprawdzane na końcu – kropki pokazują tylko wypełnione luki, bez wyniku
+function liveBar(pre,recs,cur,fill){
+  const d=$(pre+"-dots");d.hidden=!PREFS.dots;
+  if(d.children.length!==recs.length) d.innerHTML=recs.map(()=>'<span class="dot"></span>').join("");
+  recs.forEach((r,k)=>{d.children[k].className="dot"+(fill?(fill[k]!=null?" fil":""):r.done?(r.ok?" ok":" fix"):r.ok?"":" fix")+(k===cur?" now":"");});
+  const L=$(pre+"-live"),on=(PREFS.pct||PREFS.grade)&&cur!=null&&!fill;L.hidden=!on;if(!on) return;
+  const n=recs.filter(r=>r.done).length,good=recs.filter(r=>r.done&&r.ok).length,pct=n?Math.floor(good*100/n):null,g=n?grade(pct):null,[cp,cg]=L.children;
+  cp.hidden=!PREFS.pct;cp.innerHTML=`<span class="cb">${n?pct+"%":"–"}</span>dobrze <small>${good} / ${n}</small>`;
+  cg.hidden=!PREFS.grade;cg.style.setProperty("--gc",g?g.c:"");cg.innerHTML=`<span class="cb">${g?g.n:"–"}</span>${g?g.name:"ocena po 1. zadaniu"}`;
+}
+function plLiveNow(){
+  if(CUR==="plw"&&PW) liveBar("pw",PW.recs,PW.over?null:PW.i);
+  if(CUR==="plz"&&PZ) liveBar("pz",PZ.recs,PZ.over?null:PZ.i);
+  if(CUR==="enq"&&EN) liveBar("enq",EN.recs,EN.over?null:EN.i);
+  if(CUR==="pldt"&&PD) liveBar("pd",PD.recs,PD.over?null:PD.act,!PD.cfg.now&&!PD.over?PD.fill:null);
+}
 function plShow(v){
   if(v==="pl") renderPl();
   if(v==="plws") renderPws();
@@ -2192,7 +2218,7 @@ function pwShow(){
   const P=PW,w=P.words[P.i],n=P.words.length;
   FXC={card:$("pw-card"),eq:$("pw-word"),box:$("pw-box")};
   $("pw-card").classList.remove("ok","bad");P.wrong=[];P.t0=Date.now();
-  $("pw-count").textContent=`${P.i+1} / ${n}`;$("pw-bar").style.width=Math.round(P.i*100/n)+"%";
+  $("pw-count").textContent=`${P.i+1} / ${n}`;
   $("pw-pair").textContent=PL_PAIRS[w.pair].name;$("pw-hardtag").hidden=!w.desc;
   $("pw-pre").textContent=w.pre;$("pw-post").textContent=w.post;$("pw-box").textContent="";
   $("pw-hint").textContent=w.hint;
@@ -2202,7 +2228,7 @@ function pwShow(){
   $("pw-opts").innerHTML=plOpts(w.ans).map(o=>`<button type="button" data-o="${o}">${o}</button>`).join("");
   pwStats();pwFit();
 }
-function pwStats(){const r=PW.recs.filter(x=>x.done);
+function pwStats(){plLiveNow();const r=PW.recs.filter(x=>x.done);
   $("pw-stats").textContent=`Dobrze: ${r.filter(x=>x.ok).length} · Błędy: ${PW.recs.filter(x=>x.done&&!x.ok||x.tries.length&&!x.done).length}`;}
 $("pw-opts").addEventListener("click",e=>{
   const b=e.target.closest("button");if(!b||!PW||PW.locked||b.classList.contains("no")||document.querySelector(".cheer-wrap,.goal-wrap")) return;
@@ -2249,8 +2275,8 @@ function plEnd(el,P,good,n,unit,miss,again,quiet){
   scrollTo(0,0);
 }
 function pwFinish(){
-  const P=PW;P.over=true;plArchive(P,"done");FXC=null;
-  $("pw-bar").style.width="100%";$("pw-count").textContent=`${P.words.length} / ${P.words.length}`;
+  const P=PW;P.over=true;plLiveNow();plArchive(P,"done");FXC=null;
+  $("pw-count").textContent=`${P.words.length} / ${P.words.length}`;
   $("pw-game").hidden=true;
   const seen=new Set(),miss=[];
   P.recs.forEach((r,k)=>{if(!r.ok&&!seen.has(r.t)){seen.add(r.t);const w=P.words[k];miss.push({w,bad:[...new Set(r.tries.filter(x=>x!==w.ans))]});}});
@@ -2306,6 +2332,7 @@ function pdWord(d,k,fill,full){
   return full?l+S[i].ans+r:{pre:l,post:r};
 }
 function pdRender(){
+  plLiveNow();
   const P=PD,d=P.d,n=d.gaps,filled=Object.keys(P.fill).length;
   $("pd-count").textContent=`${P.cfg.now?P.recs.filter(r=>r.done).length:filled} / ${n}`;
   // luki jako znaczniki \u0001k\u0001, żeby słowo z luką nie łamało się między wiersze (span .nw)
@@ -2821,14 +2848,14 @@ function pzShow(){
   const P=PZ,x=P.words[P.i],q=P.qs[P.i],n=P.words.length;
   FXC={card:$("pz-card"),eq:$("pz-q"),box:$("pz-qt")};
   $("pz-card").classList.remove("ok","bad");P.t0=Date.now();
-  $("pz-count").textContent=`${P.i+1} / ${n}`;$("pz-bar").style.width=Math.round(P.i*100/n)+"%";
+  $("pz-count").textContent=`${P.i+1} / ${n}`;
   $("pz-type").textContent=PZ_Q[q.t];$("pz-new").hidden=P.seen.has(x.w);
   $("pz-qt").textContent=q.q;$("pz-q").classList.toggle("long",q.t==="rev"||q.t==="gap");
   $("pz-msg").textContent="";$("pz-why").hidden=true;$("pz-next").hidden=true;$("pz-opts").hidden=false;
   $("pz-opts").replaceChildren(...q.opts.map(o=>{const b=document.createElement("button");b.type="button";b.textContent=o;b.dataset.o=o;if(q.word) b.className="w";return b;}));
   pzStatsLine();
 }
-function pzStatsLine(){$("pz-stats").textContent=`Dobrze: ${PZ.recs.filter(r=>r.done&&r.ok).length} · Błędy: ${PZ.recs.filter(r=>!r.ok).length}`;}
+function pzStatsLine(){plLiveNow();$("pz-stats").textContent=`Dobrze: ${PZ.recs.filter(r=>r.done&&r.ok).length} · Błędy: ${PZ.recs.filter(r=>!r.ok).length}`;}
 const pzWhy=x=>`<b>${x.w}</b> – ${x.d}<br><span class="ex">„${x.ex}”</span>`+
   (x.syn||x.ant?`<br><small>${[x.syn?"podobnie: "+x.syn:"",x.ant?"przeciwnie: "+x.ant:""].filter(Boolean).join(" · ")}</small>`:"");
 $("pz-opts").addEventListener("click",e=>{
@@ -2856,8 +2883,8 @@ $("pz-opts").addEventListener("click",e=>{
 });
 $("pz-next").addEventListener("click",()=>{if(!PZ||PZ.locked) return;if(PZ.i+1>=PZ.words.length) pzFinish(); else {PZ.i++;pzShow();}});
 function pzFinish(){
-  const P=PZ;P.over=true;plArchive(P,"done");FXC=null;
-  $("pz-bar").style.width="100%";$("pz-count").textContent=`${P.words.length} / ${P.words.length}`;$("pz-game").hidden=true;
+  const P=PZ;P.over=true;plLiveNow();plArchive(P,"done");FXC=null;
+  $("pz-count").textContent=`${P.words.length} / ${P.words.length}`;$("pz-game").hidden=true;
   const seen=new Set(),miss=[];
   P.recs.forEach((r,k)=>{if(r.ok||seen.has(r.t)) return;seen.add(r.t);const x=P.words[k],bad=[...new Set(r.tries.filter(t=>t!==r.c))];
     miss.push({html:x.w,bad:[],notes:[x.d,`<i>„${x.ex}”</i>`,`wybrane: ${bad.map(t=>`<s>${cut(t)}</s>`).join(", ")}`]});});
@@ -2995,14 +3022,14 @@ function enShow(){
   const P=EN,q=P.qs[P.i],n=P.qs.length;
   FXC={card:$("enq-card"),eq:$("enq-q"),box:$("enq-qt")};
   $("enq-card").classList.remove("ok","bad");P.t0=Date.now();
-  $("enq-count").textContent=`${P.i+1} / ${n}`;$("enq-bar").style.width=Math.round(P.i*100/n)+"%";
+  $("enq-count").textContent=`${P.i+1} / ${n}`;
   $("enq-type").textContent=q.lab;$("enq-qt").textContent=q.q;$("enq-msg").textContent="";
   $("enq-why").hidden=true;$("enq-next").hidden=true;$("enq-opts").hidden=false;
   $("enq-opts").classList.toggle("three",!!q.three);
   $("enq-opts").replaceChildren(...q.opts.map(o=>{const b=document.createElement("button");b.type="button";b.textContent=o;b.dataset.o=o;b.className="w";return b;}));
   enStatsLine();
 }
-function enStatsLine(){$("enq-stats").textContent=`Dobrze: ${EN.recs.filter(r=>r.done&&r.ok).length} · Błędy: ${EN.recs.filter(r=>!r.ok).length}`;}
+function enStatsLine(){plLiveNow();$("enq-stats").textContent=`Dobrze: ${EN.recs.filter(r=>r.done&&r.ok).length} · Błędy: ${EN.recs.filter(r=>!r.ok).length}`;}
 $("enq-opts").addEventListener("click",e=>{
   const b=e.target.closest("button");if(!b||!EN||EN.locked||b.classList.contains("no")||document.querySelector(".cheer-wrap,.goal-wrap")) return;
   const P=EN,q=P.qs[P.i],r=P.recs[P.i],o=b.dataset.o,card=$("enq-card");
@@ -3036,8 +3063,8 @@ function enArchive(P,status){
   if(k>=0) H[k]=s; else H.push(s);saveHist(H);
 }
 function enFinish(){
-  const P=EN;P.over=true;enArchive(P,"done");FXC=null;
-  $("enq-bar").style.width="100%";$("enq-count").textContent=`${P.qs.length} / ${P.qs.length}`;$("enq-game").hidden=true;
+  const P=EN;P.over=true;plLiveNow();enArchive(P,"done");FXC=null;
+  $("enq-count").textContent=`${P.qs.length} / ${P.qs.length}`;$("enq-game").hidden=true;
   const miss=P.recs.map((r,k)=>({r,q:P.qs[k]})).filter(x=>!x.r.ok).map(({r,q})=>({html:q.c,bad:[],
     notes:[q.q,`wybrane: ${[...new Set(r.tries.filter(t=>t!==q.c))].map(t=>`<s>${t}</s>`).join(", ")}`,q.why]}));
   plEnd($("enq-end"),P,P.recs.filter(r=>r.ok).length,P.qs.length,zadan(P.qs.length),miss,"Jeszcze raz");
