@@ -77,6 +77,10 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   przedmiot (`LIG_CATS`, punkty z `public_stats.subj` – `supabase/leagues2.sql`), podium 1–3, paski i „Mistrzów przedmiotów”.
 - **Instrukcje (`#help`, `#pomoc`):** wszystkie instrukcje w jednym miejscu, zwijane (konto rodzica, telefon dziecka, PIN, ekran początkowy,
   wyniki dziecka, puchary i progi, punkty, ligi); przycisk na starcie, a `openHelp(id)` otwiera konkretną (np. z ekranu Ligi).
+- **Co widzi dziecko (`#kidcfg`, kafel rodzica na górze startu):** rodzic włącza i wyłącza moduły dziecka (`MODS`: matematyka,
+  słówka/dyktanda/znaczenia, to be/słówka/zdania, ligi, kafle „Wkrótce”). Zapis w `PREFS.mods` dziecka (klucz w `PARENT_KEYS`),
+  `applyMods()` ukrywa kafle; przedmiot znika, gdy wszystkie jego moduły są wyłączone. `subj._on` w podsumowaniu lig wyklucza
+  dziecko z rankingu przedmiotu, którego nie ma.
 - **Historia:** `localStorage` pod `henriksen-historia`, tablica sesji
   `{id,subj,start,end,status:"done"|"przerwana",cfg,n,done,recs:[{t,ok,tries,h,ms}],pct,grade,errors,hints}`.
   `archive(status)` przy `finish()` i przy rozpoczęciu nowych działań w trakcie (przerwana). Bieżąca sesja trzyma `SID`, `T0`

@@ -635,6 +635,10 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .lig-help-b span{display:flex;flex-direction:column}.lig-help-b small{font-weight:800;font-size:.78rem;color:var(--muted)}
 .lig-help{background:var(--card);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:.92rem;line-height:1.45}
 .lig-help ol,.lig-help ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.kc-bar{border-color:#7048e8}.kcsi{background:linear-gradient(135deg,#7048e8,#3b2bb5)!important}
+#kidcfg .grp{background:var(--card)}.kc-list{display:flex;flex-direction:column;gap:10px}
+.kc-prev{display:flex;flex-wrap:wrap;gap:8px}.kc-prev span{padding:8px 14px;border-radius:14px;background:var(--kc);color:#fff;font-weight:800}
+.kc-prev .soon{background:var(--key);color:var(--muted)}.kc-prev .none{background:none;color:var(--muted)}
 </style>
 <script>/* motyw z ustawień przed narysowaniem strony, bez mignięcia */
 try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t==="light"||t==="dark") document.documentElement.dataset.theme=t;}catch(e){}</script>
@@ -647,6 +651,9 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="edit-btn" id="hdr-btn" aria-label="Zmień nagłówek" aria-haspopup="dialog"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button></div></div>
     <div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <button type="button" class="sbar kc-bar" id="t-kidcfg" hidden><span class="si kcsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
+    <span class="st"><b>Co widzi dziecko</b><small>Wybierz przedmioty i moduły dla dziecka</small></span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
   <div class="tiles2">
     <button type="button" class="tile math" id="t-math"><span class="wm" aria-hidden="true">+−×÷</span><span class="tt">Matematyka</span><small id="t-math-s">Wybierz ćwiczenia i zaczynamy</small></button>
     <button type="button" class="tile pl" id="t-pl"><span class="wm" aria-hidden="true">ą ę ć ż ó</span><span class="tt">Polski</span><small>Słówka i dyktanda</small></button>
@@ -976,6 +983,14 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
       <li>W lidze widać tylko imię, punkty, serię dni i puchary. Odpowiedzi, błędy i oceny zostają prywatne.</li></ul>
   </div>
 </div>
+<div class="wrap" id="kidcfg" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Co widzi dziecko</h1></header>
+  <p class="abnote">Wyłączone moduły znikają z telefonu dziecka. W lidze dziecko bez przedmiotu nie pojawia się w rankingu tego przedmiotu.</p>
+  <div class="fchips who" id="kc-kids" role="group" aria-label="Dziecko"></div>
+  <div class="kc-list" id="kc-list"></div>
+  <button type="button" class="go-btn" id="kc-save" hidden>Zapisz</button>
+  <div class="abnote" id="kc-msg" aria-live="polite"></div>
+</div>
 <div class="ask" id="ask" hidden role="dialog" aria-modal="true" aria-labelledby="ask-t">
   <div class="ask-box sheet">
     <div id="ask-sets" class="pane">
@@ -1160,8 +1175,8 @@ const BADGES={
 const BADGE_NAMES={ball:"Piłka",crown:"Korona",bolt:"Błyskawica",rocket:"Rakieta",none:"Bez znaczka"};
 const SUBS=[["streak","Seria dni"],["date","Data"],["none","Nic"]];
 const NAME_PRESETS=["Henriksen","Kapitan H","Nr 10","Ekipa H"];
-let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null};}catch(e){}
+let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null,mods:{}};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{}};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -2046,8 +2061,8 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",cups:"#puchary",lig:"#ligi",help:"#pomoc",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",cups:"cups",lig:"lig",help:"help",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
@@ -2076,7 +2091,7 @@ function renderHome(){
   applySub();
   const H=loadHist();
   $("t-math-s").textContent=ACTIVE&&i<N?`W trakcie: ${i} / ${N} · dotknij, żeby grać dalej`:"Wybierz ćwiczenia i zaczynamy";
-  renderCupsBar();ligHomeLine();
+  renderCupsBar();ligHomeLine();applyMods();
   const T=dayKey(Date.now()),MON=addDays(T,-((new Date(T).getDay()+6)%7)),pt=s=>sesPts(s).p;
   const dz=H.filter(s=>dayKey(s.start)===T).reduce((a,s)=>a+pt(s),0),tg=H.filter(s=>s.start>=MON).reduce((a,s)=>a+pt(s),0);
   $("t-stats-s").textContent=H.length?`Dziś ${dz} pkt · w tygodniu ${tg} pkt`:"Tu zobaczysz swoje wyniki";
@@ -2428,6 +2443,7 @@ function plShow(v){
   if(v==="plzk") renderPzk();
   if(v==="cups") renderCups();
   if(v==="lig") renderLig();
+  if(v==="kidcfg") renderKidCfg();
   if(v==="en") renderEnHub();
   if(v==="ent") renderEn();
   if(v==="enset") renderEnSet();
@@ -3775,10 +3791,10 @@ async function syncNow(){
     const remoteAt=st.data?Date.parse(st.data.updated_at):0;
     if(st.data&&!SYNC.setDirty&&remoteAt>SYNC.setAt){
       APPLYING=true;
-      try{PREFS={...PREFS,...st.data.prefs};savePrefs();PLP={...PLP,...st.data.plp};savePLP();applyTheme();applyName();applyView();}finally{APPLYING=false;}
+      try{PREFS={...PREFS,...st.data.prefs};savePrefs();PLP={...PLP,...st.data.plp};savePLP();applyTheme();applyName();applyView();applyMods();}finally{APPLYING=false;}
       SYNC.setAt=remoteAt;
     }else if(SYNC.setDirty||!st.data){
-      if(st.data&&remoteAt>SYNC.setAt){APPLYING=true;try{PARENT_KEYS.forEach(k=>{if(st.data.prefs[k]!==undefined) PREFS[k]=st.data.prefs[k];});savePrefs();}finally{APPLYING=false;}}
+      if(st.data&&remoteAt>SYNC.setAt){APPLYING=true;try{PARENT_KEYS.forEach(k=>{if(st.data.prefs[k]!==undefined) PREFS[k]=st.data.prefs[k];});savePrefs();applyMods();}finally{APPLYING=false;}}
       const {data:d,error:e}=await SB.from("settings").upsert({prefs:PREFS,plp:PLP},{onConflict:"user_id"}).select("updated_at").single();if(e) throw e;
       SYNC.setAt=Date.parse(d.updated_at);SYNC.setDirty=false;
     }
@@ -3836,7 +3852,7 @@ const CUP_CATS=[
 const CUP_LV=[{k:"b",name:"Brąz",to:"brązu",x:1,c:"#cd7f32"},{k:"s",name:"Srebro",to:"srebra",x:3,c:"#b4bfcf"},
   {k:"g",name:"Złoto",to:"złota",x:8,c:"#f2c230"},{k:"d",name:"Diament",to:"diamentu",x:20,c:"#4dd4ff"}];
 const CUP_STEPS=[20,30,50,75,100,150,200,300,400,500,750,1000,1500,2000,3000,4000,5000,7500,10000];
-const PARENT_KEYS=["cups","cupRewards"]; // ustawia rodzic – przy konflikcie wygrywa wersja z bazy
+const PARENT_KEYS=["cups","cupRewards","mods"]; // ustawia rodzic – przy konflikcie wygrywa wersja z bazy
 const cupCat=(s,r)=>{const sj=s.subj||"mat";return sj==="mat"?"mat"+(Array.isArray(r.t)?r.t[1]:""):sj+"-"+((s.cfg&&s.cfg.mode)||(sj==="en"?"tobe":"slowka"));};
 function cupCounts(H){const c={};for(const s of H) for(const r of s.recs||[]) if(r.ok){const k=cupCat(s,r);c[k]=(c[k]||0)+recW(s,r);}return c;} // punkty, nie liczba zadań
 const cupBase=(P,id)=>(P&&P.cups&&+P.cups[id])||CUP_CATS.find(x=>x.id===id).base;
@@ -4043,6 +4059,7 @@ function histSummary(H,P){
   let n=0,d=act.has(T)?T:addDays(T,-1);while(act.has(d)){n++;d=addDays(d,-1);}
   const c=cupCounts(H),cups={b:0,s:0,g:0,d:0}; // najwyższy puchar w każdej kategorii
   CUP_CATS.forEach(x=>{const l=cupLevel(c[x.id]||0,cupBase(P,x.id));if(l>=0) cups[CUP_LV[l].k]++;});
+  subj._on=["mat","pl","en"].filter(k=>subjOn(k));
   return {week_start:ymd(MON),week_pts:week,total_pts:total,streak:n,cups,subj};
 }
 async function ligPublish(){ // osobno od reszty synchronizacji: brak tabel lig nie może jej zatrzymać
@@ -4052,7 +4069,7 @@ async function ligPublish(){ // osobno od reszty synchronizacji: brak tabel lig 
 }
 let LIGROWS=null,LIGSEL=null,LIGMODE="week",LIGFORM=null;
 function ligHomeLine(){
-  const el=$("t-lig");el.hidden=!(ME&&ME.role);if(el.hidden) return;
+  const el=$("t-lig");el.hidden=!(ME&&ME.role)||!modOn("lig");if(el.hidden) return;
   const R=LIGROWS||[],req=R.filter(r=>r.member_status==="pending"&&r.user_id!==ME.id),mine=[...new Set(R.filter(r=>r.user_id===ME.id).map(r=>r.league_id))];
   $("t-lig-s").textContent=ME.role==="parent"&&req.length?`Prośby o zgodę: ${req.length}`:mine.length?`${mine.length===1?"Twoja liga":"Twoje ligi: "+mine.length} · zobacz ranking`:"Ścigaj się z kolegami na punkty";
   el.classList.toggle("alert",ME.role==="parent"&&req.length>0);
@@ -4089,7 +4106,8 @@ async function renderLig(){
   try{
     const {data,error}=await SB.rpc("league_ranking",{p_league:l.id});if(error) throw error;
     const mine=new Set([ME.id,...kids.map(r=>r.user_id)]);
-    const rows=data.slice().sort((a,b)=>ligVal(b,LIGCAT)-ligVal(a,LIGCAT)||b.streak-a.streak),top=Math.max(1,...rows.map(r=>ligVal(r,LIGCAT)));
+    const has=(r,cat)=>cat==="all"||!(r.subj&&r.subj._on)||r.subj._on.includes(cat);
+    const rows=data.filter(r=>has(r,LIGCAT)).sort((a,b)=>ligVal(b,LIGCAT)-ligVal(a,LIGCAT)||b.streak-a.streak),top=Math.max(1,...rows.map(r=>ligVal(r,LIGCAT)));
     const who=r=>`${esc(r.name||"–")}${r.user_id===ME.id?" (Ty)":""}`;
     // podium: 2. – 1. – 3. miejsce
     $("lig-podium").innerHTML=rows.length?[1,0,2].filter(k=>rows[k]).map(k=>{const r=rows[k];
@@ -4102,7 +4120,7 @@ async function renderLig(){
         <small>seria: ${r.streak} ${dni(r.streak)}${CUP_LV.filter(L=>c[L.k]).map(L=>` · ${c[L.k]}× ${L.name.toLowerCase()}`).join("")}</small></span><span class="lig-p">${v}<small>pkt</small></span></li>`;}).join("");
     // kto prowadzi w każdym przedmiocie
     $("lig-champs").innerHTML=Object.entries(LIG_CATS).filter(([k])=>k!=="all").map(([k,c])=>{
-      const best=data.slice().sort((a,b)=>ligVal(b,k)-ligVal(a,k))[0],v=best?ligVal(best,k):0;
+      const best=data.filter(r=>has(r,k)).sort((a,b)=>ligVal(b,k)-ligVal(a,k))[0],v=best?ligVal(best,k):0;
       return `<div class="champ" style="--cc:${c.c}"><span class="cn">${c.name}</span>${v?`${LIG_CROWN}<b>${who(best)}</b><span>${v} pkt</span>`:`<b class="nobody">Jeszcze nikt</b><span>zdobądź pierwsze punkty</span>`}</div>`;}).join("");
   }catch(x){$("lig-rank").innerHTML='<li class="none">Nie udało się wczytać rankingu.</li>';}
 }
@@ -4161,6 +4179,64 @@ $("lig-ok").addEventListener("click",async()=>{
 document.querySelectorAll("#help .hacc").forEach(b=>b.addEventListener("click",()=>{const o=b.getAttribute("aria-expanded")!=="true";b.setAttribute("aria-expanded",o);$(b.getAttribute("aria-controls")).hidden=!o;}));
 function openHelp(id){go("help");if(!id) return;const b=document.querySelector(`#help [aria-controls="${id}"]`);if(b&&b.getAttribute("aria-expanded")!=="true") b.click();if(b) b.scrollIntoView({block:"start"});}
 $("t-help").addEventListener("click",()=>openHelp());
+
+/* ===== Co widzi dziecko: rodzic wybiera dostępne moduły (PREFS.mods, klucz rodzica – wygrywa wersja z bazy) =====
+   mods[k]===false = ukryte; brak klucza = widoczne. Przedmiot znika, gdy wszystkie jego moduły są wyłączone.
+   Podsumowanie do lig niesie listę przedmiotów (subj._on), więc w rankingu przedmiotu nie ma dzieci bez dostępu do niego. */
+const MODS=[
+  {g:"Matematyka",items:[{k:"mat",name:"Matematyka",sub:"tabliczka, dzielenie, dodawanie…"}]},
+  {g:"Polski",items:[{k:"pl-slowka",name:"Słówka",sub:"ó/u, rz/ż, ch/h"},{k:"pl-dyktando",name:"Dyktanda",sub:"cały tekst z lukami"},{k:"pl-znaczenia",name:"Znaczenie słów",sub:"quiz i słowo dnia"}]},
+  {g:"Angielski",items:[{k:"en-tobe",name:"To be",sub:"am, is, are"},{k:"en-slowka",name:"Słówka",sub:"A1 i A2 w tematach"},{k:"en-zdania",name:"Zdania",sub:"tłumaczenie całych zdań"}]},
+  {g:"Inne",items:[{k:"lig",name:"Ligi",sub:"ranking z kolegami"},{k:"soon",name:"Kafle „Wkrótce”",sub:"Historia, Przyroda, Edukacja zdrowotna"}]}
+];
+const modOn=(k,P=PREFS)=>!(P&&P.mods&&P.mods[k]===false);
+const subjOn=(sj,P=PREFS)=>sj==="mat"?modOn("mat",P):MODS.find(g=>g.items[0].k.startsWith(sj+"-")).items.some(x=>modOn(x.k,P));
+function applyMods(){
+  const show=(id,on)=>{const el=$(id);if(el) el.hidden=!on;};
+  show("t-math",modOn("mat"));show("t-pl",subjOn("pl"));show("t-en",subjOn("en"));
+  show("pl-t-w",modOn("pl-slowka"));show("pl-t-d",modOn("pl-dyktando"));show("pl-t-z",modOn("pl-znaczenia"));show("pz-day",modOn("pl-znaczenia"));
+  show("en-t-tobe",modOn("en-tobe"));show("en-t-v",modOn("en-slowka"));show("en-t-z",modOn("en-zdania"));
+  document.querySelectorAll("#home [data-soon]").forEach(b=>{b.hidden=!modOn("soon");});
+  if($("t-lig")&&!modOn("lig")) $("t-lig").hidden=true;
+  // kafel dla rodzica na samej górze
+  $("t-kidcfg").hidden=!(ME&&ME.role==="parent");
+}
+
+/* widok rodzica: wybór dziecka, przełączniki modułów, zapis do ustawień dziecka w bazie */
+let KC={kid:null,prefs:null,mods:{}};
+async function renderKidCfg(){
+  const list=$("kc-list"),msg=$("kc-msg");msg.textContent="";
+  if(!(ME&&ME.role==="parent")){list.innerHTML='<p class="abnote">Ten widok jest dla rodzica (☰ → Konto rodziny).</p>';$("kc-kids").innerHTML="";$("kc-save").hidden=true;return;}
+  if(!FAMILY){try{await sbLoad();const {data}=await SB.from("profiles").select("id,name,role").eq("family_id",ME.family);FAMILY=(data||[]).filter(p=>p.role==="student");}catch(e){FAMILY=[];}}
+  if(!FAMILY.length){list.innerHTML='<p class="abnote">Nie masz jeszcze dziecka w rodzinie. Instrukcje → „Rodzic: podłącz telefon dziecka”.</p>';$("kc-kids").innerHTML="";$("kc-save").hidden=true;return;}
+  if(!KC.kid||!FAMILY.some(p=>p.id===KC.kid)) KC.kid=FAMILY[0].id;
+  $("kc-kids").innerHTML=FAMILY.map(p=>`<button type="button" data-id="${p.id}" class="${p.id===KC.kid?"sel":""}" aria-pressed="${p.id===KC.kid}">${esc(p.name||"–")}</button>`).join("");
+  if(!KC.prefs){
+    list.innerHTML='<p class="abnote">Wczytuję ustawienia…</p>';
+    try{const {data,error}=await SB.from("settings").select("prefs,plp").eq("user_id",KC.kid).maybeSingle();if(error) throw error;
+      KC.prefs=data?data.prefs||{}:{};KC.plp=data?data.plp:{};KC.mods={...(KC.prefs.mods||{})};}
+    catch(x){list.innerHTML='<p class="abnote">Nie udało się wczytać ustawień – sprawdź internet.</p>';return;}
+  }
+  const name=(FAMILY.find(p=>p.id===KC.kid)||{}).name||"Dziecko";
+  $("kc-save").hidden=false;$("kc-save").textContent=`Zapisz dla: ${name}`;
+  list.innerHTML=MODS.map(g=>`<div class="lbl">${g.g}</div><div class="grp">`+g.items.map(x=>{const on=KC.mods[x.k]!==false;
+    return `<button type="button" class="row sw${on?" sel":""}" data-k="${x.k}" aria-pressed="${on}"><span class="rt"><b>${x.name}</b><small>${x.sub}</small></span><i class="tg" aria-hidden="true"></i></button>`;}).join("")+`</div>`).join("")+
+    `<div class="lbl">Tak zobaczy ekran startowy</div><div class="kc-prev">${[["mat","Matematyka","#5c7cfa"],["pl","Polski","#f76707"],["en","Angielski","#12b886"]]
+      .filter(([k])=>subjOn(k,{mods:KC.mods})).map(([,n,c])=>`<span style="--kc:${c}">${n}</span>`).join("")||'<span class="none">Żaden przedmiot</span>'}${KC.mods.soon!==false?'<span class="soon">Wkrótce ×3</span>':""}</div>`;
+}
+$("kc-kids").addEventListener("click",e=>{const b=e.target.closest("button");if(!b||b.dataset.id===KC.kid) return;KC={kid:b.dataset.id,prefs:null,mods:{}};renderKidCfg();});
+$("kc-list").addEventListener("click",e=>{const b=e.target.closest("button[data-k]");if(!b) return;const k=b.dataset.k;
+  if(KC.mods[k]===false) delete KC.mods[k]; else KC.mods[k]=false;renderKidCfg();});
+$("kc-save").addEventListener("click",async()=>{
+  const b=$("kc-save");b.disabled=true;
+  try{const prefs={...KC.prefs,mods:KC.mods};
+    const r=await SB.from("settings").upsert({user_id:KC.kid,prefs,plp:KC.plp||{}},{onConflict:"user_id"});if(r.error) throw r.error;
+    KC.prefs=prefs;$("kc-msg").textContent="Zapisane. Telefon dziecka zmieni się przy najbliższym otwarciu aplikacji.";}
+  catch(x){$("kc-msg").textContent=acctErr(x);}
+  b.disabled=false;
+});
+$("t-kidcfg").addEventListener("click",()=>{KC={kid:KC.kid,prefs:null,mods:{}};go("kidcfg");});
+applyMods();
 
 // wczytanie zapisanej sesji: dopiero teraz, bo finish() zapisuje do historii (HKEY wyżej)
 if(load()){
