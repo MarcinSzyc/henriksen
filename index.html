@@ -657,6 +657,13 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .acct-pend{background:color-mix(in srgb,#e8590c 14%,var(--bg));border:2px solid #e8590c;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:.9rem;line-height:1.4}
 .acct-pend b{color:#e8590c;font-family:var(--display);font-size:1.1rem}
 .lig-req small{color:var(--muted);font-weight:700}
+.admsi{background:linear-gradient(135deg,#495057,#1d2540)!important}
+.adm-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.adm-k{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.adm-k b{font-family:var(--display);font-weight:800;font-size:1.9rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.adm-k span{font-weight:800;font-size:.92rem}
+.adm-k small{color:var(--muted);font-weight:700;font-size:.78rem}
+.adm-k.warn{border-color:#e8590c}.adm-k.warn small{color:#e8590c}
 </style>
 <script>/* motyw z ustawień przed narysowaniem strony, bez mignięcia */
 try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t==="light"||t==="dark") document.documentElement.dataset.theme=t;}catch(e){}</script>
@@ -694,6 +701,9 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
   <button type="button" class="sbar" id="t-help"><span class="si helpsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/></svg></span>
     <span class="st"><b>Instrukcje</b><small>Konto rodzica i dziecka, PIN, puchary, ligi</small></span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
+  <button type="button" class="sbar" id="t-admin" hidden><span class="si admsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></svg></span>
+    <span class="st"><b>Administracja</b><small>Ilu jest użytkowników, rodzin i dzieci</small></span>
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
 </div>
 
@@ -1019,6 +1029,14 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć do startu"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Matematyka</h1><div class="right"><button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <button type="button" class="sbar" id="mat-cont" hidden><span class="si matsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="st"><b>Dokończ działania</b><small id="mat-cont-s"></small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
   <div class="tiles2 mat-tiles" id="mat-tiles"></div>
+</div>
+<div class="wrap" id="admin" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Administracja</h1></header>
+  <button type="button" class="sbar req-bar" id="adm-req" hidden><span class="si reqsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></span>
+    <span class="st"><b>Prośby o zgodę</b><small id="adm-req-s"></small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
+  <div class="adm-grid" id="adm-grid"></div>
+  <p class="abnote" id="adm-msg" aria-live="polite"></p>
+  <button type="button" class="again" id="adm-refresh">Odśwież</button>
 </div>
 <div class="wrap" id="reqs" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Prośby o zgodę</h1></header>
@@ -2096,8 +2114,8 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",reqs:"#prosby",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",reqs:"reqs",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
@@ -2481,6 +2499,7 @@ function plShow(v){
   if(v==="lig") renderLig();
   if(v==="kidcfg") renderKidCfg();
   if(v==="reqs") renderReqs();
+  if(v==="admin") renderAdmin();
   if(v==="en") renderEnHub();
   if(v==="ent") renderEn();
   if(v==="enset") renderEnSet();
@@ -4251,6 +4270,7 @@ function applyMods(){
   if($("t-lig")&&!modOn("lig")) $("t-lig").hidden=true;
   // kafel dla rodzica na samej górze
   $("t-kidcfg").hidden=!(ME&&ME.role==="parent");
+  $("t-admin").hidden=!(ME&&ME.admin);
 }
 
 /* widok rodzica: wybór dziecka, przełączniki modułów, zapis do ustawień dziecka w bazie */
@@ -4341,7 +4361,7 @@ async function loadReqs(){
   }catch(e){}
   reqBar();if(CUR==="reqs") renderReqs();
 }
-function reqBar(){const n=REQS.fams.length+REQS.kids.length,el=$("t-req");el.hidden=!n;if(!n) return;
+function reqBar(){$("t-admin").hidden=!(ME&&ME.admin);const n=REQS.fams.length+REQS.kids.length,el=$("t-req");el.hidden=!n;if(!n) return;
   $("t-req-s").textContent=[REQS.kids.length?`${REQS.kids.map(k=>k.name).join(", ")} ${REQS.kids.length>1?"chcą":"chce"} dołączyć do rodziny`:"",REQS.fams.length?`nowe rodziny: ${REQS.fams.length}`:""].filter(Boolean).join(" · ");}
 function renderReqs(){
   const d=t=>{const x=new Date(t);return `${x.getDate()}.${String(x.getMonth()+1).padStart(2,"0")} ${String(x.getHours()).padStart(2,"0")}:${String(x.getMinutes()).padStart(2,"0")}`;};
@@ -4356,6 +4376,30 @@ $("req-list").addEventListener("click",async e=>{const b=e.target.closest("butto
   if(r.error){$("req-err").textContent=acctErr(r.error);b.disabled=false;return;}
   FAMILY=null;await loadReqs();});
 $("t-req").addEventListener("click",()=>go("reqs"));
+
+/* ===== Administracja (admin.sql): proste liczby o wszystkich kontach, tylko dla admina ===== */
+async function renderAdmin(){
+  const g=$("adm-grid"),m=$("adm-msg"),n=REQS.fams.length+REQS.kids.length;
+  $("adm-req").hidden=!n;$("adm-req-s").textContent=n?`Czeka: ${n}`:"";
+  if(!(ME&&ME.admin)){g.innerHTML="";m.textContent="Ten widok jest tylko dla administratora.";return;}
+  m.textContent="Wczytuję…";
+  try{
+    await sbLoad();const r=await SB.rpc("admin_stats");if(r.error) throw r.error;const s=r.data;
+    const k=(v,lab,sub,warn)=>`<div class="adm-k${warn?" warn":""}"><b>${v}</b><span>${lab}</span>${sub?`<small>${sub}</small>`:""}</div>`;
+    g.innerHTML=k(s.users,"Użytkownicy",`nowi w 7 dni: ${s.new_week}`)+
+      k(s.families,"Rodziny",s.families_pending?`czeka na akceptację: ${s.families_pending}`:"wszystkie aktywne",s.families_pending)+
+      k(s.parents,"Rodzice")+
+      k(s.students,"Dzieci",s.students_pending?`czeka na zgodę rodzica: ${s.students_pending}`:"",s.students_pending)+
+      k(s.active_week,"Aktywni w 7 dni","ćwiczyli choć raz")+
+      k(s.sessions_week,"Sesje w 7 dni",`razem: ${s.sessions}`)+
+      k(s.leagues,"Ligi")+
+      k(s.no_family,"Bez rodziny","konto bez profilu rodzica ani dziecka",s.no_family);
+    m.textContent=s.last_session?`Ostatnia sesja: ${new Date(+s.last_session).toLocaleString("pl-PL",{dateStyle:"short",timeStyle:"short"})}`:"Nie ma jeszcze żadnej sesji.";
+  }catch(e){g.innerHTML="";m.textContent=/admin_stats|schema cache|function/i.test(String(e&&e.message))?"Brakuje funkcji w bazie – uruchom supabase/admin.sql w Supabase.":acctErr(e);}
+}
+$("t-admin").addEventListener("click",()=>go("admin"));
+$("adm-req").addEventListener("click",()=>go("reqs"));
+$("adm-refresh").addEventListener("click",()=>{loadReqs();renderAdmin();});
 
 // wczytanie zapisanej sesji: dopiero teraz, bo finish() zapisuje do historii (HKEY wyżej)
 if(load()){
