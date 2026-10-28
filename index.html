@@ -556,6 +556,26 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .pin-pad button:active{transform:scale(.94)}.pin-pad button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .who{justify-content:flex-start}.who button.sel{background:var(--ok);border-color:var(--ok)}
 #who-msg{margin:0;text-align:center}
+.cupsi{background:linear-gradient(135deg,#f2c230,#c77d00)!important}
+#t-cups,#st-cups{margin-top:-4px}
+.cups-body{display:flex;flex-direction:column;gap:12px}
+.cup-sum{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.cup-sum div{background:var(--card);border-radius:18px;padding:10px 4px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.cup-sum b{font-family:var(--display);font-size:1.6rem;line-height:1}.cup-sum small{font-weight:800;font-size:.75rem;color:var(--muted)}
+.cup-note{margin:0;font-weight:700;color:var(--muted);font-size:.9rem;text-align:center}
+.cups{display:flex;flex-direction:column;gap:8px}
+.cup{display:flex;gap:12px;align-items:center;background:var(--card);border-radius:18px;padding:10px 14px}
+.cup .ci{flex:none;display:flex}.cup .cn{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.cup .cn b{font-family:var(--display);font-size:1.1rem;line-height:1.15}.cup .cn small{font-weight:800;font-size:.8rem;color:var(--muted)}
+.cup .cbar{height:8px;border-radius:4px;background:var(--line);overflow:hidden}.cup .cbar i{display:block;height:100%;border-radius:4px;min-width:2px}
+.cup .cmax{color:var(--ok)!important}.cup .crw{color:var(--accent)!important}
+.cupset-list{display:flex;flex-direction:column;gap:8px}
+.cupset-row{display:flex;align-items:center;justify-content:space-between;gap:10px;background:var(--bg);border-radius:14px;padding:8px 10px}
+.cupset-row span:first-child{display:flex;flex-direction:column;min-width:0}.cupset-row b{font-size:.95rem}.cupset-row small{font-weight:800;color:var(--muted);font-size:.75rem}
+.cupset-step{display:flex;align-items:center;gap:6px}.cupset-step output{min-width:34px;text-align:center;font-family:var(--display);font-weight:800;font-size:1.1rem}
+.cupset-step button{width:40px;height:40px;border:0;border-radius:12px;background:var(--key);color:var(--key-fg);font-family:var(--display);font-weight:800;font-size:1.3rem;cursor:pointer}
+.cupset-step button:disabled{opacity:.35;cursor:default}
+.cupnew-i{display:flex;justify-content:center;animation:pop 1.2s both}.cupnew-rw{font-weight:800;color:var(--accent)}
 </style>
 <script>/* motyw z ustawień przed narysowaniem strony, bez mignięcia */
 try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t==="light"||t==="dark") document.documentElement.dataset.theme=t;}catch(e){}</script>
@@ -579,12 +599,16 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <button type="button" class="sbar" id="t-stats"><span class="si" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg></span>
     <span class="st"><b>Statystyki</b><small id="t-stats-s">Tu zobaczysz swoje wyniki</small></span>
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
+  <button type="button" class="sbar" id="t-cups"><span class="si cupsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10v6a5 5 0 0 1-10 0z"/><path d="M7 5H4a3 3 0 0 0 3 4M17 5h3a3 3 0 0 1-3 4M12 14v3M8 21h8l-1-4H9z"/></svg></span>
+    <span class="st"><b>Puchary</b><small id="t-cups-s">Zdobywaj brąz, srebro, złoto i diament</small></span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
 </div>
 
 <div class="wrap" id="stats-v" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć do startu"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Statystyki</h1><div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div class="fchips who" id="who" hidden role="group" aria-label="Czyje wyniki"></div><p class="abnote" id="who-msg" hidden></p>
+  <button type="button" class="sbar" id="st-cups"><span class="si cupsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10v6a5 5 0 0 1-10 0z"/><path d="M7 5H4a3 3 0 0 0 3 4M17 5h3a3 3 0 0 1-3 4M12 14v3M8 21h8l-1-4H9z"/></svg></span><span class="st"><b>Puchary</b><small>Brąz, srebro, złoto i diament – ile już jest</small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
   <div class="segs subj" id="subj" role="tablist" aria-label="Przedmiot"><button type="button" role="tab" data-s="all" class="sel" aria-selected="true">Wszystko</button><button type="button" role="tab" data-s="mat" aria-selected="false">Matma</button><button type="button" role="tab" data-s="pl" aria-selected="false">Polski</button><button type="button" role="tab" data-s="en" aria-selected="false">Angielski</button><button type="button" role="tab" data-s="his" aria-selected="false">Historia</button></div>
   <div class="soonbox" id="soonbox" hidden><b id="soon-t">Polski już wkrótce</b><span>Tu pojawią się wyniki, gdy zaczniesz ćwiczyć.</span></div>
   <div class="kid" id="kid">
@@ -793,6 +817,11 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div id="enq-end" class="pl-end" hidden></div>
 </div>
 
+<div class="wrap" id="cups" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow" id="cups-t">Puchary</h1></header>
+  <div class="cups-body" id="cups-body"></div>
+  <button type="button" class="again" id="cups-set">Ustaw progi i nagrody</button>
+</div>
 <div class="ask" id="ask" hidden role="dialog" aria-modal="true" aria-labelledby="ask-t">
   <div class="ask-box sheet">
     <div id="ask-sets" class="pane">
@@ -889,6 +918,21 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <div class="pin-pad" id="pin-pad"><button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button><button type="button" data-k="7">7</button><button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><span></span><button type="button" data-k="0">0</button><button type="button" data-k="del" aria-label="Usuń cyfrę">⌫</button></div>
     <button type="button" class="again" id="pin-forgot">Nie pamiętam PIN-u</button></div>
 </div>
+<div class="ask" id="cupset" hidden role="dialog" aria-modal="true" aria-labelledby="cupset-h">
+  <div class="ask-box sheet">
+    <div class="shd"><div><h2 id="cupset-h">Progi i nagrody</h2><span class="shs" id="cupset-for"></span></div><button type="button" class="xbtn" id="cupset-x" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <p class="abnote">Ile dobrych odpowiedzi (za 1. razem) do brązu. Srebro, złoto i diament to kolejno 3×, 8× i 20× więcej.</p>
+    <div class="cupset-list" id="cupset-list"></div>
+    <div class="lbl">Nagrody</div>
+    <div class="acct-body" id="cupset-rw"></div>
+    <div class="ask-err" id="cupset-err" aria-live="polite"></div>
+    <button type="button" class="go-btn" id="cupset-ok">Zapisz</button>
+  </div>
+</div>
+<div class="ask" id="cupnew" hidden role="dialog" aria-modal="true" aria-labelledby="cupnew-h">
+  <div class="ask-box"><div class="cupnew-i" id="cupnew-i" aria-hidden="true"></div><h2 id="cupnew-h">Nowy puchar!</h2><p><b id="cupnew-t"></b></p><p class="cupnew-rw" id="cupnew-rw" hidden></p>
+    <button type="button" class="go-btn" id="cupnew-ok">Super!</button></div>
+</div>
 <div class="ask" id="fxnew" hidden role="dialog" aria-modal="true" aria-labelledby="fxnew-h">
   <div class="ask-box"><div class="fxnew-i" aria-hidden="true">★</div><h2 id="fxnew-h">Nowa animacja!</h2><p>Odblokowałeś: <b id="fxnew-t"></b></p>
     <button type="button" class="go-btn" id="fxnew-ok">Super!</button></div>
@@ -939,8 +983,8 @@ const BADGES={
 const BADGE_NAMES={ball:"Piłka",crown:"Korona",bolt:"Błyskawica",rocket:"Rakieta",none:"Bez znaczka"};
 const SUBS=[["streak","Seria dni"],["date","Data"],["none","Nic"]];
 const NAME_PRESETS=["Henriksen","Kapitan H","Nr 10","Ekipa H"];
-let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1))};}catch(e){}
+let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -1495,6 +1539,8 @@ buildPad();
 $("pad").addEventListener("click",e=>{const b=e.target.closest("button");if(b) press(b.dataset.k);});
 document.addEventListener("keydown",e=>{
   if(!$("pinlock").hidden) return;
+  if(!$("cupnew").hidden){if(e.key==="Escape"||e.key==="Enter") $("cupnew-ok").click();return;}
+  if(!$("cupset").hidden){if(e.key==="Escape") $("cupset").hidden=true;return;}
   if(!$("acct").hidden){if(e.key==="Escape") closeAcct();return;}
   if(!$("fxnew").hidden){if(e.key==="Escape"||e.key==="Enter") $("fxnew").hidden=true;return;}
   if(!$("fxs").hidden){if(e.key==="Escape") closeFxs();return;}
@@ -1789,6 +1835,7 @@ wake();
 /* Historia sesji: localStorage pod HKEY, każda sesja z pełną listą odpowiedzi.
    Ukończone -> "done", porzucone (nowe działania w trakcie) -> "przerwana". */
 const HKEY="henriksen-historia";
+let VIEW_PREFS=null; // ustawienia oglądanego dziecka (progi pucharów)
 let VIEW_HIST=null; // rodzic ogląda wyniki dziecka: statystyki czytają tę historię zamiast własnej
 function loadOwnHist(){try{const h=JSON.parse(localStorage.getItem(HKEY));return Array.isArray(h)?h:[];}catch(e){return [];}}
 function loadHist(){return VIEW_HIST&&CUR==="stats"?VIEW_HIST.slice():loadOwnHist();}
@@ -1796,7 +1843,7 @@ function saveHistLocal(h){
   try{localStorage.setItem(HKEY,JSON.stringify(h));}catch(e){}
   if(navigator.storage&&navigator.storage.persist) navigator.storage.persist().catch(()=>{});
 }
-function saveHist(h){saveHistLocal(h);try{syncSoon();}catch(e){}} // try: przy starcie konto może nie być jeszcze gotowe
+function saveHist(h){saveHistLocal(h);try{syncSoon();setTimeout(cupsCheck,3200);}catch(e){}} // puchary po gratulacjach // try: przy starcie konto może nie być jeszcze gotowe
 const recsOf=upto=>tasks.slice(0,upto).map((t,k)=>({t,ok:state[k]==="ok",tries:(log[k]&&log[k].tries)||[],h:(log[k]&&log[k].h)||0,ms:(log[k]&&log[k].ms)||0}));
 function archive(status){
   const done=status==="done"?N:i;if(!ACTIVE||!done) return;
@@ -1812,14 +1859,14 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",cups:"#puchary",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",cups:"cups",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
   for(const k in VIEWS) $(VIEWS[k]).hidden=k!==v;
   plShow(v);
-  if(v!=="stats"){VIEW_HIST=null;WHO=null;}
+  if(v!=="stats"){VIEW_HIST=null;VIEW_PREFS=null;WHO=null;}
   if(v==="home") renderHome();
   if(v==="stats"){renderStats();renderWho();}
   if(v==="play") refit();
@@ -1842,6 +1889,7 @@ function renderHome(){
   applySub();
   const H=loadHist(),done=H.filter(s=>s.status==="done");
   $("t-math-s").textContent=ACTIVE&&i<N?`W trakcie: ${i} / ${N} · dotknij, żeby grać dalej`:"Wybierz ćwiczenia i zaczynamy";
+  renderCupsBar();
   $("t-stats-s").textContent=H.length?`${H.length} ${sesji(H.length)}`+(done.length?` · ostatnio ${done[done.length-1].pct}%`:""):"Tu zobaczysz swoje wyniki";
 }
 
@@ -2180,6 +2228,7 @@ function plShow(v){
   if(v==="pld") renderPd();
   if(v==="plzs") renderPzs();
   if(v==="plzk") renderPzk();
+  if(v==="cups") renderCups();
   if(v==="en") renderEnHub();
   if(v==="ent") renderEn();
   if(v==="enset") renderEnSet();
@@ -3510,6 +3559,7 @@ async function syncNow(){
       try{PREFS={...PREFS,...st.data.prefs};savePrefs();PLP={...PLP,...st.data.plp};savePLP();applyTheme();applyName();applyView();}finally{APPLYING=false;}
       SYNC.setAt=remoteAt;
     }else if(SYNC.setDirty||!st.data){
+      if(st.data&&remoteAt>SYNC.setAt){APPLYING=true;try{PARENT_KEYS.forEach(k=>{if(st.data.prefs[k]!==undefined) PREFS[k]=st.data.prefs[k];});savePrefs();}finally{APPLYING=false;}}
       const {data:d,error:e}=await SB.from("settings").upsert({prefs:PREFS,plp:PLP},{onConflict:"user_id"}).select("updated_at").single();if(e) throw e;
       SYNC.setAt=Date.parse(d.updated_at);SYNC.setDirty=false;
     }
@@ -3518,7 +3568,7 @@ async function syncNow(){
   syncing=false;
   if(!$("acct").hidden&&ACCT==="me") syncLine();
 }
-function syncRefresh(){if(CUR==="home") renderHome();else if(CUR==="stats") renderStats();else plShow(CUR);}
+function syncRefresh(){cupsCheck();if(CUR==="home") renderHome();else if(CUR==="stats") renderStats();else plShow(CUR);}
 function syncLine(){const el=$("acct-sync");if(!el) return;
   const n=loadOwnHist().length,t=SYNC&&SYNC.u===(ME&&ME.id)&&SYNC.last?new Date(SYNC.last):null;
   el.textContent=t?`W chmurze: ${n} ${sesji(n)} · ostatnio ${String(t.getHours()).padStart(2,"0")}:${String(t.getMinutes()).padStart(2,"0")}`:"Wyniki jeszcze nie były wysłane";}
@@ -3536,17 +3586,135 @@ async function renderWho(){
 }
 $("who").addEventListener("click",async e=>{
   const b=e.target.closest("button");if(!b) return;const id=b.dataset.id||null;if(id===WHO) return;
-  WHO=id;VIEW_HIST=null;renderWho();
+  WHO=id;VIEW_HIST=null;VIEW_PREFS=null;renderWho();
   if(id){
     $("who-msg").textContent="Wczytuję wyniki…";$("who-msg").hidden=false;
     try{const {data,error}=await SB.from("sessions").select("data").eq("user_id",id).order("start").limit(5000);if(error) throw error;
-      VIEW_HIST=data.map(r=>r.data);$("who-msg").hidden=true;}
+      VIEW_HIST=data.map(r=>r.data);
+      const st=await SB.from("settings").select("prefs").eq("user_id",id).maybeSingle();VIEW_PREFS=st.data?st.data.prefs:{};
+      $("who-msg").hidden=true;}
     catch(x){$("who-msg").textContent="Nie udało się wczytać wyników – sprawdź internet.";VIEW_HIST=[];}
   }else $("who-msg").hidden=true;
   renderStats();
 });
 syncLoad();
 if(syncOn()) syncSoon(2500);
+
+/* ===== Puchary: brąz → srebro → złoto → diament za dobre odpowiedzi (za 1. razem) w każdym rodzaju zadań =====
+   Próg brązu ustawia rodzic (PREFS.cups[kategoria], domyślnie base), kolejne poziomy = próg × x. Nagrody od rodzica:
+   PREFS.cupRewards[poziom]. Liczone z historii, więc obejmują też wcześniejsze wyniki; PREFS.cupSeen pamięta pokazane
+   puchary, żeby „Nowy puchar!” wyskoczył raz. Rodzic zmienia progi dziecka przez jego wiersz w settings (sync go dociąga). */
+const CUP_SUBJ={mat:"Matematyka",pl:"Polski",en:"Angielski"};
+const CUP_CATS=[
+  {id:"mat×",subj:"mat",name:"Mnożenie",base:50},{id:"mat:",subj:"mat",name:"Dzielenie",base:50},
+  {id:"mat+",subj:"mat",name:"Dodawanie",base:50},{id:"mat−",subj:"mat",name:"Odejmowanie",base:50},
+  {id:"pl-slowka",subj:"pl",name:"Słówka: ó/u, rz/ż, ch/h",base:30},{id:"pl-dyktando",subj:"pl",name:"Dyktanda",base:30},
+  {id:"pl-znaczenia",subj:"pl",name:"Znaczenie słów",base:30},
+  {id:"en-tobe",subj:"en",name:"To be",base:30},{id:"en-slowka",subj:"en",name:"Słówka angielskie",base:30},{id:"en-zdania",subj:"en",name:"Zdania",base:20}
+];
+const CUP_LV=[{k:"b",name:"Brąz",to:"brązu",x:1,c:"#cd7f32"},{k:"s",name:"Srebro",to:"srebra",x:3,c:"#b4bfcf"},
+  {k:"g",name:"Złoto",to:"złota",x:8,c:"#f2c230"},{k:"d",name:"Diament",to:"diamentu",x:20,c:"#4dd4ff"}];
+const CUP_STEPS=[5,10,20,30,50,75,100,150,200,300];
+const PARENT_KEYS=["cups","cupRewards"]; // ustawia rodzic – przy konflikcie wygrywa wersja z bazy
+const cupCat=(s,r)=>{const sj=s.subj||"mat";return sj==="mat"?"mat"+(Array.isArray(r.t)?r.t[1]:""):sj+"-"+((s.cfg&&s.cfg.mode)||(sj==="en"?"tobe":"slowka"));};
+function cupCounts(H){const c={};for(const s of H) for(const r of s.recs||[]) if(r.ok){const k=cupCat(s,r);c[k]=(c[k]||0)+1;}return c;}
+const cupBase=(P,id)=>(P&&P.cups&&+P.cups[id])||CUP_CATS.find(x=>x.id===id).base;
+const cupLevel=(n,base)=>CUP_LV.reduce((l,L,k)=>n>=base*L.x?k:l,-1);
+const cupSvg=(c,s=44)=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48" aria-hidden="true"><path d="M14 6h20v12a10 10 0 0 1-20 0z" fill="${c||"none"}" stroke="${c?"rgba(0,0,0,.25)":"var(--line)"}" stroke-width="2.5" stroke-linejoin="round"/>
+  <path d="M14 10H7a7 7 0 0 0 8 9M34 10h7a7 7 0 0 1-8 9" fill="none" stroke="${c||"var(--line)"}" stroke-width="3" stroke-linecap="round"/>
+  <path d="M24 28v7M16 42h16l-2-7H18z" fill="${c||"none"}" stroke="${c?"rgba(0,0,0,.25)":"var(--line)"}" stroke-width="2.5" stroke-linejoin="round"/>${c?'<path d="M19 10v7" stroke="rgba(255,255,255,.55)" stroke-width="3" stroke-linecap="round"/>':""}</svg>`;
+// galeria pucharów dla historii H i ustawień P (własnych albo dziecka)
+function cupsHtml(H,P){
+  const c=cupCounts(H),tot=[0,0,0,0];
+  const groups=Object.keys(CUP_SUBJ).map(sj=>`<div class="lbl">${CUP_SUBJ[sj]}</div><div class="cups">`+CUP_CATS.filter(x=>x.subj===sj).map(x=>{
+    const n=c[x.id]||0,b=cupBase(P,x.id),l=cupLevel(n,b),nx=CUP_LV[l+1],prev=l>=0?b*CUP_LV[l].x:0;
+    for(let k=0;k<=l;k++) tot[k]++;
+    const rw=nx&&P&&P.cupRewards&&P.cupRewards[nx.k];
+    return `<div class="cup"><span class="ci">${cupSvg(l>=0?CUP_LV[l].c:null)}</span><span class="cn"><b>${x.name}</b>`+
+      `<small>${l>=0?CUP_LV[l].name:"Jeszcze bez pucharu"} · ${n} ${zadan(n)}</small>`+
+      (nx?`<span class="cbar"><i style="width:${Math.min(100,Math.round((n-prev)*100/(b*nx.x-prev)))}%;background:${nx.c}"></i></span><small>Jeszcze ${b*nx.x-n} do ${nx.to}</small>`:`<small class="cmax">Wszystkie poziomy zdobyte!</small>`)+
+      (rw?`<small class="crw">Nagroda za ${nx.name.toLowerCase()}: ${esc(rw)}</small>`:"")+`</span></div>`;}).join("")+`</div>`).join("");
+  const all=tot.reduce((a,b)=>a+b,0);
+  return `<div class="cup-sum">${CUP_LV.map((L,k)=>`<div>${cupSvg(L.c,36)}<b>${tot[k]}</b><small>${L.name}</small></div>`).join("")}</div>
+    <p class="cup-note">${all?`Masz ${all} ${all===1?"puchar":all%10>=2&&all%10<=4&&!(all%100>=12&&all%100<=14)?"puchary":"pucharów"}.`:"Pierwszy puchar za "+Math.min(...CUP_CATS.map(x=>cupBase(P,x.id)))+" dobrych odpowiedzi."} Liczą się odpowiedzi dobre za pierwszym razem.</p>`+groups;
+}
+const esc=t=>String(t).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[ch]);
+const cupTotal=(H,P)=>{const c=cupCounts(H);return CUP_CATS.reduce((a,x)=>a+cupLevel(c[x.id]||0,cupBase(P,x.id))+1,0);};
+
+/* ekran Puchary: własne (z ekranu startowego) albo oglądanego dziecka (ze Statystyk) */
+let CUPT=null; // {hist,prefs,name,kid}
+function openCups(fromStats){
+  CUPT=fromStats&&WHO?{hist:(VIEW_HIST||[]).slice(),prefs:VIEW_PREFS||{},name:(FAMILY.find(p=>p.id===WHO)||{}).name,kid:WHO}:{hist:loadOwnHist(),prefs:PREFS,name:null,kid:null};
+  go("cups");
+}
+function renderCups(){
+  if(!CUPT) CUPT={hist:loadOwnHist(),prefs:PREFS,name:null,kid:null};
+  $("cups-t").textContent=CUPT.name?`Puchary · ${CUPT.name}`:"Puchary";
+  $("cups-body").innerHTML=cupsHtml(CUPT.hist,CUPT.prefs);
+  // progi ustawia rodzic; bez konta każdy może je zmienić u siebie
+  $("cups-set").hidden=!!(ME&&ME.role==="student");
+}
+$("t-cups").addEventListener("click",()=>openCups(false));
+$("st-cups").addEventListener("click",()=>openCups(true));
+
+/* okno „Progi i nagrody” */
+let CUPED=null;
+function openCupSet(){
+  const P=CUPT.prefs;CUPED={cups:{...(P.cups||{})},rw:{...(P.cupRewards||{})}};
+  renderCupSet();$("cupset").hidden=false;$("cupset-x").focus();
+}
+function renderCupSet(){
+  $("cupset-for").textContent=CUPT.name?`dla: ${CUPT.name}`:"dla tego telefonu";
+  $("cupset-list").innerHTML=Object.keys(CUP_SUBJ).map(sj=>`<div class="lbl">${CUP_SUBJ[sj]}</div>`+CUP_CATS.filter(x=>x.subj===sj).map(x=>{const b=cupBase({cups:CUPED.cups},x.id),k=CUP_STEPS.indexOf(b);
+    return `<div class="cupset-row"><span><b>${x.name}</b><small>${CUP_LV.map(L=>b*L.x).join(" · ")}</small></span>
+      <span class="cupset-step"><button type="button" data-c="${x.id}" data-d="-1" aria-label="Mniej – ${x.name}"${k<=0?" disabled":""}>−</button><output>${b}</output><button type="button" data-c="${x.id}" data-d="1" aria-label="Więcej – ${x.name}"${k>=CUP_STEPS.length-1?" disabled":""}>+</button></span></div>`;}).join("")).join("");
+  $("cupset-rw").innerHTML=CUP_LV.map(L=>`<label class="af"><span>Nagroda za ${L.name.toLowerCase()} (opcjonalnie)</span><input type="text" maxlength="40" data-k="${L.k}" value="${esc(CUPED.rw[L.k]||"")}" placeholder="np. 30 min tabletu"></label>`).join("");
+  $("cupset-err").textContent="";
+}
+$("cupset-list").addEventListener("click",e=>{const b=e.target.closest("button[data-c]");if(!b) return;
+  const id=b.dataset.c,cur=cupBase({cups:CUPED.cups},id),k=CUP_STEPS.indexOf(cur);
+  CUPED.cups[id]=CUP_STEPS[Math.max(0,Math.min(CUP_STEPS.length-1,(k<0?2:k)+ +b.dataset.d))];renderCupSet();});
+$("cups-set").addEventListener("click",openCupSet);
+$("cupset-x").addEventListener("click",()=>{$("cupset").hidden=true;});
+$("cupset-ok").addEventListener("click",async()=>{
+  $("cupset-rw").querySelectorAll("input").forEach(i=>{const v=i.value.trim();if(v) CUPED.rw[i.dataset.k]=v; else delete CUPED.rw[i.dataset.k];});
+  const btn=$("cupset-ok");btn.disabled=true;
+  try{
+    if(CUPT.kid){ // zapis do ustawień dziecka w bazie; telefon dziecka dociągnie je przy synchronizacji
+      const {data,error}=await SB.from("settings").select("prefs,plp").eq("user_id",CUPT.kid).maybeSingle();if(error) throw error;
+      const prefs={...(data&&data.prefs||{}),cups:CUPED.cups,cupRewards:CUPED.rw};
+      const r=await SB.from("settings").upsert({user_id:CUPT.kid,prefs,plp:data?data.plp:{}},{onConflict:"user_id"});if(r.error) throw r.error;
+      VIEW_PREFS=prefs;CUPT.prefs=prefs;
+    }else{PREFS.cups=CUPED.cups;PREFS.cupRewards=CUPED.rw;savePrefs();CUPT.prefs=PREFS;cupsCheck();}
+    $("cupset").hidden=true;renderCups();
+  }catch(x){$("cupset-err").textContent=acctErr(x);}
+  btn.disabled=false;
+});
+
+/* „Nowy puchar!” – po zapisaniu sesji (po gratulacjach) i po synchronizacji; kolejka, gdy jest kilka naraz */
+let CUPQ=[];
+function cupsCheck(){
+  const c=cupCounts(loadOwnHist()),seen=PREFS.cupSeen,now={};
+  CUP_CATS.forEach(x=>{now[x.id]=cupLevel(c[x.id]||0,cupBase(PREFS,x.id));});
+  if(!seen){PREFS.cupSeen=now;savePrefs();return;} // pierwsze uruchomienie: zdobyte wcześniej puchary bez okienek
+  let ch=false;
+  CUP_CATS.forEach(x=>{const s=seen[x.id]==null?-1:seen[x.id];if(now[x.id]>s){for(let k=s+1;k<=now[x.id];k++) CUPQ.push({x,L:CUP_LV[k]});ch=true;}
+    if(now[x.id]!==s){seen[x.id]=now[x.id];ch=true;}});
+  if(ch){PREFS.cupSeen=seen;savePrefs();}
+  cupShowNext();
+}
+function cupShowNext(){
+  if(!CUPQ.length||!$("cupnew").hidden) return;
+  if(document.querySelector(".cheer-wrap,.goal-wrap")||!$("fxnew").hidden||!$("pinlock").hidden){setTimeout(cupShowNext,1500);return;}
+  const {x,L}=CUPQ.shift(),rw=PREFS.cupRewards&&PREFS.cupRewards[L.k];
+  $("cupnew-i").innerHTML=cupSvg(L.c,96);$("cupnew-t").textContent=`${L.name} · ${x.name}`;
+  $("cupnew-rw").hidden=!rw;$("cupnew-rw").textContent=rw?`Nagroda: ${rw}`:"";
+  $("cupnew").hidden=false;sfx("final");$("cupnew-ok").focus();
+}
+$("cupnew-ok").addEventListener("click",()=>{$("cupnew").hidden=true;if(CUP_VIEW_OPEN()) renderCups();setTimeout(cupShowNext,300);});
+const CUP_VIEW_OPEN=()=>CUR==="cups";
+function renderCupsBar(){const n=cupTotal(loadOwnHist(),PREFS);$("t-cups-s").textContent=n?`Masz ${n} · zobacz, ile brakuje do kolejnych`:"Zdobywaj brąz, srebro, złoto i diament";}
+setTimeout(cupsCheck,1500);
 
 // wczytanie zapisanej sesji: dopiero teraz, bo finish() zapisuje do historii (HKEY wyżej)
 if(load()){

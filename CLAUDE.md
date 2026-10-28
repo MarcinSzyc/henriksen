@@ -56,6 +56,13 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   (`markSettings()` z `savePrefs`/`savePLP`). Stan w `henriksen-sync` per konto. Rodzic: wybór dziecka nad Statystykami (`#who`,
   `renderWho`) – sesje dziecka trafiają do `VIEW_HIST`, a `loadHist()` w widoku statystyk zwraca je zamiast własnych
   (`loadOwnHist()` = zawsze własna, używaj jej przy zapisie i kopii).
+- **Puchary (`#cups`, `#puchary`):** brąz/srebro/złoto/diament (`CUP_LV`, progi ×1/×3/×8/×20) za odpowiedzi dobre za 1. razem
+  w kategoriach `CUP_CATS` (mnożenie, dzielenie, dodawanie, odejmowanie, słówka, dyktanda, znaczenie słów, To be, słówka ang., zdania;
+  kategoria sesji z `cupCat()`). Liczone z historii (`cupCounts`). Próg brązu i nagrody ustawia rodzic: `PREFS.cups[kat]`,
+  `PREFS.cupRewards[b/s/g/d]` (okno `#cupset`); dla dziecka zapis idzie do jego wiersza `settings` w bazie, a przy konflikcie
+  synchronizacji pola z `PARENT_KEYS` biorą wersję z bazy. `cupsCheck()` po zapisie sesji (po gratulacjach) i po synchronizacji
+  pokazuje „Nowy puchar!” (`#cupnew`, kolejka `CUPQ`); `PREFS.cupSeen` = pokazane poziomy (pierwsze uruchomienie bez okienek).
+  Pasek Puchary na starcie i w Statystykach (rodzic z wybranym dzieckiem widzi jego puchary: `VIEW_PREFS`).
 - **Historia:** `localStorage` pod `henriksen-historia`, tablica sesji
   `{id,subj,start,end,status:"done"|"przerwana",cfg,n,done,recs:[{t,ok,tries,h,ms}],pct,grade,errors,hints}`.
   `archive(status)` przy `finish()` i przy rozpoczęciu nowych działań w trakcie (przerwana). Bieżąca sesja trzyma `SID`, `T0`
