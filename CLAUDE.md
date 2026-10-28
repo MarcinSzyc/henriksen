@@ -57,7 +57,9 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
 - **Administracja (`#admin`, `#administracja`, `supabase/admin.sql`):** kafel na dole startu tylko dla admina (`ME.admin`).
   `admin_stats()` (security definer, rzuca błąd dla nie-admina) zwraca liczby: użytkownicy, nowi w 7 dni, rodzice, dzieci
   (czekające), rodziny (czekające), aktywni i sesje w 7 dni, ligi, konta bez profilu, ostatnia sesja. `renderAdmin()` rysuje kafle
-  `.adm-k`; brak funkcji w bazie = komunikat „uruchom admin.sql”. SQL testowany lokalnie na Postgresie z atrapą `auth`.
+  `.adm-k` (przyciski); brak funkcji w bazie = komunikat „uruchom admin.sql”. SQL testowany lokalnie na Postgresie z atrapą `auth`.
+  Kafel otwiera okno `#admd` z listą z `admin_details(p_kind)` (`supabase/admin2.sql`; users/families/parents/students/active/
+  sessions/leagues/nofamily), wiersze rysuje `ADM_ROW[kind]`.
 - **Gość (bez konta rodziny, `isGuest()` = brak roli w `henriksen-me`):** może ćwiczyć, ale nic nie jest zapisywane.
   Na początku skryptu `Storage.prototype.setItem` pomija zapis kluczy `STATE_KEYS` (ustawienia, postęp, historia, polski) dla gościa,
   a przy starcie kasuje je na telefonie bez `henriksen-auth` i bez `henriksen-sync` (wygasłe logowanie zostawia sync, więc
@@ -109,7 +111,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
 - **Stan sesji:** `N` (liczba zadań), `tasks` (tablica `[a, op, b]`, op ∈ `+ − × :`),
   `i` (bieżące zadanie), `state[k]` (`"ok"` = dobrze za 1. razem, `"fix"` = był błąd), `errors` (liczba działań z błędem, nie prób; przeliczane z `state` przy wczytaniu), `hintsUsed` (pokazane kroki podpowiedzi, zapisywane jako `hints`).
 - **Ekran Matematyka (`#mat`, `#matematyka`, `renderMat`):** kafle „Poćwicz trudne”, zestawy `SETS` (punkty i ostatni wynik)
-  i „Ułóż własne” (otwiera `#ask` od razu na ustawieniach, `ASKOWN`); pasek „Dokończ działania”. „Nowe działania” w grze wraca tutaj.
+  i „Ułóż własne” (otwiera `#ask` od razu na ustawieniach, `ASKOWN`); pasek „Dokończ działania”. Obok niego ✕ (`#mat-drop`): porzuca rozpoczęte
+  działania (`archive("przerwana")`, czyści zapis postępu). „Nowe działania” w grze wraca tutaj.
   Każdy kafel to moduł w „Co widzi dziecko” (`mat-<id zestawu>`, `mat-hard`, `mat-own`).
 - **Nowa sesja (`#ask`):** najpierw lista zestawów `SETS` (`{id,name,n,cfg,info?}`, brakujące pola z `CFG0`;
   ostatni wynik po `cfg.set` w historii) plus „Poćwicz trudne” (`practice(allHard())`), potem „Ułóż własne”:

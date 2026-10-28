@@ -658,8 +658,17 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .acct-pend b{color:#e8590c;font-family:var(--display);font-size:1.1rem}
 .lig-req small{color:var(--muted);font-weight:700}
 .admsi{background:linear-gradient(135deg,#495057,#1d2540)!important}
+.cont-row{display:flex;gap:8px;align-items:stretch}.cont-row[hidden]{display:none}.cont-row .sbar{flex:1;min-width:0}
+.cont-x{flex:none;width:56px;border-radius:18px;border:2px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.cont-x:active{transform:scale(.96)}.cont-x:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .adm-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.adm-k{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.adm-k{background:var(--card);color:var(--fg);font:inherit;text-align:left;cursor:pointer;border:2px solid var(--line);border-radius:18px;padding:12px 14px;display:flex;flex-direction:column;gap:2px;min-width:0}
+.adm-k:active{transform:scale(.98)}.adm-k:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.adm-box{text-align:left;max-width:420px}.adm-box h2{text-align:center}
+.adm-list{display:flex;flex-direction:column;gap:8px;overflow-y:auto}
+.adm-row{background:var(--key);color:var(--key-fg);border-radius:12px;padding:9px 12px;display:flex;flex-direction:column;gap:2px;font-size:.9rem;overflow-wrap:anywhere}
+.adm-row small{color:var(--muted);font-weight:700;font-size:.78rem}
+.adm-pend{background:#e8590c;color:#fff;border-radius:6px;padding:0 6px;font-size:.72rem;font-weight:800;margin-left:4px}
 .adm-k b{font-family:var(--display);font-weight:800;font-size:1.9rem;line-height:1.1;font-variant-numeric:tabular-nums}
 .adm-k span{font-weight:800;font-size:.92rem}
 .adm-k small{color:var(--muted);font-weight:700;font-size:.78rem}
@@ -1027,7 +1036,8 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 </div>
 <div class="wrap" id="mat" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć do startu"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Matematyka</h1><div class="right"><button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
-  <button type="button" class="sbar" id="mat-cont" hidden><span class="si matsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="st"><b>Dokończ działania</b><small id="mat-cont-s"></small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
+  <div class="cont-row" id="mat-cont-row" hidden><button type="button" class="sbar" id="mat-cont"><span class="si matsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="st"><b>Dokończ działania</b><small id="mat-cont-s"></small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
+    <button type="button" class="cont-x" id="mat-drop" aria-label="Nie kończ – porzuć te działania"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
   <div class="tiles2 mat-tiles" id="mat-tiles"></div>
 </div>
 <div class="wrap" id="admin" hidden>
@@ -1037,6 +1047,13 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="adm-grid" id="adm-grid"></div>
   <p class="abnote" id="adm-msg" aria-live="polite"></p>
   <button type="button" class="again" id="adm-refresh">Odśwież</button>
+</div>
+<div class="ask" id="admd" hidden role="dialog" aria-modal="true" aria-labelledby="admd-t">
+  <div class="ask-box adm-box">
+    <h2 id="admd-t">Szczegóły</h2>
+    <div class="adm-list" id="admd-list"></div>
+    <div class="ask-btns"><button type="button" class="yes" id="admd-x">Zamknij</button></div>
+  </div>
 </div>
 <div class="wrap" id="reqs" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Prośby o zgodę</h1></header>
@@ -4357,7 +4374,7 @@ applyMods();
    Każdy kafel to osobny moduł w „Co widzi dziecko” (mat-<id zestawu>, mat-hard, mat-own). */
 const MAT_GLYPH={tab:"×",div:":",muldiv:"×:",addsub:"+−",tens:"×10"};
 function renderMat(){
-  $("mat-cont").hidden=!(ACTIVE&&i<N);$("mat-cont-s").textContent=`${$("title").textContent} · ${i} / ${N}`;
+  $("mat-cont-row").hidden=!(ACTIVE&&i<N);$("mat-cont-s").textContent=`${$("title").textContent} · ${i} / ${N}`;
   const hard=allHard(),tiles=[];
   SETS.forEach((st,k)=>{if(!modOn("mat-"+st.id)) return;
     const c={...CFG0,...st.cfg},o=["+","−","×",":"].filter(x=>c.ops.includes(x)),gc=o.length>1&&SET_TONE[o[0]]!==SET_TONE[o[1]]?"#7048e8":SET_TONE[o[0]];
@@ -4368,6 +4385,14 @@ function renderMat(){
   $("mat-tiles").innerHTML=tiles.join("")||'<p class="abnote">Rodzic wyłączył wszystkie zestawy.</p>';
 }
 $("mat-cont").addEventListener("click",()=>go("play"));
+// porzucenie rozpoczętych działań: zaczęte trafiają do historii jako przerwane, a kafel znika
+$("mat-drop").addEventListener("click",()=>{
+  if(!(ACTIVE&&i<N)) return;
+  if(!confirm(i?`Nie kończyć tych działań (${i} / ${N})? Zapiszemy je w historii jako przerwane.`:"Porzucić te działania?")) return;
+  if(i>0) archive("przerwana");
+  ACTIVE=false;try{localStorage.removeItem(KEY);}catch(e){}
+  renderMat();
+});
 $("mat-tiles").addEventListener("click",e=>{const b=e.target.closest("button[data-k]");if(!b) return;const k=b.dataset.k;
   if(k==="own"){openAsk("home");ASKOWN=true;askPane(true);return;}
   if(ACTIVE&&i>0&&i<N&&!confirm(`Masz działania w trakcie (${i} / ${N}). Zacząć nowe? Te zapiszemy jako przerwane.`)) return;
@@ -4419,21 +4444,53 @@ async function renderAdmin(){
   m.textContent="Wczytuję…";
   try{
     await sbLoad();const r=await SB.rpc("admin_stats");if(r.error) throw r.error;const s=r.data;
-    const k=(v,lab,sub,warn)=>`<div class="adm-k${warn?" warn":""}"><b>${v}</b><span>${lab}</span>${sub?`<small>${sub}</small>`:""}</div>`;
-    g.innerHTML=k(s.users,"Użytkownicy",`nowi w 7 dni: ${s.new_week}`)+
-      k(s.families,"Rodziny",s.families_pending?`czeka na akceptację: ${s.families_pending}`:"wszystkie aktywne",s.families_pending)+
-      k(s.parents,"Rodzice")+
-      k(s.students,"Dzieci",s.students_pending?`czeka na zgodę rodzica: ${s.students_pending}`:"",s.students_pending)+
-      k(s.active_week,"Aktywni w 7 dni","ćwiczyli choć raz")+
-      k(s.sessions_week,"Sesje w 7 dni",`razem: ${s.sessions}`)+
-      k(s.leagues,"Ligi")+
-      k(s.no_family,"Bez rodziny","konto bez profilu rodzica ani dziecka",s.no_family);
+    const k=(kind,v,lab,sub,warn)=>`<button type="button" class="adm-k${warn?" warn":""}" data-kind="${kind}" data-lab="${lab}"><b>${v}</b><span>${lab}</span>${sub?`<small>${sub}</small>`:""}</button>`;
+    g.innerHTML=k("users",s.users,"Użytkownicy",`nowi w 7 dni: ${s.new_week}`)+
+      k("families",s.families,"Rodziny",s.families_pending?`czeka na akceptację: ${s.families_pending}`:"wszystkie aktywne",s.families_pending)+
+      k("parents",s.parents,"Rodzice")+
+      k("students",s.students,"Dzieci",s.students_pending?`czeka na zgodę rodzica: ${s.students_pending}`:"",s.students_pending)+
+      k("active",s.active_week,"Aktywni w 7 dni","ćwiczyli choć raz")+
+      k("sessions",s.sessions_week,"Sesje w 7 dni",`razem: ${s.sessions}`)+
+      k("leagues",s.leagues,"Ligi")+
+      k("nofamily",s.no_family,"Bez rodziny","konto bez profilu rodzica ani dziecka",s.no_family);
     m.textContent=s.last_session?`Ostatnia sesja: ${new Date(+s.last_session).toLocaleString("pl-PL",{dateStyle:"short",timeStyle:"short"})}`:"Nie ma jeszcze żadnej sesji.";
   }catch(e){g.innerHTML="";m.textContent=/admin_stats|schema cache|function/i.test(String(e&&e.message))?"Brakuje funkcji w bazie – uruchom supabase/admin.sql w Supabase.":acctErr(e);}
 }
 $("t-admin").addEventListener("click",()=>go("admin"));
 $("adm-req").addEventListener("click",()=>go("reqs"));
 $("adm-refresh").addEventListener("click",()=>{loadReqs();renderAdmin();});
+/* szczegóły za kaflem (admin2.sql: admin_details) – lista w oknie */
+const admD=t=>{if(t==null) return "–";const d=new Date(typeof t==="number"||/^\d+$/.test(t)?+t:t);
+  return isNaN(d)?"–":d.toLocaleString("pl-PL",{day:"numeric",month:"numeric",year:"2-digit",hour:"2-digit",minute:"2-digit"});};
+const ROLE={parent:"rodzic",student:"dziecko"},SUBJN={mat:"matematyka",pl:"polski",en:"angielski"};
+const admSt=st=>st==="pending"?'<span class="adm-pend">czeka</span>':"";
+const ADM_ROW={
+  users:x=>[`<b>${esc(x.name||"(bez profilu)")}</b> ${x.role?`<small>${ROLE[x.role]||x.role}</small>`:""} ${admSt(x.status)}`,esc(x.email||""),
+    `${x.code?"rodzina "+x.code+" · ":""}założone ${admD(x.created_at)} · logowanie ${admD(x.last_sign_in_at)}`],
+  families:x=>[`<b>${x.code}</b> ${admSt(x.status)}`,`Rodzice: ${esc(x.parents||"–")} · ${esc(x.email||"")}`,
+    `Dzieci: ${esc(x.kids||"–")}`,`sesje: ${x.sessions} · ostatnia ${admD(x.last_session)} · założona ${admD(x.created_at)}`],
+  parents:x=>[`<b>${esc(x.name||"–")}</b> ${admSt(x.status)}`,esc(x.email||""),`rodzina ${x.code||"–"} · dzieci: ${x.kids} · logowanie ${admD(x.last_sign_in_at)}`],
+  students:x=>[`<b>${esc(x.name||"–")}</b> ${admSt(x.status)}`,`rodzina ${x.code||"–"} · rodzic: ${esc(x.parents||"–")}`,
+    `sesje: ${x.sessions} · ostatnia ${admD(x.last_session)}`+(x.total_pts!=null?` · ${x.week_pts} pkt w tygodniu, ${x.total_pts} razem · seria ${x.streak}`:"")],
+  active:x=>[`<b>${esc(x.name||"–")}</b> <small>${ROLE[x.role]||""}</small>`,`sesje w 7 dni: ${x.sessions} · średnio ${x.avg_pct}% · rodzina ${x.code||"–"}`,`ostatnia ${admD(x.last_session)}`],
+  sessions:x=>[`<b>${esc(x.name)}</b> · ${SUBJN[x.subj]||x.subj}${x.mode?" ("+esc(x.mode)+")":""}`,
+    `${x.pct}%${x.grade!=null?" · ocena "+x.grade:""}${x.status!=="done"?" · przerwana":""}`,admD(x.start)],
+  leagues:x=>[`<b>${esc(x.name)}</b> · ${x.code} ${admSt(x.status)}`,`Założył(a): ${esc(x.owner||"–")} · członkowie: ${x.members}${x.pending?` (+${x.pending} czeka)`:""}`,
+    esc(x.names||"brak zatwierdzonych członków")],
+  nofamily:x=>[esc(x.email||""),`założone ${admD(x.created_at)} · logowanie ${admD(x.last_sign_in_at)}`]
+};
+$("adm-grid").addEventListener("click",async e=>{const b=e.target.closest("button[data-kind]");if(!b) return;
+  const kind=b.dataset.kind,list=$("admd-list");$("admd-t").textContent=b.dataset.lab;list.innerHTML='<p class="abnote">Wczytuję…</p>';
+  admFrom=b;$("admd").hidden=false;$("admd-x").focus();
+  try{const r=await SB.rpc("admin_details",{p_kind:kind});if(r.error) throw r.error;const rows=r.data||[];
+    list.innerHTML=rows.length?rows.map(x=>`<div class="adm-row">${ADM_ROW[kind](x).map((l,i)=>i?`<small>${l}</small>`:`<span>${l}</span>`).join("")}</div>`).join("")
+      :'<p class="abnote">Pusto.</p>';}
+  catch(x){list.innerHTML=`<p class="abnote">${/admin_details|schema cache|function/i.test(String(x&&x.message))?"Brakuje funkcji w bazie – uruchom supabase/admin2.sql w Supabase.":esc(acctErr(x))}</p>`;}
+});
+let admFrom=null;
+const closeAdmD=()=>{$("admd").hidden=true;if(admFrom) admFrom.focus();};
+$("admd-x").addEventListener("click",closeAdmD);
+$("admd").addEventListener("click",e=>{if(e.target.id==="admd") closeAdmD();});
 
 // wczytanie zapisanej sesji: dopiero teraz, bo finish() zapisuje do historii (HKEY wyżej)
 if(load()){
