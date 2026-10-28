@@ -653,6 +653,10 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .tile.mt.own-t{background:transparent;border:2px dashed var(--line);color:var(--fg);box-shadow:none}.tile.own-t .wm{color:var(--line)}
 .mt-last{position:absolute;top:12px;left:14px;padding:3px 9px;border-radius:999px;background:rgba(0,0,0,.28);font-weight:800;font-size:.78rem}
 .mat-tiles .tile .tt{font-size:min(1.35rem,5vw);line-height:1.1}
+.reqsi{background:linear-gradient(135deg,#e8590c,#b93a0a)!important}.req-bar{border-color:#e8590c}.req-bar small{color:#e8590c}
+.acct-pend{background:color-mix(in srgb,#e8590c 14%,var(--bg));border:2px solid #e8590c;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:.9rem;line-height:1.4}
+.acct-pend b{color:#e8590c;font-family:var(--display);font-size:1.1rem}
+.lig-req small{color:var(--muted);font-weight:700}
 </style>
 <script>/* motyw z ustawień przed narysowaniem strony, bez mignięcia */
 try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t==="light"||t==="dark") document.documentElement.dataset.theme=t;}catch(e){}</script>
@@ -665,6 +669,9 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="edit-btn" id="hdr-btn" aria-label="Zmień nagłówek" aria-haspopup="dialog"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button></div></div>
     <div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <button type="button" class="sbar req-bar" id="t-req" hidden><span class="si reqsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></span>
+    <span class="st"><b>Prośby o zgodę</b><small id="t-req-s"></small></span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
   <button type="button" class="sbar kc-bar" id="t-kidcfg" hidden><span class="si kcsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
     <span class="st"><b>Co widzi dziecko</b><small>Wybierz przedmioty i moduły dla dziecka</small></span>
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
@@ -933,6 +940,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="lig-help" id="h-acc-0" hidden>
     <ol><li>☰ (prawy górny róg) → <b>Konto</b> → <b>Konto rodziny</b> → <b>Jestem rodzicem</b>.</li>
       <li>Wpisz swój e-mail, hasło (co najmniej 6 znaków) i imię → <b>Załóż nowe konto rodziny</b>.</li>
+      <li>Konto <b>czeka na akceptację administratora</b> – dostaniesz ją bez maila, wystarczy potem kliknąć „Sprawdź ponownie” w Koncie rodziny.</li>
       <li>Dostajesz <b>kod rodziny</b> (6 znaków). Zawsze znajdziesz go w ☰ → Konto → Konto rodziny.</li>
       <li>Na tym telefonie zostajesz zalogowany – nic więcej nie trzeba. Jeśli się wylogujesz albo zmienisz telefon: Jestem rodzicem → ten sam e-mail i hasło → <b>Zaloguj się</b> (nie zakładaj nowego konta).</li>
       <li>Telefonu dziecka nie loguj na swoje konto – podłącza się go osobno, kodem rodziny (niżej: „Rodzic: podłącz telefon dziecka”).</li></ol>
@@ -942,6 +950,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <ol><li>Na telefonie dziecka otwórz aplikację: ☰ → <b>Konto</b> → <b>Konto rodziny</b> → <b>To telefon dziecka</b>.</li>
       <li>Wpisz <b>kod rodziny</b>, <b>imię dziecka</b> i <b>hasło dziecka</b> – wymyślasz je Ty (co najmniej 6 znaków), zapisz je sobie.</li>
       <li><b>Dołącz do rodziny</b> → ustaw z dzieckiem <b>PIN</b> (4 cyfry). Od teraz dziecko otwiera aplikację PIN-em.</li>
+      <li>Na swoim telefonie zatwierdź dziecko: na górze ekranu startowego pojawi się <b>Prośby o zgodę</b> → <b>Zgoda</b>. Dopiero wtedy wyniki dziecka zapisują się w chmurze.</li>
       <li>Wyniki, które już były na tym telefonie, dopiszą się do konta dziecka.</li>
       <li>Nowy telefon albo ponowne logowanie: To telefon dziecka → <b>To dziecko ma już konto – zaloguj</b> (kod rodziny, imię, hasło).</li></ol>
   </div>
@@ -1010,6 +1019,11 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć do startu"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Matematyka</h1><div class="right"><button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <button type="button" class="sbar" id="mat-cont" hidden><span class="si matsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg></span><span class="st"><b>Dokończ działania</b><small id="mat-cont-s"></small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
   <div class="tiles2 mat-tiles" id="mat-tiles"></div>
+</div>
+<div class="wrap" id="reqs" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Prośby o zgodę</h1></header>
+  <div class="lig-reqs" id="req-list"></div>
+  <div class="ask-err" id="req-err" aria-live="polite"></div>
 </div>
 <div class="ask" id="ask" hidden role="dialog" aria-modal="true" aria-labelledby="ask-t">
   <div class="ask-box sheet">
@@ -2082,8 +2096,8 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",reqs:"#prosby",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",reqs:"reqs",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
@@ -2466,6 +2480,7 @@ function plShow(v){
   if(v==="mat") renderMat();
   if(v==="lig") renderLig();
   if(v==="kidcfg") renderKidCfg();
+  if(v==="reqs") renderReqs();
   if(v==="en") renderEnHub();
   if(v==="ent") renderEn();
   if(v==="enset") renderEnSet();
@@ -3635,10 +3650,16 @@ function acctErr(e){
 async function loadMe(){
   const {data:{session}}=await SB.auth.getSession();
   if(!session){ME=null;saveMe();return null;}
-  const {data,error}=await SB.from("profiles").select("id,role,name,family_id,families(code)").eq("id",session.user.id).maybeSingle();
-  if(error) throw error;
-  ME=data?{id:data.id,role:data.role,name:data.name,family:data.family_id,code:data.families&&data.families.code,email:session.user.email}:{id:session.user.id,role:null,email:session.user.email};
-  saveMe();if(ME&&ME.role){syncLoad();syncSoon(300);}return ME;
+  // status konta (approval.sql): rodzina czeka na admina albo dziecko na rodzica; bez tych kolumn – stare zapytanie, konto aktywne
+  let r=await SB.from("profiles").select("id,role,name,family_id,status,families(code,status)").eq("id",session.user.id).maybeSingle();
+  if(r.error) r=await SB.from("profiles").select("id,role,name,family_id,families(code)").eq("id",session.user.id).maybeSingle();
+  if(r.error) throw r.error;
+  const data=r.data,f=data&&data.families;
+  const pend=!data?null:f&&f.status==="pending"?"family":data.status==="pending"?"me":null;
+  let admin=false;try{const a=await SB.from("app_admins").select("user_id").eq("user_id",session.user.id).maybeSingle();admin=!!(a.data&&!a.error);}catch(e){}
+  ME=data?{id:data.id,role:data.role,name:data.name,family:data.family_id,code:f&&f.code,email:session.user.email,pend,active:!pend,admin}:{id:session.user.id,role:null,email:session.user.email,admin};
+  saveMe();if(ME&&ME.role&&ME.active){syncLoad();syncSoon(300);}
+  loadReqs();return ME;
 }
 async function pinHash(pin){
   const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(`${ME&&ME.id}:${pin}`));
@@ -3667,16 +3688,19 @@ function renderAcct(){
     `<button type="button" class="go-btn" data-do="pin">Zapisz PIN</button>`;
   else if(ACCT==="me"){
     const parent=ME&&ME.role==="parent";
-    b.innerHTML=`<div class="acct-me"><b>${ME&&ME.name||"Konto"}</b><small>${parent?"Rodzic":ME&&ME.role==="student"?"Uczeń":"Bez rodziny"}${parent&&ME.email?" · "+ME.email:""}</small></div>`+
+    const pendTxt=ME&&ME.pend==="family"?"Twoje konto czeka na akceptację administratora. Do tego czasu możesz ćwiczyć, ale wyniki zostają tylko na tym telefonie, a dziecko nie dołączy jeszcze do rodziny."
+      :ME&&ME.pend==="me"?"Czekasz na zgodę rodzica. Gdy ją da, wyniki zaczną się zapisywać w chmurze, a Ty zobaczysz ligi.":"";
+    b.innerHTML=`<div class="acct-me"><b>${ME&&ME.name||"Konto"}</b><small>${parent?"Rodzic":ME&&ME.role==="student"?"Uczeń":"Bez rodziny"}${ME&&ME.admin?" · administrator":""}${parent&&ME.email?" · "+ME.email:""}</small></div>`+
+      (pendTxt?`<div class="acct-pend"><b>Czeka na akceptację</b><span>${pendTxt}</span><button type="button" class="again" data-do="recheck">Sprawdź ponownie</button></div>`:"")+
       (parent&&ME.code?`<div class="acct-code"><small>Kod rodziny – wpisz go na telefonie dziecka</small><b>${ME.code}</b></div>`:"")+
       (ME&&ME.role?`<div class="lbl">Rodzina</div><ul class="acct-fam" id="acct-fam"><li class="none">Wczytuję…</li></ul>`:
         `<p class="abnote">To konto nie ma jeszcze rodziny.</p>${field("a-name","Twoje imię","text",'maxlength="20" autocomplete="given-name"')}<button type="button" class="go-btn" data-do="make-family">Załóż rodzinę</button>`)+
-      (ME&&ME.role?`<p class="abnote" id="acct-sync"></p><button type="button" class="again" data-do="sync">Wyślij i pobierz wyniki teraz</button>`:"")+
+      (ME&&ME.role&&ME.active!==false?`<p class="abnote" id="acct-sync"></p><button type="button" class="again" data-do="sync">Wyślij i pobierz wyniki teraz</button>`:"")+
       (ME&&ME.role==="student"?`<button type="button" class="again" data-go="pin">${pinSet()?"Zmień PIN":"Ustaw PIN"}</button>`:"")+
       `<button type="button" class="again" data-do="out">Wyloguj</button>`;
     syncLine();
-    if(ME&&ME.family) SB.from("profiles").select("name,role").eq("family_id",ME.family).then(({data})=>{const l=$("acct-fam");if(!l||!data) return;
-      l.innerHTML=data.sort((a,b)=>a.role===b.role?a.name.localeCompare(b.name,"pl"):a.role==="parent"?-1:1).map(p=>`<li><b>${p.name||"–"}</b><small>${p.role==="parent"?"rodzic":"uczeń"}</small></li>`).join("");});
+    if(ME&&ME.family) SB.from("profiles").select("*").eq("family_id",ME.family).then(({data})=>{const l=$("acct-fam");if(!l||!data) return;
+      l.innerHTML=data.sort((a,b)=>a.role===b.role?a.name.localeCompare(b.name,"pl"):a.role==="parent"?-1:1).map(p=>`<li><b>${esc(p.name||"–")}</b><small>${p.role==="parent"?"rodzic":"uczeń"}${p.status==="pending"?" · czeka na zgodę":""}</small></li>`).join("");});
   }
   const f=b.querySelector("input");if(f) f.focus();
 }
@@ -3737,6 +3761,8 @@ $("acct-body").addEventListener("click",async e=>{
       await SB.auth.signOut();ME=null;saveMe();try{localStorage.removeItem(PINKEY);localStorage.removeItem(SYNCKEY);}catch(x){}
       SYNC=null;FAMILY=null;WHO=null;VIEW_HIST=null;LIGROWS=null;ACCT="start";
       try{localStorage.removeItem(KEY);}catch(x){}PREFS.cupSeen=null;savePrefs();location.reload();return;
+    }else if(a==="recheck"){
+      await loadMe();
     }else if(a==="sync"){
       await syncNow();
     }
@@ -3777,7 +3803,7 @@ const sesSig=s=>`${s.status}|${s.done}|${s.end}|${s.pct}`;
 const syncFresh=()=>({u:ME&&ME.id,sig:{},pull:null,setAt:0,setDirty:false,last:0});
 function syncLoad(){try{const x=JSON.parse(localStorage.getItem(SYNCKEY));SYNC=x&&ME&&x.u===ME.id?x:syncFresh();}catch(e){SYNC=syncFresh();}}
 const syncSave=()=>{try{localStorage.setItem(SYNCKEY,JSON.stringify(SYNC));}catch(e){}};
-const syncOn=()=>!!(ME&&ME.role);
+const syncOn=()=>!!(ME&&ME.role&&ME.active!==false); // konto czekające na akceptację nic nie wysyła
 function syncSoon(ms){if(!syncOn()) return;clearTimeout(syncT);syncT=setTimeout(syncNow,ms==null?1500:ms);}
 function markSettings(){if(APPLYING||!syncOn()) return;if(!SYNC||SYNC.u!==ME.id) syncLoad();SYNC.setDirty=true;syncSave();syncSoon();}
 const sesBetter=(r,l)=>(r.status==="done")!==(l.status==="done")?r.status==="done":(r.done||0)>(l.done||0);
@@ -3821,7 +3847,7 @@ async function syncNow(){
       SYNC.setAt=Date.parse(d.updated_at);SYNC.setDirty=false;
     }
     if(refresh) syncRefresh(); // po ustawieniach, żeby sprawdzanie pucharów nie nadpisało ustawień konta z bazy
-    await ligPublish();
+    await ligPublish();loadReqs();
     SYNC.last=Date.now();syncSave();
   }catch(e){/* bez internetu albo błąd – spróbujemy przy następnej okazji */}
   syncing=false;
@@ -4159,8 +4185,8 @@ $("lig-howto").addEventListener("click",()=>openHelp("h-lig-0"));
 const APP_URL="https://marcinszyc.github.io/henriksen/";
 const ligInvite=l=>`Dołącz do mojej ligi „${l.name}” w aplikacji Henriksen i ścigajmy się na punkty!
 
-1. Rodzic otwiera ${APP_URL} (najlepiej dodać do ekranu początkowego) i zakłada konto: ☰ → Konto → Konto rodziny → Jestem rodzicem → Załóż nowe konto rodziny.
-2. Na telefonie dziecka: ☰ → Konto rodziny → To telefon dziecka → kod rodziny od rodzica, imię, hasło, potem PIN.
+1. Rodzic otwiera ${APP_URL} (najlepiej dodać do ekranu początkowego) i zakłada konto: ☰ → Konto → Konto rodziny → Jestem rodzicem → Załóż nowe konto rodziny. Konto zaakceptuje administrator aplikacji.
+2. Na telefonie dziecka: ☰ → Konto rodziny → To telefon dziecka → kod rodziny od rodzica, imię, hasło, potem PIN. Rodzic zatwierdza dziecko w „Prośbach o zgodę”.
 3. Dziecko: Ligi → Dołącz kodem → ${l.code}
 4. Rodzic zatwierdza prośbę w Ligach (Zgoda).`;
 async function ligShare(l){
@@ -4304,6 +4330,32 @@ $("mat-tiles").addEventListener("click",e=>{const b=e.target.closest("button[dat
   if(k==="own"){openAsk("home");ASKOWN=true;askPane(true);return;}
   if(ACTIVE&&i>0&&i<N&&!confirm(`Masz działania w trakcie (${i} / ${N}). Zacząć nowe? Te zapiszemy jako przerwane.`)) return;
   if(k==="hard") practice(allHard(),true); else startSet(k);});
+
+/* ===== Prośby o zgodę (approval.sql): admin akceptuje nowe rodziny, rodzic – dzieci dołączające kodem ===== */
+let REQS={fams:[],kids:[]};
+async function loadReqs(){
+  REQS={fams:[],kids:[]};
+  try{
+    if(ME&&ME.admin){const r=await SB.rpc("admin_requests");if(!r.error) REQS.fams=r.data||[];}
+    if(ME&&ME.role==="parent"&&ME.active){const r=await SB.rpc("family_requests");if(!r.error) REQS.kids=r.data||[];}
+  }catch(e){}
+  reqBar();if(CUR==="reqs") renderReqs();
+}
+function reqBar(){const n=REQS.fams.length+REQS.kids.length,el=$("t-req");el.hidden=!n;if(!n) return;
+  $("t-req-s").textContent=[REQS.kids.length?`${REQS.kids.map(k=>k.name).join(", ")} ${REQS.kids.length>1?"chcą":"chce"} dołączyć do rodziny`:"",REQS.fams.length?`nowe rodziny: ${REQS.fams.length}`:""].filter(Boolean).join(" · ");}
+function renderReqs(){
+  const d=t=>{const x=new Date(t);return `${x.getDate()}.${String(x.getMonth()+1).padStart(2,"0")} ${String(x.getHours()).padStart(2,"0")}:${String(x.getMinutes()).padStart(2,"0")}`;};
+  $("req-list").innerHTML=(REQS.kids.length?`<div class="lbl">Dzieci chcą dołączyć do Twojej rodziny</div>`+REQS.kids.map(k=>`<div class="lig-req"><span><b>${esc(k.name)}</b> chce dołączyć do rodziny <small>(${d(k.created_at)})</small></span>
+      <span class="lig-yn"><button type="button" class="go-btn" data-kid="${k.user_id}" data-ok="1">Zgoda</button><button type="button" class="again" data-kid="${k.user_id}" data-ok="0">Nie</button></span></div>`).join(""):"")+
+    (REQS.fams.length?`<div class="lbl">Nowe rodziny (administrator)</div>`+REQS.fams.map(f=>`<div class="lig-req"><span><b>${esc(f.parent_name||"–")}</b> · ${esc(f.email||"")} chce założyć rodzinę <small>(${d(f.created_at)})</small></span>
+      <span class="lig-yn"><button type="button" class="go-btn" data-fam="${f.family_id}" data-ok="1">Akceptuj</button><button type="button" class="again" data-fam="${f.family_id}" data-ok="0">Odrzuć</button></span></div>`).join(""):"")||
+    '<p class="abnote">Nie ma próśb do zatwierdzenia.</p>';
+}
+$("req-list").addEventListener("click",async e=>{const b=e.target.closest("button[data-ok]");if(!b) return;b.disabled=true;
+  const ok=b.dataset.ok==="1",r=b.dataset.kid?await SB.rpc("decide_member",{p_user:b.dataset.kid,p_ok:ok}):await SB.rpc("admin_decide",{p_family:b.dataset.fam,p_ok:ok});
+  if(r.error){$("req-err").textContent=acctErr(r.error);b.disabled=false;return;}
+  FAMILY=null;await loadReqs();});
+$("t-req").addEventListener("click",()=>go("reqs"));
 
 // wczytanie zapisanej sesji: dopiero teraz, bo finish() zapisuje do historii (HKEY wyżej)
 if(load()){

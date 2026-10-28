@@ -50,6 +50,10 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `supabase-js` ładowany z jsDelivr dopiero przy potrzebie (`sbLoad`, cache w `sw.js`). Okno `#acct` z menu ☰:
   rodzic e-mail + hasło → kod rodziny; telefon dziecka: kod + imię + hasło (wpisuje rodzic) → konto `imię.kod@dziecko.henriksen.app`,
   potem 4-cyfrowy PIN (`#pinlock`, skrót SHA-256 w `henriksen-pin`, raz na uruchomienie). Profil w `henriksen-me`, sesja w `henriksen-auth`.
+- **Zatwierdzanie kont (`supabase/approval.sql`, bez maili):** nowa rodzina ma status `pending`, dopóki nie zaakceptuje jej admin
+  (`app_admins`, `admin_requests` / `admin_decide`); dziecko dołączające kodem czeka na rodzica (`family_requests` / `decide_member`).
+  Nieaktywne konto nie zapisuje wyników, ustawień, podsumowań ani lig (reguły z `is_active()`); w aplikacji `ME.active`/`ME.pend`,
+  ramka „Czeka na akceptację” w Koncie rodziny i pasek „Prośby o zgodę” na górze startu (`#reqs`, `loadReqs`).
 - **Synchronizacja (etap 2):** `localStorage` zostaje główną pamięcią. `saveHist()` zapisuje lokalnie (`saveHistLocal`) i budzi
   `syncSoon()` → `syncNow()`: wysyła sesje, których podpis `sesSig` zmienił się od ostatniej wysyłki, pobiera nowsze z bazy
   (po `updated_at`) i łączy po `id` (ukończona > przerwana > dłuższa); ustawienia `PREFS`/`PLP` – wygrywa nowszy zapis
