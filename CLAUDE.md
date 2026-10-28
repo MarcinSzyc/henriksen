@@ -104,6 +104,13 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   dawne `mods.soon:false` wyłącza obie). Zapis w `PREFS.mods` dziecka (klucz w `PARENT_KEYS`),
   `applyMods()` ukrywa kafle; przedmiot znika, gdy wszystkie jego moduły są wyłączone. `subj._on` w podsumowaniu lig wyklucza
   dziecko z rankingu przedmiotu, którego nie ma.
+- **Dokończ sesję (`#resume` na górze startu, `renderResume`):** niedokończona sesja z dowolnego modułu = kafel „Dokończ: …” z ✕.
+  Matematyka: zapis `KEY` (jak dotąd). Gry `PW`/`PD`/`PZ`/`EN`: migawka `gameSnap()` zapisywana w `plLiveNow()` (po każdej
+  zmianie) do `henriksen-wznow` = `{[id konta]:{game,mat}}` – poza `STATE_KEYS`, więc przeżywa wylogowanie (przy „Wyloguj”
+  matematyka też trafia do `mat`, `resumeRestoreMat()` oddaje ją po zalogowaniu). Gość nic nie zapisuje. Wyjście z gry
+  (`plLeave`) już nie archiwizuje – robi to ✕ (`resArchive` → „przerwana”) albo start innej gry (`gameBegin()` na początku
+  `pwStart/pdStart/pzStart/enStart`). `resumeGame(g)` odtwarza stan (słowa z `WORDS`/`MEAN_BY`, dyktando z `DICTS`, quiz z
+  zapisanych pytań, „Jeszcze raz” z `enMakeFor(cfg)`). Dyktando bez „od razu” przy ✕ nie trafia do historii (jak wcześniej).
 - **Historia:** `localStorage` pod `henriksen-historia`, tablica sesji
   `{id,subj,start,end,status:"done"|"przerwana",cfg,n,done,recs:[{t,ok,tries,h,ms}],pct,grade,errors,hints}`.
   `archive(status)` przy `finish()` i przy rozpoczęciu nowych działań w trakcie (przerwana). Bieżąca sesja trzyma `SID`, `T0`

@@ -648,6 +648,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .lig-req small{color:var(--muted);font-weight:700}
 .admsi{background:linear-gradient(135deg,#495057,#1d2540)!important}
 #zd-tw{display:flex;flex-direction:column;gap:12px;margin-top:10px}#zd-tw[hidden]{display:none}#zd-tw .lbl{margin:0;padding-left:4px}
+.resume{display:flex;flex-direction:column;gap:10px}.resume[hidden]{display:none}.res-bar{border-color:var(--accent)}
 .cont-row{display:flex;gap:8px;align-items:stretch}.cont-row[hidden]{display:none}.cont-row .sbar{flex:1;min-width:0}
 .cont-x{flex:none;width:56px;border-radius:18px;border:2px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .cont-x:active{transform:scale(.96)}.cont-x:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
@@ -675,6 +676,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="edit-btn" id="hdr-btn" aria-label="Zmień nagłówek" aria-haspopup="dialog"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button></div></div>
     <div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="resume" id="resume" hidden></div>
   <button type="button" class="sbar req-bar" id="t-req" hidden><span class="si reqsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></span>
     <span class="st"><b>Prośby o zgodę</b><small id="t-req-s"></small></span>
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
@@ -1880,7 +1882,7 @@ function startSet(k){
   const st=SETS[+k],cfg={...CFG0,...st.cfg,set:st.id};
   if(!canMake(cfg)) return;
   if(ACTIVE&&i>0&&i<N) archive("przerwana");
-  CFG=cfg;$("ask").hidden=true;start(st.n,take("set"+k,st.id,()=>gen()));go("play");
+  CFG=cfg;$("ask").hidden=true;start(st.n,take("set"+k,st.id,()=>genFor(cfg,st.n)));go("play"); // genFor, nie gen(): gen() bierze jeszcze stare N
 }
 let ASKOWN=false; // okno otwarte z kafla „Ułóż własne” (bez listy zestawów)
 function closeAsk(){$("ask").hidden=true;ASKOWN=false;}
@@ -2182,7 +2184,7 @@ $("t-pl").addEventListener("click",()=>go("pl"));
 document.querySelectorAll("[data-soon]").forEach(b=>b.addEventListener("click",()=>{
   b.classList.remove("shake");void b.offsetWidth;b.classList.add("shake");sfx("bad");}));
 function renderHome(){
-  applySub();
+  applySub();try{renderResume();}catch(e){}
   const H=loadHist();
   $("t-math-s").textContent=ACTIVE&&i<N?`W trakcie: ${i} / ${N} · dotknij, żeby grać dalej`:"Wybierz ćwiczenia i zaczynamy";
   renderCupsBar();ligHomeLine();applyMods();
@@ -2499,13 +2501,9 @@ function plArchive(P,status){
     recs:recs.map(r=>({t:r.t,a:r.a,m:r.m,q:r.q,c:r.c,w:r.w,ok:r.ok,tries:r.tries,h:0,ms:r.ms||0})),pct,grade:grade(pct).n,errors:done-good,hints:0,pts,ptsMax};
   if(k>=0) H[k]=s; else H.push(s);saveHist(H);
 }
-// wyjście z gry w trakcie = sesja przerwana
+// wyjście z gry w trakcie: sesja zostaje do dokończenia (kafel „Dokończ” na starcie); przerwaną robi z niej ✕ albo nowa gra
 function plLeave(v){
-  if(v==="plw"&&PW&&!PW.over){plArchive(PW,"przerwana");PW=null;}
-  if(v==="pldt"&&PD&&!PD.over){if(PD.cfg.now) plArchive(PD,"przerwana");PD=null;}
-  if(v==="plz"&&PZ&&!PZ.over){plArchive(PZ,"przerwana");PZ=null;}
-  if(v==="enq"&&EN&&!EN.over){enArchive(EN,"przerwana");EN=null;}
-  if(v==="plw"||v==="pldt"||v==="plz"||v==="enq") FXC=null;
+  if(v==="plw"||v==="pldt"||v==="plz"||v==="enq"){try{resumeSave();}catch(e){}FXC=null;}
 }
 // kropki postępu i wynik na żywo jak w matematyce (PREFS.dots / pct / grade); cur = bieżące zadanie, null = koniec
 // fill: dyktando sprawdzane na końcu – kropki pokazują tylko wypełnione luki, bez wyniku
@@ -2530,6 +2528,7 @@ function plLiveNow(){
   if(CUR==="plz"&&PZ) liveBar("pz",PZ.recs,PZ.over?null:PZ.i);
   if(CUR==="enq"&&EN) liveBar("enq",EN.recs,EN.over?null:EN.i);
   if(CUR==="pldt"&&PD) liveBar("pd",PD.recs,PD.over?null:PD.act,!PD.cfg.now&&!PD.over?PD.fill:null);
+  try{resumeSave();}catch(e){}
 }
 function plShow(v){
   if(v==="pl") renderPl();
@@ -2648,6 +2647,7 @@ $("pw-hard").addEventListener("click",()=>{const h=plHard();if(!h.length) return
 const pwRec=w=>({t:w.full,a:w.ans,m:w.pre+"_"+w.post,w:w.desc?3:2,ok:true,tries:[],ms:0,done:false});
 let PW=null; // {id,start,cfg,words,i,recs:[{t,ok,tries,ms,done}],wrong:[],locked,over,t0}
 function pwStart(words,cfg){
+  gameBegin();
   PW={id:Date.now(),start:Date.now(),cfg,words,i:0,wrong:[],locked:false,over:false,
     recs:words.map(pwRec)};
   $("pw-game").hidden=false;$("pw-end").hidden=true;$("pw-end").innerHTML="";
@@ -2761,6 +2761,7 @@ const pdAll=d=>Object.fromEntries(d.segs.filter(s=>s.ans).map(s=>[s.gap,s.ans]))
 const pdRecs=d=>d.segs.filter(s=>s.ans).map(s=>{const p=pdWord(d,s.gap,pdAll(d));return {t:pdWord(d,s.gap,null,true),a:s.ans,m:p.pre+"_"+p.post,w:2,ok:true,tries:[],ms:0,done:false};});
 let PD=null; // {id,start,cfg,d,fill:{},act,recs,checked,over,locked}
 function pdStart(d){
+  gameBegin();
   PD={id:Date.now(),start:Date.now(),cfg:{mode:"dyktando",dict:d.id,now:PLP.now},d,fill:{},act:0,checked:false,over:false,locked:false,
     recs:pdRecs(d)};
   $("pd-title").textContent=d.title;$("pd-end").hidden=true;$("pd-end").innerHTML="";$("pd-panel").hidden=false;
@@ -2837,7 +2838,7 @@ function plFind(t){
   return WORDS.find(x=>x.full===t)||WORDS.find(x=>{const f=x.full,stem=f.slice(0,Math.max(x.pre.length+x.ans.length+1,f.length-1));return f.length>3&&t.startsWith(stem);});
 }
 function pdFinish(){
-  const P=PD;P.checked=true;P.over=true;FXC=null;plArchive(P,"done");
+  const P=PD;P.checked=true;P.over=true;FXC=null;plArchive(P,"done");try{resumeSave();}catch(e){}
   $("pd-panel").hidden=true;pdRender();$("pd-count").textContent=`${P.d.gaps} / ${P.d.gaps}`;
   const miss=P.d.segs.filter(s=>s.ans&&!P.recs[s.gap].ok).map(s=>{const t=P.recs[s.gap].t.toLowerCase(),w=plFind(t);
     const p=pdWord(P.d,s.gap,pdAll(P.d));return {w:{pre:p.pre,ans:s.ans,post:p.post,why:w?w.why:"",desc:w?w.desc:""},bad:[...new Set(P.recs[s.gap].tries.filter(x=>x!==s.ans))]};});
@@ -3285,6 +3286,7 @@ $("pz-day").addEventListener("click",()=>{const {x}=pzDaily();pzStart([x],{mode:
 /* gra */
 let PZ=null; // {id,start,cfg,words,qs,i,recs,seen,locked,over,t0}
 function pzStart(words,cfg,st,type,qs){
+  gameBegin();
   PZ={id:Date.now(),start:Date.now(),cfg,words,qs:qs||words.map(x=>pzQuestion(x,type)),i:0,locked:false,over:false,seen:new Set(st.keys())};
   PZ.recs=PZ.qs.map((q,k)=>({t:words[k].w,q:q.t,c:q.c,w:ptsW({subj:"pl",cfg},{t:words[k].w,q:q.t}),ok:true,tries:[],ms:0,done:false}));
   $("pz-game").hidden=false;$("pz-end").hidden=true;$("pz-end").innerHTML="";
@@ -3467,6 +3469,7 @@ function enToBeQs(n,types){
   return qs;
 }
 function enStart(make,cfg){
+  gameBegin();
   const qs=make();
   EN={id:Date.now(),start:Date.now(),cfg,make,qs,i:0,locked:false,over:false};
   $("enq-title").textContent=cfg.title||(cfg.mode==="tobe"?"To be":EN_MODES[cfg.mode].title);
@@ -3865,7 +3868,7 @@ $("acct-body").addEventListener("click",async e=>{
       if(r.error) throw r.error;
       if(!r.data.session) throw new Error("Konto założone, ale trzeba je potwierdzić linkiem z e-maila (albo wyłączyć „Confirm email” w Supabase), a potem „Zaloguj się”.");
       if(a==="parent-up"){const c=await SB.rpc("create_family",{p_name:v("a-name")});if(c.error) throw c.error;}
-      await loadMe();ACCT="me";
+      await loadMe();ACCT="me";if(resumeRestoreMat()&&load()) render0();
     }else if(a==="kid-up"||a==="kid-in"){
       const code=v("a-code").toUpperCase(),name=v("a-name"),pass=$("a-pass").value;
       if(code.length!==6||!name||!pass) throw new Error("Wpisz kod rodziny (6 znaków), imię i hasło.");
@@ -3878,7 +3881,7 @@ $("acct-body").addEventListener("click",async e=>{
         const j=await SB.rpc("join_family",{p_code:code,p_name:name});
         if(j.error){await SB.auth.signOut();throw j.error;}
       }
-      await loadMe();ACCT="pin";
+      await loadMe();ACCT="pin";if(resumeRestoreMat()&&load()) render0();
       try{localStorage.removeItem(PINKEY);}catch(x){}
     }else if(a==="pin"){
       const p=$("a-pin").value,p2=$("a-pin2").value;
@@ -3888,6 +3891,7 @@ $("acct-body").addEventListener("click",async e=>{
     }else if(a==="make-family"){
       if(!v("a-name")) throw new Error("Wpisz swoje imię.");const c=await SB.rpc("create_family",{p_name:v("a-name")});if(c.error) throw c.error;await loadMe();
     }else if(a==="out"){
+      try{if(ACTIVE&&i<N) resPut(me=>{me.mat=JSON.parse(localStorage.getItem(KEY));});}catch(x){}
       if(ME&&ME.role){if(ACTIVE&&i>0&&i<N) archive("przerwana");await syncNow();
         if(loadOwnHist().some(s=>s&&s.id&&(!SYNC||SYNC.sig[s.id]!==sesSig(s)))) throw new Error("Nie wszystkie wyniki są wysłane – połącz się z internetem i spróbuj jeszcze raz.");
         saveHistLocal([]);}
@@ -4474,13 +4478,14 @@ function renderMat(){
 }
 $("mat-cont").addEventListener("click",()=>go("play"));
 // porzucenie rozpoczętych działań: zaczęte trafiają do historii jako przerwane, a kafel znika
-$("mat-drop").addEventListener("click",()=>{
-  if(!(ACTIVE&&i<N)) return;
-  if(!confirm(i?`Nie kończyć tych działań (${i} / ${N})? Zapiszemy je w historii jako przerwane.`:"Porzucić te działania?")) return;
+function matDrop(){
+  if(!(ACTIVE&&i<N)) return false;
+  if(!confirm(i?`Nie kończyć tych działań (${i} / ${N})? Zapiszemy je w historii jako przerwane.`:"Porzucić te działania?")) return false;
   if(i>0) archive("przerwana");
   ACTIVE=false;try{localStorage.removeItem(KEY);}catch(e){}
-  renderMat();
-});
+  return true;
+}
+$("mat-drop").addEventListener("click",()=>{if(matDrop()) renderMat();});
 $("mat-tiles").addEventListener("click",e=>{const b=e.target.closest("button[data-k]");if(!b) return;const k=b.dataset.k;
   if(k==="own"){openAsk("home");ASKOWN=true;askPane(true);return;}
   if(ACTIVE&&i>0&&i<N&&!confirm(`Masz działania w trakcie (${i} / ${N}). Zacząć nowe? Te zapiszemy jako przerwane.`)) return;
@@ -4579,6 +4584,92 @@ let admFrom=null;
 const closeAdmD=()=>{$("admd").hidden=true;if(admFrom) admFrom.focus();};
 $("admd-x").addEventListener("click",closeAdmD);
 $("admd").addEventListener("click",e=>{if(e.target.id==="admd") closeAdmD();});
+
+/* ===== Dokończ sesję: niedokończona gra z dowolnego modułu wraca jako kafel na górze startu =====
+   Matematyka ma własny zapis (KEY). Gry językowe i quizy (PW, PD, PZ, EN) zapisują „migawkę” w henriksen-wznow,
+   osobno dla każdego konta ({[id konta]:{game,mat}}): klucz nie jest w STATE_KEYS, więc przetrwa wylogowanie
+   i wraca po ponownym zalogowaniu. Gość nic nie zapisuje. ✕ = zapis do historii jako przerwana. */
+const RESKEY="henriksen-wznow";
+function resAll(){try{return JSON.parse(localStorage.getItem(RESKEY))||{};}catch(e){return {};}}
+const resMine=()=>(ME&&ME.id&&resAll()[ME.id])||{};
+function resPut(fn){
+  if(isGuest()||!(ME&&ME.id)) return;
+  const A=resAll(),me=A[ME.id]||{};fn(me);A[ME.id]=me;
+  try{localStorage.setItem(RESKEY,JSON.stringify(A));}catch(e){}
+}
+const enTitle=c=>c.title||(c.mode==="tobe"?"To be":(EN_MODES[c.mode]||{}).title||"Angielski");
+// migawka bieżącej gry (najwyżej jedna naraz) albo null
+function gameSnap(){
+  const cnt=r=>r.filter(x=>x.done).length;
+  if(PW&&!PW.over) return {type:"pw",id:PW.id,start:PW.start,cfg:PW.cfg,i:PW.i,recs:PW.recs,words:PW.words.map(w=>w.full),title:"Słówka",done:cnt(PW.recs),n:PW.recs.length};
+  if(PD&&!PD.over) return {type:"pd",id:PD.id,start:PD.start,cfg:PD.cfg,act:PD.act,fill:PD.fill,checked:PD.checked,recs:PD.recs,
+    title:`Dyktando: ${PD.d.title}`,done:Object.keys(PD.fill).length,n:PD.recs.length};
+  if(PZ&&!PZ.over) return {type:"pz",id:PZ.id,start:PZ.start,cfg:PZ.cfg,i:PZ.i,recs:PZ.recs,qs:PZ.qs,words:PZ.words.map(w=>w.w),seen:[...PZ.seen],title:"Znaczenie słów",done:cnt(PZ.recs),n:PZ.recs.length};
+  if(EN&&!EN.over) return {type:"en",id:EN.id,start:EN.start,cfg:EN.cfg,i:EN.i,recs:EN.recs,qs:EN.qs,
+    title:(EN.cfg.subj==="zd"?"":"Angielski: ")+enTitle(EN.cfg),done:cnt(EN.recs),n:EN.recs.length};
+  return null;
+}
+function resumeSave(){
+  const g=gameSnap(),slot=resMine().game;
+  if(g&&g.done>0) resPut(me=>{me.game=g;}); // pusta (bez odpowiedzi) nie zostaje
+  else if(slot&&[PW,PD,PZ,EN].some(P=>P&&P.id===slot.id&&(P.over||!gameSnap()))) resPut(me=>{delete me.game;});
+}
+// zapis migawki do historii jako przerwana (te same funkcje co przy zwykłym zakończeniu)
+function resArchive(g){
+  if(g.type==="en") enArchive(g,"przerwana");
+  else if(g.type!=="pd"||g.cfg.now) plArchive(g,"przerwana");
+}
+function gameBegin(){
+  const g=resMine().game;
+  if(g){resArchive(g);resPut(me=>{delete me.game;});}
+  PW=PD=PZ=EN=null;
+}
+// odtworzenie gry z migawki
+const enMakeFor=(c,n)=>c.subj==="zd"?(c.mode==="spr"?zdAll:()=>zdTopic(c.mode))
+  :c.mode==="tobe"?()=>enToBeQs(n,c.types||["form"]):()=>enVocabQs(c.mode,{lvl:c.lvl||"a1",dir:c.dir||"mix",topics:c.topics||[],n});
+function resumeGame(g){
+  if(g.type==="pw"){PW={id:g.id,start:g.start,cfg:g.cfg,i:g.i,recs:g.recs,words:g.words.map(f=>WORDS.find(w=>w.full===f)),wrong:[],locked:false,over:false};
+    if(PW.words.some(w=>!w)) return false;$("pw-game").hidden=false;$("pw-end").hidden=true;$("pw-end").innerHTML="";go("plw");pwShow();}
+  else if(g.type==="pd"){const d=DICTS.find(x=>x.id===g.cfg.dict);if(!d) return false;
+    PD={id:g.id,start:g.start,cfg:g.cfg,d,fill:g.fill||{},act:g.act||0,checked:!!g.checked,recs:g.recs,over:false,locked:false};
+    $("pd-title").textContent=d.title;$("pd-end").hidden=true;$("pd-end").innerHTML="";$("pd-panel").hidden=false;go("pldt");pdRender();}
+  else if(g.type==="pz"){PZ={id:g.id,start:g.start,cfg:g.cfg,i:g.i,recs:g.recs,qs:g.qs,words:g.words.map(w=>MEAN_BY.get(w)),seen:new Set(g.seen||[]),locked:false,over:false};
+    if(PZ.words.some(w=>!w)) return false;$("pz-game").hidden=false;$("pz-end").hidden=true;$("pz-end").innerHTML="";go("plz");pzShow();}
+  else if(g.type==="en"){EN={id:g.id,start:g.start,cfg:g.cfg,make:enMakeFor(g.cfg,g.qs.length),qs:g.qs,i:g.i,recs:g.recs,locked:false,over:false};
+    $("enq-title").textContent=enTitle(g.cfg);$("enq-game").hidden=false;$("enq-end").hidden=true;$("enq-end").innerHTML="";go("enq");enShow();}
+  else return false;
+  return true;
+}
+// matematyka zostawiona przy koncie przy wylogowaniu → z powrotem do zapisu postępu
+function resumeRestoreMat(){
+  if(isGuest()) return false;
+  const m=resMine().mat;if(!m) return false;
+  try{if(!localStorage.getItem(KEY)) localStorage.setItem(KEY,JSON.stringify(m));}catch(e){}
+  resPut(me=>{delete me.mat;});return true;
+}
+const RES_X='<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+const RES_GO='<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg>';
+function renderResume(){
+  const el=$("resume"),rows=[];
+  if(!isGuest()){
+    if(ACTIVE&&i<N&&i>0) rows.push({k:"mat",title:$("title").textContent,sub:`Matematyka · ${i} / ${N}`});
+    const g=resMine().game;if(g) rows.push({k:"game",title:g.title,sub:`${g.done} / ${g.n} · dokończ`});
+  }
+  el.hidden=!rows.length;
+  el.innerHTML=rows.map(r=>`<div class="cont-row"><button type="button" class="sbar res-bar" data-res="${r.k}"><span class="si matsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span>
+    <span class="st"><b>Dokończ: ${esc(r.title)}</b><small>${esc(r.sub)}</small></span>${RES_GO}</button>
+    <button type="button" class="cont-x" data-resx="${r.k}" aria-label="Nie kończ – zapisz jako przerwane">${RES_X}</button></div>`).join("");
+}
+$("resume").addEventListener("click",e=>{
+  const go1=e.target.closest("[data-res]"),x=e.target.closest("[data-resx]");
+  if(go1){if(go1.dataset.res==="mat") go("play");
+    else{const g=resMine().game;if(g&&!resumeGame(g)){resPut(me=>{delete me.game;});renderHome();}}return;}
+  if(x){if(x.dataset.resx==="mat"){if(matDrop()) renderHome();return;}
+    const g=resMine().game;if(!g) return;
+    if(!confirm(`Nie kończyć: ${g.title} (${g.done} / ${g.n})? Zapiszemy to w historii jako przerwane.`)) return;
+    resArchive(g);resPut(me=>{delete me.game;});PW=PD=PZ=EN=null;renderHome();}
+});
+resumeRestoreMat();
 
 // wczytanie zapisanej sesji: dopiero teraz, bo finish() zapisuje do historii (HKEY wyżej)
 if(load()){
