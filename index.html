@@ -627,6 +627,12 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .champ{background:var(--card);border-radius:16px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;border-top:4px solid var(--cc)}
 .champ .cn{font-weight:800;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}.champ b{font-size:.92rem;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .champ span:last-child{font-weight:800;font-size:.78rem;color:var(--muted)}.champ .nobody{color:var(--muted)}
+.lig-share{margin-top:8px;min-height:50px;font-size:1.05rem}
+.lig-invite{margin-top:8px;width:100%;min-height:170px;box-sizing:border-box;font:inherit;font-size:.85rem;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--fg);padding:10px;-webkit-user-select:text;user-select:text}
+.lig-help-b{background:var(--card);border-radius:16px;padding:0 14px;justify-content:space-between;min-height:58px}
+.lig-help-b span{display:flex;flex-direction:column}.lig-help-b small{font-weight:800;font-size:.78rem;color:var(--muted)}
+.lig-help{background:var(--card);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:.92rem;line-height:1.45}
+.lig-help ol,.lig-help ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
 </style>
 <script>/* motyw z ustawień przed narysowaniem strony, bez mignięcia */
 try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t==="light"||t==="dark") document.documentElement.dataset.theme=t;}catch(e){}</script>
@@ -892,6 +898,22 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="lig-actions" id="lig-actions"><button type="button" class="again" id="lig-join-b">Dołącz kodem</button><button type="button" class="again" id="lig-new-b">Załóż ligę</button></div>
   <div class="lig-form" id="lig-form" hidden><label class="af"><span id="lig-in-l">Kod ligi</span><input id="lig-in" type="text" autocomplete="off" spellcheck="false"></label><button type="button" class="go-btn" id="lig-ok">Dołącz</button></div>
   <div class="ask-err" id="lig-err" aria-live="polite"></div>
+  <button type="button" class="more lig-help-b" id="lig-help-b" aria-expanded="false" aria-controls="lig-help"><span><b>Jak działają ligi?</b><small>Zakładanie, zaproszenie kolegi, zgoda rodzica</small></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="lig-help" id="lig-help" hidden>
+    <div class="lbl">Załóż ligę</div>
+    <ol><li><b>Dziecko:</b> Ligi → <b>Załóż ligę</b> → wpisz nazwę, np. „Podwórko”.</li>
+      <li><b>Rodzic</b> na swoim telefonie: Ligi → przy prośbie dziecka <b>Zgoda</b>.</li>
+      <li>Liga dostaje <b>kod</b> (6 znaków). Kliknij <b>Wyślij zaproszenie</b> i podeślij je koledze.</li></ol>
+    <div class="lbl">Kolega dołącza</div>
+    <ol><li><b>Rodzic kolegi</b> otwiera aplikację: ☰ → Konto → Konto rodziny → Jestem rodzicem → Załóż nowe konto rodziny. Dostaje kod rodziny.</li>
+      <li><b>Na telefonie kolegi:</b> ☰ → Konto rodziny → To telefon dziecka → kod rodziny, imię, hasło, potem PIN.</li>
+      <li><b>Kolega:</b> Ligi → <b>Dołącz kodem</b> → wpisuje kod ligi.</li>
+      <li><b>Rodzic kolegi</b> zatwierdza prośbę w swoich Ligach (<b>Zgoda</b>).</li></ol>
+    <div class="lbl">Rola rodzica</div>
+    <ul><li>Zgadza się na założenie ligi i na każde dołączenie swojego dziecka – bez zgody dziecko nikogo nie widzi.</li>
+      <li>Może w każdej chwili wypisać dziecko z ligi.</li>
+      <li>W lidze widać tylko imię, punkty, serię dni i puchary. Odpowiedzi, błędy i oceny zostają prywatne.</li></ul>
+  </div>
 </div>
 <div class="ask" id="ask" hidden role="dialog" aria-modal="true" aria-labelledby="ask-t">
   <div class="ask-box sheet">
@@ -3978,7 +4000,8 @@ async function renderLig(){
   if(l.status==="pending"||!active){
     body.innerHTML=`<div class="lig-card"><b>${esc(l.name)}</b><p class="abnote">Czeka na zgodę rodzica. Gdy się zgodzi, ${l.status==="pending"?"dostaniesz kod ligi dla kolegów":"zobaczysz ranking"}.</p></div>${leave}`;return;
   }
-  body.innerHTML=`<div class="lig-card"><b>${esc(l.name)}</b>${l.code?`<span class="lig-code">Kod dla kolegów: <b>${l.code}</b></span>`:""}</div>
+  body.innerHTML=`<div class="lig-card"><b>${esc(l.name)}</b>${l.code?`<span class="lig-code">Kod dla kolegów: <b>${l.code}</b></span>
+      <button type="button" class="go-btn lig-share" id="lig-share">Wyślij zaproszenie koledze</button><textarea class="lig-invite" id="lig-invite" readonly hidden>${esc(ligInvite(l))}</textarea>`:""}</div>
     <div class="segs pl-len" id="lig-mode" role="group" aria-label="Okres"><button type="button" data-m="week" class="${LIGMODE==="week"?"sel":""}">Ten tydzień</button><button type="button" data-m="all" class="${LIGMODE==="all"?"sel":""}">Od początku</button></div>
     <div class="fchips lig-cats" role="group" aria-label="Przedmiot">${Object.entries(LIG_CATS).map(([k,c])=>`<button type="button" data-c="${k}" class="${k===LIGCAT?"sel":""}" aria-pressed="${k===LIGCAT}">${c.name}</button>`).join("")}</div>
     <div id="lig-podium" class="lig-podium"></div><ol class="lig-rank" id="lig-rank"><li class="none">Wczytuję ranking…</li></ol>
@@ -4011,8 +4034,24 @@ function ligVal(r,cat){const wk=LIGMODE==="week";if(cat==="all") return wk?r.wee
 const ligColor=n=>["#5c7cfa","#f76707","#12b886","#c2255c","#7048e8","#0c8599","#e8590c"][[...String(n||"")].reduce((a,ch)=>a+ch.charCodeAt(0),0)%7];
 const LIG_CROWN='<svg class="crown" width="26" height="20" viewBox="0 0 26 20" aria-hidden="true"><path d="M2 17L4 5l6 6 3-9 3 9 6-6 2 12z" fill="#f2c230" stroke="#b07d00" stroke-width="1.5" stroke-linejoin="round"/></svg>';
 $("t-lig").addEventListener("click",()=>go("lig"));
+$("lig-help-b").addEventListener("click",()=>{const b=$("lig-help-b"),o=b.getAttribute("aria-expanded")!=="true";b.setAttribute("aria-expanded",o);$("lig-help").hidden=!o;});
+// zaproszenie dla kolegi: gotowy tekst z kodem ligi i instrukcją dla jego rodzica (udostępnij albo skopiuj)
+const APP_URL="https://marcinszyc.github.io/henriksen/";
+const ligInvite=l=>`Dołącz do mojej ligi „${l.name}” w aplikacji Henriksen i ścigajmy się na punkty!
+
+1. Rodzic otwiera ${APP_URL} (najlepiej dodać do ekranu początkowego) i zakłada konto: ☰ → Konto → Konto rodziny → Jestem rodzicem → Załóż nowe konto rodziny.
+2. Na telefonie dziecka: ☰ → Konto rodziny → To telefon dziecka → kod rodziny od rodzica, imię, hasło, potem PIN.
+3. Dziecko: Ligi → Dołącz kodem → ${l.code}
+4. Rodzic zatwierdza prośbę w Ligach (Zgoda).`;
+async function ligShare(l){
+  const t=ligInvite(l);
+  try{if(navigator.share){await navigator.share({title:"Henriksen – liga "+l.name,text:t});return;}}catch(e){if(e&&e.name==="AbortError") return;}
+  try{await navigator.clipboard.writeText(t);$("lig-err").textContent="";const b=$("lig-share");if(b){b.textContent="Skopiowano – wklej koledze";setTimeout(()=>{b.textContent="Wyślij zaproszenie koledze";},2500);}}
+  catch(e){$("lig-invite").hidden=false;}
+}
 $("lig-tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;LIGSEL=b.dataset.l;renderLig();});
 $("lig-body").addEventListener("click",async e=>{
+  if(e.target.closest("#lig-share")){const l=ligs().find(x=>x.id===LIGSEL);if(l) ligShare(l);return;}
   const m=e.target.closest("[data-m]");if(m){LIGMODE=m.dataset.m;renderLig();return;}
   const c=e.target.closest("[data-c]");if(c){LIGCAT=c.dataset.c;renderLig();return;}
   const lv=e.target.closest("[data-leave]");if(!lv) return;
