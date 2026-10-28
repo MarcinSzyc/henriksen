@@ -72,7 +72,7 @@ GIF-y nie są kopiowane do repo – aplikacja pokazuje je prosto z Giphy / Tenor
 - Captain Tsubasa – [strzał Tsubasy i Misakiego](https://giphy.com/gifs/c7m7mnMZNH93weBxlA), [strzał Niemca](https://giphy.com/gifs/tQlAjwnbmk59YYzSuK) (Giphy, Bandai Namco)
 - [Strzał Hyugi](https://giphy.com/gifs/C9anstl2NoEwedj9PY) (Giphy, DJ Chimo Bayo), [Supa Strikas](https://giphy.com/gifs/ytwDCq6bm69EMef2JG) (Giphy, Supa Strikas)
 - [Tsubasa z piłką](https://tenor.com/view/captain-tsubasa-gif-21171827), [okrzyk](https://tenor.com/view/captain-tsubasa-tsubasa-gif-26298037), [przewrotka](https://tenor.com/view/captain-tsubasa-tsubasa-tsubasa-ozora-overhead-kick-soccer-gif-25871030) (Tenor)
-- Pudła przy słabej ocenie: [1](https://giphy.com/gifs/funny-fail-KGTTNpVuGVhN6), [2](https://giphy.com/gifs/soccer-owned-pdAiipxDMCHni), [3](https://giphy.com/gifs/FpFtdGPi2frTq) (Giphy), [nieudany ślizg](https://tenor.com/view/football-soccer-knee-slide-celebration-laughing-emoji-gif-11944096907667106599) (Tenor)
+- Pudła przy słabej ocenie: [1](https://giphy.com/gifs/funny-fail-KGTTNpVuGVhN6), [2](https://giphy.com/gifs/soccer-owned-pdAiipxDMCHni), [3](https://giphy.com/gifs/FpFtdGPi2frTq) (Giphy), [nieudany ślizg](https://tenor.com/view/football-soccer-knee-slide-celebration-laughing-emoji-gif-11944096907667106599), [bramkarz](https://tenor.com/view/soccer-goal-goalie-gif-26197388), [Palmeiras](https://tenor.com/view/palmeiras-palmeiras-funny-palmeiras-dog-brasileirao-funny-brasil-football-funny-gif-7598286566986425290), [Jimenez](https://tenor.com/view/jimenez-playsports-premier-league-soccer-football-gif-23202229) (Tenor)
 
 ## Dźwięki
 
