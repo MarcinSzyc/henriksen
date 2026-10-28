@@ -99,7 +99,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
 - **Instrukcje (`#help`, `#pomoc`):** wszystkie instrukcje w jednym miejscu, zwijane (konto rodzica, telefon dziecka, PIN, ekran początkowy,
   wyniki dziecka, puchary i progi, punkty, ligi); przycisk na starcie, a `openHelp(id)` otwiera konkretną (np. z ekranu Ligi).
 - **Co widzi dziecko (`#kidcfg`, kafel rodzica na górze startu):** rodzic włącza i wyłącza moduły dziecka (`MODS`: każdy przedmiot
-  i Ligi mają własną sekcję – bez grupy „Inne”; Historia `his` i Przyroda `nat` mają przełącznik, choć są „Wkrótce”;
+  ma własną sekcję; Historia `his` i Przyroda `nat` mają przełącznik, choć są „Wkrótce”; „Inne” (`always`, zawsze rozwinięte)
+  to tylko paski z dołu startu: `stats`, `cups`, `lig`, `help`;
   dawne `mods.soon:false` wyłącza obie). Zapis w `PREFS.mods` dziecka (klucz w `PARENT_KEYS`),
   `applyMods()` ukrywa kafle; przedmiot znika, gdy wszystkie jego moduły są wyłączone. `subj._on` w podsumowaniu lig wyklucza
   dziecko z rankingu przedmiotu, którego nie ma.

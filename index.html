@@ -4383,7 +4383,8 @@ const MODS=[
     {k:"zd-zach",name:"Zachowania chroniące i ryzykowne",sub:"środowisko, zdrowe nawyki"}]},
   {g:"Historia",items:[{k:"his",name:"Historia",sub:"kafel „Wkrótce” – daty, bitwy, królowie"}]},
   {g:"Przyroda",items:[{k:"nat",name:"Przyroda",sub:"kafel „Wkrótce” – rośliny, zwierzęta, mapa"}]},
-  {g:"Ligi",items:[{k:"lig",name:"Ligi",sub:"ranking z kolegami"}]}
+  {g:"Inne",always:true,items:[{k:"stats",name:"Statystyki",sub:"punkty, seria, wyniki"},{k:"cups",name:"Puchary",sub:"brąz, srebro, złoto, diament"},
+    {k:"lig",name:"Ligi",sub:"ranking z kolegami"},{k:"help",name:"Instrukcje",sub:"konto, PIN, puchary, ligi"}]}
 ];
 // stare ustawienie mods.mat === false (cała matematyka) wyłącza wszystkie jej kafle
 const modOn=(k,P=PREFS)=>!(P&&P.mods&&(P.mods[k]===false||k.startsWith("mat-")&&P.mods.mat===false||(k==="his"||k==="nat")&&P.mods.soon===false&&P.mods[k]!==true));
@@ -4395,6 +4396,7 @@ function applyMods(){
   show("en-t-tobe",modOn("en-tobe"));show("en-t-v",modOn("en-slowka"));show("en-t-z",modOn("en-zdania"));
   show("t-zd",subjOn("zd"));show("zd-spr",modOn("zd-spr"));show("zd-tw",ZD_TOPICS.some(t=>modOn("zd-"+t.id)));if(CUR==="zd") renderZd();
   show("t-his",modOn("his"));show("t-nat",modOn("nat"));
+  show("t-stats",modOn("stats"));show("t-cups",modOn("cups"));show("t-help",modOn("help")); // Ligi: ligHomeLine i niżej
   if($("t-lig")&&!modOn("lig")) $("t-lig").hidden=true;
   // kafel dla rodzica na samej górze
   $("t-kidcfg").hidden=!(ME&&ME.role==="parent");
@@ -4420,9 +4422,9 @@ async function renderKidCfg(){
   const name=(FAMILY.find(p=>p.id===KC.kid)||{}).name||"Dziecko";
   $("kc-save").hidden=false;$("kc-save").textContent=`Zapisz dla: ${name}`;
   // grupa = przełącznik całego kafla (widoczny od razu) + rozwijana lista modułów w środku (gdy jest ich więcej niż jeden)
-  list.innerHTML=MODS.map((g,gi)=>{const n=g.items.filter(x=>KC.mods[x.k]!==false).length,many=g.items.length>1,open=many&&KC.open.has(gi);
+  list.innerHTML=MODS.map((g,gi)=>{const n=g.items.filter(x=>KC.mods[x.k]!==false).length,many=g.items.length>1,acc=many&&!g.always,open=many&&(g.always||KC.open.has(gi));
     const sum=n===g.items.length?(many?"wszystko włączone":"włączone"):n?`włączone: ${n} z ${g.items.length}`:"wyłączone";
-    return `<div class="kc-head${n?" on":""}"><button type="button" class="kc-acc" ${many?`data-g="${gi}" aria-expanded="${open}"`:"disabled"}><span><b>${g.g}</b><small>${sum}</small></span>${many?'<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>':""}</button>`+
+    return `<div class="kc-head${n?" on":""}"><button type="button" class="kc-acc" ${acc?`data-g="${gi}" aria-expanded="${open}"`:"disabled"}><span><b>${g.g}</b><small>${sum}</small></span>${acc?'<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>':""}</button>`+
       `<button type="button" class="kc-master${n?" sel":""}" data-all="${gi}" role="switch" aria-checked="${n>0}" aria-label="${g.g} – cały kafel"><i class="tg" aria-hidden="true"></i></button></div>`+
       (many?`<div class="grp"${open?"":" hidden"}>`+g.items.map(x=>{const on=KC.mods[x.k]!==false;
       return `<button type="button" class="row sw${on?" sel":""}" data-k="${x.k}" aria-pressed="${on}"><span class="rt"><b>${x.name}</b><small>${x.sub}</small></span><i class="tg" aria-hidden="true"></i></button>`;}).join("")+`</div>`:"");}).join("")+
@@ -4434,7 +4436,7 @@ function kcPreview(){
   const inner=$("kc-inner"),P={mods:KC.mods},grid=$("home").querySelector(".tiles2").cloneNode(true);
   const vis={"t-math":subjOn("mat",P),"t-pl":subjOn("pl",P),"t-en":subjOn("en",P),"t-zd":subjOn("zd",P)};
   grid.querySelectorAll("button").forEach(b=>{const on=b.id in vis?vis[b.id]:b.id==="t-his"?modOn("his",P):b.id==="t-nat"?modOn("nat",P):true;b.hidden=!on;});
-  const bars=["t-stats","t-cups","t-lig","t-help"].filter(id=>id!=="t-lig"||modOn("lig",P)).map(id=>{const b=$(id).cloneNode(true);b.hidden=false;return b;});
+  const bars=[["t-stats","stats"],["t-cups","cups"],["t-lig","lig"],["t-help","help"]].filter(([,k])=>modOn(k,P)).map(([id])=>id).map(id=>{const b=$(id).cloneNode(true);b.hidden=false;return b;});
   inner.replaceChildren(grid,...bars);
   inner.querySelectorAll("[id]").forEach(el=>el.removeAttribute("id"));
   inner.querySelectorAll("button").forEach(b=>{b.tabIndex=-1;b.disabled=true;});
