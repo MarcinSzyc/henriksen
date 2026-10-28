@@ -2,7 +2,7 @@
    Strona: najpierw sieć (żeby nowe wersje docierały od razu), offline z pamięci.
    Ikony, manifest, czcionki: z pamięci, w tle odświeżane.
    Przy większych zmianach podbij VERSION. */
-const VERSION = "henriksen-v27";
+const VERSION = "henriksen-v28";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png", "./icons/icon.svg",
   "./video/gol-1.mp4", "./video/gol-2.mp4", "./video/gol-3.mp4", "./video/gol-4.mp4",
@@ -41,7 +41,8 @@ self.addEventListener("fetch", e => {
   // Pliki z tej strony i czcionki Google: z pamięci + odświeżenie w tle
   const sameOrigin = url.origin === location.origin;
   const fonts = url.hostname === "fonts.googleapis.com" || url.hostname === "fonts.gstatic.com";
-  if (!sameOrigin && !fonts) return;
+  const lib = url.hostname === "cdn.jsdelivr.net"; // supabase-js (konto); zapytania do Supabase idą zawsze do sieci
+  if (!sameOrigin && !fonts && !lib) return;
   e.respondWith(caches.open(VERSION).then(c => c.match(req).then(hit => {
     const net = fetch(req).then(res => { if (res.ok || res.type === "opaque") c.put(req, res.clone()); return res; })
       .catch(() => hit);

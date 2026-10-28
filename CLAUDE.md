@@ -44,6 +44,12 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
     Wybór tematów w ustawieniach (`PLP.ev.topics`, pusta lista = wszystkie). **Zdania:** `EN_SENT`
     (`"angielski|polski|3 złe angielskie;…|3 złe polskie;…"` – typowe pomyłki). Ustawienia `PLP.ev` / `PLP.ez` (lvl a1/a2/all, dir pl/en/mix, n).
   - W statystykach zakładka Angielski bez szczegółów rodzica.
+- **Konto (Supabase, etap 1 – tylko logowanie, bez synchronizacji):** schemat i reguły w `supabase/schema.sql`
+  (rodziny, profile parent/student, sesje, ustawienia; RLS: uczeń tylko swoje, rodzic czyta rodzinę i zmienia ustawienia dzieci;
+  rodzina tylko przez funkcje `create_family` / `join_family`). W `index.html`: `SB_URL` i publishable key (publiczne),
+  `supabase-js` ładowany z jsDelivr dopiero przy potrzebie (`sbLoad`, cache w `sw.js`). Okno `#acct` z menu ☰:
+  rodzic e-mail + hasło → kod rodziny; telefon dziecka: kod + imię + hasło (wpisuje rodzic) → konto `imię.kod@dziecko.henriksen.app`,
+  potem 4-cyfrowy PIN (`#pinlock`, skrót SHA-256 w `henriksen-pin`, raz na uruchomienie). Profil w `henriksen-me`, sesja w `henriksen-auth`.
 - **Historia:** `localStorage` pod `henriksen-historia`, tablica sesji
   `{id,subj,start,end,status:"done"|"przerwana",cfg,n,done,recs:[{t,ok,tries,h,ms}],pct,grade,errors,hints}`.
   `archive(status)` przy `finish()` i przy rozpoczęciu nowych działań w trakcie (przerwana). Bieżąca sesja trzyma `SID`, `T0`

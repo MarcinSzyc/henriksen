@@ -539,6 +539,21 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .en-top button small{color:var(--muted);font-weight:800;margin-left:2px}
 .en-top button.sel{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}.en-top button.sel small{color:inherit;opacity:.75}
 .en-top button:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
+.acct-body{display:flex;flex-direction:column;gap:10px}
+.acct-body .own{min-height:72px}.acct-back{min-height:40px;align-self:flex-start;color:var(--muted);font-weight:800}
+.af{display:flex;flex-direction:column;gap:4px;text-align:left}.af span{font-size:.8rem;font-weight:800;color:var(--muted)}.af input{text-align:left}
+.acct-me{display:flex;flex-direction:column;gap:2px}.acct-me b{font-family:var(--display);font-size:1.5rem;line-height:1.1}.acct-me small{font-weight:800;color:var(--muted)}
+.acct-code{background:var(--bg);border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.acct-code small{font-weight:800;color:var(--muted);font-size:.8rem}.acct-code b{font-family:var(--display);font-size:2.2rem;letter-spacing:.18em;line-height:1.1;-webkit-user-select:text;user-select:text}
+.acct-fam{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}.acct-fam li{display:flex;justify-content:space-between;align-items:baseline;background:var(--bg);border-radius:12px;padding:8px 12px}
+.acct-fam small{font-weight:800;color:var(--muted)}.acct-fam .none{color:var(--muted);font-weight:700}
+.pinlock{z-index:60;background:var(--bg)}
+.pinbox{max-width:340px;width:100%;display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center}
+.pinbox h2{font-family:var(--display);font-size:1.8rem;margin:0}.pinbox p{margin:0;font-weight:800;color:var(--muted)}
+.pin-dots{display:flex;gap:14px;height:22px}.pin-dots i{width:18px;height:18px;border-radius:50%;border:3px solid var(--accent)}.pin-dots i.on{background:var(--accent)}
+.pin-pad{display:grid;grid-template-columns:repeat(3,72px);gap:12px}
+.pin-pad button{height:72px;border:0;border-radius:50%;background:var(--key);color:var(--key-fg);font-family:var(--display);font-weight:800;font-size:1.8rem;cursor:pointer}
+.pin-pad button:active{transform:scale(.94)}.pin-pad button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 </style>
 <script>/* motyw z ustawień przed narysowaniem strony, bez mignięcia */
 try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t==="light"||t==="dark") document.documentElement.dataset.theme=t;}catch(e){}</script>
@@ -843,6 +858,8 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <div class="grp"><button type="button" class="row sw" id="o-modals" aria-pressed="true"><span class="rt"><b>Gratulacje co 5 dobrych</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-goals" aria-pressed="true"><span class="rt"><b>Filmik z golem co 10 dobrych</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-fx" aria-pressed="true"><span class="rt"><b>Animacje odpowiedzi</b><small>przy dobrej i złej odpowiedzi</small></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row" id="o-fxs" aria-haspopup="dialog"><span class="rt"><b>Wybierz animacje</b><small>kolejne odblokujesz, rozwiązując zadania</small></span><span class="rv" id="o-fxs-v"></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" class="row sw" id="o-sound" aria-pressed="true"><span class="rt"><b>Dźwięki</b></span><i class="tg" aria-hidden="true"></i></button></div>
     <div class="lbl">Telefon</div>
     <div class="grp"><button type="button" class="row sw" id="awake" aria-pressed="true"><span class="rt"><b>Ekran nie gaśnie</b><small id="awake-s">gdy aplikacja jest otwarta</small></span><i class="tg" aria-hidden="true"></i></button></div>
+    <div class="lbl">Konto</div>
+    <div class="grp"><button type="button" class="row" id="o-acct" aria-haspopup="dialog"><span class="rt"><b>Konto rodziny</b><small>rodzic i dziecko, wyniki w chmurze</small></span><span class="rv" id="o-acct-v"></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
     <div class="lbl">Kopia historii</div>
     <div class="grp"><button type="button" class="row" id="bk-save"><span class="rt"><b>Zapisz kopię do pliku</b></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" class="row" id="bk-load"><span class="rt"><b>Wczytaj kopię</b></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
     <input type="file" id="bk-file" accept="application/json,.json" hidden>
@@ -856,6 +873,18 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <div class="fxs-list" id="fxs-list"></div>
     <button type="button" class="go-btn" id="fxs-ok">Gotowe</button>
   </div>
+</div>
+<div class="ask" id="acct" hidden role="dialog" aria-modal="true" aria-labelledby="acct-t">
+  <div class="ask-box sheet acct">
+    <div class="shd"><div><h2 id="acct-t">Konto rodziny</h2><span class="shs">Rodzic widzi wyniki dzieci, dziecko otwiera aplikację PIN-em</span></div><button type="button" class="xbtn" id="acct-x" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="acct-body" id="acct-body"></div>
+    <div class="ask-err" id="acct-err" aria-live="polite"></div>
+  </div>
+</div>
+<div class="ask pinlock" id="pinlock" hidden role="dialog" aria-modal="true" aria-labelledby="pin-hi">
+  <div class="ask-box pinbox"><h2 id="pin-hi">Cześć!</h2><p id="pin-msg" aria-live="polite">Wpisz swój PIN</p><div class="pin-dots" id="pin-dots" aria-hidden="true"></div>
+    <div class="pin-pad" id="pin-pad"><button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button><button type="button" data-k="7">7</button><button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><span></span><button type="button" data-k="0">0</button><button type="button" data-k="del" aria-label="Usuń cyfrę">⌫</button></div>
+    <button type="button" class="again" id="pin-forgot">Nie pamiętam PIN-u</button></div>
 </div>
 <div class="ask" id="fxnew" hidden role="dialog" aria-modal="true" aria-labelledby="fxnew-h">
   <div class="ask-box"><div class="fxnew-i" aria-hidden="true">★</div><h2 id="fxnew-h">Nowa animacja!</h2><p>Odblokowałeś: <b id="fxnew-t"></b></p>
@@ -1462,6 +1491,8 @@ function buildPad(){
 buildPad();
 $("pad").addEventListener("click",e=>{const b=e.target.closest("button");if(b) press(b.dataset.k);});
 document.addEventListener("keydown",e=>{
+  if(!$("pinlock").hidden) return;
+  if(!$("acct").hidden){if(e.key==="Escape") closeAcct();return;}
   if(!$("fxnew").hidden){if(e.key==="Escape"||e.key==="Enter") $("fxnew").hidden=true;return;}
   if(!$("fxs").hidden){if(e.key==="Escape") closeFxs();return;}
   if(!$("hdr").hidden){if(e.key==="Escape") closeHdr();return;}
@@ -3261,6 +3292,162 @@ $("enset-dir").addEventListener("click",e=>{const b=e.target.closest("button");i
 $("enset-minus").addEventListener("click",()=>{const o=enSetO();o.n=EN_STEPS[Math.max(0,EN_STEPS.indexOf(o.n)-1)];savePLP();renderEnSet();});
 $("enset-plus").addEventListener("click",()=>{const o=enSetO();o.n=EN_STEPS[Math.min(EN_STEPS.length-1,EN_STEPS.indexOf(o.n)+1)];savePLP();renderEnSet();});
 $("enset-go").addEventListener("click",()=>{const m=ENM,o={...enSetO(),topics:[...enSetO().topics]};enStart(()=>enVocabQs(m,o),{mode:m,lvl:o.lvl,dir:o.dir,topics:o.topics});});
+
+/* ===== Konto (Supabase): rodzic zakłada rodzinę, telefon dziecka dołącza kodem, dziecko otwiera aplikację PIN-em =====
+   Biblioteka supabase-js ładuje się dopiero, gdy jest potrzebna (bez konta aplikacja działa jak dotąd, także offline).
+   Dziecko nie ma maila: konto to „imię.kod@dziecko.henriksen.app”, hasło wpisuje rodzic raz; potem 4-cyfrowy PIN
+   sprawdzany tylko w aplikacji (skrót SHA-256 w localStorage). URL i klucz są publiczne, dostęp pilnują reguły w bazie. */
+const SB_URL="https://avhnxpfgwilqcmzjears.supabase.co",SB_KEY="sb_publishable_bOM44paG7HhxbCcePeR0Ow_Srh3DHwr";
+const SB_LIB="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
+const MEKEY="henriksen-me",PINKEY="henriksen-pin",AUTHKEY="henriksen-auth";
+let SB=null,ME=null,ACCT="start",ACCTFrom=null;
+try{ME=JSON.parse(localStorage.getItem(MEKEY));}catch(e){ME=null;}
+const saveMe=()=>{try{ME?localStorage.setItem(MEKEY,JSON.stringify(ME)):localStorage.removeItem(MEKEY);}catch(e){}};
+function sbLoad(){
+  if(SB) return Promise.resolve(SB);
+  return new Promise((ok,no)=>{const s=document.createElement("script");s.src=SB_LIB;
+    s.onload=()=>{SB=supabase.createClient(SB_URL,SB_KEY,{auth:{persistSession:true,autoRefreshToken:true,storageKey:AUTHKEY}});ok(SB);};
+    s.onerror=()=>{s.remove();no(new Error("offline"));};document.head.appendChild(s);});
+}
+const kidSlug=n=>n.trim().toLowerCase().normalize("NFD").replace(/[̀-ͯ]/g,"").replace(/ł/g,"l").replace(/[^a-z0-9]/g,"");
+const kidEmail=(name,code)=>`${kidSlug(name)}.${code.trim().toLowerCase()}@dziecko.henriksen.app`;
+function acctErr(e){
+  const m=String(e&&e.message||e);
+  if(/offline|fetch|network/i.test(m)) return "Brak internetu – spróbuj za chwilę.";
+  if(/Email not confirmed/i.test(m)) return "Najpierw potwierdź konto linkiem z e-maila.";
+  if(/Invalid login/i.test(m)) return "Złe dane logowania. Sprawdź i spróbuj jeszcze raz.";
+  if(/already registered|already exists/i.test(m)) return "Takie konto już jest – użyj „Zaloguj się”.";
+  if(/at least 6|Password should/i.test(m)) return "Hasło musi mieć co najmniej 6 znaków.";
+  if(/valid email|invalid format|Unable to validate email/i.test(m)) return "Sprawdź adres e-mail.";
+  if(/rate limit|too many/i.test(m)) return "Za dużo prób – odczekaj chwilę.";
+  return m;
+}
+// profil zalogowanego (z kodem rodziny); zapisany też lokalnie, żeby PIN i nazwa działały offline
+async function loadMe(){
+  const {data:{session}}=await SB.auth.getSession();
+  if(!session){ME=null;saveMe();return null;}
+  const {data,error}=await SB.from("profiles").select("id,role,name,family_id,families(code)").eq("id",session.user.id).maybeSingle();
+  if(error) throw error;
+  ME=data?{id:data.id,role:data.role,name:data.name,family:data.family_id,code:data.families&&data.families.code,email:session.user.email}:{id:session.user.id,role:null,email:session.user.email};
+  saveMe();return ME;
+}
+async function pinHash(pin){
+  const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(`${ME&&ME.id}:${pin}`));
+  return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("");
+}
+const pinSet=()=>{try{const p=JSON.parse(localStorage.getItem(PINKEY));return p&&ME&&p.u===ME.id?p.h:null;}catch(e){return null;}};
+
+/* okno Konto (z menu ☰) */
+const field=(id,label,type,extra)=>`<label class="af"><span>${label}</span><input id="${id}" type="${type}" ${extra||""}></label>`;
+function renderAcct(){
+  const b=$("acct-body");$("acct-err").textContent="";
+  const back='<button type="button" class="more acct-back" data-go="start">← Wróć</button>';
+  if(ACCT==="start") b.innerHTML=`
+    <button type="button" class="own" data-go="parent"><span><b>Jestem rodzicem</b><small>Załóż konto rodziny albo zaloguj się</small></span></button>
+    <button type="button" class="own" data-go="kid"><span><b>To telefon dziecka</b><small>Dołącz do rodziny kodem – robi to rodzic, raz</small></span></button>
+    <p class="abnote">Bez konta aplikacja działa jak dotąd, a wyniki zostają tylko na tym telefonie.</p>`;
+  else if(ACCT==="parent") b.innerHTML=back+field("a-mail","E-mail","email",'autocomplete="email" autocapitalize="off" spellcheck="false"')+
+    field("a-pass","Hasło (min. 6 znaków)","password",'autocomplete="current-password"')+field("a-name","Twoje imię (przy zakładaniu)","text",'maxlength="20" autocomplete="given-name"')+
+    `<button type="button" class="go-btn" data-do="parent-in">Zaloguj się</button><button type="button" class="again" data-do="parent-up">Załóż nowe konto rodziny</button>`;
+  else if(ACCT==="kid") b.innerHTML=back+`<p class="abnote">Kod rodziny znajdziesz na telefonie rodzica: Ustawienia › Konto.</p>`+
+    field("a-code","Kod rodziny","text",'maxlength="6" autocapitalize="characters" autocomplete="off" spellcheck="false"')+
+    field("a-name","Imię dziecka","text",'maxlength="20" autocomplete="off"')+field("a-pass","Hasło dziecka (wpisuje rodzic, min. 6 znaków)","password",'autocomplete="new-password"')+
+    `<button type="button" class="go-btn" data-do="kid-up">Dołącz do rodziny</button><button type="button" class="again" data-do="kid-in">To dziecko ma już konto – zaloguj</button>`;
+  else if(ACCT==="pin") b.innerHTML=`<p class="abnote">Teraz PIN dla ${ME&&ME.name||"dziecka"}: 4 cyfry, którymi otworzy aplikację. Hasło nie będzie już potrzebne.</p>`+
+    field("a-pin","PIN (4 cyfry)","password",'inputmode="numeric" maxlength="4" autocomplete="off"')+field("a-pin2","Powtórz PIN","password",'inputmode="numeric" maxlength="4" autocomplete="off"')+
+    `<button type="button" class="go-btn" data-do="pin">Zapisz PIN</button>`;
+  else if(ACCT==="me"){
+    const parent=ME&&ME.role==="parent";
+    b.innerHTML=`<div class="acct-me"><b>${ME&&ME.name||"Konto"}</b><small>${parent?"Rodzic":ME&&ME.role==="student"?"Uczeń":"Bez rodziny"}${parent&&ME.email?" · "+ME.email:""}</small></div>`+
+      (parent&&ME.code?`<div class="acct-code"><small>Kod rodziny – wpisz go na telefonie dziecka</small><b>${ME.code}</b></div>`:"")+
+      (ME&&ME.role?`<div class="lbl">Rodzina</div><ul class="acct-fam" id="acct-fam"><li class="none">Wczytuję…</li></ul>`:
+        `<p class="abnote">To konto nie ma jeszcze rodziny.</p>${field("a-name","Twoje imię","text",'maxlength="20" autocomplete="given-name"')}<button type="button" class="go-btn" data-do="make-family">Załóż rodzinę</button>`)+
+      (ME&&ME.role==="student"?`<button type="button" class="again" data-go="pin">${pinSet()?"Zmień PIN":"Ustaw PIN"}</button>`:"")+
+      `<button type="button" class="again" data-do="out">Wyloguj</button>`;
+    if(ME&&ME.family) SB.from("profiles").select("name,role").eq("family_id",ME.family).then(({data})=>{const l=$("acct-fam");if(!l||!data) return;
+      l.innerHTML=data.sort((a,b)=>a.role===b.role?a.name.localeCompare(b.name,"pl"):a.role==="parent"?-1:1).map(p=>`<li><b>${p.name||"–"}</b><small>${p.role==="parent"?"rodzic":"uczeń"}</small></li>`).join("");});
+  }
+  const f=b.querySelector("input");if(f) f.focus();
+}
+function acctState(){return ME&&SB?"me":"start";}
+async function openAcct(){
+  ACCTFrom=document.activeElement;$("menu").hidden=true;$("acct").hidden=false;ACCT="start";
+  $("acct-body").innerHTML='<p class="abnote">Łączę…</p>';
+  try{await sbLoad();await loadMe();ACCT=ME?(ME.role==="student"&&!pinSet()?"pin":"me"):"start";}
+  catch(e){ACCT="start";renderAcct();$("acct-err").textContent=acctErr(e);return;}
+  renderAcct();$("acct-x").focus();
+}
+function closeAcct(){$("acct").hidden=true;$("menu").hidden=false;renderAcctRow();selMenu();if(ACCTFrom) ACCTFrom.focus();}
+function renderAcctRow(){$("o-acct-v").textContent=ME&&ME.role?`${ME.name||"Konto"} · ${ME.role==="parent"?"rodzic":"uczeń"}`:"Nie zalogowano";}
+$("o-acct").addEventListener("click",openAcct);
+$("acct-x").addEventListener("click",closeAcct);
+$("acct-body").addEventListener("click",async e=>{
+  const go=e.target.closest("[data-go]"),act=e.target.closest("[data-do]");
+  if(go){ACCT=go.dataset.go;renderAcct();return;}
+  if(!act||act.disabled) return;
+  const v=id=>($(id)&&$(id).value||"").trim(),err=m=>{$("acct-err").textContent=m;};
+  const btns=[...$("acct-body").querySelectorAll("button")];btns.forEach(x=>x.disabled=true);
+  try{
+    const a=act.dataset.do;
+    if(a==="parent-in"||a==="parent-up"){
+      const mail=v("a-mail"),pass=$("a-pass").value;
+      if(!mail||!pass) throw new Error("Wpisz e-mail i hasło.");
+      if(a==="parent-up"&&!v("a-name")) throw new Error("Wpisz swoje imię.");
+      const r=a==="parent-in"?await SB.auth.signInWithPassword({email:mail,password:pass}):await SB.auth.signUp({email:mail,password:pass});
+      if(r.error) throw r.error;
+      if(!r.data.session) throw new Error("Konto założone, ale trzeba je potwierdzić linkiem z e-maila (albo wyłączyć „Confirm email” w Supabase), a potem „Zaloguj się”.");
+      if(a==="parent-up"){const c=await SB.rpc("create_family",{p_name:v("a-name")});if(c.error) throw c.error;}
+      await loadMe();ACCT="me";
+    }else if(a==="kid-up"||a==="kid-in"){
+      const code=v("a-code").toUpperCase(),name=v("a-name"),pass=$("a-pass").value;
+      if(code.length!==6||!name||!pass) throw new Error("Wpisz kod rodziny (6 znaków), imię i hasło.");
+      if(!kidSlug(name)) throw new Error("Imię musi mieć litery albo cyfry.");
+      const email=kidEmail(name,code);
+      if(a==="kid-in"){const r=await SB.auth.signInWithPassword({email,password:pass});if(r.error) throw r.error;}
+      else{
+        const r=await SB.auth.signUp({email,password:pass});if(r.error) throw r.error;
+        if(!r.data.session) throw new Error("W Supabase jest włączone „Confirm email” – wyłącz je, żeby dodawać dzieci.");
+        const j=await SB.rpc("join_family",{p_code:code,p_name:name});
+        if(j.error){await SB.auth.signOut();throw j.error;}
+      }
+      await loadMe();ACCT="pin";
+      try{localStorage.removeItem(PINKEY);}catch(x){}
+    }else if(a==="pin"){
+      const p=$("a-pin").value,p2=$("a-pin2").value;
+      if(!/^\d{4}$/.test(p)) throw new Error("PIN to 4 cyfry.");
+      if(p!==p2) throw new Error("PIN-y się różnią.");
+      localStorage.setItem(PINKEY,JSON.stringify({u:ME.id,h:await pinHash(p)}));sessionStorage.setItem(PINKEY,"1");ACCT="me";
+    }else if(a==="make-family"){
+      if(!v("a-name")) throw new Error("Wpisz swoje imię.");const c=await SB.rpc("create_family",{p_name:v("a-name")});if(c.error) throw c.error;await loadMe();
+    }else if(a==="out"){
+      await SB.auth.signOut();ME=null;saveMe();try{localStorage.removeItem(PINKEY);}catch(x){}ACCT="start";
+    }
+    renderAcct();
+  }catch(x){btns.forEach(b=>b.disabled=false);err(acctErr(x));}
+});
+
+/* blokada PIN-em na telefonie dziecka: przy każdym otwarciu aplikacji (raz na uruchomienie) */
+let PININ="";
+function showPinLock(){
+  if(!(ME&&ME.role==="student"&&pinSet())||sessionStorage.getItem(PINKEY)) return;
+  PININ="";$("pin-hi").textContent=`Cześć, ${ME.name||"mistrzu"}!`;$("pin-msg").textContent="Wpisz swój PIN";pinDots();$("pinlock").hidden=false;
+}
+const pinDots=()=>{$("pin-dots").innerHTML=[0,1,2,3].map(k=>`<i class="${k<PININ.length?"on":""}"></i>`).join("");};
+$("pin-pad").addEventListener("click",async e=>{
+  const b=e.target.closest("button");if(!b) return;const k=b.dataset.k;
+  if(k==="del") PININ=PININ.slice(0,-1); else if(PININ.length<4) PININ+=k;
+  pinDots();
+  if(PININ.length===4){
+    if(await pinHash(PININ)===pinSet()){sessionStorage.setItem(PINKEY,"1");$("pinlock").hidden=true;sfx("ok");}
+    else{sfx("bad");$("pin-msg").textContent="Zły PIN – spróbuj jeszcze raz";const d=$("pin-dots");d.classList.remove("shake");void d.offsetWidth;d.classList.add("shake");PININ="";setTimeout(pinDots,350);}
+  }
+});
+// zapomniany PIN: rodzic loguje dziecko hasłem jeszcze raz i ustawia nowy PIN
+$("pin-forgot").addEventListener("click",()=>{$("pinlock").hidden=true;sessionStorage.setItem(PINKEY,"1");openMenu();openAcct().then(()=>{ACCT="kid";renderAcct();});});
+renderAcctRow();
+showPinLock();
+// po starcie: odśwież profil w tle, jeśli ktoś jest zalogowany
+try{if(localStorage.getItem(AUTHKEY)) sbLoad().then(loadMe).then(()=>{renderAcctRow();showPinLock();}).catch(()=>{});}catch(e){}
 
 // wczytanie zapisanej sesji: dopiero teraz, bo finish() zapisuje do historii (HKEY wyżej)
 if(load()){
