@@ -95,6 +95,9 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   z rzędu; `heatmap()` 1–10 (mnożenie i dzielenie z tabliczki, jeden odcień); „Poćwicz trudne” = Top 10 × 2 z `CFG.practice`.
 - **Stan sesji:** `N` (liczba zadań), `tasks` (tablica `[a, op, b]`, op ∈ `+ − × :`),
   `i` (bieżące zadanie), `state[k]` (`"ok"` = dobrze za 1. razem, `"fix"` = był błąd), `errors` (liczba działań z błędem, nie prób; przeliczane z `state` przy wczytaniu), `hintsUsed` (pokazane kroki podpowiedzi, zapisywane jako `hints`).
+- **Ekran Matematyka (`#mat`, `#matematyka`, `renderMat`):** kafle „Poćwicz trudne”, zestawy `SETS` (punkty i ostatni wynik)
+  i „Ułóż własne” (otwiera `#ask` od razu na ustawieniach, `ASKOWN`); pasek „Dokończ działania”. „Nowe działania” w grze wraca tutaj.
+  Każdy kafel to moduł w „Co widzi dziecko” (`mat-<id zestawu>`, `mat-hard`, `mat-own`).
 - **Nowa sesja (`#ask`):** najpierw lista zestawów `SETS` (`{id,name,n,cfg,info?}`, brakujące pola z `CFG0`;
   ostatni wynik po `cfg.set` w historii) plus „Poćwicz trudne” (`practice(allHard())`), potem „Ułóż własne”:
   działania, „Liczby do”, licznik `NSTEPS` i zwinięte „Więcej opcji” (dzielenie, dziesiątki, ułamki, zakres a/b/c, inny zakres).
