@@ -52,14 +52,18 @@ header .grow{flex:1;min-width:0}
 .tile{flex:1;min-height:170px;border:0;border-radius:28px;color:#fff;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px;padding:22px;text-align:left;position:relative;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.18)}
 .tile.math{background:linear-gradient(135deg,#5c7cfa,#3b2bb5)}
 .tile.math{flex:none;min-height:0;height:210px}
+.tiles2 .tile.math{height:auto}
 .tile.pl{background:linear-gradient(135deg,#f76707,#b93a0a)}
 .tile.his{background:linear-gradient(135deg,#c2255c,#7a2440)}
 .tiles2 .tile{aspect-ratio:1/1;min-height:0;padding:18px}
-.tiles2 .tile .tt{font-size:1.75rem}
+.tiles2 .tile .tt{font-size:min(1.75rem,6vw)} /* „Matematyka” mieści się w kwadracie na wąskim telefonie */
 .tiles2 .tile small{font-size:.88rem;line-height:1.3}
 .tile .wm{position:absolute;top:10px;right:16px;left:16px;text-align:right;font-family:var(--display);font-weight:800;font-size:4.6rem;line-height:1;color:rgba(255,255,255,.17);white-space:nowrap;pointer-events:none}
-.tiles2 .wm{font-size:2.1rem;top:12px;left:14px;right:14px;letter-spacing:.02em}
-.tile.his .wm{font-size:2.6rem;top:8px}
+.tiles2 .wm{font-size:1.75rem;top:14px;left:14px;right:14px;letter-spacing:.02em}
+.tile .wm.wm-img{color:#fff;opacity:.17;display:flex;justify-content:flex-end;gap:5px;top:14px}
+/* wszystkie znaki wodne na kaflach tej samej wysokości co napisy (+−×÷, ąęćżó) */
+.tile .wm.wm-img svg{display:block;flex:none;height:28px;width:auto}
+#t-en .wm.wm-img{top:18px;gap:4px}#t-en .wm.wm-img svg{height:20px} /* dwie flagi obok siebie – niższe, żeby zajmowały tyle miejsca co inne znaki */
 .soon{align-self:flex-start;margin-bottom:4px;font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:rgba(0,0,0,.35);padding:5px 9px;border-radius:999px}
 .sbar{display:flex;align-items:center;gap:14px;min-height:84px;border:2px solid var(--line);border-radius:24px;background:var(--card);color:var(--fg);padding:0 18px;font:inherit;cursor:pointer;text-align:left}
 .sbar .si{width:48px;height:48px;flex:none;border-radius:14px;background:linear-gradient(135deg,#20c997,#0b7285);display:flex;align-items:center;justify-content:center}
@@ -576,6 +580,15 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .cupset-step button{width:40px;height:40px;border:0;border-radius:12px;background:var(--key);color:var(--key-fg);font-family:var(--display);font-weight:800;font-size:1.3rem;cursor:pointer}
 .cupset-step button:disabled{opacity:.35;cursor:default}
 .cupnew-i{display:flex;justify-content:center;animation:pop 1.2s both}.cupnew-rw{font-weight:800;color:var(--accent)}
+.pts-pre{margin:0;text-align:center;font-weight:800;color:var(--fg);display:flex;flex-direction:column;gap:1px}.pts-pre b{color:var(--accent)}.pts-pre small{color:var(--muted);font-size:.78rem}
+.pts-chip .cb{background:var(--accent)}.pts-end b{color:var(--accent)}
+.ptab{width:100%;border-collapse:collapse;font-size:.9rem}.ptab td{padding:7px 4px;border-top:1px solid var(--line);vertical-align:top;font-weight:700}
+.ptab td small{display:block;color:var(--muted);font-weight:700;font-size:.78rem}.ptab .num{text-align:right;white-space:nowrap;font-family:var(--display);font-weight:800;color:var(--accent)}
+.set .macc{min-height:58px;background:var(--bg);border-radius:16px;padding:0 14px;justify-content:space-between}
+.set .macc span{display:flex;flex-direction:column;gap:1px;min-width:0}.set .macc b{font-family:var(--display);font-size:1.1rem}
+.set .macc small{font-weight:800;font-size:.78rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.set .macc[aria-expanded="true"] small{display:none}.set .macc[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.msec{display:flex;flex-direction:column;gap:10px;margin-top:-4px}.msec[hidden]{display:none}
 </style>
 <script>/* motyw z ustawień przed narysowaniem strony, bez mignięcia */
 try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t==="light"||t==="dark") document.documentElement.dataset.theme=t;}catch(e){}</script>
@@ -588,13 +601,11 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="edit-btn" id="hdr-btn" aria-label="Zmień nagłówek" aria-haspopup="dialog"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button></div></div>
     <div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
-  <button type="button" class="tile math" id="t-math"><span class="wm" aria-hidden="true">+−×:</span><span class="tt">Matematyka</span><small id="t-math-s">Wybierz ćwiczenia i zaczynamy</small></button>
   <div class="tiles2">
+    <button type="button" class="tile math" id="t-math"><span class="wm" aria-hidden="true">+−×÷</span><span class="tt">Matematyka</span><small id="t-math-s">Wybierz ćwiczenia i zaczynamy</small></button>
     <button type="button" class="tile pl" id="t-pl"><span class="wm" aria-hidden="true">ą ę ć ż ó</span><span class="tt">Polski</span><small>Słówka i dyktanda</small></button>
-    <button type="button" class="tile en" id="t-en"><span class="wm" aria-hidden="true">ABC</span><span class="tt">Angielski</span><small>To be: am, is, are</small></button>
-  </div>
-  <div class="tiles2">
-    <button type="button" class="tile his" data-soon aria-describedby="soon-his"><span class="wm" aria-hidden="true">1410</span><span class="soon">Wkrótce</span><span class="tt">Historia</span><small id="soon-his">Daty, bitwy, królowie</small></button>
+    <button type="button" class="tile en" id="t-en"><span class="wm wm-img" aria-hidden="true"><svg width="58" height="36" viewBox="0 0 60 36"><rect x="1.5" y="1.5" width="57" height="33" rx="3" fill="none" stroke="#fff" stroke-width="3"/><rect x="3" y="3" width="25" height="17" fill="#fff"/><path d="M28 7.5H57M28 13.5H57M28 19.5H57M3 25.5H57M3 31H57" stroke="#fff" stroke-width="3"/></svg><svg width="58" height="36" viewBox="0 0 60 36"><rect x="1.5" y="1.5" width="57" height="33" rx="3" fill="none" stroke="#fff" stroke-width="3"/><path d="M3 3L57 33M57 3L3 33" stroke="#fff" stroke-width="4"/><path d="M30 3V33M3 18H57" stroke="#fff" stroke-width="8"/></svg></span><span class="tt">Angielski</span><small>Słówka i tematyczne zadania</small></button>
+    <button type="button" class="tile his" data-soon aria-describedby="soon-his"><span class="wm wm-img" aria-hidden="true"><svg width="104" height="84" viewBox="0 0 120 96" fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><path d="M40 44C52 40 70 40 82 42C88 36 94 26 100 18L104 15L106 21C110 26 114 32 114 37C114 40 110 41 106 39C102 37 98 38 96 42C94 50 92 56 88 60C84 66 70 68 56 67C46 67 36 64 34 56C33 50 35 46 40 44Z" stroke="none"/><path d="M84 62L88 93M78 64L74 93M46 64L42 93M54 66L54 93" fill="none" stroke-width="5"/><path d="M36 48C26 50 24 62 28 74" fill="none" stroke-width="5"/><path d="M57 44L70 44L73 24L62 22Z" stroke="none"/><circle cx="68" cy="15" r="6" stroke="none"/><path d="M68 9V3" fill="none" stroke-width="2.5"/><path d="M64 44L71 58M71 28L82 32" fill="none" stroke-width="5"/><path d="M60 42C46 34 44 12 56 1" fill="none" stroke-width="4"/><path d="M52 32L43 30M49 24L40 21M49 16L40 12M51 9L44 3" fill="none" stroke-width="3"/><path d="M38 59L117 10" fill="none" stroke-width="2.5"/><path d="M107 16L117 10L113 21Z" stroke="none"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Historia</span><small id="soon-his">Daty, bitwy, królowie</small></button>
   </div>
   <button type="button" class="sbar" id="t-stats"><span class="si" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg></span>
     <span class="st"><b>Statystyki</b><small id="t-stats-s">Tu zobaczysz swoje wyniki</small></span>
@@ -645,7 +656,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć do startu"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 id="title" class="grow">Mnożenie do 100</h1><div class="right"><span class="count" id="count">1 / 100</span>
     <button type="button" class="menu-btn" id="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div class="dots" id="dots"></div>
-  <div class="live" id="live" hidden><span class="chip" id="live-pct"></span><span class="chip" id="live-g"></span></div>
+  <div class="live" id="live" hidden><span class="chip" id="live-pct"></span><span class="chip" id="live-g"></span><span class="chip pts-chip" id="live-pts"></span></div>
   <div class="card" id="card">
     <div class="num" id="num">Działanie 1</div>
     <div class="eq"><span id="a">3</span><span id="op">×</span><span id="b">4</span><span>=</span><span class="box" id="box"></span></div>
@@ -676,6 +687,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <button type="button" class="own" id="pw-hard" hidden><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6.5 6.5h11M6.5 17.5h11M4 9v6M20 9v6M2 11v2M22 11v2"/></svg>
     <span><b>Poćwicz trudne</b><small id="pw-hard-s"></small></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
   <div class="ask-err" id="pw-err"></div>
+  <p class="pts-pre" id="pw-pts"></p>
   <button type="button" class="go-btn" id="pw-go">Start</button>
 </div>
 
@@ -684,7 +696,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <h1 class="grow">Słówka</h1><div class="right"><span class="count" id="pw-count">1 / 20</span>
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div class="dots" id="pw-dots"></div>
-  <div class="live" id="pw-live" hidden><span class="chip"></span><span class="chip"></span></div>
+  <div class="live" id="pw-live" hidden><span class="chip"></span><span class="chip"></span><span class="chip pts-chip"></span></div>
   <div id="pw-game" class="pl-game">
     <div class="card pl-card" id="pw-card">
       <div class="pl-tags"><span class="pl-tag" id="pw-pair">ch / h</span><span class="pl-tag hard" id="pw-hardtag" hidden>Trudne słowo</span></div>
@@ -713,7 +725,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <header><button type="button" class="menu-btn" data-back aria-label="Zakończ"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow" id="pd-title">Dyktando</h1><div class="right"><span class="count" id="pd-count">0 / 0</span>
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div class="dots" id="pd-dots"></div>
-  <div class="live" id="pd-live" hidden><span class="chip"></span><span class="chip"></span></div>
+  <div class="live" id="pd-live" hidden><span class="chip"></span><span class="chip"></span><span class="chip pts-chip"></span></div>
   <div class="pl-text" id="pd-text"></div>
   <div class="card pl-panel" id="pd-panel">
     <div class="pl-ph"><span class="num" id="pd-no">Luka 1 z 13</span><span class="eq pl-word sm" id="pd-word"><span id="pd-pre"></span><span class="box" id="pd-box"></span><span id="pd-post"></span></span></div>
@@ -732,6 +744,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="pz-lvls" id="pz-lvls" role="group" aria-label="Poziom"></div>
   <div class="lbl">Ile słów</div>
   <div class="step"><button type="button" id="pz-minus" aria-label="Mniej słów">−</button><output id="pz-n" aria-live="polite">10</output><button type="button" id="pz-plus" aria-label="Więcej słów">+</button></div>
+  <p class="pts-pre" id="pz-pts"></p>
   <button type="button" class="go-btn" id="pz-go">Start</button>
 </div>
 
@@ -740,7 +753,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <h1 class="grow">Znaczenie słów</h1><div class="right"><span class="count" id="pz-count">1 / 10</span>
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div class="dots" id="pz-dots"></div>
-  <div class="live" id="pz-live" hidden><span class="chip"></span><span class="chip"></span></div>
+  <div class="live" id="pz-live" hidden><span class="chip"></span><span class="chip"></span><span class="chip pts-chip"></span></div>
   <div id="pz-game" class="pl-game">
     <div class="card pl-card" id="pz-card">
       <div class="pl-tags"><span class="pl-tag" id="pz-type">Co znaczy to słowo?</span><span class="pl-tag hard" id="pz-new" hidden>Nowe słowo</span></div>
@@ -779,6 +792,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="lbl">Ile zadań</div>
   <div class="step"><button type="button" id="en-minus" aria-label="Mniej zadań">−</button><output id="en-n" aria-live="polite">15</output><button type="button" id="en-plus" aria-label="Więcej zadań">+</button></div>
   <div class="ask-err" id="en-err"></div>
+  <p class="pts-pre" id="en-pts"></p>
   <button type="button" class="go-btn" id="en-go">Start</button>
 </div>
 
@@ -794,6 +808,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="en-dir" id="enset-dir" role="group" aria-label="Kierunek"></div>
   <div class="lbl">Ile zadań</div>
   <div class="step"><button type="button" id="enset-minus" aria-label="Mniej zadań">−</button><output id="enset-n" aria-live="polite">15</output><button type="button" id="enset-plus" aria-label="Więcej zadań">+</button></div>
+  <p class="pts-pre" id="enset-pts"></p>
   <button type="button" class="go-btn" id="enset-go">Start</button>
 </div>
 
@@ -802,7 +817,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <h1 class="grow" id="enq-title">To be</h1><div class="right"><span class="count" id="enq-count">1 / 15</span>
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div class="dots" id="enq-dots"></div>
-  <div class="live" id="enq-live" hidden><span class="chip"></span><span class="chip"></span></div>
+  <div class="live" id="enq-live" hidden><span class="chip"></span><span class="chip"></span><span class="chip pts-chip"></span></div>
   <div id="enq-game" class="pl-game">
     <div class="card pl-card" id="enq-card">
       <div class="pl-tags"><span class="pl-tag" id="enq-type">Jak to powiesz po angielsku?</span></div>
@@ -878,24 +893,39 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 <div class="ask" id="menu" hidden role="dialog" aria-modal="true" aria-labelledby="menu-t">
   <div class="ask-box sheet set">
     <div class="shd"><h2 id="menu-t" class="grow">Ustawienia</h2><button type="button" class="xbtn" id="menu-x" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-    <div class="lbl">Wygląd</div>
-    <div class="segs" id="theme">
-      <button type="button" data-t="auto">Jak telefon</button><button type="button" data-t="light">Jasny</button><button type="button" data-t="dark">Ciemny</button>
+    <button type="button" class="more macc" aria-expanded="false" aria-controls="ms-0"><span><b>Wygląd</b><small></small></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+    <div class="msec" id="ms-0" hidden>
+      <div class="segs" id="theme">
+        <button type="button" data-t="auto">Jak telefon</button><button type="button" data-t="light">Jasny</button><button type="button" data-t="dark">Ciemny</button>
+      </div>
     </div>
-    <div class="lbl">Ty</div>
-    <div class="grp"><button type="button" class="row" id="o-hdr"><span class="rt"><b>Nagłówek</b></span><span class="rv" id="o-hdr-v"></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
-    <div class="lbl">Podczas ćwiczeń</div>
-    <div class="grp"><button type="button" class="row sw" id="o-dots" aria-pressed="true"><span class="rt"><b>Kropki postępu</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-pct" aria-pressed="true"><span class="rt"><b>Wynik w procentach</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-grade" aria-pressed="true"><span class="rt"><b>Ocena na bieżąco</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-hints" aria-pressed="true"><span class="rt"><b>Podpowiedzi</b><small>Nie wpływają na ocenę</small></span><i class="tg" aria-hidden="true"></i></button></div>
-    <div class="lbl">Nagrody</div>
-    <div class="grp"><button type="button" class="row sw" id="o-modals" aria-pressed="true"><span class="rt"><b>Gratulacje co 5 dobrych</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-goals" aria-pressed="true"><span class="rt"><b>Filmik z golem co 10 dobrych</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-fx" aria-pressed="true"><span class="rt"><b>Animacje odpowiedzi</b><small>przy dobrej i złej odpowiedzi</small></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row" id="o-fxs" aria-haspopup="dialog"><span class="rt"><b>Wybierz animacje</b><small>kolejne odblokujesz, rozwiązując zadania</small></span><span class="rv" id="o-fxs-v"></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" class="row sw" id="o-sound" aria-pressed="true"><span class="rt"><b>Dźwięki</b></span><i class="tg" aria-hidden="true"></i></button></div>
-    <div class="lbl">Telefon</div>
-    <div class="grp"><button type="button" class="row sw" id="awake" aria-pressed="true"><span class="rt"><b>Ekran nie gaśnie</b><small id="awake-s">gdy aplikacja jest otwarta</small></span><i class="tg" aria-hidden="true"></i></button></div>
-    <div class="lbl">Konto</div>
-    <div class="grp"><button type="button" class="row" id="o-acct" aria-haspopup="dialog"><span class="rt"><b>Konto rodziny</b><small>rodzic i dziecko, wyniki w chmurze</small></span><span class="rv" id="o-acct-v"></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
-    <div class="lbl">Kopia historii</div>
-    <div class="grp"><button type="button" class="row" id="bk-save"><span class="rt"><b>Zapisz kopię do pliku</b></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" class="row" id="bk-load"><span class="rt"><b>Wczytaj kopię</b></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
-    <input type="file" id="bk-file" accept="application/json,.json" hidden>
-    <div class="abnote" id="bk-msg">Historia jest tylko na tym telefonie. Zrób czasem kopię do pliku.</div>
+    <button type="button" class="more macc" aria-expanded="false" aria-controls="ms-1"><span><b>Ty</b><small></small></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+    <div class="msec" id="ms-1" hidden>
+      <div class="grp"><button type="button" class="row" id="o-hdr"><span class="rt"><b>Nagłówek</b></span><span class="rv" id="o-hdr-v"></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
+    </div>
+    <button type="button" class="more macc" aria-expanded="false" aria-controls="ms-2"><span><b>Podczas ćwiczeń</b><small></small></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+    <div class="msec" id="ms-2" hidden>
+      <div class="grp"><button type="button" class="row sw" id="o-dots" aria-pressed="true"><span class="rt"><b>Kropki postępu</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-pct" aria-pressed="true"><span class="rt"><b>Wynik w procentach</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-pts" aria-pressed="true"><span class="rt"><b>Punkty na bieżąco</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-grade" aria-pressed="true"><span class="rt"><b>Ocena na bieżąco</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-hints" aria-pressed="true"><span class="rt"><b>Podpowiedzi</b><small>Nie wpływają na ocenę</small></span><i class="tg" aria-hidden="true"></i></button></div>
+    </div>
+    <button type="button" class="more macc" aria-expanded="false" aria-controls="ms-3"><span><b>Nagrody</b><small></small></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+    <div class="msec" id="ms-3" hidden>
+      <div class="grp"><button type="button" class="row" id="o-ptsinfo" aria-haspopup="dialog"><span class="rt"><b>Punktacja zadań</b><small>ile punktów za które zadanie</small></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
+      <div class="grp"><button type="button" class="row sw" id="o-modals" aria-pressed="true"><span class="rt"><b>Gratulacje co 5 dobrych</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-goals" aria-pressed="true"><span class="rt"><b>Filmik z golem co 10 dobrych</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-fx" aria-pressed="true"><span class="rt"><b>Animacje odpowiedzi</b><small>przy dobrej i złej odpowiedzi</small></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row" id="o-fxs" aria-haspopup="dialog"><span class="rt"><b>Wybierz animacje</b><small>kolejne odblokujesz, rozwiązując zadania</small></span><span class="rv" id="o-fxs-v"></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" class="row sw" id="o-sound" aria-pressed="true"><span class="rt"><b>Dźwięki</b></span><i class="tg" aria-hidden="true"></i></button></div>
+    </div>
+    <button type="button" class="more macc" aria-expanded="false" aria-controls="ms-4"><span><b>Telefon</b><small></small></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+    <div class="msec" id="ms-4" hidden>
+      <div class="grp"><button type="button" class="row sw" id="awake" aria-pressed="true"><span class="rt"><b>Ekran nie gaśnie</b><small id="awake-s">gdy aplikacja jest otwarta</small></span><i class="tg" aria-hidden="true"></i></button></div>
+    </div>
+    <button type="button" class="more macc" aria-expanded="false" aria-controls="ms-5"><span><b>Konto</b><small></small></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+    <div class="msec" id="ms-5" hidden>
+      <div class="grp"><button type="button" class="row" id="o-acct" aria-haspopup="dialog"><span class="rt"><b>Konto rodziny</b><small>rodzic i dziecko, wyniki w chmurze</small></span><span class="rv" id="o-acct-v"></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
+    </div>
+    <button type="button" class="more macc" aria-expanded="false" aria-controls="ms-6"><span><b>Kopia historii</b><small></small></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+    <div class="msec" id="ms-6" hidden>
+      <div class="grp"><button type="button" class="row" id="bk-save"><span class="rt"><b>Zapisz kopię do pliku</b></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" class="row" id="bk-load"><span class="rt"><b>Wczytaj kopię</b></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
+      <input type="file" id="bk-file" accept="application/json,.json" hidden>
+      <div class="abnote" id="bk-msg">Historia jest tylko na tym telefonie. Zrób czasem kopię do pliku.</div>
+    </div>
     <button type="button" class="go-btn" id="menu-ok">Gotowe</button>
   </div>
 </div>
@@ -921,7 +951,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 <div class="ask" id="cupset" hidden role="dialog" aria-modal="true" aria-labelledby="cupset-h">
   <div class="ask-box sheet">
     <div class="shd"><div><h2 id="cupset-h">Progi i nagrody</h2><span class="shs" id="cupset-for"></span></div><button type="button" class="xbtn" id="cupset-x" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-    <p class="abnote">Ile dobrych odpowiedzi (za 1. razem) do brązu. Srebro, złoto i diament to kolejno 3×, 8× i 20× więcej.</p>
+    <p class="abnote">Ile punktów do brązu (punkty za odpowiedzi dobre za 1. razem, wagi w Ustawieniach › Punktacja zadań). Srebro, złoto i diament to kolejno 3×, 8× i 20× więcej.</p>
     <div class="cupset-list" id="cupset-list"></div>
     <div class="lbl">Nagrody</div>
     <div class="acct-body" id="cupset-rw"></div>
@@ -932,6 +962,13 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 <div class="ask" id="cupnew" hidden role="dialog" aria-modal="true" aria-labelledby="cupnew-h">
   <div class="ask-box"><div class="cupnew-i" id="cupnew-i" aria-hidden="true"></div><h2 id="cupnew-h">Nowy puchar!</h2><p><b id="cupnew-t"></b></p><p class="cupnew-rw" id="cupnew-rw" hidden></p>
     <button type="button" class="go-btn" id="cupnew-ok">Super!</button></div>
+</div>
+<div class="ask" id="ptsinfo" hidden role="dialog" aria-modal="true" aria-labelledby="ptsinfo-h">
+  <div class="ask-box sheet">
+    <div class="shd"><div><h2 id="ptsinfo-h">Punktacja zadań</h2><span class="shs">Najłatwiejsze = 1 pkt. Punkty tylko za odpowiedź dobrą za pierwszym razem.</span></div><button type="button" class="xbtn" id="ptsinfo-x" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div id="ptsinfo-body"></div>
+    <button type="button" class="go-btn" id="ptsinfo-ok">Gotowe</button>
+  </div>
 </div>
 <div class="ask" id="fxnew" hidden role="dialog" aria-modal="true" aria-labelledby="fxnew-h">
   <div class="ask-box"><div class="fxnew-i" aria-hidden="true">★</div><h2 id="fxnew-h">Nowa animacja!</h2><p>Odblokowałeś: <b id="fxnew-t"></b></p>
@@ -983,8 +1020,8 @@ const BADGES={
 const BADGE_NAMES={ball:"Piłka",crown:"Korona",bolt:"Błyskawica",rocket:"Rakieta",none:"Bez znaczka"};
 const SUBS=[["streak","Seria dni"],["date","Data"],["none","Nic"]];
 const NAME_PRESETS=["Henriksen","Kapitan H","Nr 10","Ekipa H"];
-let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null};}catch(e){}
+let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -1222,7 +1259,9 @@ function nextHint(){
 }
 /* procent i ocena na bieżąco: z działań już skończonych (0…i-1) */
 function updateLive(){
-  const on=(PREFS.pct||PREFS.grade)&&i<N;$("live").hidden=!on;if(!on) return;
+  const on=(PREFS.pct||PREFS.grade||PREFS.pts)&&i<N;$("live").hidden=!on;if(!on) return;
+  const W=tasks.map(wMath),got=W.reduce((a,w,k)=>a+(k<i&&state[k]==="ok"?w:0),0);
+  $("live-pts").hidden=!PREFS.pts;$("live-pts").innerHTML=`<span class="cb">${got}</span>z ${W.reduce((a,b)=>a+b,0)} pkt`;
   const good=state.slice(0,i).filter(s=>s==="ok").length, pct=i?Math.floor(good*100/i):null, g=i?grade(pct):null;
   $("live-pct").hidden=!PREFS.pct;
   $("live-pct").innerHTML=`<span class="cb">${i?pct+"%":"–"}</span>dobrze <small>${good} / ${i}</small>`;
@@ -1407,7 +1446,7 @@ function finish(quiet){
   const d=document.createElement("div");d.className="done card";
   d.innerHTML=`${art(g)}<div>${N===1?"Działanie zrobione.":"Wszystkie "+N+" "+dzialan(N)+" zrobione."}</div>
   <div class="grade" style="--gc:${g.c}"><div class="g" aria-hidden="true">${g.n}</div><div class="gn">Ocena: ${g.n} – ${g.name}</div>
-  <div class="gp">Za pierwszym razem dobrze: ${good} / ${N} (${pct}%)</div>${hintsUsed?`<div class="gp">Użyte podpowiedzi: ${hintsUsed}</div>`:""}</div>
+  <div class="gp">Za pierwszym razem dobrze: ${good} / ${N} (${pct}%)</div><div class="gp pts-end">Punkty: <b>${tasks.reduce((a,t,k)=>a+(state[k]==="ok"?wMath(t):0),0)}</b> z ${tasks.reduce((a,t)=>a+wMath(t),0)}</div>${hintsUsed?`<div class="gp">Użyte podpowiedzi: ${hintsUsed}</div>`:""}</div>
   <table class="scale" aria-label="Skala ocen">${GRADES.map(x=>`<tr class="${x.n===g.n?"me":""}"><td>${x.n} – ${x.name}</td><td>${x.label}</td></tr>`).join("")}</table>`;
   $("dots").after(d);
   const v6=d.querySelector(".end-anim");
@@ -1541,6 +1580,7 @@ document.addEventListener("keydown",e=>{
   if(!$("pinlock").hidden) return;
   if(!$("cupnew").hidden){if(e.key==="Escape"||e.key==="Enter") $("cupnew-ok").click();return;}
   if(!$("cupset").hidden){if(e.key==="Escape") $("cupset").hidden=true;return;}
+  if(!$("ptsinfo").hidden){if(e.key==="Escape") closePtsInfo();return;}
   if(!$("acct").hidden){if(e.key==="Escape") closeAcct();return;}
   if(!$("fxnew").hidden){if(e.key==="Escape"||e.key==="Enter") $("fxnew").hidden=true;return;}
   if(!$("fxs").hidden){if(e.key==="Escape") closeFxs();return;}
@@ -1598,6 +1638,10 @@ const SET_TONE={"×":"#4054d6",":":"#0b7285","+":"#c2410c","−":"#c2410c"};
 function setLast(id){const d=loadHist().filter(s=>s.status==="done"&&subjOf(s)==="mat"&&s.cfg&&s.cfg.set===id);return d.length?d[d.length-1].pct:null;}
 function allHard(){let recs=[];loadHist().filter(s=>subjOf(s)==="mat").forEach(s=>recs.push(...s.recs));
   if(ACTIVE&&i>0&&i<N&&!loadHist().some(s=>s.id===SID)) recs.push(...recsOf(i));return topHard(recs);}
+const PRE={}; // gotowe zestawy na ekranach ustawień: {klucz:{sig,v}} – po „Start” gra dostaje dokładnie ten, którego punkty były widać
+function pre(key,sig,make){if(!PRE[key]||PRE[key].sig!==sig) PRE[key]={sig,v:make()};return PRE[key].v;}
+function take(key,sig,make){const v=PRE[key]&&PRE[key].sig===sig?PRE[key].v:make();delete PRE[key];return v;}
+const genFor=(cfg,n)=>{const c=CFG,nn=N;CFG=cfg;N=n;try{return gen();}finally{CFG=c;N=nn;}};
 function renderSets(){
   const hard=allHard();
   const row=(k,gl,gc,gf,name,meta,last)=>`<button type="button" class="set-i" data-k="${k}"><span class="gl${gl.length>2?" s3":gl.length>1?" s2":""}" style="--gc:${gc}${gf?";--gf:"+gf:""}" aria-hidden="true">${gl}</span>`+
@@ -1605,7 +1649,8 @@ function renderSets(){
   $("sets").innerHTML=(hard.length?row("hard","!","#ffd43b","#12162a","Poćwicz trudne",`${hard.length*2} działań, które sprawiały kłopot`,null):"")+
     SETS.map((st,k)=>{const c={...CFG0,...st.cfg},o=["+","−","×",":"].filter(x=>c.ops.includes(x));
       const gl=c.tens&&o.length===1?o[0]+"10":o.join(""),gc=o.length>1&&SET_TONE[o[0]]!==SET_TONE[o[1]]?"#7048e8":SET_TONE[o[0]];
-      const l=setLast(st.id);return row(k,gl,gc,"",st.name,`${st.n} ${dzialan(st.n)} · ${st.info||"do "+c.m}`,l);}).join("");
+      const l=setLast(st.id),t=pre("set"+k,st.id,()=>genFor({...CFG0,...st.cfg,set:st.id},st.n));
+      return row(k,gl,gc,"",st.name,`${st.n} ${dzialan(st.n)} · ${st.info||"do "+c.m} · do ${t.reduce((a,x)=>a+wMath(x),0)} pkt`,l);}).join("");
 }
 function askPane(custom){$("ask-sets").hidden=custom;$("ask-custom").hidden=!custom;
   $("ask").querySelector(".ask-box").scrollTop=0;(custom?$("ask-back"):$("ask-x")).focus();}
@@ -1624,7 +1669,7 @@ function startSet(k){
   const st=SETS[+k],cfg={...CFG0,...st.cfg,set:st.id};
   if(!canMake(cfg)) return;
   if(ACTIVE&&i>0&&i<N) archive("przerwana");
-  CFG=cfg;$("ask").hidden=true;start(st.n);go("play");
+  CFG=cfg;$("ask").hidden=true;start(st.n,take("set"+k,st.id,()=>gen()));go("play");
 }
 function closeAsk(){$("ask").hidden=true;($("play").hidden?$("t-math"):$("again")).focus();}
 function confirmAsk(){
@@ -1669,7 +1714,7 @@ function render0(){
 }
 /* Ustawienia (menu ☰): motyw i ekran bez wygaszania */
 function savePrefs(){try{localStorage.setItem(PKEY,JSON.stringify(PREFS));}catch(e){}try{markSettings();}catch(e){}}
-const TOGGLES=[["o-fx","fx"],["o-dots","dots"],["o-pct","pct"],["o-grade","grade"],["o-hints","hints"],["o-modals","modals"],["o-goals","goals"],["o-sound","sound"],["awake","awake"]];
+const TOGGLES=[["o-fx","fx"],["o-dots","dots"],["o-pct","pct"],["o-pts","pts"],["o-grade","grade"],["o-hints","hints"],["o-modals","modals"],["o-goals","goals"],["o-sound","sound"],["awake","awake"]];
 function applyView(){$("dots").hidden=!PREFS.dots;updateLive();showStats();if(i<N) resetHint();}
 $("hint-btn").addEventListener("click",nextHint);
 function appName(){return PREFS.name||"Henriksen";}
@@ -1849,8 +1894,9 @@ function archive(status){
   const done=status==="done"?N:i;if(!ACTIVE||!done) return;
   const H=loadHist(),k=H.findIndex(s=>s.id===SID);
   if(k>=0&&H[k].status==="done") return; // już zapisana
-  const recs=recsOf(done),good=recs.filter(r=>r.ok).length,pct=Math.floor(good*100/done);
+  const recs=recsOf(done).map(r=>({...r,w:wMath(r.t)})),good=recs.filter(r=>r.ok).length,pct=Math.floor(good*100/done);
   const s={id:SID,subj:"mat",start:T0,end:Date.now(),status,cfg:CFG,n:N,done,recs,pct,grade:grade(pct).n,errors:done-good,hints:hintsUsed};
+  const sp=sesPts(s);s.pts=sp.p;s.ptsMax=sp.max;
   if(k>=0) H[k]=s; else H.push(s);
   saveHist(H);
 }
@@ -2192,9 +2238,9 @@ const markAns=(w,a)=>w.pre+`<i>${a}</i>`+w.post;
 function plArchive(P,status){
   const recs=P.recs.filter(r=>r.done),done=recs.length;if(!done) return;
   const H=loadHist(),k=H.findIndex(s=>s.id===P.id);if(k>=0&&H[k].status==="done") return;
-  const good=recs.filter(r=>r.ok).length,pct=Math.floor(good*100/done);
+  const good=recs.filter(r=>r.ok).length,pct=Math.floor(good*100/done),pts=recs.reduce((a,r)=>a+(r.ok?r.w:0),0),ptsMax=recs.reduce((a,r)=>a+r.w,0);
   const s={id:P.id,subj:"pl",start:P.start,end:Date.now(),status,cfg:P.cfg,n:P.recs.length,done,
-    recs:recs.map(r=>({t:r.t,a:r.a,m:r.m,q:r.q,c:r.c,ok:r.ok,tries:r.tries,h:0,ms:r.ms||0})),pct,grade:grade(pct).n,errors:done-good,hints:0};
+    recs:recs.map(r=>({t:r.t,a:r.a,m:r.m,q:r.q,c:r.c,w:r.w,ok:r.ok,tries:r.tries,h:0,ms:r.ms||0})),pct,grade:grade(pct).n,errors:done-good,hints:0,pts,ptsMax};
   if(k>=0) H[k]=s; else H.push(s);saveHist(H);
 }
 // wyjście z gry w trakcie = sesja przerwana
@@ -2211,8 +2257,9 @@ function liveBar(pre,recs,cur,fill){
   const d=$(pre+"-dots");d.hidden=!PREFS.dots;
   if(d.children.length!==recs.length) d.innerHTML=recs.map(()=>'<span class="dot"></span>').join("");
   recs.forEach((r,k)=>{d.children[k].className="dot"+(fill?(fill[k]!=null?" fil":""):r.done?(r.ok?" ok":" fix"):r.ok?"":" fix")+(k===cur?" now":"");});
-  const L=$(pre+"-live"),on=(PREFS.pct||PREFS.grade)&&cur!=null&&!fill;L.hidden=!on;if(!on) return;
-  const n=recs.filter(r=>r.done).length,good=recs.filter(r=>r.done&&r.ok).length,pct=n?Math.floor(good*100/n):null,g=n?grade(pct):null,[cp,cg]=L.children;
+  const L=$(pre+"-live"),on=(PREFS.pct||PREFS.grade||PREFS.pts)&&cur!=null&&!fill;L.hidden=!on;if(!on) return;
+  const n=recs.filter(r=>r.done).length,good=recs.filter(r=>r.done&&r.ok).length,pct=n?Math.floor(good*100/n):null,g=n?grade(pct):null,[cp,cg,ct]=L.children;
+  ct.hidden=!PREFS.pts;ct.innerHTML=`<span class="cb">${recs.reduce((a,r)=>a+(r.done&&r.ok?r.w:0),0)}</span>z ${recs.reduce((a,r)=>a+r.w,0)} pkt`;
   cp.hidden=!PREFS.pct;cp.innerHTML=`<span class="cb">${n?pct+"%":"–"}</span>dobrze <small>${good} / ${n}</small>`;
   cg.hidden=!PREFS.grade;cg.style.setProperty("--gc",g?g.c:"");cg.innerHTML=`<span class="cb">${g?g.n:"–"}</span>${g?g.name:"ocena po 1. zadaniu"}`;
 }
@@ -2309,23 +2356,28 @@ function renderPws(){
   $("pw-n").textContent=PLP.n;$("pw-minus").disabled=PLP.n===PL_STEPS[0];$("pw-plus").disabled=PLP.n===PL_STEPS[PL_STEPS.length-1];
   const h=plHard();$("pw-hard").hidden=!h.length;$("pw-hard-s").textContent=`${h.length} ${slowek(h.length)}, w których był błąd`;
   $("pw-err").textContent="";
+  $("pw-pts").hidden=!PLP.pairs.length;if(PLP.pairs.length) ptsPre("pw-pts",pre("pw",pwSig(),pwPick).reduce((a,w)=>a+(w.desc?3:2),0));
 }
 $("pw-pairs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;const p=b.dataset.p;
   PLP.pairs=PLP.pairs.includes(p)?PLP.pairs.filter(x=>x!==p):[...PLP.pairs,p];savePLP();renderPws();});
 $("pw-minus").addEventListener("click",()=>{PLP.n=PL_STEPS[Math.max(0,PL_STEPS.indexOf(PLP.n)-1)];savePLP();renderPws();});
 $("pw-plus").addEventListener("click",()=>{PLP.n=PL_STEPS[Math.min(PL_STEPS.length-1,PL_STEPS.indexOf(PLP.n)+1)];savePLP();renderPws();});
-$("pw-go").addEventListener("click",()=>{
-  if(!PLP.pairs.length){$("pw-err").textContent="Wybierz co najmniej jedno: ó / u, rz / ż albo ch / h.";return;}
+function pwPick(){
   const pool=WORDS.filter(w=>PLP.pairs.includes(w.pair)),list=[];
   while(list.length<PLP.n){const b=shuffle(pool.slice());if(list.length&&b[0]===list[list.length-1]) b.push(b.shift());list.push(...b);}
-  pwStart(list.slice(0,PLP.n),{mode:"slowka",pairs:[...PLP.pairs]});
+  return list.slice(0,PLP.n);
+}
+const pwSig=()=>PLP.pairs.slice().sort().join()+"|"+PLP.n;
+$("pw-go").addEventListener("click",()=>{
+  if(!PLP.pairs.length){$("pw-err").textContent="Wybierz co najmniej jedno: ó / u, rz / ż albo ch / h.";return;}
+  pwStart(take("pw",pwSig(),pwPick),{mode:"slowka",pairs:[...PLP.pairs]});
 });
 $("pw-hard").addEventListener("click",()=>{const h=plHard();if(!h.length) return;
   const list=shuffle([...h,...h]);for(let k=1;k<list.length;k++) if(list[k]===list[k-1]){const x=list.splice(k,1)[0];list.unshift(x);}
   pwStart(list,{mode:"slowka",pairs:[...new Set(h.map(w=>w.pair))],practice:true});});
 
 /* --- Słówka: gra --- */
-const pwRec=w=>({t:w.full,a:w.ans,m:w.pre+"_"+w.post,ok:true,tries:[],ms:0,done:false});
+const pwRec=w=>({t:w.full,a:w.ans,m:w.pre+"_"+w.post,w:w.desc?3:2,ok:true,tries:[],ms:0,done:false});
 let PW=null; // {id,start,cfg,words,i,recs:[{t,ok,tries,ms,done}],wrong:[],locked,over,t0}
 function pwStart(words,cfg){
   PW={id:Date.now(),start:Date.now(),cfg,words,i:0,wrong:[],locked:false,over:false,
@@ -2386,7 +2438,7 @@ function plEnd(el,P,good,n,unit,miss,again,quiet){
   const pct=Math.floor(good*100/n),g=grade(pct);
   el.innerHTML=`<div class="done card">${art(g)}
     <div class="grade" style="--gc:${g.c}"><div class="g" aria-hidden="true">${g.n}</div><div class="gn">Ocena: ${g.n} – ${g.name}</div>
-    <div class="gp">Za pierwszym razem dobrze: ${good} / ${n} ${unit} (${pct}%)</div></div></div>
+    <div class="gp">Za pierwszym razem dobrze: ${good} / ${n} ${unit} (${pct}%)</div><div class="gp pts-end">Punkty: <b>${P.recs.reduce((a,r)=>a+(r.ok&&r.done?r.w:0),0)}</b> z ${P.recs.reduce((a,r)=>a+r.w,0)}</div></div></div>
     ${miss.length?`<div class="lbl">Do poprawy</div><ul class="pl-miss">${miss.map(m=>`<li><div class="mw"><b>${m.html||markAns(m.w,m.w.ans)}</b>${m.bad.length?`<span>wybrane: ${m.bad.map(x=>`<s>${x}</s>`).join(" ")}</span>`:""}</div>${(m.notes||[m.w.desc?`<b>Znaczenie:</b> ${m.w.desc}`:"",m.w.why]).filter(Boolean).map(x=>`<p>${x}</p>`).join("")}</li>`).join("")}</ul>`:""}
     <div class="btns"><button type="button" class="again" data-a="again">${again}</button><button type="button" class="go-btn" data-a="back">Gotowe</button></div>`;
   el.hidden=false;
@@ -2422,7 +2474,7 @@ function renderPd(){
   const H=plHist("dyktando").filter(s=>s.status==="done");
   $("pd-list").innerHTML=DICTS.filter(d=>d.len===PLP.len).map(d=>{const h=H.filter(s=>s.cfg.dict===d.id),last=h.length?h[h.length-1]:null,g=last&&GRADES.find(x=>x.n===last.grade);
     return `<button type="button" class="set-i" data-d="${d.id}"><span class="gl s2" style="--gc:${g?g.c:"#e8590c"}">${g?g.n:d.gaps}</span>`+
-      `<span class="sn"><b>${d.title}</b><small>${d.words} słów · ${d.gaps} ${luk(d.gaps)} · ${d.pairs.map(p=>PL_PAIRS[p].name).join(", ")}</small></span>`+
+      `<span class="sn"><b>${d.title}</b><small>${d.words} słów · ${d.gaps} ${luk(d.gaps)} · ${d.gaps*2} pkt · ${d.pairs.map(p=>PL_PAIRS[p].name).join(", ")}</small></span>`+
       (last?`<span class="lr">${last.pct}%</span>`:`<span class="lr new">nowe</span>`)+`</button>`;}).join("");
   $("pd-now").classList.toggle("sel",PLP.now);$("pd-now").setAttribute("aria-pressed",PLP.now);
   $("pd-now-s").textContent=PLP.now?"Każda luka sprawdzana od razu":"Sprawdzasz cały tekst na końcu";
@@ -2438,7 +2490,7 @@ $("pd-rand").addEventListener("click",()=>{const l=DICTS.filter(d=>d.len===PLP.l
 /* --- Dyktando --- */
 // inne luki w tym samym słowie (ż[ó]łtym) wypełnione poprawnie
 const pdAll=d=>Object.fromEntries(d.segs.filter(s=>s.ans).map(s=>[s.gap,s.ans]));
-const pdRecs=d=>d.segs.filter(s=>s.ans).map(s=>{const p=pdWord(d,s.gap,pdAll(d));return {t:pdWord(d,s.gap,null,true),a:s.ans,m:p.pre+"_"+p.post,ok:true,tries:[],ms:0,done:false};});
+const pdRecs=d=>d.segs.filter(s=>s.ans).map(s=>{const p=pdWord(d,s.gap,pdAll(d));return {t:pdWord(d,s.gap,null,true),a:s.ans,m:p.pre+"_"+p.post,w:2,ok:true,tries:[],ms:0,done:false};});
 let PD=null; // {id,start,cfg,d,fill:{},act,recs,checked,over,locked}
 function pdStart(d){
   PD={id:Date.now(),start:Date.now(),cfg:{mode:"dyktando",dict:d.id,now:PLP.now},d,fill:{},act:0,checked:false,over:false,locked:false,
@@ -2942,12 +2994,15 @@ function renderPzs(){
     return `<button type="button" data-l="${L.n}" class="${PLP.zl==String(L.n)?"sel":""}"${open?` aria-pressed="${PLP.zl==String(L.n)}"`:" disabled"}><b>${open?"":'<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>'}${L.name}</b><small>${sub}</small></button>`;}).join("")+
     `<button type="button" data-l="mix" class="${PLP.zl==="mix"?"sel":""}" aria-pressed="${PLP.zl==="mix"}"><b>Mieszane</b><small>wszystkie otwarte poziomy</small></button>`;
   $("pz-n").textContent=PLP.zn;$("pz-minus").disabled=PLP.zn===PZ_STEPS[0];$("pz-plus").disabled=PLP.zn===PZ_STEPS[PZ_STEPS.length-1];
+  const z=pre("pz",pzSig(),pzMake);ptsPre("pz-pts",z.qs.reduce((a,q,k)=>a+ptsW({subj:"pl",cfg:{mode:"znaczenia"}},{t:z.words[k].w,q:q.t}),0));
 }
 $("pz-lvls").addEventListener("click",e=>{const b=e.target.closest("button");if(!b||b.disabled) return;PLP.zl=b.dataset.l;savePLP();renderPzs();});
 $("pz-minus").addEventListener("click",()=>{PLP.zn=PZ_STEPS[Math.max(0,PZ_STEPS.indexOf(PLP.zn)-1)];savePLP();renderPzs();});
 $("pz-plus").addEventListener("click",()=>{PLP.zn=PZ_STEPS[Math.min(PZ_STEPS.length-1,PZ_STEPS.indexOf(PLP.zn)+1)];savePLP();renderPzs();});
 $("pz-coll").addEventListener("click",()=>go("plzk"));
-$("pz-go").addEventListener("click",()=>{const st=pzStats();pzStart(pzPick(PLP.zn,pzLevels(PLP.zl,st),st),{mode:"znaczenia",lvl:PLP.zl},st);});
+const pzMake=()=>{const st=pzStats(),words=pzPick(PLP.zn,pzLevels(PLP.zl,st),st);return {words,qs:words.map(x=>pzQuestion(x))};};
+const pzSig=()=>PLP.zl+"|"+PLP.zn;
+$("pz-go").addEventListener("click",()=>{const st=pzStats(),z=take("pz",pzSig(),pzMake);pzStart(z.words,{mode:"znaczenia",lvl:PLP.zl},st,null,z.qs);});
 $("pl-t-z").addEventListener("click",()=>go("plzs"));
 
 /* słowo dnia: to samo przez cały dzień, z otwartych poziomów, jeszcze nie znane */
@@ -2961,9 +3016,9 @@ $("pz-day").addEventListener("click",()=>{const {x}=pzDaily();pzStart([x],{mode:
 
 /* gra */
 let PZ=null; // {id,start,cfg,words,qs,i,recs,seen,locked,over,t0}
-function pzStart(words,cfg,st,type){
-  PZ={id:Date.now(),start:Date.now(),cfg,words,qs:words.map(x=>pzQuestion(x,type)),i:0,locked:false,over:false,seen:new Set(st.keys())};
-  PZ.recs=PZ.qs.map((q,k)=>({t:words[k].w,q:q.t,c:q.c,ok:true,tries:[],ms:0,done:false}));
+function pzStart(words,cfg,st,type,qs){
+  PZ={id:Date.now(),start:Date.now(),cfg,words,qs:qs||words.map(x=>pzQuestion(x,type)),i:0,locked:false,over:false,seen:new Set(st.keys())};
+  PZ.recs=PZ.qs.map((q,k)=>({t:words[k].w,q:q.t,c:q.c,w:ptsW({subj:"pl",cfg},{t:words[k].w,q:q.t}),ok:true,tries:[],ms:0,done:false}));
   $("pz-game").hidden=false;$("pz-end").hidden=true;$("pz-end").innerHTML="";
   if(CUR==="plz"){pzShow();scrollTo(0,0);} else {go("plz");pzShow();}
 }
@@ -3124,13 +3179,17 @@ function renderEn(){
   const h=loadHist().filter(s=>s.subj==="en"&&s.status==="done");
   $("en-last").textContent=h.length?`Ostatnio: ${h[h.length-1].pct}% · ocena ${h[h.length-1].grade}`:"Ja jestem, on jest, oni są – i pytania";
   $("en-err").textContent="";
+  $("en-pts").hidden=!PLP.et.length;if(PLP.et.length) ptsPre("en-pts",pre("tobe",enSig(),()=>enToBeQs(PLP.en,PLP.et)).reduce((a,q)=>a+ptsW({subj:"en",cfg:{mode:"tobe"}},{t:q.q,c:q.c}),0));
 }
 $("t-en").addEventListener("click",()=>go("en"));
 $("en-types").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;const t=b.dataset.t;
   PLP.et=PLP.et.includes(t)?PLP.et.filter(x=>x!==t):[...PLP.et,t];savePLP();renderEn();});
 $("en-minus").addEventListener("click",()=>{PLP.en=EN_STEPS[Math.max(0,EN_STEPS.indexOf(PLP.en)-1)];savePLP();renderEn();});
 $("en-plus").addEventListener("click",()=>{PLP.en=EN_STEPS[Math.min(EN_STEPS.length-1,EN_STEPS.indexOf(PLP.en)+1)];savePLP();renderEn();});
-$("en-go").addEventListener("click",()=>{if(!PLP.et.length){$("en-err").textContent="Wybierz co najmniej jeden rodzaj zadań.";return;}{const n=PLP.en,t=[...PLP.et];enStart(()=>enToBeQs(n,t),{mode:"tobe",types:t});}});
+const enSig=()=>PLP.et.slice().sort().join()+"|"+PLP.en;
+$("en-go").addEventListener("click",()=>{if(!PLP.et.length){$("en-err").textContent="Wybierz co najmniej jeden rodzaj zadań.";return;}
+  const n=PLP.en,t=[...PLP.et];let first=take("tobe",enSig(),()=>enToBeQs(n,t));
+  enStart(()=>{const q=first||enToBeQs(n,t);first=null;return q;},{mode:"tobe",types:t});});
 
 /* gra: ten sam układ co Znaczenie słów */
 let EN=null; // {id,start,cfg,qs,i,recs,locked,over,t0}
@@ -3143,7 +3202,7 @@ function enStart(make,cfg){
   const qs=make();
   EN={id:Date.now(),start:Date.now(),cfg,make,qs,i:0,locked:false,over:false};
   $("enq-title").textContent=cfg.mode==="tobe"?"To be":EN_MODES[cfg.mode].title;
-  EN.recs=qs.map(q=>({t:q.q,c:q.c,ok:true,tries:[],ms:0,done:false}));
+  EN.recs=qs.map(q=>({t:q.q,c:q.c,w:ptsW({subj:"en",cfg},{t:q.q,c:q.c}),ok:true,tries:[],ms:0,done:false}));
   $("enq-game").hidden=false;$("enq-end").hidden=true;$("enq-end").innerHTML="";
   if(CUR==="enq"){enShow();scrollTo(0,0);} else {go("enq");enShow();}
 }
@@ -3188,7 +3247,7 @@ function enArchive(P,status){
   const H=loadHist(),k=H.findIndex(s=>s.id===P.id);if(k>=0&&H[k].status==="done") return;
   const good=recs.filter(r=>r.ok).length,pct=Math.floor(good*100/done);
   const s={id:P.id,subj:"en",start:P.start,end:Date.now(),status,cfg:P.cfg,n:P.recs.length,done,
-    recs:recs.map(r=>({t:r.t,c:r.c,ok:r.ok,tries:r.tries,h:0,ms:r.ms})),pct,grade:grade(pct).n,errors:done-good,hints:0};
+    recs:recs.map(r=>({t:r.t,c:r.c,w:r.w,ok:r.ok,tries:r.tries,h:0,ms:r.ms})),pct,grade:grade(pct).n,errors:done-good,hints:0,pts:recs.reduce((a,r)=>a+(r.ok?r.w:0),0),ptsMax:recs.reduce((a,r)=>a+r.w,0)};
   if(k>=0) H[k]=s; else H.push(s);saveHist(H);
 }
 function enFinish(){
@@ -3336,6 +3395,8 @@ function renderEnSet(){
     $("enset-acc").setAttribute("aria-expanded",ENACC);$("enset-topics").hidden=!ENACC;
     $("enset-topics").innerHTML=EN_TOPICS.map(t=>{const on=o.topics.includes(t.id);return `<button type="button" data-k="${t.id}" class="${on?"sel":""}" aria-pressed="${on}">${t.name} <small>${cnt(t.id)}</small></button>`;}).join("");}
   $("enset-n").textContent=o.n;$("enset-minus").disabled=o.n===EN_STEPS[0];$("enset-plus").disabled=o.n===EN_STEPS[EN_STEPS.length-1];
+  const oo={...o,topics:[...(o.topics||[])]};
+  ptsPre("enset-pts",pre("ens",ensSig(),()=>enVocabQs(ENM,oo)).reduce((a,q)=>a+ptsW({subj:"en",cfg:{mode:ENM}},{t:q.q,c:q.c}),0));
 }
 const enSetO=()=>PLP[ENM==="slowka"?"ev":"ez"];
 $("enset-lvl").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;enSetO().lvl=b.dataset.k;savePLP();renderEnSet();});
@@ -3347,7 +3408,9 @@ $("enset-topics").addEventListener("click",e=>{const b=e.target.closest("button"
 $("enset-dir").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;enSetO().dir=b.dataset.k;savePLP();renderEnSet();});
 $("enset-minus").addEventListener("click",()=>{const o=enSetO();o.n=EN_STEPS[Math.max(0,EN_STEPS.indexOf(o.n)-1)];savePLP();renderEnSet();});
 $("enset-plus").addEventListener("click",()=>{const o=enSetO();o.n=EN_STEPS[Math.min(EN_STEPS.length-1,EN_STEPS.indexOf(o.n)+1)];savePLP();renderEnSet();});
-$("enset-go").addEventListener("click",()=>{const m=ENM,o={...enSetO(),topics:[...enSetO().topics]};enStart(()=>enVocabQs(m,o),{mode:m,lvl:o.lvl,dir:o.dir,topics:o.topics});});
+const ensSig=()=>{const o=enSetO();return [ENM,o.lvl,o.dir,o.n,(o.topics||[]).slice().sort().join()].join("|");};
+$("enset-go").addEventListener("click",()=>{const m=ENM,o={...enSetO(),topics:[...enSetO().topics]};let first=take("ens",ensSig(),()=>enVocabQs(m,o));
+  enStart(()=>{const q=first||enVocabQs(m,o);first=null;return q;},{mode:m,lvl:o.lvl,dir:o.dir,topics:o.topics});});
 
 /* ===== Konto (Supabase): rodzic zakłada rodzinę, telefon dziecka dołącza kodem, dziecko otwiera aplikację PIN-em =====
    Biblioteka supabase-js ładuje się dopiero, gdy jest potrzebna (bez konta aplikacja działa jak dotąd, także offline).
@@ -3606,18 +3669,18 @@ if(syncOn()) syncSoon(2500);
    puchary, żeby „Nowy puchar!” wyskoczył raz. Rodzic zmienia progi dziecka przez jego wiersz w settings (sync go dociąga). */
 const CUP_SUBJ={mat:"Matematyka",pl:"Polski",en:"Angielski"};
 const CUP_CATS=[
-  {id:"mat×",subj:"mat",name:"Mnożenie",base:50},{id:"mat:",subj:"mat",name:"Dzielenie",base:50},
-  {id:"mat+",subj:"mat",name:"Dodawanie",base:50},{id:"mat−",subj:"mat",name:"Odejmowanie",base:50},
-  {id:"pl-slowka",subj:"pl",name:"Słówka: ó/u, rz/ż, ch/h",base:30},{id:"pl-dyktando",subj:"pl",name:"Dyktanda",base:30},
-  {id:"pl-znaczenia",subj:"pl",name:"Znaczenie słów",base:30},
-  {id:"en-tobe",subj:"en",name:"To be",base:30},{id:"en-slowka",subj:"en",name:"Słówka angielskie",base:30},{id:"en-zdania",subj:"en",name:"Zdania",base:20}
+  {id:"mat×",subj:"mat",name:"Mnożenie",base:150},{id:"mat:",subj:"mat",name:"Dzielenie",base:150},
+  {id:"mat+",subj:"mat",name:"Dodawanie",base:100},{id:"mat−",subj:"mat",name:"Odejmowanie",base:100},
+  {id:"pl-slowka",subj:"pl",name:"Słówka: ó/u, rz/ż, ch/h",base:75},{id:"pl-dyktando",subj:"pl",name:"Dyktanda",base:75},
+  {id:"pl-znaczenia",subj:"pl",name:"Znaczenie słów",base:100},
+  {id:"en-tobe",subj:"en",name:"To be",base:50},{id:"en-slowka",subj:"en",name:"Słówka angielskie",base:75},{id:"en-zdania",subj:"en",name:"Zdania",base:100}
 ];
 const CUP_LV=[{k:"b",name:"Brąz",to:"brązu",x:1,c:"#cd7f32"},{k:"s",name:"Srebro",to:"srebra",x:3,c:"#b4bfcf"},
   {k:"g",name:"Złoto",to:"złota",x:8,c:"#f2c230"},{k:"d",name:"Diament",to:"diamentu",x:20,c:"#4dd4ff"}];
-const CUP_STEPS=[5,10,20,30,50,75,100,150,200,300];
+const CUP_STEPS=[20,30,50,75,100,150,200,300,500,750,1000];
 const PARENT_KEYS=["cups","cupRewards"]; // ustawia rodzic – przy konflikcie wygrywa wersja z bazy
 const cupCat=(s,r)=>{const sj=s.subj||"mat";return sj==="mat"?"mat"+(Array.isArray(r.t)?r.t[1]:""):sj+"-"+((s.cfg&&s.cfg.mode)||(sj==="en"?"tobe":"slowka"));};
-function cupCounts(H){const c={};for(const s of H) for(const r of s.recs||[]) if(r.ok){const k=cupCat(s,r);c[k]=(c[k]||0)+1;}return c;}
+function cupCounts(H){const c={};for(const s of H) for(const r of s.recs||[]) if(r.ok){const k=cupCat(s,r);c[k]=(c[k]||0)+recW(s,r);}return c;} // punkty, nie liczba zadań
 const cupBase=(P,id)=>(P&&P.cups&&+P.cups[id])||CUP_CATS.find(x=>x.id===id).base;
 const cupLevel=(n,base)=>CUP_LV.reduce((l,L,k)=>n>=base*L.x?k:l,-1);
 const cupSvg=(c,s=44)=>`<svg width="${s}" height="${s}" viewBox="0 0 48 48" aria-hidden="true"><path d="M14 6h20v12a10 10 0 0 1-20 0z" fill="${c||"none"}" stroke="${c?"rgba(0,0,0,.25)":"var(--line)"}" stroke-width="2.5" stroke-linejoin="round"/>
@@ -3631,12 +3694,12 @@ function cupsHtml(H,P){
     for(let k=0;k<=l;k++) tot[k]++;
     const rw=nx&&P&&P.cupRewards&&P.cupRewards[nx.k];
     return `<div class="cup"><span class="ci">${cupSvg(l>=0?CUP_LV[l].c:null)}</span><span class="cn"><b>${x.name}</b>`+
-      `<small>${l>=0?CUP_LV[l].name:"Jeszcze bez pucharu"} · ${n} ${zadan(n)}</small>`+
-      (nx?`<span class="cbar"><i style="width:${Math.min(100,Math.round((n-prev)*100/(b*nx.x-prev)))}%;background:${nx.c}"></i></span><small>Jeszcze ${b*nx.x-n} do ${nx.to}</small>`:`<small class="cmax">Wszystkie poziomy zdobyte!</small>`)+
+      `<small>${l>=0?CUP_LV[l].name:"Jeszcze bez pucharu"} · ${n} pkt</small>`+
+      (nx?`<span class="cbar"><i style="width:${Math.min(100,Math.round((n-prev)*100/(b*nx.x-prev)))}%;background:${nx.c}"></i></span><small>Jeszcze ${b*nx.x-n} pkt do ${nx.to}</small>`:`<small class="cmax">Wszystkie poziomy zdobyte!</small>`)+
       (rw?`<small class="crw">Nagroda za ${nx.name.toLowerCase()}: ${esc(rw)}</small>`:"")+`</span></div>`;}).join("")+`</div>`).join("");
   const all=tot.reduce((a,b)=>a+b,0);
   return `<div class="cup-sum">${CUP_LV.map((L,k)=>`<div>${cupSvg(L.c,36)}<b>${tot[k]}</b><small>${L.name}</small></div>`).join("")}</div>
-    <p class="cup-note">${all?`Masz ${all} ${all===1?"puchar":all%10>=2&&all%10<=4&&!(all%100>=12&&all%100<=14)?"puchary":"pucharów"}.`:"Pierwszy puchar za "+Math.min(...CUP_CATS.map(x=>cupBase(P,x.id)))+" dobrych odpowiedzi."} Liczą się odpowiedzi dobre za pierwszym razem.</p>`+groups;
+    <p class="cup-note">${all?`Masz ${all} ${all===1?"puchar":all%10>=2&&all%10<=4&&!(all%100>=12&&all%100<=14)?"puchary":"pucharów"}.`:"Pierwszy puchar za "+Math.min(...CUP_CATS.map(x=>cupBase(P,x.id)))+" pkt."} Punkty dostajesz za odpowiedzi dobre za pierwszym razem – trudniejsze zadania są warte więcej.</p>`+groups;
 }
 const esc=t=>String(t).replace(/[&<>"]/g,ch=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"})[ch]);
 const cupTotal=(H,P)=>{const c=cupCounts(H);return CUP_CATS.reduce((a,x)=>a+cupLevel(c[x.id]||0,cupBase(P,x.id))+1,0);};
@@ -3715,6 +3778,83 @@ $("cupnew-ok").addEventListener("click",()=>{$("cupnew").hidden=true;if(CUP_VIEW
 const CUP_VIEW_OPEN=()=>CUR==="cups";
 function renderCupsBar(){const n=cupTotal(loadOwnHist(),PREFS);$("t-cups-s").textContent=n?`Masz ${n} · zobacz, ile brakuje do kolejnych`:"Zdobywaj brąz, srebro, złoto i diament";}
 setTimeout(cupsCheck,1500);
+
+/* ===== Punkty: najłatwiejsze zadanie = 1 pkt, trudniejsze więcej; zestaw = suma wag jego pytań =====
+   Punkty tylko za odpowiedź dobrą za pierwszym razem (po błędzie 0). Waga zapisuje się w rekordzie odpowiedzi (r.w),
+   starsze sesje liczą ją z tych samych reguł (ptsW). Tabela PTS_INFO = to, co widać w Ustawieniach › Punktacja –
+   przy zmianie reguł w wMath / ptsW popraw też ją. */
+const carryAdd=(a,b)=>{for(;a||b;a=Math.floor(a/10),b=Math.floor(b/10)) if(a%10+b%10>=10) return true;return false;};
+const borrowSub=(a,b)=>{for(;b;a=Math.floor(a/10),b=Math.floor(b/10)) if(a%10<b%10) return true;return false;};
+function wMath([a,op,b]){
+  if(op==="+"||op==="−"){
+    const mx=Math.max(a,b,op==="+"?a+b:a),cross=op==="+"?carryAdd(a,b):borrowSub(a,b);
+    if(mx<=10) return 1;
+    if(mx<=20) return cross?2:1;
+    if(mx<100) return cross?3:2;
+    if(mx<1000) return cross?5:4;
+    return cross?7:6;
+  }
+  if(op==="×"){
+    if(a<=10&&b<=10) return [1,2,10].includes(a)||[1,2,10].includes(b)?1:a>=6&&b>=6?3:2;
+    if(a%10===0||b%10===0) return 3; // pełne dziesiątki
+    return Math.min(a,b)<10?4:6;
+  }
+  const c=a/b; // dzielenie: a = dzielna, b = dzielnik
+  if(!Number.isInteger(c)) return 6;
+  if(b<=10&&c<=10) return wMath([b,"×",c])+1;
+  return 4;
+}
+function ptsW(s,r){
+  const sj=s.subj||"mat",m=s.cfg&&s.cfg.mode;
+  if(sj==="mat") return Array.isArray(r.t)?wMath(r.t):1;
+  if(sj==="pl"){
+    if(m==="dyktando") return 2;
+    if(m==="znaczenia"){const x=MEAN_BY.get(r.t);return (x?{1:2,2:3,3:5}[x.lvl]:2)+(["syn","ant","gap"].includes(r.q)?1:0);}
+    const w=WORDS.find(x=>x.full===r.t);return w&&w.desc?3:2;
+  }
+  if(sj==="en"){
+    if(m==="slowka"){const x=ENW.find(y=>y.en===r.c&&y.pl===r.t||y.en===r.t&&y.pl===r.c);return (x&&x.lvl==="a2"?2:1)+(x&&r.c===x.en?1:0);}
+    if(m==="zdania"){const x=ENS.find(y=>y.en===r.c||y.en===r.t);return (x&&x.lvl==="a2"?5:3)+(x&&r.c===x.en?1:0);}
+    return /[?.]$/.test(r.c||"")?2:1; // To be: pytania i krótkie odpowiedzi 2, odmiana i am/is/are 1
+  }
+  return 1;
+}
+const recW=(s,r)=>r.w||ptsW(s,r);
+// punkty sesji (zdobyte, do zdobycia) – także starszych, bez zapisanych wag
+const sesPts=s=>(s.recs||[]).reduce((a,r)=>{const w=recW(s,r);a.max+=w;if(r.ok) a.p+=w;return a;},{p:0,max:0});
+const pktTxt=n=>n===1?"punkt":n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?"punkty":"punktów";
+const ptsPre=(id,max)=>{$(id).innerHTML=`Za ten zestaw: <b>do ${max} pkt</b><small>punkty za odpowiedzi dobre za 1. razem</small>`;};
+
+const PTS_INFO=[
+  ["Matematyka",[["+ − do 10","1+1, 7−3",1],["+ − do 20 bez przejścia / z przejściem przez 10","12+5 / 7+5, 13−6","1 / 2"],
+    ["+ − dwucyfrowe bez / z przeniesieniem","23+14 / 27+15","2 / 3"],["+ − trzycyfrowe bez / z przeniesieniem","320+150 / 367+278","4 / 5"],
+    ["+ − czterocyfrowe bez / z przeniesieniem","2300+1200 / 4567+2789","6 / 7"],
+    ["× przez 1, 2 albo 10","7×2, 10×4",1],["× tabliczka","4×7",2],["× trudna tabliczka (6–9 × 6–9)","7×8",3],["× pełne dziesiątki","40×30, 23×10",3],
+    ["× dwucyfrowa przez jednocyfrową","23×7",4],["× dwucyfrowa przez dwucyfrową","23×17",6],
+    [": odwrotność tabliczki","56:7","jak mnożenie + 1"],[": dowolne","390:5",4],[": z ułamkiem w wyniku","7:2 = 3,5",6]]],
+  ["Polski",[["Słówka ó/u, rz/ż, ch/h","g_ra",2],["Słówka – trudne słowo","_ierarchia",3],["Dyktando – każda luka","mo_e",2],
+    ["Znaczenie słów – łatwe / średnie / trudne","ponury / skrupulatny / lakoniczny","2 / 3 / 5"],["…za synonim, przeciwieństwo albo zdanie z luką","","+1"]]],
+  ["Angielski",[["To be – odmiana i am / is / are","On jest → He is",1],["To be – pytania i Who / What","Is he red?",2],["To be – krótkie odpowiedzi","Yes, she is.",2],
+    ["Słówka A1 / A2 (z angielskiego na polski)","dog → pies","1 / 2"],["…z polskiego na angielski","pies → dog","+1"],
+    ["Zdania A1 / A2 (z angielskiego na polski)","She is my sister.","3 / 5"],["…z polskiego na angielski","","+1"]]]
+];
+function openPtsInfo(){
+  $("ptsinfo-body").innerHTML=PTS_INFO.map(([h,rows])=>`<div class="lbl">${h}</div><table class="ptab">`+
+    rows.map(([a,ex,p])=>`<tr><td>${a}${ex?`<small>${ex}</small>`:""}</td><td class="num">${p}</td></tr>`).join("")+`</table>`).join("");
+  $("menu").hidden=true;$("ptsinfo").hidden=false;$("ptsinfo-x").focus();
+}
+function closePtsInfo(){$("ptsinfo").hidden=true;$("menu").hidden=false;selMenu();$("o-ptsinfo").focus();}
+$("o-ptsinfo").addEventListener("click",openPtsInfo);
+$("ptsinfo-x").addEventListener("click",closePtsInfo);$("ptsinfo-ok").addEventListener("click",closePtsInfo);
+
+/* menu ☰: sekcje zwinięte w akordeony, „Podczas ćwiczeń” otwarte; pod zwiniętą nazwą lista jej opcji */
+document.querySelectorAll("#menu .macc").forEach(b=>{
+  const sec=$(b.getAttribute("aria-controls")),names=[...sec.querySelectorAll(".row b, .segs button")].map(x=>x.textContent.trim());
+  b.querySelector("small").textContent=names.length>3?`${names.slice(0,2).join(", ")} i ${names.length-2} ${names.length-2<5?"inne":"innych"}`:names.join(", ");
+  const open=v=>{b.setAttribute("aria-expanded",v);sec.hidden=!v;};
+  open(b.querySelector("b").textContent==="Podczas ćwiczeń");
+  b.addEventListener("click",()=>open(b.getAttribute("aria-expanded")!=="true"));
+});
 
 // wczytanie zapisanej sesji: dopiero teraz, bo finish() zapisuje do historii (HKEY wyżej)
 if(load()){

@@ -13,7 +13,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
 - Po zmianie ikon/manifestu podbij `VERSION` w `sw.js`.
 
 ## Architektura `index.html`
-- **Widoki:** `#home` (kafle Matematyka, Polski i Angielski, Historia jako „Wkrótce” – kwadrat w osobnym rzędzie – `[data-soon]`, tylko potrząśnięcie; pasek Statystyki), `#play` (gra), `#stats-v` (statystyki); `go(v)` + `history.pushState`
+- **Widoki:** `#home` (cztery kwadratowe kafle 2×2: Matematyka, Polski, Angielski, Historia jako „Wkrótce” – `[data-soon]`, tylko potrząśnięcie; pasek Statystyki), `#play` (gra), `#stats-v` (statystyki); `go(v)` + `history.pushState`
   (`#gra`, `#statystyki`), więc „wstecz” w telefonie wraca na start. Aplikacja zawsze startuje na `#home`.
   Wczytanie zapisanej sesji (`load()` → `render0()`/`finish(true)`) jest na samym końcu skryptu – `finish()` zapisuje
   do historii i używa stałych zdefiniowanych niżej (wcześniej powodowało to błąd TDZ przy starcie).
@@ -56,7 +56,12 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   (`markSettings()` z `savePrefs`/`savePLP`). Stan w `henriksen-sync` per konto. Rodzic: wybór dziecka nad Statystykami (`#who`,
   `renderWho`) – sesje dziecka trafiają do `VIEW_HIST`, a `loadHist()` w widoku statystyk zwraca je zamiast własnych
   (`loadOwnHist()` = zawsze własna, używaj jej przy zapisie i kopii).
-- **Puchary (`#cups`, `#puchary`):** brąz/srebro/złoto/diament (`CUP_LV`, progi ×1/×3/×8/×20) za odpowiedzi dobre za 1. razem
+- **Punkty:** najłatwiejsze zadanie = 1 pkt, trudniejsze więcej (`wMath` dla matematyki, `ptsW(sesja, odpowiedź)` dla reszty);
+  tylko za odpowiedź dobrą za 1. razem (po błędzie 0). Waga zapisuje się w odpowiedzi (`r.w`), sesja ma `pts` / `ptsMax`; starsze sesje
+  liczą wagę z reguł (`recW`, `sesPts`). Tabela `PTS_INFO` to ekran Ustawienia › Punktacja zadań (`#ptsinfo`) – przy zmianie reguł
+  popraw ją razem z `wMath`/`ptsW`. Zestaw losuje się już na ekranie ustawień (`pre()` / `take()` z `PRE`), żeby było widać
+  „Za ten zestaw: do X pkt”, a „Start” dostaje ten sam zestaw. Punkty na bieżąco: trzecia pastylka w `#live` (`PREFS.pts`).
+- **Puchary (`#cups`, `#puchary`):** brąz/srebro/złoto/diament (`CUP_LV`, progi ×1/×3/×8/×20) za punkty z odpowiedzi dobrych za 1. razem
   w kategoriach `CUP_CATS` (mnożenie, dzielenie, dodawanie, odejmowanie, słówka, dyktanda, znaczenie słów, To be, słówka ang., zdania;
   kategoria sesji z `cupCat()`). Liczone z historii (`cupCounts`). Próg brązu i nagrody ustawia rodzic: `PREFS.cups[kat]`,
   `PREFS.cupRewards[b/s/g/d]` (okno `#cupset`); dla dziecka zapis idzie do jego wiersza `settings` w bazie, a przy konflikcie
