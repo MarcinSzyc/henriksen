@@ -153,15 +153,15 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   Semantyka zakresów: przy dzieleniu `a` to dzielna, `b` to dzielnik, `c` to wynik.
 - **Ocena:** `GRADES` (skala %: 6 ≥98, 5 ≥86, 4 ≥70, 3 ≥51, 2 ≥31, 1 poniżej),
   liczona z odsetka zadań rozwiązanych dobrze za pierwszym razem.
-- **Ekran końcowy:** `art(g)`:
-  - 1–3: grafika „DO PORZYGU!”,
-  - 4: piłka w słupek,
-  - 5: gol,
-  - 6: losowy filmik z `GOALS` w `.end-anim` (po zniknięciu modala), przycisk „Obejrzyj jeszcze raz”.
-- **Filmiki z golami:** `video/gol-1..4.mp4` (Mixkit, Mixkit Stock Video Free License, 360p, bez dźwięku; źródła w README).
-  `playGoal(el,k,onEnd)` wstawia `<video muted playsinline autoplay>` (iOS wymaga muted + playsinline).
-  `showGoal()` co 10 dobrych: po zamknięciu modala (`celebrate(n,false,after)`), albo od razu gdy modale wyłączone.
-  Pliki są w `SHELL` w `sw.js`; `rangeFromCache()` w SW odpowiada 206 na żądania Range (Safari bez tego nie odtworzy wideo offline).
+- **Ekran końcowy:** `art(g)` = nagłówek oceny + pole `.end-anim` z losową nagrodą z puli tej oceny (bez rysunków;
+  „DO PORZYGU” usunięte na życzenie), przycisk „Obejrzyj jeszcze raz”. Odtwarzanie po zniknięciu modala (matematyka `finish`,
+  quizy `plEnd`).
+- **Nagrody (`REWARDS`):** `{id,src,t:[pule],max?,ext?}`; pule: 6 / 5 / 4 = ocena, 3 = oceny 1–3 (`rewTier`), 10 = co 10 dobrych
+  (`showGoal`). Lokalne klipy `video/n6-*`, `n5-*`, `n4-*` (Pexels / Pixabay, 360p, bez dźwięku, źródła w README) – nie są w `SHELL`,
+  zapisują się offline przy pierwszym pokazaniu (`rangeFromCache` w SW odpowiada 206 na Range – Safari tego wymaga).
+  `ext` = GIF z Giphy/Tenor pokazywany jako MP4 prosto z ich serwera (tylko online, nie kopiujemy do repo) z podpisem `.rew-cr`;
+  krótkie GIF-y zapętlane do ok. 6 s, długie klipy ucinane na `max`. `nextGoal(pula)` losuje bez powtórki, offline pomija `ext`;
+  błąd wczytania → `localFor(pula)`, a gdy pula nie ma lokalnych (porażki) – pole nagrody się chowa.
   Przełączniki `modals` i `goals` w menu.
 - **Efekty odpowiedzi (`FX`, przełącznik `fx` w ustawieniach):** `FX` to lista `{id,kind:"ok"|"bad",tier,name,ms,boom?,run(g)}`.
   `playFx(kind)` losuje dostępny efekt (odblokowany i nie w `PREFS.fxOff`), rysuje go w warstwie `.fx` (position: fixed)

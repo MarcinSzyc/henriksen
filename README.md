@@ -56,15 +56,23 @@ sound/                 próbki dźwięków (AAC .m4a)
 .nojekyll              GitHub Pages bez Jekylla
 ```
 
-## Filmiki
+## Nagrody (filmiki i GIF-y)
 
-Filmiki z golami pochodzą z [Mixkit](https://mixkit.co) i są na licencji
-[Mixkit Stock Video Free License](https://mixkit.co/license/#videoFree):
+Klipy w `video/` (licencje pozwalają używać ich w aplikacji bez podpisu, dla porządku podajemy źródła):
 
-- `gol-1.mp4` – [Soccer football player does an overhead kick goal](https://mixkit.co/free-stock-video/soccer-football-player-does-an-overhead-kick-goal-2916/)
-- `gol-2.mp4` – [Goal play in a semi-professional soccer game](https://mixkit.co/free-stock-video/goal-play-in-a-semi-professional-soccer-game-43499/)
-- `gol-3.mp4` – [Skillful soccer player shoots on goal](https://mixkit.co/free-stock-video/skillful-soccer-player-shoots-on-goal-43497/)
-- `gol-4.mp4` – [Friends from different countries celebrating a goal](https://mixkit.co/free-stock-video/friends-from-different-countries-celebrating-a-goal-44602/)
+- `n6-san-siro.mp4` – [Goal on San Siro](https://www.pexels.com/video/goal-on-san-siro-16651367/) (Pexels)
+- `n6-fajerwerki.mp4` – [Fireworks display at a football stadium](https://www.pexels.com/video/low-angle-view-of-fireworks-display-at-a-football-stadium-13082848/) (Pexels)
+- `n6-puchar.mp4` – [Man holding a trophy while celebrating](https://www.pexels.com/video/man-holding-a-trophy-while-celebrating-9502523/) (Pexels)
+- `n5-stadion.mp4` – [Energetic crowd celebrating at soccer stadium](https://www.pexels.com/video/energetic-crowd-celebrating-at-soccer-stadium-35117249/) (Pexels, przycięte do 10 s)
+- `n4-kibice.mp4` – [Excited soccer fans cheering in stadium](https://www.pexels.com/video/excited-soccer-fans-cheering-in-stadium-39711248/) (Pexels)
+- `n4-plonaca-pilka.mp4` – [Football soccer robot leg fire](https://pixabay.com/videos/football-soccer-robot-leg-fire-140210/) (Pixabay, przycięte do 8 s)
+
+GIF-y nie są kopiowane do repo – aplikacja pokazuje je prosto z Giphy / Tenor (tylko z internetem), z podpisem źródła:
+
+- Captain Tsubasa – [strzał Tsubasy i Misakiego](https://giphy.com/gifs/c7m7mnMZNH93weBxlA), [strzał Niemca](https://giphy.com/gifs/tQlAjwnbmk59YYzSuK) (Giphy, Bandai Namco)
+- [Strzał Hyugi](https://giphy.com/gifs/C9anstl2NoEwedj9PY) (Giphy, DJ Chimo Bayo), [Supa Strikas](https://giphy.com/gifs/ytwDCq6bm69EMef2JG) (Giphy, Supa Strikas)
+- [Tsubasa z piłką](https://tenor.com/view/captain-tsubasa-gif-21171827), [okrzyk](https://tenor.com/view/captain-tsubasa-tsubasa-gif-26298037), [przewrotka](https://tenor.com/view/captain-tsubasa-tsubasa-tsubasa-ozora-overhead-kick-soccer-gif-25871030) (Tenor)
+- Pudła przy słabej ocenie: [1](https://giphy.com/gifs/funny-fail-KGTTNpVuGVhN6), [2](https://giphy.com/gifs/soccer-owned-pdAiipxDMCHni), [3](https://giphy.com/gifs/FpFtdGPi2frTq) (Giphy)
 
 ## Dźwięki
 

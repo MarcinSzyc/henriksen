@@ -173,17 +173,6 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .cheer .p{font-family:var(--display);font-weight:800;font-size:1.3rem;line-height:1.2;margin-top:8px;color:var(--fg)}
 @keyframes cw{0%{opacity:0}10%{opacity:1}85%{opacity:1}100%{opacity:0}}
 @keyframes pop{0%{transform:scale(.6)}12%{transform:scale(1.06)}20%{transform:scale(1)}100%{transform:scale(1)}}
-.puke{width:100%;max-width:300px;height:auto}
-.puke .stream{stroke-dasharray:14 10;animation:flow .5s linear infinite}
-@keyframes flow{to{stroke-dashoffset:-24}}
-.puke .head{transform-origin:110px 120px;animation:heave .5s ease-in-out infinite alternate}
-@keyframes heave{to{transform:rotate(6deg) translateY(3px)}}
-.puke .drop{animation:fall 1s linear infinite}
-.puke .drop:nth-of-type(2){animation-delay:.33s}.puke .drop:nth-of-type(3){animation-delay:.66s}
-@keyframes fall{0%{transform:translateY(-30px);opacity:0}30%{opacity:1}100%{transform:translateY(40px);opacity:0}}
-.puke .pool{transform-origin:240px 250px;animation:grow 3s ease-out forwards}
-@keyframes grow{from{transform:scale(.2)}to{transform:scale(1)}}
-.puke-title{font-family:var(--display);font-weight:800;font-size:clamp(2.4rem,12vw,3.4rem);color:var(--ok);line-height:1;transform:rotate(-4deg)}
 .ask{position:fixed;inset:0;z-index:30;background:rgba(10,14,30,.55);display:flex;align-items:center;justify-content:center;padding:20px}
 .ask-box{background:var(--card);color:var(--fg);border-radius:22px;padding:22px 18px;max-width:340px;width:100%;text-align:center;display:flex;flex-direction:column;gap:14px;border:2px solid var(--line)}
 .ask-box h2{font-family:var(--display);font-weight:800;font-size:1.4rem;margin:0}
@@ -276,9 +265,10 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 @keyframes gol5{0%,48%{opacity:0;transform:scale(.4)}56%{opacity:1;transform:scale(1.15)}62%,88%{opacity:1;transform:scale(1)}96%,100%{opacity:0}}
 /* 6: okienko, odtwarzane raz */
 .video{position:relative;width:100%;max-width:320px;border-radius:18px;overflow:hidden;border:4px solid #1d2540;background:#000}
-.end-anim,.goal-anim{width:100%;aspect-ratio:16/9;background:#000;border-radius:16px;overflow:hidden}
+.end-anim,.goal-anim{position:relative;width:100%;aspect-ratio:16/9;max-height:62vh;background:#000;border-radius:16px;overflow:hidden}
 .video .end-anim{border-radius:0}
-.end-anim video,.goal-anim video{width:100%;height:100%;object-fit:cover;display:block}
+.end-anim video,.goal-anim video{width:100%;height:100%;object-fit:contain;display:block}
+.end-anim .rew-cr{position:absolute;right:6px;bottom:6px;background:rgba(0,0,0,.6);color:#fff;font-size:.66rem;font-weight:800;padding:2px 7px;border-radius:8px;pointer-events:none}
 .goal-wrap{position:fixed;inset:0;z-index:26;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(10,14,30,.7);cursor:pointer;animation:gfade .25s}
 .goal-box{background:#1d2540;border-radius:24px;padding:10px;max-width:400px;width:100%;box-sizing:border-box;box-shadow:0 18px 50px rgba(0,0,0,.35);animation:gpop .35s ease-out}
 .goal-tap{text-align:center;font-weight:800;color:#97a0c0;font-size:.8rem;margin-top:2px}
@@ -419,8 +409,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .tg{width:52px;height:32px;flex:none;border-radius:999px;background:var(--line);position:relative;transition:background .15s}
 .tg::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.25);transition:transform .15s}
 .row.sel .tg{background:var(--ok)}.row.sel .tg::after{transform:translateX(20px)}
-@media (prefers-reduced-motion:reduce){.shake,.cheer,.puke *{animation:none!important}.card{transition:none}
-  .fb *{animation-duration:.01s!important;animation-iteration-count:1!important;animation-delay:0s!important}}
+@media (prefers-reduced-motion:reduce){.shake,.cheer,  .fb *{animation-duration:.01s!important;animation-iteration-count:1!important;animation-delay:0s!important}}
 /* Polski: Słówka i Dyktanda */
 .wrap>.grp,.wrap>.step{background:var(--card)}
 .pl-t{flex:none;height:210px;min-height:0}
@@ -1705,8 +1694,8 @@ function finish(quiet){
   $("dots").after(d);
   const v6=d.querySelector(".end-anim");
   if(v6){
-    const k=nextGoal();let a=null;
-    const play=()=>{if(a) a.destroy();a=null;v6.innerHTML="";playGoal(v6,k).then(x=>{a=x;}).catch(()=>{});};
+    const tier=rewTier(g.n),k=nextGoal(tier);let a=null;
+    const play=()=>{if(a) a.destroy();a=null;v6.innerHTML="";playGoal(v6,k,null,tier).then(x=>{a=x;}).catch(()=>{});};
     setTimeout(play,quiet||!PREFS.modals?300:2800); // poczekaj aż zniknie okienko z gratulacjami
     d.querySelector(".replay").addEventListener("click",play);
   }
@@ -1727,29 +1716,6 @@ let lastP=-1,lastS=-1;
 const pickNew=(arr,last)=>{let k;do k=Math.floor(Math.random()*arr.length);while(arr.length>1&&k===last);return k;};
 
 /* Grafiki końcowe */
-const PUKE=`<svg class="puke" viewBox="0 0 300 280" role="img" aria-label="Rysunkowy ludzik wymiotuje po wszystkich działaniach">
-    <ellipse class="pool" cx="240" cy="252" rx="52" ry="12" fill="#8bc34a"/>
-    <g class="body">
-      <path d="M80 170 Q110 160 140 170 L150 262 L70 262 Z" fill="#3b5bdb"/>
-      <rect x="78" y="258" width="26" height="10" rx="4" fill="#1d2540"/>
-      <rect x="118" y="258" width="26" height="10" rx="4" fill="#1d2540"/>
-      <path d="M140 185 Q170 200 160 225" stroke="#f2c49b" stroke-width="12" fill="none" stroke-linecap="round"/>
-      <path d="M82 185 Q60 210 78 230" stroke="#f2c49b" stroke-width="12" fill="none" stroke-linecap="round"/>
-    </g>
-    <g class="head">
-      <circle cx="110" cy="110" r="52" fill="#b7d77a"/>
-      <path d="M70 80 Q110 45 150 78" stroke="#5a3e2b" stroke-width="10" fill="none" stroke-linecap="round"/>
-      <path d="M86 98 l14 10 M100 98 l-14 10" stroke="#1d2540" stroke-width="5" stroke-linecap="round"/>
-      <path d="M124 98 l14 10 M138 98 l-14 10" stroke="#1d2540" stroke-width="5" stroke-linecap="round"/>
-      <ellipse cx="145" cy="132" rx="14" ry="11" fill="#5b1a2a"/>
-      <circle cx="80" cy="128" r="6" fill="#ffffff" opacity=".7"/>
-      <path d="M150 132 Q200 120 222 175 Q235 210 240 245" class="stream" stroke="#8bc34a" stroke-width="16" fill="none" stroke-linecap="round"/>
-      <path d="M150 132 Q200 120 222 175 Q235 210 240 245" stroke="#cddc39" stroke-width="6" fill="none" stroke-linecap="round" opacity=".7"/>
-    </g>
-    <circle class="drop" cx="262" cy="215" r="5" fill="#8bc34a"/>
-    <circle class="drop" cx="218" cy="222" r="4" fill="#cddc39"/>
-    <circle class="drop" cx="252" cy="200" r="3" fill="#8bc34a"/>
-  </svg>`;
 const BALL=`<g class="spin"><circle r="14" fill="#fff" stroke="#1d2540" stroke-width="2"/><polygon points="0,-5 4.8,-1.5 3,4 -3,4 -4.8,-1.5" fill="#1d2540"/><path d="M0 -5V-14M4.8 -1.5L13.3 -4.3M3 4L8.2 11.3M-3 4L-8.2 11.3M-4.8 -1.5L-13.3 -4.3" stroke="#1d2540" stroke-width="1.6"/></g>`;
 function pitch(net){
   let lines="";
@@ -1763,17 +1729,8 @@ function pitch(net){
 }
 const POSTS=`<g fill="#fff" stroke="#c9d2e3" stroke-width="1"><rect x="54" y="44" width="8" height="126" rx="2"/><rect class="post-r" x="238" y="44" width="8" height="126" rx="2"/><rect x="54" y="44" width="192" height="8" rx="2"/></g>`;
 function art(g){
-  const head=`<div class="ghead" style="color:${g.c}">${g.head}</div>`;
-  if(g.n<=3) return `<div class="puke-title">DO PORZYGU!</div>${PUKE}${head}`;
-  if(g.n===4) return head+`<svg class="fb fb4" viewBox="0 0 300 230" role="img" aria-label="Piłka trafia w słupek i odbija się od bramki">
-    ${pitch("net")}${POSTS}
-    <text class="bang" x="250" y="96" font-family="Baloo 2,Nunito,sans-serif" font-weight="800" font-size="22" fill="#d6336c" text-anchor="end">BRZDĘK!</text>
-    <g class="ball">${BALL}</g></svg>`;
-  if(g.n===5) return head+`<svg class="fb fb5" viewBox="0 0 300 230" role="img" aria-label="Piłka wpada do bramki, gol">
-    ${pitch("net")}${POSTS}
-    <g class="ball">${BALL}</g>
-    <text class="gol" x="150" y="38" font-family="Baloo 2,Nunito,sans-serif" font-weight="800" font-size="34" fill="#1f9d55" text-anchor="middle" stroke="#fff" stroke-width="5" paint-order="stroke">GOL!</text></svg>`;
-  return head+`<div class="video"><div class="rec">▶ POWTÓRKA</div><div class="end-anim" role="img" aria-label="Animacja: gol"></div></div><button type="button" class="again replay">▶ Obejrzyj jeszcze raz</button>`;
+  const head=`<div class="ghead" style="color:${g.c}">${g.head}</div>`,box=`<div class="video"><div class="rec">▶ POWTÓRKA</div><div class="end-anim" role="img" aria-label="${g.n<=3?"Animacja: pudło":"Animacja: gol"}"></div></div><button type="button" class="again replay">▶ Obejrzyj jeszcze raz</button>`;
+  return head+box;
 }
 
 /* Skala ocen (typowa szkolna skala procentowa, kl. IV–VIII) */
@@ -2089,28 +2046,62 @@ const SFX={
 function sfx(n){if(PREFS.sound) try{SFX[n]();}catch(e){}}
 document.addEventListener("pointerdown",()=>{if(PREFS.sound){ac();loadSamples();}},{passive:true}); // iOS/Android odblokowują dźwięk po dotknięciu
 
-/* Klipy goli (Mixkit, Mixkit Stock Video Free License, 360p, bez dźwięku): co 10 dobrych i na koniec przy 6.
-   Service worker trzyma je offline. */
-const GOALS=["video/gol-1.mp4","video/gol-2.mp4","video/gol-3.mp4","video/gol-4.mp4"];
-let lastGoal=-1;
-function nextGoal(){lastGoal=pickNew(GOALS,lastGoal);return lastGoal;}
-// odtwarza klip w kontenerze; onEnd po zakończeniu; zwraca obiekt z destroy() jak wcześniej
-function playGoal(el,k,onEnd){
-  const v=document.createElement("video");
+/* Nagrody: klipy z Pexels / Pixabay (pliki w video/, offline po pierwszym pokazaniu) i GIF-y z Giphy / Tenor
+   (tylko z internetem, z podpisem źródła – nie kopiujemy ich do repo). t = przy czym się pokazuje:
+   6 / 5 / 4 = ocena na koniec, 3 = oceny 1–3 (porażka), 10 = co 10 dobrych odpowiedzi. Losowo, bez powtórki z poprzednim.
+   max = ucięcie długiego klipu (s); GIF-y są krótkie, więc zapętlamy je do ok. 6 s. Źródła i autorzy w README. */
+const GIPHY=id=>`https://media.giphy.com/media/${id}/giphy.mp4`;
+const REWARDS=[
+  {id:"san-siro",src:"video/n6-san-siro.mp4",t:[6],max:14},
+  {id:"fajerwerki",src:"video/n6-fajerwerki.mp4",t:[6],max:12},
+  {id:"puchar",src:"video/n6-puchar.mp4",t:[6]},
+  {id:"stadion",src:"video/n5-stadion.mp4",t:[5,10]},
+  {id:"kibice",src:"video/n4-kibice.mp4",t:[4,10]},
+  {id:"plonaca-pilka",src:"video/n4-plonaca-pilka.mp4",t:[4,10]},
+  {id:"tsubasa-misaki",src:GIPHY("c7m7mnMZNH93weBxlA"),ext:"GIPHY · Bandai Namco",t:[6]},
+  {id:"tsubasa-niemiec",src:GIPHY("tQlAjwnbmk59YYzSuK"),ext:"GIPHY · Bandai Namco",t:[6]},
+  {id:"hyuga",src:GIPHY("C9anstl2NoEwedj9PY"),ext:"GIPHY · DJ Chimo Bayo",t:[6]},
+  {id:"przewrotka",src:"https://media.tenor.com/taxsk8f7KhYAAAPo/captain-tsubasa-tsubasa.mp4",ext:"Tenor · azureblizzard",t:[6]},
+  {id:"supa-strikas",src:GIPHY("ytwDCq6bm69EMef2JG"),ext:"GIPHY · Supa Strikas",t:[10]},
+  {id:"tsubasa-pilka",src:"https://media.tenor.com/fm8kc8nu2ikAAAPo/captain-tsubasa.mp4",ext:"Tenor · Aramis739",t:[5,10]},
+  {id:"okrzyk",src:"https://media.tenor.com/cIothlq-_RcAAAPo/captain-tsubasa-tsubasa.mp4",ext:"Tenor · Smash0h",t:[5,10]},
+  {id:"fail-1",src:GIPHY("KGTTNpVuGVhN6"),ext:"GIPHY",t:[3]},
+  {id:"fail-2",src:GIPHY("pdAiipxDMCHni"),ext:"GIPHY",t:[3]},
+  {id:"fail-3",src:GIPHY("FpFtdGPi2frTq"),ext:"GIPHY",t:[3]}
+];
+const rewTier=n=>n<=3?3:n; // ocena → pula
+let lastRew=null;
+function nextGoal(tier){
+  const pool=REWARDS.filter(r=>r.t.includes(tier)&&(!r.ext||navigator.onLine));if(!pool.length) return null;
+  let r;do r=pool[Math.floor(Math.random()*pool.length)];while(pool.length>1&&r===lastRew);
+  return lastRew=r;
+}
+const localFor=tier=>{const p=REWARDS.filter(r=>!r.ext&&r.t.includes(tier));return p.length?p[Math.floor(Math.random()*p.length)]:null;};
+// odtwarza nagrodę w kontenerze; onEnd po zakończeniu; zwraca {destroy}. Bez internetu / gdy GIF zniknął:
+// lokalny klip z tej samej puli, a przy złej ocenie (brak lokalnych) – pole nagrody się chowa.
+function playGoal(el,r,onEnd,tier){
+  const obj={destroy(){}};
+  const fallback=()=>{const l=localFor(tier);if(l){playGoal(el,l,onEnd,tier).then(x=>{obj.destroy=x.destroy;});return;}
+    const box=el.closest(".video");if(box){box.hidden=true;const rb=box.nextElementSibling;if(rb&&rb.classList.contains("replay")) rb.hidden=true;}
+    if(onEnd) setTimeout(onEnd,300);};
+  if(!r){fallback();return Promise.resolve(obj);}
+  const v=document.createElement("video");let done=false;const t0=Date.now();
   v.muted=true;v.playsInline=true;v.autoplay=true;v.preload="auto";
   v.setAttribute("muted","");v.setAttribute("playsinline","");
-  v.src=GOALS[k];el.innerHTML="";el.appendChild(v);
-  return new Promise((ok,no)=>{
-    v.addEventListener("ended",()=>{if(onEnd) onEnd();});
-    v.addEventListener("error",()=>no(new Error("video")),{once:true});
-    v.addEventListener("loadedmetadata",()=>{el.style.aspectRatio=v.videoWidth+"/"+v.videoHeight;},{once:true});
-    const p=v.play();if(p&&p.catch) p.catch(()=>{});
-    ok({destroy(){v.pause();v.removeAttribute("src");v.load();v.remove();}});
-  });
+  el.innerHTML="";el.appendChild(v);
+  if(r.ext){const c=document.createElement("span");c.className="rew-cr";c.textContent=r.ext;el.appendChild(c);}
+  const end=()=>{if(done) return;done=true;if(onEnd) onEnd();};
+  v.addEventListener("ended",()=>{if(r.ext&&Date.now()-t0<6000){v.currentTime=0;v.play().catch(()=>{});} else end();});
+  if(r.max) v.addEventListener("timeupdate",()=>{if(v.currentTime>=r.max){v.pause();end();}});
+  v.addEventListener("loadedmetadata",()=>{el.style.aspectRatio=v.videoWidth+"/"+v.videoHeight;},{once:true});
+  v.addEventListener("error",()=>{if(done) return;done=true;v.remove();fallback();},{once:true});
+  obj.destroy=()=>{done=true;v.pause();v.removeAttribute("src");v.load();v.remove();};
+  v.src=r.src;const p=v.play();if(p&&p.catch) p.catch(()=>{});
+  return Promise.resolve(obj);
 }
 function showGoal(){
   if(!PREFS.goals) return;
-  const k=nextGoal(),w=document.createElement("div");
+  const k=nextGoal(10),w=document.createElement("div");
   w.className="goal-wrap";w.setAttribute("role","dialog");w.setAttribute("aria-label","Animacja: gol");
   w.innerHTML='<div class="goal-box"><div class="goal-anim"></div><div class="goal-tap">dotknij, żeby grać dalej</div></div>';
   document.body.appendChild(w);sfx("goal");
@@ -2118,7 +2109,7 @@ function showGoal(){
   const close=()=>{clearTimeout(tm);if(anim) anim.destroy();w.remove();};
   const tm=setTimeout(close,16000); // awaryjnie, gdyby klip nie skończył się sam
   w.addEventListener("click",close);
-  playGoal(w.querySelector(".goal-anim"),k,()=>setTimeout(close,300)).then(a=>{anim=a;if(!w.isConnected) a.destroy();}).catch(close);
+  playGoal(w.querySelector(".goal-anim"),k,()=>setTimeout(close,300),10).then(a=>{anim=a;if(!w.isConnected) a.destroy();}).catch(close);
 }
 
 /* Wake Lock: ekran nie gaśnie, póki aplikacja jest na wierzchu (system zwalnia blokadę po schowaniu) */
@@ -2716,8 +2707,8 @@ function plEnd(el,P,good,n,unit,miss,again,quiet){
     <div class="btns"><button type="button" class="again" data-a="again">${again}</button><button type="button" class="go-btn" data-a="back">Gotowe</button></div>`;
   el.hidden=false;
   const v6=el.querySelector(".end-anim");
-  if(v6){const k=nextGoal();let a=null;
-    const play=()=>{if(a) a.destroy();a=null;v6.innerHTML="";playGoal(v6,k).then(x=>{a=x;}).catch(()=>{});};
+  if(v6){const tier=rewTier(g.n),k=nextGoal(tier);let a=null;
+    const play=()=>{if(a) a.destroy();a=null;v6.innerHTML="";playGoal(v6,k,null,tier).then(x=>{a=x;}).catch(()=>{});};
     setTimeout(play,quiet||!PREFS.modals?300:2800);el.querySelector(".replay").addEventListener("click",play);}
   if(!quiet){if(PREFS.modals) celebrate(n,true); else sfx("final");}
   scrollTo(0,0);
