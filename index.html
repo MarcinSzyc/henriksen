@@ -4396,6 +4396,7 @@ function applyMods(){
   show("en-t-tobe",modOn("en-tobe"));show("en-t-v",modOn("en-slowka"));show("en-t-z",modOn("en-zdania"));
   show("t-zd",subjOn("zd"));show("zd-spr",modOn("zd-spr"));show("zd-tw",ZD_TOPICS.some(t=>modOn("zd-"+t.id)));if(CUR==="zd") renderZd();
   show("t-his",modOn("his"));show("t-nat",modOn("nat"));
+  {const g=$("t-math").parentElement;g.querySelectorAll(":scope>[data-soon]").forEach(b=>g.appendChild(b));} // kafle „Wkrótce” zawsze na końcu
   show("t-stats",modOn("stats"));show("t-cups",modOn("cups"));show("t-help",modOn("help")); // Ligi: ligHomeLine i niżej
   if($("t-lig")&&!modOn("lig")) $("t-lig").hidden=true;
   // kafel dla rodzica na samej górze
