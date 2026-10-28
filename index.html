@@ -630,7 +630,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <section class="streakc"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 2c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2.5 1.2-4 2.5-5 .2 2 1 3 2 3 0-3-1-5.5.5-9z"/></svg>
       <div><span class="k">Twoja seria</span><b id="k-streak"></b><span id="k-streak-s"></span></div></section>
     <div class="k3"><div><span class="k">Dziś</span><b id="k-today"></b><small id="k-today-u"></small></div><div><span class="k">Wczoraj</span><b id="k-yest"></b><small id="k-yest-u"></small></div><div><span class="k">Tydzień</span><b id="k-week"></b><small id="k-week-u"></small></div></div>
-    <section class="scard"><div class="kh"><h2>Ten tydzień</h2><span>zadania dziennie</span></div><div class="wk" id="k-chart" role="img"></div></section>
+    <section class="scard"><div class="kh"><h2>Ten tydzień</h2><span>punkty dziennie</span></div><div class="wk" id="k-chart" role="img"></div></section>
     <div class="motiv" id="k-motiv"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M7 6H4a3 3 0 0 0 3 4M17 6h3a3 3 0 0 1-3 4"/></svg><span id="k-motiv-t"></span></div>
     <div class="k2"><div><span class="k">Szóstki</span><b id="k-six"></b></div><div><span class="k">Najszybciej</span><b id="k-fast"></b></div></div>
   </div>
@@ -1942,10 +1942,12 @@ document.querySelectorAll("[data-soon]").forEach(b=>b.addEventListener("click",(
   b.classList.remove("shake");void b.offsetWidth;b.classList.add("shake");sfx("bad");}));
 function renderHome(){
   applySub();
-  const H=loadHist(),done=H.filter(s=>s.status==="done");
+  const H=loadHist();
   $("t-math-s").textContent=ACTIVE&&i<N?`W trakcie: ${i} / ${N} · dotknij, żeby grać dalej`:"Wybierz ćwiczenia i zaczynamy";
   renderCupsBar();
-  $("t-stats-s").textContent=H.length?`${H.length} ${sesji(H.length)}`+(done.length?` · ostatnio ${done[done.length-1].pct}%`:""):"Tu zobaczysz swoje wyniki";
+  const T=dayKey(Date.now()),MON=addDays(T,-((new Date(T).getDay()+6)%7)),pt=s=>sesPts(s).p;
+  const dz=H.filter(s=>dayKey(s.start)===T).reduce((a,s)=>a+pt(s),0),tg=H.filter(s=>s.start>=MON).reduce((a,s)=>a+pt(s),0);
+  $("t-stats-s").textContent=H.length?`Dziś ${dz} pkt · w tygodniu ${tg} pkt`:"Tu zobaczysz swoje wyniki";
 }
 
 /* Statystyki */
@@ -1995,7 +1997,7 @@ function topHard(recs){
     .sort((a,b)=>b.bad/b.n-a.bad/a.n||b.bad-a.bad||b.n-a.n).slice(0,10);
 }
 let HARD=[];
-/* Statystyki dla dziecka: przedmiot (zakładki), seria, zadania dziennie, rekordy, jedno zdanie motywacji */
+/* Statystyki dla dziecka: przedmiot (zakładki), seria, punkty dziennie, rekordy, jedno zdanie motywacji */
 let SUBJ="all",parOpen=false;
 const SUBJ_SOON={his:"Historia już wkrótce"};
 const subjOf=s=>s.subj||"mat"; // starsze sesje są z matematyki
@@ -2012,29 +2014,31 @@ function renderKid(){
   $("par-s").textContent=SUBJ==="pl"?"Wykresy, ó/u · rz/ż · ch/h, mylone słowa, dyktanda":"Wykresy, oceny, trudne działania, tabliczka";
   $("par-btn").setAttribute("aria-expanded",parOpen);
   if(soon) return;
-  const H=loadHist().filter(s=>SUBJ==="all"||subjOf(s)===SUBJ),per=new Map();
-  const add=(t,n)=>{if(n>0){const k=dayKey(t);per.set(k,(per.get(k)||0)+n);}};
-  H.forEach(s=>add(s.start,s.done));
-  if(!VIEW_HIST&&ACTIVE&&i>0&&i<N&&(SUBJ==="all"||SUBJ==="mat")&&!H.some(s=>s.id===SID)) add(T0,i);
+  // per = punkty dziennie, act = zadania dziennie (seria liczy się z ćwiczenia, nawet bez punktów)
+  const H=loadHist().filter(s=>SUBJ==="all"||subjOf(s)===SUBJ),per=new Map(),act=new Map();
+  const add=(t,p,n)=>{if(n>0){const k=dayKey(t);per.set(k,(per.get(k)||0)+p);act.set(k,(act.get(k)||0)+n);}};
+  H.forEach(s=>add(s.start,sesPts(s).p,s.done));
+  if(!VIEW_HIST&&ACTIVE&&i>0&&i<N&&(SUBJ==="all"||SUBJ==="mat")&&!H.some(s=>s.id===SID))
+    add(T0,tasks.slice(0,i).reduce((a,t,k)=>a+(state[k]==="ok"?wMath(t):0),0),i);
   const T=dayKey(Date.now()),Y=addDays(T,-1),wd=(new Date(T).getDay()+6)%7,MON=addDays(T,-wd);
-  const at=k=>per.get(k)||0,today=at(T),yest=at(Y);
-  let week=0;const days=[];for(let k=0;k<7;k++){const d=addDays(MON,k),v=at(d);week+=v;days.push({d,v});}
+  const at=k=>per.get(k)||0,did=k=>act.get(k)||0,today=at(T),yest=at(Y);
+  let week=0,weekN=0;const days=[];for(let k=0;k<7;k++){const d=addDays(MON,k),v=at(d);week+=v;weekN+=did(d);days.push({d,v});}
   // seria: dziś bez ćwiczeń jeszcze jej nie przerywa
-  let n=0,d=today?T:Y;while(at(d)){n++;d=addDays(d,-1);}
-  let best=0,run=0,prev=null;[...per.keys()].sort((a,b)=>a-b).forEach(k=>{run=prev!=null&&addDays(prev,1)===k?run+1:1;best=Math.max(best,run);prev=k;});
+  let n=0,d=did(T)?T:Y;while(did(d)){n++;d=addDays(d,-1);}
+  let best=0,run=0,prev=null;[...act.keys()].sort((a,b)=>a-b).forEach(k=>{run=prev!=null&&addDays(prev,1)===k?run+1:1;best=Math.max(best,run);prev=k;});
   $("k-streak").textContent=n?`${n} ${dni(n)} z rzędu`:"Zacznij serię";
-  $("k-streak-s").textContent=(today?"Dziś zaliczone":n?"Poćwicz dziś, żeby nie stracić serii":"Zrób dziś choć jedno zadanie")+(best>n?` · najdłuższa: ${best} ${dni(best)}`:"");
-  [["k-today",today],["k-yest",yest],["k-week",week]].forEach(([id,v])=>{$(id).textContent=v;$(id+"-u").textContent=zadan(v);});
+  $("k-streak-s").textContent=(did(T)?"Dziś zaliczone":n?"Poćwicz dziś, żeby nie stracić serii":"Zrób dziś choć jedno zadanie")+(best>n?` · najdłuższa: ${best} ${dni(best)}`:"");
+  [["k-today",today,did(T)],["k-yest",yest,did(Y)],["k-week",week,weekN]].forEach(([id,v,c])=>{$(id).textContent=v;$(id+"-u").textContent=`pkt · ${c} ${zadan(c)}`;});
   const max=Math.max(1,...days.map(x=>x.v)),DN=["Pn","Wt","Śr","Cz","Pt","So","Nd"];
   $("k-chart").innerHTML=days.map((x,k)=>`<div${x.d===T?' class="td"':""}><span class="v">${x.v||""}</span><i${x.v?"":' class="z"'} style="height:${x.v?Math.max(8,Math.round(x.v/max*104)):4}px"></i><span>${DN[k]}</span></div>`).join("");
-  $("k-chart").setAttribute("aria-label","Zadania w tym tygodniu: "+days.map((x,k)=>DN[k]+" "+x.v).join(", "));
+  $("k-chart").setAttribute("aria-label","Punkty w tym tygodniu: "+days.map((x,k)=>DN[k]+" "+x.v).join(", "));
   const rec=Math.max(0,...[...per].filter(([k])=>k!==T).map(([,v])=>v));
   let m;
-  if(!today) m=n?`Masz serię ${n} ${dni(n)}. Zrób dziś choć jedno zadanie, żeby jej nie stracić.`:"Zrób dziś pierwsze zadanie i zacznij serię.";
-  else if(rec&&today>rec) m=`Nowy rekord dnia: ${today} ${zadan(today)}!`;
-  else if(yest>today) m=`Jeszcze ${yest-today+1} ${zadan(yest-today+1)} i zrobisz więcej niż wczoraj.`;
-  else if(rec&&rec-today+1<=20) m=`Jeszcze ${rec-today+1} ${zadan(rec-today+1)} i pobijesz swój rekord dnia (${rec}).`;
-  else m=`Dobra robota – dziś już ${today} ${zadan(today)}.`;
+  if(!did(T)) m=n?`Masz serię ${n} ${dni(n)}. Zrób dziś choć jedno zadanie, żeby jej nie stracić.`:"Zrób dziś pierwsze zadanie i zacznij serię.";
+  else if(rec&&today>rec) m=`Nowy rekord dnia: ${today} pkt!`;
+  else if(yest>today) m=`Jeszcze ${yest-today+1} pkt i zdobędziesz więcej niż wczoraj.`;
+  else if(rec&&rec-today+1<=50) m=`Jeszcze ${rec-today+1} pkt i pobijesz swój rekord dnia (${rec} pkt).`;
+  else m=`Dobra robota – dziś już ${today} pkt.`;
   $("k-motiv-t").textContent=m;
   const wk=H.filter(s=>s.status==="done"&&s.start>=MON);
   const six=wk.filter(s=>s.grade===6).length;$("k-six").textContent=six?`${six} w tym tygodniu`:"Jeszcze nie w tym tygodniu";

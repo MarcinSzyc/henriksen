@@ -74,8 +74,9 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `archive(status)` przy `finish()` i przy rozpoczęciu nowych działań w trakcie (przerwana). Bieżąca sesja trzyma `SID`, `T0`
   i `log[k]={tries,h,ms}` w zapisie postępu. Kopia: eksport/import JSON w menu (łączenie po `id`).
 - **Statystyki dla dziecka (`renderKid`, na górze):** zakładki przedmiotu `SUBJ` (all/mat/pl/his; Polski i Historia = „wkrótce”),
-  sesje mają `subj` (brak = `"mat"`). Seria, zadania dziś / wczoraj / w tygodniu (od poniedziałku, z `done` sesji + bieżąca),
-  słupki tygodnia, jedno zdanie motywacji (seria → rekord dnia → wczoraj), szóstki i najszybszy czas w tygodniu.
+  sesje mają `subj` (brak = `"mat"`). Seria (dni z ćwiczeniem), **punkty** dziś / wczoraj / w tygodniu (od poniedziałku, `sesPts` + bieżąca;
+  pod liczbą też liczba zadań), słupki tygodnia w punktach, jedno zdanie motywacji w punktach (seria → rekord dnia → wczoraj),
+  szóstki i najszybszy czas w tygodniu. Pasek Statystyki na starcie: „Dziś X pkt · w tygodniu Y pkt”.
   Reszta jest zwinięta pod „Szczegóły dla rodzica” (`#par`).
 - **Statystyki (`renderStats`):** filtr `SF` po działaniu; `lineChart()` (SVG, jedna seria, jedna oś) dla % i czasu;
   rozkład ocen; `topHard()` – odsetek złych pierwszych odpowiedzi, dokładne działanie, min. 2 wystąpienia, znika po 3 dobrych
