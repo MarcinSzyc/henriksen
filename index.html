@@ -589,6 +589,10 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .set .macc small{font-weight:800;font-size:.78rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .set .macc[aria-expanded="true"] small{display:none}.set .macc[aria-expanded="true"] .chev{transform:rotate(180deg)}
 .msec{display:flex;flex-direction:column;gap:10px;margin-top:-4px}.msec[hidden]{display:none}
+.tpts{position:absolute;top:12px;right:12px;padding:3px 10px;border-radius:999px;background:color-mix(in srgb,var(--accent) 18%,transparent);color:var(--accent);font-weight:800;font-size:.8rem;line-height:1.3}
+.tpts.lost{text-decoration:line-through;opacity:.55}.tpts[hidden]{display:none}
+.tpts.inl{position:static}.pd-nos{display:flex;align-items:center;gap:8px}
+.pl-card .pl-tags{padding:0 54px}.pl-card .pl-tag{white-space:normal;text-align:center}
 </style>
 <script>/* motyw z ustawień przed narysowaniem strony, bez mignięcia */
 try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t==="light"||t==="dark") document.documentElement.dataset.theme=t;}catch(e){}</script>
@@ -658,6 +662,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="dots" id="dots"></div>
   <div class="live" id="live" hidden><span class="chip" id="live-pct"></span><span class="chip" id="live-g"></span><span class="chip pts-chip" id="live-pts"></span></div>
   <div class="card" id="card">
+    <span class="tpts" id="tpts" aria-label="Punkty za to zadanie"></span>
     <div class="num" id="num">Działanie 1</div>
     <div class="eq"><span id="a">3</span><span id="op">×</span><span id="b">4</span><span>=</span><span class="box" id="box"></span></div>
     <div class="msg" id="msg">Wpisz wynik i naciśnij OK</div>
@@ -699,6 +704,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="live" id="pw-live" hidden><span class="chip"></span><span class="chip"></span><span class="chip pts-chip"></span></div>
   <div id="pw-game" class="pl-game">
     <div class="card pl-card" id="pw-card">
+      <span class="tpts" id="pw-tpts" aria-label="Punkty za to zadanie"></span>
       <div class="pl-tags"><span class="pl-tag" id="pw-pair">ch / h</span><span class="pl-tag hard" id="pw-hardtag" hidden>Trudne słowo</span></div>
       <div class="eq pl-word" id="pw-word" aria-live="polite"><span id="pw-pre"></span><span class="box" id="pw-box"></span><span id="pw-post"></span></div>
       <p class="pl-hint"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4M12 3a6 6 0 0 0-4 10.5c.7.7 1 1.5 1 2.5h6c0-1 .3-1.8 1-2.5A6 6 0 0 0 12 3z"/></svg><span id="pw-hint"></span></p>
@@ -728,7 +734,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="live" id="pd-live" hidden><span class="chip"></span><span class="chip"></span><span class="chip pts-chip"></span></div>
   <div class="pl-text" id="pd-text"></div>
   <div class="card pl-panel" id="pd-panel">
-    <div class="pl-ph"><span class="num" id="pd-no">Luka 1 z 13</span><span class="eq pl-word sm" id="pd-word"><span id="pd-pre"></span><span class="box" id="pd-box"></span><span id="pd-post"></span></span></div>
+    <div class="pl-ph"><span class="pd-nos"><span class="num" id="pd-no">Luka 1 z 13</span><span class="tpts inl" id="pd-tpts" aria-label="Punkty za tę lukę"></span></span><span class="eq pl-word sm" id="pd-word"><span id="pd-pre"></span><span class="box" id="pd-box"></span><span id="pd-post"></span></span></div>
     <div class="pl-popts"><button type="button" class="pl-arrow" id="pd-prev" aria-label="Poprzednia luka"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg></button><div class="pl-opts" id="pd-opts"></div><button type="button" class="pl-arrow" id="pd-next" aria-label="Następna luka"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6"/></svg></button></div>
     <button type="button" class="go-btn" id="pd-check" disabled>Sprawdź dyktando</button>
   </div>
@@ -756,6 +762,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="live" id="pz-live" hidden><span class="chip"></span><span class="chip"></span><span class="chip pts-chip"></span></div>
   <div id="pz-game" class="pl-game">
     <div class="card pl-card" id="pz-card">
+      <span class="tpts" id="pz-tpts" aria-label="Punkty za to zadanie"></span>
       <div class="pl-tags"><span class="pl-tag" id="pz-type">Co znaczy to słowo?</span><span class="pl-tag hard" id="pz-new" hidden>Nowe słowo</span></div>
       <div class="eq pz-q" id="pz-q" aria-live="polite"><span id="pz-qt"></span></div>
       <div class="msg" id="pz-msg"></div>
@@ -820,6 +827,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="live" id="enq-live" hidden><span class="chip"></span><span class="chip"></span><span class="chip pts-chip"></span></div>
   <div id="enq-game" class="pl-game">
     <div class="card pl-card" id="enq-card">
+      <span class="tpts" id="enq-tpts" aria-label="Punkty za to zadanie"></span>
       <div class="pl-tags"><span class="pl-tag" id="enq-type">Jak to powiesz po angielsku?</span></div>
       <div class="eq pz-q en-q" id="enq-q" aria-live="polite"><span id="enq-qt"></span></div>
       <div class="msg" id="enq-msg"></div>
@@ -1194,6 +1202,7 @@ function show(){
   $("a").textContent=a;$("op").textContent=op;$("b").textContent=b;$("box").textContent=input;
   fitEq();
   $("num").textContent="Działanie "+(i+1);$("count").textContent=(i+1)+" / "+N;
+  setTpts("tpts",wMath(tasks[i]),state[i]==="fix");
   showStats();
   const dots=$("dots").children;
   for(let k=0;k<N;k++) dots[k].className="dot"+(state[k]?" "+state[k]:"")+(k===i?" now":"");
@@ -1297,7 +1306,7 @@ function check(){
       checkUnlock();},fx?fx.ms:650);
   }else{
     if(state[i]!=="fix") errors++; // kolejne próby przy tym samym działaniu to nadal jeden błąd
-    state[i]="fix";save();
+    state[i]="fix";save();setTpts("tpts",wMath(tasks[i]),true);
     card.classList.add("bad");$("msg").textContent="Źle, popraw wynik";
     const fx=fxOn()?playFx("bad"):null;
     if(fx){ // zła odpowiedź zostaje w okienku i znika razem z działaniem
@@ -2263,7 +2272,13 @@ function liveBar(pre,recs,cur,fill){
   cp.hidden=!PREFS.pct;cp.innerHTML=`<span class="cb">${n?pct+"%":"–"}</span>dobrze <small>${good} / ${n}</small>`;
   cg.hidden=!PREFS.grade;cg.style.setProperty("--gc",g?g.c:"");cg.innerHTML=`<span class="cb">${g?g.n:"–"}</span>${g?g.name:"ocena po 1. zadaniu"}`;
 }
+// plakietka „4 pkt” przy zadaniu; po błędzie przekreślona (punkty za to zadanie przepadły)
+function setTpts(id,w,lost){const el=$(id);el.hidden=!PREFS.pts||!w;el.textContent=`${w} pkt`;el.classList.toggle("lost",!!lost);}
 function plLiveNow(){
+  if(CUR==="plw"&&PW&&!PW.over) setTpts("pw-tpts",PW.recs[PW.i].w,!PW.recs[PW.i].ok);
+  if(CUR==="plz"&&PZ&&!PZ.over) setTpts("pz-tpts",PZ.recs[PZ.i].w,!PZ.recs[PZ.i].ok);
+  if(CUR==="enq"&&EN&&!EN.over) setTpts("enq-tpts",EN.recs[EN.i].w,!EN.recs[EN.i].ok);
+  if(CUR==="pldt"&&PD&&!PD.over) setTpts("pd-tpts",PD.recs[PD.act].w,PD.cfg.now&&!PD.recs[PD.act].ok);
   if(CUR==="plw"&&PW) liveBar("pw",PW.recs,PW.over?null:PW.i);
   if(CUR==="plz"&&PZ) liveBar("pz",PZ.recs,PZ.over?null:PZ.i);
   if(CUR==="enq"&&EN) liveBar("enq",EN.recs,EN.over?null:EN.i);
