@@ -377,6 +377,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .set-i .sn b{font-family:var(--display);font-weight:800;font-size:1.12rem;line-height:1.15}
 .set-i .sn small{font-weight:800;font-size:.8rem;color:var(--muted)}
 .lr{flex:none;font-size:.78rem;font-weight:800;padding:4px 9px;border-radius:999px;background:var(--ok-soft);color:var(--ok)}
+.sn .lr2{color:var(--ok);font-weight:800}
 .set-i:active,.own:active,.go-btn:active{transform:scale(.98)}
 .own{min-height:64px;border:2px dashed var(--line);border-radius:18px;background:transparent;color:var(--fg);padding:0 14px;display:flex;align-items:center;gap:12px;font:inherit;text-align:left;cursor:pointer}
 .own>svg:first-child{color:var(--accent);flex:none}.own svg:last-child{color:var(--muted);flex:none}
@@ -640,7 +641,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .matsi{background:linear-gradient(135deg,#5c7cfa,#3b2bb5)!important}
 .tile.mt{background:linear-gradient(135deg,color-mix(in srgb,var(--gc) 75%,#fff),color-mix(in srgb,var(--gc) 80%,#000))}
 .tile.mt.own-t{background:transparent;border:2px dashed var(--line);color:var(--fg);box-shadow:none}.tile.own-t .wm{color:var(--line)}
-.mt-last{position:absolute;top:12px;left:14px;padding:3px 9px;border-radius:999px;background:rgba(0,0,0,.28);font-weight:800;font-size:.78rem}
+.mt-last{position:absolute;top:12px;left:12px;right:12px;width:max-content;max-width:calc(100% - 24px);padding:3px 9px;border-radius:12px;background:rgba(0,0,0,.28);font-weight:800;font-size:.72rem;line-height:1.25}
 .mat-tiles .tile .tt{font-size:min(1.35rem,5vw);line-height:1.1}
 .reqsi{background:linear-gradient(135deg,#e8590c,#b93a0a)!important}.req-bar{border-color:#e8590c}.req-bar small{color:#e8590c}
 .acct-pend{background:color-mix(in srgb,#e8590c 14%,var(--bg));border:2px solid #e8590c;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;font-weight:700;font-size:.9rem;line-height:1.4}
@@ -1848,6 +1849,7 @@ function abHint(){
 }
 const NSTEPS=[5,10,15,20,25,30,40,50,60,75,100,150,200];
 const SET_TONE={"×":"#4054d6",":":"#0b7285","+":"#c2410c","−":"#c2410c"};
+const lastTxt=p=>`Ostatnio: ocena ${grade(p).n} (${p}%)`; // ostatni ukończony wynik zestawu / tematu
 function setLast(id){const d=loadHist().filter(s=>s.status==="done"&&subjOf(s)==="mat"&&s.cfg&&s.cfg.set===id);return d.length?d[d.length-1].pct:null;}
 function allHard(){let recs=[];loadHist().filter(s=>subjOf(s)==="mat").forEach(s=>recs.push(...s.recs));
   if(ACTIVE&&i>0&&i<N&&!loadHist().some(s=>s.id===SID)) recs.push(...recsOf(i));return topHard(recs);}
@@ -1858,7 +1860,7 @@ const genFor=(cfg,n)=>{const c=CFG,nn=N;CFG=cfg;N=n;try{return gen();}finally{CF
 function renderSets(){
   const hard=allHard();
   const row=(k,gl,gc,gf,name,meta,last)=>`<button type="button" class="set-i" data-k="${k}"><span class="gl${gl.length>2?" s3":gl.length>1?" s2":""}" style="--gc:${gc}${gf?";--gf:"+gf:""}" aria-hidden="true">${gl}</span>`+
-    `<span class="sn"><b>${name}</b><small>${meta}</small></span>${last==null?"":`<span class="lr">${last}%</span>`}</button>`;
+    `<span class="sn"><b>${name}</b><small>${meta}</small>${last==null?"":`<small class="lr2">${lastTxt(last)}</small>`}</span></button>`;
   $("sets").innerHTML=(hard.length?row("hard","!","#ffd43b","#12162a","Poćwicz trudne",`${hard.length*2} działań, które sprawiały kłopot`,null):"")+
     SETS.map((st,k)=>{const c={...CFG0,...st.cfg},o=["+","−","×",":"].filter(x=>c.ops.includes(x));
       const gl=c.tens&&o.length===1?o[0]+"10":o.join(""),gc=o.length>1&&SET_TONE[o[0]]!==SET_TONE[o[1]]?"#7048e8":SET_TONE[o[0]];
@@ -3594,7 +3596,7 @@ const ZD_TONE={wartosc:"#0c8599",styl:"#2b8a3e",cialo:"#d6336c",zach:"#e8590c"};
 function renderZd(){
   const l=zdLast("spr");$("zd-spr-s").textContent=l?`Ostatnio: ${l.pct}% · ocena ${l.grade}`:`Wszystkie tematy · ${ZD_N} pytań`;
   $("zd-topics").innerHTML=ZD_TOPICS.filter(t=>modOn("zd-"+t.id)).map(t=>{const x=zdLast(t.id);
-    return `<button type="button" class="tile mt" data-t="${t.id}" style="--gc:${ZD_TONE[t.id]}">${x?`<span class="mt-last">${x.pct}%</span>`:""}<span class="tt">${t.name}</span><small>${t.qs.length} pytań</small></button>`;}).join("");
+    return `<button type="button" class="tile mt" data-t="${t.id}" style="--gc:${ZD_TONE[t.id]}">${x?`<span class="mt-last">${lastTxt(x.pct)}</span>`:""}<span class="tt">${t.name}</span><small>${t.qs.length} pytań</small></button>`;}).join("");
 }
 $("t-zd").addEventListener("click",()=>go("zd"));
 $("zd-spr").addEventListener("click",()=>enStart(zdAll,{subj:"zd",mode:"spr",title:`Sprawdzian ${ZD_DATE}`,unit:"pytań"}));
@@ -4471,7 +4473,7 @@ function renderMat(){
   SETS.forEach((st,k)=>{if(!modOn("mat-"+st.id)) return;
     const c={...CFG0,...st.cfg},o=["+","−","×",":"].filter(x=>c.ops.includes(x)),gc=o.length>1&&SET_TONE[o[0]]!==SET_TONE[o[1]]?"#7048e8":SET_TONE[o[0]];
     const t=pre("set"+k,st.id,()=>genFor({...CFG0,...st.cfg,set:st.id},st.n)),pts=t.reduce((a,x)=>a+wMath(x),0),l=setLast(st.id);
-    tiles.push(`<button type="button" class="tile mt" data-k="${k}" style="--gc:${gc}"><span class="wm" aria-hidden="true">${MAT_GLYPH[st.id]||o.join("")}</span>${l!=null?`<span class="mt-last">${l}%</span>`:""}<span class="tt">${st.name}</span><small>${st.n} ${dzialan(st.n)} · do ${pts} pkt</small></button>`);});
+    tiles.push(`<button type="button" class="tile mt" data-k="${k}" style="--gc:${gc}"><span class="wm" aria-hidden="true">${MAT_GLYPH[st.id]||o.join("")}</span>${l!=null?`<span class="mt-last">${lastTxt(l)}</span>`:""}<span class="tt">${st.name}</span><small>${st.n} ${dzialan(st.n)} · do ${pts} pkt</small></button>`);});
   if(hard.length&&modOn("mat-hard")) tiles.unshift(`<button type="button" class="tile mt" data-k="hard" style="--gc:#e8a200"><span class="wm" aria-hidden="true">!</span><span class="tt">Poćwicz trudne</span><small>${hard.length*2} ${dzialan(hard.length*2)}, które sprawiały kłopot</small></button>`);
   if(modOn("mat-own")) tiles.push(`<button type="button" class="tile mt own-t" data-k="own"><span class="wm" aria-hidden="true">⚙</span><span class="tt">Ułóż własne</span><small>Działania, liczby i ile ich</small></button>`);
   $("mat-tiles").innerHTML=tiles.join("")||'<p class="abnote">Rodzic wyłączył wszystkie zestawy.</p>';
