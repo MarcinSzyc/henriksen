@@ -33,11 +33,15 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
     Rekord słowa ma też `a` (brakująca litera) i `m` (słowo z „_” w miejscu luki).
   - Szczegóły rodzica z polskiego (`#par-pl`, `renderPlPar()`, filtr `PSF` słówka/dyktanda): wykres %, skuteczność ó/u · rz/ż · ch/h,
     Top 10 mylonych słów (znika po 3 dobrych z rzędu), tabela dyktand (razy, ostatnio, najlepiej) i historia sesji z rozwinięciem.
-- **Angielski** (widoki `#en` ustawienia, `#enq` quiz; hashe `#angielski`, `#to-be`): quiz „To be” generowany z tabel `EN_P`
-  (osoby: I/you/he/she/it/we/you/they z polskim odpowiednikiem i rodzajem) i `EN_C` (kolory w 4 formach).
-  `enTask(kind)`: `form` (ja jestem ↔ I am, She ___ red.), `ask` (Czy on jest czerwony? ↔ Is he red?, Who/What z `EN_WH`),
-  `short` (Is she red? – Tak → Yes, she is.; pytanie z „you” → odpowiedź o sobie). Ustawienia w `PLP.et` / `PLP.en`,
-  sesje w historii z `subj:"en"`, `cfg.mode:"tobe"`. W statystykach zakładka Angielski bez szczegółów rodzica.
+- **Angielski** (widoki `#en` = 3 kafle, `#ent` ustawienia To be, `#enset` ustawienia Słówek/Zdań (`ENM` = tryb), `#enq` wspólny quiz;
+  hashe `#angielski`, `#to-be`, `#angielski-cwicz`, `#angielski-gra`). `enStart(make,cfg)` – `make()` zwraca pytania `{lab,q,c,opts,why,long?,three?}`,
+  „Jeszcze raz” woła je od nowa. Sesje w historii z `subj:"en"`, `cfg.mode` = `tobe` / `slowka` / `zdania`.
+  - **To be:** generowane z `EN_P` (osoby z polskim odpowiednikiem i rodzajem) i `EN_C` (kolory w 4 formach). `enTask(kind)`:
+    `form` (ja jestem ↔ I am, She ___ red.), `ask` (Czy on jest czerwony? ↔ Is he red?, Who/What z `EN_WH`),
+    `short` (Is she red? – Tak → Yes, she is.; pytanie z „you” → odpowiedź o sobie). Ustawienia `PLP.et` / `PLP.en`.
+  - **Słówka:** `EN_WORDS` (a1/a2, `"angielski|polski|n/v/a"`), złe odpowiedzi z tej samej części mowy. **Zdania:** `EN_SENT`
+    (`"angielski|polski|3 złe angielskie;…|3 złe polskie;…"` – typowe pomyłki). Ustawienia `PLP.ev` / `PLP.ez` (lvl a1/a2/all, dir pl/en/mix, n).
+  - W statystykach zakładka Angielski bez szczegółów rodzica.
 - **Historia:** `localStorage` pod `henriksen-historia`, tablica sesji
   `{id,subj,start,end,status:"done"|"przerwana",cfg,n,done,recs:[{t,ok,tries,h,ms}],pct,grade,errors,hints}`.
   `archive(status)` przy `finish()` i przy rozpoczęciu nowych działań w trakcie (przerwana). Bieżąca sesja trzyma `SID`, `T0`

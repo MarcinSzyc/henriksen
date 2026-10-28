@@ -527,6 +527,12 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 #enq-opts.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}#enq-opts.three button{min-height:84px;font-size:1.8rem}
 #subj button{font-size:.82rem;padding:0 2px}
 #en-types b{font-size:1.1rem;text-align:center}#en-types small{text-align:center}
+.tile.en-t2{background:linear-gradient(135deg,#15aabf,#0b5563)}.tile.en-t3{background:linear-gradient(135deg,#40c057,#2b6b2f)}
+#en .tile .wm{font-size:2.6rem;top:14px}
+.en-dir{display:flex;flex-direction:column;gap:8px}
+.en-dir button{min-height:52px;border-radius:16px;border:2px solid var(--line);background:var(--card);color:var(--fg);font:inherit;font-weight:800;font-size:1rem;cursor:pointer}
+.en-dir button.sel{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+.en-dir button:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
 </style>
 <script>/* motyw z ustawień przed narysowaniem strony, bez mignięcia */
 try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t==="light"||t==="dark") document.documentElement.dataset.theme=t;}catch(e){}</script>
@@ -712,7 +718,14 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 <div class="wrap" id="en" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć do startu"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Angielski</h1><div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
-  <div class="tile en en-t" aria-hidden="true"><span class="wm">am · is · are</span><span class="tt">To be</span><small id="en-last">Ja jestem, on jest, oni są – i pytania</small></div>
+  <button type="button" class="tile en pl-t" id="en-t-tobe"><span class="wm" aria-hidden="true">am · is · are</span><span class="tt">To be</span><small id="en-t-tobe-s">Ja jestem, on jest, oni są – i pytania</small></button>
+  <button type="button" class="tile en pl-t en-t2" id="en-t-v"><span class="wm" aria-hidden="true">A1 · A2</span><span class="tt">Słówka</span><small id="en-t-v-s">Słowa A1 i A2, po polsku i po angielsku</small></button>
+  <button type="button" class="tile en pl-t en-t3" id="en-t-z"><span class="wm" aria-hidden="true">„…”</span><span class="tt">Zdania</span><small id="en-t-z-s">Całe zdania do przetłumaczenia</small></button>
+</div>
+
+<div class="wrap" id="ent" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">To be</h1></header>
+  <div class="tile en en-t" aria-hidden="true"><span class="wm">am · is · are</span><span class="tt">Ja jestem</span><small id="en-last">Ja jestem, on jest, oni są – i pytania</small></div>
   <div class="lbl">Co ćwiczysz</div>
   <div class="pl-pairs" id="en-types" role="group" aria-label="Co ćwiczysz"></div>
   <div class="lbl">Ile zadań</div>
@@ -721,9 +734,20 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <button type="button" class="go-btn" id="en-go">Start</button>
 </div>
 
+<div class="wrap" id="enset" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow" id="enset-t">Słówka</h1></header>
+  <div class="lbl">Poziom</div>
+  <div class="segs pl-len" id="enset-lvl" role="group" aria-label="Poziom"></div>
+  <div class="lbl">Kierunek</div>
+  <div class="en-dir" id="enset-dir" role="group" aria-label="Kierunek"></div>
+  <div class="lbl">Ile zadań</div>
+  <div class="step"><button type="button" id="enset-minus" aria-label="Mniej zadań">−</button><output id="enset-n" aria-live="polite">15</output><button type="button" id="enset-plus" aria-label="Więcej zadań">+</button></div>
+  <button type="button" class="go-btn" id="enset-go">Start</button>
+</div>
+
 <div class="wrap" id="enq" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Zakończ"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-    <h1 class="grow">To be</h1><div class="right"><span class="count" id="enq-count">1 / 15</span>
+    <h1 class="grow" id="enq-title">To be</h1><div class="right"><span class="count" id="enq-count">1 / 15</span>
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div class="dots" id="enq-dots"></div>
   <div class="live" id="enq-live" hidden><span class="chip"></span><span class="chip"></span></div>
@@ -1741,8 +1765,8 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",en:"#angielski",enq:"#to-be"};
-const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",en:"en",enq:"enq"};
+const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
@@ -1758,7 +1782,7 @@ function go(v){
   showView(v);
 }
 addEventListener("popstate",()=>{const v=Object.keys(HASH).find(k=>HASH[k]&&HASH[k]===location.hash)||"home";
-  showView(v==="play"&&!ACTIVE?"home":v==="plw"&&!PW?"plws":v==="pldt"&&!PD?"pld":v==="plz"&&!PZ?"plzs":v==="enq"&&!EN?"en":v);});
+  showView(v==="play"&&!ACTIVE?"home":v==="plw"&&!PW?"plws":v==="pldt"&&!PD?"pld":v==="plz"&&!PZ?"plzs":v==="enq"&&!EN?"en":v==="enset"&&!ENM?"en":v);});
 document.querySelectorAll("[data-back]").forEach(b=>b.addEventListener("click",()=>{if(location.hash) history.back(); else showView("home");}));
 $("t-math").addEventListener("click",()=>{if(ACTIVE&&i<N) go("play"); else openAsk("home");});
 $("t-stats").addEventListener("click",()=>go("stats"));
@@ -2060,7 +2084,7 @@ const PL_LEN={s:"krótkie",m:"średnie",l:"długie"};
 /* ustawienia Polskiego (osobno od PREFS): pary w Słówkach, ile słówek, długość i tryb dyktanda */
 const PLKEY="henriksen-polski",PL_STEPS=[5,10,15,20,25,30,40,50];
 let PLP={pairs:["ou","rz","ch"],n:20,len:"s",now:false,zl:"1",zn:10};
-try{const p=JSON.parse(localStorage.getItem(PLKEY));if(p) PLP={pairs:Array.isArray(p.pairs)?p.pairs.filter(x=>PL_PAIRS[x]):PLP.pairs,n:PL_STEPS.includes(p.n)?p.n:20,len:PL_LEN[p.len]?p.len:"s",now:!!p.now,zl:["1","2","3","mix"].includes(p.zl)?p.zl:"1",zn:[5,10,15,20,30].includes(p.zn)?p.zn:10,et:Array.isArray(p.et)?p.et.filter(x=>["form","ask","short"].includes(x)):undefined,en:p.en};}catch(e){}
+try{const p=JSON.parse(localStorage.getItem(PLKEY));if(p) PLP={pairs:Array.isArray(p.pairs)?p.pairs.filter(x=>PL_PAIRS[x]):PLP.pairs,n:PL_STEPS.includes(p.n)?p.n:20,len:PL_LEN[p.len]?p.len:"s",now:!!p.now,zl:["1","2","3","mix"].includes(p.zl)?p.zl:"1",zn:[5,10,15,20,30].includes(p.zn)?p.zn:10,et:Array.isArray(p.et)?p.et.filter(x=>["form","ask","short"].includes(x)):undefined,en:p.en,ev:p.ev,ez:p.ez};}catch(e){}
 const savePLP=()=>{try{localStorage.setItem(PLKEY,JSON.stringify(PLP));}catch(e){}};
 const shuffle=a=>{for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]];}return a;};
 const slowek=n=>n===1?"słówko":n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?"słówka":"słówek";
@@ -2108,7 +2132,9 @@ function plShow(v){
   if(v==="pld") renderPd();
   if(v==="plzs") renderPzs();
   if(v==="plzk") renderPzk();
-  if(v==="en") renderEn();
+  if(v==="en") renderEnHub();
+  if(v==="ent") renderEn();
+  if(v==="enset") renderEnSet();
 }
 /* Szczegóły dla rodzica z polskiego: wykres %, skuteczność par, Top 10 mylonych słów, dyktanda, historia */
 let PSF="all";
@@ -2994,6 +3020,7 @@ function enWh(){
 const EN_STEPS=[5,10,15,20,30];
 if(!Array.isArray(PLP.et)) PLP.et=Object.keys(EN_TYPES);
 if(!EN_STEPS.includes(PLP.en)) PLP.en=15;
+for(const k of ["ev","ez"]){const o=PLP[k];PLP[k]={lvl:o&&["a1","a2","all"].includes(o.lvl)?o.lvl:"a1",dir:o&&["pl","en","mix"].includes(o.dir)?o.dir:"mix",n:o&&EN_STEPS.includes(o.n)?o.n:10};}
 function renderEn(){
   $("en-types").innerHTML=Object.entries(EN_TYPES).map(([k,n])=>`<button type="button" data-t="${k}" class="${PLP.et.includes(k)?"sel":""}" aria-pressed="${PLP.et.includes(k)}"><b>${n}</b><small>${k==="form"?"I am – ja jestem":k==="ask"?"Is he red? Who…?":"Yes, she is."}</small></button>`).join("");
   $("en-n").textContent=PLP.en;$("en-minus").disabled=PLP.en===EN_STEPS[0];$("en-plus").disabled=PLP.en===EN_STEPS[EN_STEPS.length-1];
@@ -3006,14 +3033,19 @@ $("en-types").addEventListener("click",e=>{const b=e.target.closest("button");if
   PLP.et=PLP.et.includes(t)?PLP.et.filter(x=>x!==t):[...PLP.et,t];savePLP();renderEn();});
 $("en-minus").addEventListener("click",()=>{PLP.en=EN_STEPS[Math.max(0,EN_STEPS.indexOf(PLP.en)-1)];savePLP();renderEn();});
 $("en-plus").addEventListener("click",()=>{PLP.en=EN_STEPS[Math.min(EN_STEPS.length-1,EN_STEPS.indexOf(PLP.en)+1)];savePLP();renderEn();});
-$("en-go").addEventListener("click",()=>{if(!PLP.et.length){$("en-err").textContent="Wybierz co najmniej jeden rodzaj zadań.";return;}enStart();});
+$("en-go").addEventListener("click",()=>{if(!PLP.et.length){$("en-err").textContent="Wybierz co najmniej jeden rodzaj zadań.";return;}{const n=PLP.en,t=[...PLP.et];enStart(()=>enToBeQs(n,t),{mode:"tobe",types:t});}});
 
 /* gra: ten sam układ co Znaczenie słów */
 let EN=null; // {id,start,cfg,qs,i,recs,locked,over,t0}
-function enStart(){
+function enToBeQs(n,types){
   const qs=[];
-  while(qs.length<PLP.en){const t=enTask(enRnd(PLP.et));if(!qs.length||qs[qs.length-1].q!==t.q) qs.push(t);}
-  EN={id:Date.now(),start:Date.now(),cfg:{mode:"tobe",types:[...PLP.et]},qs,i:0,locked:false,over:false};
+  while(qs.length<n){const t=enTask(enRnd(types));if(!qs.length||qs[qs.length-1].q!==t.q) qs.push(t);}
+  return qs;
+}
+function enStart(make,cfg){
+  const qs=make();
+  EN={id:Date.now(),start:Date.now(),cfg,make,qs,i:0,locked:false,over:false};
+  $("enq-title").textContent=cfg.mode==="tobe"?"To be":EN_MODES[cfg.mode].title;
   EN.recs=qs.map(q=>({t:q.q,c:q.c,ok:true,tries:[],ms:0,done:false}));
   $("enq-game").hidden=false;$("enq-end").hidden=true;$("enq-end").innerHTML="";
   if(CUR==="enq"){enShow();scrollTo(0,0);} else {go("enq");enShow();}
@@ -3023,10 +3055,10 @@ function enShow(){
   FXC={card:$("enq-card"),eq:$("enq-q"),box:$("enq-qt")};
   $("enq-card").classList.remove("ok","bad");P.t0=Date.now();
   $("enq-count").textContent=`${P.i+1} / ${n}`;
-  $("enq-type").textContent=q.lab;$("enq-qt").textContent=q.q;$("enq-msg").textContent="";
+  $("enq-type").textContent=q.lab;$("enq-qt").textContent=q.q;$("enq-msg").textContent="";$("enq-q").classList.toggle("long",!!q.long);
   $("enq-why").hidden=true;$("enq-next").hidden=true;$("enq-opts").hidden=false;
   $("enq-opts").classList.toggle("three",!!q.three);
-  $("enq-opts").replaceChildren(...q.opts.map(o=>{const b=document.createElement("button");b.type="button";b.textContent=o;b.dataset.o=o;b.className="w";return b;}));
+  $("enq-opts").replaceChildren(...q.opts.map(o=>{const b=document.createElement("button");b.type="button";b.textContent=o;b.dataset.o=o;if(!q.long) b.className="w";return b;}));
   enStatsLine();
 }
 function enStatsLine(){plLiveNow();$("enq-stats").textContent=`Dobrze: ${EN.recs.filter(r=>r.done&&r.ok).length} · Błędy: ${EN.recs.filter(r=>!r.ok).length}`;}
@@ -3067,10 +3099,115 @@ function enFinish(){
   $("enq-count").textContent=`${P.qs.length} / ${P.qs.length}`;$("enq-game").hidden=true;
   const miss=P.recs.map((r,k)=>({r,q:P.qs[k]})).filter(x=>!x.r.ok).map(({r,q})=>({html:q.c,bad:[],
     notes:[q.q,`wybrane: ${[...new Set(r.tries.filter(t=>t!==q.c))].map(t=>`<s>${t}</s>`).join(", ")}`,q.why]}));
-  plEnd($("enq-end"),P,P.recs.filter(r=>r.ok).length,P.qs.length,zadan(P.qs.length),miss,"Jeszcze raz");
+  plEnd($("enq-end"),P,P.recs.filter(r=>r.ok).length,P.qs.length,P.cfg.mode==="tobe"?zadan(P.qs.length):EN_MODES[P.cfg.mode].unit,miss,"Jeszcze raz");
 }
 $("enq-end").addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b||!EN) return;
-  if(b.dataset.a==="back") history.back(); else enStart();});
+  if(b.dataset.a==="back") history.back(); else enStart(EN.make,EN.cfg);});
+
+/* --- Angielski: Słówka (A1/A2) i Zdania; ten sam quiz co To be (enStart / enShow) ---
+   Słówko: "angielski|polski|część mowy" (n rzeczownik, v czasownik, a przymiotnik). Złe odpowiedzi z tej samej części mowy.
+   Zdanie: "angielski|polski|3 złe angielskie (;)|3 złe polskie (;)" – złe wersje to typowe pomyłki i zmienione szczegóły. */
+const EN_WORDS={a1:[
+  "dog|pies|n","cat|kot|n","house|dom|n","school|szkoła|n","book|książka|n","apple|jabłko|n","water|woda|n","bread|chleb|n",
+  "milk|mleko|n","friend|przyjaciel|n","mother|mama|n","father|tata|n","sister|siostra|n","brother|brat|n","teacher|nauczyciel|n",
+  "car|samochód|n","bike|rower|n","ball|piłka|n","table|stół|n","chair|krzesło|n","window|okno|n","door|drzwi|n","tree|drzewo|n",
+  "flower|kwiat|n","sun|słońce|n","rain|deszcz|n","day|dzień|n","night|noc|n","hand|ręka|n","head|głowa|n","eye|oko|n","family|rodzina|n",
+  "eat|jeść|v","drink|pić|v","sleep|spać|v","run|biegać|v","swim|pływać|v","read|czytać|v","write|pisać|v","play|grać|v",
+  "go|iść|v","like|lubić|v","have|mieć|v","see|widzieć|v",
+  "big|duży|a","small|mały|a","happy|szczęśliwy|a","sad|smutny|a","hot|gorący|a","cold|zimny|a","new|nowy|a","old|stary|a",
+  "good|dobry|a","bad|zły|a","fast|szybki|a","slow|powolny|a"
+],a2:[
+  "holiday|wakacje|n","kitchen|kuchnia|n","bedroom|sypialnia|n","weather|pogoda|n","journey|podróż|n","island|wyspa|n",
+  "mountain|góra|n","river|rzeka|n","forest|las|n","beach|plaża|n","ticket|bilet|n","money|pieniądze|n","shop|sklep|n",
+  "library|biblioteka|n","hospital|szpital|n","doctor|lekarz|n","homework|praca domowa|n","lesson|lekcja|n","breakfast|śniadanie|n",
+  "dinner|obiad|n","neighbour|sąsiad|n","village|wieś|n","city|miasto|n","bridge|most|n","clothes|ubrania|n","shoes|buty|n",
+  "umbrella|parasol|n","birthday|urodziny|n","present|prezent|n",
+  "travel|podróżować|v","buy|kupować|v","sell|sprzedawać|v","forget|zapominać|v","remember|pamiętać|v","borrow|pożyczać|v",
+  "find|znaleźć|v","lose|zgubić|v","win|wygrywać|v","wait|czekać|v","help|pomagać|v","learn|uczyć się|v","cook|gotować|v",
+  "climb|wspinać się|v","laugh|śmiać się|v","cry|płakać|v",
+  "tired|zmęczony|a","hungry|głodny|a","quiet|cichy|a","noisy|głośny|a","dangerous|niebezpieczny|a","expensive|drogi|a","cheap|tani|a",
+  "easy|łatwy|a","difficult|trudny|a","beautiful|piękny|a","boring|nudny|a","interesting|ciekawy|a","brave|odważny|a",
+  "busy|zajęty|a","famous|sławny|a","empty|pusty|a","full|pełny|a"
+]};
+const EN_SENT={a1:[
+  "I am ten years old.|Mam dziesięć lat.|I have ten years.;I am ten year old.;I am twelve years old.|Jestem dziesięć lat.;Mam dwanaście lat.;On ma dziesięć lat.",
+  "She is my sister.|Ona jest moją siostrą.|She are my sister.;He is my sister.;She is my brother.|On jest moją siostrą.;Ona jest moim bratem.;Ona jest twoją siostrą.",
+  "We like pizza.|Lubimy pizzę.|We likes pizza.;They like pizza.;We like pasta.|Lubię pizzę.;Oni lubią pizzę.;Lubimy makaron.",
+  "The dog is under the table.|Pies jest pod stołem.|The dog is on the table.;The dog are under the table.;The cat is under the table.|Pies jest na stole.;Kot jest pod stołem.;Pies jest obok stołu.",
+  "I have a red bike.|Mam czerwony rower.|I has a red bike.;I have a blue bike.;I am a red bike.|Mam niebieski rower.;Ona ma czerwony rower.;Jestem czerwonym rowerem.",
+  "Where is my bag?|Gdzie jest moja torba?|Where are my bag?;What is my bag?;Where is your bag?|Co jest w mojej torbie?;Gdzie jest twoja torba?;Czy to jest moja torba?",
+  "It is cold today.|Dzisiaj jest zimno.|It is hot today.;It cold today.;It was cold yesterday.|Dzisiaj jest gorąco.;Wczoraj było zimno.;Jutro będzie zimno.",
+  "My brother can swim.|Mój brat umie pływać.|My brother can swims.;My sister can swim.;My brother can't swim.|Mój brat nie umie pływać.;Moja siostra umie pływać.;Mój brat lubi pływać.",
+  "They are at school.|Oni są w szkole.|They is at school.;We are at school.;They are at home.|Oni są w domu.;My jesteśmy w szkole.;On jest w szkole.",
+  "I don't like milk.|Nie lubię mleka.|I doesn't like milk.;I like milk.;I don't like water.|Lubię mleko.;Nie lubię wody.;Nie piję mleka.",
+  "What is your name?|Jak masz na imię?|What are your name?;What is my name?;Where is your name?|Jak on ma na imię?;Ile masz lat?;Gdzie mieszkasz?",
+  "How old are you?|Ile masz lat?|How old is you?;How are you?;How old are they?|Jak się masz?;Ile on ma lat?;Jak masz na imię?",
+  "The book is on the chair.|Książka jest na krześle.|The book is under the chair.;The books is on the chair.;The book is on the table.|Książka jest pod krzesłem.;Książka jest na stole.;Zeszyt jest na krześle.",
+  "He plays football every day.|On gra w piłkę nożną codziennie.|He play football every day.;She plays football every day.;He plays football on Sunday.|Ona gra w piłkę nożną codziennie.;On gra w piłkę nożną w niedzielę.;On ogląda piłkę nożną codziennie.",
+  "I am hungry.|Jestem głodny.|I have hungry.;I am tired.;I is hungry.|Jestem zmęczony.;Jesteś głodny.;Nie jestem głodny.",
+  "There is a cat in the garden.|W ogrodzie jest kot.|There are a cat in the garden.;There is a dog in the garden.;There is a cat in the house.|W ogrodzie jest pies.;W domu jest kot.;W ogrodzie są koty.",
+  "Open the window, please.|Otwórz okno, proszę.|Close the window, please.;Open the door, please.;Opens the window, please.|Zamknij okno, proszę.;Otwórz drzwi, proszę.;Umyj okno, proszę.",
+  "We have got two cats.|Mamy dwa koty.|We has got two cats.;We have got two dogs.;They have got two cats.|Mamy trzy koty.;Oni mają dwa koty.;Mamy dwa psy."
+],a2:[
+  "I was at the cinema yesterday.|Wczoraj byłem w kinie.|I am at the cinema yesterday.;I were at the cinema yesterday.;I was at the theatre yesterday.|Jutro idę do kina.;Wczoraj byłem w teatrze.;Dzisiaj jestem w kinie.",
+  "She went to the shop.|Ona poszła do sklepu.|She go to the shop.;She goes to the shop.;She went to the school.|Ona idzie do sklepu.;Ona poszła do szkoły.;Ona pójdzie do sklepu.",
+  "We are going to visit our grandma.|Zamierzamy odwiedzić babcię.|We going to visit our grandma.;We are going to visit our grandpa.;We visited our grandma.|Odwiedziliśmy babcię.;Zamierzamy odwiedzić dziadka.;Babcia nas odwiedzi.",
+  "He is taller than his brother.|On jest wyższy od swojego brata.|He is tall than his brother.;He is taller then his brother.;He is shorter than his brother.|On jest niższy od swojego brata.;Jego brat jest wyższy od niego.;On jest tak wysoki jak jego brat.",
+  "I have never been to London.|Nigdy nie byłem w Londynie.|I never have been to London.;I have been to London.;I have never be to London.|Byłem w Londynie.;Nigdy nie byłem w Paryżu.;Chcę pojechać do Londynu.",
+  "What are you doing now?|Co teraz robisz?|What do you doing now?;What are you do now?;What did you do yesterday?|Co robiłeś wczoraj?;Co on teraz robi?;Gdzie teraz jesteś?",
+  "It was raining all day.|Padało cały dzień.|It is raining all day.;It was rain all day.;It was snowing all day.|Pada cały dzień.;Padał śnieg cały dzień.;Padało przez godzinę.",
+  "Can I borrow your pencil?|Czy mogę pożyczyć twój ołówek?|Can I borrow you pencil?;Can you borrow my pencil?;Can I borrow your pen?|Czy możesz pożyczyć mój ołówek?;Czy mogę pożyczyć twój długopis?;Czy mogę kupić twój ołówek?",
+  "My mum is cooking dinner.|Moja mama gotuje obiad.|My mum cooking dinner.;My mum is cook dinner.;My dad is cooking dinner.|Mój tata gotuje obiad.;Moja mama ugotowała obiad.;Moja mama je obiad.",
+  "This is the most interesting book.|To jest najciekawsza książka.|This is the more interesting book.;This is the most interestingest book.;This is the most boring book.|To jest najnudniejsza książka.;To jest ciekawsza książka.;To jest bardzo ciekawa książka.",
+  "I must do my homework.|Muszę odrobić pracę domową.|I must to do my homework.;I must does my homework.;I can do my homework.|Mogę odrobić pracę domową.;Odrobiłem pracę domową.;Ona musi odrobić pracę domową.",
+  "They didn't watch the film.|Oni nie obejrzeli filmu.|They didn't watched the film.;They don't watch the film.;They watched the film.|Oni obejrzeli film.;Oni nie oglądają filmu.;My nie obejrzeliśmy filmu.",
+  "How much is this T-shirt?|Ile kosztuje ta koszulka?|How many is this T-shirt?;How much are this T-shirt?;Where is this T-shirt?|Gdzie jest ta koszulka?;Ile kosztują te buty?;Czy ta koszulka jest droga?",
+  "The museum opens at nine o'clock.|Muzeum otwiera się o dziewiątej.|The museum open at nine o'clock.;The museum closes at nine o'clock.;The museum opens at five o'clock.|Muzeum zamyka się o dziewiątej.;Muzeum otwiera się o piątej.;Szkoła otwiera się o dziewiątej.",
+  "We usually go to school by bus.|Zwykle jeździmy do szkoły autobusem.|We usually goes to school by bus.;We never go to school by bus.;We usually go to school on foot.|Nigdy nie jeździmy autobusem.;Zwykle chodzimy do szkoły pieszo.;Zwykle jeździmy do szkoły rowerem.",
+  "If it rains, we will stay at home.|Jeśli będzie padać, zostaniemy w domu.|If it will rain, we stay at home.;If it rains, we will go out.;If it snows, we will stay at home.|Jeśli będzie padać, wyjdziemy na dwór.;Pada, więc jesteśmy w domu.;Jeśli będzie słońce, zostaniemy w domu.",
+  "Whose bag is this?|Czyja to torba?|Who's bag is this?;Whose bags is this?;Where is this bag?|Gdzie jest ta torba?;Czy to twoja torba?;Co jest w tej torbie?",
+  "She has lived here for two years.|Ona mieszka tu od dwóch lat.|She lives here for two years.;She has live here for two years.;She has lived here for two days.|Ona mieszkała tu dwa lata temu.;Ona mieszka tu od dwóch dni.;Ona będzie tu mieszkać dwa lata."
+]};
+const ENW=Object.entries(EN_WORDS).flatMap(([lvl,l])=>l.map(s=>{const [en,pl,p]=s.split("|");return {en,pl,p,lvl};}));
+const ENS=Object.entries(EN_SENT).flatMap(([lvl,l])=>l.map(s=>{const [en,pl,be,bp]=s.split("|");return {en,pl,be:be.split(";"),bp:bp.split(";"),lvl};}));
+const EN_LVL={a1:"A1",a2:"A2",all:"A1 + A2"};
+const EN_DIR={pl:"Polski → angielski",en:"Angielski → polski",mix:"Na zmianę"};
+const EN_MODES={slowka:{title:"Słówka",unit:"słówek"},zdania:{title:"Zdania",unit:"zdań"}};
+// pytania z jednego zestawu: każde słowo / zdanie raz, kierunek wg ustawienia
+function enVocabQs(mode,o){
+  const pool=(mode==="slowka"?ENW:ENS).filter(x=>o.lvl==="all"||x.lvl===o.lvl),list=[];
+  while(list.length<o.n) list.push(...shuffle(pool.slice()));
+  return list.slice(0,o.n).map((x,k)=>{const toEn=o.dir==="pl"||o.dir==="mix"&&k%2===0;
+    if(mode==="zdania") return {lab:toEn?"Jak to powiesz po angielsku?":"Co to znaczy po polsku?",q:toEn?x.pl:x.en,c:toEn?x.en:x.pl,
+      opts:shuffle([toEn?x.en:x.pl,...(toEn?x.be:x.bp)]),long:true,why:`<b>${x.en}</b><br>${x.pl}`};
+    const bad=shuffle(ENW.filter(y=>y!==x&&y.p===x.p&&y.pl!==x.pl&&y.en!==x.en)).sort((a,b)=>(a.lvl===x.lvl?0:1)-(b.lvl===x.lvl?0:1)).slice(0,3);
+    return {lab:toEn?"Jak to jest po angielsku?":"Co to znaczy po polsku?",q:toEn?x.pl:x.en,c:toEn?x.en:x.pl,
+      opts:shuffle([toEn?x.en:x.pl,...bad.map(y=>toEn?y.en:y.pl)]),why:`<b>${x.en}</b> – ${x.pl}`};});
+}
+
+/* ekran Angielskiego: 3 kafle; ustawienia Słówek i Zdań na jednym ekranie (ENM = który tryb) */
+let ENM=null;
+const enLast=mode=>{const h=loadHist().filter(s=>s.subj==="en"&&s.status==="done"&&(s.cfg.mode||"tobe")===mode);return h.length?h[h.length-1]:null;};
+function renderEnHub(){
+  [["tobe","en-t-tobe-s","Ja jestem, on jest, oni są – i pytania"],["slowka","en-t-v-s",`${ENW.length} słów A1 i A2, po polsku i po angielsku`],["zdania","en-t-z-s",`${ENS.length} zdań do przetłumaczenia`]]
+    .forEach(([m,id,def])=>{const l=enLast(m);$(id).textContent=l?`Ostatnio: ${l.pct}% · ocena ${l.grade}`:def;});
+}
+$("en-t-tobe").addEventListener("click",()=>go("ent"));
+$("en-t-v").addEventListener("click",()=>{ENM="slowka";go("enset");});
+$("en-t-z").addEventListener("click",()=>{ENM="zdania";go("enset");});
+function renderEnSet(){
+  const o=PLP[ENM==="slowka"?"ev":"ez"];
+  $("enset-t").textContent=EN_MODES[ENM].title;
+  const chips=(id,obj,cur)=>{$(id).innerHTML=Object.entries(obj).map(([k,n])=>`<button type="button" data-k="${k}" class="${k===cur?"sel":""}" aria-pressed="${k===cur}">${n}</button>`).join("");};
+  chips("enset-lvl",EN_LVL,o.lvl);chips("enset-dir",EN_DIR,o.dir);
+  $("enset-n").textContent=o.n;$("enset-minus").disabled=o.n===EN_STEPS[0];$("enset-plus").disabled=o.n===EN_STEPS[EN_STEPS.length-1];
+}
+const enSetO=()=>PLP[ENM==="slowka"?"ev":"ez"];
+$("enset-lvl").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;enSetO().lvl=b.dataset.k;savePLP();renderEnSet();});
+$("enset-dir").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;enSetO().dir=b.dataset.k;savePLP();renderEnSet();});
+$("enset-minus").addEventListener("click",()=>{const o=enSetO();o.n=EN_STEPS[Math.max(0,EN_STEPS.indexOf(o.n)-1)];savePLP();renderEnSet();});
+$("enset-plus").addEventListener("click",()=>{const o=enSetO();o.n=EN_STEPS[Math.min(EN_STEPS.length-1,EN_STEPS.indexOf(o.n)+1)];savePLP();renderEnSet();});
+$("enset-go").addEventListener("click",()=>{const m=ENM,o={...enSetO()};enStart(()=>enVocabQs(m,o),{mode:m,lvl:o.lvl,dir:o.dir});});
 
 // wczytanie zapisanej sesji: dopiero teraz, bo finish() zapisuje do historii (HKEY wyżej)
 if(load()){
