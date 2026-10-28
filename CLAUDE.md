@@ -48,7 +48,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   w losowej kolejności, `cfg.mode:"spr"`) i 4 tematy z lekcji (`ZD_TOPICS`: wartosc, styl, cialo, zach – `cfg.mode` = id tematu).
   Pytanie `{q,c,bad,why}` albo prawda/fałsz `PF(q,ok,why)`; `why` = zdanie z notatki. Gra w quizie angielskim (`enStart`,
   `cfg.subj/title/unit` nadpisują angielskie domyślne). Punkty: prawda/fałsz 1, reszta 2; puchar w jednej kategorii `zd`;
-  zakładka „Zdrowie” w statystykach (bez szczegółów rodzica); moduły `zd-spr`, `zd-temat` w „Co widzi dziecko”.
+  zakładka „Zdrowie” w statystykach (bez szczegółów rodzica); moduły `zd-spr` i `zd-<id tematu>` w „Co widzi dziecko”.
   Temat „Miejsce zdrowia w hierarchii” bez notatek – nowe pytania dopisuj do `ZD_TOPICS` (z notatek dziecka, nie z głowy).
 - **Konto (Supabase, etap 1 – tylko logowanie, bez synchronizacji):** schemat i reguły w `supabase/schema.sql`
   (rodziny, profile parent/student, sesje, ustawienia; RLS: uczeń tylko swoje, rodzic czyta rodzinę i zmienia ustawienia dzieci;
@@ -98,8 +98,9 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   przedmiot (`LIG_CATS`, punkty z `public_stats.subj` – `supabase/leagues2.sql`), podium 1–3, paski i „Mistrzów przedmiotów”.
 - **Instrukcje (`#help`, `#pomoc`):** wszystkie instrukcje w jednym miejscu, zwijane (konto rodzica, telefon dziecka, PIN, ekran początkowy,
   wyniki dziecka, puchary i progi, punkty, ligi); przycisk na starcie, a `openHelp(id)` otwiera konkretną (np. z ekranu Ligi).
-- **Co widzi dziecko (`#kidcfg`, kafel rodzica na górze startu):** rodzic włącza i wyłącza moduły dziecka (`MODS`: matematyka,
-  słówka/dyktanda/znaczenia, to be/słówka/zdania, ligi, kafle „Wkrótce”). Zapis w `PREFS.mods` dziecka (klucz w `PARENT_KEYS`),
+- **Co widzi dziecko (`#kidcfg`, kafel rodzica na górze startu):** rodzic włącza i wyłącza moduły dziecka (`MODS`: każdy przedmiot
+  i Ligi mają własną sekcję – bez grupy „Inne”; Historia `his` i Przyroda `nat` mają przełącznik, choć są „Wkrótce”;
+  dawne `mods.soon:false` wyłącza obie). Zapis w `PREFS.mods` dziecka (klucz w `PARENT_KEYS`),
   `applyMods()` ukrywa kafle; przedmiot znika, gdy wszystkie jego moduły są wyłączone. `subj._on` w podsumowaniu lig wyklucza
   dziecko z rankingu przedmiotu, którego nie ma.
 - **Historia:** `localStorage` pod `henriksen-historia`, tablica sesji

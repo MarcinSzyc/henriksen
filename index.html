@@ -658,6 +658,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .acct-pend b{color:#e8590c;font-family:var(--display);font-size:1.1rem}
 .lig-req small{color:var(--muted);font-weight:700}
 .admsi{background:linear-gradient(135deg,#495057,#1d2540)!important}
+#zd-tw{display:flex;flex-direction:column;gap:12px;margin-top:10px}#zd-tw[hidden]{display:none}#zd-tw .lbl{margin:0;padding-left:4px}
 .cont-row{display:flex;gap:8px;align-items:stretch}.cont-row[hidden]{display:none}.cont-row .sbar{flex:1;min-width:0}
 .cont-x{flex:none;width:56px;border-radius:18px;border:2px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .cont-x:active{transform:scale(.96)}.cont-x:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
@@ -695,8 +696,8 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tile math" id="t-math"><span class="wm" aria-hidden="true">+−×÷</span><span class="tt">Matematyka</span><small id="t-math-s">Wybierz ćwiczenia i zaczynamy</small></button>
     <button type="button" class="tile pl" id="t-pl"><span class="wm" aria-hidden="true">ą ę ć ż ó</span><span class="tt">Polski</span><small>Słówka i dyktanda</small></button>
     <button type="button" class="tile en" id="t-en"><span class="wm wm-img" aria-hidden="true"><svg width="58" height="36" viewBox="0 0 60 36"><rect x="1.5" y="1.5" width="57" height="33" rx="3" fill="none" stroke="#fff" stroke-width="3"/><rect x="3" y="3" width="25" height="17" fill="#fff"/><path d="M28 7.5H57M28 13.5H57M28 19.5H57M3 25.5H57M3 31H57" stroke="#fff" stroke-width="3"/></svg><svg width="58" height="36" viewBox="0 0 60 36"><rect x="1.5" y="1.5" width="57" height="33" rx="3" fill="none" stroke="#fff" stroke-width="3"/><path d="M3 3L57 33M57 3L3 33" stroke="#fff" stroke-width="4"/><path d="M30 3V33M3 18H57" stroke="#fff" stroke-width="8"/></svg></span><span class="tt">Angielski</span><small>Słówka i tematyczne zadania</small></button>
-    <button type="button" class="tile his" data-soon aria-describedby="soon-his"><span class="wm wm-img" aria-hidden="true"><svg width="104" height="84" viewBox="0 0 120 96" fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><path d="M40 44C52 40 70 40 82 42C88 36 94 26 100 18L104 15L106 21C110 26 114 32 114 37C114 40 110 41 106 39C102 37 98 38 96 42C94 50 92 56 88 60C84 66 70 68 56 67C46 67 36 64 34 56C33 50 35 46 40 44Z" stroke="none"/><path d="M84 62L88 93M78 64L74 93M46 64L42 93M54 66L54 93" fill="none" stroke-width="5"/><path d="M36 48C26 50 24 62 28 74" fill="none" stroke-width="5"/><path d="M57 44L70 44L73 24L62 22Z" stroke="none"/><circle cx="68" cy="15" r="6" stroke="none"/><path d="M68 9V3" fill="none" stroke-width="2.5"/><path d="M64 44L71 58M71 28L82 32" fill="none" stroke-width="5"/><path d="M60 42C46 34 44 12 56 1" fill="none" stroke-width="4"/><path d="M52 32L43 30M49 24L40 21M49 16L40 12M51 9L44 3" fill="none" stroke-width="3"/><path d="M38 59L117 10" fill="none" stroke-width="2.5"/><path d="M107 16L117 10L113 21Z" stroke="none"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Historia</span><small id="soon-his">Daty, bitwy, królowie</small></button>
-    <button type="button" class="tile nat" data-soon aria-describedby="soon-nat"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 32C6 14 18 4 36 4c0 18-10 28-26 28z" fill="#fff"/><path d="M6 32L24 14" stroke="rgba(0,0,0,.35)"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Przyroda</span><small id="soon-nat">Rośliny, zwierzęta, mapa</small></button>
+    <button type="button" class="tile his" id="t-his" data-soon aria-describedby="soon-his"><span class="wm wm-img" aria-hidden="true"><svg width="104" height="84" viewBox="0 0 120 96" fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><path d="M40 44C52 40 70 40 82 42C88 36 94 26 100 18L104 15L106 21C110 26 114 32 114 37C114 40 110 41 106 39C102 37 98 38 96 42C94 50 92 56 88 60C84 66 70 68 56 67C46 67 36 64 34 56C33 50 35 46 40 44Z" stroke="none"/><path d="M84 62L88 93M78 64L74 93M46 64L42 93M54 66L54 93" fill="none" stroke-width="5"/><path d="M36 48C26 50 24 62 28 74" fill="none" stroke-width="5"/><path d="M57 44L70 44L73 24L62 22Z" stroke="none"/><circle cx="68" cy="15" r="6" stroke="none"/><path d="M68 9V3" fill="none" stroke-width="2.5"/><path d="M64 44L71 58M71 28L82 32" fill="none" stroke-width="5"/><path d="M60 42C46 34 44 12 56 1" fill="none" stroke-width="4"/><path d="M52 32L43 30M49 24L40 21M49 16L40 12M51 9L44 3" fill="none" stroke-width="3"/><path d="M38 59L117 10" fill="none" stroke-width="2.5"/><path d="M107 16L117 10L113 21Z" stroke="none"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Historia</span><small id="soon-his">Daty, bitwy, królowie</small></button>
+    <button type="button" class="tile nat" id="t-nat" data-soon aria-describedby="soon-nat"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 32C6 14 18 4 36 4c0 18-10 28-26 28z" fill="#fff"/><path d="M6 32L24 14" stroke="rgba(0,0,0,.35)"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Przyroda</span><small id="soon-nat">Rośliny, zwierzęta, mapa</small></button>
     <button type="button" class="tile hea" id="t-zd"><span class="wm wm-img" aria-hidden="true"><svg width="42" height="36" viewBox="0 0 42 36" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 33C8 24 3 17 3 11a9 9 0 0 1 18-2 9 9 0 0 1 18 2c0 6-5 13-18 22z" fill="#fff"/><path d="M7 17h7l3-5 4 9 3-6h11" stroke="rgba(0,0,0,.35)" stroke-width="2.5"/></svg></span><span class="tt">Edukacja zdrowotna</span><small id="t-zd-s">Sprawdzian 29.10 i ćwiczenia</small></button>
   </div>
   <button type="button" class="sbar" id="t-stats"><span class="si" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg></span>
@@ -3594,7 +3595,7 @@ const zdLast=mode=>{const h=loadHist().filter(s=>s.subj==="zd"&&s.status==="done
 const ZD_TONE={wartosc:"#0c8599",styl:"#2b8a3e",cialo:"#d6336c",zach:"#e8590c"};
 function renderZd(){
   const l=zdLast("spr");$("zd-spr-s").textContent=l?`Ostatnio: ${l.pct}% · ocena ${l.grade}`:`Wszystkie tematy · ${ZD_N} pytań`;
-  $("zd-topics").innerHTML=ZD_TOPICS.map(t=>{const x=zdLast(t.id);
+  $("zd-topics").innerHTML=ZD_TOPICS.filter(t=>modOn("zd-"+t.id)).map(t=>{const x=zdLast(t.id);
     return `<button type="button" class="tile mt" data-t="${t.id}" style="--gc:${ZD_TONE[t.id]}">${x?`<span class="mt-last">${x.pct}%</span>`:""}<span class="tt">${t.name}</span><small>${t.qs.length} pytań</small></button>`;}).join("");
 }
 $("t-zd").addEventListener("click",()=>go("zd"));
@@ -4377,19 +4378,23 @@ const MODS=[
     {k:"mat-tens",name:"Pełne dziesiątki",sub:"np. 40 × 30"},{k:"mat-hard",name:"Poćwicz trudne",sub:"działania z błędami"},{k:"mat-own",name:"Ułóż własne",sub:"własne działania i zakresy"}]},
   {g:"Polski",items:[{k:"pl-slowka",name:"Słówka",sub:"ó/u, rz/ż, ch/h"},{k:"pl-dyktando",name:"Dyktanda",sub:"cały tekst z lukami"},{k:"pl-znaczenia",name:"Znaczenie słów",sub:"quiz i słowo dnia"}]},
   {g:"Angielski",items:[{k:"en-tobe",name:"To be",sub:"am, is, are"},{k:"en-slowka",name:"Słówka",sub:"A1 i A2 w tematach"},{k:"en-zdania",name:"Zdania",sub:"tłumaczenie całych zdań"}]},
-  {g:"Edukacja zdrowotna",items:[{k:"zd-spr",name:"Sprawdzian 29.10",sub:"wszystkie tematy"},{k:"zd-temat",name:"Ćwicz temat",sub:"4 tematy z lekcji"}]},
-  {g:"Inne",items:[{k:"lig",name:"Ligi",sub:"ranking z kolegami"},{k:"soon",name:"Kafle „Wkrótce”",sub:"Historia, Przyroda"}]}
+  {g:"Edukacja zdrowotna",items:[{k:"zd-spr",name:"Sprawdzian 29.10",sub:"wszystkie tematy"},{k:"zd-wartosc",name:"Zdrowie jako wartość",sub:"definicja i wymiary zdrowia"},
+    {k:"zd-styl",name:"Zdrowy styl życia",sub:"mierniki zdrowia, hartowanie"},{k:"zd-cialo",name:"Moje ciało się zmienia",sub:"dojrzewanie, higiena, żelazo"},
+    {k:"zd-zach",name:"Zachowania chroniące i ryzykowne",sub:"środowisko, zdrowe nawyki"}]},
+  {g:"Historia",items:[{k:"his",name:"Historia",sub:"kafel „Wkrótce” – daty, bitwy, królowie"}]},
+  {g:"Przyroda",items:[{k:"nat",name:"Przyroda",sub:"kafel „Wkrótce” – rośliny, zwierzęta, mapa"}]},
+  {g:"Ligi",items:[{k:"lig",name:"Ligi",sub:"ranking z kolegami"}]}
 ];
 // stare ustawienie mods.mat === false (cała matematyka) wyłącza wszystkie jej kafle
-const modOn=(k,P=PREFS)=>!(P&&P.mods&&(P.mods[k]===false||k.startsWith("mat-")&&P.mods.mat===false));
+const modOn=(k,P=PREFS)=>!(P&&P.mods&&(P.mods[k]===false||k.startsWith("mat-")&&P.mods.mat===false||(k==="his"||k==="nat")&&P.mods.soon===false&&P.mods[k]!==true));
 const subjOn=(sj,P=PREFS)=>MODS.find(g=>g.items[0].k.startsWith(sj+"-")).items.some(x=>modOn(x.k,P));
 function applyMods(){
   const show=(id,on)=>{const el=$(id);if(el) el.hidden=!on;};
   show("t-math",subjOn("mat"));if(CUR==="mat") renderMat();show("t-pl",subjOn("pl"));show("t-en",subjOn("en"));
   show("pl-t-w",modOn("pl-slowka"));show("pl-t-d",modOn("pl-dyktando"));show("pl-t-z",modOn("pl-znaczenia"));show("pz-day",modOn("pl-znaczenia"));
   show("en-t-tobe",modOn("en-tobe"));show("en-t-v",modOn("en-slowka"));show("en-t-z",modOn("en-zdania"));
-  show("t-zd",subjOn("zd"));show("zd-spr",modOn("zd-spr"));show("zd-tw",modOn("zd-temat"));
-  document.querySelectorAll("#home [data-soon]").forEach(b=>{b.hidden=!modOn("soon");});
+  show("t-zd",subjOn("zd"));show("zd-spr",modOn("zd-spr"));show("zd-tw",ZD_TOPICS.some(t=>modOn("zd-"+t.id)));if(CUR==="zd") renderZd();
+  show("t-his",modOn("his"));show("t-nat",modOn("nat"));
   if($("t-lig")&&!modOn("lig")) $("t-lig").hidden=true;
   // kafel dla rodzica na samej górze
   $("t-kidcfg").hidden=!(ME&&ME.role==="parent");
@@ -4408,7 +4413,8 @@ async function renderKidCfg(){
   if(!KC.prefs){
     list.innerHTML='<p class="abnote">Wczytuję ustawienia…</p>';
     try{const {data,error}=await SB.from("settings").select("prefs,plp").eq("user_id",KC.kid).maybeSingle();if(error) throw error;
-      KC.prefs=data?data.prefs||{}:{};KC.plp=data?data.plp:{};KC.mods={...(KC.prefs.mods||{})};}
+      KC.prefs=data?data.prefs||{}:{};KC.plp=data?data.plp:{};KC.mods={...(KC.prefs.mods||{})};
+      if(KC.mods.soon===false){for(const k of ["his","nat"]) if(!(k in KC.mods)) KC.mods[k]=false;}delete KC.mods.soon;} // dawne „Kafle Wkrótce” → osobno Historia i Przyroda
     catch(x){list.innerHTML='<p class="abnote">Nie udało się wczytać ustawień – sprawdź internet.</p>';return;}
   }
   const name=(FAMILY.find(p=>p.id===KC.kid)||{}).name||"Dziecko";
@@ -4427,7 +4433,7 @@ async function renderKidCfg(){
 function kcPreview(){
   const inner=$("kc-inner"),P={mods:KC.mods},grid=$("home").querySelector(".tiles2").cloneNode(true);
   const vis={"t-math":subjOn("mat",P),"t-pl":subjOn("pl",P),"t-en":subjOn("en",P),"t-zd":subjOn("zd",P)};
-  grid.querySelectorAll("button").forEach(b=>{const on=b.id in vis?vis[b.id]:b.hasAttribute("data-soon")?modOn("soon",P):true;b.hidden=!on;});
+  grid.querySelectorAll("button").forEach(b=>{const on=b.id in vis?vis[b.id]:b.id==="t-his"?modOn("his",P):b.id==="t-nat"?modOn("nat",P):true;b.hidden=!on;});
   const bars=["t-stats","t-cups","t-lig","t-help"].filter(id=>id!=="t-lig"||modOn("lig",P)).map(id=>{const b=$(id).cloneNode(true);b.hidden=false;return b;});
   inner.replaceChildren(grid,...bars);
   inner.querySelectorAll("[id]").forEach(el=>el.removeAttribute("id"));
