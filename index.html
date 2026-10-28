@@ -593,6 +593,24 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .tpts.lost{text-decoration:line-through;opacity:.55}.tpts[hidden]{display:none}
 .tpts.inl{position:static}.pd-nos{display:flex;align-items:center;gap:8px}
 .pl-card .pl-tags{padding:0 54px}.pl-card .pl-tag{white-space:normal;text-align:center}
+.ligsi{background:linear-gradient(135deg,#7048e8,#3b2bb5)!important}
+#t-lig.alert{border-color:#e8590c}#t-lig.alert small{color:#e8590c}
+.lig-reqs{display:flex;flex-direction:column;gap:8px}
+.lig-req{background:var(--card);border:2px solid #e8590c;border-radius:16px;padding:12px 14px;display:flex;flex-direction:column;gap:10px;font-weight:700}
+.lig-yn{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.lig-yn .go-btn,.lig-yn .again{min-height:46px}
+.lig-body{display:flex;flex-direction:column;gap:12px}
+.lig-card{background:var(--card);border-radius:18px;padding:14px 16px;display:flex;flex-direction:column;gap:4px}
+.lig-card>b{font-family:var(--display);font-size:1.4rem}.lig-code{font-weight:800;color:var(--muted)}.lig-code b{color:var(--accent);letter-spacing:.12em;-webkit-user-select:text;user-select:text}
+.lig-rank{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.lig-rank li{display:flex;align-items:center;gap:12px;background:var(--card);border-radius:16px;padding:10px 14px}
+.lig-rank li.me{box-shadow:inset 0 0 0 2px var(--accent)}
+.lig-pos{flex:none;width:30px;height:30px;border-radius:50%;background:var(--key);display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:800}
+.lig-rank li:nth-child(1) .lig-pos{background:#f2c230;color:#3a2a00}.lig-rank li:nth-child(2) .lig-pos{background:#b4bfcf;color:#1d2540}.lig-rank li:nth-child(3) .lig-pos{background:#cd7f32;color:#fff}
+.lig-n{flex:1;min-width:0;display:flex;flex-direction:column}.lig-n small{font-weight:800;font-size:.75rem;color:var(--muted)}
+.lig-p{font-family:var(--display);font-weight:800;font-size:1.3rem;display:flex;align-items:baseline;gap:3px}.lig-p small{font-size:.75rem;color:var(--muted)}
+.lig-rank .none{color:var(--muted);font-weight:800;justify-content:center;background:none}
+.lig-actions{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.lig-actions .again{min-height:50px}
+.lig-form{display:flex;flex-direction:column;gap:8px}.lig-form input{font:inherit;font-weight:800;font-size:1.1rem;padding:10px 12px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--fg);-webkit-user-select:text;user-select:text}
 </style>
 <script>/* motyw z ustawień przed narysowaniem strony, bez mignięcia */
 try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t==="light"||t==="dark") document.documentElement.dataset.theme=t;}catch(e){}</script>
@@ -616,6 +634,9 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
   <button type="button" class="sbar" id="t-cups"><span class="si cupsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10v6a5 5 0 0 1-10 0z"/><path d="M7 5H4a3 3 0 0 0 3 4M17 5h3a3 3 0 0 1-3 4M12 14v3M8 21h8l-1-4H9z"/></svg></span>
     <span class="st"><b>Puchary</b><small id="t-cups-s">Zdobywaj brąz, srebro, złoto i diament</small></span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
+  <button type="button" class="sbar" id="t-lig" hidden><span class="si ligsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V12h5v9M9.5 21V7h5v14M15 21v-6h5v6"/></svg></span>
+    <span class="st"><b>Ligi</b><small id="t-lig-s">Ścigaj się z kolegami na punkty</small></span>
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
 </div>
 
@@ -844,6 +865,15 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow" id="cups-t">Puchary</h1></header>
   <div class="cups-body" id="cups-body"></div>
   <button type="button" class="again" id="cups-set">Ustaw progi i nagrody</button>
+</div>
+<div class="wrap" id="lig" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Ligi</h1></header>
+  <div class="lig-reqs" id="lig-req"></div>
+  <div class="fchips who" id="lig-tabs" role="group" aria-label="Twoje ligi"></div>
+  <div class="lig-body" id="lig-body"></div>
+  <div class="lig-actions" id="lig-actions"><button type="button" class="again" id="lig-join-b">Dołącz kodem</button><button type="button" class="again" id="lig-new-b">Załóż ligę</button></div>
+  <div class="lig-form" id="lig-form" hidden><label class="af"><span id="lig-in-l">Kod ligi</span><input id="lig-in" type="text" autocomplete="off" spellcheck="false"></label><button type="button" class="go-btn" id="lig-ok">Dołącz</button></div>
+  <div class="ask-err" id="lig-err" aria-live="polite"></div>
 </div>
 <div class="ask" id="ask" hidden role="dialog" aria-modal="true" aria-labelledby="ask-t">
   <div class="ask-box sheet">
@@ -1914,8 +1944,8 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",cups:"#puchary",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",cups:"cups",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",cups:"#puchary",lig:"#ligi",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",cups:"cups",lig:"lig",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
@@ -1944,7 +1974,7 @@ function renderHome(){
   applySub();
   const H=loadHist();
   $("t-math-s").textContent=ACTIVE&&i<N?`W trakcie: ${i} / ${N} · dotknij, żeby grać dalej`:"Wybierz ćwiczenia i zaczynamy";
-  renderCupsBar();
+  renderCupsBar();ligHomeLine();
   const T=dayKey(Date.now()),MON=addDays(T,-((new Date(T).getDay()+6)%7)),pt=s=>sesPts(s).p;
   const dz=H.filter(s=>dayKey(s.start)===T).reduce((a,s)=>a+pt(s),0),tg=H.filter(s=>s.start>=MON).reduce((a,s)=>a+pt(s),0);
   $("t-stats-s").textContent=H.length?`Dziś ${dz} pkt · w tygodniu ${tg} pkt`:"Tu zobaczysz swoje wyniki";
@@ -2295,6 +2325,7 @@ function plShow(v){
   if(v==="plzs") renderPzs();
   if(v==="plzk") renderPzk();
   if(v==="cups") renderCups();
+  if(v==="lig") renderLig();
   if(v==="en") renderEnHub();
   if(v==="ent") renderEn();
   if(v==="enset") renderEnSet();
@@ -3560,11 +3591,12 @@ $("acct-body").addEventListener("click",async e=>{
     }else if(a==="make-family"){
       if(!v("a-name")) throw new Error("Wpisz swoje imię.");const c=await SB.rpc("create_family",{p_name:v("a-name")});if(c.error) throw c.error;await loadMe();
     }else if(a==="out"){
-      if(ME&&ME.role){await syncNow();
+      if(ME&&ME.role){if(ACTIVE&&i>0&&i<N) archive("przerwana");await syncNow();
         if(loadOwnHist().some(s=>s&&s.id&&(!SYNC||SYNC.sig[s.id]!==sesSig(s)))) throw new Error("Nie wszystkie wyniki są wysłane – połącz się z internetem i spróbuj jeszcze raz.");
         saveHistLocal([]);}
       await SB.auth.signOut();ME=null;saveMe();try{localStorage.removeItem(PINKEY);localStorage.removeItem(SYNCKEY);}catch(x){}
-      SYNC=null;FAMILY=null;WHO=null;VIEW_HIST=null;ACCT="start";
+      SYNC=null;FAMILY=null;WHO=null;VIEW_HIST=null;LIGROWS=null;ACCT="start";
+      try{localStorage.removeItem(KEY);}catch(x){}PREFS.cupSeen=null;savePrefs();location.reload();return;
     }else if(a==="sync"){
       await syncNow();
     }
@@ -3624,14 +3656,17 @@ async function syncNow(){
     }
     // 2. pobranie sesji z innych urządzeń tego konta
     let q=SB.from("sessions").select("data,updated_at").eq("user_id",ME.id).order("updated_at").limit(1000);
+    const firstPull=!SYNC.pull;let refresh=false;
     if(SYNC.pull) q=q.gt("updated_at",SYNC.pull);
     const {data,error}=await q;if(error) throw error;
+    // pierwsze pobranie historii konta na tym telefonie: zdobyte wcześniej puchary bez okienek „Nowy puchar!”
+    if(firstPull){APPLYING=true;try{PREFS.cupSeen=null;savePrefs();}finally{APPLYING=false;}refresh=true;}
     if(data.length){
       const byId=new Map(loadOwnHist().map(s=>[s.id,s]));let changed=false;
       for(const r of data){const s=r.data,l=byId.get(s.id);
         if(!l||sesBetter(s,l)){byId.set(s.id,s);changed=true;}
         SYNC.sig[s.id]=sesSig(s);SYNC.pull=r.updated_at;} // lokalna lepsza ma inny podpis, więc wyjdzie przy następnej wysyłce
-      if(changed){saveHistLocal([...byId.values()].sort((a,b)=>a.start-b.start));syncRefresh();}
+      if(changed){saveHistLocal([...byId.values()].sort((a,b)=>a.start-b.start));refresh=true;}
     }
     // 3. ustawienia
     const st=await SB.from("settings").select("prefs,plp,updated_at").eq("user_id",ME.id).maybeSingle();if(st.error) throw st.error;
@@ -3645,6 +3680,8 @@ async function syncNow(){
       const {data:d,error:e}=await SB.from("settings").upsert({prefs:PREFS,plp:PLP},{onConflict:"user_id"}).select("updated_at").single();if(e) throw e;
       SYNC.setAt=Date.parse(d.updated_at);SYNC.setDirty=false;
     }
+    if(refresh) syncRefresh(); // po ustawieniach, żeby sprawdzanie pucharów nie nadpisało ustawień konta z bazy
+    await ligPublish();
     SYNC.last=Date.now();syncSave();
   }catch(e){/* bez internetu albo błąd – spróbujemy przy następnej okazji */}
   syncing=false;
@@ -3873,6 +3910,90 @@ document.querySelectorAll("#menu .macc").forEach(b=>{
   const open=v=>{b.setAttribute("aria-expanded",v);sec.hidden=!v;};
   open(b.querySelector("b").textContent==="Podczas ćwiczeń");
   b.addEventListener("click",()=>open(b.getAttribute("aria-expanded")!=="true"));
+});
+
+/* ===== Ligi: ranking z kolegami (supabase/leagues.sql) =====
+   Dziecko zakłada ligę albo dołącza kodem; rodzic zatwierdza (decide_league). Ranking czyta tylko podsumowania
+   z public_stats (punkty w tygodniu i od początku, seria, puchary), które każdy telefon wysyła przy synchronizacji. */
+const ymd=t=>{const d=new Date(t);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;};
+function histSummary(H,P){
+  const T=dayKey(Date.now()),MON=addDays(T,-((new Date(T).getDay()+6)%7)),act=new Set();let week=0,total=0;
+  for(const s of H){const p=sesPts(s).p;total+=p;if(s.start>=MON) week+=p;if(s.done>0) act.add(dayKey(s.start));}
+  let n=0,d=act.has(T)?T:addDays(T,-1);while(act.has(d)){n++;d=addDays(d,-1);}
+  const c=cupCounts(H),cups={b:0,s:0,g:0,d:0}; // najwyższy puchar w każdej kategorii
+  CUP_CATS.forEach(x=>{const l=cupLevel(c[x.id]||0,cupBase(P,x.id));if(l>=0) cups[CUP_LV[l].k]++;});
+  return {week_start:ymd(MON),week_pts:week,total_pts:total,streak:n,cups};
+}
+async function ligPublish(){ // osobno od reszty synchronizacji: brak tabel lig nie może jej zatrzymać
+  try{await SB.from("public_stats").upsert(histSummary(loadOwnHist(),PREFS),{onConflict:"user_id"});}catch(e){}
+  try{const {data}=await SB.rpc("my_leagues");if(data){LIGROWS=data;ligHomeLine();}}catch(e){}
+}
+let LIGROWS=null,LIGSEL=null,LIGMODE="week",LIGFORM=null;
+function ligHomeLine(){
+  const el=$("t-lig");el.hidden=!(ME&&ME.role);if(el.hidden) return;
+  const R=LIGROWS||[],req=R.filter(r=>r.member_status==="pending"&&r.user_id!==ME.id),mine=[...new Set(R.filter(r=>r.user_id===ME.id).map(r=>r.league_id))];
+  $("t-lig-s").textContent=ME.role==="parent"&&req.length?`Prośby o zgodę: ${req.length}`:mine.length?`${mine.length===1?"Twoja liga":"Twoje ligi: "+mine.length} · zobacz ranking`:"Ścigaj się z kolegami na punkty";
+  el.classList.toggle("alert",ME.role==="parent"&&req.length>0);
+}
+const ligs=()=>{const m=new Map();(LIGROWS||[]).forEach(r=>{if(!m.has(r.league_id)) m.set(r.league_id,{id:r.league_id,name:r.name,code:r.code,status:r.league_status,rows:[]});m.get(r.league_id).rows.push(r);});return [...m.values()];};
+async function renderLig(){
+  const body=$("lig-body");$("lig-err").textContent="";
+  const on=!!(ME&&ME.role);$("lig-actions").hidden=!on;$("lig-tabs").hidden=!on;$("lig-req").innerHTML="";
+  if(!on){body.innerHTML='<p class="abnote">Ligi działają z kontem: ☰ → Konto rodziny. Rodzic zakłada konto, telefon dziecka dołącza kodem rodziny.</p>';return;}
+  if(!LIGROWS) body.innerHTML='<p class="abnote">Wczytuję…</p>';
+  try{await sbLoad();const {data,error}=await SB.rpc("my_leagues");if(error) throw error;LIGROWS=data;}
+  catch(x){body.innerHTML=`<p class="abnote">${/function|schema|exist/i.test(String(x&&x.message))?"Ligi nie są jeszcze włączone w bazie (supabase/leagues.sql).":"Nie udało się wczytać lig – sprawdź internet."}</p>`;return;}
+  ligHomeLine();
+  // rodzic: prośby dzieci o zgodę
+  const req=LIGROWS.filter(r=>r.member_status==="pending"&&r.user_id!==ME.id);
+  $("lig-req").innerHTML=req.length?`<div class="lbl">Prośby o zgodę</div>`+req.map(r=>`<div class="lig-req"><span><b>${esc(r.user_name)}</b> chce ${r.is_creator&&r.league_status==="pending"?"założyć ligę":"dołączyć do ligi"} <b>„${esc(r.name)}”</b></span>
+    <span class="lig-yn"><button type="button" class="go-btn" data-ok="1" data-l="${r.league_id}" data-u="${r.user_id}">Zgoda</button><button type="button" class="again" data-ok="0" data-l="${r.league_id}" data-u="${r.user_id}">Nie</button></span></div>`).join(""):"";
+  const L=ligs();
+  if(!L.some(l=>l.id===LIGSEL)) LIGSEL=L.length?L[0].id:null;
+  $("lig-tabs").innerHTML=L.map(l=>`<button type="button" data-l="${l.id}" class="${l.id===LIGSEL?"sel":""}" aria-pressed="${l.id===LIGSEL}">${esc(l.name)}${l.status==="pending"?" ⏳":""}</button>`).join("");
+  if(!L.length){body.innerHTML='<p class="abnote">Nie masz jeszcze ligi. Załóż własną i podaj kolegom kod, albo dołącz kodem od kolegi. Rodzic musi się zgodzić.</p>';return;}
+  const l=L.find(x=>x.id===LIGSEL),me=l.rows.find(r=>r.user_id===ME.id),kids=l.rows.filter(r=>r.user_id!==ME.id);
+  const leave=(me?`<button type="button" class="again" data-leave="${ME.id}">Wypisz się z ligi</button>`:"")+kids.map(r=>`<button type="button" class="again" data-leave="${r.user_id}">Wypisz: ${esc(r.user_name)}</button>`).join("");
+  const active=(me&&me.member_status==="active")||kids.some(r=>r.member_status==="active");
+  if(l.status==="pending"||!active){
+    body.innerHTML=`<div class="lig-card"><b>${esc(l.name)}</b><p class="abnote">Czeka na zgodę rodzica. Gdy się zgodzi, ${l.status==="pending"?"dostaniesz kod ligi dla kolegów":"zobaczysz ranking"}.</p></div>${leave}`;return;
+  }
+  body.innerHTML=`<div class="lig-card"><b>${esc(l.name)}</b>${l.code?`<span class="lig-code">Kod dla kolegów: <b>${l.code}</b></span>`:""}</div>
+    <div class="segs pl-len" id="lig-mode" role="group" aria-label="Okres"><button type="button" data-m="week" class="${LIGMODE==="week"?"sel":""}">Ten tydzień</button><button type="button" data-m="all" class="${LIGMODE==="all"?"sel":""}">Od początku</button></div>
+    <ol class="lig-rank" id="lig-rank"><li class="none">Wczytuję ranking…</li></ol>${leave}`;
+  try{
+    const {data,error}=await SB.rpc("league_ranking",{p_league:l.id});if(error) throw error;
+    const k=LIGMODE==="week"?"week_pts":"total_pts",rows=data.slice().sort((a,b)=>b[k]-a[k]||b.streak-a.streak),mine=new Set([ME.id,...kids.map(r=>r.user_id)]);
+    $("lig-rank").innerHTML=rows.length?rows.map((r,i)=>{const c=r.cups||{};
+      return `<li class="${mine.has(r.user_id)?"me":""}"><span class="lig-pos">${i+1}</span><span class="lig-n"><b>${esc(r.name||"–")}${r.user_id===ME.id?" (Ty)":""}</b><small>seria: ${r.streak} ${dni(r.streak)}${CUP_LV.filter(L=>c[L.k]).map(L=>` · ${c[L.k]}× ${L.name.toLowerCase()}`).join("")}</small></span><span class="lig-p">${r[k]}<small>pkt</small></span></li>`;}).join("")
+      :'<li class="none">Jeszcze nikt nie ma punktów.</li>';
+  }catch(x){$("lig-rank").innerHTML='<li class="none">Nie udało się wczytać rankingu.</li>';}
+}
+$("t-lig").addEventListener("click",()=>go("lig"));
+$("lig-tabs").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;LIGSEL=b.dataset.l;renderLig();});
+$("lig-body").addEventListener("click",async e=>{
+  const m=e.target.closest("[data-m]");if(m){LIGMODE=m.dataset.m;renderLig();return;}
+  const lv=e.target.closest("[data-leave]");if(!lv) return;
+  if(!confirm("Na pewno wypisać z tej ligi?")) return;
+  const {error}=await SB.rpc("leave_league",{p_league:LIGSEL,p_user:lv.dataset.leave});if(error) $("lig-err").textContent=acctErr(error);else renderLig();
+});
+$("lig-req").addEventListener("click",async e=>{const b=e.target.closest("button[data-ok]");if(!b) return;b.disabled=true;
+  const {error}=await SB.rpc("decide_league",{p_league:b.dataset.l,p_user:b.dataset.u,p_ok:b.dataset.ok==="1"});
+  if(error) $("lig-err").textContent=acctErr(error);else{LIGSEL=b.dataset.l;renderLig();}});
+// formularz: dołącz kodem / załóż ligę
+function ligForm(kind){LIGFORM=kind;$("lig-form").hidden=false;$("lig-in").value="";$("lig-err").textContent="";
+  $("lig-in-l").textContent=kind==="join"?"Kod ligi od kolegi":"Nazwa ligi (np. Podwórko)";$("lig-in").maxLength=kind==="join"?6:30;
+  $("lig-in").setAttribute("autocapitalize",kind==="join"?"characters":"sentences");$("lig-ok").textContent=kind==="join"?"Dołącz":"Załóż ligę";$("lig-in").focus();}
+$("lig-join-b").addEventListener("click",()=>ligForm("join"));
+$("lig-new-b").addEventListener("click",()=>ligForm("new"));
+$("lig-ok").addEventListener("click",async()=>{
+  const v=$("lig-in").value.trim();if(!v){$("lig-err").textContent=LIGFORM==="join"?"Wpisz kod ligi.":"Wpisz nazwę ligi.";return;}
+  $("lig-ok").disabled=true;
+  try{const r=LIGFORM==="join"?await SB.rpc("join_league",{p_code:v}):await SB.rpc("create_league",{p_name:v});if(r.error) throw r.error;
+    $("lig-form").hidden=true;LIGSEL=null;await renderLig();
+    const l=ligs().find(x=>LIGFORM==="join"?x.id===r.data:x.code===r.data||x.name===v);if(l){LIGSEL=l.id;renderLig();}}
+  catch(x){$("lig-err").textContent=acctErr(x);}
+  $("lig-ok").disabled=false;
 });
 
 // wczytanie zapisanej sesji: dopiero teraz, bo finish() zapisuje do historii (HKEY wyżej)

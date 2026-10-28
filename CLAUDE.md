@@ -69,6 +69,11 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   synchronizacji pola z `PARENT_KEYS` biorą wersję z bazy. `cupsCheck()` po zapisie sesji (po gratulacjach) i po synchronizacji
   pokazuje „Nowy puchar!” (`#cupnew`, kolejka `CUPQ`); `PREFS.cupSeen` = pokazane poziomy (pierwsze uruchomienie bez okienek).
   Pasek Puchary na starcie i w Statystykach (rodzic z wybranym dzieckiem widzi jego puchary: `VIEW_PREFS`).
+- **Ligi (`#lig`, `#ligi`, SQL w `supabase/leagues.sql`):** dziecko zakłada ligę (`create_league`) albo dołącza kodem (`join_league`);
+  liga i każde dołączenie dziecka czekają na zgodę jego rodzica (`decide_league`, prośby na górze ekranu Ligi i na pasku startu).
+  Ranking (`league_ranking`) czyta tylko `public_stats` – podsumowanie (`histSummary`: punkty w tygodniu i od początku, seria,
+  najwyższe puchary), które telefon wysyła na końcu `syncNow()` (`ligPublish`, osobny try, żeby brak tabel nie psuł synchronizacji).
+  Sesji innych dzieci nikt nie widzi. Wypisanie: `leave_league` (dziecko albo jego rodzic).
 - **Historia:** `localStorage` pod `henriksen-historia`, tablica sesji
   `{id,subj,start,end,status:"done"|"przerwana",cfg,n,done,recs:[{t,ok,tries,h,ms}],pct,grade,errors,hints}`.
   `archive(status)` przy `finish()` i przy rozpoczęciu nowych działań w trakcie (przerwana). Bieżąca sesja trzyma `SID`, `T0`
