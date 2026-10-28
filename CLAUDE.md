@@ -50,6 +50,12 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `supabase-js` ładowany z jsDelivr dopiero przy potrzebie (`sbLoad`, cache w `sw.js`). Okno `#acct` z menu ☰:
   rodzic e-mail + hasło → kod rodziny; telefon dziecka: kod + imię + hasło (wpisuje rodzic) → konto `imię.kod@dziecko.henriksen.app`,
   potem 4-cyfrowy PIN (`#pinlock`, skrót SHA-256 w `henriksen-pin`, raz na uruchomienie). Profil w `henriksen-me`, sesja w `henriksen-auth`.
+- **Synchronizacja (etap 2):** `localStorage` zostaje główną pamięcią. `saveHist()` zapisuje lokalnie (`saveHistLocal`) i budzi
+  `syncSoon()` → `syncNow()`: wysyła sesje, których podpis `sesSig` zmienił się od ostatniej wysyłki, pobiera nowsze z bazy
+  (po `updated_at`) i łączy po `id` (ukończona > przerwana > dłuższa); ustawienia `PREFS`/`PLP` – wygrywa nowszy zapis
+  (`markSettings()` z `savePrefs`/`savePLP`). Stan w `henriksen-sync` per konto. Rodzic: wybór dziecka nad Statystykami (`#who`,
+  `renderWho`) – sesje dziecka trafiają do `VIEW_HIST`, a `loadHist()` w widoku statystyk zwraca je zamiast własnych
+  (`loadOwnHist()` = zawsze własna, używaj jej przy zapisie i kopii).
 - **Historia:** `localStorage` pod `henriksen-historia`, tablica sesji
   `{id,subj,start,end,status:"done"|"przerwana",cfg,n,done,recs:[{t,ok,tries,h,ms}],pct,grade,errors,hints}`.
   `archive(status)` przy `finish()` i przy rozpoczęciu nowych działań w trakcie (przerwana). Bieżąca sesja trzyma `SID`, `T0`

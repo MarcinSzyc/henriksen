@@ -554,6 +554,8 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .pin-pad{display:grid;grid-template-columns:repeat(3,72px);gap:12px}
 .pin-pad button{height:72px;border:0;border-radius:50%;background:var(--key);color:var(--key-fg);font-family:var(--display);font-weight:800;font-size:1.8rem;cursor:pointer}
 .pin-pad button:active{transform:scale(.94)}.pin-pad button:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.who{justify-content:flex-start}.who button.sel{background:var(--ok);border-color:var(--ok)}
+#who-msg{margin:0;text-align:center}
 </style>
 <script>/* motyw z ustawień przed narysowaniem strony, bez mignięcia */
 try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t==="light"||t==="dark") document.documentElement.dataset.theme=t;}catch(e){}</script>
@@ -582,6 +584,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 <div class="wrap" id="stats-v" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć do startu"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Statystyki</h1><div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="fchips who" id="who" hidden role="group" aria-label="Czyje wyniki"></div><p class="abnote" id="who-msg" hidden></p>
   <div class="segs subj" id="subj" role="tablist" aria-label="Przedmiot"><button type="button" role="tab" data-s="all" class="sel" aria-selected="true">Wszystko</button><button type="button" role="tab" data-s="mat" aria-selected="false">Matma</button><button type="button" role="tab" data-s="pl" aria-selected="false">Polski</button><button type="button" role="tab" data-s="en" aria-selected="false">Angielski</button><button type="button" role="tab" data-s="his" aria-selected="false">Historia</button></div>
   <div class="soonbox" id="soonbox" hidden><b id="soon-t">Polski już wkrótce</b><span>Tu pojawią się wyniki, gdy zaczniesz ćwiczyć.</span></div>
   <div class="kid" id="kid">
@@ -1619,7 +1622,7 @@ function render0(){
   if(i<N) show();
 }
 /* Ustawienia (menu ☰): motyw i ekran bez wygaszania */
-function savePrefs(){try{localStorage.setItem(PKEY,JSON.stringify(PREFS));}catch(e){}}
+function savePrefs(){try{localStorage.setItem(PKEY,JSON.stringify(PREFS));}catch(e){}try{markSettings();}catch(e){}}
 const TOGGLES=[["o-fx","fx"],["o-dots","dots"],["o-pct","pct"],["o-grade","grade"],["o-hints","hints"],["o-modals","modals"],["o-goals","goals"],["o-sound","sound"],["awake","awake"]];
 function applyView(){$("dots").hidden=!PREFS.dots;updateLive();showStats();if(i<N) resetHint();}
 $("hint-btn").addEventListener("click",nextHint);
@@ -1786,11 +1789,14 @@ wake();
 /* Historia sesji: localStorage pod HKEY, każda sesja z pełną listą odpowiedzi.
    Ukończone -> "done", porzucone (nowe działania w trakcie) -> "przerwana". */
 const HKEY="henriksen-historia";
-function loadHist(){try{const h=JSON.parse(localStorage.getItem(HKEY));return Array.isArray(h)?h:[];}catch(e){return [];}}
-function saveHist(h){
+let VIEW_HIST=null; // rodzic ogląda wyniki dziecka: statystyki czytają tę historię zamiast własnej
+function loadOwnHist(){try{const h=JSON.parse(localStorage.getItem(HKEY));return Array.isArray(h)?h:[];}catch(e){return [];}}
+function loadHist(){return VIEW_HIST&&CUR==="stats"?VIEW_HIST.slice():loadOwnHist();}
+function saveHistLocal(h){
   try{localStorage.setItem(HKEY,JSON.stringify(h));}catch(e){}
   if(navigator.storage&&navigator.storage.persist) navigator.storage.persist().catch(()=>{});
 }
+function saveHist(h){saveHistLocal(h);try{syncSoon();}catch(e){}} // try: przy starcie konto może nie być jeszcze gotowe
 const recsOf=upto=>tasks.slice(0,upto).map((t,k)=>({t,ok:state[k]==="ok",tries:(log[k]&&log[k].tries)||[],h:(log[k]&&log[k].h)||0,ms:(log[k]&&log[k].ms)||0}));
 function archive(status){
   const done=status==="done"?N:i;if(!ACTIVE||!done) return;
@@ -1813,8 +1819,9 @@ function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
   for(const k in VIEWS) $(VIEWS[k]).hidden=k!==v;
   plShow(v);
+  if(v!=="stats"){VIEW_HIST=null;WHO=null;}
   if(v==="home") renderHome();
-  if(v==="stats") renderStats();
+  if(v==="stats"){renderStats();renderWho();}
   if(v==="play") refit();
   scrollTo(0,0);
 }
@@ -1905,7 +1912,7 @@ function renderKid(){
   const H=loadHist().filter(s=>SUBJ==="all"||subjOf(s)===SUBJ),per=new Map();
   const add=(t,n)=>{if(n>0){const k=dayKey(t);per.set(k,(per.get(k)||0)+n);}};
   H.forEach(s=>add(s.start,s.done));
-  if(ACTIVE&&i>0&&i<N&&(SUBJ==="all"||SUBJ==="mat")&&!H.some(s=>s.id===SID)) add(T0,i);
+  if(!VIEW_HIST&&ACTIVE&&i>0&&i<N&&(SUBJ==="all"||SUBJ==="mat")&&!H.some(s=>s.id===SID)) add(T0,i);
   const T=dayKey(Date.now()),Y=addDays(T,-1),wd=(new Date(T).getDay()+6)%7,MON=addDays(T,-wd);
   const at=k=>per.get(k)||0,today=at(T),yest=at(Y);
   let week=0;const days=[];for(let k=0;k<7;k++){const d=addDays(MON,k),v=at(d);week+=v;days.push({d,v});}
@@ -1953,7 +1960,7 @@ function renderStats(){
     :`<div class="ctip" style="grid-column:1/-1">Jeszcze nie ma ukończonych sesji</div>`;
   // wszystkie odpowiedzi (z bieżącą sesją) do Top 10 i tabliczki
   let recs=[];H.forEach(s=>recs.push(...s.recs));
-  if(ACTIVE&&i>0&&i<N&&!H.some(s=>s.id===SID)) recs.push(...recsOf(i));
+  if(!VIEW_HIST&&ACTIVE&&i>0&&i<N&&!H.some(s=>s.id===SID)) recs.push(...recsOf(i));
   if(SF!=="all") recs=recs.filter(r=>r.t[1]===SF);
   HARD=topHard(recs);
   $("top10").innerHTML=HARD.length?HARD.map(e=>{const p=Math.round(e.bad*100/e.n),w=[...new Set(e.wrong)].slice(0,4);
@@ -2010,7 +2017,7 @@ $("practice").addEventListener("click",()=>practice(HARD));
 
 /* Kopia danych: zapis historii do pliku i wczytanie (łączy po id sesji) */
 $("bk-save").addEventListener("click",()=>{
-  const blob=new Blob([JSON.stringify({app:"henriksen",v:1,date:new Date().toISOString(),history:loadHist(),prefs:PREFS})],{type:"application/json"});
+  const blob=new Blob([JSON.stringify({app:"henriksen",v:1,date:new Date().toISOString(),history:loadOwnHist(),prefs:PREFS})],{type:"application/json"});
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="henriksen-kopia-"+new Date().toISOString().slice(0,10)+".json";
   document.body.appendChild(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove();},1000);
   $("bk-msg").textContent="Zapisano plik z kopią.";
@@ -2019,7 +2026,7 @@ $("bk-load").addEventListener("click",()=>$("bk-file").click());
 $("bk-file").addEventListener("change",()=>{
   const f=$("bk-file").files[0];$("bk-file").value="";if(!f) return;
   f.text().then(txt=>{const d=JSON.parse(txt);if(!d||d.app!=="henriksen"||!Array.isArray(d.history)) throw new Error("format");
-    const H=loadHist(),ids=new Set(H.map(s=>s.id));let add=0;
+    const H=loadOwnHist(),ids=new Set(H.map(s=>s.id));let add=0;
     for(const s of d.history) if(s&&s.id&&Array.isArray(s.recs)&&s.cfg&&!ids.has(s.id)){H.push(s);add++;}
     saveHist(H);$("bk-msg").textContent=`Wczytano: ${add} (pominięto sesje, które już były).`;
     if(!$("stats-v").hidden) renderStats();renderHome();
@@ -2126,7 +2133,7 @@ const PL_LEN={s:"krótkie",m:"średnie",l:"długie"};
 const PLKEY="henriksen-polski",PL_STEPS=[5,10,15,20,25,30,40,50];
 let PLP={pairs:["ou","rz","ch"],n:20,len:"s",now:false,zl:"1",zn:10};
 try{const p=JSON.parse(localStorage.getItem(PLKEY));if(p) PLP={pairs:Array.isArray(p.pairs)?p.pairs.filter(x=>PL_PAIRS[x]):PLP.pairs,n:PL_STEPS.includes(p.n)?p.n:20,len:PL_LEN[p.len]?p.len:"s",now:!!p.now,zl:["1","2","3","mix"].includes(p.zl)?p.zl:"1",zn:[5,10,15,20,30].includes(p.zn)?p.zn:10,et:Array.isArray(p.et)?p.et.filter(x=>["form","ask","short"].includes(x)):undefined,en:p.en,ev:p.ev,ez:p.ez};}catch(e){}
-const savePLP=()=>{try{localStorage.setItem(PLKEY,JSON.stringify(PLP));}catch(e){}};
+const savePLP=()=>{try{localStorage.setItem(PLKEY,JSON.stringify(PLP));}catch(e){}try{markSettings();}catch(e){}};
 const shuffle=a=>{for(let k=a.length-1;k>0;k--){const j=Math.floor(Math.random()*(k+1));[a[k],a[j]]=[a[j],a[k]];}return a;};
 const slowek=n=>n===1?"słówko":n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?"słówka":"słówek";
 const luk=n=>n===1?"luka":n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?"luki":"luk";
@@ -3329,7 +3336,7 @@ async function loadMe(){
   const {data,error}=await SB.from("profiles").select("id,role,name,family_id,families(code)").eq("id",session.user.id).maybeSingle();
   if(error) throw error;
   ME=data?{id:data.id,role:data.role,name:data.name,family:data.family_id,code:data.families&&data.families.code,email:session.user.email}:{id:session.user.id,role:null,email:session.user.email};
-  saveMe();return ME;
+  saveMe();if(ME&&ME.role){syncLoad();syncSoon(300);}return ME;
 }
 async function pinHash(pin){
   const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(`${ME&&ME.id}:${pin}`));
@@ -3362,8 +3369,10 @@ function renderAcct(){
       (parent&&ME.code?`<div class="acct-code"><small>Kod rodziny – wpisz go na telefonie dziecka</small><b>${ME.code}</b></div>`:"")+
       (ME&&ME.role?`<div class="lbl">Rodzina</div><ul class="acct-fam" id="acct-fam"><li class="none">Wczytuję…</li></ul>`:
         `<p class="abnote">To konto nie ma jeszcze rodziny.</p>${field("a-name","Twoje imię","text",'maxlength="20" autocomplete="given-name"')}<button type="button" class="go-btn" data-do="make-family">Załóż rodzinę</button>`)+
+      (ME&&ME.role?`<p class="abnote" id="acct-sync"></p><button type="button" class="again" data-do="sync">Wyślij i pobierz wyniki teraz</button>`:"")+
       (ME&&ME.role==="student"?`<button type="button" class="again" data-go="pin">${pinSet()?"Zmień PIN":"Ustaw PIN"}</button>`:"")+
       `<button type="button" class="again" data-do="out">Wyloguj</button>`;
+    syncLine();
     if(ME&&ME.family) SB.from("profiles").select("name,role").eq("family_id",ME.family).then(({data})=>{const l=$("acct-fam");if(!l||!data) return;
       l.innerHTML=data.sort((a,b)=>a.role===b.role?a.name.localeCompare(b.name,"pl"):a.role==="parent"?-1:1).map(p=>`<li><b>${p.name||"–"}</b><small>${p.role==="parent"?"rodzic":"uczeń"}</small></li>`).join("");});
   }
@@ -3420,7 +3429,13 @@ $("acct-body").addEventListener("click",async e=>{
     }else if(a==="make-family"){
       if(!v("a-name")) throw new Error("Wpisz swoje imię.");const c=await SB.rpc("create_family",{p_name:v("a-name")});if(c.error) throw c.error;await loadMe();
     }else if(a==="out"){
-      await SB.auth.signOut();ME=null;saveMe();try{localStorage.removeItem(PINKEY);}catch(x){}ACCT="start";
+      if(ME&&ME.role){await syncNow();
+        if(loadOwnHist().some(s=>s&&s.id&&(!SYNC||SYNC.sig[s.id]!==sesSig(s)))) throw new Error("Nie wszystkie wyniki są wysłane – połącz się z internetem i spróbuj jeszcze raz.");
+        saveHistLocal([]);}
+      await SB.auth.signOut();ME=null;saveMe();try{localStorage.removeItem(PINKEY);localStorage.removeItem(SYNCKEY);}catch(x){}
+      SYNC=null;FAMILY=null;WHO=null;VIEW_HIST=null;ACCT="start";
+    }else if(a==="sync"){
+      await syncNow();
     }
     renderAcct();
   }catch(x){btns.forEach(b=>b.disabled=false);err(acctErr(x));}
@@ -3448,6 +3463,90 @@ renderAcctRow();
 showPinLock();
 // po starcie: odśwież profil w tle, jeśli ktoś jest zalogowany
 try{if(localStorage.getItem(AUTHKEY)) sbLoad().then(loadMe).then(()=>{renderAcctRow();showPinLock();}).catch(()=>{});}catch(e){}
+
+/* ===== Synchronizacja z bazą (etap 2): historia i ustawienia zalogowanego, podgląd wyników dziecka przez rodzica =====
+   localStorage zostaje główną pamięcią (działa offline). Wysyłamy sesje, których „podpis” zmienił się od ostatniej wysyłki,
+   pobieramy zmienione na innych urządzeniach (po updated_at) i łączymy po id: ukończona wygrywa z przerwaną, potem dłuższa.
+   Ustawienia (PREFS, PLP): wygrywa nowszy zapis. Stan w henriksen-sync, osobno dla każdego konta. */
+const SYNCKEY="henriksen-sync";
+let SYNC=null,syncT=0,syncing=false,APPLYING=false;
+const sesSig=s=>`${s.status}|${s.done}|${s.end}|${s.pct}`;
+const syncFresh=()=>({u:ME&&ME.id,sig:{},pull:null,setAt:0,setDirty:false,last:0});
+function syncLoad(){try{const x=JSON.parse(localStorage.getItem(SYNCKEY));SYNC=x&&ME&&x.u===ME.id?x:syncFresh();}catch(e){SYNC=syncFresh();}}
+const syncSave=()=>{try{localStorage.setItem(SYNCKEY,JSON.stringify(SYNC));}catch(e){}};
+const syncOn=()=>!!(ME&&ME.role);
+function syncSoon(ms){if(!syncOn()) return;clearTimeout(syncT);syncT=setTimeout(syncNow,ms==null?1500:ms);}
+function markSettings(){if(APPLYING||!syncOn()) return;if(!SYNC||SYNC.u!==ME.id) syncLoad();SYNC.setDirty=true;syncSave();syncSoon();}
+const sesBetter=(r,l)=>(r.status==="done")!==(l.status==="done")?r.status==="done":(r.done||0)>(l.done||0);
+async function syncNow(){
+  if(syncing||!syncOn()||!navigator.onLine) return;
+  syncing=true;
+  try{
+    await sbLoad();if(!SYNC||SYNC.u!==ME.id) syncLoad();
+    // 1. wysyłka nowych i zmienionych sesji
+    const up=loadOwnHist().filter(s=>s&&s.id&&SYNC.sig[s.id]!==sesSig(s));
+    for(let k=0;k<up.length;k+=100){
+      const part=up.slice(k,k+100);
+      const {error}=await SB.from("sessions").upsert(part.map(s=>({id:s.id,subj:s.subj||"mat",start:s.start,status:s.status,pct:s.pct,grade:s.grade,data:s})),{onConflict:"user_id,id"});
+      if(error) throw error;
+      part.forEach(s=>{SYNC.sig[s.id]=sesSig(s);});syncSave();
+    }
+    // 2. pobranie sesji z innych urządzeń tego konta
+    let q=SB.from("sessions").select("data,updated_at").eq("user_id",ME.id).order("updated_at").limit(1000);
+    if(SYNC.pull) q=q.gt("updated_at",SYNC.pull);
+    const {data,error}=await q;if(error) throw error;
+    if(data.length){
+      const byId=new Map(loadOwnHist().map(s=>[s.id,s]));let changed=false;
+      for(const r of data){const s=r.data,l=byId.get(s.id);
+        if(!l||sesBetter(s,l)){byId.set(s.id,s);changed=true;}
+        SYNC.sig[s.id]=sesSig(s);SYNC.pull=r.updated_at;} // lokalna lepsza ma inny podpis, więc wyjdzie przy następnej wysyłce
+      if(changed){saveHistLocal([...byId.values()].sort((a,b)=>a.start-b.start));syncRefresh();}
+    }
+    // 3. ustawienia
+    const st=await SB.from("settings").select("prefs,plp,updated_at").eq("user_id",ME.id).maybeSingle();if(st.error) throw st.error;
+    const remoteAt=st.data?Date.parse(st.data.updated_at):0;
+    if(st.data&&!SYNC.setDirty&&remoteAt>SYNC.setAt){
+      APPLYING=true;
+      try{PREFS={...PREFS,...st.data.prefs};savePrefs();PLP={...PLP,...st.data.plp};savePLP();applyTheme();applyName();applyView();}finally{APPLYING=false;}
+      SYNC.setAt=remoteAt;
+    }else if(SYNC.setDirty||!st.data){
+      const {data:d,error:e}=await SB.from("settings").upsert({prefs:PREFS,plp:PLP},{onConflict:"user_id"}).select("updated_at").single();if(e) throw e;
+      SYNC.setAt=Date.parse(d.updated_at);SYNC.setDirty=false;
+    }
+    SYNC.last=Date.now();syncSave();
+  }catch(e){/* bez internetu albo błąd – spróbujemy przy następnej okazji */}
+  syncing=false;
+  if(!$("acct").hidden&&ACCT==="me") syncLine();
+}
+function syncRefresh(){if(CUR==="home") renderHome();else if(CUR==="stats") renderStats();else plShow(CUR);}
+function syncLine(){const el=$("acct-sync");if(!el) return;
+  const n=loadOwnHist().length,t=SYNC&&SYNC.u===(ME&&ME.id)&&SYNC.last?new Date(SYNC.last):null;
+  el.textContent=t?`W chmurze: ${n} ${sesji(n)} · ostatnio ${String(t.getHours()).padStart(2,"0")}:${String(t.getMinutes()).padStart(2,"0")}`:"Wyniki jeszcze nie były wysłane";}
+addEventListener("online",()=>syncSoon(500));
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible") syncSoon(800);});
+
+/* rodzic ogląda wyniki dziecka: wybór osoby nad statystykami; dane dziecka tylko do odczytu (VIEW_HIST) */
+let WHO=null,FAMILY=null;
+async function renderWho(){
+  const el=$("who");
+  if(!(ME&&ME.role==="parent")){el.hidden=true;return;}
+  if(!FAMILY){try{await sbLoad();const {data}=await SB.from("profiles").select("id,name,role").eq("family_id",ME.family);FAMILY=(data||[]).filter(p=>p.role==="student");}catch(e){FAMILY=[];}}
+  el.hidden=!FAMILY.length;if(!FAMILY.length) return;
+  el.innerHTML=[{id:null,name:"Ja"},...FAMILY].map(p=>`<button type="button" data-id="${p.id||""}" class="${(p.id||null)===WHO?"sel":""}" aria-pressed="${(p.id||null)===WHO}">${p.name||"–"}</button>`).join("");
+}
+$("who").addEventListener("click",async e=>{
+  const b=e.target.closest("button");if(!b) return;const id=b.dataset.id||null;if(id===WHO) return;
+  WHO=id;VIEW_HIST=null;renderWho();
+  if(id){
+    $("who-msg").textContent="Wczytuję wyniki…";$("who-msg").hidden=false;
+    try{const {data,error}=await SB.from("sessions").select("data").eq("user_id",id).order("start").limit(5000);if(error) throw error;
+      VIEW_HIST=data.map(r=>r.data);$("who-msg").hidden=true;}
+    catch(x){$("who-msg").textContent="Nie udało się wczytać wyników – sprawdź internet.";VIEW_HIST=[];}
+  }else $("who-msg").hidden=true;
+  renderStats();
+});
+syncLoad();
+if(syncOn()) syncSoon(2500);
 
 // wczytanie zapisanej sesji: dopiero teraz, bo finish() zapisuje do historii (HKEY wyżej)
 if(load()){
