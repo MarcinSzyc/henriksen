@@ -39,7 +39,9 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   - **To be:** generowane z `EN_P` (osoby z polskim odpowiednikiem i rodzajem) i `EN_C` (kolory w 4 formach). `enTask(kind)`:
     `form` (ja jestem ↔ I am, She ___ red.), `ask` (Czy on jest czerwony? ↔ Is he red?, Who/What z `EN_WH`),
     `short` (Is she red? – Tak → Yes, she is.; pytanie z „you” → odpowiedź o sobie). Ustawienia `PLP.et` / `PLP.en`.
-  - **Słówka:** `EN_WORDS` (a1/a2, `"angielski|polski|n/v/a"`), złe odpowiedzi z tej samej części mowy. **Zdania:** `EN_SENT`
+  - **Słówka:** `EN_TOPICS` (16 tematów, m.in. Piłka nożna; ok. 640 słów, w każdym temacie `a1` i `a2`:
+    `"angielski=polski;…"`, część mowy z `p` tematu albo po `@`: n/v/a/o). Złe odpowiedzi z tej samej części mowy, najpierw z tego samego tematu.
+    Wybór tematów w ustawieniach (`PLP.ev.topics`, pusta lista = wszystkie). **Zdania:** `EN_SENT`
     (`"angielski|polski|3 złe angielskie;…|3 złe polskie;…"` – typowe pomyłki). Ustawienia `PLP.ev` / `PLP.ez` (lvl a1/a2/all, dir pl/en/mix, n).
   - W statystykach zakładka Angielski bez szczegółów rodzica.
 - **Historia:** `localStorage` pod `henriksen-historia`, tablica sesji

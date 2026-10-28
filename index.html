@@ -533,6 +533,12 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .en-dir button{min-height:52px;border-radius:16px;border:2px solid var(--line);background:var(--card);color:var(--fg);font:inherit;font-weight:800;font-size:1rem;cursor:pointer}
 .en-dir button.sel{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
 .en-dir button:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
+.en-tw{display:flex;flex-direction:column;gap:12px}.en-tw .lbl{margin-bottom:-6px}.en-acc{background:var(--card);border-radius:18px;padding:0 16px;justify-content:space-between}.en-acc span{display:flex;flex-direction:column;gap:1px}.en-acc small{font-weight:800;font-size:.8rem;color:var(--muted)}
+.en-top{display:flex;flex-wrap:wrap;gap:8px}
+.en-top button{min-height:44px;padding:0 14px;border-radius:999px;border:2px solid var(--line);background:var(--card);color:var(--fg);font:inherit;font-weight:800;font-size:.92rem;cursor:pointer}
+.en-top button small{color:var(--muted);font-weight:800;margin-left:2px}
+.en-top button.sel{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}.en-top button.sel small{color:inherit;opacity:.75}
+.en-top button:focus-visible{outline:3px solid var(--fg);outline-offset:2px}
 </style>
 <script>/* motyw z ustawień przed narysowaniem strony, bez mignięcia */
 try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t==="light"||t==="dark") document.documentElement.dataset.theme=t;}catch(e){}</script>
@@ -738,6 +744,10 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow" id="enset-t">Słówka</h1></header>
   <div class="lbl">Poziom</div>
   <div class="segs pl-len" id="enset-lvl" role="group" aria-label="Poziom"></div>
+  <div class="en-tw" id="enset-tw"><div class="lbl">Tematy</div>
+  <div class="en-top"><button type="button" id="enset-all">Wszystkie</button></div>
+  <button type="button" class="more en-acc" id="enset-acc" aria-expanded="false" aria-controls="enset-topics"><span><b>Wybierz tematy</b><small id="enset-acc-s"></small></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="en-top" id="enset-topics" role="group" aria-label="Tematy" hidden></div></div>
   <div class="lbl">Kierunek</div>
   <div class="en-dir" id="enset-dir" role="group" aria-label="Kierunek"></div>
   <div class="lbl">Ile zadań</div>
@@ -3020,7 +3030,7 @@ function enWh(){
 const EN_STEPS=[5,10,15,20,30];
 if(!Array.isArray(PLP.et)) PLP.et=Object.keys(EN_TYPES);
 if(!EN_STEPS.includes(PLP.en)) PLP.en=15;
-for(const k of ["ev","ez"]){const o=PLP[k];PLP[k]={lvl:o&&["a1","a2","all"].includes(o.lvl)?o.lvl:"a1",dir:o&&["pl","en","mix"].includes(o.dir)?o.dir:"mix",n:o&&EN_STEPS.includes(o.n)?o.n:10};}
+for(const k of ["ev","ez"]){const o=PLP[k];PLP[k]={lvl:o&&["a1","a2","all"].includes(o.lvl)?o.lvl:"a1",dir:o&&["pl","en","mix"].includes(o.dir)?o.dir:"mix",n:o&&EN_STEPS.includes(o.n)?o.n:10,topics:o&&Array.isArray(o.topics)?o.topics.filter(t=>EN_TOPICS.some(x=>x.id===t)):[]};}
 function renderEn(){
   $("en-types").innerHTML=Object.entries(EN_TYPES).map(([k,n])=>`<button type="button" data-t="${k}" class="${PLP.et.includes(k)?"sel":""}" aria-pressed="${PLP.et.includes(k)}"><b>${n}</b><small>${k==="form"?"I am – ja jestem":k==="ask"?"Is he red? Who…?":"Yes, she is."}</small></button>`).join("");
   $("en-n").textContent=PLP.en;$("en-minus").disabled=PLP.en===EN_STEPS[0];$("en-plus").disabled=PLP.en===EN_STEPS[EN_STEPS.length-1];
@@ -3104,31 +3114,60 @@ function enFinish(){
 $("enq-end").addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b||!EN) return;
   if(b.dataset.a==="back") history.back(); else enStart(EN.make,EN.cfg);});
 
-/* --- Angielski: Słówka (A1/A2) i Zdania; ten sam quiz co To be (enStart / enShow) ---
-   Słówko: "angielski|polski|część mowy" (n rzeczownik, v czasownik, a przymiotnik). Złe odpowiedzi z tej samej części mowy.
+/* --- Angielski: Słówka (A1/A2, w tematach) i Zdania; ten sam quiz co To be (enStart / enShow) ---
    Zdanie: "angielski|polski|3 złe angielskie (;)|3 złe polskie (;)" – złe wersje to typowe pomyłki i zmienione szczegóły. */
-const EN_WORDS={a1:[
-  "dog|pies|n","cat|kot|n","house|dom|n","school|szkoła|n","book|książka|n","apple|jabłko|n","water|woda|n","bread|chleb|n",
-  "milk|mleko|n","friend|przyjaciel|n","mother|mama|n","father|tata|n","sister|siostra|n","brother|brat|n","teacher|nauczyciel|n",
-  "car|samochód|n","bike|rower|n","ball|piłka|n","table|stół|n","chair|krzesło|n","window|okno|n","door|drzwi|n","tree|drzewo|n",
-  "flower|kwiat|n","sun|słońce|n","rain|deszcz|n","day|dzień|n","night|noc|n","hand|ręka|n","head|głowa|n","eye|oko|n","family|rodzina|n",
-  "eat|jeść|v","drink|pić|v","sleep|spać|v","run|biegać|v","swim|pływać|v","read|czytać|v","write|pisać|v","play|grać|v",
-  "go|iść|v","like|lubić|v","have|mieć|v","see|widzieć|v",
-  "big|duży|a","small|mały|a","happy|szczęśliwy|a","sad|smutny|a","hot|gorący|a","cold|zimny|a","new|nowy|a","old|stary|a",
-  "good|dobry|a","bad|zły|a","fast|szybki|a","slow|powolny|a"
-],a2:[
-  "holiday|wakacje|n","kitchen|kuchnia|n","bedroom|sypialnia|n","weather|pogoda|n","journey|podróż|n","island|wyspa|n",
-  "mountain|góra|n","river|rzeka|n","forest|las|n","beach|plaża|n","ticket|bilet|n","money|pieniądze|n","shop|sklep|n",
-  "library|biblioteka|n","hospital|szpital|n","doctor|lekarz|n","homework|praca domowa|n","lesson|lekcja|n","breakfast|śniadanie|n",
-  "dinner|obiad|n","neighbour|sąsiad|n","village|wieś|n","city|miasto|n","bridge|most|n","clothes|ubrania|n","shoes|buty|n",
-  "umbrella|parasol|n","birthday|urodziny|n","present|prezent|n",
-  "travel|podróżować|v","buy|kupować|v","sell|sprzedawać|v","forget|zapominać|v","remember|pamiętać|v","borrow|pożyczać|v",
-  "find|znaleźć|v","lose|zgubić|v","win|wygrywać|v","wait|czekać|v","help|pomagać|v","learn|uczyć się|v","cook|gotować|v",
-  "climb|wspinać się|v","laugh|śmiać się|v","cry|płakać|v",
-  "tired|zmęczony|a","hungry|głodny|a","quiet|cichy|a","noisy|głośny|a","dangerous|niebezpieczny|a","expensive|drogi|a","cheap|tani|a",
-  "easy|łatwy|a","difficult|trudny|a","beautiful|piękny|a","boring|nudny|a","interesting|ciekawy|a","brave|odważny|a",
-  "busy|zajęty|a","famous|sławny|a","empty|pusty|a","full|pełny|a"
-]};
+/* Słówka angielskie w tematach: "angielski=polski" rozdzielone ";", część mowy z p tematu albo po @ (n rzeczownik, v czasownik,
+   a przymiotnik, o inne: liczby, przysłówki). Złe odpowiedzi: ta sama część mowy, najpierw z tego samego tematu. */
+const EN_TOPICS=[
+  {id:"family",name:"Rodzina i ludzie",p:"n",
+   a1:"mother=mama;father=tata;sister=siostra;brother=brat;grandmother=babcia;grandfather=dziadek;baby=niemowlę;boy=chłopiec;girl=dziewczynka;man=mężczyzna;woman=kobieta;child=dziecko;friend=przyjaciel;family=rodzina;parents=rodzice;son=syn;daughter=córka;name=imię;people=ludzie;aunt=ciocia;uncle=wujek",
+   a2:"cousin=kuzyn;husband=mąż;wife=żona;neighbour=sąsiad;grandparents=dziadkowie;twins=bliźnięta;teenager=nastolatek;adult=dorosły;guest=gość;surname=nazwisko;birthday=urodziny;wedding=ślub;stranger=nieznajomy"},
+  {id:"home",name:"Dom",p:"n",
+   a1:"house=dom;room=pokój;kitchen=kuchnia;bedroom=sypialnia;bathroom=łazienka;living room=salon;garden=ogród;door=drzwi;window=okno;table=stół;chair=krzesło;bed=łóżko;sofa=kanapa;lamp=lampa;wall=ściana;floor=podłoga;key=klucz;clock=zegar;flat=mieszkanie;cup=kubek;plate=talerz",
+   a2:"stairs=schody;roof=dach;ceiling=sufit;fridge=lodówka;cooker=kuchenka;sink=zlew;shelf=półka;wardrobe=szafa;mirror=lustro;carpet=dywan;curtains=zasłony;pillow=poduszka;blanket=koc;towel=ręcznik;fork=widelec;knife=nóż;spoon=łyżka;garage=garaż;balcony=balkon;washing machine=pralka"},
+  {id:"school",name:"Szkoła",p:"n",
+   a1:"school=szkoła;teacher=nauczyciel;student=uczeń;classroom=klasa;book=książka;pen=długopis;pencil=ołówek;rubber=gumka;ruler=linijka;school bag=plecak szkolny;notebook=zeszyt;desk=ławka;board=tablica;lesson=lekcja;homework=praca domowa;test=sprawdzian;English=język angielski;maths=matematyka;art=plastyka;music=muzyka;break=przerwa",
+   a2:"library=biblioteka;dictionary=słownik;timetable=plan lekcji;exam=egzamin;mark=ocena;history=historia;geography=geografia;science=przyroda;PE=wychowanie fizyczne;headteacher=dyrektor szkoły;pencil case=piórnik;scissors=nożyczki;glue=klej;page=strona;question=pytanie;answer=odpowiedź;mistake=błąd;project=projekt;uniform=mundurek;canteen=stołówka"},
+  {id:"food",name:"Jedzenie i picie",p:"n",
+   a1:"apple=jabłko;banana=banan;orange=pomarańcza;bread=chleb;butter=masło;cheese=ser;egg=jajko;milk=mleko;water=woda;juice=sok;tea=herbata;coffee=kawa;cake=ciasto;ice cream=lody;chocolate=czekolada;pizza=pizza;soup=zupa;chicken=kurczak;fish=ryba;rice=ryż;sandwich=kanapka;breakfast=śniadanie;lunch=drugie śniadanie;dinner=obiad;sweets=słodycze",
+   a2:"vegetables=warzywa;fruit=owoce;potato=ziemniak;tomato=pomidor;carrot=marchewka;onion=cebula;strawberry=truskawka;grapes=winogrona;lemon=cytryna;pear=gruszka;meat=mięso;sausage=kiełbasa;salt=sól;sugar=cukier;pepper=pieprz;pasta=makaron;biscuit=herbatnik;honey=miód;yoghurt=jogurt;salad=sałatka;menu=karta dań;bottle=butelka;glass=szklanka"},
+  {id:"animals",name:"Zwierzęta",p:"n",
+   a1:"dog=pies;cat=kot;horse=koń;cow=krowa;pig=świnia;sheep=owca;duck=kaczka;bird=ptak;mouse=mysz;rabbit=królik;frog=żaba;lion=lew;tiger=tygrys;elephant=słoń;monkey=małpa;bear=niedźwiedź;snake=wąż;hen=kura;spider=pająk",
+   a2:"giraffe=żyrafa;crocodile=krokodyl;dolphin=delfin;whale=wieloryb;shark=rekin;parrot=papuga;owl=sowa;eagle=orzeł;fox=lis;wolf=wilk;squirrel=wiewiórka;hedgehog=jeż;bee=pszczoła;butterfly=motyl;ant=mrówka;tortoise=żółw;kangaroo=kangur;camel=wielbłąd;penguin=pingwin;goat=koza"},
+  {id:"body",name:"Ciało i zdrowie",p:"n",
+   a1:"head=głowa;eye=oko;ear=ucho;nose=nos;mouth=usta;hair=włosy;hand=dłoń;arm=ręka;leg=noga;foot=stopa;face=twarz;tooth=ząb;finger=palec;body=ciało",
+   a2:"neck=szyja;shoulder=ramię;knee=kolano;back=plecy;stomach=brzuch;heart=serce;toe=palec u nogi;lips=wargi;a cold=przeziębienie;headache=ból głowy;temperature=gorączka;medicine=lekarstwo;hospital=szpital;blood=krew;skin=skóra"},
+  {id:"clothes",name:"Ubrania",p:"n",
+   a1:"T-shirt=koszulka;shirt=koszula;trousers=spodnie;jeans=dżinsy;dress=sukienka;skirt=spódnica;shoes=buty;socks=skarpetki;hat=kapelusz;cap=czapka z daszkiem;jacket=kurtka;coat=płaszcz;jumper=sweter;shorts=szorty",
+   a2:"boots=kozaki;trainers=buty sportowe;gloves=rękawiczki;scarf=szalik;belt=pasek;pyjamas=piżama;swimsuit=strój kąpielowy;sunglasses=okulary przeciwsłoneczne;glasses=okulary;umbrella=parasol;pocket=kieszeń;button=guzik;handbag=torebka;watch=zegarek"},
+  {id:"town",name:"Miasto i podróże",p:"n",
+   a1:"city=miasto;street=ulica;shop=sklep;park=park;car=samochód;bus=autobus;train=pociąg;bike=rower;plane=samolot;boat=łódź;taxi=taksówka;road=droga;cinema=kino;zoo=zoo;hotel=hotel;map=mapa",
+   a2:"bank=bank;post office=poczta;police station=komisariat;station=dworzec;airport=lotnisko;bridge=most;museum=muzeum;theatre=teatr;church=kościół;market=targ;restaurant=restauracja;café=kawiarnia;square=plac;corner=róg;traffic lights=światła drogowe;ticket=bilet;underground=metro;ship=statek;helicopter=helikopter;motorbike=motocykl;village=wieś;petrol station=stacja benzynowa;money=pieniądze;journey=podróż"},
+  {id:"nature",name:"Przyroda i pogoda",p:"n",
+   a1:"sun=słońce;rain=deszcz;snow=śnieg;wind=wiatr;cloud=chmura;sky=niebo;tree=drzewo;flower=kwiat;sea=morze;river=rzeka;mountain=góra;beach=plaża;forest=las;star=gwiazda;moon=księżyc;grass=trawa",
+   a2:"weather=pogoda;storm=burza;fog=mgła;ice=lód;rainbow=tęcza;lake=jezioro;island=wyspa;hill=wzgórze;field=pole;desert=pustynia;jungle=dżungla;rock=skała;leaf=liść;plant=roślina;sand=piasek;wave=fala;thunder=grzmot;lightning=błyskawica;Earth=Ziemia;ocean=ocean"},
+  {id:"free",name:"Sport i czas wolny",p:"n",
+   a1:"football=piłka nożna;tennis=tenis;basketball=koszykówka;ball=piłka;game=gra;toy=zabawka;doll=lalka;kite=latawiec;computer=komputer;phone=telefon;TV=telewizor;film=film;song=piosenka;party=impreza;holiday=wakacje;guitar=gitara;piano=pianino",
+   a2:"swimming pool=basen;winner=zwycięzca;prize=nagroda;camera=aparat;photo=zdjęcie;painting=obraz;comic=komiks;board game=gra planszowa;video game=gra wideo;skateboard=deskorolka;concert=koncert;competition=konkurs;tent=namiot;trip=wycieczka;drums=perkusja;present=prezent"},
+  {id:"football",name:"Piłka nożna",p:"n",
+   a1:"team=drużyna;match=mecz;player=zawodnik;goal=gol;goalkeeper=bramkarz;fan=kibic;coach=trener;stadium=stadion;captain=kapitan;whistle=gwizdek;net=siatka;kick=kopać@v;pass=podawać@v;shoot=strzelać@v",
+   a2:"pitch=boisko;referee=sędzia;defender=obrońca;striker=napastnik;midfielder=pomocnik;penalty=rzut karny;free kick=rzut wolny;corner kick=rzut rożny;yellow card=żółta kartka;red card=czerwona kartka;foul=faul;offside=spalony;half-time=przerwa w meczu;football boots=korki;post=słupek;crossbar=poprzeczka;league=liga;trophy=puchar;World Cup=mistrzostwa świata;kick-off=rozpoczęcie meczu;substitute=rezerwowy;training=trening;save=bronić@v;score=zdobyć gola@v"},
+  {id:"time",name:"Czas i kalendarz",p:"n",
+   a1:"day=dzień;night=noc;morning=poranek;afternoon=popołudnie;evening=wieczór;week=tydzień;month=miesiąc;year=rok;Monday=poniedziałek;Tuesday=wtorek;Wednesday=środa;Thursday=czwartek;Friday=piątek;Saturday=sobota;Sunday=niedziela;today=dzisiaj@o;tomorrow=jutro@o;yesterday=wczoraj@o;hour=godzina;minute=minuta;January=styczeń;February=luty;March=marzec;April=kwiecień;May=maj;June=czerwiec;July=lipiec;August=sierpień;September=wrzesień;October=październik;November=listopad;December=grudzień;spring=wiosna;summer=lato;autumn=jesień;winter=zima",
+   a2:"weekend=weekend;second=sekunda;century=wiek;midnight=północ;noon=południe;calendar=kalendarz;early=wcześnie@o;late=późno@o;soon=wkrótce@o;always=zawsze@o;never=nigdy@o;often=często@o;sometimes=czasami@o;usually=zwykle@o"},
+  {id:"numbers",name:"Kolory i liczby",p:"o",
+   a1:"red=czerwony@a;blue=niebieski@a;green=zielony@a;yellow=żółty@a;black=czarny@a;white=biały@a;pink=różowy@a;brown=brązowy@a;grey=szary@a;purple=fioletowy@a;one=jeden;two=dwa;three=trzy;four=cztery;five=pięć;six=sześć;seven=siedem;eight=osiem;nine=dziewięć;ten=dziesięć;eleven=jedenaście;twelve=dwanaście;twenty=dwadzieścia;hundred=sto",
+   a2:"thirteen=trzynaście;fifteen=piętnaście;thirty=trzydzieści;fifty=pięćdziesiąt;thousand=tysiąc;first=pierwszy;third=trzeci;half=połowa@n;dark=ciemny@a;light=jasny@a"},
+  {id:"verbs",name:"Czynności",p:"v",
+   a1:"eat=jeść;drink=pić;sleep=spać;run=biegać;swim=pływać;read=czytać;write=pisać;play=grać;go=iść;like=lubić;have=mieć;see=widzieć;walk=spacerować;jump=skakać;sing=śpiewać;dance=tańczyć;draw=rysować;listen=słuchać;look=patrzeć;open=otwierać;close=zamykać;sit=siedzieć;stand=stać;come=przychodzić;give=dawać;know=wiedzieć;love=kochać;want=chcieć;live=mieszkać;speak=mówić",
+   a2:"travel=podróżować;buy=kupować;sell=sprzedawać;forget=zapominać;remember=pamiętać;borrow=pożyczać;find=znaleźć;lose=zgubić;win=wygrywać;wait=czekać;help=pomagać;learn=uczyć się;cook=gotować;climb=wspinać się;laugh=śmiać się;cry=płakać;understand=rozumieć;carry=nosić;catch=łapać;throw=rzucać;build=budować;choose=wybierać;explain=wyjaśniać;visit=odwiedzać;invite=zapraszać;wash=myć;clean=sprzątać;arrive=przyjeżdżać;leave=wyjeżdżać;begin=zaczynać;finish=kończyć;try=próbować;think=myśleć;ask=pytać"},
+  {id:"adj",name:"Opisywanie",p:"a",
+   a1:"big=duży;small=mały;happy=szczęśliwy;sad=smutny;hot=gorący;cold=zimny;new=nowy;old=stary;good=dobry;bad=zły;fast=szybki;slow=powolny;tall=wysoki;short=niski;long=długi;young=młody;nice=miły;funny=zabawny;beautiful=piękny;ugly=brzydki;dirty=brudny;rich=bogaty;poor=biedny",
+   a2:"tired=zmęczony;hungry=głodny;thirsty=spragniony;quiet=cichy;noisy=głośny;dangerous=niebezpieczny;expensive=drogi;cheap=tani;easy=łatwy;difficult=trudny;boring=nudny;interesting=ciekawy;brave=odważny;busy=zajęty;famous=sławny;empty=pusty;full=pełny;angry=rozzłoszczony;afraid=przestraszony;kind=życzliwy;lazy=leniwy;clever=mądry;strong=silny;weak=słaby;heavy=ciężki;wet=mokry;dry=suchy;soft=miękki;hard=twardy;friendly=przyjazny;polite=uprzejmy;careful=ostrożny;wonderful=wspaniały"},
+  {id:"jobs",name:"Zawody",p:"n",
+   a1:"doctor=lekarz;nurse=pielęgniarka;farmer=rolnik;chef=szef kuchni;police officer=policjant;driver=kierowca;singer=piosenkarz;dancer=tancerz;artist=artysta;pilot=pilot",
+   a2:"dentist=dentysta;vet=weterynarz;firefighter=strażak;waiter=kelner;shop assistant=sprzedawca;engineer=inżynier;scientist=naukowiec;mechanic=mechanik;builder=budowlaniec;postman=listonosz;journalist=dziennikarz;actor=aktor;writer=pisarz;photographer=fotograf;lawyer=prawnik;hairdresser=fryzjer;astronaut=astronauta;job=praca;office=biuro"}
+];
 const EN_SENT={a1:[
   "I am ten years old.|Mam dziesięć lat.|I have ten years.;I am ten year old.;I am twelve years old.|Jestem dziesięć lat.;Mam dwanaście lat.;On ma dziesięć lat.",
   "She is my sister.|Ona jest moją siostrą.|She are my sister.;He is my sister.;She is my brother.|On jest moją siostrą.;Ona jest moim bratem.;Ona jest twoją siostrą.",
@@ -3168,19 +3207,19 @@ const EN_SENT={a1:[
   "Whose bag is this?|Czyja to torba?|Who's bag is this?;Whose bags is this?;Where is this bag?|Gdzie jest ta torba?;Czy to twoja torba?;Co jest w tej torbie?",
   "She has lived here for two years.|Ona mieszka tu od dwóch lat.|She lives here for two years.;She has live here for two years.;She has lived here for two days.|Ona mieszkała tu dwa lata temu.;Ona mieszka tu od dwóch dni.;Ona będzie tu mieszkać dwa lata."
 ]};
-const ENW=Object.entries(EN_WORDS).flatMap(([lvl,l])=>l.map(s=>{const [en,pl,p]=s.split("|");return {en,pl,p,lvl};}));
+const ENW=EN_TOPICS.flatMap(t=>["a1","a2"].flatMap(lvl=>t[lvl].split(";").map(e=>{const [en,r]=e.split("="),[pl,p]=r.split("@");return {en,pl,p:p||t.p,lvl,t:t.id};})));
 const ENS=Object.entries(EN_SENT).flatMap(([lvl,l])=>l.map(s=>{const [en,pl,be,bp]=s.split("|");return {en,pl,be:be.split(";"),bp:bp.split(";"),lvl};}));
 const EN_LVL={a1:"A1",a2:"A2",all:"A1 + A2"};
 const EN_DIR={pl:"Polski → angielski",en:"Angielski → polski",mix:"Na zmianę"};
 const EN_MODES={slowka:{title:"Słówka",unit:"słówek"},zdania:{title:"Zdania",unit:"zdań"}};
 // pytania z jednego zestawu: każde słowo / zdanie raz, kierunek wg ustawienia
 function enVocabQs(mode,o){
-  const pool=(mode==="slowka"?ENW:ENS).filter(x=>o.lvl==="all"||x.lvl===o.lvl),list=[];
+  const pool=(mode==="slowka"?ENW.filter(x=>!o.topics.length||o.topics.includes(x.t)):ENS).filter(x=>o.lvl==="all"||x.lvl===o.lvl),list=[];
   while(list.length<o.n) list.push(...shuffle(pool.slice()));
   return list.slice(0,o.n).map((x,k)=>{const toEn=o.dir==="pl"||o.dir==="mix"&&k%2===0;
     if(mode==="zdania") return {lab:toEn?"Jak to powiesz po angielsku?":"Co to znaczy po polsku?",q:toEn?x.pl:x.en,c:toEn?x.en:x.pl,
       opts:shuffle([toEn?x.en:x.pl,...(toEn?x.be:x.bp)]),long:true,why:`<b>${x.en}</b><br>${x.pl}`};
-    const bad=shuffle(ENW.filter(y=>y!==x&&y.p===x.p&&y.pl!==x.pl&&y.en!==x.en)).sort((a,b)=>(a.lvl===x.lvl?0:1)-(b.lvl===x.lvl?0:1)).slice(0,3);
+    const bad=shuffle(ENW.filter(y=>y!==x&&y.p===x.p&&y.pl!==x.pl&&y.en!==x.en)).sort((a,b)=>(a.t===x.t?0:2)+(a.lvl===x.lvl?0:1)-(b.t===x.t?0:2)-(b.lvl===x.lvl?0:1)).slice(0,3);
     return {lab:toEn?"Jak to jest po angielsku?":"Co to znaczy po polsku?",q:toEn?x.pl:x.en,c:toEn?x.en:x.pl,
       opts:shuffle([toEn?x.en:x.pl,...bad.map(y=>toEn?y.en:y.pl)]),why:`<b>${x.en}</b> – ${x.pl}`};});
 }
@@ -3189,7 +3228,7 @@ function enVocabQs(mode,o){
 let ENM=null;
 const enLast=mode=>{const h=loadHist().filter(s=>s.subj==="en"&&s.status==="done"&&(s.cfg.mode||"tobe")===mode);return h.length?h[h.length-1]:null;};
 function renderEnHub(){
-  [["tobe","en-t-tobe-s","Ja jestem, on jest, oni są – i pytania"],["slowka","en-t-v-s",`${ENW.length} słów A1 i A2, po polsku i po angielsku`],["zdania","en-t-z-s",`${ENS.length} zdań do przetłumaczenia`]]
+  [["tobe","en-t-tobe-s","Ja jestem, on jest, oni są – i pytania"],["slowka","en-t-v-s",`${ENW.length} słów A1 i A2 w ${EN_TOPICS.length} tematach, też piłka nożna`],["zdania","en-t-z-s",`${ENS.length} zdań do przetłumaczenia`]]
     .forEach(([m,id,def])=>{const l=enLast(m);$(id).textContent=l?`Ostatnio: ${l.pct}% · ocena ${l.grade}`:def;});
 }
 $("en-t-tobe").addEventListener("click",()=>go("ent"));
@@ -3200,14 +3239,28 @@ function renderEnSet(){
   $("enset-t").textContent=EN_MODES[ENM].title;
   const chips=(id,obj,cur)=>{$(id).innerHTML=Object.entries(obj).map(([k,n])=>`<button type="button" data-k="${k}" class="${k===cur?"sel":""}" aria-pressed="${k===cur}">${n}</button>`).join("");};
   chips("enset-lvl",EN_LVL,o.lvl);chips("enset-dir",EN_DIR,o.dir);
+  $("enset-tw").hidden=ENM!=="slowka";
+  if(ENM==="slowka"){const cnt=t=>ENW.filter(x=>(!t||x.t===t)&&(o.lvl==="all"||x.lvl===o.lvl)).length;
+    // tematy zwinięte pod „Wybierz tematy”, na wierzchu tylko „Wszystkie” i podsumowanie wyboru
+    $("enset-all").className=o.topics.length?"":"sel";$("enset-all").setAttribute("aria-pressed",!o.topics.length);
+    $("enset-all").innerHTML=`Wszystkie <small>${cnt()}</small>`;
+    const names=EN_TOPICS.filter(t=>o.topics.includes(t.id)).map(t=>t.name);
+    $("enset-acc-s").textContent=!names.length?"Piłka nożna, Dom, Szkoła i 13 innych":names.length<3?names.join(", "):`${names.slice(0,2).join(", ")} i ${names.length-2} ${names.length-2===1?"inny":"inne"}`;
+    $("enset-acc").setAttribute("aria-expanded",ENACC);$("enset-topics").hidden=!ENACC;
+    $("enset-topics").innerHTML=EN_TOPICS.map(t=>{const on=o.topics.includes(t.id);return `<button type="button" data-k="${t.id}" class="${on?"sel":""}" aria-pressed="${on}">${t.name} <small>${cnt(t.id)}</small></button>`;}).join("");}
   $("enset-n").textContent=o.n;$("enset-minus").disabled=o.n===EN_STEPS[0];$("enset-plus").disabled=o.n===EN_STEPS[EN_STEPS.length-1];
 }
 const enSetO=()=>PLP[ENM==="slowka"?"ev":"ez"];
 $("enset-lvl").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;enSetO().lvl=b.dataset.k;savePLP();renderEnSet();});
+let ENACC=false;
+$("enset-acc").addEventListener("click",()=>{ENACC=!ENACC;renderEnSet();});
+$("enset-all").addEventListener("click",()=>{enSetO().topics=[];savePLP();renderEnSet();});
+$("enset-topics").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;const o=enSetO(),k=b.dataset.k;
+  o.topics=!k?[]:o.topics.includes(k)?o.topics.filter(x=>x!==k):[...o.topics,k];savePLP();renderEnSet();});
 $("enset-dir").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;enSetO().dir=b.dataset.k;savePLP();renderEnSet();});
 $("enset-minus").addEventListener("click",()=>{const o=enSetO();o.n=EN_STEPS[Math.max(0,EN_STEPS.indexOf(o.n)-1)];savePLP();renderEnSet();});
 $("enset-plus").addEventListener("click",()=>{const o=enSetO();o.n=EN_STEPS[Math.min(EN_STEPS.length-1,EN_STEPS.indexOf(o.n)+1)];savePLP();renderEnSet();});
-$("enset-go").addEventListener("click",()=>{const m=ENM,o={...enSetO()};enStart(()=>enVocabQs(m,o),{mode:m,lvl:o.lvl,dir:o.dir});});
+$("enset-go").addEventListener("click",()=>{const m=ENM,o={...enSetO(),topics:[...enSetO().topics]};enStart(()=>enVocabQs(m,o),{mode:m,lvl:o.lvl,dir:o.dir,topics:o.topics});});
 
 // wczytanie zapisanej sesji: dopiero teraz, bo finish() zapisuje do historii (HKEY wyżej)
 if(load()){
