@@ -637,8 +637,17 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .lig-help ol,.lig-help ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
 .kc-bar{border-color:#7048e8}.kcsi{background:linear-gradient(135deg,#7048e8,#3b2bb5)!important}
 #kidcfg .grp{background:var(--card)}.kc-list{display:flex;flex-direction:column;gap:10px}
-.kc-prev{display:flex;flex-wrap:wrap;gap:8px}.kc-prev span{padding:8px 14px;border-radius:14px;background:var(--kc);color:#fff;font-weight:800}
-.kc-prev .soon{background:var(--key);color:var(--muted)}.kc-prev .none{background:none;color:var(--muted)}
+.kc-head{display:flex;align-items:center;background:var(--card);border-radius:16px;padding-right:12px;gap:8px}
+.kc-acc{flex:1;min-width:0;background:none;border:0;color:var(--fg);font:inherit;text-align:left;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:0 4px 0 14px;min-height:62px}
+.kc-acc:disabled{cursor:default}.kc-acc .chev{color:var(--muted);flex:none}
+.kc-master{flex:none;border:0;background:none;padding:6px;cursor:pointer;display:flex}.kc-master .tg{display:block}.kc-master.sel .tg{background:var(--ok)}.kc-master.sel .tg::after{transform:translateX(20px)}
+.kc-master:focus-visible,.kc-acc:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:12px}
+.kc-acc span{display:flex;flex-direction:column}.kc-acc b{font-family:var(--display);font-size:1.1rem}.kc-acc small{font-weight:800;font-size:.78rem;color:var(--muted)}
+.kc-acc[aria-expanded="true"] .chev{transform:rotate(180deg)}#kidcfg .grp[hidden]{display:none}
+/* podgląd ekranu dziecka: prawdziwe kafle w skali 1:2, w ramce telefonu */
+.kc-phone{position:relative;overflow:hidden;width:60%;margin:0 auto;border:3px solid var(--line);border-radius:22px;background:var(--bg);padding:8px;box-sizing:content-box}
+.kc-inner{width:200%;transform:scale(.5);transform-origin:top left;display:flex;flex-direction:column;gap:12px;pointer-events:none}
+.kc-inner button:disabled{opacity:1}
 </style>
 <script>/* motyw z ustawień przed narysowaniem strony, bez mignięcia */
 try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t==="light"||t==="dark") document.documentElement.dataset.theme=t;}catch(e){}</script>
@@ -4203,7 +4212,7 @@ function applyMods(){
 }
 
 /* widok rodzica: wybór dziecka, przełączniki modułów, zapis do ustawień dziecka w bazie */
-let KC={kid:null,prefs:null,mods:{}};
+let KC={kid:null,prefs:null,mods:{},open:new Set()};
 async function renderKidCfg(){
   const list=$("kc-list"),msg=$("kc-msg");msg.textContent="";
   if(!(ME&&ME.role==="parent")){list.innerHTML='<p class="abnote">Ten widok jest dla rodzica (☰ → Konto rodziny).</p>';$("kc-kids").innerHTML="";$("kc-save").hidden=true;return;}
@@ -4219,13 +4228,34 @@ async function renderKidCfg(){
   }
   const name=(FAMILY.find(p=>p.id===KC.kid)||{}).name||"Dziecko";
   $("kc-save").hidden=false;$("kc-save").textContent=`Zapisz dla: ${name}`;
-  list.innerHTML=MODS.map(g=>`<div class="lbl">${g.g}</div><div class="grp">`+g.items.map(x=>{const on=KC.mods[x.k]!==false;
-    return `<button type="button" class="row sw${on?" sel":""}" data-k="${x.k}" aria-pressed="${on}"><span class="rt"><b>${x.name}</b><small>${x.sub}</small></span><i class="tg" aria-hidden="true"></i></button>`;}).join("")+`</div>`).join("")+
-    `<div class="lbl">Tak zobaczy ekran startowy</div><div class="kc-prev">${[["mat","Matematyka","#5c7cfa"],["pl","Polski","#f76707"],["en","Angielski","#12b886"]]
-      .filter(([k])=>subjOn(k,{mods:KC.mods})).map(([,n,c])=>`<span style="--kc:${c}">${n}</span>`).join("")||'<span class="none">Żaden przedmiot</span>'}${KC.mods.soon!==false?'<span class="soon">Wkrótce ×3</span>':""}</div>`;
+  // grupa = przełącznik całego kafla (widoczny od razu) + rozwijana lista modułów w środku (gdy jest ich więcej niż jeden)
+  list.innerHTML=MODS.map((g,gi)=>{const n=g.items.filter(x=>KC.mods[x.k]!==false).length,many=g.items.length>1,open=many&&KC.open.has(gi);
+    const sum=n===g.items.length?(many?"wszystko włączone":"włączone"):n?`włączone: ${n} z ${g.items.length}`:"wyłączone";
+    return `<div class="kc-head${n?" on":""}"><button type="button" class="kc-acc" ${many?`data-g="${gi}" aria-expanded="${open}"`:"disabled"}><span><b>${g.g}</b><small>${sum}</small></span>${many?'<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>':""}</button>`+
+      `<button type="button" class="kc-master${n?" sel":""}" data-all="${gi}" role="switch" aria-checked="${n>0}" aria-label="${g.g} – cały kafel"><i class="tg" aria-hidden="true"></i></button></div>`+
+      (many?`<div class="grp"${open?"":" hidden"}>`+g.items.map(x=>{const on=KC.mods[x.k]!==false;
+      return `<button type="button" class="row sw${on?" sel":""}" data-k="${x.k}" aria-pressed="${on}"><span class="rt"><b>${x.name}</b><small>${x.sub}</small></span><i class="tg" aria-hidden="true"></i></button>`;}).join("")+`</div>`:"");}).join("")+
+    `<div class="lbl">Tak zobaczy ekran startowy</div><div class="kc-phone" aria-hidden="true"><div class="kc-inner" id="kc-inner"></div></div>`;
+  kcPreview();
 }
-$("kc-kids").addEventListener("click",e=>{const b=e.target.closest("button");if(!b||b.dataset.id===KC.kid) return;KC={kid:b.dataset.id,prefs:null,mods:{}};renderKidCfg();});
-$("kc-list").addEventListener("click",e=>{const b=e.target.closest("button[data-k]");if(!b) return;const k=b.dataset.k;
+// podgląd: kopia prawdziwego ekranu startowego w skali, z kaflami tak, jak zobaczy je dziecko
+function kcPreview(){
+  const inner=$("kc-inner"),P={mods:KC.mods},grid=$("home").querySelector(".tiles2").cloneNode(true);
+  const vis={"t-math":modOn("mat",P),"t-pl":subjOn("pl",P),"t-en":subjOn("en",P)};
+  grid.querySelectorAll("button").forEach(b=>{const on=b.id in vis?vis[b.id]:b.hasAttribute("data-soon")?modOn("soon",P):true;b.hidden=!on;});
+  const bars=["t-stats","t-cups","t-lig","t-help"].filter(id=>id!=="t-lig"||modOn("lig",P)).map(id=>{const b=$(id).cloneNode(true);b.hidden=false;return b;});
+  inner.replaceChildren(grid,...bars);
+  inner.querySelectorAll("[id]").forEach(el=>el.removeAttribute("id"));
+  inner.querySelectorAll("button").forEach(b=>{b.tabIndex=-1;b.disabled=true;});
+  inner.parentElement.style.height=Math.ceil(inner.offsetHeight*.5)+"px";
+}
+$("kc-kids").addEventListener("click",e=>{const b=e.target.closest("button");if(!b||b.dataset.id===KC.kid) return;KC={kid:b.dataset.id,prefs:null,mods:{},open:KC.open};renderKidCfg();});
+$("kc-list").addEventListener("click",e=>{
+  const a=e.target.closest("button[data-g]");if(a){const g=+a.dataset.g;KC.open.has(g)?KC.open.delete(g):KC.open.add(g);renderKidCfg();return;}
+  // cały kafel: coś włączone → wyłącz wszystko w grupie, wszystko wyłączone → włącz wszystko
+  const m=e.target.closest("button[data-all]");if(m){const g=MODS[+m.dataset.all],any=g.items.some(x=>KC.mods[x.k]!==false);
+    g.items.forEach(x=>{if(any) KC.mods[x.k]=false; else delete KC.mods[x.k];});renderKidCfg();return;}
+  const b=e.target.closest("button[data-k]");if(!b) return;const k=b.dataset.k;
   if(KC.mods[k]===false) delete KC.mods[k]; else KC.mods[k]=false;renderKidCfg();});
 $("kc-save").addEventListener("click",async()=>{
   const b=$("kc-save");b.disabled=true;
@@ -4235,7 +4265,7 @@ $("kc-save").addEventListener("click",async()=>{
   catch(x){$("kc-msg").textContent=acctErr(x);}
   b.disabled=false;
 });
-$("t-kidcfg").addEventListener("click",()=>{KC={kid:KC.kid,prefs:null,mods:{}};go("kidcfg");});
+$("t-kidcfg").addEventListener("click",()=>{KC={kid:KC.kid,prefs:null,mods:{},open:new Set()};go("kidcfg");});
 applyMods();
 
 // wczytanie zapisanej sesji: dopiero teraz, bo finish() zapisuje do historii (HKEY wyżej)
