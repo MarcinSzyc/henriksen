@@ -13,7 +13,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
 - Po zmianie ikon/manifestu podbij `VERSION` w `sw.js`.
 
 ## Architektura `index.html`
-- **Widoki:** `#home` (kafle Matematyka i Polski, Historia jako „Wkrótce” – `[data-soon]`, tylko potrząśnięcie; pasek Statystyki), `#play` (gra), `#stats-v` (statystyki); `go(v)` + `history.pushState`
+- **Widoki:** `#home` (kafle Matematyka, Polski i Angielski, Historia jako „Wkrótce” – szeroki pasek – `[data-soon]`, tylko potrząśnięcie; pasek Statystyki), `#play` (gra), `#stats-v` (statystyki); `go(v)` + `history.pushState`
   (`#gra`, `#statystyki`), więc „wstecz” w telefonie wraca na start. Aplikacja zawsze startuje na `#home`.
   Wczytanie zapisanej sesji (`load()` → `render0()`/`finish(true)`) jest na samym końcu skryptu – `finish()` zapisuje
   do historii i używa stałych zdefiniowanych niżej (wcześniej powodowało to błąd TDZ przy starcie).
@@ -33,6 +33,11 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
     Rekord słowa ma też `a` (brakująca litera) i `m` (słowo z „_” w miejscu luki).
   - Szczegóły rodzica z polskiego (`#par-pl`, `renderPlPar()`, filtr `PSF` słówka/dyktanda): wykres %, skuteczność ó/u · rz/ż · ch/h,
     Top 10 mylonych słów (znika po 3 dobrych z rzędu), tabela dyktand (razy, ostatnio, najlepiej) i historia sesji z rozwinięciem.
+- **Angielski** (widoki `#en` ustawienia, `#enq` quiz; hashe `#angielski`, `#to-be`): quiz „To be” generowany z tabel `EN_P`
+  (osoby: I/you/he/she/it/we/you/they z polskim odpowiednikiem i rodzajem) i `EN_C` (kolory w 4 formach).
+  `enTask(kind)`: `form` (ja jestem ↔ I am, She ___ red.), `ask` (Czy on jest czerwony? ↔ Is he red?, Who/What z `EN_WH`),
+  `short` (Is she red? – Tak → Yes, she is.; pytanie z „you” → odpowiedź o sobie). Ustawienia w `PLP.et` / `PLP.en`,
+  sesje w historii z `subj:"en"`, `cfg.mode:"tobe"`. W statystykach zakładka Angielski bez szczegółów rodzica.
 - **Historia:** `localStorage` pod `henriksen-historia`, tablica sesji
   `{id,subj,start,end,status:"done"|"przerwana",cfg,n,done,recs:[{t,ok,tries,h,ms}],pct,grade,errors,hints}`.
   `archive(status)` przy `finish()` i przy rozpoczęciu nowych działań w trakcie (przerwana). Bieżąca sesja trzyma `SID`, `T0`
