@@ -627,6 +627,8 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .champ{background:var(--card);border-radius:16px;padding:10px 8px;display:flex;flex-direction:column;align-items:center;gap:3px;text-align:center;border-top:4px solid var(--cc)}
 .champ .cn{font-weight:800;font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}.champ b{font-size:.92rem;max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .champ span:last-child{font-weight:800;font-size:.78rem;color:var(--muted)}.champ .nobody{color:var(--muted)}
+.helpsi{background:linear-gradient(135deg,#868e96,#495057)!important}
+#help .lbl{margin-top:6px}.lig-howto{min-height:50px}
 .lig-share{margin-top:8px;min-height:50px;font-size:1.05rem}
 .lig-invite{margin-top:8px;width:100%;min-height:170px;box-sizing:border-box;font:inherit;font-size:.85rem;border-radius:12px;border:2px solid var(--line);background:var(--bg);color:var(--fg);padding:10px;-webkit-user-select:text;user-select:text}
 .lig-help-b{background:var(--card);border-radius:16px;padding:0 14px;justify-content:space-between;min-height:58px}
@@ -661,6 +663,9 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
   <button type="button" class="sbar" id="t-lig" hidden><span class="si ligsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V12h5v9M9.5 21V7h5v14M15 21v-6h5v6"/></svg></span>
     <span class="st"><b>Ligi</b><small id="t-lig-s">Ścigaj się z kolegami na punkty</small></span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
+  <button type="button" class="sbar" id="t-help"><span class="si helpsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.6V14M12 17.5v.01"/></svg></span>
+    <span class="st"><b>Instrukcje</b><small>Konto rodzica i dziecka, PIN, puchary, ligi</small></span>
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
 </div>
 
@@ -898,18 +903,74 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="lig-actions" id="lig-actions"><button type="button" class="again" id="lig-join-b">Dołącz kodem</button><button type="button" class="again" id="lig-new-b">Załóż ligę</button></div>
   <div class="lig-form" id="lig-form" hidden><label class="af"><span id="lig-in-l">Kod ligi</span><input id="lig-in" type="text" autocomplete="off" spellcheck="false"></label><button type="button" class="go-btn" id="lig-ok">Dołącz</button></div>
   <div class="ask-err" id="lig-err" aria-live="polite"></div>
-  <button type="button" class="more lig-help-b" id="lig-help-b" aria-expanded="false" aria-controls="lig-help"><span><b>Jak działają ligi?</b><small>Zakładanie, zaproszenie kolegi, zgoda rodzica</small></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
-  <div class="lig-help" id="lig-help" hidden>
-    <div class="lbl">Załóż ligę</div>
+  <button type="button" class="again lig-howto" id="lig-howto">Instrukcje: jak założyć ligę i zaprosić kolegę</button>
+</div>
+<div class="wrap" id="help" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Instrukcje</h1></header>
+  <div class="lbl">Konto</div>
+  <button type="button" class="more lig-help-b hacc" aria-expanded="false" aria-controls="h-acc-0"><span><b>Rodzic: załóż konto rodziny</b></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="lig-help" id="h-acc-0" hidden>
+    <ol><li>☰ (prawy górny róg) → <b>Konto</b> → <b>Konto rodziny</b> → <b>Jestem rodzicem</b>.</li>
+      <li>Wpisz swój e-mail, hasło (co najmniej 6 znaków) i imię → <b>Załóż nowe konto rodziny</b>.</li>
+      <li>Dostajesz <b>kod rodziny</b> (6 znaków). Zawsze znajdziesz go w ☰ → Konto → Konto rodziny.</li>
+      <li>Na innym telefonie logujesz się tak samo, tylko przyciskiem <b>Zaloguj się</b>.</li></ol>
+  </div>
+  <button type="button" class="more lig-help-b hacc" aria-expanded="false" aria-controls="h-acc-1"><span><b>Rodzic: podłącz telefon dziecka</b></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="lig-help" id="h-acc-1" hidden>
+    <ol><li>Na telefonie dziecka otwórz aplikację: ☰ → <b>Konto</b> → <b>Konto rodziny</b> → <b>To telefon dziecka</b>.</li>
+      <li>Wpisz <b>kod rodziny</b>, <b>imię dziecka</b> i <b>hasło dziecka</b> – wymyślasz je Ty (co najmniej 6 znaków), zapisz je sobie.</li>
+      <li><b>Dołącz do rodziny</b> → ustaw z dzieckiem <b>PIN</b> (4 cyfry). Od teraz dziecko otwiera aplikację PIN-em.</li>
+      <li>Wyniki, które już były na tym telefonie, dopiszą się do konta dziecka.</li>
+      <li>Nowy telefon albo ponowne logowanie: To telefon dziecka → <b>To dziecko ma już konto – zaloguj</b> (kod rodziny, imię, hasło).</li></ol>
+  </div>
+  <button type="button" class="more lig-help-b hacc" aria-expanded="false" aria-controls="h-acc-2"><span><b>Dziecko zapomniało PIN-u</b></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="lig-help" id="h-acc-2" hidden>
+    <ol><li>Na ekranie PIN-u kliknij <b>Nie pamiętam PIN-u</b>.</li>
+      <li>Rodzic loguje dziecko jeszcze raz: kod rodziny, imię i hasło dziecka.</li>
+      <li>Dziecko ustawia nowy PIN.</li></ol>
+  </div>
+  <button type="button" class="more lig-help-b hacc" aria-expanded="false" aria-controls="h-acc-3"><span><b>Dodaj aplikację do ekranu początkowego</b></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="lig-help" id="h-acc-3" hidden>
+    <ol><li>iPhone: otwórz aplikację w Safari → <b>Udostępnij</b> (kwadrat ze strzałką) → <b>Do ekranu początkowego</b>.</li>
+      <li>Android: menu ⋮ w Chrome → <b>Dodaj do ekranu głównego</b>.</li>
+      <li>Tak dodana aplikacja działa bez internetu, a Safari nie kasuje jej danych po 7 dniach.</li></ol>
+  </div>
+  <div class="lbl">Wyniki i nagrody</div>
+  <button type="button" class="more lig-help-b hacc" aria-expanded="false" aria-controls="h-res-0"><span><b>Rodzic: wyniki dziecka</b></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="lig-help" id="h-res-0" hidden>
+    <ol><li>Zaloguj się jako rodzic i wejdź w <b>Statystyki</b>.</li>
+      <li>Nad zakładkami wybierz dziecko (np. <b>Henryk</b>) – wszystkie statystyki pokazują teraz jego wyniki.</li>
+      <li><b>Szczegóły dla rodzica</b> na dole: wykresy, trudne działania, mylone słowa, historia sesji.</li></ol>
+  </div>
+  <button type="button" class="more lig-help-b hacc" aria-expanded="false" aria-controls="h-res-1"><span><b>Rodzic: puchary, progi i nagrody</b></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="lig-help" id="h-res-1" hidden>
+    <ol><li>Statystyki → wybierz dziecko → <b>Puchary</b> → <b>Ustaw progi i nagrody</b>.</li>
+      <li><b>Dopasuj do wyników dziecka</b> ustawi brąz na 4× tyle, ile dziecko średnio zdobywa dziennie; srebro, złoto i diament to wielokrotności.</li>
+      <li>Możesz dopisać nagrody, np. „złoto = wyjście na lody” – dziecko zobaczy je przy pucharze.</li>
+      <li><b>Zapisz</b> – telefon dziecka dostanie nowe progi przy najbliższej synchronizacji.</li></ol>
+  </div>
+  <button type="button" class="more lig-help-b hacc" aria-expanded="false" aria-controls="h-res-2"><span><b>Za co są punkty</b></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="lig-help" id="h-res-2" hidden>
+    <ul><li>Najłatwiejsze zadanie = 1 pkt, trudniejsze więcej. Punkty są tylko za odpowiedź dobrą za pierwszym razem.</li>
+      <li>Przy każdym zadaniu widać, ile jest warte, a przed startem – ile można zdobyć za cały zestaw.</li>
+      <li>Cała tabela: ☰ → <b>Nagrody</b> → <b>Punktacja zadań</b>.</li></ul>
+  </div>
+  <div class="lbl">Ligi</div>
+  <button type="button" class="more lig-help-b hacc" aria-expanded="false" aria-controls="h-lig-0"><span><b>Jak założyć ligę</b></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="lig-help" id="h-lig-0" hidden>
     <ol><li><b>Dziecko:</b> Ligi → <b>Załóż ligę</b> → wpisz nazwę, np. „Podwórko”.</li>
       <li><b>Rodzic</b> na swoim telefonie: Ligi → przy prośbie dziecka <b>Zgoda</b>.</li>
       <li>Liga dostaje <b>kod</b> (6 znaków). Kliknij <b>Wyślij zaproszenie</b> i podeślij je koledze.</li></ol>
-    <div class="lbl">Kolega dołącza</div>
+  </div>
+  <button type="button" class="more lig-help-b hacc" aria-expanded="false" aria-controls="h-lig-1"><span><b>Jak dołącza kolega</b></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="lig-help" id="h-lig-1" hidden>
     <ol><li><b>Rodzic kolegi</b> otwiera aplikację: ☰ → Konto → Konto rodziny → Jestem rodzicem → Załóż nowe konto rodziny. Dostaje kod rodziny.</li>
       <li><b>Na telefonie kolegi:</b> ☰ → Konto rodziny → To telefon dziecka → kod rodziny, imię, hasło, potem PIN.</li>
       <li><b>Kolega:</b> Ligi → <b>Dołącz kodem</b> → wpisuje kod ligi.</li>
       <li><b>Rodzic kolegi</b> zatwierdza prośbę w swoich Ligach (<b>Zgoda</b>).</li></ol>
-    <div class="lbl">Rola rodzica</div>
+  </div>
+  <button type="button" class="more lig-help-b hacc" aria-expanded="false" aria-controls="h-lig-2"><span><b>Rola rodzica w ligach</b></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="lig-help" id="h-lig-2" hidden>
     <ul><li>Zgadza się na założenie ligi i na każde dołączenie swojego dziecka – bez zgody dziecko nikogo nie widzi.</li>
       <li>Może w każdej chwili wypisać dziecko z ligi.</li>
       <li>W lidze widać tylko imię, punkty, serię dni i puchary. Odpowiedzi, błędy i oceny zostają prywatne.</li></ul>
@@ -1030,6 +1091,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="ask-box sheet">
     <div class="shd"><div><h2 id="cupset-h">Progi i nagrody</h2><span class="shs" id="cupset-for"></span></div><button type="button" class="xbtn" id="cupset-x" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <p class="abnote">Ile punktów do brązu (punkty za odpowiedzi dobre za 1. razem, wagi w Ustawieniach › Punktacja zadań). Srebro, złoto i diament to kolejno 3×, 8× i 20× więcej.</p>
+    <button type="button" class="again" id="cupset-auto">Dopasuj do wyników dziecka</button><p class="abnote" id="cupset-auto-s">Brąz = 4× tyle, ile dziecko średnio zdobywa dziennie.</p>
     <div class="cupset-list" id="cupset-list"></div>
     <div class="lbl">Nagrody</div>
     <div class="acct-body" id="cupset-rw"></div>
@@ -1984,8 +2046,8 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",cups:"#puchary",lig:"#ligi",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",cups:"cups",lig:"lig",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",cups:"#puchary",lig:"#ligi",help:"#pomoc",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",cups:"cups",lig:"lig",help:"help",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
@@ -3773,7 +3835,7 @@ const CUP_CATS=[
 ];
 const CUP_LV=[{k:"b",name:"Brąz",to:"brązu",x:1,c:"#cd7f32"},{k:"s",name:"Srebro",to:"srebra",x:3,c:"#b4bfcf"},
   {k:"g",name:"Złoto",to:"złota",x:8,c:"#f2c230"},{k:"d",name:"Diament",to:"diamentu",x:20,c:"#4dd4ff"}];
-const CUP_STEPS=[20,30,50,75,100,150,200,300,500,750,1000];
+const CUP_STEPS=[20,30,50,75,100,150,200,300,400,500,750,1000,1500,2000,3000,4000,5000,7500,10000];
 const PARENT_KEYS=["cups","cupRewards"]; // ustawia rodzic – przy konflikcie wygrywa wersja z bazy
 const cupCat=(s,r)=>{const sj=s.subj||"mat";return sj==="mat"?"mat"+(Array.isArray(r.t)?r.t[1]:""):sj+"-"+((s.cfg&&s.cfg.mode)||(sj==="en"?"tobe":"slowka"));};
 function cupCounts(H){const c={};for(const s of H) for(const r of s.recs||[]) if(r.ok){const k=cupCat(s,r);c[k]=(c[k]||0)+recW(s,r);}return c;} // punkty, nie liczba zadań
@@ -3820,6 +3882,7 @@ $("st-cups").addEventListener("click",()=>openCups(true));
 let CUPED=null;
 function openCupSet(){
   const P=CUPT.prefs;CUPED={cups:{...(P.cups||{})},rw:{...(P.cupRewards||{})}};
+  $("cupset-auto-s").textContent=`Brąz = ${CUP_AUTO_X}× tyle, ile ${CUPT.name||"dziecko"} średnio zdobywa dziennie (ostatnie 14 dni), srebro, złoto i diament to wielokrotności.`;
   renderCupSet();$("cupset").hidden=false;$("cupset-x").focus();
 }
 function renderCupSet(){
@@ -3830,6 +3893,23 @@ function renderCupSet(){
   $("cupset-rw").innerHTML=CUP_LV.map(L=>`<label class="af"><span>Nagroda za ${L.name.toLowerCase()} (opcjonalnie)</span><input type="text" maxlength="40" data-k="${L.k}" value="${esc(CUPED.rw[L.k]||"")}" placeholder="np. 30 min tabletu"></label>`).join("");
   $("cupset-err").textContent="";
 }
+// progi z wyników: brąz w każdej kategorii = 4 × średnia dzienna ze wszystkiego (dni z ćwiczeniem z ostatnich 14),
+// zaokrąglone do kroku – np. 500 pkt dziennie → brąz 2000, srebro 6000, złoto 16 000, diament 40 000
+const CUP_AUTO_X=4;
+function cupAuto(H){
+  const since=Date.now()-14*864e5,all={};
+  for(const s of H){if(s.start<since) continue;const d=dayKey(s.start);for(const r of s.recs||[]) if(r.ok) all[d]=(all[d]||0)+recW(s,r);}
+  const v=Object.values(all),allAvg=v.length?v.reduce((a,b)=>a+b,0)/v.length:0;
+  if(!allAvg) return null;
+  const step=x=>CUP_STEPS.reduce((b,y)=>Math.abs(Math.log(y/x))<Math.abs(Math.log(b/x))?y:b,CUP_STEPS[0]),base=step(Math.max(50,allAvg*CUP_AUTO_X));
+  return {cups:Object.fromEntries(CUP_CATS.map(x=>[x.id,base])),allAvg:Math.round(allAvg),base};
+}
+$("cupset-auto").addEventListener("click",()=>{
+  const a=cupAuto(CUPT.hist);
+  if(!a){$("cupset-err").textContent="Za mało wyników z ostatnich 14 dni, żeby dopasować progi.";return;}
+  CUPED.cups=a.cups;renderCupSet();
+  $("cupset-auto-s").textContent=`Średnio ${a.allAvg} pkt dziennie (ostatnie 14 dni) → brąz za ${a.base} pkt w każdej kategorii. Możesz poprawić pojedyncze i kliknij Zapisz.`;
+});
 $("cupset-list").addEventListener("click",e=>{const b=e.target.closest("button[data-c]");if(!b) return;
   const id=b.dataset.c,cur=cupBase({cups:CUPED.cups},id),k=CUP_STEPS.indexOf(cur);
   CUPED.cups[id]=CUP_STEPS[Math.max(0,Math.min(CUP_STEPS.length-1,(k<0?2:k)+ +b.dataset.d))];renderCupSet();});
@@ -4034,7 +4114,7 @@ function ligVal(r,cat){const wk=LIGMODE==="week";if(cat==="all") return wk?r.wee
 const ligColor=n=>["#5c7cfa","#f76707","#12b886","#c2255c","#7048e8","#0c8599","#e8590c"][[...String(n||"")].reduce((a,ch)=>a+ch.charCodeAt(0),0)%7];
 const LIG_CROWN='<svg class="crown" width="26" height="20" viewBox="0 0 26 20" aria-hidden="true"><path d="M2 17L4 5l6 6 3-9 3 9 6-6 2 12z" fill="#f2c230" stroke="#b07d00" stroke-width="1.5" stroke-linejoin="round"/></svg>';
 $("t-lig").addEventListener("click",()=>go("lig"));
-$("lig-help-b").addEventListener("click",()=>{const b=$("lig-help-b"),o=b.getAttribute("aria-expanded")!=="true";b.setAttribute("aria-expanded",o);$("lig-help").hidden=!o;});
+$("lig-howto").addEventListener("click",()=>openHelp("h-lig-0"));
 // zaproszenie dla kolegi: gotowy tekst z kodem ligi i instrukcją dla jego rodzica (udostępnij albo skopiuj)
 const APP_URL="https://marcinszyc.github.io/henriksen/";
 const ligInvite=l=>`Dołącz do mojej ligi „${l.name}” w aplikacji Henriksen i ścigajmy się na punkty!
@@ -4076,6 +4156,11 @@ $("lig-ok").addEventListener("click",async()=>{
   catch(x){$("lig-err").textContent=acctErr(x);}
   $("lig-ok").disabled=false;
 });
+
+/* Instrukcje: wszystkie w jednym miejscu (#help), zwijane; openHelp(id) otwiera ekran od razu na wybranej */
+document.querySelectorAll("#help .hacc").forEach(b=>b.addEventListener("click",()=>{const o=b.getAttribute("aria-expanded")!=="true";b.setAttribute("aria-expanded",o);$(b.getAttribute("aria-controls")).hidden=!o;}));
+function openHelp(id){go("help");if(!id) return;const b=document.querySelector(`#help [aria-controls="${id}"]`);if(b&&b.getAttribute("aria-expanded")!=="true") b.click();if(b) b.scrollIntoView({block:"start"});}
+$("t-help").addEventListener("click",()=>openHelp());
 
 // wczytanie zapisanej sesji: dopiero teraz, bo finish() zapisuje do historii (HKEY wyżej)
 if(load()){
