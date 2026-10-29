@@ -1312,6 +1312,7 @@ const $=id=>document.getElementById(id);
    nie zapisuje: wyniki, rozpoczęte działania i ustawienia żyją tylko do zamknięcia aplikacji. Zapis tych kluczy jest tu blokowany,
    a stare dane z telefonu, na którym nikt nie jest zalogowany, kasowane przy starcie. Klucze konta (me/auth/pin/sync) bez zmian. */
 const STATE_KEYS=["henriksen-ustawienia","tabliczka100-postep","henriksen-historia","henriksen-polski"];
+const GDEV="henriksen-dev",GSENT=new Set();let GNAME=null; // ruch gości (guestPing niżej)
 function isGuest(){try{const m=JSON.parse(localStorage.getItem("henriksen-me"));return !(m&&m.role);}catch(e){return true;}}
 (()=>{const set=Storage.prototype.setItem;
   Storage.prototype.setItem=function(k,v){if(this===localStorage&&STATE_KEYS.includes(k)&&isGuest()) return;return set.call(this,k,v);};
@@ -2000,7 +2001,8 @@ function render0(){
   if(i<N) show();
 }
 /* Ustawienia (menu ☰): motyw i ekran bez wygaszania */
-function savePrefs(){try{localStorage.setItem(PKEY,JSON.stringify(PREFS));}catch(e){}try{markSettings();}catch(e){}}
+function savePrefs(){try{localStorage.setItem(PKEY,JSON.stringify(PREFS));}catch(e){}try{markSettings();}catch(e){}
+  try{if(GNAME!==null&&(PREFS.name||"").trim()!==GNAME) guestPing("name");}catch(e){}}
 const TOGGLES=[["o-fx","fx"],["o-dots","dots"],["o-pct","pct"],["o-pts","pts"],["o-grade","grade"],["o-hints","hints"],["o-modals","modals"],["o-goals","goals"],["o-sound","sound"],["awake","awake"]];
 function applyView(){$("dots").hidden=!PREFS.dots;updateLive();showStats();if(i<N) resetHint();}
 $("hint-btn").addEventListener("click",nextHint);
@@ -2214,7 +2216,8 @@ function saveHistLocal(h){
   try{localStorage.setItem(HKEY,JSON.stringify(h));}catch(e){}
   if(navigator.storage&&navigator.storage.persist) navigator.storage.persist().catch(()=>{});
 }
-function saveHist(h){saveHistLocal(h);try{syncSoon();setTimeout(cupsCheck,3200);}catch(e){}} // puchary po gratulacjach // try: przy starcie konto może nie być jeszcze gotowe
+function saveHist(h){saveHistLocal(h);
+  try{if(isGuest()) for(const x of h) if(x.status==="done"&&!GSENT.has(x.id)){GSENT.add(x.id);guestPing("session",x.subj||"mat");}}catch(e){}try{syncSoon();setTimeout(cupsCheck,3200);}catch(e){}} // puchary po gratulacjach // try: przy starcie konto może nie być jeszcze gotowe
 const recsOf=upto=>tasks.slice(0,upto).map((t,k)=>({t,ok:state[k]==="ok",tries:(log[k]&&log[k].tries)||[],h:(log[k]&&log[k].h)||0,ms:(log[k]&&log[k].ms)||0}));
 function archive(status){
   const done=status==="done"?N:i;if(!ACTIVE||!done) return;
@@ -3833,6 +3836,15 @@ $("enset-go").addEventListener("click",()=>{const m=ENM,o={...enSetO(),topics:[.
    Dziecko nie ma maila: konto to „imię.kod@dziecko.henriksen.app”, hasło wpisuje rodzic raz; potem 4-cyfrowy PIN
    sprawdzany tylko w aplikacji (skrót SHA-256 w localStorage). URL i klucz są publiczne, dostęp pilnują reguły w bazie. */
 const SB_URL="https://avhnxpfgwilqcmzjears.supabase.co",SB_KEY="sb_publishable_bOM44paG7HhxbCcePeR0Ow_Srh3DHwr";
+/* Ruch gości (guests.sql): losowy identyfikator urządzenia (henriksen-dev, poza STATE_KEYS), imię z nagłówka, otwarcie
+   aplikacji i ukończone sesje (sam przedmiot, bez wyników). Zwykły fetch do RPC – bez ładowania supabase-js. Lokalnie nic nie wysyła. */
+function guestPing(kind,subj){
+  if(!isGuest()||!navigator.onLine||!location.protocol.startsWith("http")||/^(localhost|127\.0\.0\.1|\[::1\])$/.test(location.hostname)) return;
+  let id;try{id=localStorage.getItem(GDEV);if(!id){id=crypto.randomUUID?crypto.randomUUID():"10000000-1000-4000-8000-100000000000".replace(/[018]/g,c=>(c^crypto.getRandomValues(new Uint8Array(1))[0]&15>>c/4).toString(16));localStorage.setItem(GDEV,id);}}catch(e){return;}
+  GNAME=(PREFS.name||"").trim();
+  fetch(`${SB_URL}/rest/v1/rpc/guest_ping`,{method:"POST",keepalive:true,headers:{apikey:SB_KEY,"Content-Type":"application/json"},
+    body:JSON.stringify({p_id:id,p_name:GNAME||null,p_kind:kind,p_subj:subj||null,p_ua:navigator.userAgent})}).catch(()=>{});
+}
 const SB_LIB="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js";
 const MEKEY="henriksen-me",PINKEY="henriksen-pin",AUTHKEY="henriksen-auth";
 let SB=null,ME=null,ACCT="start",ACCTFrom=null;
@@ -4622,6 +4634,9 @@ async function renderAdmin(){
       k("sessions",s.sessions_week,"Sesje w 7 dni",`razem: ${s.sessions}`)+
       k("leagues",s.leagues,"Ligi")+
       k("nofamily",s.no_family,"Bez rodziny","konto bez profilu rodzica ani dziecka",s.no_family);
+    let gs=null;try{const r2=await SB.rpc("admin_guest_stats");if(!r2.error) gs=r2.data;}catch(e){}
+    g.innerHTML+=gs?k("guests",gs.active_week,"Goście w 7 dni",`bez logowania · sesje: ${gs.sessions_week} · wszystkich urządzeń: ${gs.guests}`)
+      :`<div class="adm-k"><b>–</b><span>Goście</span><small>uruchom supabase/guests.sql</small></div>`;
     m.textContent=s.last_session?`Ostatnia sesja: ${new Date(+s.last_session).toLocaleString("pl-PL",{dateStyle:"short",timeStyle:"short"})}`:"Nie ma jeszcze żadnej sesji.";
   }catch(e){g.innerHTML="";m.textContent=/admin_stats|schema cache|function/i.test(String(e&&e.message))?"Brakuje funkcji w bazie – uruchom supabase/admin.sql w Supabase.":acctErr(e);}
 }
@@ -4631,7 +4646,7 @@ $("adm-refresh").addEventListener("click",()=>{loadReqs();renderAdmin();});
 /* szczegóły za kaflem (admin2.sql: admin_details) – lista w oknie */
 const admD=t=>{if(t==null) return "–";const d=new Date(typeof t==="number"||/^\d+$/.test(t)?+t:t);
   return isNaN(d)?"–":d.toLocaleString("pl-PL",{day:"numeric",month:"numeric",year:"2-digit",hour:"2-digit",minute:"2-digit"});};
-const ROLE={parent:"rodzic",student:"dziecko"},SUBJN={mat:"matematyka",pl:"polski",en:"angielski"};
+const ROLE={parent:"rodzic",student:"dziecko"},SUBJN={mat:"matematyka",pl:"polski",en:"angielski",zd:"edukacja zdrowotna"};
 const admSt=st=>st==="pending"?'<span class="adm-pend">czeka</span>':"";
 const ADM_ROW={
   users:x=>[`<b>${esc(x.name||"(bez profilu)")}</b> ${x.role?`<small>${ROLE[x.role]||x.role}</small>`:""} ${admSt(x.status)}`,esc(x.email||""),
@@ -4646,12 +4661,16 @@ const ADM_ROW={
     `${x.pct}%${x.grade!=null?" · ocena "+x.grade:""}${x.status!=="done"?" · przerwana":""}`,admD(x.start)],
   leagues:x=>[`<b>${esc(x.name)}</b> · ${x.code} ${admSt(x.status)}`,`Założył(a): ${esc(x.owner||"–")} · członkowie: ${x.members}${x.pending?` (+${x.pending} czeka)`:""}`,
     esc(x.names||"brak zatwierdzonych członków")],
-  nofamily:x=>[esc(x.email||""),`założone ${admD(x.created_at)} · logowanie ${admD(x.last_sign_in_at)}`]
+  nofamily:x=>[esc(x.email||""),`założone ${admD(x.created_at)} · logowanie ${admD(x.last_sign_in_at)}`],
+  guests:x=>[`<b>${esc(x.name||"(bez imienia)")}</b> <small>${devOf(x.ua)}</small>`,
+    `wejścia: ${x.opens} · sesje: ${x.sessions} (w 7 dni: ${x.sessions_week}) · dni: ${x.days}${x.last_subj?" · ostatnio "+(SUBJN[x.last_subj]||esc(x.last_subj)):""}`,
+    `pierwszy raz ${admD(x.first_at)} · ostatnio ${admD(x.last_at)}`]
 };
+const devOf=ua=>!ua?"":/iPhone/.test(ua)?"iPhone":/iPad/.test(ua)?"iPad":/Android/.test(ua)?"Android":/Macintosh/.test(ua)?"Mac":/Windows/.test(ua)?"Windows":"inne";
 $("adm-grid").addEventListener("click",async e=>{const b=e.target.closest("button[data-kind]");if(!b) return;
   const kind=b.dataset.kind,list=$("admd-list");$("admd-t").textContent=b.dataset.lab;list.innerHTML='<p class="abnote">Wczytuję…</p>';
   admFrom=b;$("admd").hidden=false;$("admd-x").focus();
-  try{const r=await SB.rpc("admin_details",{p_kind:kind});if(r.error) throw r.error;const rows=r.data||[];
+  try{const r=kind==="guests"?await SB.rpc("admin_guests"):await SB.rpc("admin_details",{p_kind:kind});if(r.error) throw r.error;const rows=r.data||[];
     list.innerHTML=rows.length?rows.map(x=>`<div class="adm-row">${ADM_ROW[kind](x).map((l,i)=>i?`<small>${l}</small>`:`<span>${l}</span>`).join("")}</div>`).join("")
       :'<p class="abnote">Pusto.</p>';}
   catch(x){list.innerHTML=`<p class="abnote">${/admin_details|schema cache|function/i.test(String(x&&x.message))?"Brakuje funkcji w bazie – uruchom supabase/admin2.sql w Supabase.":esc(acctErr(x))}</p>`;}
@@ -4962,6 +4981,7 @@ if(load()){
 // start zawsze na ekranie z kaflami
 history.replaceState(null,"",location.pathname+location.search);
 showView("home");
+guestPing("open");
 
 /* PWA: działanie offline */
 if("serviceWorker" in navigator&&location.protocol.startsWith("http")){

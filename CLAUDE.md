@@ -66,6 +66,11 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `.adm-k` (przyciski); brak funkcji w bazie = komunikat „uruchom admin.sql”. SQL testowany lokalnie na Postgresie z atrapą `auth`.
   Kafel otwiera okno `#admd` z listą z `admin_details(p_kind)` (`supabase/admin2.sql`; users/families/parents/students/active/
   sessions/leagues/nofamily), wiersze rysuje `ADM_ROW[kind]`.
+  Kafel „Goście w 7 dni” (`supabase/guests.sql`): `admin_guest_stats()` i lista `admin_guests()` (imię, urządzenie z UA, wejścia, sesje, dni).
+- **Ruch gości (`guests.sql`, `guestPing(kind,subj)`):** gość wysyła zwykłym `fetch` do RPC `guest_ping` (anon): `open` przy starcie,
+  `session` przy nowej ukończonej sesji w `saveHist` (sam przedmiot, `GSENT` bez powtórek), `name` przy zmianie imienia w `savePrefs`.
+  Identyfikator urządzenia w `henriksen-dev` (poza `STATE_KEYS`). Z localhost / 127.0.0.1 nic nie wysyła. Tabele `guest_devices`
+  i `guest_days` bez reguł RLS – zapis tylko przez funkcję, odczyt tylko admin.
 - **Gość (bez konta rodziny, `isGuest()` = brak roli w `henriksen-me`):** może ćwiczyć, ale nic nie jest zapisywane.
   Na początku skryptu `Storage.prototype.setItem` pomija zapis kluczy `STATE_KEYS` (ustawienia, postęp, historia, polski) dla gościa,
   a przy starcie kasuje je na telefonie bez `henriksen-auth` i bez `henriksen-sync` (wygasłe logowanie zostawia sync, więc
