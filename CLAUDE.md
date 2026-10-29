@@ -109,6 +109,13 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   dawne `mods.soon:false` wyłącza obie). Zapis w `PREFS.mods` dziecka (klucz w `PARENT_KEYS`),
   `applyMods()` ukrywa kafle; przedmiot znika, gdy wszystkie jego moduły są wyłączone. `subj._on` w podsumowaniu lig wyklucza
   dziecko z rankingu przedmiotu, którego nie ma.
+- **Zadania od rodzica (`#ptask`, `#zadania`, pasek rodzica „Zadania dla dziecka”):** zadanie `{id,what,g?,reps?,pts?,days?,until?,reward,at,given?}`
+  w `PREFS.tasks` dziecka (klucz rodzica w `PARENT_KEYS`; `ptSave` czyta świeże ustawienia dziecka, zmienia tylko `tasks` i robi upsert).
+  `what` z `TASK_WHAT` (dowolne / przedmiot / zestaw, moduł, temat; `m(s)` dopasowuje sesję, `open()` otwiera ćwiczenie). `taskProg(t,H)`:
+  sesje od `at` do końca dnia `until`; g = ocena co najmniej (wtedy liczą się tylko takie), reps = ukończone, pts = `sesPts`, days = dni z rzędu;
+  same g = 1 raz. Dziecko: kafel `.task-t` z tarczą `dartSvg()` w `#ptasks` nad „Dokończ” (`renderTasks`, bez wydanych i po terminie),
+  `tasksCheck()` (z `cupsCheck`) pokazuje raz „Zadanie zaliczone!” (`#tasknew`, `PREFS.taskSeen`). Rodzic: lista z postępem z sesji
+  dziecka w bazie, edytor `#tasked` (przełączniki + strzałki `TE_COND`), „Nagroda wydana” = `given`, „Usuń”. Bez nowego SQL.
 - **Dokończ sesję (`#resume` na górze startu, `renderResume`):** niedokończona sesja z dowolnego modułu = kafel „Dokończ: …” z ✕.
   Matematyka: zapis `KEY` (jak dotąd). Gry `PW`/`PD`/`PZ`/`EN`: migawka `gameSnap()` zapisywana w `plLiveNow()` (po każdej
   zmianie) do `henriksen-wznow` = `{[id konta]:{game,mat}}` – poza `STATE_KEYS`, więc przeżywa wylogowanie (przy „Wyloguj”

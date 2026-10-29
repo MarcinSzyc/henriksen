@@ -652,6 +652,25 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 #nag-vid-list .lbl{margin:18px 0 8px}#nag-vid-list .lbl:first-child{margin-top:6px}
 #nag-fx-list{margin-top:6px}#nag-fx-list>.lbl{margin:8px 0 2px}
 #zd-tw{display:flex;flex-direction:column;gap:12px;margin-top:10px}#zd-tw[hidden]{display:none}#zd-tw .lbl{margin:0;padding-left:4px}
+.ptasks{display:flex;flex-direction:column;gap:10px}.ptasks[hidden]{display:none}
+.task-t{box-sizing:border-box;position:relative;display:flex;align-items:center;gap:10px;width:100%;border:0;border-radius:24px;padding:16px 12px 16px 18px;text-align:left;font:inherit;color:#fff;cursor:pointer;background:linear-gradient(135deg,#7048e8,#3b2bb5);box-shadow:0 10px 30px rgba(0,0,0,.18);overflow:hidden}
+.task-t.tdone{background:linear-gradient(135deg,#37b24d,#1b6e2e)}.task-t.late{background:linear-gradient(135deg,#868e96,#495057)}
+.task-b{flex:1;min-width:0;display:flex;flex-direction:column;gap:3px}
+.task-k{font-size:.7rem;font-weight:800;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
+.task-r{font-family:var(--display);font-weight:800;font-size:1.3rem;line-height:1.12;overflow-wrap:anywhere}
+.task-w{font-weight:700;font-size:.82rem;opacity:.92;line-height:1.3}
+.task-p{height:8px;border-radius:99px;background:rgba(255,255,255,.25);overflow:hidden;margin-top:5px}.task-p i{display:block;height:100%;background:#ffd43b;border-radius:inherit}
+.task-t.tdone .task-p i{background:#fff}.task-s{font-weight:800;font-size:.75rem;opacity:.92}
+.task-d{flex:none;width:86px;height:86px;margin:-6px -2px -6px 0}.task-d svg{display:block;width:100%;height:100%;filter:drop-shadow(0 4px 8px rgba(0,0,0,.3))}
+.tasksi{background:linear-gradient(135deg,#7048e8,#3b2bb5)!important}
+.pt-list{display:flex;flex-direction:column;gap:10px}.pt-item{display:flex;flex-direction:column;gap:8px}.pt-item .task-t{cursor:default}
+.pt-acts{display:flex;gap:8px}.pt-acts button{flex:1;min-height:50px}.pt-acts .go-btn{font-size:1.05rem}
+.pt-given{display:flex;justify-content:space-between;gap:10px;background:var(--card);border-radius:14px;padding:10px 14px;font-weight:800;font-size:.88rem}.pt-given small{color:var(--muted);flex:none}
+.ask-box select{font:inherit;font-weight:800;font-size:1rem;padding:10px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--fg);width:100%}
+.te-conds{display:flex;flex-direction:column;gap:8px}
+.te-row{min-height:60px;justify-content:flex-start}.te-row .te-l{flex:1;min-width:0;display:flex;flex-direction:column}.te-sw .tg{display:block}
+.te-sw{border:0;background:transparent;padding:0;cursor:pointer;flex:none}.te-sw.sel .tg{background:var(--ok)}.te-sw.sel .tg::after{transform:translateX(20px)}
+.te-row input[type=date]{font-size:.95rem;padding:6px 8px;width:auto;max-width:150px}
 .resume{display:flex;flex-direction:column;gap:10px}.resume[hidden]{display:none}.res-bar{border-color:var(--accent)}
 #nag-tabs[hidden]{display:none}
 .rew-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px}
@@ -686,12 +705,16 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="edit-btn" id="hdr-btn" aria-label="Zmień nagłówek" aria-haspopup="dialog"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13.5 6.5l4 4"/></svg></button></div></div>
     <div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="ptasks" id="ptasks" hidden></div>
   <div class="resume" id="resume" hidden></div>
   <button type="button" class="sbar req-bar" id="t-req" hidden><span class="si reqsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></span>
     <span class="st"><b>Prośby o zgodę</b><small id="t-req-s"></small></span>
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
   <button type="button" class="sbar kc-bar" id="t-kidcfg" hidden><span class="si kcsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg></span>
     <span class="st"><b>Co widzi dziecko</b><small>Wybierz przedmioty i moduły dla dziecka</small></span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
+  <button type="button" class="sbar kc-bar" id="t-ptask" hidden><span class="si tasksi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="#fff"/></svg></span>
+    <span class="st"><b>Zadania dla dziecka</b><small id="t-ptask-s">Cel do zdobycia i nagroda z prawdziwego życia</small></span>
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
   <div class="tiles2">
     <button type="button" class="tile math" id="t-math"><span class="wm" aria-hidden="true">+−×÷</span><span class="tt">Matematyka</span><small id="t-math-s">Wybierz ćwiczenia i zaczynamy</small></button>
@@ -1019,6 +1042,13 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
       <li>Przy każdym zadaniu widać, ile jest warte, a przed startem – ile można zdobyć za cały zestaw.</li>
       <li>Cała tabela: ☰ → <b>Nagrody</b> → <b>Punktacja zadań</b>.</li></ul>
   </div>
+  <button type="button" class="more lig-help-b hacc" aria-expanded="false" aria-controls="h-res-3"><span><b>Rodzic: zadania z nagrodą</b></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <div class="lig-help" id="h-res-3" hidden>
+    <ol><li>Na starcie wejdź w <b>Zadania dla dziecka</b> → <b>Nowe zadanie</b>.</li>
+      <li>Wybierz, co ćwiczyć (np. Tabliczka mnożenia), i włącz warunki: ocena co najmniej, ile razy, ile punktów, codziennie przez kilka dni, termin. Muszą się spełnić wszystkie włączone.</li>
+      <li>Wpisz nagrodę, np. „30 min na konsoli”. Dziecko zobaczy zadanie na samej górze startu; liczą się ćwiczenia od chwili dodania.</li>
+      <li>Gdy dziecko zaliczy zadanie, wydaj nagrodę i kliknij <b>Nagroda wydana</b> – kafel zniknie z telefonu dziecka.</li></ol>
+  </div>
   <div class="lbl">Ligi</div>
   <button type="button" class="more lig-help-b hacc" aria-expanded="false" aria-controls="h-lig-0"><span><b>Jak założyć ligę</b></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
   <div class="lig-help" id="h-lig-0" hidden>
@@ -1039,6 +1069,14 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
       <li>Może w każdej chwili wypisać dziecko z ligi.</li>
       <li>W lidze widać tylko imię, punkty, serię dni i puchary. Odpowiedzi, błędy i oceny zostają prywatne.</li></ul>
   </div>
+</div>
+<div class="wrap" id="ptask" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Zadania dla dziecka</h1></header>
+  <p class="abnote">Ułóż zadanie i wpisz nagrodę z prawdziwego życia. Dziecko zobaczy je na samej górze ekranu startowego, a liczą się ćwiczenia zrobione od chwili dodania zadania.</p>
+  <div class="fchips who" id="pt-kids" role="group" aria-label="Dziecko"></div>
+  <div class="pt-list" id="pt-list"></div>
+  <button type="button" class="go-btn" id="pt-new" hidden>Nowe zadanie</button>
+  <div class="abnote" id="pt-msg" aria-live="polite"></div>
 </div>
 <div class="wrap" id="kidcfg" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Co widzi dziecko</h1></header>
@@ -1205,6 +1243,22 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <div class="ask-btns"><button type="button" id="guest-no">Nie teraz</button><button type="button" class="yes" id="guest-go">Konto rodziny</button></div>
   </div>
 </div>
+<div class="ask" id="tasked" hidden role="dialog" aria-modal="true" aria-labelledby="tasked-h">
+  <div class="ask-box sheet">
+    <div class="shd"><div><h2 id="tasked-h">Nowe zadanie</h2><span class="shs" id="tasked-for"></span></div><button type="button" class="xbtn" id="tasked-x" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <label class="af"><span>Co ćwiczyć</span><select id="te-what"></select></label>
+    <div class="lbl">Warunki – muszą się spełnić wszystkie włączone</div>
+    <div class="te-conds" id="te-conds"></div>
+    <label class="af"><span>Nagroda</span><input type="text" id="te-rw" maxlength="60" placeholder="np. 30 min na konsoli"></label>
+    <div class="ask-err" id="te-err" aria-live="polite"></div>
+    <button type="button" class="go-btn" id="te-ok">Dodaj zadanie</button>
+  </div>
+</div>
+<div class="ask" id="tasknew" hidden role="dialog" aria-modal="true" aria-labelledby="tasknew-h">
+  <div class="ask-box"><div class="cupnew-i" id="tasknew-i" aria-hidden="true"></div><h2 id="tasknew-h">Zadanie zaliczone!</h2><p id="tasknew-w"></p><p class="cupnew-rw" id="tasknew-rw"></p>
+    <p>Pokaż to rodzicowi – nagroda czeka.</p>
+    <button type="button" class="go-btn" id="tasknew-ok">Super!</button></div>
+</div>
 <div class="ask" id="cupnew" hidden role="dialog" aria-modal="true" aria-labelledby="cupnew-h">
   <div class="ask-box"><div class="cupnew-i" id="cupnew-i" aria-hidden="true"></div><h2 id="cupnew-h">Nowy puchar!</h2><p><b id="cupnew-t"></b></p><p class="cupnew-rw" id="cupnew-rw" hidden></p>
     <button type="button" class="go-btn" id="cupnew-ok">Super!</button></div>
@@ -1277,8 +1331,8 @@ const BADGES={
 const BADGE_NAMES={ball:"Piłka",crown:"Korona",bolt:"Błyskawica",rocket:"Rakieta",none:"Bez znaczka"};
 const SUBS=[["streak","Seria dni"],["date","Data"],["none","Nic"]];
 const NAME_PRESETS=["Henriksen","Kapitan H","Nr 10","Ekipa H"];
-let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null,mods:{},rewSeen:[]};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{},rewSeen:Array.isArray(p.rewSeen)?p.rewSeen.filter(x=>typeof x==="string"):[]};}catch(e){}
+let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null,mods:{},rewSeen:[],tasks:[],taskSeen:[]};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{},rewSeen:Array.isArray(p.rewSeen)?p.rewSeen.filter(x=>typeof x==="string"):[],tasks:Array.isArray(p.tasks)?p.tasks.filter(t=>t&&t.id&&t.what):[],taskSeen:Array.isArray(p.taskSeen)?p.taskSeen:[]};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -2177,8 +2231,8 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
@@ -2204,7 +2258,7 @@ $("t-pl").addEventListener("click",()=>go("pl"));
 document.querySelectorAll("[data-soon]").forEach(b=>b.addEventListener("click",()=>{
   b.classList.remove("shake");void b.offsetWidth;b.classList.add("shake");sfx("bad");}));
 function renderHome(){
-  applySub();try{renderResume();}catch(e){}
+  applySub();try{renderTasks();renderResume();}catch(e){}
   const H=loadHist();
   $("t-math-s").textContent=ACTIVE&&i<N?`W trakcie: ${i} / ${N} · dotknij, żeby grać dalej`:"Wybierz ćwiczenia i zaczynamy";
   renderCupsBar();ligHomeLine();applyMods();
@@ -2557,6 +2611,7 @@ function plShow(v){
   if(v==="plzs") renderPzs();
   if(v==="plzk") renderPzk();
   if(v==="cups") renderCups();
+  if(v==="ptask") renderPTask();
   if(v==="mat") renderMat();
   if(v==="lig") renderLig();
   if(v==="kidcfg") renderKidCfg();
@@ -4058,7 +4113,7 @@ const CUP_CATS=[
 const CUP_LV=[{k:"b",name:"Brąz",to:"brązu",x:1,c:"#cd7f32"},{k:"s",name:"Srebro",to:"srebra",x:3,c:"#b4bfcf"},
   {k:"g",name:"Złoto",to:"złota",x:8,c:"#f2c230"},{k:"d",name:"Diament",to:"diamentu",x:20,c:"#4dd4ff"}];
 const CUP_STEPS=[20,30,50,75,100,150,200,300,400,500,750,1000,1500,2000,3000,4000,5000,7500,10000];
-const PARENT_KEYS=["cups","cupRewards","mods"]; // ustawia rodzic – przy konflikcie wygrywa wersja z bazy
+const PARENT_KEYS=["cups","cupRewards","mods","tasks"]; // ustawia rodzic – przy konflikcie wygrywa wersja z bazy
 const cupCat=(s,r)=>{const sj=s.subj||"mat";if(sj==="zd") return "zd";return sj==="mat"?"mat"+(Array.isArray(r.t)?r.t[1]:""):sj+"-"+((s.cfg&&s.cfg.mode)||(sj==="en"?"tobe":"slowka"));};
 function cupCounts(H){const c={};for(const s of H) for(const r of s.recs||[]) if(r.ok){const k=cupCat(s,r);c[k]=(c[k]||0)+recW(s,r);}return c;} // punkty, nie liczba zadań
 const cupBase=(P,id)=>(P&&P.cups&&+P.cups[id])||CUP_CATS.find(x=>x.id===id).base;
@@ -4162,7 +4217,7 @@ function cupsCheck(){
   CUP_CATS.forEach(x=>{const s=seen[x.id]==null?-1:seen[x.id];if(now[x.id]>s){for(let k=s+1;k<=now[x.id];k++) CUPQ.push({x,L:CUP_LV[k]});ch=true;}
     if(now[x.id]!==s){seen[x.id]=now[x.id];ch=true;}});
   if(ch){PREFS.cupSeen=seen;savePrefs();}
-  cupShowNext();
+  cupShowNext();tasksCheck();
 }
 function cupShowNext(){
   if(!CUPQ.length||!$("cupnew").hidden) return;
@@ -4420,7 +4475,7 @@ function applyMods(){
   show("t-stats",modOn("stats"));show("t-cups",modOn("cups"));show("t-help",modOn("help")); // Ligi: ligHomeLine i niżej
   if($("t-lig")&&!modOn("lig")) $("t-lig").hidden=true;
   // kafel dla rodzica na samej górze
-  $("t-kidcfg").hidden=!(ME&&ME.role==="parent");
+  $("t-kidcfg").hidden=!(ME&&ME.role==="parent");$("t-ptask").hidden=!(ME&&ME.role==="parent");
   $("t-admin").hidden=!(ME&&ME.admin);
 }
 
@@ -4637,6 +4692,182 @@ $("nag-vid-list").addEventListener("click",e=>{const b=e.target.closest("[data-r
   w.innerHTML='<div class="goal-box"><div class="goal-anim"></div><div class="goal-tap">dotknij, żeby zamknąć</div></div>';document.body.appendChild(w);
   let a=null;const close=()=>{if(a) a.destroy();w.remove();};w.addEventListener("click",close);
   playGoal(w.querySelector(".goal-anim"),r,()=>setTimeout(close,400),r.t[0]).then(x=>{a=x;});});
+
+/* ===== Zadania od rodzica: cel + nagroda z prawdziwego życia =====
+   Rodzic układa zadanie na ekranie #ptask; zadania siedzą w PREFS.tasks dziecka (klucz rodzica w PARENT_KEYS, zapis do
+   jego wiersza settings), więc nie potrzebują osobnej tabeli. Zadanie: {id,what,g?,reps?,pts?,days?,until?,reward,at,given?}.
+   Liczą się sesje od `at` do końca dnia `until`, pasujące do `what` (TASK_WHAT); wszystkie włączone warunki muszą się spełnić:
+   g = ocena co najmniej (wtedy liczą się tylko takie sesje), reps = ile ukończonych, pts = ile punktów, days = ile dni z rzędu.
+   Dziecko widzi kafel na samej górze startu (nad „Dokończ”), po zaliczeniu okienko (PREFS.taskSeen), a rodzic zaznacza
+   „Nagroda wydana” (given) – wtedy kafel znika. */
+const TASK_WHAT=(()=>{
+  const L=[{v:"any",g:"Ogólnie",name:"Dowolne ćwiczenia",m:()=>true,open:null}];
+  const sub=(sj,name,go1)=>L.push({v:sj,g:CUP_SUBJ[sj],name,m:s=>subjOf(s)===sj,open:go1});
+  sub("mat","Dowolna matematyka",()=>go("mat"));
+  SETS.forEach((st,k)=>L.push({v:"mat:"+st.id,g:CUP_SUBJ.mat,name:st.name,m:s=>subjOf(s)==="mat"&&s.cfg&&s.cfg.set===st.id,
+    open:()=>{go("mat");const b=$("mat-tiles").querySelector(`[data-k="${k}"]`);if(b) b.click();}}));
+  sub("pl","Dowolny polski",()=>go("pl"));
+  [["slowka","Słówka: ó/u, rz/ż, ch/h","plws"],["dyktando","Dyktanda","pld"],["znaczenia","Znaczenie słów","plzs"]].forEach(([m,name,v])=>
+    L.push({v:"pl:"+m,g:CUP_SUBJ.pl,name,m:s=>s.subj==="pl"&&((s.cfg&&s.cfg.mode)||"slowka")===m,open:()=>go(v)}));
+  sub("en","Dowolny angielski",()=>go("en"));
+  [["tobe","To be"],["slowka","Słówka angielskie"],["zdania","Zdania"]].forEach(([m,name])=>
+    L.push({v:"en:"+m,g:CUP_SUBJ.en,name,m:s=>s.subj==="en"&&((s.cfg&&s.cfg.mode)||"tobe")===m,open:()=>{if(m==="tobe") go("ent");else{ENM=m;go("enset");}}}));
+  sub("zd","Dowolna edukacja zdrowotna",()=>go("zd"));
+  L.push({v:"zd:spr",g:CUP_SUBJ.zd,name:`Sprawdzian ${ZD_DATE}`,m:s=>s.subj==="zd"&&s.cfg&&s.cfg.mode==="spr",open:()=>{go("zd");$("zd-spr").click();}});
+  ZD_TOPICS.forEach(t=>L.push({v:"zd:"+t.id,g:CUP_SUBJ.zd,name:t.name,m:s=>s.subj==="zd"&&s.cfg&&s.cfg.mode===t.id,
+    open:()=>{go("zd");const b=$("zd-topics").querySelector(`[data-t="${t.id}"]`);if(b) b.click();}}));
+  return L;
+})();
+const taskWhat=t=>TASK_WHAT.find(w=>w.v===t.what)||TASK_WHAT[0];
+const taskEnd=t=>{if(!t.until) return Infinity;const [y,m,d]=t.until.split("-").map(Number);return new Date(y,m-1,d+1).getTime();};
+const taskDate=u=>{const [,m,d]=u.split("-").map(Number);return `${d}.${m}`;};
+const razy=n=>n===1?"raz":"razy";
+function taskCond(t){const a=[];
+  if(t.reps) a.push(`${t.reps}×`+(t.g?` na min. ${t.g}`:""));else if(t.g&&!t.pts&&!t.days) a.push(`ocena min. ${t.g}`);
+  if(t.pts) a.push(`${t.pts} pkt`+(t.g&&!t.reps?` (sesje na min. ${t.g})`:""));
+  if(t.days) a.push(`codziennie przez ${t.days} dni`+(t.g&&!t.reps&&!t.pts?` na min. ${t.g}`:""));
+  if(t.until) a.push(`do ${taskDate(t.until)}`);
+  return a.join(" · ");}
+// postęp zadania z historii H: {f (0…1), done, late, parts:[tekst]}
+function taskProg(t,H){
+  const w=taskWhat(t),end=taskEnd(t),ses=H.filter(s=>s.start>=t.at&&s.start<end&&w.m(s));
+  const ok=ses.filter(s=>s.status==="done"&&(!t.g||(s.grade||grade(s.pct).n)>=t.g)),P=[];
+  const reps=t.reps||(!t.pts&&!t.days?1:0);
+  if(reps) P.push([ok.length,reps,t.reps?`${Math.min(ok.length,reps)} z ${reps} ${razy(reps)}`:ok.length?"zaliczone":"jeszcze nie"]);
+  if(t.pts){const n=(t.g?ok:ses).reduce((a,s)=>a+sesPts(s).p,0);P.push([n,t.pts,`${Math.min(n,t.pts)} z ${t.pts} pkt`]);}
+  if(t.days){const d=[...new Set(ok.map(s=>dayKey(s.start)))].sort((a,b)=>a-b);let best=0,run=0;
+    d.forEach((x,k)=>{run=k&&addDays(d[k-1],1)===x?run+1:1;best=Math.max(best,run);});
+    P.push([best,t.days,`${Math.min(best,t.days)} z ${t.days} dni z rzędu`]);}
+  const f=Math.min(...P.map(([a,b])=>Math.min(1,a/b))),done=f>=1;
+  return {f,done,late:!done&&Date.now()>=end,parts:P.map(x=>x[2])};
+}
+// tarcza do rzutek z rzutką w samym środku
+function dartSvg(){
+  const seg=(r,c)=>{const l=(2*Math.PI*r/20).toFixed(3);return `<circle cx="50" cy="50" r="${r}" fill="none" stroke="${c}" stroke-width="${r===20.5?41:4}" stroke-dasharray="${l} ${l}" transform="rotate(-99 50 50)"/>`;};
+  return `<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="48" fill="#141418"/><circle cx="50" cy="50" r="41" fill="#26262c"/>${seg(20.5,"#f1e3c0")}
+    <circle cx="50" cy="50" r="39" fill="none" stroke="#e03131" stroke-width="4"/>${seg(39,"#2f9e44")}
+    <circle cx="50" cy="50" r="25" fill="none" stroke="#e03131" stroke-width="4"/>${seg(25,"#2f9e44")}
+    <circle cx="50" cy="50" r="6" fill="#2f9e44"/><circle cx="50" cy="50" r="3" fill="#e03131"/>
+    <path d="M50 50L55.7 44.3" stroke="#ced4da" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M55.7 44.3L68.4 31.6" stroke="#495057" stroke-width="5.5" stroke-linecap="round"/><path d="M57.5 41.5L66 33" stroke="#adb5bd" stroke-width="1.4" stroke-linecap="round"/>
+    <path d="M68.4 31.6L81.1 18.9" stroke="#e9ecef" stroke-width="2.4" stroke-linecap="round"/>
+    <path d="M75.5 24.5L87.5 22.4L90.3 19.6L83.9 16.1L80.4 9.7L77.6 12.6Z" fill="#fab005" stroke="#e67700" stroke-width="1.2" stroke-linejoin="round"/></svg>`;}
+function taskTile(t,H,tag){
+  const p=taskProg(t,H),w=taskWhat(t),attr=tag==="div"?"":` type="button" data-task="${esc(t.id)}"`;
+  const k=p.done?(tag==="div"?"Zaliczone – wydaj nagrodę":"Zaliczone! Odbierz nagrodę"):p.late?"Termin minął":"Zadanie od rodzica";
+  return `<${tag||"button"} class="task-t${p.done?" tdone":p.late?" late":""}"${attr}><span class="task-b"><span class="task-k">${k}</span>`+
+    `<span class="task-r">${esc(t.reward)}</span><span class="task-w">${esc(w.name)} · ${esc(taskCond(t))}</span>`+
+    `<span class="task-p" aria-hidden="true"><i style="width:${Math.round(p.f*100)}%"></i></span><span class="task-s">${p.parts.join(" · ")}</span></span>`+
+    `<span class="task-d">${dartSvg()}</span></${tag||"button"}>`;}
+// dziecko: aktywne zadania na samej górze startu (bez wydanych i tych po terminie)
+const myTasks=()=>isGuest()||!ME||ME.role==="parent"?[]:(PREFS.tasks||[]).filter(t=>!t.given);
+function renderTasks(){
+  const H=loadOwnHist(),list=myTasks().filter(t=>!taskProg(t,H).late),el=$("ptasks");
+  el.hidden=!list.length;el.innerHTML=list.map(t=>taskTile(t,H)).join("");
+}
+$("ptasks").addEventListener("click",e=>{const b=e.target.closest("[data-task]");if(!b) return;const t=myTasks().find(x=>x.id===b.dataset.task);if(!t) return;
+  if(taskProg(t,loadOwnHist()).done){showTaskDone(t);return;}
+  const w=taskWhat(t);if(w.open) w.open();else{b.classList.remove("shake");void b.offsetWidth;b.classList.add("shake");}});
+// okienko „Zadanie zaliczone!” – raz dla każdego zadania
+let TASKQ=[];
+function tasksCheck(){
+  const H=loadOwnHist(),ids=new Set((PREFS.tasks||[]).map(t=>t.id));let seen=(PREFS.taskSeen||[]).filter(x=>ids.has(x)),ch=seen.length!==(PREFS.taskSeen||[]).length;
+  myTasks().forEach(t=>{if(!seen.includes(t.id)&&taskProg(t,H).done){seen.push(t.id);TASKQ.push(t);ch=true;}});
+  if(ch){PREFS.taskSeen=seen;savePrefs();}
+  taskShowNext();
+}
+function showTaskDone(t){$("tasknew-i").innerHTML=`<span class="task-d" style="width:120px;height:120px">${dartSvg()}</span>`;
+  $("tasknew-w").textContent=`${taskWhat(t).name} · ${taskCond(t)}`;$("tasknew-rw").textContent=`Nagroda: ${t.reward}`;
+  $("tasknew").hidden=false;$("tasknew-ok").focus();}
+function taskShowNext(){
+  if(!TASKQ.length||!$("tasknew").hidden) return;
+  if(document.querySelector(".cheer-wrap,.goal-wrap")||!$("cupnew").hidden||!$("fxnew").hidden||!$("pinlock").hidden){setTimeout(taskShowNext,1500);return;}
+  showTaskDone(TASKQ.shift());sfx("final");
+}
+$("tasknew-ok").addEventListener("click",()=>{$("tasknew").hidden=true;if(CUR==="home") renderTasks();setTimeout(taskShowNext,300);});
+
+/* rodzic: lista zadań dziecka z postępem (z jego sesji w bazie), nowe zadanie, „Nagroda wydana”, usuwanie */
+let PT={kid:null,tasks:null,hist:null},TE=null;
+async function ptLoad(){
+  const [st,se]=await Promise.all([SB.from("settings").select("prefs,plp").eq("user_id",PT.kid).maybeSingle(),
+    SB.from("sessions").select("data").eq("user_id",PT.kid).order("start").limit(5000)]);
+  if(st.error) throw st.error;if(se.error) throw se.error;
+  PT.tasks=(st.data&&st.data.prefs&&Array.isArray(st.data.prefs.tasks))?st.data.prefs.tasks:[];PT.hist=se.data.map(r=>r.data);
+}
+// zapis: świeże ustawienia dziecka, zmiana listy zadań i upsert (reszta ustawień dziecka bez zmian)
+async function ptSave(fn){
+  const {data,error}=await SB.from("settings").select("prefs,plp").eq("user_id",PT.kid).maybeSingle();if(error) throw error;
+  const prefs={...(data&&data.prefs||{})};prefs.tasks=fn(Array.isArray(prefs.tasks)?prefs.tasks:[]);
+  const r=await SB.from("settings").upsert({user_id:PT.kid,prefs,plp:data&&data.plp||{}},{onConflict:"user_id"});if(r.error) throw r.error;
+  PT.tasks=prefs.tasks;
+}
+async function renderPTask(){
+  const list=$("pt-list"),msg=$("pt-msg");msg.textContent="";$("pt-new").hidden=true;
+  if(!(ME&&ME.role==="parent")){list.innerHTML='<p class="abnote">Ten widok jest dla rodzica.</p>';$("pt-kids").innerHTML="";return;}
+  if(!FAMILY){try{await sbLoad();const {data}=await SB.from("profiles").select("id,name,role").eq("family_id",ME.family);FAMILY=(data||[]).filter(p=>p.role==="student");}catch(e){FAMILY=[];}}
+  if(!FAMILY.length){list.innerHTML='<p class="abnote">Nie masz jeszcze dziecka w rodzinie. Instrukcje → „Rodzic: podłącz telefon dziecka”.</p>';$("pt-kids").innerHTML="";return;}
+  if(!PT.kid||!FAMILY.some(p=>p.id===PT.kid)) PT.kid=FAMILY[0].id;
+  $("pt-kids").innerHTML=FAMILY.length<2?"":FAMILY.map(p=>`<button type="button" data-id="${p.id}" class="${p.id===PT.kid?"sel":""}" aria-pressed="${p.id===PT.kid}">${esc(p.name||"–")}</button>`).join("");
+  if(!PT.tasks){list.innerHTML='<p class="abnote">Wczytuję zadania…</p>';
+    try{await sbLoad();await ptLoad();}catch(x){list.innerHTML='<p class="abnote">Nie udało się wczytać zadań – sprawdź internet.</p>';return;}}
+  const name=(FAMILY.find(p=>p.id===PT.kid)||{}).name||"dziecka",H=PT.hist,act=PT.tasks.filter(t=>!t.given),giv=PT.tasks.filter(t=>t.given).sort((a,b)=>b.given-a.given);
+  list.innerHTML=(act.length?act.map(t=>{const p=taskProg(t,H);
+    return `<div class="pt-item">${taskTile(t,H,"div")}<div class="pt-acts">${p.done?`<button type="button" class="go-btn" data-give="${esc(t.id)}">Nagroda wydana</button>`:""}<button type="button" class="again" data-del="${esc(t.id)}">Usuń</button></div></div>`;}).join("")
+    :`<p class="abnote">${esc(name)} nie ma teraz żadnego zadania.</p>`)+
+    (giv.length?`<div class="lbl">Wydane nagrody</div>`+giv.slice(0,10).map(t=>`<div class="pt-given"><span>${esc(t.reward)}</span><small>${new Date(t.given).toLocaleDateString("pl-PL",{day:"numeric",month:"numeric"})}</small></div>`).join(""):"");
+  $("pt-new").hidden=false;$("pt-new").textContent=`Nowe zadanie dla: ${name}`;
+}
+$("t-ptask").addEventListener("click",()=>{PT={kid:PT.kid,tasks:null,hist:null};go("ptask");});
+$("pt-kids").addEventListener("click",e=>{const b=e.target.closest("button");if(!b||b.dataset.id===PT.kid) return;PT={kid:b.dataset.id,tasks:null,hist:null};renderPTask();});
+$("pt-list").addEventListener("click",async e=>{
+  const g=e.target.closest("[data-give]"),d=e.target.closest("[data-del]");if(!g&&!d) return;
+  const id=(g||d).dataset.give||(g||d).dataset.del;
+  if(d&&!confirm("Usunąć to zadanie? Dziecko przestanie je widzieć.")) return;
+  (g||d).disabled=true;
+  try{await ptSave(L=>g?L.map(t=>t.id===id?{...t,given:Date.now()}:t):L.filter(t=>t.id!==id));
+    $("pt-msg").textContent=g?"Zapisane – zadanie znika z telefonu dziecka.":"Usunięte.";renderPTask();}
+  catch(x){$("pt-msg").textContent=acctErr(x);(g||d).disabled=false;}
+});
+// edytor: warunki włączane przełącznikiem, wartości strzałkami
+const TE_COND=[
+  {k:"g",name:"Ocena co najmniej",sub:"liczą się tylko takie wyniki",vals:[2,3,4,5,6],def:5,fmt:v=>`${v}`},
+  {k:"reps",name:"Ile razy",sub:"ukończone ćwiczenia",vals:[1,2,3,4,5,6,7,8,10,12,15,20,25,30],def:3,fmt:v=>`${v}×`},
+  {k:"pts",name:"Ile punktów",sub:"punkty za dobre odpowiedzi",vals:CUP_STEPS,def:200,fmt:v=>`${v}`},
+  {k:"days",name:"Codziennie",sub:"tyle dni z rzędu",vals:[2,3,4,5,6,7,10,14,21,30],def:5,fmt:v=>`${v} dni`},
+  {k:"until",name:"Do kiedy",sub:"termin na zrobienie"}];
+const isoDay=t=>{const d=new Date(t);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;};
+function renderTE(){
+  $("te-conds").innerHTML=TE_COND.map(c=>{const on=TE[c.k]!=null,v=TE[c.k];
+    const ctl=!on?"":c.k==="until"?`<input type="date" id="te-until" value="${v}" min="${isoDay(Date.now())}" aria-label="Termin">`:
+      `<span class="cupset-step"><button type="button" data-c="${c.k}" data-d="-1" aria-label="Mniej – ${c.name}"${c.vals.indexOf(v)<=0?" disabled":""}>−</button><output>${c.fmt(v)}</output><button type="button" data-c="${c.k}" data-d="1" aria-label="Więcej – ${c.name}"${c.vals.indexOf(v)>=c.vals.length-1?" disabled":""}>+</button></span>`;
+    return `<div class="cupset-row te-row"><button type="button" class="te-sw${on?" sel":""}" data-sw="${c.k}" role="switch" aria-checked="${on}" aria-label="${c.name}"><i class="tg" aria-hidden="true"></i></button><span class="te-l"><b>${c.name}</b><small>${c.sub}</small></span>${ctl}</div>`;}).join("");
+}
+$("pt-new").addEventListener("click",()=>{
+  TE={what:"any",g:null,reps:3,pts:null,days:null,until:null};
+  $("te-what").innerHTML=[...new Set(TASK_WHAT.map(w=>w.g))].map(g=>`<optgroup label="${g}">`+TASK_WHAT.filter(w=>w.g===g).map(w=>`<option value="${w.v}">${esc(w.name)}</option>`).join("")+`</optgroup>`).join("");
+  $("te-what").value="any";$("te-rw").value="";$("te-err").textContent="";
+  $("tasked-for").textContent=`dla: ${(FAMILY.find(p=>p.id===PT.kid)||{}).name||"dziecka"}`;
+  renderTE();$("tasked").hidden=false;$("te-what").focus();
+});
+$("te-what").addEventListener("change",e=>{TE.what=e.target.value;});
+$("te-conds").addEventListener("change",e=>{if(e.target.id==="te-until") TE.until=e.target.value||null;});
+$("te-conds").addEventListener("click",e=>{
+  const sw=e.target.closest("[data-sw]");if(sw){const c=TE_COND.find(x=>x.k===sw.dataset.sw);
+    TE[c.k]=TE[c.k]!=null?null:c.k==="until"?isoDay(Date.now()+7*864e5):c.def;renderTE();return;}
+  const b=e.target.closest("button[data-c]");if(!b) return;const c=TE_COND.find(x=>x.k===b.dataset.c),k=c.vals.indexOf(TE[c.k])+ +b.dataset.d;
+  if(k>=0&&k<c.vals.length){TE[c.k]=c.vals[k];renderTE();}});
+$("tasked-x").addEventListener("click",()=>{$("tasked").hidden=true;});
+$("te-ok").addEventListener("click",async()=>{
+  const rw=$("te-rw").value.trim(),err=$("te-err");
+  if(TE.g==null&&TE.reps==null&&TE.pts==null&&TE.days==null){err.textContent="Włącz co najmniej jeden warunek: ocenę, ile razy, punkty albo codziennie.";return;}
+  if(!rw){err.textContent="Wpisz nagrodę.";$("te-rw").focus();return;}
+  const t={id:"t"+Date.now().toString(36)+Math.random().toString(36).slice(2,6),what:TE.what,reward:rw,at:Date.now()};
+  ["g","reps","pts","days","until"].forEach(k=>{if(TE[k]!=null) t[k]=TE[k];});
+  const b=$("te-ok");b.disabled=true;
+  try{await ptSave(L=>[...L,t]);$("tasked").hidden=true;$("pt-msg").textContent="Dodane. Telefon dziecka pokaże zadanie przy najbliższym otwarciu aplikacji.";renderPTask();}
+  catch(x){err.textContent=acctErr(x);}
+  b.disabled=false;
+});
 
 /* ===== Dokończ sesję: niedokończona gra z dowolnego modułu wraca jako kafel na górze startu =====
    Matematyka ma własny zapis (KEY). Gry językowe i quizy (PW, PD, PZ, EN) zapisują „migawkę” w henriksen-wznow,
