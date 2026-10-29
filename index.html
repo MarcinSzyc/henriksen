@@ -650,6 +650,12 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .admsi{background:linear-gradient(135deg,#495057,#1d2540)!important}
 #zd-tw{display:flex;flex-direction:column;gap:12px;margin-top:10px}#zd-tw[hidden]{display:none}#zd-tw .lbl{margin:0;padding-left:4px}
 .resume{display:flex;flex-direction:column;gap:10px}.resume[hidden]{display:none}.res-bar{border-color:var(--accent)}
+#nag-tabs[hidden]{display:none}
+.rew-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:6px}
+.rew-c{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:2px;text-align:left;font:inherit;padding:12px;border-radius:16px;border:2px solid var(--line);background:var(--card);color:var(--fg);cursor:pointer;min-height:84px}
+.rew-c b{font-weight:800;font-size:.92rem;line-height:1.2}.rew-c small{color:var(--muted);font-weight:700;font-size:.72rem}
+.rew-p{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:var(--accent);color:#fff;font-weight:800;margin-bottom:4px}
+.rew-c.lock{cursor:default;border-style:dashed;opacity:.7}.rew-c.lock .rew-p{background:var(--line);color:var(--muted)}
 .cont-row{display:flex;gap:8px;align-items:stretch}.cont-row[hidden]{display:none}.cont-row .sbar{flex:1;min-width:0}
 .cont-x{flex:none;width:56px;border-radius:18px;border:2px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .cont-x:active{transform:scale(.96)}.cont-x:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
@@ -696,7 +702,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <span class="st"><b>Statystyki</b><small id="t-stats-s">Tu zobaczysz swoje wyniki</small></span>
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
   <button type="button" class="sbar" id="t-cups"><span class="si cupsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10v6a5 5 0 0 1-10 0z"/><path d="M7 5H4a3 3 0 0 0 3 4M17 5h3a3 3 0 0 1-3 4M12 14v3M8 21h8l-1-4H9z"/></svg></span>
-    <span class="st"><b>Puchary</b><small id="t-cups-s">Zdobywaj brąz, srebro, złoto i diament</small></span>
+    <span class="st"><b>Nagrody</b><small id="t-cups-s">Zdobywaj brąz, srebro, złoto i diament</small></span>
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
   <button type="button" class="sbar" id="t-lig" hidden><span class="si ligsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21V12h5v9M9.5 21V7h5v14M15 21v-6h5v6"/></svg></span>
     <span class="st"><b>Ligi</b><small id="t-lig-s">Ścigaj się z kolegami na punkty</small></span>
@@ -941,8 +947,11 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 
 <div class="wrap" id="cups" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow" id="cups-t">Puchary</h1></header>
-  <div class="cups-body" id="cups-body"></div>
-  <button type="button" class="again" id="cups-set">Ustaw progi i nagrody</button>
+  <div class="segs subj" id="nag-tabs" role="tablist" aria-label="Nagrody"><button type="button" role="tab" data-t="cups" class="sel" aria-selected="true">Puchary</button><button type="button" role="tab" data-t="fx" aria-selected="false">Animacje</button><button type="button" role="tab" data-t="vid" aria-selected="false">Filmiki</button></div>
+  <div id="nag-cups"><div class="cups-body" id="cups-body"></div>
+  <button type="button" class="again" id="cups-set">Ustaw progi i nagrody</button></div>
+  <div id="nag-fx" hidden><p class="abnote">Włączone animacje losują się przy każdej odpowiedzi. Kolejne odblokujesz, rozwiązując zadania.</p><div class="fxs-list" id="nag-fx-list"></div></div>
+  <div id="nag-vid" hidden><p class="abnote">Filmiki i GIF-y, które dostajesz w nagrodę. Każdy obejrzany możesz puścić jeszcze raz.</p><div id="nag-vid-list"></div></div>
 </div>
 <div class="wrap" id="lig" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Ligi</h1></header>
@@ -1135,7 +1144,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="more macc" aria-expanded="false" aria-controls="ms-3"><span><b>Nagrody</b><small></small></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
     <div class="msec" id="ms-3" hidden>
       <div class="grp"><button type="button" class="row" id="o-ptsinfo" aria-haspopup="dialog"><span class="rt"><b>Punktacja zadań</b><small>ile punktów za które zadanie</small></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button></div>
-      <div class="grp"><button type="button" class="row sw" id="o-modals" aria-pressed="true"><span class="rt"><b>Gratulacje co 5 dobrych</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-goals" aria-pressed="true"><span class="rt"><b>Filmik z golem co 10 dobrych</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-fx" aria-pressed="true"><span class="rt"><b>Animacje odpowiedzi</b><small>przy dobrej i złej odpowiedzi</small></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row" id="o-fxs" aria-haspopup="dialog"><span class="rt"><b>Wybierz animacje</b><small>kolejne odblokujesz, rozwiązując zadania</small></span><span class="rv" id="o-fxs-v"></span><svg class="chv" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button><button type="button" class="row sw" id="o-sound" aria-pressed="true"><span class="rt"><b>Dźwięki</b></span><i class="tg" aria-hidden="true"></i></button></div>
+      <div class="grp"><button type="button" class="row sw" id="o-modals" aria-pressed="true"><span class="rt"><b>Gratulacje co 5 dobrych</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-goals" aria-pressed="true"><span class="rt"><b>Filmik z golem co 10 dobrych</b></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-fx" aria-pressed="true"><span class="rt"><b>Animacje odpowiedzi</b><small>przy dobrej i złej odpowiedzi</small></span><i class="tg" aria-hidden="true"></i></button><button type="button" class="row sw" id="o-sound" aria-pressed="true"><span class="rt"><b>Dźwięki</b></span><i class="tg" aria-hidden="true"></i></button></div>
     </div>
     <button type="button" class="more macc" aria-expanded="false" aria-controls="ms-4"><span><b>Telefon</b><small></small></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
     <div class="msec" id="ms-4" hidden>
@@ -1265,8 +1274,8 @@ const BADGES={
 const BADGE_NAMES={ball:"Piłka",crown:"Korona",bolt:"Błyskawica",rocket:"Rakieta",none:"Bez znaczka"};
 const SUBS=[["streak","Seria dni"],["date","Data"],["none","Nic"]];
 const NAME_PRESETS=["Henriksen","Kapitan H","Nr 10","Ekipa H"];
-let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null,mods:{}};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{}};}catch(e){}
+let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null,mods:{},rewSeen:[]};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{},rewSeen:Array.isArray(p.rewSeen)?p.rewSeen.filter(x=>typeof x==="string"):[]};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -1672,13 +1681,12 @@ function checkUnlock(){
   $("fxnew-t").textContent=names.length>1?names.slice(0,-1).join(", ")+" i "+names[names.length-1]:names[0];
   $("fxnew").hidden=false;sfx("cheer");$("fxnew-ok").focus();
 }
-function renderFxs(){
+function renderFxs(target){
   const n=fxCounts(),t=fxTier(n);
-  $("fxs-list").innerHTML=TIERS.map(T=>{const open=T.n<=t,list=FX.filter(f=>f.tier===T.n);
+  $(target||"fxs-list").innerHTML=TIERS.map(T=>{const open=T.n<=t,list=FX.filter(f=>f.tier===T.n);
     const prog=T.need?`<div class="fxbar"><i style="width:${Math.min(100,Math.round(n[T.key]*100/T.need))}%"></i></div><small>${open?"Odblokowane":`${n[T.key]} / ${T.need} ${T.label}`}</small>`:"";
     return `<div class="lbl">Poziom ${T.n}${T.need?` · od ${T.need} ${T.unit}`:""}</div>${prog}<div class="grp">`+list.map(f=>{const on=open&&!PREFS.fxOff.includes(f.id);
       return `<button type="button" class="row sw${on?" sel":""}" data-fx="${f.id}" ${open?`aria-pressed="${on}"`:'disabled aria-disabled="true"'}><span class="rt"><b>${f.name}</b><small>${f.kind==="ok"?"dobra odpowiedź":"zła odpowiedź"}</small></span>${open?'<i class="tg" aria-hidden="true"></i>':'<svg class="lock" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>'}</button>`;}).join("")+`</div>`;}).join("");
-  $("o-fxs-v").textContent=`${FX.filter(fxUsable).length} z ${FX.length}`;
 }
 let fxsFrom=null;
 function openFxs(){fxsFrom=document.activeElement;$("menu").hidden=true;renderFxs();$("fxs").hidden=false;$("fxs-x").focus();}
@@ -1956,7 +1964,6 @@ function applyTheme(){
   else document.documentElement.dataset.theme=PREFS.theme;
 }
 function selMenu(){
-  $("o-fxs-v").textContent=`${FX.filter(fxUsable).length} z ${FX.length}`;
   $("o-hdr-v").textContent=appName();
   for(const b of $("theme").children) b.classList.toggle("sel",b.dataset.t===PREFS.theme);
   for(const [id,k] of TOGGLES){$(id).classList.toggle("sel",PREFS[k]);$(id).setAttribute("aria-pressed",PREFS[k]);}
@@ -1986,10 +1993,11 @@ function closeHdr(){$("hdr").hidden=true;if(hdrFrom) hdrFrom.focus();}
 $("hdr-btn").addEventListener("click",openHdr);
 $("o-hdr").addEventListener("click",openHdr);
 $("hdr-ok").addEventListener("click",closeHdr);
-$("o-fxs").addEventListener("click",openFxs);
 $("fxs-x").addEventListener("click",closeFxs);$("fxs-ok").addEventListener("click",closeFxs);
-$("fxs").addEventListener("click",e=>{if(e.target.id==="fxs") return closeFxs();const b=e.target.closest("[data-fx]");if(!b||b.disabled) return;
-  const id=b.dataset.fx;PREFS.fxOff=PREFS.fxOff.includes(id)?PREFS.fxOff.filter(x=>x!==id):[...PREFS.fxOff,id];savePrefs();renderFxs();});
+const fxToggle=(e,target)=>{const b=e.target.closest("[data-fx]");if(!b||b.disabled) return;
+  const id=b.dataset.fx;PREFS.fxOff=PREFS.fxOff.includes(id)?PREFS.fxOff.filter(x=>x!==id):[...PREFS.fxOff,id];savePrefs();renderFxs(target);};
+$("fxs").addEventListener("click",e=>{if(e.target.id==="fxs") return closeFxs();fxToggle(e);});
+$("nag-fx-list").addEventListener("click",e=>{fxToggle(e,"nag-fx-list");});
 $("fxnew-ok").addEventListener("click",()=>{$("fxnew").hidden=true;});
 $("hdr").addEventListener("click",e=>{if(e.target.id==="hdr") return closeHdr();const b=e.target.closest("button");if(!b) return;
   if(b.dataset.n){PREFS.name=b.dataset.n==="Henriksen"?"":b.dataset.n;$("o-name").value=PREFS.name;hdrChanged();}
@@ -2056,26 +2064,26 @@ document.addEventListener("pointerdown",()=>{if(PREFS.sound){ac();loadSamples();
    max = ucięcie długiego klipu (s); GIF-y są krótkie, więc zapętlamy je do ok. 6 s. Źródła i autorzy w README. */
 const GIPHY=id=>`https://media.giphy.com/media/${id}/giphy.mp4`;
 const REWARDS=[
-  {id:"san-siro",src:"video/n6-san-siro.mp4",t:[6],max:14},
-  {id:"fajerwerki",src:"video/n6-fajerwerki.mp4",t:[6],max:12},
-  {id:"puchar",src:"video/n6-puchar.mp4",t:[6]},
-  {id:"stadion",src:"video/n5-stadion.mp4",t:[5,10]},
-  {id:"kibice",src:"video/n4-kibice.mp4",t:[4,10]},
-  {id:"plonaca-pilka",src:"video/n4-plonaca-pilka.mp4",t:[4,10]},
-  {id:"tsubasa-misaki",src:GIPHY("c7m7mnMZNH93weBxlA"),ext:"GIPHY · Bandai Namco",t:[6]},
-  {id:"tsubasa-niemiec",src:GIPHY("tQlAjwnbmk59YYzSuK"),ext:"GIPHY · Bandai Namco",t:[6]},
-  {id:"hyuga",src:GIPHY("C9anstl2NoEwedj9PY"),ext:"GIPHY · DJ Chimo Bayo",t:[6]},
-  {id:"przewrotka",src:"https://media.tenor.com/taxsk8f7KhYAAAPo/captain-tsubasa-tsubasa.mp4",ext:"Tenor · azureblizzard",t:[6]},
-  {id:"supa-strikas",src:GIPHY("ytwDCq6bm69EMef2JG"),ext:"GIPHY · Supa Strikas",t:[10]},
-  {id:"tsubasa-pilka",src:"https://media.tenor.com/fm8kc8nu2ikAAAPo/captain-tsubasa.mp4",ext:"Tenor · Aramis739",t:[5,10]},
-  {id:"okrzyk",src:"https://media.tenor.com/cIothlq-_RcAAAPo/captain-tsubasa-tsubasa.mp4",ext:"Tenor · Smash0h",t:[5,10]},
-  {id:"fail-1",src:GIPHY("KGTTNpVuGVhN6"),ext:"GIPHY",t:[3]},
-  {id:"fail-2",src:GIPHY("pdAiipxDMCHni"),ext:"GIPHY",t:[3]},
-  {id:"fail-3",src:GIPHY("FpFtdGPi2frTq"),ext:"GIPHY",t:[3]},
-  {id:"slizg",src:"https://media.tenor.com/pcH02uBW6ycAAAPo/football-soccer.mp4",ext:"Tenor · gifmaker8000",t:[3]},
-  {id:"bramkarz",src:"https://media.tenor.com/Mor932FCux8AAAPo/soccer-goal-goalie.mp4",ext:"Tenor · hotandspicy00",t:[3]},
-  {id:"palmeiras",src:"https://media.tenor.com/aXKJYA7ZI8oAAAPo/palmeiras-palmeiras-funny.mp4",ext:"Tenor · richiemicooy",t:[3]},
-  {id:"jimenez",src:"https://media.tenor.com/8t9DaEoDEyAAAAPo/jimenez-playsports.mp4",ext:"Tenor · Playsports",t:[3]}
+  {id:"san-siro",name:"Gol na San Siro",src:"video/n6-san-siro.mp4",t:[6],max:14},
+  {id:"fajerwerki",name:"Fajerwerki nad stadionem",src:"video/n6-fajerwerki.mp4",t:[6],max:12},
+  {id:"puchar",name:"Puchar w górę",src:"video/n6-puchar.mp4",t:[6]},
+  {id:"stadion",name:"Stadion szaleje",src:"video/n5-stadion.mp4",t:[5,10]},
+  {id:"kibice",name:"Kibice wiwatują",src:"video/n4-kibice.mp4",t:[4,10]},
+  {id:"plonaca-pilka",name:"Płonąca piłka",src:"video/n4-plonaca-pilka.mp4",t:[4,10]},
+  {id:"tsubasa-misaki",name:"Tsubasa i Misaki",src:GIPHY("c7m7mnMZNH93weBxlA"),ext:"GIPHY · Bandai Namco",t:[6]},
+  {id:"tsubasa-niemiec",name:"Strzał Niemca",src:GIPHY("tQlAjwnbmk59YYzSuK"),ext:"GIPHY · Bandai Namco",t:[6]},
+  {id:"hyuga",name:"Strzał Hyugi",src:GIPHY("C9anstl2NoEwedj9PY"),ext:"GIPHY · DJ Chimo Bayo",t:[6]},
+  {id:"przewrotka",name:"Przewrotka Tsubasy",src:"https://media.tenor.com/taxsk8f7KhYAAAPo/captain-tsubasa-tsubasa.mp4",ext:"Tenor · azureblizzard",t:[6]},
+  {id:"supa-strikas",name:"Supa Strikas",src:GIPHY("ytwDCq6bm69EMef2JG"),ext:"GIPHY · Supa Strikas",t:[10]},
+  {id:"tsubasa-pilka",name:"Tsubasa z piłką",src:"https://media.tenor.com/fm8kc8nu2ikAAAPo/captain-tsubasa.mp4",ext:"Tenor · Aramis739",t:[5,10]},
+  {id:"okrzyk",name:"Okrzyk zachwytu",src:"https://media.tenor.com/cIothlq-_RcAAAPo/captain-tsubasa-tsubasa.mp4",ext:"Tenor · Smash0h",t:[5,10]},
+  {id:"fail-1",name:"Pudło",src:GIPHY("KGTTNpVuGVhN6"),ext:"GIPHY",t:[3]},
+  {id:"fail-2",name:"Wpadka",src:GIPHY("pdAiipxDMCHni"),ext:"GIPHY",t:[3]},
+  {id:"fail-3",name:"Upadek",src:GIPHY("FpFtdGPi2frTq"),ext:"GIPHY",t:[3]},
+  {id:"slizg",name:"Nieudany ślizg",src:"https://media.tenor.com/pcH02uBW6ycAAAPo/football-soccer.mp4",ext:"Tenor · gifmaker8000",t:[3]},
+  {id:"bramkarz",name:"Bramkarz",src:"https://media.tenor.com/Mor932FCux8AAAPo/soccer-goal-goalie.mp4",ext:"Tenor · hotandspicy00",t:[3]},
+  {id:"palmeiras",name:"Palmeiras",src:"https://media.tenor.com/aXKJYA7ZI8oAAAPo/palmeiras-palmeiras-funny.mp4",ext:"Tenor · richiemicooy",t:[3]},
+  {id:"jimenez",name:"Jimenez",src:"https://media.tenor.com/8t9DaEoDEyAAAAPo/jimenez-playsports.mp4",ext:"Tenor · Playsports",t:[3]}
 ];
 const rewTier=n=>n<=3?3:n; // ocena → pula
 let lastRew=null;
@@ -2104,6 +2112,7 @@ function playGoal(el,r,onEnd,tier){
   v.addEventListener("loadedmetadata",()=>{el.style.aspectRatio=v.videoWidth+"/"+v.videoHeight;},{once:true});
   v.addEventListener("error",()=>{if(done) return;done=true;v.remove();fallback();},{once:true});
   obj.destroy=()=>{done=true;v.pause();v.removeAttribute("src");v.load();v.remove();};
+  v.addEventListener("playing",()=>rewSeenAdd(r.id),{once:true}); // zakładka Filmiki: obejrzane
   v.src=r.src;const p=v.play();if(p&&p.catch) p.catch(()=>{});
   return Promise.resolve(obj);
 }
@@ -4074,7 +4083,7 @@ function openCups(fromStats){
 }
 function renderCups(){
   if(!CUPT) CUPT={hist:loadOwnHist(),prefs:PREFS,name:null,kid:null};
-  $("cups-t").textContent=CUPT.name?`Puchary · ${CUPT.name}`:"Puchary";
+  $("cups-t").textContent=CUPT.name?`Puchary · ${CUPT.name}`:"Nagrody";nagTab(NAGT);
   $("cups-body").innerHTML=cupsHtml(CUPT.hist,CUPT.prefs);
   // progi ustawia rodzic; bez konta każdy może je zmienić u siebie
   $("cups-set").hidden=!!(ME&&ME.role==="student");
@@ -4156,7 +4165,8 @@ function cupShowNext(){
 }
 $("cupnew-ok").addEventListener("click",()=>{$("cupnew").hidden=true;if(CUP_VIEW_OPEN()) renderCups();setTimeout(cupShowNext,300);});
 const CUP_VIEW_OPEN=()=>CUR==="cups";
-function renderCupsBar(){const n=cupTotal(loadOwnHist(),PREFS);$("t-cups-s").textContent=isGuest()?"Puchary zbiera się na koncie rodziny":n?`Masz ${n} · zobacz, ile brakuje do kolejnych`:"Zdobywaj brąz, srebro, złoto i diament";}
+function renderCupsBar(){const n=cupTotal(loadOwnHist(),PREFS),v=REWARDS.filter(r=>PREFS.rewSeen.includes(r.id)).length;
+  $("t-cups-s").textContent=isGuest()?"Puchary zbiera się na koncie rodziny":`Puchary: ${n} · animacje: ${FX.filter(fxUsable).length} z ${FX.length} · filmiki: ${v} z ${REWARDS.length}`;}
 setTimeout(cupsCheck,1500);
 
 /* ===== Punkty: najłatwiejsze zadanie = 1 pkt, trudniejsze więcej; zestaw = suma wag jego pytań =====
@@ -4384,7 +4394,7 @@ const MODS=[
     {k:"zd-zach",name:"Zachowania chroniące i ryzykowne",sub:"środowisko, zdrowe nawyki"}]},
   {g:"Historia",items:[{k:"his",name:"Historia",sub:"kafel „Wkrótce” – daty, bitwy, królowie"}]},
   {g:"Przyroda",items:[{k:"nat",name:"Przyroda",sub:"kafel „Wkrótce” – rośliny, zwierzęta, mapa"}]},
-  {g:"Inne",always:true,items:[{k:"stats",name:"Statystyki",sub:"punkty, seria, wyniki"},{k:"cups",name:"Puchary",sub:"brąz, srebro, złoto, diament"},
+  {g:"Inne",always:true,items:[{k:"stats",name:"Statystyki",sub:"punkty, seria, wyniki"},{k:"cups",name:"Nagrody",sub:"puchary, animacje, filmiki"},
     {k:"lig",name:"Ligi",sub:"ranking z kolegami"},{k:"help",name:"Instrukcje",sub:"konto, PIN, puchary, ligi"}]}
 ];
 // stare ustawienie mods.mat === false (cała matematyka) wyłącza wszystkie jej kafle
@@ -4586,6 +4596,38 @@ let admFrom=null;
 const closeAdmD=()=>{$("admd").hidden=true;if(admFrom) admFrom.focus();};
 $("admd-x").addEventListener("click",closeAdmD);
 $("admd").addEventListener("click",e=>{if(e.target.id==="admd") closeAdmD();});
+
+/* ===== Nagrody: jeden ekran (#cups) z zakładkami Puchary / Animacje / Filmiki =====
+   Animacje = lista efektów z poziomami (renderFxs), Filmiki = nagrody z REWARDS pogrupowane wg puli;
+   obejrzane (PREFS.rewSeen) można puścić jeszcze raz, nieobejrzane są zakryte. Rodzic oglądający puchary dziecka
+   widzi tylko Puchary (animacje i filmiki są ustawieniem tego telefonu). */
+let NAGT="cups";
+function rewSeenAdd(id){if(!id||PREFS.rewSeen.includes(id)) return;PREFS.rewSeen=[...PREFS.rewSeen,id];savePrefs();}
+const REW_GROUPS=[[6,"Za szóstkę"],[5,"Za piątkę"],[4,"Za czwórkę"],[10,"Co 10 dobrych odpowiedzi"],[3,"Wpadki – za słabą ocenę"]];
+function nagTab(t){
+  NAGT=CUPT&&CUPT.kid?"cups":t;
+  for(const b of $("nag-tabs").children){const on=b.dataset.t===NAGT;b.classList.toggle("sel",on);b.setAttribute("aria-selected",on);}
+  $("nag-tabs").hidden=!!(CUPT&&CUPT.kid);
+  $("nag-cups").hidden=NAGT!=="cups";$("nag-fx").hidden=NAGT!=="fx";$("nag-vid").hidden=NAGT!=="vid";
+  if(NAGT==="fx") renderFxs("nag-fx-list");
+  if(NAGT==="vid") renderRewards();
+}
+function renderRewards(){
+  const seen=new Set(PREFS.rewSeen),done=new Set();
+  $("nag-vid-list").innerHTML=REW_GROUPS.map(([t,label])=>{
+    const list=REWARDS.filter(r=>r.t[0]===t&&!done.has(r.id));list.forEach(r=>done.add(r.id));if(!list.length) return "";
+    const n=list.filter(r=>seen.has(r.id)).length;
+    return `<div class="lbl">${label} · ${n} z ${list.length}</div><div class="rew-grid">`+list.map(r=>seen.has(r.id)
+      ?`<button type="button" class="rew-c" data-rew="${r.id}"><span class="rew-p" aria-hidden="true">▶</span><b>${esc(r.name)}</b><small>${r.ext?esc(r.ext)+" · z internetem":"w aplikacji"}</small></button>`
+      :`<div class="rew-c lock" aria-label="Jeszcze nieodkryty"><span class="rew-p" aria-hidden="true">?</span><b>Jeszcze nieodkryty</b><small>${t===10?"zdobądź 10 dobrych z rzędu":t===3?"zdarza się przy słabym wyniku":"zdobądź ocenę "+t}</small></div>`).join("")+`</div>`;}).join("");
+}
+$("nag-tabs").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(b) nagTab(b.dataset.t);});
+$("nag-vid-list").addEventListener("click",e=>{const b=e.target.closest("[data-rew]");if(!b) return;const r=REWARDS.find(x=>x.id===b.dataset.rew);if(!r) return;
+  if(r.ext&&!navigator.onLine){alert("Ten filmik działa tylko z internetem.");return;}
+  const w=document.createElement("div");w.className="goal-wrap";w.setAttribute("role","dialog");w.setAttribute("aria-label",r.name);
+  w.innerHTML='<div class="goal-box"><div class="goal-anim"></div><div class="goal-tap">dotknij, żeby zamknąć</div></div>';document.body.appendChild(w);
+  let a=null;const close=()=>{if(a) a.destroy();w.remove();};w.addEventListener("click",close);
+  playGoal(w.querySelector(".goal-anim"),r,()=>setTimeout(close,400),r.t[0]).then(x=>{a=x;});});
 
 /* ===== Dokończ sesję: niedokończona gra z dowolnego modułu wraca jako kafel na górze startu =====
    Matematyka ma własny zapis (KEY). Gry językowe i quizy (PW, PD, PZ, EN) zapisują „migawkę” w henriksen-wznow,

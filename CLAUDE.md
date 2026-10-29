@@ -83,7 +83,12 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   popraw ją razem z `wMath`/`ptsW`. Zestaw losuje się już na ekranie ustawień (`pre()` / `take()` z `PRE`), żeby było widać
   „Za ten zestaw: do X pkt”, a „Start” dostaje ten sam zestaw. Punkty na bieżąco: trzecia pastylka w `#live` (`PREFS.pts`).
   Przy każdym zadaniu plakietka `.tpts` („4 pkt”, po błędzie przekreślona): `setTpts()` z `show()` w matematyce i z `plLiveNow()` w grach językowych.
-- **Puchary (`#cups`, `#puchary`):** brąz/srebro/złoto/diament (`CUP_LV`, progi ×1/×3/×8/×20) za punkty z odpowiedzi dobrych za 1. razem
+- **Nagrody (`#cups`, `#puchary`, pasek „Nagrody” na starcie):** jeden ekran z zakładkami (`#nag-tabs`, `nagTab`, `NAGT`):
+  Puchary, Animacje (`renderFxs("nag-fx-list")` – lista efektów z poziomami i przełącznikami) i Filmiki (`renderRewards`:
+  `REWARDS` pogrupowane wg pierwszej puli `REW_GROUPS`, obejrzane z `PREFS.rewSeen` można puścić jeszcze raz, reszta „Jeszcze nieodkryty”).
+  `playGoal` zapisuje obejrzaną nagrodę (`rewSeenAdd`) przy starcie odtwarzania; każda nagroda ma `name`. Rodzic oglądający
+  dziecko widzi tylko Puchary. W menu ☰ zostały same przełączniki (gratulacje, filmik co 10, animacje, dźwięk, punktacja).
+- **Puchary (zakładka Nagród):** brąz/srebro/złoto/diament (`CUP_LV`, progi ×1/×3/×8/×20) za punkty z odpowiedzi dobrych za 1. razem
   w kategoriach `CUP_CATS` (mnożenie, dzielenie, dodawanie, odejmowanie, słówka, dyktanda, znaczenie słów, To be, słówka ang., zdania;
   kategoria sesji z `cupCat()`). Liczone z historii (`cupCounts`). Próg brązu i nagrody ustawia rodzic: `PREFS.cups[kat]`,
   `PREFS.cupRewards[b/s/g/d]` (okno `#cupset`; „Dopasuj do wyników dziecka” = `cupAuto`: brąz = 4 × średnia dzienna z 14 dni); dla dziecka zapis idzie do jego wiersza `settings` w bazie, a przy konflikcie
@@ -176,7 +181,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   żeby strona nie poszerzała się na telefonie. Poziomy `TIERS`: 1 = rakieta, bomba; 2 = piłkarz, tornado (od 1000
   rozwiązanych zadań); 3 = skok w nadprzestrzeń, stopa (od 2000 dobrych za 1. razem); liczone w `fxCounts()` z historii.
   `checkUnlock()` po dobrej odpowiedzi pokazuje okienko „Nowa animacja!” (`PREFS.fxTier` pamięta ostatni poziom).
-  Wybór animacji: arkusz `#fxs` (Ustawienia › Wybierz animacje). Decyduje przełącznik `fx`; `prefers-reduced-motion`
+  Wybór animacji: zakładka Animacje na ekranie Nagrody (stary arkusz `#fxs` zostaje, ale menu go już nie otwiera). Decyduje przełącznik `fx`; `prefers-reduced-motion`
   („Ogranicz ruch” na iPhonie) ustawia tylko wartość domyślną (wcześniej blokowało efekty mimo włączonego przełącznika).
 - **Gratulacje co 5 zadań:** modal na 2,6 s (`celebrate`) plus fajerwerki na `<canvas id="fw">`.
   Hasło z `praise` + osobisty tekst z `praiseSub` (losowane, bez powtórki z poprzednim), młodzieżowy ton.
