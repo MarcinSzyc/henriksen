@@ -2,10 +2,11 @@
    Strona: najpierw sieć (żeby nowe wersje docierały od razu), offline z pamięci.
    Ikony, manifest, czcionki: z pamięci, w tle odświeżane.
    Przy większych zmianach podbij VERSION. */
-const VERSION = "henriksen-v55";
+const VERSION = "henriksen-v56";
 const SHELL = ["./", "./index.html", "./manifest.webmanifest",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png", "./icons/icon.svg",
-  "./sound/rakieta.m4a"];
+  "./sound/rakieta.m4a",
+  ...["n6-san-siro","n6-fajerwerki","n6-puchar","n5-stadion","n4-kibice","n4-plonaca-pilka"].map(n => `./video/thumb/${n}.jpg`)];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(VERSION).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));

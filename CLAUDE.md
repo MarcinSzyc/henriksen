@@ -91,7 +91,10 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
 - **Nagrody (`#cups`, `#puchary`, pasek „Nagrody” na starcie):** jeden ekran z zakładkami (`#nag-tabs`, `nagTab`, `NAGT`):
   Puchary, Animacje (`renderFxs("nag-fx-list")` – lista efektów z poziomami i przełącznikami) i Filmiki (`renderRewards`:
   `REWARDS` pogrupowane wg pierwszej puli `REW_GROUPS`, obejrzane z `PREFS.rewSeen` można puścić jeszcze raz, reszta „Jeszcze nieodkryty”).
-  `playGoal` zapisuje obejrzaną nagrodę (`rewSeenAdd`) przy starcie odtwarzania; każda nagroda ma `name`. Rodzic oglądający
+  `playGoal` zapisuje obejrzaną nagrodę (`rewSeenAdd`) przy starcie odtwarzania; każda nagroda ma `name`.
+  Miniatury: animacje = rysunki SVG `FX_ICON[id]`, filmiki = `rewThumb(r)` (lokalne `video/thumb/*.jpg` z Quick Look, w `SHELL`;
+  GIF-y jako nieruchoma klatka z serwera: Giphy `200w_s.gif`, Tenor kod `AAAAe` zamiast `AAAPo`). Zablokowane = szare (grayscale) z kłódką;
+  nowy lokalny klip = dorób miniaturę (`qlmanage -t -s 360`, potem `sips` do JPG) i dopisz ją do `SHELL`. Rodzic oglądający
   dziecko widzi tylko Puchary. W menu ☰ zostały same przełączniki (gratulacje, filmik co 10, animacje, dźwięk, punktacja).
 - **Puchary (zakładka Nagród):** brąz/srebro/złoto/diament (`CUP_LV`, progi ×1/×3/×8/×20) za punkty z odpowiedzi dobrych za 1. razem
   w kategoriach `CUP_CATS` (mnożenie, dzielenie, dodawanie, odejmowanie, słówka, dyktanda, znaczenie słów, To be, słówka ang., zdania;
