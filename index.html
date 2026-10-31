@@ -669,6 +669,17 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .ask-box select{font:inherit;font-weight:800;font-size:1rem;padding:10px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--fg);width:100%}
 .te-conds{display:flex;flex-direction:column;gap:8px}
 .te-row{min-height:60px;justify-content:flex-start}.te-row .te-l{flex:1;min-width:0;display:flex;flex-direction:column}.te-sw .tg{display:block}
+.te-acc{display:flex;align-items:center;gap:10px;width:100%;margin:0 0 10px;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--fg);font:inherit;text-align:left;cursor:pointer}
+.te-acc span{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.te-acc b{font-weight:800}.te-acc small{color:var(--muted);font-weight:700;font-size:.78rem}
+.te-acc .chev{flex:none;color:var(--muted);transition:transform .2s}.te-acc[aria-expanded="true"]{border-color:var(--accent)}.te-acc[aria-expanded="true"] .chev{transform:rotate(180deg)}
+.te-pick{margin:0 0 14px}.te-pick[hidden]{display:none}
+.te-phone{overflow:hidden;width:72%;margin:0 auto;border:3px solid var(--line);border-radius:22px;background:var(--bg);padding:8px;box-sizing:content-box}
+.te-inner{width:200%;transform:scale(.5);transform-origin:top left;display:flex;flex-direction:column;gap:12px}
+.te-inner .tile,.te-inner .sbar{cursor:pointer}.te-inner .te-sel{outline:5px solid #fff;outline-offset:-5px;box-shadow:0 0 0 5px var(--accent)}
+.te-inner .tiles2 .tile{aspect-ratio:1/1;width:auto;height:auto;min-height:0;grid-column:auto;grid-row:auto;margin:0;padding:18px;justify-content:flex-end}
+.te-inner .tile .tt{font-size:1.45rem}.te-inner .te-own .tt{font-size:1.25rem}
+.te-hd{display:flex;align-items:center;gap:12px;font-family:var(--display);font-size:1.6rem;font-weight:800;color:var(--fg)}
+.te-hd button{width:52px;height:52px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--fg);font:inherit;font-size:1.6rem;cursor:pointer}
 .te-sw{border:0;background:transparent;padding:0;cursor:pointer;flex:none}.te-sw.sel .tg{background:var(--ok)}.te-sw.sel .tg::after{transform:translateX(20px)}
 .te-row input[type=date]{font-size:.95rem;padding:6px 8px;width:auto;max-width:150px}
 .resume{display:flex;flex-direction:column;gap:10px}.resume[hidden]{display:none}.res-bar{border-color:var(--accent)}
@@ -1253,7 +1264,9 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 <div class="ask" id="tasked" hidden role="dialog" aria-modal="true" aria-labelledby="tasked-h">
   <div class="ask-box sheet">
     <div class="shd"><div><h2 id="tasked-h">Nowe zadanie</h2><span class="shs" id="tasked-for"></span></div><button type="button" class="xbtn" id="tasked-x" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-    <label class="af"><span>Co ćwiczyć</span><select id="te-what"></select></label>
+    <div class="lbl">Co ćwiczyć</div>
+    <button type="button" class="te-acc" id="te-acc" aria-expanded="false" aria-controls="te-pick"><span><b id="te-what-t"></b><small id="te-what-s"></small></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+    <div class="te-pick" id="te-pick" hidden><div class="te-phone"><div class="te-inner" id="te-inner"></div></div></div>
     <div class="lbl">Warunki – muszą się spełnić wszystkie włączone</div>
     <div class="te-conds" id="te-conds"></div>
     <label class="af"><span>Nagroda</span><input type="text" id="te-rw" maxlength="60" placeholder="np. 30 min na konsoli"></label>
@@ -1955,6 +1968,11 @@ function renderSets(){
 }
 function askPane(custom){$("ask-sets").hidden=custom;$("ask-custom").hidden=!custom;
   $("ask").querySelector(".ask-box").scrollTop=0;(custom?$("ask-back"):$("ask-x")).focus();}
+function openAskTask(cfg,n,onDone){
+  const keep=CFG,kn=N;if(cfg){CFG={...CFG0,...cfg};N=n;}
+  openAsk("task");CFG=keep;N=kn;if(!cfg){pick=20;selOpt();}
+  $("ask-warn").hidden=true;ASKTASK=onDone;ASKOWN=true;$("ask-yes").textContent="Gotowe";$("tasked").hidden=true;askPane(true);
+}
 function openAsk(mode){
   const fresh=!(ACTIVE&&i>0&&i<N); // ostrzeżenie tylko, gdy jest co przerwać
   pick=NSTEPS.includes(N)?N:20;$("ask-err").textContent="";
@@ -1973,17 +1991,26 @@ function startSet(k){
   CFG=cfg;$("ask").hidden=true;start(st.n,take("set"+k,st.id,()=>genFor(cfg,st.n)));go("play"); // genFor, nie gen(): gen() bierze jeszcze stare N
 }
 let ASKOWN=false; // okno otwarte z kafla „Ułóż własne” (bez listy zestawów)
-function closeAsk(){$("ask").hidden=true;ASKOWN=false;}
-function confirmAsk(){
-  const n=pick;
+// ASKTASK = okno otwarte z edytora zadania rodzica: „Gotowe” zapisuje ustawienia w zadaniu (onDone) i wraca do edytora
+let ASKTASK=null;
+function closeAsk(){$("ask").hidden=true;ASKOWN=false;if(ASKTASK){ASKTASK=null;$("ask-yes").textContent="Start";$("tasked").hidden=false;
+  teHead();}}
+// ustawienia z ekranu „Ułóż własne” albo tekst błędu
+function askCfg(){
   let m=pm;const mv=$("ask-m").value.trim();
-  if(mv){m=+mv;if(!Number.isInteger(m)||m<10||m>10000){$("ask-err").textContent="Zakres: wpisz liczbę od 10 do 10000";return;}}
-  if(!pops.length){$("ask-err").textContent="Wybierz przynajmniej jedno działanie";return;}
+  if(mv){m=+mv;if(!Number.isInteger(m)||m<10||m>10000) return "Zakres: wpisz liczbę od 10 do 10000";}
+  if(!pops.length) return "Wybierz przynajmniej jedno działanie";
   let ab={ar:CFG.ar,br:CFG.br,cr:CFG.cr||[null,null]};
   const useAB=pab&&pops.some(x=>x!==":"||pdiv==="any");
-  if(useAB){ab=readAB();if(typeof ab==="string"){$("ask-err").textContent=ab;return;}}
+  if(useAB){ab=readAB();if(typeof ab==="string") return ab;}
   const cfg={m,ops:[...pops],tens:ptens,frac:pfrac&&pops.includes(":")&&pdiv==="any",div:pdiv,ab:useAB,ar:ab.ar,br:ab.br,cr:ab.cr};
-  if(!canMake(cfg)){$("ask-err").textContent=cfg.ab?"Przy tych zakresach a, b i c nie da się ułożyć działania – zmień zakresy":ptens?"Za mały zakres na pełne dziesiątki – wybierz większy":"Za mały zakres dla wybranych działań";return;}
+  if(!canMake(cfg)) return cfg.ab?"Przy tych zakresach a, b i c nie da się ułożyć działania – zmień zakresy":ptens?"Za mały zakres na pełne dziesiątki – wybierz większy":"Za mały zakres dla wybranych działań";
+  return cfg;
+}
+function confirmAsk(){
+  const n=pick,cfg=askCfg();
+  if(typeof cfg==="string"){$("ask-err").textContent=cfg;return;}
+  if(ASKTASK){const f=ASKTASK;f(cfg,n);closeAsk();return;}
   if(ACTIVE&&i>0&&i<N) archive("przerwana");
   CFG=cfg;$("ask").hidden=true;start(n);go("play");
 }
@@ -4740,6 +4767,9 @@ const TASK_WHAT=(()=>{
   const L=[{v:"any",g:"Ogólnie",name:"Dowolne ćwiczenia",m:()=>true,open:null}];
   const sub=(sj,name,go1)=>L.push({v:sj,g:CUP_SUBJ[sj],name,m:s=>subjOf(s)===sj,open:go1});
   sub("mat","Dowolna matematyka",()=>go("mat"));
+  L.push({v:"mat:own",g:CUP_SUBJ.mat,name:"Własne: działania i zakresy…",m:(s,t)=>subjOf(s)==="mat"&&s.cfg&&s.cfg.task===t.id,
+    open:t=>{if(!t.cfg) return go("mat");const cfg={...CFG0,...t.cfg,task:t.id};if(!canMake(cfg)) return go("mat");
+      if(ACTIVE&&i>0&&i<N) archive("przerwana");CFG=cfg;start(t.n||20);go("play");}});
   SETS.forEach((st,k)=>L.push({v:"mat:"+st.id,g:CUP_SUBJ.mat,name:st.name,m:s=>subjOf(s)==="mat"&&s.cfg&&s.cfg.set===st.id,
     open:()=>{go("mat");const b=$("mat-tiles").querySelector(`[data-k="${k}"]`);if(b) b.click();}}));
   sub("pl","Dowolny polski",()=>go("pl"));
@@ -4755,6 +4785,12 @@ const TASK_WHAT=(()=>{
   return L;
 })();
 const taskWhat=t=>TASK_WHAT.find(w=>w.v===t.what)||TASK_WHAT[0];
+function cfgTxt(c,n){c={...CFG0,...c};const o=["+","−","×",":"].filter(x=>c.ops.includes(x)),tab=o.includes(":")&&c.div!=="any";
+  const ab=c.ab&&o.some(x=>x!==":"||!tab),cr=c.cr||[null,null];
+  let t=`${n} ${dzialan(n)}: ${o.join(" i ")}`+(!ab||tab?` do ${c.m}`:"");
+  if(ab) t+=` · a ${c.ar.join("–")}, b ${c.br.join("–")}`+(cr[0]!=null||cr[1]!=null?`, wynik ${cr[0]??0}–${cr[1]??"∞"}`:"");
+  return t+(o.includes(":")?(tab?" · tabliczka":" · dowolne dzielenie"):"")+(c.tens?" · dziesiątki":"")+(c.frac?" · ułamki":"");}
+const taskName=t=>t.what==="mat:own"&&t.cfg?cfgTxt(t.cfg,t.n||20):taskWhat(t).name;
 const taskEnd=t=>{if(!t.until) return Infinity;const [y,m,d]=t.until.split("-").map(Number);return new Date(y,m-1,d+1).getTime();};
 const taskDate=u=>{const [,m,d]=u.split("-").map(Number);return `${d}.${m}`;};
 const razy=n=>n===1?"raz":"razy";
@@ -4766,7 +4802,7 @@ function taskCond(t){const a=[];
   return a.join(" · ");}
 // postęp zadania z historii H: {f (0…1), done, late, parts:[tekst]}
 function taskProg(t,H){
-  const w=taskWhat(t),end=taskEnd(t),ses=H.filter(s=>s.start>=t.at&&s.start<end&&w.m(s));
+  const w=taskWhat(t),end=taskEnd(t),ses=H.filter(s=>s.start>=t.at&&s.start<end&&w.m(s,t));
   const ok=ses.filter(s=>s.status==="done"&&(!t.g||(s.grade||grade(s.pct).n)>=t.g)),P=[];
   const reps=t.reps||(!t.pts&&!t.days?1:0);
   if(reps) P.push([ok.length,reps,t.reps?`${Math.min(ok.length,reps)} z ${reps} ${razy(reps)}`:ok.length?"zaliczone":"jeszcze nie"]);
@@ -4792,7 +4828,7 @@ function taskTile(t,H,tag){
   const p=taskProg(t,H),w=taskWhat(t),attr=tag==="div"?"":` type="button" data-task="${esc(t.id)}"`;
   const k=p.done?(tag==="div"?"Zaliczone – wydaj nagrodę":"Zaliczone! Odbierz nagrodę"):p.late?"Termin minął":"Zadanie od rodzica";
   return `<${tag||"button"} class="task-t${p.done?" tdone":p.late?" late":""}"${attr}><span class="task-b"><span class="task-k">${k}</span>`+
-    `<span class="task-r">${esc(t.reward)}</span><span class="task-w">${esc(w.name)} · ${esc(taskCond(t))}</span>`+
+    `<span class="task-r">${esc(t.reward)}</span><span class="task-w">${esc(taskName(t))} · ${esc(taskCond(t))}</span>`+
     `<span class="task-p" aria-hidden="true"><i style="width:${Math.round(p.f*100)}%"></i></span><span class="task-s">${p.parts.join(" · ")}</span></span>`+
     `<span class="task-d">${dartSvg()}</span></${tag||"button"}>`;}
 // dziecko: aktywne zadania na samej górze startu (bez wydanych i tych po terminie)
@@ -4803,7 +4839,7 @@ function renderTasks(){
 }
 $("ptasks").addEventListener("click",e=>{const b=e.target.closest("[data-task]");if(!b) return;const t=myTasks().find(x=>x.id===b.dataset.task);if(!t) return;
   if(taskProg(t,loadOwnHist()).done){showTaskDone(t);return;}
-  const w=taskWhat(t);if(w.open) w.open();else{b.classList.remove("shake");void b.offsetWidth;b.classList.add("shake");}});
+  const w=taskWhat(t);if(w.open) w.open(t);else{b.classList.remove("shake");void b.offsetWidth;b.classList.add("shake");}});
 // okienko „Zadanie zaliczone!” – raz dla każdego zadania
 let TASKQ=[];
 function tasksCheck(){
@@ -4813,7 +4849,7 @@ function tasksCheck(){
   taskShowNext();
 }
 function showTaskDone(t){$("tasknew-i").innerHTML=`<span class="task-d" style="width:120px;height:120px">${dartSvg()}</span>`;
-  $("tasknew-w").textContent=`${taskWhat(t).name} · ${taskCond(t)}`;$("tasknew-rw").textContent=`Nagroda: ${t.reward}`;
+  $("tasknew-w").textContent=`${taskName(t)} · ${taskCond(t)}`;$("tasknew-rw").textContent=`Nagroda: ${t.reward}`;
   $("tasknew").hidden=false;$("tasknew-ok").focus();}
 function taskShowNext(){
   if(!TASKQ.length||!$("tasknew").hidden) return;
@@ -4828,7 +4864,7 @@ async function ptLoad(){
   const [st,se]=await Promise.all([SB.from("settings").select("prefs,plp").eq("user_id",PT.kid).maybeSingle(),
     SB.from("sessions").select("data").eq("user_id",PT.kid).order("start").limit(5000)]);
   if(st.error) throw st.error;if(se.error) throw se.error;
-  PT.tasks=(st.data&&st.data.prefs&&Array.isArray(st.data.prefs.tasks))?st.data.prefs.tasks:[];PT.hist=se.data.map(r=>r.data);
+  PT.prefs=st.data&&st.data.prefs||{};PT.tasks=Array.isArray(PT.prefs.tasks)?PT.prefs.tasks:[];PT.hist=se.data.map(r=>r.data);
 }
 // zapis: świeże ustawienia dziecka, zmiana listy zadań i upsert (reszta ustawień dziecka bez zmian)
 async function ptSave(fn){
@@ -4879,13 +4915,57 @@ function renderTE(){
     return `<div class="cupset-row te-row"><button type="button" class="te-sw${on?" sel":""}" data-sw="${c.k}" role="switch" aria-checked="${on}" aria-label="${c.name}"><i class="tg" aria-hidden="true"></i></button><span class="te-l"><b>${c.name}</b><small>${c.sub}</small></span>${ctl}</div>`;}).join("");
 }
 $("pt-new").addEventListener("click",()=>{
-  TE={what:"any",g:null,reps:3,pts:null,days:null,until:null};
-  $("te-what").innerHTML=[...new Set(TASK_WHAT.map(w=>w.g))].map(g=>`<optgroup label="${g}">`+TASK_WHAT.filter(w=>w.g===g).map(w=>`<option value="${w.v}">${esc(w.name)}</option>`).join("")+`</optgroup>`).join("");
-  $("te-what").value="any";$("te-rw").value="";$("te-err").textContent="";
+  TE={what:"any",g:null,reps:3,pts:null,days:null,until:null,cfg:null,n:20,lvl:null};
+  $("te-rw").value="";$("te-err").textContent="";
   $("tasked-for").textContent=`dla: ${(FAMILY.find(p=>p.id===PT.kid)||{}).name||"dziecka"}`;
-  renderTE();$("tasked").hidden=false;$("te-what").focus();
+  renderTE();teHead();tePickOpen(false);$("tasked").hidden=false;$("te-acc").focus();
 });
-$("te-what").addEventListener("change",e=>{TE.what=e.target.value;});
+/* „Co ćwiczyć”: zwinięta miniatura ekranu dziecka – kafle przedmiotów (kopia startu, tylko przedmioty, które dziecko ma),
+   po dotknięciu kafle ćwiczeń tego przedmiotu w jego kolorze; „Własne” z matematyki otwiera okno działań i zakresów. */
+const TE_SJ={"t-math":"mat","t-pl":"pl","t-en":"en","t-zd":"zd"},TE_CLS={mat:"math",pl:"pl",en:"en",zd:"hea"};
+function teHead(){const w=TASK_WHAT.find(x=>x.v===TE.what)||TASK_WHAT[0];
+  $("te-what-t").textContent=TE.what==="any"?"Dowolne ćwiczenia":taskName(TE);
+  $("te-what-s").textContent=TE.what==="any"?"liczy się każde ćwiczenie · dotknij, żeby wybrać":`${w.g}${w.v===TE.what&&!TE.what.includes(":")?" · cały przedmiot":""} · dotknij, żeby zmienić`;}
+function tePickOpen(on){$("te-pick").hidden=!on;$("te-acc").setAttribute("aria-expanded",on);if(on){TE.lvl=TE.what.includes(":")?TE.what.split(":")[0]:null;tePick();}}
+function tePick(){
+  const inner=$("te-inner"),P=PT.prefs||{},sel=v=>TE.what===v?" te-sel":"";
+  if(!TE.lvl){
+    const grid=$("home").querySelector(".tiles2").cloneNode(true);
+    grid.querySelectorAll(":scope>button").forEach(b=>{const sj=TE_SJ[b.id];if(!sj||!subjOn(sj,P)){b.remove();return;}
+      b.dataset.sj=sj;b.hidden=false;b.disabled=false;b.className=b.className.replace(" te-sel","")+(TE.what===sj||TE.what.startsWith(sj+":")?" te-sel":"");
+      const sm=b.querySelector("small");if(sm) sm.textContent=TE.what===sj?"cały przedmiot":TE.what.startsWith(sj+":")?taskName(TE):"dotknij, żeby wybrać";});
+    grid.querySelectorAll("[id]").forEach(el=>el.removeAttribute("id"));grid.querySelectorAll("[aria-describedby]").forEach(el=>el.removeAttribute("aria-describedby"));
+    inner.innerHTML=`<button type="button" class="sbar${sel("any")}" data-v="any"><span class="si" aria-hidden="true" style="background:linear-gradient(135deg,#7048e8,#3b2bb5)">★</span><span class="st"><b>Dowolne ćwiczenia</b><small>liczy się każde ćwiczenie</small></span></button>`;
+    inner.appendChild(grid);
+  }else{
+    const L=TASK_WHAT.filter(w=>(w.v===TE.lvl||w.v.startsWith(TE.lvl+":"))&&(w.v===TE.lvl||w.v==="mat:own"||!MODS.some(g=>g.items.some(x=>x.k===w.v.replace(":","-")))||modOn(w.v.replace(":","-"),P)));
+    inner.innerHTML=`<div class="te-hd"><button type="button" data-up aria-label="Wróć do przedmiotów">‹</button>${CUP_SUBJ[TE.lvl]}</div><div class="tiles2 mat-tiles"></div>`;
+    const g=inner.querySelector(".tiles2");
+    L.forEach(w=>{const b=teTile(w);b.dataset.v=w.v;b.className+=sel(w.v);
+      const sm=b.querySelector("small");if(sm) sm.textContent=w.v===TE.lvl?"liczy się każde ćwiczenie z tego przedmiotu":w.v==="mat:own"?(TE.what==="mat:own"&&TE.cfg?cfgTxt(TE.cfg,TE.n):"wybierz działania, liczby i zakresy"):sm.textContent;
+      if(w.v===TE.lvl) b.querySelector(".tt").textContent="Cały przedmiot";g.appendChild(b);});
+    g.querySelectorAll("[id]").forEach(el=>el.removeAttribute("id"));g.querySelectorAll(".mt-st").forEach(el=>el.remove());
+  }
+  inner.querySelectorAll("button").forEach(b=>{b.tabIndex=0;});
+  inner.parentElement.style.height=Math.ceil(inner.offsetHeight*.5)+"px";
+}
+// kafel ćwiczenia jak w prawdziwej aplikacji: kopia kafla z ekranu przedmiotu albo zbudowany tak samo (zestawy matematyki, tematy zdrowia)
+const TE_SRC={mat:"t-math",pl:"t-pl","pl:slowka":"pl-t-w","pl:dyktando":"pl-t-d","pl:znaczenia":"pl-t-z",en:"t-en","en:tobe":"en-t-tobe","en:slowka":"en-t-v","en:zdania":"en-t-z",zd:"t-zd","zd:spr":"zd-spr"};
+function teTile(w){
+  if(TE_SRC[w.v]){const b=$(TE_SRC[w.v]).cloneNode(true);b.hidden=false;b.disabled=false;b.removeAttribute("aria-describedby");return b;}
+  const d=document.createElement("div");let h;
+  if(w.v==="mat:own") h=`<button type="button" class="tile mt own-t"><span class="wm" aria-hidden="true">⚙</span><span class="tt">Własne działania i zakresy</span><small></small></button>`;
+  else if(w.v.startsWith("mat:")){const st=SETS.find(x=>"mat:"+x.id===w.v),c={...CFG0,...st.cfg},o=["+","−","×",":"].filter(x=>c.ops.includes(x)),gc=o.length>1&&SET_TONE[o[0]]!==SET_TONE[o[1]]?"#7048e8":SET_TONE[o[0]];
+    h=`<button type="button" class="tile mt" style="--gc:${gc}"><span class="wm" aria-hidden="true">${MAT_GLYPH[st.id]||o.join("")}</span><span class="tt">${st.name}</span><small>${st.n} ${dzialan(st.n)}</small></button>`;}
+  else{const t=ZD_TOPICS.find(x=>"zd:"+x.id===w.v);h=`<button type="button" class="tile mt" style="--gc:${ZD_TONE[t.id]}"><span class="tt">${t.name}</span><small>${t.qs.length} pytań</small></button>`;}
+  d.innerHTML=h;return d.firstChild;}
+function teOwn(){openAskTask(TE.what==="mat:own"?TE.cfg:null,TE.n,(cfg,n)=>{TE.cfg=cfg;TE.n=n;TE.what="mat:own";tePickOpen(false);});}
+$("te-acc").addEventListener("click",()=>tePickOpen($("te-pick").hidden));
+$("te-inner").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;
+  if(b.dataset.sj){TE.lvl=b.dataset.sj;tePick();return;}
+  if(b.hasAttribute("data-up")){TE.lvl=null;tePick();return;}
+  const v=b.dataset.v;if(!v) return;if(v==="mat:own"){teOwn();return;}
+  TE.what=v;teHead();tePickOpen(false);});
 $("te-conds").addEventListener("change",e=>{if(e.target.id==="te-until") TE.until=e.target.value||null;});
 $("te-conds").addEventListener("click",e=>{
   const sw=e.target.closest("[data-sw]");if(sw){const c=TE_COND.find(x=>x.k===sw.dataset.sw);
@@ -4897,7 +4977,9 @@ $("te-ok").addEventListener("click",async()=>{
   const rw=$("te-rw").value.trim(),err=$("te-err");
   if(TE.g==null&&TE.reps==null&&TE.pts==null&&TE.days==null){err.textContent="Włącz co najmniej jeden warunek: ocenę, ile razy, punkty albo codziennie.";return;}
   if(!rw){err.textContent="Wpisz nagrodę.";$("te-rw").focus();return;}
+  if(TE.what==="mat:own"&&!TE.cfg){err.textContent="Ustaw działania i zakresy.";return;}
   const t={id:"t"+Date.now().toString(36)+Math.random().toString(36).slice(2,6),what:TE.what,reward:rw,at:Date.now()};
+  if(TE.what==="mat:own"){t.cfg=TE.cfg;t.n=TE.n;}
   ["g","reps","pts","days","until"].forEach(k=>{if(TE[k]!=null) t[k]=TE[k];});
   const b=$("te-ok");b.disabled=true;
   try{await ptSave(L=>[...L,t]);$("tasked").hidden=true;$("pt-msg").textContent="Dodane. Telefon dziecka pokaże zadanie przy najbliższym otwarciu aplikacji.";renderPTask();}

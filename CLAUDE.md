@@ -124,6 +124,11 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   same g = 1 raz. Dziecko: kafel `.task-t` z tarczą `dartSvg()` w `#ptasks` nad „Dokończ” (`renderTasks`, bez wydanych i po terminie),
   `tasksCheck()` (z `cupsCheck`) pokazuje raz „Zadanie zaliczone!” (`#tasknew`, `PREFS.taskSeen`). Rodzic: lista z postępem z sesji
   dziecka w bazie, edytor `#tasked` (przełączniki + strzałki `TE_COND`), „Nagroda wydana” = `given`, „Usuń”. Bez nowego SQL.
+  „Co ćwiczyć” w edytorze: zwijany akordeon `#te-acc` z miniaturą telefonu (`tePick`): kafle przedmiotów skopiowane ze startu,
+  potem kafle ćwiczeń w kolorach z prawdziwych ekranów (`teTile`, `TE_SRC`), tylko moduły włączone dziecku (`PT.prefs.mods`).
+  „Własne działania i zakresy” (`mat:own`) otwiera okno „Ułóż własne” w trybie zadania (`openAskTask`, `ASKTASK`, przycisk „Gotowe”;
+  walidacja w `askCfg()`); zadanie dostaje `cfg` i `n`, kafel dziecka startuje dokładnie te działania z `cfg.task = id zadania`,
+  a liczą się tylko sesje z tym `cfg.task` (`w.m(s,t)`, `w.open(t)`). Opis ustawień: `cfgTxt`, nazwa zadania: `taskName`.
 - **Dokończ sesję (`#resume` na górze startu, `renderResume`):** niedokończona sesja z dowolnego modułu = kafel „Dokończ: …” z ✕.
   Matematyka: zapis `KEY` (jak dotąd). Gry `PW`/`PD`/`PZ`/`EN`: migawka `gameSnap()` zapisywana w `plLiveNow()` (po każdej
   zmianie) do `henriksen-wznow` = `{[id konta]:{game,mat}}` – poza `STATE_KEYS`, więc przeżywa wylogowanie (przy „Wyloguj”
