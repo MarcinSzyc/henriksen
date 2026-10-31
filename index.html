@@ -676,7 +676,8 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .gv-row .gv-c{flex:none;width:30px;height:30px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff}
 .gv-row.ok .gv-c{background:var(--ok);border-color:var(--ok)}.gv-go{flex:none;color:var(--accent);font-weight:800}
 .pickbar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:60;display:flex;align-items:center;gap:10px;padding:12px 12px 12px 16px;border-radius:18px;background:#7048e8;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.35);max-width:560px;margin:0 auto}
-.pickbar[hidden]{display:none}.pickbar span{flex:1;display:flex;flex-direction:column;gap:2px}.pickbar b{font-weight:800}.pickbar small{font-weight:700;font-size:.8rem;opacity:.9}.pickbar .xbtn{background:rgba(255,255,255,.18);color:#fff}
+.pickbar[hidden]{display:none}.save-ex{margin-top:8px;width:100%}.save-ex[hidden]{display:none}
+.toast{position:fixed;left:16px;right:16px;bottom:calc(16px + env(safe-area-inset-bottom));z-index:70;max-width:520px;margin:0 auto;padding:14px 16px;border-radius:16px;background:var(--ok);color:#fff;font-weight:800;font-size:.92rem;box-shadow:0 8px 24px rgba(0,0,0,.35)}.pickbar span{flex:1;display:flex;flex-direction:column;gap:2px}.pickbar b{font-weight:800}.pickbar small{font-weight:700;font-size:.8rem;opacity:.9}.pickbar .xbtn{background:rgba(255,255,255,.18);color:#fff}
 .te-sw{border:0;background:transparent;padding:0;cursor:pointer;flex:none}.te-sw.sel .tg{background:var(--ok)}.te-sw.sel .tg::after{transform:translateX(20px)}
 .te-row input[type=date]{font-size:.95rem;padding:6px 8px;width:auto;max-width:150px}
 .resume{display:flex;flex-direction:column;gap:10px}.resume[hidden]{display:none}.res-bar{border-color:var(--accent)}
@@ -831,6 +832,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="ask-err" id="pw-err"></div>
   <p class="pts-pre" id="pw-pts"></p>
   <button type="button" class="go-btn" id="pw-go">Start</button>
+  <button type="button" class="again save-ex" data-save="pw-go" hidden>Zapisz jako ćwiczenie do celów</button>
 </div>
 
 <div class="wrap" id="plw" hidden>
@@ -889,6 +891,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="step"><button type="button" id="pz-minus" aria-label="Mniej słów">−</button><output id="pz-n" aria-live="polite">10</output><button type="button" id="pz-plus" aria-label="Więcej słów">+</button></div>
   <p class="pts-pre" id="pz-pts"></p>
   <button type="button" class="go-btn" id="pz-go">Start</button>
+  <button type="button" class="again save-ex" data-save="pz-go" hidden>Zapisz jako ćwiczenie do celów</button>
 </div>
 
 <div class="wrap" id="plz" hidden>
@@ -947,6 +950,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="ask-err" id="en-err"></div>
   <p class="pts-pre" id="en-pts"></p>
   <button type="button" class="go-btn" id="en-go">Start</button>
+  <button type="button" class="again save-ex" data-save="en-go" hidden>Zapisz jako ćwiczenie do celów</button>
 </div>
 
 <div class="wrap" id="enset" hidden>
@@ -963,6 +967,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="step"><button type="button" id="enset-minus" aria-label="Mniej zadań">−</button><output id="enset-n" aria-live="polite">15</output><button type="button" id="enset-plus" aria-label="Więcej zadań">+</button></div>
   <p class="pts-pre" id="enset-pts"></p>
   <button type="button" class="go-btn" id="enset-go">Start</button>
+  <button type="button" class="again save-ex" data-save="enset-go" hidden>Zapisz jako ćwiczenie do celów</button>
 </div>
 
 <div class="wrap" id="enq" hidden>
@@ -1177,6 +1182,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
       <div class="sum" id="ask-sum"></div>
       <div class="ask-err" id="ask-err"></div>
       <button type="button" class="go-btn" id="ask-yes">Start</button>
+      <button type="button" class="again save-ex" data-save="ask-yes" hidden>Zapisz jako ćwiczenie do celów</button>
     </div>
   </div>
 </div>
@@ -1288,6 +1294,10 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <div class="shd"><div><h2 id="goalv-t"></h2><span class="shs" id="goalv-s"></span></div><button type="button" class="xbtn" id="goalv-x" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div id="goalv-list"></div>
   </div>
+</div>
+<div class="ask" id="yesno" hidden role="alertdialog" aria-modal="true" aria-labelledby="yesno-t" aria-describedby="yesno-p">
+  <div class="ask-box"><h2 id="yesno-t"></h2><p id="yesno-p"></p>
+    <div class="ask-btns"><button type="button" id="yesno-no">Nie</button><button type="button" class="yes" id="yesno-yes">Tak</button></div></div>
 </div>
 <div class="pickbar" id="pickbar" hidden role="status"><span><b>Zapisywanie ćwiczenia</b><small>Wybierz ćwiczenie i naciśnij Start albo kafel – zapiszemy je zamiast grać.</small></span><button type="button" class="xbtn" id="pickbar-x" aria-label="Przerwij zapisywanie"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
 <div class="ask" id="tasknew" hidden role="dialog" aria-modal="true" aria-labelledby="tasknew-h">
@@ -1901,6 +1911,7 @@ buildPad();
 $("pad").addEventListener("click",e=>{const b=e.target.closest("button");if(b) press(b.dataset.k);});
 document.addEventListener("keydown",e=>{
   if(!$("pinlock").hidden) return;
+  if(!$("yesno").hidden){if(e.key==="Escape") $("yesno-no").click();return;}
   if(!$("cupnew").hidden){if(e.key==="Escape"||e.key==="Enter") $("cupnew-ok").click();return;}
   if(!$("cupset").hidden){if(e.key==="Escape") $("cupset").hidden=true;return;}
   if(!$("ptsinfo").hidden){if(e.key==="Escape") closePtsInfo();return;}
@@ -4547,6 +4558,7 @@ function applyMods(){
   if($("t-lig")&&!modOn("lig")) $("t-lig").hidden=true;
   // kafel dla rodzica na samej górze
   $("t-kidcfg").hidden=!(ME&&ME.role==="parent");$("t-ptask").hidden=!(ME&&ME.role==="parent");
+  document.querySelectorAll(".save-ex").forEach(b=>{b.hidden=!(ME&&ME.role==="parent");});
   $("t-admin").hidden=!(ME&&ME.admin);
 }
 
@@ -4625,14 +4637,19 @@ function renderMat(){
 }
 $("mat-cont").addEventListener("click",()=>go("play"));
 // porzucenie rozpoczętych działań: zaczęte trafiają do historii jako przerwane, a kafel znika
-function matDrop(){
+// pytanie Tak/Nie w oknie aplikacji (zamiast confirm(), który w części przeglądarek od razu zwraca „nie”)
+function askYes(t,p,yes,no){return new Promise(res=>{const d=$("yesno"),Y=$("yesno-yes"),Nb=$("yesno-no");
+  $("yesno-t").textContent=t;$("yesno-p").textContent=p||"";Y.textContent=yes||"Tak";Nb.textContent=no||"Nie";d.hidden=false;Y.focus();
+  const end=v=>{d.hidden=true;Y.onclick=Nb.onclick=d.onclick=null;res(v);};
+  Y.onclick=()=>end(true);Nb.onclick=()=>end(false);d.onclick=e=>{if(e.target===d) end(false);};});}
+async function matDrop(){
   if(!(ACTIVE&&i<N)) return false;
-  if(!confirm(i?`Nie kończyć tych działań (${i} / ${N})? Zapiszemy je w historii jako przerwane.`:"Porzucić te działania?")) return false;
+  if(!await askYes(i?"Nie kończyć tych działań?":"Porzucić te działania?",i?`Zrobione ${i} z ${N}. Zapiszemy je w historii jako przerwane.`:"",i?"Nie kończ":"Porzuć","Wróć")) return false;
   if(i>0) archive("przerwana");
   ACTIVE=false;try{localStorage.removeItem(KEY);}catch(e){}
   return true;
 }
-$("mat-drop").addEventListener("click",()=>{if(matDrop()) renderMat();});
+$("mat-drop").addEventListener("click",async()=>{if(await matDrop()) renderMat();});
 $("mat-tiles").addEventListener("click",e=>{const b=e.target.closest("button[data-k]");if(!b) return;const k=b.dataset.k;
   if(k==="own"){openAsk("home");ASKOWN=true;askPane(true);return;}
   if(PICK) return k==="hard"?pickNo():startSet(k);
@@ -4798,9 +4815,14 @@ const sumPts=L=>L.reduce((a,x)=>a+(x.pts||0),0);
 let PICK=false;
 function pickOn(){PICK=true;$("pickbar").hidden=false;go("home");}
 function pickOff(){PICK=false;$("pickbar").hidden=true;}
+// przycisk rodzica pod „Start”: ten sam start, ale zapis zamiast gry
+function saveAs(id){PICK="inline";try{$(id).click();}finally{if(PICK==="inline") PICK=false;}}
+document.addEventListener("click",e=>{const b=e.target.closest(".save-ex");if(b) saveAs(b.dataset.save);});
+function toast(t){const d=document.createElement("div");d.className="toast";d.setAttribute("role","status");d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),3200);}
 function pickNo(txt){alert(txt||"Tego nie da się zapisać – zależy od błędów dziecka. Wybierz zwykłe ćwiczenie.");}
 function pickSave(spec,name,pts){
-  const L=LIB();L.ex=[...L.ex,{id:newId("x"),name,spec,pts}];savePrefs();pickOff();$("ask").hidden=true;
+  const L=LIB(),inl=PICK==="inline";L.ex=[...L.ex,{id:newId("x"),name,spec,pts}];savePrefs();pickOff();$("ask").hidden=true;
+  if(inl){toast(`Zapisane w Celach › Ćwiczenia: ${name} · do ${pts} pkt`);return;}
   PTT="ex";PT={...PT,msg:`Zapisane: ${name} · do ${pts} pkt`};go("ptask");
 }
 const PL_PAIR_N=p=>p.map(x=>PL_PAIRS[x]?PL_PAIRS[x].name:x).join(", ");
@@ -4950,7 +4972,7 @@ async function renderPTask(){
     return `<div class="pt-item">${taskTile(t,H,"div")}<div class="pt-acts">${p.done?`<button type="button" class="go-btn" data-give="${esc(t.id)}">Nagroda wydana</button>`:""}<button type="button" class="again" data-del="${esc(t.id)}">Usuń</button></div></div>`;}).join("")
     :`<p class="abnote">${esc(name)} nie ma teraz żadnego celu.${L.pk.length?"":" Najpierw zapisz ćwiczenia i ułóż z nich pakiet."}</p>`)+
     (giv.length?`<div class="lbl">Wydane nagrody</div>`+giv.slice(0,10).map(t=>`<div class="pt-given"><span>${esc(t.reward)}</span><small>${new Date(t.given).toLocaleDateString("pl-PL",{day:"numeric",month:"numeric"})}</small></div>`).join(""):"");
-  btn.hidden=!L.pk.length;btn.textContent=`Nowy cel dla: ${name}`;
+  btn.hidden=false;btn.textContent=L.pk.length?`Nowy cel dla: ${name}`:L.ex.length?"Ułóż pierwszy pakiet":"Dodaj pierwsze ćwiczenie";
 }
 $("t-ptask").addEventListener("click",()=>{PT={kid:PT.kid,tasks:null,hist:null};go("ptask");});
 $("pt-tabs").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(!b) return;PTT=b.dataset.t;renderPTask();});
@@ -4960,19 +4982,21 @@ $("pt-list").addEventListener("click",async e=>{
   const L=LIB(),q=a=>e.target.closest(`[${a}]`);let b;
   if((b=q("data-ren"))){const x=L.ex.find(y=>y.id===b.dataset.ren);const n=x&&prompt("Nazwa ćwiczenia",x.name);if(n&&n.trim()){x.name=n.trim().slice(0,60);savePrefs();renderPTask();}return;}
   if((b=q("data-delx"))){const used=L.pk.filter(p=>p.ex.includes(b.dataset.delx));
-    if(!confirm(used.length?`Usunąć ćwiczenie? Zniknie też z pakietów: ${used.map(p=>p.name).join(", ")}. Cele, które dziecko już ma, zostają.`:"Usunąć to ćwiczenie?")) return;
+    if(!await askYes("Usunąć to ćwiczenie?",used.length?`Zniknie też z pakietów: ${used.map(p=>p.name).join(", ")}. Cele, które dziecko już ma, zostają.`:"","Usuń","Wróć")) return;
     L.ex=L.ex.filter(x=>x.id!==b.dataset.delx);L.pk=L.pk.map(p=>({...p,ex:p.ex.filter(id=>id!==b.dataset.delx)}));savePrefs();renderPTask();return;}
-  if((b=q("data-delpk"))){if(!confirm("Usunąć ten pakiet? Cele, które dziecko już ma, zostają.")) return;L.pk=L.pk.filter(p=>p.id!==b.dataset.delpk);savePrefs();renderPTask();return;}
+  if((b=q("data-delpk"))){if(!await askYes("Usunąć ten pakiet?","Cele, które dziecko już ma, zostają.","Usuń","Wróć")) return;L.pk=L.pk.filter(p=>p.id!==b.dataset.delpk);savePrefs();renderPTask();return;}
   if((b=q("data-edpk"))){openPk(L.pk.find(p=>p.id===b.dataset.edpk));return;}
   const g=q("data-give"),d=q("data-del");if(!g&&!d) return;
   const id=(g||d).dataset.give||(g||d).dataset.del;
-  if(d&&!confirm("Usunąć ten cel? Dziecko przestanie go widzieć.")) return;
+  if(d&&!await askYes("Usunąć ten cel?","Dziecko przestanie go widzieć.","Usuń","Wróć")) return;
   (g||d).disabled=true;
   try{await ptSave(T=>g?T.map(t=>t.id===id?{...t,given:Date.now()}:t):T.filter(t=>t.id!==id));
     PT.msg=g?"Zapisane – cel znika z telefonu dziecka.":"Usunięte.";renderPTask();}
   catch(x){ptMsg(acctErr(x));(g||d).disabled=false;}
 });
-$("pt-new").addEventListener("click",()=>{if(PTT==="ex") pickOn();else if(PTT==="pk") openPk(null);else openGoalEd();});
+$("pt-new").addEventListener("click",()=>{const L=LIB();
+  if(PTT==="goal"&&!L.pk.length){PTT=L.ex.length?"pk":"ex";if(PTT==="pk") openPk(null);else pickOn();renderPTask();return;}
+  if(PTT==="ex") pickOn();else if(PTT==="pk") openPk(null);else openGoalEd();});
 
 // pakiet: nazwa + wybrane ćwiczenia (kolejność jak w bibliotece)
 function openPk(p){
@@ -5111,13 +5135,13 @@ function renderResume(){
     <span class="st"><b>Dokończ: ${esc(r.title)}</b><small>${esc(r.sub)}</small></span>${RES_GO}</button>
     <button type="button" class="cont-x" data-resx="${r.k}" aria-label="Nie kończ – zapisz jako przerwane">${RES_X}</button></div>`).join("");
 }
-$("resume").addEventListener("click",e=>{
+$("resume").addEventListener("click",async e=>{
   const go1=e.target.closest("[data-res]"),x=e.target.closest("[data-resx]");
   if(go1){if(go1.dataset.res==="mat") go("play");
     else{const g=resMine().game;if(g&&!resumeGame(g)){resPut(me=>{delete me.game;});renderHome();}}return;}
-  if(x){if(x.dataset.resx==="mat"){if(matDrop()) renderHome();return;}
+  if(x){if(x.dataset.resx==="mat"){if(await matDrop()) renderHome();return;}
     const g=resMine().game;if(!g) return;
-    if(!confirm(`Nie kończyć: ${g.title} (${g.done} / ${g.n})? Zapiszemy to w historii jako przerwane.`)) return;
+    if(!await askYes(`Nie kończyć: ${g.title}?`,`Zrobione ${g.done} z ${g.n}. Zapiszemy to w historii jako przerwane.`,"Nie kończ","Wróć")) return;
     resArchive(g);resPut(me=>{delete me.game;});PW=PD=PZ=EN=null;renderHome();}
 });
 resumeRestoreMat();

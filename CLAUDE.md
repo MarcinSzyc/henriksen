@@ -122,6 +122,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
     ekranach, a `startSet` / `confirmAsk` / `pwStart` / `pdStart` / `pzStart` / `enStart` zamiast startu wołają `pickSave(spec,nazwa,pkt)`
     (Poćwicz trudne, trudne słówka i słowo dnia – `pickNo`). Spec: mat `{cfg,n}`, pw `{pairs,n}`, pd `{dict}`, pz `{lvl,n}`, en `{cfg,n}` (też zdrowie).
     Biblioteka w ustawieniach rodzica `PREFS.lib = {ex:[{id,name,spec,pts}], pk:[{id,name,ex:[id]}]}` (`LIB()`).
+    Rodzic ma też pod „Start” na ekranach ustawień przycisk „Zapisz jako ćwiczenie do celów” (`.save-ex`, `saveAs(id)` = `PICK="inline"`,
+    zapis bez przejścia, `toast`).
   - Pakiet: 1+ zapisanych ćwiczeń (`#pked`, `openPk`). Cel: kopia 1+ pakietów w `PREFS.tasks` dziecka (klucz w `PARENT_KEYS`, `ptSave` = upsert
     jego ustawień) `{id,packs:[{id,name,ex:[…]}],g?,reps?|days?,until?,reward,at,given?}` (`#tasked`, `openGoalEd`, `TE_COND`: ocena dla każdego
     ćwiczenia, ile razy albo codziennie – wykluczają się, termin). Stare zadania bez `packs` są odrzucane przy wczytaniu.
@@ -129,6 +131,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
     Przejście = każde ćwiczenie celu; reps = min. liczba zaliczeń ćwiczeń, days = dni, w których zaliczone było całe przejście, z rzędu.
   - Dziecko: kafel z tarczą (`taskTile`, `dartSvg`) w `#ptasks` nad „Dokończ”; dotknięcie = lista ćwiczeń z ✓ (`#goalv`, `openGoal`),
     ćwiczenie startuje `exRun(x,{goal,gx})` ze świeżym losowaniem. `tasksCheck()` raz pokazuje „Cel zaliczony!” (`#tasknew`, `PREFS.taskSeen`).
+- **Pytania Tak/Nie:** `askYes(tytuł,opis,tak,nie)` = okno `#yesno` (Promise) zamiast `confirm()`, które w części przeglądarek od razu zwraca „nie”;
+  używane przy ✕ „Dokończ”, porzuceniu działań (`matDrop` jest async) i usuwaniu w Celach.
 - **Dokończ sesję (`#resume` na górze startu, `renderResume`):** niedokończona sesja z dowolnego modułu = kafel „Dokończ: …” z ✕.
   Matematyka: zapis `KEY` (jak dotąd). Gry `PW`/`PD`/`PZ`/`EN`: migawka `gameSnap()` zapisywana w `plLiveNow()` (po każdej
   zmianie) do `henriksen-wznow` = `{[id konta]:{game,mat}}` – poza `STATE_KEYS`, więc przeżywa wylogowanie (przy „Wyloguj”
