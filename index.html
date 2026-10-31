@@ -669,17 +669,14 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .ask-box select{font:inherit;font-weight:800;font-size:1rem;padding:10px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--fg);width:100%}
 .te-conds{display:flex;flex-direction:column;gap:8px}
 .te-row{min-height:60px;justify-content:flex-start}.te-row .te-l{flex:1;min-width:0;display:flex;flex-direction:column}.te-sw .tg{display:block}
-.te-acc{display:flex;align-items:center;gap:10px;width:100%;margin:0 0 10px;padding:12px 14px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--fg);font:inherit;text-align:left;cursor:pointer}
-.te-acc span{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}.te-acc b{font-weight:800}.te-acc small{color:var(--muted);font-weight:700;font-size:.78rem}
-.te-acc .chev{flex:none;color:var(--muted);transition:transform .2s}.te-acc[aria-expanded="true"]{border-color:var(--accent)}.te-acc[aria-expanded="true"] .chev{transform:rotate(180deg)}
-.te-pick{margin:0 0 14px}.te-pick[hidden]{display:none}
-.te-phone{overflow:hidden;width:72%;margin:0 auto;border:3px solid var(--line);border-radius:22px;background:var(--bg);padding:8px;box-sizing:content-box}
-.te-inner{width:200%;transform:scale(.5);transform-origin:top left;display:flex;flex-direction:column;gap:12px}
-.te-inner .tile,.te-inner .sbar{cursor:pointer}.te-inner .te-sel{outline:5px solid #fff;outline-offset:-5px;box-shadow:0 0 0 5px var(--accent)}
-.te-inner .tiles2 .tile{aspect-ratio:1/1;width:auto;height:auto;min-height:0;grid-column:auto;grid-row:auto;margin:0;padding:18px;justify-content:flex-end}
-.te-inner .tile .tt{font-size:1.45rem}.te-inner .te-own .tt{font-size:1.25rem}
-.te-hd{display:flex;align-items:center;gap:12px;font-family:var(--display);font-size:1.6rem;font-weight:800;color:var(--fg)}
-.te-hd button{width:52px;height:52px;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--fg);font:inherit;font-size:1.6rem;cursor:pointer}
+.pt-li{display:flex;align-items:center;gap:8px;background:var(--card);border-radius:16px;padding:12px 10px 12px 14px}.pt-li .rt small+small{margin-top:1px}
+.pt-ic{flex:none;width:44px;height:44px;border-radius:12px;border:2px solid var(--line);background:transparent;color:var(--fg);font:inherit;font-size:1.05rem;cursor:pointer}
+#pt-tabs{margin-bottom:10px}#pt-kids[hidden]{display:none}.te-sum{margin:6px 4px 12px}
+#te-pk .rt small,#pk-list .rt small{white-space:normal}
+.gv-row .gv-c{flex:none;width:30px;height:30px;border-radius:50%;border:2px solid var(--line);display:flex;align-items:center;justify-content:center;font-weight:800;color:#fff}
+.gv-row.ok .gv-c{background:var(--ok);border-color:var(--ok)}.gv-go{flex:none;color:var(--accent);font-weight:800}
+.pickbar{position:fixed;left:12px;right:12px;bottom:calc(12px + env(safe-area-inset-bottom));z-index:60;display:flex;align-items:center;gap:10px;padding:12px 12px 12px 16px;border-radius:18px;background:#7048e8;color:#fff;box-shadow:0 8px 24px rgba(0,0,0,.35);max-width:560px;margin:0 auto}
+.pickbar[hidden]{display:none}.pickbar span{flex:1;display:flex;flex-direction:column;gap:2px}.pickbar b{font-weight:800}.pickbar small{font-weight:700;font-size:.8rem;opacity:.9}.pickbar .xbtn{background:rgba(255,255,255,.18);color:#fff}
 .te-sw{border:0;background:transparent;padding:0;cursor:pointer;flex:none}.te-sw.sel .tg{background:var(--ok)}.te-sw.sel .tg::after{transform:translateX(20px)}
 .te-row input[type=date]{font-size:.95rem;padding:6px 8px;width:auto;max-width:150px}
 .resume{display:flex;flex-direction:column;gap:10px}.resume[hidden]{display:none}.res-bar{border-color:var(--accent)}
@@ -732,7 +729,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <span class="st"><b>Co widzi dziecko</b><small>Wybierz przedmioty i moduły dla dziecka</small></span>
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
   <button type="button" class="sbar kc-bar" id="t-ptask" hidden><span class="si tasksi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5" fill="#fff"/></svg></span>
-    <span class="st"><b>Zadania dla dziecka</b><small id="t-ptask-s">Cel do zdobycia i nagroda z prawdziwego życia</small></span>
+    <span class="st"><b>Cele dla dziecka</b><small id="t-ptask-s">Ćwiczenia, pakiety i nagroda z prawdziwego życia</small></span>
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
   <div class="tiles2">
     <button type="button" class="tile math" id="t-math"><span class="wm" aria-hidden="true">+−×÷</span><span class="tt">Matematyka</span><small id="t-math-s">Wybierz ćwiczenia i zaczynamy</small></button>
@@ -1060,12 +1057,12 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
       <li>Przy każdym zadaniu widać, ile jest warte, a przed startem – ile można zdobyć za cały zestaw.</li>
       <li>Cała tabela: ☰ → <b>Nagrody</b> → <b>Punktacja zadań</b>.</li></ul>
   </div>
-  <button type="button" class="more lig-help-b hacc" aria-expanded="false" aria-controls="h-res-3"><span><b>Rodzic: zadania z nagrodą</b></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
+  <button type="button" class="more lig-help-b hacc" aria-expanded="false" aria-controls="h-res-3"><span><b>Rodzic: cele z nagrodą</b></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
   <div class="lig-help" id="h-res-3" hidden>
-    <ol><li>Na starcie wejdź w <b>Zadania dla dziecka</b> → <b>Nowe zadanie</b>.</li>
-      <li>Wybierz, co ćwiczyć (np. Tabliczka mnożenia), i włącz warunki: ocena co najmniej, ile razy, ile punktów, codziennie przez kilka dni, termin. Muszą się spełnić wszystkie włączone.</li>
-      <li>Wpisz nagrodę, np. „30 min na konsoli”. Dziecko zobaczy zadanie na samej górze startu; liczą się ćwiczenia od chwili dodania.</li>
-      <li>Gdy dziecko zaliczy zadanie, wydaj nagrodę i kliknij <b>Nagroda wydana</b> – kafel zniknie z telefonu dziecka.</li></ol>
+    <ol><li>Na starcie wejdź w <b>Cele dla dziecka</b> → zakładka <b>Ćwiczenia</b> → <b>Dodaj ćwiczenie</b>. Wybierz ćwiczenie w aplikacji tak jak dziecko (np. Matematyka → Ułóż własne → zakresy) i naciśnij Start – zapiszemy je zamiast grać, z punktami „do X pkt”.</li>
+      <li>W zakładce <b>Pakiety</b> ułóż pakiet z jednego albo kilku zapisanych ćwiczeń.</li>
+      <li>W zakładce <b>Cele</b> → <b>Nowy cel</b>: wybierz pakiety, ocenę co najmniej (dla każdego ćwiczenia), ile razy zrobić całość albo codziennie przez kilka dni, termin i nagrodę.</li>
+      <li>Dziecko widzi cel na samej górze startu; dotknięcie pokazuje listę ćwiczeń z ✓. Liczą się tylko ćwiczenia uruchomione z celu. Po zaliczeniu wydaj nagrodę i kliknij <b>Nagroda wydana</b>.</li></ol>
   </div>
   <div class="lbl">Ligi</div>
   <button type="button" class="more lig-help-b hacc" aria-expanded="false" aria-controls="h-lig-0"><span><b>Jak założyć ligę</b></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
@@ -1089,11 +1086,12 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   </div>
 </div>
 <div class="wrap" id="ptask" hidden>
-  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Zadania dla dziecka</h1></header>
-  <p class="abnote">Ułóż zadanie i wpisz nagrodę z prawdziwego życia. Dziecko zobaczy je na samej górze ekranu startowego, a liczą się ćwiczenia zrobione od chwili dodania zadania.</p>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Cele dla dziecka</h1></header>
+  <p class="abnote">Zapisz ćwiczenia, ułóż z nich pakiety, a z pakietów cel z nagrodą z prawdziwego życia. Dziecko zobaczy cel na samej górze ekranu startowego.</p>
+  <div class="segs subj" id="pt-tabs" role="tablist" aria-label="Cele"><button type="button" role="tab" data-t="goal" class="sel" aria-selected="true">Cele</button><button type="button" role="tab" data-t="pk" aria-selected="false">Pakiety</button><button type="button" role="tab" data-t="ex" aria-selected="false">Ćwiczenia</button></div>
   <div class="fchips who" id="pt-kids" role="group" aria-label="Dziecko"></div>
   <div class="pt-list" id="pt-list"></div>
-  <button type="button" class="go-btn" id="pt-new" hidden>Nowe zadanie</button>
+  <button type="button" class="go-btn" id="pt-new" hidden>Nowy cel</button>
   <div class="abnote" id="pt-msg" aria-live="polite"></div>
 </div>
 <div class="wrap" id="kidcfg" hidden>
@@ -1263,19 +1261,37 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 </div>
 <div class="ask" id="tasked" hidden role="dialog" aria-modal="true" aria-labelledby="tasked-h">
   <div class="ask-box sheet">
-    <div class="shd"><div><h2 id="tasked-h">Nowe zadanie</h2><span class="shs" id="tasked-for"></span></div><button type="button" class="xbtn" id="tasked-x" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
-    <div class="lbl">Co ćwiczyć</div>
-    <button type="button" class="te-acc" id="te-acc" aria-expanded="false" aria-controls="te-pick"><span><b id="te-what-t"></b><small id="te-what-s"></small></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg></button>
-    <div class="te-pick" id="te-pick" hidden><div class="te-phone"><div class="te-inner" id="te-inner"></div></div></div>
-    <div class="lbl">Warunki – muszą się spełnić wszystkie włączone</div>
+    <div class="shd"><div><h2 id="tasked-h">Nowy cel</h2><span class="shs" id="tasked-for"></span></div><button type="button" class="xbtn" id="tasked-x" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="lbl">Pakiety</div>
+    <div class="grp" id="te-pk"></div>
+    <p class="abnote te-sum" id="te-sum"></p>
+    <div class="lbl">Zasady</div>
     <div class="te-conds" id="te-conds"></div>
     <label class="af"><span>Nagroda</span><input type="text" id="te-rw" maxlength="60" placeholder="np. 30 min na konsoli"></label>
     <div class="ask-err" id="te-err" aria-live="polite"></div>
-    <button type="button" class="go-btn" id="te-ok">Dodaj zadanie</button>
+    <button type="button" class="go-btn" id="te-ok">Dodaj cel</button>
   </div>
 </div>
+<div class="ask" id="pked" hidden role="dialog" aria-modal="true" aria-labelledby="pked-h">
+  <div class="ask-box sheet">
+    <div class="shd"><h2 id="pked-h" class="grow">Nowy pakiet</h2><button type="button" class="xbtn" id="pked-x" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <label class="af"><span>Nazwa</span><input type="text" id="pk-name" maxlength="40"></label>
+    <div class="lbl">Ćwiczenia w pakiecie</div>
+    <div class="grp" id="pk-list"></div>
+    <p class="abnote te-sum" id="pk-sum"></p>
+    <div class="ask-err" id="pk-err" aria-live="polite"></div>
+    <button type="button" class="go-btn" id="pk-ok">Zapisz pakiet</button>
+  </div>
+</div>
+<div class="ask" id="goalv" hidden role="dialog" aria-modal="true" aria-labelledby="goalv-t">
+  <div class="ask-box sheet">
+    <div class="shd"><div><h2 id="goalv-t"></h2><span class="shs" id="goalv-s"></span></div><button type="button" class="xbtn" id="goalv-x" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div id="goalv-list"></div>
+  </div>
+</div>
+<div class="pickbar" id="pickbar" hidden role="status"><span><b>Zapisywanie ćwiczenia</b><small>Wybierz ćwiczenie i naciśnij Start albo kafel – zapiszemy je zamiast grać.</small></span><button type="button" class="xbtn" id="pickbar-x" aria-label="Przerwij zapisywanie"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
 <div class="ask" id="tasknew" hidden role="dialog" aria-modal="true" aria-labelledby="tasknew-h">
-  <div class="ask-box"><div class="cupnew-i" id="tasknew-i" aria-hidden="true"></div><h2 id="tasknew-h">Zadanie zaliczone!</h2><p id="tasknew-w"></p><p class="cupnew-rw" id="tasknew-rw"></p>
+  <div class="ask-box"><div class="cupnew-i" id="tasknew-i" aria-hidden="true"></div><h2 id="tasknew-h">Cel zaliczony!</h2><p id="tasknew-w"></p><p class="cupnew-rw" id="tasknew-rw"></p>
     <p>Pokaż to rodzicowi – nagroda czeka.</p>
     <button type="button" class="go-btn" id="tasknew-ok">Super!</button></div>
 </div>
@@ -1352,8 +1368,8 @@ const BADGES={
 const BADGE_NAMES={ball:"Piłka",crown:"Korona",bolt:"Błyskawica",rocket:"Rakieta",none:"Bez znaczka"};
 const SUBS=[["streak","Seria dni"],["date","Data"],["none","Nic"]];
 const NAME_PRESETS=["Henriksen","Kapitan H","Nr 10","Ekipa H"];
-let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null,mods:{},rewSeen:[],tasks:[],taskSeen:[]};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{},rewSeen:Array.isArray(p.rewSeen)?p.rewSeen.filter(x=>typeof x==="string"):[],tasks:Array.isArray(p.tasks)?p.tasks.filter(t=>t&&t.id&&t.what):[],taskSeen:Array.isArray(p.taskSeen)?p.taskSeen:[]};}catch(e){}
+let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null,mods:{},rewSeen:[],tasks:[],taskSeen:[],lib:{ex:[],pk:[]}};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{},rewSeen:Array.isArray(p.rewSeen)?p.rewSeen.filter(x=>typeof x==="string"):[],tasks:Array.isArray(p.tasks)?p.tasks.filter(t=>t&&t.id&&Array.isArray(t.packs)):[],taskSeen:Array.isArray(p.taskSeen)?p.taskSeen:[],lib:p.lib&&typeof p.lib==="object"?{ex:Array.isArray(p.lib.ex)?p.lib.ex:[],pk:Array.isArray(p.lib.pk)?p.lib.pk:[]}:{ex:[],pk:[]}};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -1968,11 +1984,6 @@ function renderSets(){
 }
 function askPane(custom){$("ask-sets").hidden=custom;$("ask-custom").hidden=!custom;
   $("ask").querySelector(".ask-box").scrollTop=0;(custom?$("ask-back"):$("ask-x")).focus();}
-function openAskTask(cfg,n,onDone){
-  const keep=CFG,kn=N;if(cfg){CFG={...CFG0,...cfg};N=n;}
-  openAsk("task");CFG=keep;N=kn;if(!cfg){pick=20;selOpt();}
-  $("ask-warn").hidden=true;ASKTASK=onDone;ASKOWN=true;$("ask-yes").textContent="Gotowe";$("tasked").hidden=true;askPane(true);
-}
 function openAsk(mode){
   const fresh=!(ACTIVE&&i>0&&i<N); // ostrzeżenie tylko, gdy jest co przerwać
   pick=NSTEPS.includes(N)?N:20;$("ask-err").textContent="";
@@ -1986,15 +1997,13 @@ function openAsk(mode){
 function startSet(k){
   if(k==="hard") return practice(allHard(),true);
   const st=SETS[+k],cfg={...CFG0,...st.cfg,set:st.id};
+  if(PICK) return pickSave({k:"mat",cfg,n:st.n},st.name,genFor(cfg,st.n).reduce((a,x)=>a+wMath(x),0));
   if(!canMake(cfg)) return;
   if(ACTIVE&&i>0&&i<N) archive("przerwana");
   CFG=cfg;$("ask").hidden=true;start(st.n,take("set"+k,st.id,()=>genFor(cfg,st.n)));go("play"); // genFor, nie gen(): gen() bierze jeszcze stare N
 }
 let ASKOWN=false; // okno otwarte z kafla „Ułóż własne” (bez listy zestawów)
-// ASKTASK = okno otwarte z edytora zadania rodzica: „Gotowe” zapisuje ustawienia w zadaniu (onDone) i wraca do edytora
-let ASKTASK=null;
-function closeAsk(){$("ask").hidden=true;ASKOWN=false;if(ASKTASK){ASKTASK=null;$("ask-yes").textContent="Start";$("tasked").hidden=false;
-  teHead();}}
+function closeAsk(){$("ask").hidden=true;ASKOWN=false;}
 // ustawienia z ekranu „Ułóż własne” albo tekst błędu
 function askCfg(){
   let m=pm;const mv=$("ask-m").value.trim();
@@ -2010,7 +2019,7 @@ function askCfg(){
 function confirmAsk(){
   const n=pick,cfg=askCfg();
   if(typeof cfg==="string"){$("ask-err").textContent=cfg;return;}
-  if(ASKTASK){const f=ASKTASK;f(cfg,n);closeAsk();return;}
+  if(PICK) return pickSave({k:"mat",cfg,n},cfgTxt(cfg,n),genFor(cfg,n).reduce((a,x)=>a+wMath(x),0));
   if(ACTIVE&&i>0&&i<N) archive("przerwana");
   CFG=cfg;$("ask").hidden=true;start(n);go("play");
 }
@@ -2469,6 +2478,7 @@ $("heat").addEventListener("click",e=>{const d=e.target.closest(".hd");if(!d) re
   $("heat-tip").textContent=`${r} × ${c} = ${r*c} (i dzielenie ${r*c} : ${c}) · ${b} z ${n} źle · ${Math.round(b*100/n)}%`;});
 // "Poćwicz trudne": każde z Top 10 dwa razy, wymieszane
 function practice(hard,asked){
+  if(PICK) return pickNo();
   if(!hard.length) return;
   if(ACTIVE&&i>0&&i<N){if(!asked&&!confirm("Przerwać obecne działania i poćwiczyć trudne?")) return;archive("przerwana");}
   $("ask").hidden=true;
@@ -2766,6 +2776,7 @@ $("pw-hard").addEventListener("click",()=>{const h=plHard();if(!h.length) return
 const pwRec=w=>({t:w.full,a:w.ans,m:w.pre+"_"+w.post,w:w.desc?3:2,ok:true,tries:[],ms:0,done:false});
 let PW=null; // {id,start,cfg,words,i,recs:[{t,ok,tries,ms,done}],wrong:[],locked,over,t0}
 function pwStart(words,cfg){
+  if(PICK) return cfg.practice?pickNo():pickSave({k:"pw",pairs:[...cfg.pairs],n:words.length},`Słówka: ${PL_PAIR_N(cfg.pairs)} · ${words.length}`,words.reduce((a,w)=>a+(w.desc?3:2),0));
   gameBegin();
   PW={id:Date.now(),start:Date.now(),cfg,words,i:0,wrong:[],locked:false,over:false,
     recs:words.map(pwRec)};
@@ -2879,9 +2890,10 @@ $("pd-rand").addEventListener("click",()=>{const l=DICTS.filter(d=>d.len===PLP.l
 const pdAll=d=>Object.fromEntries(d.segs.filter(s=>s.ans).map(s=>[s.gap,s.ans]));
 const pdRecs=d=>d.segs.filter(s=>s.ans).map(s=>{const p=pdWord(d,s.gap,pdAll(d));return {t:pdWord(d,s.gap,null,true),a:s.ans,m:p.pre+"_"+p.post,w:2,ok:true,tries:[],ms:0,done:false};});
 let PD=null; // {id,start,cfg,d,fill:{},act,recs,checked,over,locked}
-function pdStart(d){
+function pdStart(d,tag){
+  if(PICK) return pickSave({k:"pd",dict:d.id},`Dyktando: ${d.title}`,pdRecs(d).reduce((a,r)=>a+r.w,0));
   gameBegin();
-  PD={id:Date.now(),start:Date.now(),cfg:{mode:"dyktando",dict:d.id,now:PLP.now},d,fill:{},act:0,checked:false,over:false,locked:false,
+  PD={id:Date.now(),start:Date.now(),cfg:{mode:"dyktando",dict:d.id,now:PLP.now,...(tag||{})},d,fill:{},act:0,checked:false,over:false,locked:false,
     recs:pdRecs(d)};
   $("pd-title").textContent=d.title;$("pd-end").hidden=true;$("pd-end").innerHTML="";$("pd-panel").hidden=false;
   go("pldt");pdRender();
@@ -2968,7 +2980,8 @@ function pdFinish(){
 $("pd-end").addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b||!PD) return;
   if(b.dataset.a==="again"){const d=PD.d;PD=null;pdStartSame(d);} else history.back();});
 function pdStartSame(d){ // ten sam tekst od nowa, bez nowego wpisu w historii przeglądarki
-  PD={id:Date.now(),start:Date.now(),cfg:{mode:"dyktando",dict:d.id,now:PLP.now},d,fill:{},act:0,checked:false,over:false,locked:false,
+  const tag=PD&&PD.cfg.goal?{goal:PD.cfg.goal,gx:PD.cfg.gx}:{};
+  PD={id:Date.now(),start:Date.now(),cfg:{mode:"dyktando",dict:d.id,now:PLP.now,...tag},d,fill:{},act:0,checked:false,over:false,locked:false,
     recs:pdRecs(d)};
   $("pd-end").hidden=true;$("pd-panel").hidden=false;pdRender();scrollTo(0,0);
 }
@@ -3405,6 +3418,9 @@ $("pz-day").addEventListener("click",()=>{const {x}=pzDaily();pzStart([x],{mode:
 /* gra */
 let PZ=null; // {id,start,cfg,words,qs,i,recs,seen,locked,over,t0}
 function pzStart(words,cfg,st,type,qs){
+  if(PICK){if(cfg.daily) return pickNo("Słowa dnia nie da się zapisać – wybierz poziom i liczbę słów.");
+    const q=qs||words.map(x=>pzQuestion(x,type));
+    return pickSave({k:"pz",lvl:cfg.lvl,n:words.length},`Znaczenie słów · ${cfg.lvl==="mix"?"mieszane":"poziom "+cfg.lvl} · ${words.length}`,q.reduce((a,x,k)=>a+ptsW({subj:"pl",cfg},{t:words[k].w,q:x.t}),0));}
   gameBegin();
   PZ={id:Date.now(),start:Date.now(),cfg,words,qs:qs||words.map(x=>pzQuestion(x,type)),i:0,locked:false,over:false,seen:new Set(st.keys())};
   PZ.recs=PZ.qs.map((q,k)=>({t:words[k].w,q:q.t,c:q.c,w:ptsW({subj:"pl",cfg},{t:words[k].w,q:q.t}),ok:true,tries:[],ms:0,done:false}));
@@ -3588,6 +3604,8 @@ function enToBeQs(n,types){
   return qs;
 }
 function enStart(make,cfg){
+  if(PICK){const qs=make(),t=cfg.title||(cfg.mode==="tobe"?"To be":EN_MODES[cfg.mode].title);
+    return pickSave({k:"en",cfg:{...cfg},n:qs.length},`${t} · ${qs.length}`+(cfg.lvl?` · ${cfg.lvl==="all"?"A1+A2":cfg.lvl.toUpperCase()}`:""),qs.reduce((a,q)=>a+ptsW({subj:cfg.subj||"en",cfg},{t:q.q,c:q.c}),0));}
   gameBegin();
   const qs=make();
   EN={id:Date.now(),start:Date.now(),cfg,make,qs,i:0,locked:false,over:false};
@@ -4617,6 +4635,7 @@ function matDrop(){
 $("mat-drop").addEventListener("click",()=>{if(matDrop()) renderMat();});
 $("mat-tiles").addEventListener("click",e=>{const b=e.target.closest("button[data-k]");if(!b) return;const k=b.dataset.k;
   if(k==="own"){openAsk("home");ASKOWN=true;askPane(true);return;}
+  if(PICK) return k==="hard"?pickNo():startSet(k);
   if(ACTIVE&&i>0&&i<N&&!confirm(`Masz działania w trakcie (${i} / ${N}). Zacząć nowe? Te zapiszemy jako przerwane.`)) return;
   if(k==="hard") practice(allHard(),true); else startSet(k);});
 
@@ -4756,62 +4775,77 @@ $("nag-vid-list").addEventListener("click",e=>{const b=e.target.closest("[data-r
   let a=null;const close=()=>{if(a) a.destroy();w.remove();};w.addEventListener("click",close);
   playGoal(w.querySelector(".goal-anim"),r,()=>setTimeout(close,400),r.t[0]).then(x=>{a=x;});});
 
-/* ===== Zadania od rodzica: cel + nagroda z prawdziwego życia =====
-   Rodzic układa zadanie na ekranie #ptask; zadania siedzą w PREFS.tasks dziecka (klucz rodzica w PARENT_KEYS, zapis do
-   jego wiersza settings), więc nie potrzebują osobnej tabeli. Zadanie: {id,what,g?,reps?,pts?,days?,until?,reward,at,given?}.
-   Liczą się sesje od `at` do końca dnia `until`, pasujące do `what` (TASK_WHAT); wszystkie włączone warunki muszą się spełnić:
-   g = ocena co najmniej (wtedy liczą się tylko takie sesje), reps = ile ukończonych, pts = ile punktów, days = ile dni z rzędu.
-   Dziecko widzi kafel na samej górze startu (nad „Dokończ”), po zaliczeniu okienko (PREFS.taskSeen), a rodzic zaznacza
-   „Nagroda wydana” (given) – wtedy kafel znika. */
-const TASK_WHAT=(()=>{
-  const L=[{v:"any",g:"Ogólnie",name:"Dowolne ćwiczenia",m:()=>true,open:null}];
-  const sub=(sj,name,go1)=>L.push({v:sj,g:CUP_SUBJ[sj],name,m:s=>subjOf(s)===sj,open:go1});
-  sub("mat","Dowolna matematyka",()=>go("mat"));
-  L.push({v:"mat:own",g:CUP_SUBJ.mat,name:"Własne: działania i zakresy…",m:(s,t)=>subjOf(s)==="mat"&&s.cfg&&s.cfg.task===t.id,
-    open:t=>{if(!t.cfg) return go("mat");const cfg={...CFG0,...t.cfg,task:t.id};if(!canMake(cfg)) return go("mat");
-      if(ACTIVE&&i>0&&i<N) archive("przerwana");CFG=cfg;start(t.n||20);go("play");}});
-  SETS.forEach((st,k)=>L.push({v:"mat:"+st.id,g:CUP_SUBJ.mat,name:st.name,m:s=>subjOf(s)==="mat"&&s.cfg&&s.cfg.set===st.id,
-    open:()=>{go("mat");const b=$("mat-tiles").querySelector(`[data-k="${k}"]`);if(b) b.click();}}));
-  sub("pl","Dowolny polski",()=>go("pl"));
-  [["slowka","Słówka: ó/u, rz/ż, ch/h","plws"],["dyktando","Dyktanda","pld"],["znaczenia","Znaczenie słów","plzs"]].forEach(([m,name,v])=>
-    L.push({v:"pl:"+m,g:CUP_SUBJ.pl,name,m:s=>s.subj==="pl"&&((s.cfg&&s.cfg.mode)||"slowka")===m,open:()=>go(v)}));
-  sub("en","Dowolny angielski",()=>go("en"));
-  [["tobe","To be"],["slowka","Słówka angielskie"],["zdania","Zdania"]].forEach(([m,name])=>
-    L.push({v:"en:"+m,g:CUP_SUBJ.en,name,m:s=>s.subj==="en"&&((s.cfg&&s.cfg.mode)||"tobe")===m,open:()=>{if(m==="tobe") go("ent");else{ENM=m;go("enset");}}}));
-  sub("zd","Dowolna edukacja zdrowotna",()=>go("zd"));
-  L.push({v:"zd:spr",g:CUP_SUBJ.zd,name:`Sprawdzian ${ZD_DATE}`,m:s=>s.subj==="zd"&&s.cfg&&s.cfg.mode==="spr",open:()=>{go("zd");$("zd-spr").click();}});
-  ZD_TOPICS.forEach(t=>L.push({v:"zd:"+t.id,g:CUP_SUBJ.zd,name:t.name,m:s=>s.subj==="zd"&&s.cfg&&s.cfg.mode===t.id,
-    open:()=>{go("zd");const b=$("zd-topics").querySelector(`[data-t="${t.id}"]`);if(b) b.click();}}));
-  return L;
-})();
-const taskWhat=t=>TASK_WHAT.find(w=>w.v===t.what)||TASK_WHAT[0];
+/* ===== Cele od rodzica: zapisane ćwiczenia → pakiety → cel z nagrodą z prawdziwego życia =====
+   Ćwiczenie: rodzic w trybie zapisywania (PICK) wybiera ćwiczenie na prawdziwych ekranach – zamiast startu zapisujemy ustawienia
+   (spec: mat {cfg,n} · pw {pairs,n} · pd {dict} · pz {lvl,n} · en {cfg,n}) z punktami „do X pkt” w PREFS.lib.ex rodzica.
+   Pakiet: nazwany zestaw 1+ ćwiczeń (PREFS.lib.pk). Cel: kopia 1+ pakietów w PREFS.tasks dziecka (klucz rodzica w PARENT_KEYS):
+   {id,packs:[{id,name,ex:[{id,name,spec,pts}]}],g?,reps?|days?,until?,reward,at,given?}. Jedno przejście = każde ćwiczenie
+   z każdego pakietu ukończone (z oceną co najmniej g); reps = ile przejść, days = przejście każdego dnia przez N dni z rzędu.
+   Liczą się tylko sesje uruchomione z celu: cfg.goal = id celu, cfg.gx = "pakiet:ćwiczenie". Dziecko: kafel z tarczą nad
+   „Dokończ”, po dotknięciu lista ćwiczeń z ✓; po zaliczeniu raz okienko (PREFS.taskSeen), rodzic klika „Nagroda wydana”. */
+const LIB=()=>{if(!PREFS.lib||typeof PREFS.lib!=="object") PREFS.lib={};const L=PREFS.lib;L.ex=Array.isArray(L.ex)?L.ex:[];L.pk=Array.isArray(L.pk)?L.pk:[];return L;};
+const newId=p=>p+Date.now().toString(36)+Math.random().toString(36).slice(2,6);
+// opis ustawień matematyki, np. „20 działań: × i : do 100 · a 2–9, b 2–9 · tabliczka”
 function cfgTxt(c,n){c={...CFG0,...c};const o=["+","−","×",":"].filter(x=>c.ops.includes(x)),tab=o.includes(":")&&c.div!=="any";
   const ab=c.ab&&o.some(x=>x!==":"||!tab),cr=c.cr||[null,null];
   let t=`${n} ${dzialan(n)}: ${o.join(" i ")}`+(!ab||tab?` do ${c.m}`:"");
   if(ab) t+=` · a ${c.ar.join("–")}, b ${c.br.join("–")}`+(cr[0]!=null||cr[1]!=null?`, wynik ${cr[0]??0}–${cr[1]??"∞"}`:"");
   return t+(o.includes(":")?(tab?" · tabliczka":" · dowolne dzielenie"):"")+(c.tens?" · dziesiątki":"")+(c.frac?" · ułamki":"");}
-const taskName=t=>t.what==="mat:own"&&t.cfg?cfgTxt(t.cfg,t.n||20):taskWhat(t).name;
+const exSubj=s=>s.k==="mat"?"mat":s.k==="en"?(s.cfg.subj||"en"):"pl";
+const sumPts=L=>L.reduce((a,x)=>a+(x.pts||0),0);
+
+// tryb zapisywania: pasek na dole, każdy „Start” / kafel zapisuje ćwiczenie zamiast grać
+let PICK=false;
+function pickOn(){PICK=true;$("pickbar").hidden=false;go("home");}
+function pickOff(){PICK=false;$("pickbar").hidden=true;}
+function pickNo(txt){alert(txt||"Tego nie da się zapisać – zależy od błędów dziecka. Wybierz zwykłe ćwiczenie.");}
+function pickSave(spec,name,pts){
+  const L=LIB();L.ex=[...L.ex,{id:newId("x"),name,spec,pts}];savePrefs();pickOff();$("ask").hidden=true;
+  PTT="ex";PT={...PT,msg:`Zapisane: ${name} · do ${pts} pkt`};go("ptask");
+}
+const PL_PAIR_N=p=>p.map(x=>PL_PAIRS[x]?PL_PAIRS[x].name:x).join(", ");
+// uruchomienie zapisanego ćwiczenia (dziecko) – świeże losowanie z tych samych ustawień, z oznaczeniem celu w cfg
+function exRun(x,tag){
+  const s=x.spec;
+  if(s.k==="mat"){const cfg={...CFG0,...s.cfg,...tag};if(!canMake(cfg)) return;if(ACTIVE&&i>0&&i<N) archive("przerwana");CFG=cfg;start(s.n);go("play");}
+  else if(s.k==="pw"){const pool=WORDS.filter(w=>s.pairs.includes(w.pair)),list=[];if(!pool.length) return;
+    while(list.length<s.n){const b=shuffle(pool.slice());if(list.length&&b[0]===list[list.length-1]) b.push(b.shift());list.push(...b);}
+    pwStart(list.slice(0,s.n),{mode:"slowka",pairs:[...s.pairs],...tag});}
+  else if(s.k==="pd"){const d=DICTS.find(y=>y.id===s.dict);if(d) pdStart(d,tag);}
+  else if(s.k==="pz"){const st=pzStats();pzStart(pzPick(s.n,pzLevels(s.lvl,st),st),{mode:"znaczenia",lvl:s.lvl,...tag},st);}
+  else if(s.k==="en"){const c={...s.cfg,...tag};enStart(enMakeFor(c,s.n),c);}
+}
+
+/* --- cel: postęp i opis --- */
 const taskEnd=t=>{if(!t.until) return Infinity;const [y,m,d]=t.until.split("-").map(Number);return new Date(y,m-1,d+1).getTime();};
 const taskDate=u=>{const [,m,d]=u.split("-").map(Number);return `${d}.${m}`;};
 const razy=n=>n===1?"raz":"razy";
+const goalEx=t=>(t.packs||[]).flatMap((p,pi)=>p.ex.map(x=>({...x,gx:pi+":"+x.id,pack:p.name})));
+const goalWhat=t=>{const X=goalEx(t);return `${(t.packs||[]).map(p=>p.name).join(" + ")} · ${X.length} ${X.length===1?"ćwiczenie":X.length<5?"ćwiczenia":"ćwiczeń"} · do ${sumPts(X)} pkt`;};
 function taskCond(t){const a=[];
-  if(t.reps) a.push(`${t.reps}×`+(t.g?` na min. ${t.g}`:""));else if(t.g&&!t.pts&&!t.days) a.push(`ocena min. ${t.g}`);
-  if(t.pts) a.push(`${t.pts} pkt`+(t.g&&!t.reps?` (sesje na min. ${t.g})`:""));
-  if(t.days) a.push(`codziennie przez ${t.days} dni`+(t.g&&!t.reps&&!t.pts?` na min. ${t.g}`:""));
+  if(t.days) a.push(`codziennie przez ${t.days} dni`);else a.push(`${t.reps||1}× całość`);
+  if(t.g) a.push(`każde na min. ${t.g}`);
   if(t.until) a.push(`do ${taskDate(t.until)}`);
   return a.join(" · ");}
-// postęp zadania z historii H: {f (0…1), done, late, parts:[tekst]}
+// postęp celu z historii H: {f (0…1), done, late, parts, cur = ćwiczenia zrobione w bieżącym przejściu / dziś}
 function taskProg(t,H){
-  const w=taskWhat(t),end=taskEnd(t),ses=H.filter(s=>s.start>=t.at&&s.start<end&&w.m(s,t));
-  const ok=ses.filter(s=>s.status==="done"&&(!t.g||(s.grade||grade(s.pct).n)>=t.g)),P=[];
-  const reps=t.reps||(!t.pts&&!t.days?1:0);
-  if(reps) P.push([ok.length,reps,t.reps?`${Math.min(ok.length,reps)} z ${reps} ${razy(reps)}`:ok.length?"zaliczone":"jeszcze nie"]);
-  if(t.pts){const n=(t.g?ok:ses).reduce((a,s)=>a+sesPts(s).p,0);P.push([n,t.pts,`${Math.min(n,t.pts)} z ${t.pts} pkt`]);}
-  if(t.days){const d=[...new Set(ok.map(s=>dayKey(s.start)))].sort((a,b)=>a-b);let best=0,run=0;
-    d.forEach((x,k)=>{run=k&&addDays(d[k-1],1)===x?run+1:1;best=Math.max(best,run);});
-    P.push([best,t.days,`${Math.min(best,t.days)} z ${t.days} dni z rzędu`]);}
-  const f=Math.min(...P.map(([a,b])=>Math.min(1,a/b))),done=f>=1;
-  return {f,done,late:!done&&Date.now()>=end,parts:P.map(x=>x[2])};
+  const end=taskEnd(t),X=goalEx(t),today=dayKey(Date.now());
+  const ok=H.filter(s=>s.cfg&&s.cfg.goal===t.id&&s.status==="done"&&s.start>=t.at&&s.start<end&&(!t.g||(s.grade||grade(s.pct).n)>=t.g));
+  const has=(gx,d)=>ok.some(s=>s.cfg.gx===gx&&(d==null||dayKey(s.start)===d));
+  let f,done,parts,cur;
+  if(!X.length) return {f:0,done:false,late:false,parts:["pusty cel"],cur:new Set()};
+  if(t.days){
+    const days=[...new Set(ok.map(s=>dayKey(s.start)))].filter(d=>X.every(x=>has(x.gx,d))).sort((a,b)=>a-b);let best=0,run=0;
+    days.forEach((d,k)=>{run=k&&addDays(days[k-1],1)===d?run+1:1;best=Math.max(best,run);});
+    cur=new Set(X.filter(x=>has(x.gx,today)).map(x=>x.gx));done=best>=t.days;
+    f=done?1:Math.min(1,(best+(days.includes(today)?0:cur.size/X.length))/t.days);
+    parts=[`${Math.min(best,t.days)} z ${t.days} dni z rzędu`];if(!done&&X.length>1) parts.push(`dziś ${cur.size} z ${X.length}`);
+  }else{
+    const R=t.reps||1,cnt=X.map(x=>ok.filter(s=>s.cfg.gx===x.gx).length),pass=Math.min(...cnt);
+    cur=new Set(X.filter((x,k)=>cnt[k]>pass).map(x=>x.gx));done=pass>=R;f=done?1:(pass+cur.size/X.length)/R;
+    parts=[R>1?`${Math.min(pass,R)} z ${R} razy`:done?"zaliczone":"jeszcze nie"];if(!done&&X.length>1) parts.push(`teraz ${cur.size} z ${X.length} ćwiczeń`);
+  }
+  return {f,done,late:!done&&Date.now()>=end,parts,cur};
 }
 // tarcza do rzutek z rzutką w samym środku
 function dartSvg(){
@@ -4825,22 +4859,35 @@ function dartSvg(){
     <path d="M68.4 31.6L81.1 18.9" stroke="#e9ecef" stroke-width="2.4" stroke-linecap="round"/>
     <path d="M75.5 24.5L87.5 22.4L90.3 19.6L83.9 16.1L80.4 9.7L77.6 12.6Z" fill="#fab005" stroke="#e67700" stroke-width="1.2" stroke-linejoin="round"/></svg>`;}
 function taskTile(t,H,tag){
-  const p=taskProg(t,H),w=taskWhat(t),attr=tag==="div"?"":` type="button" data-task="${esc(t.id)}"`;
-  const k=p.done?(tag==="div"?"Zaliczone – wydaj nagrodę":"Zaliczone! Odbierz nagrodę"):p.late?"Termin minął":"Zadanie od rodzica";
+  const p=taskProg(t,H),attr=tag==="div"?"":` type="button" data-task="${esc(t.id)}"`;
+  const k=p.done?(tag==="div"?"Zaliczone – wydaj nagrodę":"Zaliczone! Odbierz nagrodę"):p.late?"Termin minął":"Cel od rodzica";
   return `<${tag||"button"} class="task-t${p.done?" tdone":p.late?" late":""}"${attr}><span class="task-b"><span class="task-k">${k}</span>`+
-    `<span class="task-r">${esc(t.reward)}</span><span class="task-w">${esc(taskName(t))} · ${esc(taskCond(t))}</span>`+
+    `<span class="task-r">${esc(t.reward)}</span><span class="task-w">${esc(goalWhat(t))} · ${esc(taskCond(t))}</span>`+
     `<span class="task-p" aria-hidden="true"><i style="width:${Math.round(p.f*100)}%"></i></span><span class="task-s">${p.parts.join(" · ")}</span></span>`+
     `<span class="task-d">${dartSvg()}</span></${tag||"button"}>`;}
-// dziecko: aktywne zadania na samej górze startu (bez wydanych i tych po terminie)
+
+/* --- dziecko --- */
 const myTasks=()=>isGuest()||!ME||ME.role==="parent"?[]:(PREFS.tasks||[]).filter(t=>!t.given);
 function renderTasks(){
   const H=loadOwnHist(),list=myTasks().filter(t=>!taskProg(t,H).late),el=$("ptasks");
   el.hidden=!list.length;el.innerHTML=list.map(t=>taskTile(t,H)).join("");
 }
+// lista ćwiczeń celu: ✓ = zrobione w tym przejściu / dziś, dotknięcie uruchamia ćwiczenie
+let GV=null;
+function openGoal(t){
+  GV=t;const H=loadOwnHist(),p=taskProg(t,H);
+  $("goalv-t").textContent=t.reward;$("goalv-s").textContent=`${taskCond(t)} · ${p.parts.join(" · ")}`;
+  $("goalv-list").innerHTML=(t.packs||[]).map((pk,pi)=>`<div class="lbl">${esc(pk.name)}</div><div class="grp">`+pk.ex.map(x=>{const gx=pi+":"+x.id,ok=p.cur.has(gx);
+    return `<button type="button" class="row gv-row${ok?" ok":""}" data-gx="${esc(gx)}"><span class="gv-c" aria-hidden="true">${ok?"✓":""}</span><span class="rt"><b>${esc(x.name)}</b><small>${CUP_SUBJ[exSubj(x.spec)]||""} · do ${x.pts} pkt${ok?" · zrobione":""}</small></span><span class="gv-go" aria-hidden="true">▶</span></button>`;}).join("")+`</div>`).join("");
+  $("goalv").hidden=false;$("goalv-x").focus();
+}
+$("goalv-x").addEventListener("click",()=>{$("goalv").hidden=true;});
+$("goalv").addEventListener("click",e=>{if(e.target.id==="goalv"){$("goalv").hidden=true;return;}
+  const b=e.target.closest("[data-gx]");if(!b||!GV) return;const x=goalEx(GV).find(y=>y.gx===b.dataset.gx);if(!x) return;
+  $("goalv").hidden=true;exRun(x,{goal:GV.id,gx:x.gx});});
 $("ptasks").addEventListener("click",e=>{const b=e.target.closest("[data-task]");if(!b) return;const t=myTasks().find(x=>x.id===b.dataset.task);if(!t) return;
-  if(taskProg(t,loadOwnHist()).done){showTaskDone(t);return;}
-  const w=taskWhat(t);if(w.open) w.open(t);else{b.classList.remove("shake");void b.offsetWidth;b.classList.add("shake");}});
-// okienko „Zadanie zaliczone!” – raz dla każdego zadania
+  if(taskProg(t,loadOwnHist()).done){showTaskDone(t);return;}openGoal(t);});
+// okienko „Cel zaliczony!” – raz dla każdego celu
 let TASKQ=[];
 function tasksCheck(){
   const H=loadOwnHist(),ids=new Set((PREFS.tasks||[]).map(t=>t.id));let seen=(PREFS.taskSeen||[]).filter(x=>ids.has(x)),ch=seen.length!==(PREFS.taskSeen||[]).length;
@@ -4849,7 +4896,7 @@ function tasksCheck(){
   taskShowNext();
 }
 function showTaskDone(t){$("tasknew-i").innerHTML=`<span class="task-d" style="width:120px;height:120px">${dartSvg()}</span>`;
-  $("tasknew-w").textContent=`${taskName(t)} · ${taskCond(t)}`;$("tasknew-rw").textContent=`Nagroda: ${t.reward}`;
+  $("tasknew-w").textContent=`${goalWhat(t)} · ${taskCond(t)}`;$("tasknew-rw").textContent=`Nagroda: ${t.reward}`;
   $("tasknew").hidden=false;$("tasknew-ok").focus();}
 function taskShowNext(){
   if(!TASKQ.length||!$("tasknew").hidden) return;
@@ -4858,131 +4905,133 @@ function taskShowNext(){
 }
 $("tasknew-ok").addEventListener("click",()=>{$("tasknew").hidden=true;if(CUR==="home") renderTasks();setTimeout(taskShowNext,300);});
 
-/* rodzic: lista zadań dziecka z postępem (z jego sesji w bazie), nowe zadanie, „Nagroda wydana”, usuwanie */
-let PT={kid:null,tasks:null,hist:null},TE=null;
+/* --- rodzic: zakładki Cele / Pakiety / Ćwiczenia --- */
+let PT={kid:null,tasks:null,hist:null},PTT="goal",TE=null,PK=null;
 async function ptLoad(){
   const [st,se]=await Promise.all([SB.from("settings").select("prefs,plp").eq("user_id",PT.kid).maybeSingle(),
     SB.from("sessions").select("data").eq("user_id",PT.kid).order("start").limit(5000)]);
   if(st.error) throw st.error;if(se.error) throw se.error;
-  PT.prefs=st.data&&st.data.prefs||{};PT.tasks=Array.isArray(PT.prefs.tasks)?PT.prefs.tasks:[];PT.hist=se.data.map(r=>r.data);
+  PT.prefs=st.data&&st.data.prefs||{};PT.tasks=(Array.isArray(PT.prefs.tasks)?PT.prefs.tasks:[]).filter(t=>t&&t.packs);PT.hist=se.data.map(r=>r.data);
 }
-// zapis: świeże ustawienia dziecka, zmiana listy zadań i upsert (reszta ustawień dziecka bez zmian)
+// zapis: świeże ustawienia dziecka, zmiana listy celów i upsert (reszta ustawień dziecka bez zmian)
 async function ptSave(fn){
   const {data,error}=await SB.from("settings").select("prefs,plp").eq("user_id",PT.kid).maybeSingle();if(error) throw error;
-  const prefs={...(data&&data.prefs||{})};prefs.tasks=fn(Array.isArray(prefs.tasks)?prefs.tasks:[]);
+  const prefs={...(data&&data.prefs||{})};prefs.tasks=fn((Array.isArray(prefs.tasks)?prefs.tasks:[]).filter(t=>t&&t.packs));
   const r=await SB.from("settings").upsert({user_id:PT.kid,prefs,plp:data&&data.plp||{}},{onConflict:"user_id"});if(r.error) throw r.error;
   PT.tasks=prefs.tasks;
 }
+const ptMsg=t=>{$("pt-msg").textContent=t||"";};
 async function renderPTask(){
-  const list=$("pt-list"),msg=$("pt-msg");msg.textContent="";$("pt-new").hidden=true;
+  const list=$("pt-list"),btn=$("pt-new");ptMsg(PT.msg);PT.msg="";btn.hidden=true;
+  for(const b of $("pt-tabs").children){const on=b.dataset.t===PTT;b.classList.toggle("sel",on);b.setAttribute("aria-selected",on);}
+  $("pt-kids").hidden=PTT!=="goal";
   if(!(ME&&ME.role==="parent")){list.innerHTML='<p class="abnote">Ten widok jest dla rodzica.</p>';$("pt-kids").innerHTML="";return;}
+  const L=LIB();
+  if(PTT==="ex"){
+    list.innerHTML=(L.ex.length?L.ex.map(x=>`<div class="pt-li"><span class="rt"><b>${esc(x.name)}</b><small>${CUP_SUBJ[exSubj(x.spec)]||""} · do ${x.pts} pkt</small></span>`+
+      `<button type="button" class="pt-ic" data-ren="${x.id}" aria-label="Zmień nazwę">✎</button><button type="button" class="pt-ic" data-delx="${x.id}" aria-label="Usuń">✕</button></div>`).join("")
+      :'<p class="abnote">Nie masz jeszcze zapisanych ćwiczeń. Dotknij „Dodaj ćwiczenie”, wybierz je w aplikacji tak jak dziecko i naciśnij Start albo kafel – zapiszemy je zamiast grać.</p>');
+    btn.hidden=false;btn.textContent="Dodaj ćwiczenie";return;}
+  if(PTT==="pk"){
+    list.innerHTML=(L.pk.length?L.pk.map(p=>{const X=p.ex.map(id=>L.ex.find(x=>x.id===id)).filter(Boolean);
+      return `<div class="pt-li"><span class="rt"><b>${esc(p.name)}</b><small>${X.map(x=>esc(x.name)).join(" + ")||"brak ćwiczeń"}</small><small>${X.length} ${X.length===1?"ćwiczenie":X.length<5?"ćwiczenia":"ćwiczeń"} · do ${sumPts(X)} pkt</small></span>`+
+        `<button type="button" class="pt-ic" data-edpk="${p.id}" aria-label="Zmień">✎</button><button type="button" class="pt-ic" data-delpk="${p.id}" aria-label="Usuń">✕</button></div>`;}).join("")
+      :`<p class="abnote">${L.ex.length?"Pakiet to jedno albo kilka zapisanych ćwiczeń. Z pakietów układasz cele dla dziecka.":"Najpierw zapisz ćwiczenia w zakładce Ćwiczenia."}</p>`);
+    btn.hidden=!L.ex.length;btn.textContent="Nowy pakiet";return;}
   if(!FAMILY){try{await sbLoad();const {data}=await SB.from("profiles").select("id,name,role").eq("family_id",ME.family);FAMILY=(data||[]).filter(p=>p.role==="student");}catch(e){FAMILY=[];}}
   if(!FAMILY.length){list.innerHTML='<p class="abnote">Nie masz jeszcze dziecka w rodzinie. Instrukcje → „Rodzic: podłącz telefon dziecka”.</p>';$("pt-kids").innerHTML="";return;}
   if(!PT.kid||!FAMILY.some(p=>p.id===PT.kid)) PT.kid=FAMILY[0].id;
   $("pt-kids").innerHTML=FAMILY.length<2?"":FAMILY.map(p=>`<button type="button" data-id="${p.id}" class="${p.id===PT.kid?"sel":""}" aria-pressed="${p.id===PT.kid}">${esc(p.name||"–")}</button>`).join("");
-  if(!PT.tasks){list.innerHTML='<p class="abnote">Wczytuję zadania…</p>';
-    try{await sbLoad();await ptLoad();}catch(x){list.innerHTML='<p class="abnote">Nie udało się wczytać zadań – sprawdź internet.</p>';return;}}
+  if(!PT.tasks){list.innerHTML='<p class="abnote">Wczytuję cele…</p>';
+    try{await sbLoad();await ptLoad();}catch(x){list.innerHTML='<p class="abnote">Nie udało się wczytać celów – sprawdź internet.</p>';return;}}
+  if(PTT!=="goal") return;
   const name=(FAMILY.find(p=>p.id===PT.kid)||{}).name||"dziecka",H=PT.hist,act=PT.tasks.filter(t=>!t.given),giv=PT.tasks.filter(t=>t.given).sort((a,b)=>b.given-a.given);
   list.innerHTML=(act.length?act.map(t=>{const p=taskProg(t,H);
     return `<div class="pt-item">${taskTile(t,H,"div")}<div class="pt-acts">${p.done?`<button type="button" class="go-btn" data-give="${esc(t.id)}">Nagroda wydana</button>`:""}<button type="button" class="again" data-del="${esc(t.id)}">Usuń</button></div></div>`;}).join("")
-    :`<p class="abnote">${esc(name)} nie ma teraz żadnego zadania.</p>`)+
+    :`<p class="abnote">${esc(name)} nie ma teraz żadnego celu.${L.pk.length?"":" Najpierw zapisz ćwiczenia i ułóż z nich pakiet."}</p>`)+
     (giv.length?`<div class="lbl">Wydane nagrody</div>`+giv.slice(0,10).map(t=>`<div class="pt-given"><span>${esc(t.reward)}</span><small>${new Date(t.given).toLocaleDateString("pl-PL",{day:"numeric",month:"numeric"})}</small></div>`).join(""):"");
-  $("pt-new").hidden=false;$("pt-new").textContent=`Nowe zadanie dla: ${name}`;
+  btn.hidden=!L.pk.length;btn.textContent=`Nowy cel dla: ${name}`;
 }
 $("t-ptask").addEventListener("click",()=>{PT={kid:PT.kid,tasks:null,hist:null};go("ptask");});
+$("pt-tabs").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(!b) return;PTT=b.dataset.t;renderPTask();});
 $("pt-kids").addEventListener("click",e=>{const b=e.target.closest("button");if(!b||b.dataset.id===PT.kid) return;PT={kid:b.dataset.id,tasks:null,hist:null};renderPTask();});
+$("pickbar-x").addEventListener("click",()=>{pickOff();go("ptask");});
 $("pt-list").addEventListener("click",async e=>{
-  const g=e.target.closest("[data-give]"),d=e.target.closest("[data-del]");if(!g&&!d) return;
+  const L=LIB(),q=a=>e.target.closest(`[${a}]`);let b;
+  if((b=q("data-ren"))){const x=L.ex.find(y=>y.id===b.dataset.ren);const n=x&&prompt("Nazwa ćwiczenia",x.name);if(n&&n.trim()){x.name=n.trim().slice(0,60);savePrefs();renderPTask();}return;}
+  if((b=q("data-delx"))){const used=L.pk.filter(p=>p.ex.includes(b.dataset.delx));
+    if(!confirm(used.length?`Usunąć ćwiczenie? Zniknie też z pakietów: ${used.map(p=>p.name).join(", ")}. Cele, które dziecko już ma, zostają.`:"Usunąć to ćwiczenie?")) return;
+    L.ex=L.ex.filter(x=>x.id!==b.dataset.delx);L.pk=L.pk.map(p=>({...p,ex:p.ex.filter(id=>id!==b.dataset.delx)}));savePrefs();renderPTask();return;}
+  if((b=q("data-delpk"))){if(!confirm("Usunąć ten pakiet? Cele, które dziecko już ma, zostają.")) return;L.pk=L.pk.filter(p=>p.id!==b.dataset.delpk);savePrefs();renderPTask();return;}
+  if((b=q("data-edpk"))){openPk(L.pk.find(p=>p.id===b.dataset.edpk));return;}
+  const g=q("data-give"),d=q("data-del");if(!g&&!d) return;
   const id=(g||d).dataset.give||(g||d).dataset.del;
-  if(d&&!confirm("Usunąć to zadanie? Dziecko przestanie je widzieć.")) return;
+  if(d&&!confirm("Usunąć ten cel? Dziecko przestanie go widzieć.")) return;
   (g||d).disabled=true;
-  try{await ptSave(L=>g?L.map(t=>t.id===id?{...t,given:Date.now()}:t):L.filter(t=>t.id!==id));
-    $("pt-msg").textContent=g?"Zapisane – zadanie znika z telefonu dziecka.":"Usunięte.";renderPTask();}
-  catch(x){$("pt-msg").textContent=acctErr(x);(g||d).disabled=false;}
+  try{await ptSave(T=>g?T.map(t=>t.id===id?{...t,given:Date.now()}:t):T.filter(t=>t.id!==id));
+    PT.msg=g?"Zapisane – cel znika z telefonu dziecka.":"Usunięte.";renderPTask();}
+  catch(x){ptMsg(acctErr(x));(g||d).disabled=false;}
 });
-// edytor: warunki włączane przełącznikiem, wartości strzałkami
+$("pt-new").addEventListener("click",()=>{if(PTT==="ex") pickOn();else if(PTT==="pk") openPk(null);else openGoalEd();});
+
+// pakiet: nazwa + wybrane ćwiczenia (kolejność jak w bibliotece)
+function openPk(p){
+  PK={id:p?p.id:null,name:p?p.name:`Pakiet ${LIB().pk.length+1}`,ex:new Set(p?p.ex:[])};
+  $("pked-h").textContent=p?"Zmień pakiet":"Nowy pakiet";$("pk-name").value=PK.name;$("pk-err").textContent="";renderPk();$("pked").hidden=false;$("pk-name").focus();
+}
+function renderPk(){const L=LIB(),X=L.ex.filter(x=>PK.ex.has(x.id));
+  $("pk-list").innerHTML=L.ex.map(x=>{const on=PK.ex.has(x.id);return `<button type="button" class="row sw${on?" sel":""}" data-x="${x.id}" aria-pressed="${on}"><span class="rt"><b>${esc(x.name)}</b><small>${CUP_SUBJ[exSubj(x.spec)]||""} · do ${x.pts} pkt</small></span><i class="tg" aria-hidden="true"></i></button>`;}).join("");
+  $("pk-sum").textContent=X.length?`${X.length} ${X.length===1?"ćwiczenie":X.length<5?"ćwiczenia":"ćwiczeń"} · do ${sumPts(X)} pkt za całość`:"Wybierz co najmniej jedno ćwiczenie";}
+$("pk-list").addEventListener("click",e=>{const b=e.target.closest("[data-x]");if(!b) return;const id=b.dataset.x;PK.ex.has(id)?PK.ex.delete(id):PK.ex.add(id);renderPk();});
+$("pked-x").addEventListener("click",()=>{$("pked").hidden=true;});
+$("pk-ok").addEventListener("click",()=>{
+  const L=LIB(),name=$("pk-name").value.trim().slice(0,40),ex=L.ex.filter(x=>PK.ex.has(x.id)).map(x=>x.id);
+  if(!name){$("pk-err").textContent="Wpisz nazwę pakietu.";return;}if(!ex.length){$("pk-err").textContent="Wybierz co najmniej jedno ćwiczenie.";return;}
+  L.pk=PK.id?L.pk.map(p=>p.id===PK.id?{...p,name,ex}:p):[...L.pk,{id:newId("p"),name,ex}];savePrefs();$("pked").hidden=true;
+  PT.msg=PK.id?"Pakiet zmieniony. Cele, które dziecko już ma, zostają bez zmian.":"Pakiet zapisany.";renderPTask();
+});
+
+// cel: pakiety + zasady (ocena dla każdego ćwiczenia, ile razy albo codziennie, termin) + nagroda
 const TE_COND=[
-  {k:"g",name:"Ocena co najmniej",sub:"liczą się tylko takie wyniki",vals:[2,3,4,5,6],def:5,fmt:v=>`${v}`},
-  {k:"reps",name:"Ile razy",sub:"ukończone ćwiczenia",vals:[1,2,3,4,5,6,7,8,10,12,15,20,25,30],def:3,fmt:v=>`${v}×`},
-  {k:"pts",name:"Ile punktów",sub:"punkty za dobre odpowiedzi",vals:CUP_STEPS,def:200,fmt:v=>`${v}`},
-  {k:"days",name:"Codziennie",sub:"tyle dni z rzędu",vals:[2,3,4,5,6,7,10,14,21,30],def:5,fmt:v=>`${v} dni`},
+  {k:"g",name:"Ocena co najmniej",sub:"każde ćwiczenie musi mieć taką ocenę",vals:[2,3,4,5,6],def:5,fmt:v=>`${v}`},
+  {k:"reps",name:"Ile razy",sub:"ile razy zrobić całość",vals:[1,2,3,4,5,6,7,8,10,12,15,20],def:1,fmt:v=>`${v}×`},
+  {k:"days",name:"Codziennie",sub:"całość każdego dnia, tyle dni z rzędu",vals:[2,3,4,5,6,7,10,14,21,30],def:5,fmt:v=>`${v} dni`},
   {k:"until",name:"Do kiedy",sub:"termin na zrobienie"}];
 const isoDay=t=>{const d=new Date(t);return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,"0")}-${String(d.getDate()).padStart(2,"0")}`;};
+function openGoalEd(){
+  TE={pk:new Set(),g:null,reps:1,days:null,until:null};$("te-rw").value="";$("te-err").textContent="";
+  $("tasked-for").textContent=`dla: ${(FAMILY.find(p=>p.id===PT.kid)||{}).name||"dziecka"}`;
+  renderTE();$("tasked").hidden=false;$("tasked-x").focus();
+}
 function renderTE(){
+  const L=LIB(),P=L.pk.filter(p=>TE.pk.has(p.id)),X=P.flatMap(p=>p.ex.map(id=>L.ex.find(x=>x.id===id)).filter(Boolean));
+  $("te-pk").innerHTML=L.pk.map(p=>{const on=TE.pk.has(p.id),px=p.ex.map(id=>L.ex.find(x=>x.id===id)).filter(Boolean);
+    return `<button type="button" class="row sw${on?" sel":""}" data-pk="${p.id}" aria-pressed="${on}"><span class="rt"><b>${esc(p.name)}</b><small>${px.map(x=>esc(x.name)).join(" + ")}</small><small>do ${sumPts(px)} pkt</small></span><i class="tg" aria-hidden="true"></i></button>`;}).join("");
+  $("te-sum").textContent=X.length?`Całość: ${X.length} ${X.length===1?"ćwiczenie":X.length<5?"ćwiczenia":"ćwiczeń"} · do ${sumPts(X)} pkt`:"Wybierz co najmniej jeden pakiet";
   $("te-conds").innerHTML=TE_COND.map(c=>{const on=TE[c.k]!=null,v=TE[c.k];
     const ctl=!on?"":c.k==="until"?`<input type="date" id="te-until" value="${v}" min="${isoDay(Date.now())}" aria-label="Termin">`:
       `<span class="cupset-step"><button type="button" data-c="${c.k}" data-d="-1" aria-label="Mniej – ${c.name}"${c.vals.indexOf(v)<=0?" disabled":""}>−</button><output>${c.fmt(v)}</output><button type="button" data-c="${c.k}" data-d="1" aria-label="Więcej – ${c.name}"${c.vals.indexOf(v)>=c.vals.length-1?" disabled":""}>+</button></span>`;
     return `<div class="cupset-row te-row"><button type="button" class="te-sw${on?" sel":""}" data-sw="${c.k}" role="switch" aria-checked="${on}" aria-label="${c.name}"><i class="tg" aria-hidden="true"></i></button><span class="te-l"><b>${c.name}</b><small>${c.sub}</small></span>${ctl}</div>`;}).join("");
 }
-$("pt-new").addEventListener("click",()=>{
-  TE={what:"any",g:null,reps:3,pts:null,days:null,until:null,cfg:null,n:20,lvl:null};
-  $("te-rw").value="";$("te-err").textContent="";
-  $("tasked-for").textContent=`dla: ${(FAMILY.find(p=>p.id===PT.kid)||{}).name||"dziecka"}`;
-  renderTE();teHead();tePickOpen(false);$("tasked").hidden=false;$("te-acc").focus();
-});
-/* „Co ćwiczyć”: zwinięta miniatura ekranu dziecka – kafle przedmiotów (kopia startu, tylko przedmioty, które dziecko ma),
-   po dotknięciu kafle ćwiczeń tego przedmiotu w jego kolorze; „Własne” z matematyki otwiera okno działań i zakresów. */
-const TE_SJ={"t-math":"mat","t-pl":"pl","t-en":"en","t-zd":"zd"},TE_CLS={mat:"math",pl:"pl",en:"en",zd:"hea"};
-function teHead(){const w=TASK_WHAT.find(x=>x.v===TE.what)||TASK_WHAT[0];
-  $("te-what-t").textContent=TE.what==="any"?"Dowolne ćwiczenia":taskName(TE);
-  $("te-what-s").textContent=TE.what==="any"?"liczy się każde ćwiczenie · dotknij, żeby wybrać":`${w.g}${w.v===TE.what&&!TE.what.includes(":")?" · cały przedmiot":""} · dotknij, żeby zmienić`;}
-function tePickOpen(on){$("te-pick").hidden=!on;$("te-acc").setAttribute("aria-expanded",on);if(on){TE.lvl=TE.what.includes(":")?TE.what.split(":")[0]:null;tePick();}}
-function tePick(){
-  const inner=$("te-inner"),P=PT.prefs||{},sel=v=>TE.what===v?" te-sel":"";
-  if(!TE.lvl){
-    const grid=$("home").querySelector(".tiles2").cloneNode(true);
-    grid.querySelectorAll(":scope>button").forEach(b=>{const sj=TE_SJ[b.id];if(!sj||!subjOn(sj,P)){b.remove();return;}
-      b.dataset.sj=sj;b.hidden=false;b.disabled=false;b.className=b.className.replace(" te-sel","")+(TE.what===sj||TE.what.startsWith(sj+":")?" te-sel":"");
-      const sm=b.querySelector("small");if(sm) sm.textContent=TE.what===sj?"cały przedmiot":TE.what.startsWith(sj+":")?taskName(TE):"dotknij, żeby wybrać";});
-    grid.querySelectorAll("[id]").forEach(el=>el.removeAttribute("id"));grid.querySelectorAll("[aria-describedby]").forEach(el=>el.removeAttribute("aria-describedby"));
-    inner.innerHTML=`<button type="button" class="sbar${sel("any")}" data-v="any"><span class="si" aria-hidden="true" style="background:linear-gradient(135deg,#7048e8,#3b2bb5)">★</span><span class="st"><b>Dowolne ćwiczenia</b><small>liczy się każde ćwiczenie</small></span></button>`;
-    inner.appendChild(grid);
-  }else{
-    const L=TASK_WHAT.filter(w=>(w.v===TE.lvl||w.v.startsWith(TE.lvl+":"))&&(w.v===TE.lvl||w.v==="mat:own"||!MODS.some(g=>g.items.some(x=>x.k===w.v.replace(":","-")))||modOn(w.v.replace(":","-"),P)));
-    inner.innerHTML=`<div class="te-hd"><button type="button" data-up aria-label="Wróć do przedmiotów">‹</button>${CUP_SUBJ[TE.lvl]}</div><div class="tiles2 mat-tiles"></div>`;
-    const g=inner.querySelector(".tiles2");
-    L.forEach(w=>{const b=teTile(w);b.dataset.v=w.v;b.className+=sel(w.v);
-      const sm=b.querySelector("small");if(sm) sm.textContent=w.v===TE.lvl?"liczy się każde ćwiczenie z tego przedmiotu":w.v==="mat:own"?(TE.what==="mat:own"&&TE.cfg?cfgTxt(TE.cfg,TE.n):"wybierz działania, liczby i zakresy"):sm.textContent;
-      if(w.v===TE.lvl) b.querySelector(".tt").textContent="Cały przedmiot";g.appendChild(b);});
-    g.querySelectorAll("[id]").forEach(el=>el.removeAttribute("id"));g.querySelectorAll(".mt-st").forEach(el=>el.remove());
-  }
-  inner.querySelectorAll("button").forEach(b=>{b.tabIndex=0;});
-  inner.parentElement.style.height=Math.ceil(inner.offsetHeight*.5)+"px";
-}
-// kafel ćwiczenia jak w prawdziwej aplikacji: kopia kafla z ekranu przedmiotu albo zbudowany tak samo (zestawy matematyki, tematy zdrowia)
-const TE_SRC={mat:"t-math",pl:"t-pl","pl:slowka":"pl-t-w","pl:dyktando":"pl-t-d","pl:znaczenia":"pl-t-z",en:"t-en","en:tobe":"en-t-tobe","en:slowka":"en-t-v","en:zdania":"en-t-z",zd:"t-zd","zd:spr":"zd-spr"};
-function teTile(w){
-  if(TE_SRC[w.v]){const b=$(TE_SRC[w.v]).cloneNode(true);b.hidden=false;b.disabled=false;b.removeAttribute("aria-describedby");return b;}
-  const d=document.createElement("div");let h;
-  if(w.v==="mat:own") h=`<button type="button" class="tile mt own-t"><span class="wm" aria-hidden="true">⚙</span><span class="tt">Własne działania i zakresy</span><small></small></button>`;
-  else if(w.v.startsWith("mat:")){const st=SETS.find(x=>"mat:"+x.id===w.v),c={...CFG0,...st.cfg},o=["+","−","×",":"].filter(x=>c.ops.includes(x)),gc=o.length>1&&SET_TONE[o[0]]!==SET_TONE[o[1]]?"#7048e8":SET_TONE[o[0]];
-    h=`<button type="button" class="tile mt" style="--gc:${gc}"><span class="wm" aria-hidden="true">${MAT_GLYPH[st.id]||o.join("")}</span><span class="tt">${st.name}</span><small>${st.n} ${dzialan(st.n)}</small></button>`;}
-  else{const t=ZD_TOPICS.find(x=>"zd:"+x.id===w.v);h=`<button type="button" class="tile mt" style="--gc:${ZD_TONE[t.id]}"><span class="tt">${t.name}</span><small>${t.qs.length} pytań</small></button>`;}
-  d.innerHTML=h;return d.firstChild;}
-function teOwn(){openAskTask(TE.what==="mat:own"?TE.cfg:null,TE.n,(cfg,n)=>{TE.cfg=cfg;TE.n=n;TE.what="mat:own";tePickOpen(false);});}
-$("te-acc").addEventListener("click",()=>tePickOpen($("te-pick").hidden));
-$("te-inner").addEventListener("click",e=>{const b=e.target.closest("button");if(!b) return;
-  if(b.dataset.sj){TE.lvl=b.dataset.sj;tePick();return;}
-  if(b.hasAttribute("data-up")){TE.lvl=null;tePick();return;}
-  const v=b.dataset.v;if(!v) return;if(v==="mat:own"){teOwn();return;}
-  TE.what=v;teHead();tePickOpen(false);});
+$("te-pk").addEventListener("click",e=>{const b=e.target.closest("[data-pk]");if(!b) return;const id=b.dataset.pk;TE.pk.has(id)?TE.pk.delete(id):TE.pk.add(id);renderTE();});
 $("te-conds").addEventListener("change",e=>{if(e.target.id==="te-until") TE.until=e.target.value||null;});
 $("te-conds").addEventListener("click",e=>{
-  const sw=e.target.closest("[data-sw]");if(sw){const c=TE_COND.find(x=>x.k===sw.dataset.sw);
-    TE[c.k]=TE[c.k]!=null?null:c.k==="until"?isoDay(Date.now()+7*864e5):c.def;renderTE();return;}
+  const sw=e.target.closest("[data-sw]");if(sw){const c=TE_COND.find(x=>x.k===sw.dataset.sw),on=TE[c.k]!=null;
+    TE[c.k]=on?null:c.k==="until"?isoDay(Date.now()+7*864e5):c.def;
+    if(!on&&c.k==="days") TE.reps=null;if(!on&&c.k==="reps") TE.days=null;if(on&&c.k==="days") TE.reps=1;if(on&&c.k==="reps") TE.reps=null; // ile razy albo codziennie
+    if(TE.reps==null&&TE.days==null) TE.reps=1;renderTE();return;}
   const b=e.target.closest("button[data-c]");if(!b) return;const c=TE_COND.find(x=>x.k===b.dataset.c),k=c.vals.indexOf(TE[c.k])+ +b.dataset.d;
   if(k>=0&&k<c.vals.length){TE[c.k]=c.vals[k];renderTE();}});
 $("tasked-x").addEventListener("click",()=>{$("tasked").hidden=true;});
 $("te-ok").addEventListener("click",async()=>{
-  const rw=$("te-rw").value.trim(),err=$("te-err");
-  if(TE.g==null&&TE.reps==null&&TE.pts==null&&TE.days==null){err.textContent="Włącz co najmniej jeden warunek: ocenę, ile razy, punkty albo codziennie.";return;}
+  const L=LIB(),rw=$("te-rw").value.trim(),err=$("te-err");
+  const packs=L.pk.filter(p=>TE.pk.has(p.id)).map(p=>({id:p.id,name:p.name,ex:p.ex.map(id=>L.ex.find(x=>x.id===id)).filter(Boolean).map(x=>({id:x.id,name:x.name,spec:x.spec,pts:x.pts}))})).filter(p=>p.ex.length);
+  if(!packs.length){err.textContent="Wybierz co najmniej jeden pakiet.";return;}
   if(!rw){err.textContent="Wpisz nagrodę.";$("te-rw").focus();return;}
-  if(TE.what==="mat:own"&&!TE.cfg){err.textContent="Ustaw działania i zakresy.";return;}
-  const t={id:"t"+Date.now().toString(36)+Math.random().toString(36).slice(2,6),what:TE.what,reward:rw,at:Date.now()};
-  if(TE.what==="mat:own"){t.cfg=TE.cfg;t.n=TE.n;}
-  ["g","reps","pts","days","until"].forEach(k=>{if(TE[k]!=null) t[k]=TE[k];});
+  const t={id:newId("g"),packs,reward:rw,at:Date.now()};
+  ["g","reps","days","until"].forEach(k=>{if(TE[k]!=null) t[k]=TE[k];});
   const b=$("te-ok");b.disabled=true;
-  try{await ptSave(L=>[...L,t]);$("tasked").hidden=true;$("pt-msg").textContent="Dodane. Telefon dziecka pokaże zadanie przy najbliższym otwarciu aplikacji.";renderPTask();}
+  try{await ptSave(T=>[...T,t]);$("tasked").hidden=true;PT.msg="Dodane. Telefon dziecka pokaże cel przy najbliższym otwarciu aplikacji.";renderPTask();}
   catch(x){err.textContent=acctErr(x);}
   b.disabled=false;
 });

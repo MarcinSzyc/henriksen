@@ -117,18 +117,18 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   dawne `mods.soon:false` wyłącza obie). Zapis w `PREFS.mods` dziecka (klucz w `PARENT_KEYS`),
   `applyMods()` ukrywa kafle; przedmiot znika, gdy wszystkie jego moduły są wyłączone. `subj._on` w podsumowaniu lig wyklucza
   dziecko z rankingu przedmiotu, którego nie ma.
-- **Zadania od rodzica (`#ptask`, `#zadania`, pasek rodzica „Zadania dla dziecka”):** zadanie `{id,what,g?,reps?,pts?,days?,until?,reward,at,given?}`
-  w `PREFS.tasks` dziecka (klucz rodzica w `PARENT_KEYS`; `ptSave` czyta świeże ustawienia dziecka, zmienia tylko `tasks` i robi upsert).
-  `what` z `TASK_WHAT` (dowolne / przedmiot / zestaw, moduł, temat; `m(s)` dopasowuje sesję, `open()` otwiera ćwiczenie). `taskProg(t,H)`:
-  sesje od `at` do końca dnia `until`; g = ocena co najmniej (wtedy liczą się tylko takie), reps = ukończone, pts = `sesPts`, days = dni z rzędu;
-  same g = 1 raz. Dziecko: kafel `.task-t` z tarczą `dartSvg()` w `#ptasks` nad „Dokończ” (`renderTasks`, bez wydanych i po terminie),
-  `tasksCheck()` (z `cupsCheck`) pokazuje raz „Zadanie zaliczone!” (`#tasknew`, `PREFS.taskSeen`). Rodzic: lista z postępem z sesji
-  dziecka w bazie, edytor `#tasked` (przełączniki + strzałki `TE_COND`), „Nagroda wydana” = `given`, „Usuń”. Bez nowego SQL.
-  „Co ćwiczyć” w edytorze: zwijany akordeon `#te-acc` z miniaturą telefonu (`tePick`): kafle przedmiotów skopiowane ze startu,
-  potem kafle ćwiczeń w kolorach z prawdziwych ekranów (`teTile`, `TE_SRC`), tylko moduły włączone dziecku (`PT.prefs.mods`).
-  „Własne działania i zakresy” (`mat:own`) otwiera okno „Ułóż własne” w trybie zadania (`openAskTask`, `ASKTASK`, przycisk „Gotowe”;
-  walidacja w `askCfg()`); zadanie dostaje `cfg` i `n`, kafel dziecka startuje dokładnie te działania z `cfg.task = id zadania`,
-  a liczą się tylko sesje z tym `cfg.task` (`w.m(s,t)`, `w.open(t)`). Opis ustawień: `cfgTxt`, nazwa zadania: `taskName`.
+- **Cele od rodzica (`#ptask`, `#zadania`, pasek rodzica „Cele dla dziecka”, zakładki `#pt-tabs` Cele / Pakiety / Ćwiczenia, `PTT`):**
+  - Ćwiczenie: „Dodaj ćwiczenie” włącza tryb zapisywania (`PICK`, `pickOn`, pasek `#pickbar`) – rodzic wybiera ćwiczenie na prawdziwych
+    ekranach, a `startSet` / `confirmAsk` / `pwStart` / `pdStart` / `pzStart` / `enStart` zamiast startu wołają `pickSave(spec,nazwa,pkt)`
+    (Poćwicz trudne, trudne słówka i słowo dnia – `pickNo`). Spec: mat `{cfg,n}`, pw `{pairs,n}`, pd `{dict}`, pz `{lvl,n}`, en `{cfg,n}` (też zdrowie).
+    Biblioteka w ustawieniach rodzica `PREFS.lib = {ex:[{id,name,spec,pts}], pk:[{id,name,ex:[id]}]}` (`LIB()`).
+  - Pakiet: 1+ zapisanych ćwiczeń (`#pked`, `openPk`). Cel: kopia 1+ pakietów w `PREFS.tasks` dziecka (klucz w `PARENT_KEYS`, `ptSave` = upsert
+    jego ustawień) `{id,packs:[{id,name,ex:[…]}],g?,reps?|days?,until?,reward,at,given?}` (`#tasked`, `openGoalEd`, `TE_COND`: ocena dla każdego
+    ćwiczenia, ile razy albo codziennie – wykluczają się, termin). Stare zadania bez `packs` są odrzucane przy wczytaniu.
+  - Postęp `taskProg`: liczą się tylko sesje z `cfg.goal = id celu` i `cfg.gx = "nr pakietu:id ćwiczenia"` (ukończone, ocena ≥ g, od `at` do `until`).
+    Przejście = każde ćwiczenie celu; reps = min. liczba zaliczeń ćwiczeń, days = dni, w których zaliczone było całe przejście, z rzędu.
+  - Dziecko: kafel z tarczą (`taskTile`, `dartSvg`) w `#ptasks` nad „Dokończ”; dotknięcie = lista ćwiczeń z ✓ (`#goalv`, `openGoal`),
+    ćwiczenie startuje `exRun(x,{goal,gx})` ze świeżym losowaniem. `tasksCheck()` raz pokazuje „Cel zaliczony!” (`#tasknew`, `PREFS.taskSeen`).
 - **Dokończ sesję (`#resume` na górze startu, `renderResume`):** niedokończona sesja z dowolnego modułu = kafel „Dokończ: …” z ✕.
   Matematyka: zapis `KEY` (jak dotąd). Gry `PW`/`PD`/`PZ`/`EN`: migawka `gameSnap()` zapisywana w `plLiveNow()` (po każdej
   zmianie) do `henriksen-wznow` = `{[id konta]:{game,mat}}` – poza `STATE_KEYS`, więc przeżywa wylogowanie (przy „Wyloguj”
