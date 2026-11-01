@@ -132,6 +132,7 @@ header .grow{flex:1;min-width:0}
 .heat .hd.hot{color:#fff}
 .heat .hd.on{outline:2px solid var(--fg);outline-offset:1px}
 .ask-btns.bk button{font-size:.9rem}
+.home-btn{width:40px;height:40px;flex:none;padding:0;border:0;border-radius:12px;background:none;cursor:pointer;overflow:hidden}.home-btn img{width:100%;height:100%;display:block}
 .menu-btn{width:40px;height:40px;flex:none;display:flex;align-items:center;justify-content:center;border:2px solid var(--line);border-radius:12px;background:transparent;color:var(--fg);cursor:pointer;padding:0}
 .menu-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
@@ -2308,6 +2309,9 @@ function go(v){
 addEventListener("popstate",()=>{const v=Object.keys(HASH).find(k=>HASH[k]&&HASH[k]===location.hash)||"home";
   showView(v==="play"&&!ACTIVE?"home":v==="plw"&&!PW?"plws":v==="pldt"&&!PD?"pld":v==="plz"&&!PZ?"plzs":v==="enq"&&!EN?"en":v==="enset"&&!ENM?"en":v);});
 document.querySelectorAll("[data-back]").forEach(b=>b.addEventListener("click",()=>{if(location.hash) history.back(); else showView("home");}));
+// logo aplikacji obok „wstecz” w nagłówku każdego ekranu: od razu na stronę główną (rozpoczęte gry zostają do dokończenia)
+document.querySelectorAll("header [data-back]").forEach(b=>{const h=document.createElement("button");h.type="button";h.className="home-btn";h.setAttribute("aria-label","Strona główna");
+  h.innerHTML='<img src="icons/icon.svg" alt="" width="40" height="40">';b.after(h);h.addEventListener("click",()=>go("home"));});
 $("t-math").addEventListener("click",()=>go("mat"));
 $("t-stats").addEventListener("click",()=>go("stats"));
 $("t-pl").addEventListener("click",()=>go("pl"));
