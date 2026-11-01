@@ -121,7 +121,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   - Ćwiczenie: rodzic uruchamia dowolne ćwiczenie jak dziecko; w grze (widoki `GAME_V`: play, plw, pldt, plz, enq) pod nagłówkiem ma przycisk
     „Dodaj do zapisanych celów” (`.addgoal`, `curEx(widok)` czyta stan gry, `addGoalUpd()` z `showView`; już zapisane = „✓ Zapisane w celach”).
     „Poćwicz trudne” zapisuje się jako `{k:"hard"}` (punkty `null` = „zależą od błędów”, `ptsTxt`): u dziecka `exRun` woła `practice(allHard(),true,tag)`,
-    a bez trudnych działań startuje pierwszy zestaw z `SETS`. `practice` zdejmuje stare oznaczenia celu (`untag`). Bez przycisku: trudne słówka, słowo dnia. Spec: mat `{cfg,n}`, pw `{pairs,n}`, pd `{dict}`, pz `{lvl,n}`, en `{cfg,n}` (też zdrowie).
+    a bez trudnych działań startuje pierwszy zestaw z `SETS`. Rodzic zwykle nie ma własnych trudnych działań, więc w zakładce
+    Ćwiczenia jest gotowy przycisk „＋ Matematyka: Poćwicz trudne” (`data-addhard`), dopóki go nie zapisze. `practice` zdejmuje stare oznaczenia celu (`untag`). Bez przycisku: trudne słówka, słowo dnia. Spec: mat `{cfg,n}`, pw `{pairs,n}`, pd `{dict}`, pz `{lvl,n}`, en `{cfg,n}` (też zdrowie).
     Biblioteka w ustawieniach rodzica `PREFS.lib = {ex:[{id,name,spec,pts}], pk:[{id,name,ex:[id]}]}` (`LIB()`); zakładka Ćwiczenia: zmiana nazwy, usuwanie.
   - Pakiet: 1+ zapisanych ćwiczeń (`#pked`, `openPk`). Cel: kopia 1+ pakietów w `PREFS.tasks` dziecka (klucz w `PARENT_KEYS`, `ptSave` = upsert
     jego ustawień) `{id,packs:[{id,name,ex:[…]}],g?,reps?|days?,until?,reward,at,given?}` (`#tasked`, `openGoalEd`, `TE_COND`: ocena dla każdego

@@ -4946,7 +4946,8 @@ async function renderPTask(){
     list.innerHTML=(L.ex.length?L.ex.map(x=>`<div class="pt-li"><span class="rt"><b>${esc(x.name)}</b><small>${CUP_SUBJ[exSubj(x.spec)]||""} · ${ptsTxt(x.pts)}</small></span>`+
       `<button type="button" class="pt-ic" data-ren="${x.id}" aria-label="Zmień nazwę">✎</button><button type="button" class="pt-ic" data-delx="${x.id}" aria-label="Usuń">✕</button></div>`).join("")
       :'<p class="abnote">Nie masz jeszcze zapisanych ćwiczeń.</p>')+
-      '<p class="abnote">Jak dodać: uruchom dowolne ćwiczenie tak jak dziecko (np. Matematyka → Ułóż własne → Start). Pod nagłówkiem zobaczysz przycisk „Dodaj do zapisanych celów”.</p>';
+      '<p class="abnote">Jak dodać: uruchom dowolne ćwiczenie tak jak dziecko (np. Matematyka → Ułóż własne → Start). Pod nagłówkiem zobaczysz przycisk „Dodaj do zapisanych celów”.</p>'+
+      (L.ex.some(x=>x.spec.k==="hard")?"":'<button type="button" class="again" data-addhard>＋ Matematyka: Poćwicz trudne (działania, w których dziecko się myli)</button>');
     btn.hidden=false;btn.textContent="Wybierz ćwiczenie";return;}
   if(PTT==="pk"){
     list.innerHTML=(L.pk.length?L.pk.map(p=>{const X=p.ex.map(id=>L.ex.find(x=>x.id===id)).filter(Boolean);
@@ -4977,6 +4978,7 @@ $("pt-list").addEventListener("click",async e=>{
   if((b=q("data-delx"))){const used=L.pk.filter(p=>p.ex.includes(b.dataset.delx));
     if(!await askYes("Usunąć to ćwiczenie?",used.length?`Zniknie też z pakietów: ${used.map(p=>p.name).join(", ")}. Cele, które dziecko już ma, zostają.`:"","Usuń","Wróć")) return;
     L.ex=L.ex.filter(x=>x.id!==b.dataset.delx);L.pk=L.pk.map(p=>({...p,ex:p.ex.filter(id=>id!==b.dataset.delx)}));savePrefs();renderPTask();return;}
+  if((b=q("data-addhard"))){L.ex=[...L.ex,{id:newId("x"),name:"Matematyka: Poćwicz trudne",spec:{k:"hard"},pts:null}];savePrefs();PT.msg="Zapisane: Matematyka: Poćwicz trudne";renderPTask();return;}
   if((b=q("data-delpk"))){if(!await askYes("Usunąć ten pakiet?","Cele, które dziecko już ma, zostają.","Usuń","Wróć")) return;L.pk=L.pk.filter(p=>p.id!==b.dataset.delpk);savePrefs();renderPTask();return;}
   if((b=q("data-edpk"))){openPk(L.pk.find(p=>p.id===b.dataset.edpk));return;}
   const g=q("data-give"),d=q("data-del");if(!g&&!d) return;
