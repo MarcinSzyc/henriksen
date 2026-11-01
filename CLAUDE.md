@@ -118,12 +118,10 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `applyMods()` ukrywa kafle; przedmiot znika, gdy wszystkie jego moduły są wyłączone. `subj._on` w podsumowaniu lig wyklucza
   dziecko z rankingu przedmiotu, którego nie ma.
 - **Cele od rodzica (`#ptask`, `#zadania`, pasek rodzica „Cele dla dziecka”, zakładki `#pt-tabs` Cele / Pakiety / Ćwiczenia, `PTT`):**
-  - Ćwiczenie: „Dodaj ćwiczenie” włącza tryb zapisywania (`PICK`, `pickOn`, pasek `#pickbar`) – rodzic wybiera ćwiczenie na prawdziwych
-    ekranach, a `startSet` / `confirmAsk` / `pwStart` / `pdStart` / `pzStart` / `enStart` zamiast startu wołają `pickSave(spec,nazwa,pkt)`
-    (Poćwicz trudne, trudne słówka i słowo dnia – `pickNo`). Spec: mat `{cfg,n}`, pw `{pairs,n}`, pd `{dict}`, pz `{lvl,n}`, en `{cfg,n}` (też zdrowie).
-    Biblioteka w ustawieniach rodzica `PREFS.lib = {ex:[{id,name,spec,pts}], pk:[{id,name,ex:[id]}]}` (`LIB()`).
-    Rodzic ma też pod „Start” na ekranach ustawień przycisk „Zapisz jako ćwiczenie do celów” (`.save-ex`, `saveAs(id)` = `PICK="inline"`,
-    zapis bez przejścia, `toast`).
+  - Ćwiczenie: rodzic uruchamia dowolne ćwiczenie jak dziecko; w grze (widoki `GAME_V`: play, plw, pldt, plz, enq) pod nagłówkiem ma przycisk
+    „Dodaj do zapisanych celów” (`.addgoal`, `curEx(widok)` czyta stan gry, `addGoalUpd()` z `showView`; już zapisane = „✓ Zapisane w celach”).
+    Bez przycisku: Poćwicz trudne, trudne słówka, słowo dnia. Spec: mat `{cfg,n}`, pw `{pairs,n}`, pd `{dict}`, pz `{lvl,n}`, en `{cfg,n}` (też zdrowie).
+    Biblioteka w ustawieniach rodzica `PREFS.lib = {ex:[{id,name,spec,pts}], pk:[{id,name,ex:[id]}]}` (`LIB()`); zakładka Ćwiczenia: zmiana nazwy, usuwanie.
   - Pakiet: 1+ zapisanych ćwiczeń (`#pked`, `openPk`). Cel: kopia 1+ pakietów w `PREFS.tasks` dziecka (klucz w `PARENT_KEYS`, `ptSave` = upsert
     jego ustawień) `{id,packs:[{id,name,ex:[…]}],g?,reps?|days?,until?,reward,at,given?}` (`#tasked`, `openGoalEd`, `TE_COND`: ocena dla każdego
     ćwiczenia, ile razy albo codziennie – wykluczają się, termin). Stare zadania bez `packs` są odrzucane przy wczytaniu.
