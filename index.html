@@ -5162,7 +5162,8 @@ function szHush(){clearTimeout(SZ_TL);const t=$("szg-talk");if(t) t.hidden=true;
 // nagranie kwestii przez Web Audio (jak próbki dźwięków); brak pliku = sam dymek
 async function szClip(u){const c=ac();if(!c||!PREFS.szVoice||SZ_CLIPS[u]===false) return;
   try{const b=SZ_CLIPS[u]||(SZ_CLIPS[u]=await fetch(u).then(r=>{if(!r.ok) throw 0;return r.arrayBuffer();}).then(a=>new Promise((ok,no)=>c.decodeAudioData(a,ok,no))));
-    if(SZ_SRC) try{SZ_SRC.stop();}catch(e){}const src=c.createBufferSource();src.buffer=b;src.connect(c.destination);src.start();SZ_SRC=src;}
+    if(SZ_SRC) try{SZ_SRC.stop();}catch(e){}const src=c.createBufferSource();src.buffer=b;src.connect(c.destination);src.start();SZ_SRC=src;
+    const t=$("szg-talk");if(t&&!t.hidden){clearTimeout(SZ_TL);SZ_TL=setTimeout(()=>{t.hidden=true;},Math.max(2600,b.duration*1000+500));}}
   catch(e){SZ_CLIPS[u]=false;}}
 function szSay(cat,who){
   if(!PREFS.szTalk) return;who=who||szPick(SZ_TALKERS.filter(x=>x!==SZ_LAST_T));SZ_LAST_T=who;
