@@ -72,9 +72,9 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   z głosów Piper (CC0: bass, darkman, gosia), robione `bash tools/sz_voices.sh`; po zmianie kwestii uruchom skrypt ponownie. Brak nagrania = sam dymek.
   `szReact(ruch)` (mat > zbicie > promocja > szach > roszada) → `szSay(kategoria)` → dymek `#szg-talk` + `szClip`: jeden element `<audio>`
   (`SZ_AUD`, odblokowany cichym WAV przy pierwszym dotknięciu – na iPhonie Web Audio milczało), zapasowo Web Audio; `navigator.audioSession.type="playback"`.
-  Figury „Klocki” (`set:"mc"`, `szMcPiece`): głowy-sześciany w stylu Minecrafta (`szCube`: przód 8×8 z `MC_HEAD`, wierzch, bok, kolory `MC_PAL`;
+  Figury „Klocki” (`set:"mc"`, `szMcPiece`): płaskie głowy w stylu Minecrafta (`szCube`: twarz 8×8 z `MC_HEAD` na całe pole, kolory `MC_PAL`;
   białe: Steve, Alex, golem, wieśniak, koń, kurczak; czarne: szkielet Withera, Enderman, zombie, wiedźma, pająk, Creeper) z plakietką figury (`SZ_MCP`)
-  w rogu; TNT przy zbiciu też jako sześcian. Komentuje zawsze wybrany komentator (`PREFS.szWho`, dotknięcie awatara na ekranie Wygląd).
+  w rogu; TNT przy zbiciu też płaskie. Komentuje zawsze wybrany komentator (`PREFS.szWho`, dotknięcie awatara na ekranie Wygląd).
   Koniec partii (`szWhy`): dlaczego przegrana (mat – kto szachuje, poddanie) albo remis (pat, powtórzenie, za mało figur, 50 ruchów)
   i największy błąd z partii (`szBlunder`: spadek oceny ≥ 200 po ruchu dziecka, odpowiedź przeciwnika – bicie albo mat – i lepszy ruch).
   Przyciski „Pokaż na planszy” / „Pokaż błąd” (`szReview`, krok po kroku `szReviewNext`, `SZ.rv` = prawdziwa partia, „Wróć do wyniku”).

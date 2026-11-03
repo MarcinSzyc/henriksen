@@ -5129,13 +5129,13 @@ const SZ_MCP={P:["..........","..........","....##....","...####...","...####...
   R:[".##.##.##.",".########.",".########.","..######..","..######..","..######..","..######..","..######..",".########.","##########"],
   Q:["#...##...#","##.####.##","##########",".########.","..######..","...####...","...####...","..######..",".########.","##########"],
   K:["....##....","...####...","....##....",".########.",".########.","..######..","...####...","..######..",".########.","##########"]};
-// głowy-sześciany w stylu Minecrafta: przód 8×8 pikseli, wierzch i bok w rzucie ukośnym; w rogu plakietka z figurą (SZ_MCP)
+// głowy w stylu Minecrafta: płaska twarz 8×8 pikseli na całe pole; w rogu plakietka z figurą (SZ_MCP)
 const MC_PAL={H:"#4a3220",S:"#c49170",s:"#a8744f",W:"#f4f4f4",B:"#3f48cc",N:"#8e5b3a",M:"#6b3424",m:"#a4524a",G:"#f5c518",
   O:"#e07b28",E:"#3aa655",I:"#d8d3cb",i:"#ada79c",R:"#9c1f1a",V:"#4a7d2a",T:"#bd8b67",t:"#9c6a48",U:"#3a2414",A:"#5b2d7a",
   h:"#8a5a32",w:"#e8e2d8",K:"#111111",k:"#1e1a26",C:"#f2f2f2",Y:"#f0a020",r:"#d22b2b",D:"#3a3a3a",d:"#2a2a2a",L:"#a8a8a8",
   P:"#c84bd8",p:"#ef8cff",Z:"#5c9c50",z:"#3d6e35",Q:"#1b4a3f",X:"#8fb07a",x:"#6f9160",F:"#3a3029",f:"#4d4036",e:"#e02424",
   c:"#5dbb4a",v:"#45a033",n:"#86d873"};
-// f = przód (wiersze od góry, kolumny od lewej), t = wierzch, ring = obwódka wierzchu (korona), dot = co znaczy „.”
+// f = twarz (wiersze od góry, kolumny od lewej), dot = co znaczy „.”
 const MC_HEAD={
   wK:{f:["G.G..G.G","GGGGGGGG","HSSSSSSH","SSSSSSSS","SWBSSBWS","SSSNNSSS","SSMMMMSS","SSSSSSSS"],t:"H",ring:"G",dot:"H"},
   wQ:{f:["OOGGGGOO","OOOOOOOO","OSSSSSSO","OSSSSSSO","SWESSEWS","SSSssSSS","SSSmmSSS","SSSSSSSS"],t:"O"},
@@ -5150,21 +5150,19 @@ const MC_HEAD={
   bN:{f:["FFFFFFFF","FfFFFFfF","FeFFFFeF","FFeFFeFF","FeeFFeeF","FFFFFFFF","FfFFFFfF","FFFFFFFF"],t:"F"},
   bP:{f:["cvcncvcc","cncvccnc","cKKccKKc","cKKvcKKc","ccvKKccc","cnKKKKcv","ccKKKKcc","cvKccKnc"],t:"c"}};
 const mcShade=(h,f)=>"#"+[1,3,5].map(k=>Math.max(0,Math.min(255,Math.round(parseInt(h.slice(k,k+2),16)*f))).toString(16).padStart(2,"0")).join("");
-// sześcian 64×64: F(i,j) przód, T(i,k) wierzch (k = 0 przy przedniej krawędzi), Sd(k,j) prawy bok; n = pikseli na ścianę
-function szCube(n,F,T,Sd){const c=document.createElement("canvas");c.width=c.height=64;const x=c.getContext("2d"),u=40/n,d=20/n;
-  x.setTransform(u,0,d,-d,2,22);for(let i=0;i<n;i++) for(let k=0;k<n;k++){x.fillStyle=mcShade(T(i,k),1.15);x.fillRect(i,k,1.04,1.04);}
-  x.setTransform(d,-d,0,u,42,22);for(let k=0;k<n;k++) for(let j=0;j<n;j++){x.fillStyle=mcShade(Sd(k,j),.66);x.fillRect(k,j,1.04,1.04);}
-  x.setTransform(u,0,0,u,2,22);for(let i=0;i<n;i++) for(let j=0;j<n;j++){x.fillStyle=F(i,j);x.fillRect(i,j,1.04,1.04);}
-  x.setTransform(1,0,0,1,0,0);x.strokeStyle="rgba(0,0,0,.7)";x.lineWidth=1.5;x.lineJoin="round";x.beginPath();
-  x.moveTo(2,22);x.lineTo(2,62);x.lineTo(42,62);x.lineTo(62,42);x.lineTo(62,2);x.lineTo(22,2);x.closePath();x.moveTo(2,22);x.lineTo(42,22);x.lineTo(62,2);x.moveTo(42,22);x.lineTo(42,62);x.stroke();
-  return {c,x};}
+// płaski klocek 64×64: F(i,j) = kolor piksela (n×n), obrys i lekki cień na dole/prawej jak na ikonach z gry
+function szCube(n,F){const c=document.createElement("canvas");c.width=c.height=64;const x=c.getContext("2d"),u=60/n;
+  for(let i=0;i<n;i++) for(let j=0;j<n;j++){x.fillStyle=F(i,j);x.fillRect(2+i*u,2+j*u,u+.3,u+.3);}
+  x.fillStyle="rgba(255,255,255,.18)";x.fillRect(2,2,60,u/2);x.fillRect(2,2,u/2,60);
+  x.fillStyle="rgba(0,0,0,.25)";x.fillRect(2,62-u/2,60,u/2);x.fillRect(62-u/2,2,u/2,60);
+  x.strokeStyle="#111";x.lineWidth=2;x.strokeRect(1,1,62,62);return {c,x};}
 function szMcPiece(pc){const k="mc"+pc;if(SZ_PCACHE[k]) return SZ_PCACHE[k];
   const H=MC_HEAD[pc],w=pc[0]==="w";let seed=pc.charCodeAt(1)*31+(w?7:3);const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
   const J={},col=(ch,key)=>J[key]||(J[key]=mcShade(MC_PAL[ch==="."?H.dot:ch],.9+rnd()*.17)),fc=(i,j)=>H.f[j][i];
-  const {c,x}=szCube(8,(i,j)=>col(fc(i,j),"f"+i+j),(i,k)=>col(H.ring&&(i===0||i===7||k===0||k===7)?H.ring:H.t,"t"+i+k),(k,j)=>col(fc(0,j),"s"+k+j));
+  const {c,x}=szCube(8,(i,j)=>col(fc(i,j),"f"+i+j));
   // plakietka z figurą: kwadrat w kolorze drużyny w prawym dolnym rogu
-  const G=SZ_MCP[pc[1]],b=1.6;x.fillStyle="#111";x.fillRect(41,41,23,23);x.fillStyle=w?"#f8f9fa":"#212529";x.fillRect(42,42,21,21);
-  x.fillStyle=w?"#212529":"#f8f9fa";for(let r=0;r<10;r++) for(let q=0;q<10;q++) if(G[r][q]==="#") x.fillRect(44.5+q*b,44.5+r*b,b,b);
+  const G=SZ_MCP[pc[1]],b=1.4;x.fillStyle="#111";x.fillRect(44,44,20,20);x.fillStyle=w?"#f8f9fa":"#212529";x.fillRect(45,45,18,18);
+  x.fillStyle=w?"#212529":"#f8f9fa";for(let r=0;r<10;r++) for(let q=0;q<10;q++) if(G[r][q]==="#") x.fillRect(47+q*b,47+r*b,b,b);
   return SZ_PCACHE[k]=c.toDataURL();}
 // pikselowe tekstury trawy i ziemi dla skórki Klocki (rysowane raz)
 let SZ_MC=null;
@@ -5290,7 +5288,7 @@ const szWait=ms=>Math.max(ms,SZ_FXEND-Date.now()+150);
 function szTnt(){if(SZ_TNT) return SZ_TNT;
   const L=new Set(["1,6","2,6","3,6","2,7","2,8","2,9","6,6","6,7","6,8","6,9","9,6","9,7","9,8","9,9","7,7","8,8","12,6","13,6","14,6","13,7","13,8","13,9"]); // T N T
   const side=(i,j)=>j<2||j>13?(i%3?"#5c5c5c":"#3d3d3d"):j>=5&&j<=10?(L.has(i+","+j)?"#222222":"#f1f1f1"):i%4<2?"#d93a2b":"#b52a1e";
-  return SZ_TNT=szCube(16,side,(i,k)=>i>=6&&i<=9&&k>=6&&k<=9?"#2b2b2b":(i+k)%3?"#8a8a8a":"#6e6e6e",(k,j)=>side(k,j)).c.toDataURL();}
+  return SZ_TNT=szCube(16,side).c.toDataURL();}
 function szLayer(ms){const l=document.createElement("div");l.style.cssText="position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden";document.body.appendChild(l);setTimeout(()=>l.remove(),ms);return l;}
 // cząstki z środka pola: cols = kolory, sq = kwadraty (piksele), n = ile, sp = siła
 function szBurst(cell,o){const r=cell.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,l=szLayer(1400);
