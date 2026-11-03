@@ -726,7 +726,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
   linear-gradient(rgba(255,255,255,.75),rgba(255,255,255,.75)) 0 0/2px 12% no-repeat,linear-gradient(rgba(255,255,255,.75),rgba(255,255,255,.75)) 100% 0/2px 12% no-repeat,
   linear-gradient(rgba(255,255,255,.75),rgba(255,255,255,.75)) 0 100%/2px 12% no-repeat,linear-gradient(rgba(255,255,255,.75),rgba(255,255,255,.75)) 100% 100%/2px 12% no-repeat}
 .szb.sk-boisko .sq img{filter:drop-shadow(0 2px 2px rgba(0,0,0,.45))}
-.szb.sk-kosmos{background:#070a1c radial-gradient(1px 1px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 33% 72%,#fff,transparent),radial-gradient(1.5px 1.5px at 58% 34%,#fff,transparent),radial-gradient(1px 1px at 81% 12%,#fff,transparent),radial-gradient(1.5px 1.5px at 72% 86%,#cdd9ff,transparent),radial-gradient(1px 1px at 22% 48%,#fff,transparent),radial-gradient(1px 1px at 92% 58%,#fff,transparent),radial-gradient(1px 1px at 46% 94%,#fff,transparent),radial-gradient(60% 45% at 75% 25%,rgba(151,117,250,.35),transparent),radial-gradient(50% 40% at 20% 80%,rgba(34,139,230,.3),transparent)}
+.szb.sk-kosmos{background:radial-gradient(1px 1px at 12% 18%,#fff,transparent),radial-gradient(1px 1px at 33% 72%,#fff,transparent),radial-gradient(1.5px 1.5px at 58% 34%,#fff,transparent),radial-gradient(1px 1px at 81% 12%,#fff,transparent),radial-gradient(1.5px 1.5px at 72% 86%,#cdd9ff,transparent),radial-gradient(1px 1px at 22% 48%,#fff,transparent),radial-gradient(1px 1px at 92% 58%,#fff,transparent),radial-gradient(1px 1px at 46% 94%,#fff,transparent),radial-gradient(60% 45% at 75% 25%,rgba(151,117,250,.35),transparent),radial-gradient(50% 40% at 20% 80%,rgba(34,139,230,.3),transparent),#070a1c}
 .szb.sk-kosmos .lt{background:rgba(129,140,248,.22)}.szb.sk-kosmos .dk{background:rgba(5,6,20,.35)}
 .szb.sk-kosmos .sq img{filter:drop-shadow(0 0 5px rgba(165,216,255,.9))}
 .szb.sk-klocki .lt{background:var(--mc-l) 0 0/100% 100%;image-rendering:pixelated}.szb.sk-klocki .dk{background:var(--mc-d) 0 0/100% 100%;image-rendering:pixelated}
@@ -5108,10 +5108,10 @@ const SZ_COLORS=[["brown","#f0d9b5","#b58863"],["blue","#dee3e6","#8ca2ad"],["gr
 // rc = przekolorowanie klasycznych figur: w = wypełnienie białych, b = czarnych, l = linie na czarnych; set = własny zestaw figur skórki
 const SZ_SKINS=[{id:"lava",name:"Lawa",lt:"#3a2a27",dk:"#ff6b00",rc:{w:"#ffd43b",b:"#2b2b2b",l:"#ff8c00"}},
   {id:"boisko",name:"Boisko",lt:"#5cb85c",dk:"#4a9e4f",rc:{w:"#4dabf7",b:"#e03131",l:"#fff"}},
-  {id:"kosmos",name:"Kosmos",lt:"#3b3f8f",dk:"#0b0d24",set:"spatial"},
+  {id:"kosmos",name:"Kosmos",lt:"#3b3f8f",dk:"#0b0d24",set:"space"},
   {id:"klocki",name:"Klocki",lt:"#5d9b3a",dk:"#866043",set:"mc"},
   {id:"roboty",name:"Roboty",lt:"#ced4da",dk:"#343a40",rc:{w:"#e9ecef",b:"#495057",l:"#22d3ee"}}];
-const SZ_SETS=[["cburnett","Klasyczne"],["mc","Klocki"],["pixel","Piksele"],["horsey","Kreskówka"],["anarcandy","Szalone"],["fantasy","Fantasy"],["rhosgfx","Drewniane"],["spatial","Kosmiczne"],["california","Nowoczesne"]];
+const SZ_SETS=[["cburnett","Klasyczne"],["mc","Klocki"],["space","Kosmos"],["pixel","Piksele"],["horsey","Kreskówka"],["anarcandy","Szalone"],["fantasy","Fantasy"],["rhosgfx","Drewniane"],["spatial","Kosmiczne"],["california","Nowoczesne"]];
 const szSkin=()=>SZ_SKINS.find(x=>x.id===PREFS.szBoard)||null;
 const szSet=()=>PREFS.szPcs!=="auto"&&SZ_SETS.some(x=>x[0]===PREFS.szPcs)?PREFS.szPcs:(szSkin()&&szSkin().set)||"cburnett";
 const SZ_PCACHE={};
@@ -5120,6 +5120,7 @@ function szRecolor(uri,c,rc){let x=atob(uri.split(",")[1]);
   return "data:image/svg+xml;base64,"+btoa(x);}
 function szPcImg(pc,set,sk){set=set||szSet();sk=sk===undefined?szSkin():sk;
   if(set==="mc") return szMcPiece(pc);
+  if(set==="space") return szSpacePiece(pc);
   if(set!=="cburnett") return `chess/pieces/${set}/${pc}.svg`;
   if(!sk||!sk.rc) return SZ_IMG[pc];const k=sk.id+pc;return SZ_PCACHE[k]||(SZ_PCACHE[k]=szRecolor(SZ_IMG[pc],pc[0],sk.rc));}
 // obrazki figur na klockach (10×10 pikseli); o = oko skoczka
@@ -5164,6 +5165,29 @@ function szMcPiece(pc){const k="mc"+pc;if(SZ_PCACHE[k]) return SZ_PCACHE[k];
   const G=SZ_MCP[pc[1]],b=1.4;x.fillStyle="#111";x.fillRect(44,44,20,20);x.fillStyle=w?"#f8f9fa":"#212529";x.fillRect(45,45,18,18);
   x.fillStyle=w?"#212529":"#f8f9fa";for(let r=0;r<10;r++) for(let q=0;q<10;q++) if(G[r][q]==="#") x.fillRect(47+q*b,47+r*b,b,b);
   return SZ_PCACHE[k]=c.toDataURL();}
+// figury kosmiczne (SVG): król = Słońce, hetman = planeta z pierścieniem, wieża = rakieta, goniec = kometa, skoczek = UFO, pion = gwiazdka;
+// białe złoto-niebieskie, czarne fioletowo-czerwone; w rogu plakietka z klasyczną figurą
+const SZ_SPC={w:{a:"#ffd43b",b:"#fff9db",c:"#4dabf7",d:"#1971c2"},b:{a:"#cc5de8",b:"#f3d9fa",c:"#ff6b6b",d:"#862e9c"}};
+function szSpacePiece(pc){const k="sp"+pc;if(SZ_PCACHE[k]) return SZ_PCACHE[k];
+  const C=SZ_SPC[pc[0]],o=`stroke="#10102a" stroke-width="3" stroke-linejoin="round"`;let g="";
+  const star=(cx,cy,R,r)=>Array.from({length:10},(_,i)=>{const a=-Math.PI/2+i*Math.PI/5,q=i%2?r:R;return `${(cx+q*Math.cos(a)).toFixed(1)},${(cy+q*Math.sin(a)).toFixed(1)}`;}).join(" ");
+  switch(pc[1]){
+    case "K":g=Array.from({length:12},(_,i)=>`<polygon points="47,6 53,6 50,20" fill="${C.a}" ${o} transform="rotate(${i*30} 50 48)"/>`).join("")+
+      `<circle cx="50" cy="48" r="25" fill="${C.a}" ${o}/><circle cx="50" cy="48" r="17" fill="${C.b}" opacity=".55"/><circle cx="42" cy="40" r="6" fill="#fff" opacity=".8"/>`;break;
+    case "Q":g=`<path d="M8 58 A42 13 -18 0 1 92 32" fill="none" stroke="${C.c}" stroke-width="7" stroke-linecap="round"/>`+
+      `<circle cx="50" cy="46" r="26" fill="${C.a}" ${o}/><path d="M27 38 Q50 30 73 38 M25 50 Q50 43 75 50" stroke="${C.d}" stroke-width="4" fill="none" opacity=".55"/><circle cx="41" cy="36" r="6" fill="#fff" opacity=".75"/>`+
+      `<path d="M92 32 A42 13 -18 0 1 8 58" fill="none" stroke="${C.c}" stroke-width="7" stroke-linecap="round" stroke-dasharray="0 52 200"/>`;break;
+    case "R":g=`<path d="M38 70 Q50 98 62 70 Z" fill="#ff922b" ${o}/><path d="M43 70 Q50 88 57 70Z" fill="#ffe066"/>`+
+      `<path d="M36 52 L22 74 L38 70 Z M64 52 L78 74 L62 70 Z" fill="${C.c}" ${o}/><path d="M50 6 Q72 28 64 72 L36 72 Q28 28 50 6 Z" fill="${C.b}" ${o}/>`+
+      `<path d="M50 6 Q62 18 64 28 L36 28 Q38 18 50 6 Z" fill="${C.a}" ${o}/><circle cx="50" cy="44" r="9" fill="${C.c}" ${o}/><circle cx="47" cy="41" r="3" fill="#fff"/>`;break;
+    case "B":g=`<path d="M70 26 L14 90" stroke="${C.c}" stroke-width="16" stroke-linecap="round" opacity=".35"/><path d="M68 30 L22 86" stroke="${C.c}" stroke-width="9" stroke-linecap="round" opacity=".6"/>`+
+      `<path d="M66 33 L30 80" stroke="${C.b}" stroke-width="4" stroke-linecap="round"/><circle cx="68" cy="30" r="18" fill="${C.a}" ${o}/><circle cx="63" cy="25" r="5" fill="#fff" opacity=".8"/>`;break;
+    case "N":g=`<path d="M30 56 Q50 18 70 56 Z" fill="${C.c}" fill-opacity=".55" ${o}/><circle cx="50" cy="44" r="7" fill="${C.b}"/>`+
+      `<ellipse cx="50" cy="60" rx="42" ry="13" fill="${C.a}" ${o}/><ellipse cx="50" cy="57" rx="30" ry="5" fill="${C.b}" opacity=".6"/>`+
+      [24,38,50,62,76].map(x=>`<circle cx="${x}" cy="${x===50?66:64}" r="3.5" fill="${C.d}"/>`).join("")+`<path d="M36 74 L28 92 M64 74 L72 92" stroke="${C.b}" stroke-width="4" stroke-linecap="round" opacity=".7"/>`;break;
+    default:g=`<polygon points="${star(50,52,34,15)}" fill="${C.a}" ${o}/><polygon points="${star(50,52,17,8)}" fill="${C.b}" opacity=".7"/>`;}
+  const badge=`<circle cx="84" cy="84" r="15" fill="${pc[0]==="w"?"#f8f9fa":"#212529"}" stroke="#10102a" stroke-width="2.5"/><image href="${SZ_IMG["w"+pc[1]]}" x="72" y="72" width="24" height="24"/>`;
+  return SZ_PCACHE[k]="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">${g}${badge}</svg>`);}
 // pikselowe tekstury trawy i ziemi dla skórki Klocki (rysowane raz)
 let SZ_MC=null;
 function szMcTex(){if(SZ_MC) return SZ_MC;let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
