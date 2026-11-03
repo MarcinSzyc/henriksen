@@ -70,7 +70,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   Komentatorzy (`PREFS.szTalk`, `PREFS.szVoice`): `SZ_TALKERS` Zbyszek/Janusz/Grażyna (awatary `chess/avatars`), każdy ma własne kwestie
   w `SZ_LINES` (JSON między `/*LINES*/` i `/*END*/` – czyta go `tools/sz_voices.py`) i własny głos: nagrania `chess/voices/<kto>/<kategoria>-<nr>.m4a`
   z głosów Piper (CC0: bass, darkman, gosia), robione `bash tools/sz_voices.sh`; po zmianie kwestii uruchom skrypt ponownie. Brak nagrania = sam dymek.
-  `szReact(ruch)` (mat > zbicie > promocja > szach > roszada) → `szSay(kategoria)` → dymek `#szg-talk` + `szClip`: jeden element `<audio>`
+  `szReact(ruch)` (mat > zbicie > promocja > szach > roszada; ruch dziecka: zbita figura się żali, ruch komputera: kategorie `capBy`/`checkBy`/
+  `promoBy`/`castleBy` – dogryzanie i ostrzeżenia) → `szSay(kategoria)` → dymek `#szg-talk` + `szClip`: jeden element `<audio>`
   (`SZ_AUD`, odblokowany cichym WAV przy pierwszym dotknięciu – na iPhonie Web Audio milczało), zapasowo Web Audio; `navigator.audioSession.type="playback"`.
   Figury „Klocki” (`set:"mc"`, `szMcPiece`): płaskie głowy w stylu Minecrafta (`szCube`: twarz 8×8 z `MC_HEAD` na całe pole, kolory `MC_PAL`;
   białe: Steve, Alex, golem, wieśniak, koń, kurczak; czarne: szkielet Withera, Enderman, zombie, wiedźma, pająk, Creeper) z plakietką figury (`SZ_MCP`)
