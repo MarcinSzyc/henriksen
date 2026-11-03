@@ -68,7 +68,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   Skórki (`PREFS.szSkin`, wybór „Wygląd” na ekranie Szachy 3D, `S3.setSkin`): „classic” = marmurowy zestaw, „pilkarze” = boisko (`makePitch`,
   murawa w kratę, linie, bramki) i zawodnik `chess/3d/skins/footballer.glb` („Casual Character”, Quaternius, CC0, z Poly Pizza) klonowany
   `SkeletonUtils.clone`, stroje przez kolory materiałów (`KIT`: białe = niebiescy, czarne = czerwoni), wzrost `PL_SIZE` (pion najmniejszy),
-  numer na plecach: król 9, hetman 10. Animacje z modelu (`play`): Idle, Run (ruch – `run`), Kick_Left/Right + HitRecieve (zbicie – `kickOut`:
+  numer na plecach i piersi: król 9, hetman 10, wieża w stroju bramkarza (`KIT.gk`), nad głową każdego plakietka z figurą (`BADGE`, sprite
+  bez testu głębi, obrazki figur z `SZ_IMG` przez `mount({img})`). Animacje z modelu (`play`): Idle, Run (ruch – `run`), Kick_Left/Right + HitRecieve (zbicie – `kickOut`:
   piłka, zbity wylatuje łukiem za boisko), Death (mat – `topple`) i Wave (cieszynka drużyny). Kolejne skórki: dinozaury, samochody, kosmos.
 - **Edukacja zdrowotna** (widok `#zd`, hash `#zdrowie`, przedmiot `subj:"zd"`): kafel „Sprawdzian 29.10” (`ZD_DATE`, wszystkie pytania
   w losowej kolejności, `cfg.mode:"spr"`) i 4 tematy z lekcji (`ZD_TOPICS`: wartosc, styl, cialo, zach – `cfg.mode` = id tematu).

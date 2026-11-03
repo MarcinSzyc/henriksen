@@ -34,7 +34,8 @@ let SKIN = 'classic', boardObj = null, pitch = null, FB = null; // FB: model pi�
 const mixers = new Set();
 // piłkarze: wzrost względem króla i stroje drużyn (białe = niebiescy, czarne = czerwoni)
 const PL_SIZE = { K: 1.12, Q: 1.08, R: .86, B: .82, N: .78, P: .6 };
-const KIT = { w: { shirt: 0x1c7ed6, shorts: 0xffffff, socks: 0x1c7ed6 }, b: { shirt: 0xe03131, shorts: 0x212529, socks: 0xe03131 } };
+const KIT = { w: { shirt: 0x1c7ed6, shorts: 0xffffff, socks: 0x1c7ed6, gk: 0x94d82d, team: '#1c7ed6' }, b: { shirt: 0xe03131, shorts: 0x212529, socks: 0xe03131, gk: 0xfcc419, team: '#e03131' } };
+const BADGE = {}; // "wN" → tekstura plakietki nad głową (figura szachowa w kółku w kolorze drużyny)
 
 /* --- start --- */
 export async function mount(container, o) {
@@ -326,6 +327,12 @@ export async function setSkin(name) {
     g.scene.traverse(o => { if (o.isMesh) { o.castShadow = true; o.frustumCulled = false; } });
     const box = new THREE.Box3().setFromObject(g.scene);
     FB = { scene: g.scene, clips: g.animations, h: box.max.y - box.min.y };
+    const img = opts.img || {};
+    await Promise.all(Object.keys(img).map(code => new Promise(ok => { const im = new Image(); im.onload = () => {
+      const cv = document.createElement('canvas'); cv.width = cv.height = 128; const x = cv.getContext('2d');
+      x.beginPath(); x.arc(64, 64, 58, 0, 7); x.fillStyle = KIT[code[0]].team; x.fill(); x.lineWidth = 8; x.strokeStyle = '#fff'; x.stroke();
+      x.drawImage(im, 18, 16, 92, 92); const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; BADGE[code] = t; ok(); };
+      im.onerror = ok; im.src = img[code]; })));
   }
   if (name === SKIN) return;
   clear(); SKIN = name;
@@ -367,15 +374,21 @@ function play(o, n, once, back) {
 function makePlayer(code, sq) {
   const c = code[0], t = code[1], o = SkeletonUtils.clone(FB.scene), k = KIT[c];
   o.traverse(m => { if (!m.isMesh) return; m.material = m.material.clone(); const n = m.material.name;
-    if (n === 'LightBrown') m.material.color.set(k.shirt); if (n === 'LightBlue') m.material.color.set(k.shorts);
+    if (n === 'LightBrown') m.material.color.set(t === 'R' ? k.gk : k.shirt); if (n === 'LightBlue') m.material.color.set(k.shorts);
     if (n === 'White') m.material.color.set(0x111111); if (n === 'Red_Dark') m.material.color.set(k.socks); });
   const s = SQ * 1.75 / FB.h * PL_SIZE[t]; o.scale.setScalar(s);
-  if (t === 'K' || t === 'Q') { // numer na plecach: 9 = król, 10 = hetman
-    const cv = document.createElement('canvas'); cv.width = cv.height = 128; const x = cv.getContext('2d');
-    x.font = '900 92px system-ui,sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.lineWidth = 10; x.strokeStyle = 'rgba(0,0,0,.55)';
-    const n = t === 'K' ? '9' : '10'; x.strokeText(n, 64, 70); x.fillStyle = '#fff'; x.fillText(n, 64, 70);
-    const num = new THREE.Mesh(new THREE.PlaneGeometry(FB.h * .24, FB.h * .24), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(cv), transparent: true, depthWrite: false }));
-    num.rotation.y = Math.PI; num.position.set(0, FB.h * .8, -FB.h * .14); num.renderOrder = 3; o.add(num);
+  const sc = SQ * 1.75 / FB.h * PL_SIZE[t];
+  if (t === 'K' || t === 'Q') { // numer na plecach i na piersi: 9 = król, 10 = hetman
+    const cv = document.createElement('canvas'); cv.width = cv.height = 256; const x = cv.getContext('2d'), n = t === 'K' ? '9' : '10';
+    x.font = '900 190px system-ui,sans-serif'; x.textAlign = 'center'; x.textBaseline = 'middle'; x.lineJoin = 'round';
+    x.lineWidth = 26; x.strokeStyle = '#111'; x.strokeText(n, 128, 140); x.fillStyle = '#fff'; x.fillText(n, 128, 140);
+    const mat = new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(cv), transparent: true, depthWrite: false });
+    for (const z of [-1, 1]) { const num = new THREE.Mesh(new THREE.PlaneGeometry(FB.h * .3, FB.h * .3), mat);
+      num.rotation.y = z < 0 ? Math.PI : 0; num.position.set(0, FB.h * .93, z * FB.h * .15); num.renderOrder = 3; o.add(num); }
+  }
+  if (BADGE[code]) { // plakietka z figurą nad głową – zawsze widoczna
+    const b = new THREE.Sprite(new THREE.SpriteMaterial({ map: BADGE[code], depthTest: false, transparent: true }));
+    b.renderOrder = 20; b.scale.setScalar(SQ * .5 / sc); b.position.set(0, FB.h * 1.18, 0); o.add(b);
   }
   o.position.copy(sqPos(sq, TOP)); o.rotation.y = c === 'w' ? 0 : Math.PI;
   o.userData = { code, y: TOP, player: true, face: o.rotation.y, mixer: new THREE.AnimationMixer(o) };

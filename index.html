@@ -4889,7 +4889,7 @@ async function sz3Ready(){
   const box=$("szb3"),ld=$("szb3-load");box.hidden=false;$("szb").hidden=true;
   if(!window.S3){ld.hidden=false;ld.textContent="Wczytuję szachy 3D…";
     try{const M=await import("./chess/3d/sz3d.js");
-      await M.mount(box,{onTap:szTap,sound:k=>{if(k==="launch"||k==="boom"||k==="ok"||k==="cheer"||k==="tap"||k==="pop") sfx(k);},
+      await M.mount(box,{img:SZ_IMG,onTap:szTap,sound:k=>{if(k==="launch"||k==="boom"||k==="ok"||k==="cheer"||k==="tap"||k==="pop") sfx(k);},
         progress:f=>{ld.textContent=`Wczytuję szachy 3D… ${Math.round(f*100)}%`;}});window.S3=M;}
     catch(e){ld.textContent="Nie udało się wczytać szachów 3D – sprawdź internet albo zagraj w zwykłe szachy.";throw e;}}
   if(PREFS.szSkin!=="classic"){ld.hidden=false;ld.textContent="Wczytuję piłkarzy…";}
