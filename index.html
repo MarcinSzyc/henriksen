@@ -4327,6 +4327,7 @@ function syncLine(){const el=$("acct-sync");if(!el) return;
   el.textContent=t?`W chmurze: ${n} ${sesji(n)} · ostatnio ${String(t.getHours()).padStart(2,"0")}:${String(t.getMinutes()).padStart(2,"0")}`:"Wyniki jeszcze nie były wysłane";}
 addEventListener("online",()=>syncSoon(500));
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible") syncSoon(800);});
+setInterval(()=>{if(document.visibilityState==="visible") syncSoon(0);},60000); // ustawienia od rodzica docierają najpóźniej po minucie
 
 /* rodzic ogląda wyniki dziecka: wybór osoby nad statystykami; dane dziecka tylko do odczytu (VIEW_HIST) */
 let WHO=null,FAMILY=null;
@@ -4725,13 +4726,21 @@ const MODS=[
 // stare ustawienie mods.mat === false (cała matematyka) wyłącza wszystkie jej kafle
 const modOn=(k,P=PREFS)=>!(P&&P.mods&&(P.mods[k]===false||k.startsWith("mat-")&&P.mods.mat===false||(k==="his"||k==="nat")&&P.mods.soon===false&&P.mods[k]!==true));
 const subjOn=(sj,P=PREFS)=>MODS.find(g=>g.items[0].k.startsWith(sj+"-")).items.some(x=>modOn(x.k,P));
+// rodzic wyłączył szachy albo moduł, w którym dziecko jest teraz (np. po synchronizacji) – wyjście, także z trwającej partii
+function szGuard(){
+  const CH=["sz","sz3","szl","szz","szo","szw","szg"];if(!CH.includes(CUR)) return;
+  const need=CUR==="szl"?"sz-nauka":CUR==="szz"?"sz-zadania":CUR==="szo"?"sz-gra":CUR==="sz3"?"sz-3d":
+    CUR==="szg"&&SZ?(SZ.kind==="game"||SZ.cfg&&SZ.cfg.mode==="gra"?"sz-gra":SZ.list?"sz-zadania":"sz-nauka"):null;
+  const all=subjOn("sz"),mod=!need||modOn(need)&&!(CUR==="szg"&&SZ&&SZ.d3&&!modOn("sz-3d"));if(all&&mod) return;
+  if(SZ){SZ.over=true;SZ.busy=true;}szHush();
+  toast(all?"Rodzic wyłączył tę część szachów.":"Rodzic wyłączył szachy.");go(all?"sz":"home");}
 function applyMods(){
   const show=(id,on)=>{const el=$(id);if(el) el.hidden=!on;};
   show("t-math",subjOn("mat"));if(CUR==="mat") renderMat();show("t-pl",subjOn("pl"));show("t-en",subjOn("en"));
   show("pl-t-w",modOn("pl-slowka"));show("pl-t-d",modOn("pl-dyktando"));show("pl-t-z",modOn("pl-znaczenia"));show("pz-day",modOn("pl-znaczenia"));
   show("en-t-tobe",modOn("en-tobe"));show("en-t-v",modOn("en-slowka"));show("en-t-z",modOn("en-zdania"));
   show("t-zd",subjOn("zd"));show("zd-spr",modOn("zd-spr"));show("zd-tw",ZD_TOPICS.some(t=>modOn("zd-"+t.id)));if(CUR==="zd") renderZd();
-  show("t-sz",subjOn("sz"));show("t-his",modOn("his"));show("t-nat",modOn("nat"));
+  show("t-sz",subjOn("sz"));show("t-his",modOn("his"));show("t-nat",modOn("nat"));szGuard();
   {const g=$("t-math").parentElement;g.querySelectorAll(":scope>[data-soon]").forEach(b=>g.appendChild(b));} // kafle „Wkrótce” zawsze na końcu
   show("t-stats",modOn("stats"));show("t-cups",modOn("cups"));show("t-help",modOn("help")); // Ligi: ligHomeLine i niżej
   if($("t-lig")&&!modOn("lig")) $("t-lig").hidden=true;
