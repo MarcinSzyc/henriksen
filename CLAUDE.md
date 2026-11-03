@@ -62,7 +62,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `szLeft()` = limit − rozpoczęte dziś (licznik `henriksen-szdzien` albo ukończone z historii, większe); `szGame` blokuje start, `#szo-lim` pokazuje stan.
   Moduł `sz-3d` ukrywa kafel Szachy 3D.
   `szGuard()` (z `applyMods`, więc też po synchronizacji): gdy rodzic wyłączy szachy albo moduł, w którym dziecko jest (także w trakcie partii),
-  wraca na start albo na ekran Szachy z komunikatem. Synchronizacja co 60 s, gdy aplikacja jest na ekranie.
+  wraca na start albo na ekran Szachy z komunikatem. Telefon dziecka (aplikacja na ekranie) co 60 s pyta tylko o `settings.updated_at`;
+  pełna synchronizacja tylko, gdy rodzic coś zmienił. `ligPublish` wysyła podsumowanie tylko, gdy się zmieniło (`LIGSENT`).
   Ranking gry (Elo, `szElo(historia)`): z ukończonych partii z komputerem, start 400, K 40 przez 20 partii, potem 20, ELO bota z `SZ_OPP`;
   partia z cofnięciem albo podpowiedzią (`SZ.as` → `recs[0].as`) jest towarzyska i nie zmienia rankingu. Rangi `SZ_RANKS` (Pion <400,
   Skoczek, Goniec, Wieża, Hetman, Król ≥1200). Karta `[data-szelo]` na ekranach Szachy i Szachy 3D (`renderSzElo`: ranking, ranga, zmiana

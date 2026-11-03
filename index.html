@@ -4327,7 +4327,10 @@ function syncLine(){const el=$("acct-sync");if(!el) return;
   el.textContent=t?`W chmurze: ${n} ${sesji(n)} · ostatnio ${String(t.getHours()).padStart(2,"0")}:${String(t.getMinutes()).padStart(2,"0")}`:"Wyniki jeszcze nie były wysłane";}
 addEventListener("online",()=>syncSoon(500));
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible") syncSoon(800);});
-setInterval(()=>{if(document.visibilityState==="visible") syncSoon(0);},60000); // ustawienia od rodzica docierają najpóźniej po minucie
+// telefon dziecka, gdy aplikacja jest na ekranie: raz na minutę samo „kiedy zmieniły się moje ustawienia?” (jedna mała odpowiedź);
+// pełna synchronizacja tylko, gdy rodzic coś zmienił – ustawienia docierają najpóźniej po minucie
+setInterval(async()=>{if(document.visibilityState!=="visible"||!syncOn()||!navigator.onLine||!ME||ME.role!=="student"||!SB||!SYNC) return;
+  try{const {data}=await SB.from("settings").select("updated_at").eq("user_id",ME.id).maybeSingle();if(data&&Date.parse(data.updated_at)>SYNC.setAt) syncSoon(0);}catch(e){}},60000);
 
 /* rodzic ogląda wyniki dziecka: wybór osoby nad statystykami; dane dziecka tylko do odczytu (VIEW_HIST) */
 let WHO=null,FAMILY=null;
@@ -4587,11 +4590,12 @@ function histSummary(H,P){
   return {week_start:ymd(MON),week_pts:week,total_pts:total,streak:n,cups,subj};
 }
 async function ligPublish(){ // osobno od reszty synchronizacji: brak tabel lig nie może jej zatrzymać
-  try{const sum=histSummary(loadOwnHist(),PREFS);let r=await SB.from("public_stats").upsert(sum,{onConflict:"user_id"});
+  try{const sum=histSummary(loadOwnHist(),PREFS),key=JSON.stringify(sum);if(key===LIGSENT) throw 0; // bez zmian – nie wysyłaj ponownie
+    let r=await SB.from("public_stats").upsert(sum,{onConflict:"user_id"});if(!r.error) LIGSENT=key;
     if(r.error){delete sum.subj;await SB.from("public_stats").upsert(sum,{onConflict:"user_id"});}}catch(e){} // bez kolumny subj (leagues2.sql) – samo podsumowanie
   try{const {data}=await SB.rpc("my_leagues");if(data){LIGROWS=data;ligHomeLine();}}catch(e){}
 }
-let LIGROWS=null,LIGSEL=null,LIGMODE="week",LIGFORM=null;
+let LIGROWS=null,LIGSEL=null,LIGMODE="week",LIGFORM=null,LIGSENT=null;
 function ligHomeLine(){
   const el=$("t-lig");el.hidden=!modOn("lig");if(el.hidden) return;
   if(!(ME&&ME.role)){$("t-lig-s").textContent="Zaloguj się, żeby grać w lidze z kolegami";el.classList.remove("alert");return;} // gość: zaproszenie
