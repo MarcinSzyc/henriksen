@@ -7,3 +7,7 @@
   `curl -sL https://database.lichess.org/lichess_db_puzzle.csv.zst | zstd -dc | python3 tools/lichess_puzzles.py 160 chess/puzzles.json`
 - Figury (wbudowane w `index.html`) – zestaw „cburnett” z [Lichess](https://github.com/lichess-org/lila/tree/master/public/piece/cburnett),
   autor Colin M.L. Burnett, licencja CC BY-SA 3.0.
+- `3d/three.module.min.js`, `3d/addons/` – [Three.js](https://github.com/mrdoob/three.js) r170, MIT (`3d/LICENSE-three.txt`).
+- `3d/cannon-es.js` – [cannon-es](https://github.com/pmndrs/cannon-es) 0.20.0, MIT (`3d/LICENSE-cannon-es.txt`).
+- `3d/chess3d.glb` – „A Beautiful Game” z [Khronos glTF Sample Assets](https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/ABeautifulGame):
+  Moeen Sayed i Mujtaba Sayed dla SideFX, konwersja glTF Ed Mackey (MaterialX Project), CC BY 4.0; zmniejszony skryptem `tools/chess3d_model.sh`.

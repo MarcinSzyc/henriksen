@@ -89,6 +89,10 @@ i jest na licencji [Mixkit Sound Effects Free License](https://mixkit.co/license
 - Zadania: wybór 480 zadań (mat w 1, 2 i 3) z [bazy zadań Lichess](https://database.lichess.org/#puzzles), CC0 (`chess/puzzles.json`).
 - Figury: zestaw „cburnett” z [Lichess](https://github.com/lichess-org/lila/tree/master/public/piece/cburnett), autor Colin M.L. Burnett, CC BY-SA 3.0.
 - Komputer: własny prosty silnik w `index.html` (bez zewnętrznych usług).
+- Szachy 3D: [Three.js](https://threejs.org) r170 (MIT), [cannon-es](https://github.com/pmndrs/cannon-es) 0.20 (MIT), model
+  [„A Beautiful Game”](https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/ABeautifulGame) – Moeen Sayed i Mujtaba Sayed
+  dla SideFX, konwersja glTF: Ed Mackey (MaterialX Project), licencja [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/);
+  zmniejszony (`tools/chess3d_model.sh`).
 
 ## Uruchomienie lokalnie
 

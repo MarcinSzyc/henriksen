@@ -58,6 +58,13 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   chess.js (30× szybciej niż publiczne `move()`; przy aktualizacji chess.js sprawdź, czy te metody nadal są). Sesje `szArchive`
   (gra: `pct` 100/50/0, `recs[0].c` = w/d/l). Puchary `sz-nauka`/`sz-zadania`/`sz-gra`, zakładka Szachy w statystykach, ligi `LIG_CATS.sz`,
   cele rodzica (`szCurEx`, `szRun`). Wyjście z partii w trakcie jej nie zapisuje (brak „Dokończ” dla szachów).
+- **Szachy 3D** (kafel `#sz-t-3d` na ekranie Szachy → widok `#sz3` z tymi samymi trzema trybami; `SZ3D` = wejście przez 3D, plansza ma `SZ.d3`):
+  moduł ES `chess/3d/sz3d.js` (import map w `<head>`: `three` → `chess/3d/three.module.min.js` r170, `three/addons/` → wybrane dodatki,
+  fizyka `chess/3d/cannon-es.js`), ładowany `sz3Ready()` przy pierwszej planszy 3D. Model `chess/3d/chess3d.glb` = „A Beautiful Game”
+  (Khronos, CC BY 4.0) zmniejszony skryptem `tools/chess3d_model.sh` (gltf-transform: weld, simplify, resize 512, webp, meshopt).
+  `szDraw()` przy `SZ.d3` woła `S3.sync(pozycja, {sel,tg,last,chk,hint,stars,flip})` – ruchy, zbicia (odłamki z fizyką, iskry, błysk, fala),
+  promocje i gwiazdki wynikają z różnicy pozycji; dotyk przez `szTap(pole)`. Efekty: `S3.fireworks(1–3)`, `S3.topple(pole króla)` przy macie
+  (lekcje, zadania, koniec partii – `szGameEnd` najpierw pokazuje efekt, potem ekran końcowy). Poświata (bloom) z wysokim progiem: świecą tylko iskry.
 - **Edukacja zdrowotna** (widok `#zd`, hash `#zdrowie`, przedmiot `subj:"zd"`): kafel „Sprawdzian 29.10” (`ZD_DATE`, wszystkie pytania
   w losowej kolejności, `cfg.mode:"spr"`) i 4 tematy z lekcji (`ZD_TOPICS`: wartosc, styl, cialo, zach – `cfg.mode` = id tematu).
   Pytanie `{q,c,bad,why}` albo prawda/fałsz `PF(q,ok,why)`; `why` = zdanie z notatki. Gra w quizie angielskim (`enStart`,

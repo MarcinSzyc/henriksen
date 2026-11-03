@@ -1,5 +1,6 @@
 <!doctype html><html lang="pl"><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style>
 <title>Henriksen</title>
+<script type="importmap">{"imports":{"three":"./chess/3d/three.module.min.js","three/addons/":"./chess/3d/addons/"}}</script>
 <meta name="description" content="Henriksen – ucz się, ucz. Ćwiczenia z matematyki dla dzieci.">
 <meta name="theme-color" content="#3b5bdb">
 <link rel="manifest" href="manifest.webmanifest">
@@ -711,7 +712,11 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .szb .rk,.szb .fl{position:absolute;font-style:normal;font-size:.6rem;font-weight:800;opacity:.75;pointer-events:none}
 .szb .rk{top:2px;left:3px}.szb .fl{bottom:1px;right:3px}.szb .lt .rk,.szb .lt .fl{color:#b58863}.szb .dk .rk,.szb .dk .fl{color:#f0d9b5}
 .sz-info{min-height:2.6em;margin:8px 2px 10px;font-weight:800;font-size:.95rem;line-height:1.3}.sz-info.ok{color:var(--ok)}.sz-info.bad{color:var(--bad,#e03131)}
-.sz-ctl{display:flex;gap:8px;margin-top:12px}.sz-ctl button{flex:1;min-height:48px}
+.sz-ctl{display:flex;gap:8px;margin-top:12px}
+.szb3{position:relative;width:100%;max-width:560px;margin:0 auto;border-radius:16px;overflow:hidden;min-height:200px;background:#0d1020;touch-action:manipulation}
+.szb3[hidden]{display:none}.szb3 canvas{display:block;width:100%!important;height:auto!important}
+.sz3-load{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;margin:0;font-weight:800;color:#dbe4ff;text-align:center;padding:20px}.sz3-load[hidden]{display:none}
+.sz3-tile{grid-column:1/-1;aspect-ratio:auto!important;min-height:120px;background:linear-gradient(135deg,#7048e8,#1c7ed6 60%,#e64980)!important}.sz-ctl button{flex:1;min-height:48px}
 .sz-gl{background:#f0d9b5!important}.sz-gl img{width:80%;height:80%}.sz-gl.lock{filter:grayscale(1);opacity:.5}
 .sz-st,.sz-stars{color:#f59f00;letter-spacing:2px}.sz-st s,.sz-stars s{text-decoration:none;opacity:.25}.sz-stars{font-size:3rem;text-align:center}
 .sz-promo{display:flex;gap:8px;justify-content:center}.sz-promo button{width:64px;height:64px;border-radius:14px;border:2px solid var(--line);background:#f0d9b5;padding:4px;cursor:pointer}.sz-promo img{width:100%;height:100%}
@@ -950,7 +955,18 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="tiles2 mat-tiles">
     <button type="button" class="tile mt" id="sz-t-learn" style="--gc:#2b8a3e"><span class="wm wm-img" aria-hidden="true"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgdmlld0JveD0iMCAwIDQ1IDQ1Ij48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSI+PHBhdGggc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgZD0iTTIyLjUgMTEuNjNWNk0yMCA4aDUiLz48cGF0aCBmaWxsPSIjZmZmIiBzdHJva2UtbGluZWNhcD0iYnV0dCIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgZD0iTTIyLjUgMjVzNC41LTcuNSAzLTEwLjVjMCAwLTEtMi41LTMtMi41cy0zIDIuNS0zIDIuNWMtMS41IDMgMyAxMC41IDMgMTAuNSIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0xMS41IDM3YzUuNSAzLjUgMTUuNSAzLjUgMjEgMHYtN3M5LTQuNSA2LTEwLjVjLTQtNi41LTEzLjUtMy41LTE2IDRWMjd2LTMuNWMtMy41LTcuNS0xMy0xMC41LTE2LTQtMyA2IDUgMTAgNSAxMHoiLz48cGF0aCBkPSJNMTEuNSAzMGM1LjUtMyAxNS41LTMgMjEgMG0tMjEgMy41YzUuNS0zIDE1LjUtMyAyMSAwbS0yMSAzLjVjNS41LTMgMTUuNS0zIDIxIDAiLz48L2c+PC9zdmc+" alt="" width="44" height="44"></span><span class="tt">Samouczek</span><small id="sz-t-learn-s"></small></button>
     <button type="button" class="tile mt" id="sz-t-puz" style="--gc:#c2410c"><span class="wm" aria-hidden="true">#</span><span class="tt">Zadania</span><small id="sz-t-puz-s"></small></button>
+    <button type="button" class="tile mt sz3-tile" id="sz-t-3d" style="--gc:#7048e8"><span class="wm" aria-hidden="true">3D</span><span class="tt">Szachy 3D</span><small>Figury jak prawdziwe, wybuchy i fajerwerki</small></button>
     <button type="button" class="tile mt" id="sz-t-play" style="--gc:#495057"><span class="wm wm-img" aria-hidden="true"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9IiNmZmYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBkPSJNOCAxMmEyIDIgMCAxIDEtNCAwIDIgMiAwIDEgMSA0IDBtMTYuNS00LjVhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwTTQxIDEyYTIgMiAwIDEgMS00IDAgMiAyIDAgMSAxIDQgME0xNiA4LjVhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwTTMzIDlhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwIi8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIGQ9Ik05IDI2YzguNS0xLjUgMjEtMS41IDI3IDBsMi0xMi03IDExVjExbC01LjUgMTMuNS0zLTE1LTMgMTUtNS41LTE0VjI1TDcgMTR6Ii8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIGQ9Ik05IDI2YzAgMiAxLjUgMiAyLjUgNCAxIDEuNSAxIDEgLjUgMy41LTEuNSAxLTEuNSAyLjUtMS41IDIuNS0xLjUgMS41LjUgMi41LjUgMi41IDYuNSAxIDE2LjUgMSAyMyAwIDAgMCAxLjUtMSAwLTIuNSAwIDAgLjUtMS41LTEtMi41LS41LTIuNS0uNS0yIC41LTMuNSAxLTIgMi41LTIgMi41LTQtOC41LTEuNS0xOC41LTEuNS0yNyAweiIvPjxwYXRoIGZpbGw9Im5vbmUiIGQ9Ik0xMS41IDMwYzMuNS0xIDE4LjUtMSAyMiAwTTEyIDMzLjVjNi0xIDE1LTEgMjEgMCIvPjwvZz48L3N2Zz4=" alt="" width="44" height="44"></span><span class="tt">Graj z komputerem</span><small id="sz-t-play-s"></small></button>
+  </div>
+</div>
+<div class="wrap" id="sz3" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Szachy 3D</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <p class="abnote">To samo co w zwykłych szachach – samouczek, zadania i gra – tylko na planszy 3D: figury suną po polach, zbite rozpadają się na kawałki, a mat kończy się fajerwerkami. Pierwsze wejście pobiera model (kilka MB).</p>
+  <div class="tiles2 mat-tiles">
+    <button type="button" class="tile mt" data-sz3="learn" style="--gc:#2b8a3e"><span class="tt">Samouczek</span><small id="sz3-learn-s"></small></button>
+    <button type="button" class="tile mt" data-sz3="puz" style="--gc:#c2410c"><span class="tt">Zadania</span><small id="sz3-puz-s"></small></button>
+    <button type="button" class="tile mt" data-sz3="play" style="--gc:#495057"><span class="tt">Graj z komputerem</span><small id="sz3-play-s"></small></button>
   </div>
 </div>
 <div class="wrap" id="szl" hidden>
@@ -984,6 +1000,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div id="szg-play">
     <p class="sz-info" id="szg-info" aria-live="polite"></p>
     <div class="szb" id="szb" role="grid" aria-label="Szachownica"></div>
+    <div class="szb3" id="szb3" hidden><p class="sz3-load" id="szb3-load">Wczytuję szachy 3D…</p></div>
     <div class="sz-ctl" id="szg-ctl"></div>
   </div>
   <div id="szg-end" class="pl-end" hidden></div>
@@ -2238,6 +2255,8 @@ const SFX={
   boom:()=>{tone(120,0,.7,"sine",.6,32);noise(0,1.5,.7,"lowpass",3000,120,.008);noise(.02,.35,.3,"highpass",1500,600,.005);
     for(let k=0;k<6;k++) noise(.25+k*.09,.06,.08,"bandpass",2500-k*200,1800,.004);},
   ok:()=>{tone(660,0,.12);tone(990,.09,.2);},
+  tap:()=>{tone(170,0,.08,"sine",.25,90);noise(0,.04,.12,"bandpass",1800,900,.002);}, // figura stawiana na planszy (Szachy 3D)
+  pop:()=>{noise(0,.25,.18,"lowpass",2600,300,.004);for(let k=0;k<4;k++) noise(.08+k*.07,.04,.05,"highpass",4000,5000,.003);},
   goal:()=>{tone(2700,0,.12,"sine",.1);tone(2700,.17,.4,"sine",.1);[523,659,784,1047].forEach((f,k)=>tone(f,.65+k*.08,.22,"triangle",.15));},
   bad:()=>tone(200,0,.28,"square",.07,110),
   cheer:()=>[523,659,784,1047].forEach((f,k)=>tone(f,.25+k*.09,.25,"triangle",.17)),
@@ -2357,8 +2376,8 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",sz:"#szachy",szl:"#szachy-nauka",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",sz:"sz",szl:"szl",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",sz:"sz",sz3:"sz3",szl:"szl",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
@@ -2736,7 +2755,8 @@ function plLiveNow(){
 }
 function plShow(v){
   if(v==="pl") renderPl();
-  if(v==="sz") renderSz();if(v==="szl") renderSzl();if(v==="szz") renderSzz();if(v==="szo") renderSzo();
+  if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();
+  if(window.S3&&v!=="szg") S3.pause();if(v==="szz") renderSzz();if(v==="szo") renderSzo();
   if(v==="plws") renderPws();
   if(v==="pld") renderPd();
   if(v==="plzs") renderPzs();
@@ -4860,10 +4880,23 @@ $("nag-vid-list").addEventListener("click",e=>{const b=e.target.closest("[data-r
    Lekcje „zbierz gwiazdki” liczą ruchy same (szStarMoves), reszta przez chess.js. Sesje w historii z subj:"sz",
    cfg.mode = nauka (lesson) / zadania (theme, rekord ma pr = ocena zadania) / gra (opp, color); ranking zadań i odblokowani
    przeciwnicy liczą się z historii. Silnik (szBest): alfa-beta na wewnętrznych _moves/_makeMove chess.js, siła z SZ_OPP. */
-let CHESS=null;
+let CHESS=null,SZ3D=false; // SZ3D: wejście przez kafel „Szachy 3D” (plansza z chess/3d/sz3d.js)
+window.S3=null;
+// moduł 3D: Three.js + model + fizyka; raz wczytany zostaje (S3.mount przenosi płótno, gdy trzeba)
+async function sz3Ready(){
+  const box=$("szb3"),ld=$("szb3-load");box.hidden=false;$("szb").hidden=true;
+  if(!window.S3){ld.hidden=false;ld.textContent="Wczytuję szachy 3D…";
+    try{const M=await import("./chess/3d/sz3d.js");
+      await M.mount(box,{onTap:szTap,sound:k=>{if(k==="launch"||k==="boom"||k==="ok"||k==="cheer"||k==="tap"||k==="pop") sfx(k);},
+        progress:f=>{ld.textContent=`Wczytuję szachy 3D… ${Math.round(f*100)}%`;}});window.S3=M;}
+    catch(e){ld.textContent="Nie udało się wczytać szachów 3D – sprawdź internet albo zagraj w zwykłe szachy.";throw e;}}
+  ld.hidden=true;S3.clear();S3.resume();S3.resize();
+}
+function sz2d(){$("szb3").hidden=true;$("szb").hidden=false;if(window.S3) S3.pause();}
 async function szLoad(){if(!CHESS) CHESS=(await import("./chess/chess.js")).Chess;return CHESS;}
 const SZ_IMG={"wK":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgdmlld0JveD0iMCAwIDQ1IDQ1Ij48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSI+PHBhdGggc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgZD0iTTIyLjUgMTEuNjNWNk0yMCA4aDUiLz48cGF0aCBmaWxsPSIjZmZmIiBzdHJva2UtbGluZWNhcD0iYnV0dCIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgZD0iTTIyLjUgMjVzNC41LTcuNSAzLTEwLjVjMCAwLTEtMi41LTMtMi41cy0zIDIuNS0zIDIuNWMtMS41IDMgMyAxMC41IDMgMTAuNSIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0xMS41IDM3YzUuNSAzLjUgMTUuNSAzLjUgMjEgMHYtN3M5LTQuNSA2LTEwLjVjLTQtNi41LTEzLjUtMy41LTE2IDRWMjd2LTMuNWMtMy41LTcuNS0xMy0xMC41LTE2LTQtMyA2IDUgMTAgNSAxMHoiLz48cGF0aCBkPSJNMTEuNSAzMGM1LjUtMyAxNS41LTMgMjEgMG0tMjEgMy41YzUuNS0zIDE1LjUtMyAyMSAwbS0yMSAzLjVjNS41LTMgMTUuNS0zIDIxIDAiLz48L2c+PC9zdmc+","wQ":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9IiNmZmYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBkPSJNOCAxMmEyIDIgMCAxIDEtNCAwIDIgMiAwIDEgMSA0IDBtMTYuNS00LjVhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwTTQxIDEyYTIgMiAwIDEgMS00IDAgMiAyIDAgMSAxIDQgME0xNiA4LjVhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwTTMzIDlhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwIi8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIGQ9Ik05IDI2YzguNS0xLjUgMjEtMS41IDI3IDBsMi0xMi03IDExVjExbC01LjUgMTMuNS0zLTE1LTMgMTUtNS41LTE0VjI1TDcgMTR6Ii8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIGQ9Ik05IDI2YzAgMiAxLjUgMiAyLjUgNCAxIDEuNSAxIDEgLjUgMy41LTEuNSAxLTEuNSAyLjUtMS41IDIuNS0xLjUgMS41LjUgMi41LjUgMi41IDYuNSAxIDE2LjUgMSAyMyAwIDAgMCAxLjUtMSAwLTIuNSAwIDAgLjUtMS41LTEtMi41LS41LTIuNS0uNS0yIC41LTMuNSAxLTIgMi41LTIgMi41LTQtOC41LTEuNS0xOC41LTEuNS0yNyAweiIvPjxwYXRoIGZpbGw9Im5vbmUiIGQ9Ik0xMS41IDMwYzMuNS0xIDE4LjUtMSAyMiAwTTEyIDMzLjVjNi0xIDE1LTEgMjEgMCIvPjwvZz48L3N2Zz4=","wR":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9IiNmZmYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBzdHJva2UtbGluZWNhcD0iYnV0dCIgZD0iTTkgMzloMjd2LTNIOXptMy0zdi00aDIxdjR6bS0xLTIyVjloNHYyaDVWOWg1djJoNVY5aDR2NSIvPjxwYXRoIGQ9Im0zNCAxNC0zIDNIMTRsLTMtMyIvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBkPSJNMzEgMTd2MTIuNUgxNFYxNyIvPjxwYXRoIGQ9Im0zMSAyOS41IDEuNSAyLjVoLTIwbDEuNS0yLjUiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBkPSJNMTEgMTRoMjMiLz48L2c+PC9zdmc+","wB":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48ZyBmaWxsPSIjZmZmIiBzdHJva2UtbGluZWNhcD0iYnV0dCI+PHBhdGggZD0iTTkgMzZjMy4zOS0uOTcgMTAuMTEuNDMgMTMuNS0yIDMuMzkgMi40MyAxMC4xMSAxLjAzIDEzLjUgMiAwIDAgMS42NS41NCAzIDItLjY4Ljk3LTEuNjUuOTktMyAuNS0zLjM5LS45Ny0xMC4xMS40Ni0xMy41LTEtMy4zOSAxLjQ2LTEwLjExLjAzLTEzLjUgMS0xLjM1LjQ5LTIuMzIuNDctMy0uNSAxLjM1LTEuOTQgMy0yIDMtMnoiLz48cGF0aCBkPSJNMTUgMzJjMi41IDIuNSAxMi41IDIuNSAxNSAwIC41LTEuNSAwLTIgMC0yIDAtMi41LTIuNS00LTIuNS00IDUuNS0xLjUgNi0xMS41LTUtMTUuNS0xMSA0LTEwLjUgMTQtNSAxNS41IDAgMC0yLjUgMS41LTIuNSA0IDAgMC0uNS41IDAgMnoiLz48cGF0aCBkPSJNMjUgOGEyLjUgMi41IDAgMSAxLTUgMCAyLjUgMi41IDAgMSAxIDUgMHoiLz48L2c+PHBhdGggc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgZD0iTTE3LjUgMjZoMTBNMTUgMzBoMTVtLTcuNS0xNC41djVNMjAgMThoNSIvPjwvZz48L3N2Zz4=","wN":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjIgMTBjMTAuNSAxIDE2LjUgOCAxNiAyOUgxNWMwLTkgMTAtNi41IDgtMjEiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjQgMThjLjM4IDIuOTEtNS41NSA3LjM3LTggOS0zIDItMi44MiA0LjM0LTUgNC0xLjA0Mi0uOTQgMS40MS0zLjA0IDAtMy0xIDAgLjE5IDEuMjMtMSAyLTEgMC00LjAwMyAxLTQtNCAwLTIgNi0xMiA2LTEyczEuODktMS45IDItMy41Yy0uNzMtLjk5NC0uNS0yLS41LTMgMS0xIDMgMi41IDMgMi41aDJzLjc4LTEuOTkyIDIuNS0zYzEgMCAxIDMgMSAzIi8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTkuNSAyNS41YS41LjUgMCAxIDEtMSAwIC41LjUgMCAxIDEgMSAwbTUuNDMzLTkuNzVhLjUgMS41IDMwIDEgMS0uODY2LS41LjUgMS41IDMwIDEgMSAuODY2LjUiLz48L2c+PC9zdmc+","wP":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxwYXRoIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSIgZD0iTTIyLjUgOWMtMi4yMSAwLTQgMS43OS00IDQgMCAuODkuMjkgMS43MS43OCAyLjM4QzE3LjMzIDE2LjUgMTYgMTguNTkgMTYgMjFjMCAyLjAzLjk0IDMuODQgMi40MSA1LjAzLTMgMS4wNi03LjQxIDUuNTUtNy40MSAxMy40N2gyM2MwLTcuOTItNC40MS0xMi40MS03LjQxLTEzLjQ3IDEuNDctMS4xOSAyLjQxLTMgMi40MS01LjAzIDAtMi40MS0xLjMzLTQuNS0zLjI4LTUuNjIuNDktLjY3Ljc4LTEuNDkuNzgtMi4zOCAwLTIuMjEtMS43OS00LTQtNHoiLz48L3N2Zz4=","bK":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgdmlld0JveD0iMCAwIDQ1IDQ1Ij48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSI+PHBhdGggc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgZD0iTTIyLjUgMTEuNlY2Ii8+PHBhdGggZmlsbD0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiIGQ9Ik0yMi41IDI1czQuNS03LjUgMy0xMC41YzAgMC0xLTIuNS0zLTIuNXMtMyAyLjUtMyAyLjVjLTEuNSAzIDMgMTAuNSAzIDEwLjUiLz48cGF0aCBmaWxsPSIjMDAwIiBkPSJNMTEuNSAzN2EyMi4zIDIyLjMgMCAwIDAgMjEgMHYtN3M5LTQuNSA2LTEwLjVjLTQtNi41LTEzLjUtMy41LTE2IDRWMjd2LTMuNWMtMy41LTcuNS0xMy0xMC41LTE2LTQtMyA2IDUgMTAgNSAxMHoiLz48cGF0aCBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBkPSJNMjAgOGg1Ii8+PHBhdGggc3Ryb2tlPSIjZWNlY2VjIiBkPSJNMzIgMjkuNXM4LjUtNCA2LTkuN0MzNC4xIDE0IDI1IDE4IDIyLjUgMjQuNnYyLjEtMi4xQzIwIDE4IDkuOSAxNCA3IDE5LjljLTIuNSA1LjYgNC44IDkgNC44IDkiLz48cGF0aCBzdHJva2U9IiNlY2VjZWMiIGQ9Ik0xMS41IDMwYzUuNS0zIDE1LjUtMyAyMSAwbS0yMSAzLjVjNS41LTMgMTUuNS0zIDIxIDBtLTIxIDMuNWM1LjUtMyAxNS41LTMgMjEgMCIvPjwvZz48L3N2Zz4=","bQ":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48ZyBzdHJva2U9Im5vbmUiPjxjaXJjbGUgY3g9IjYiIGN5PSIxMiIgcj0iMi43NSIvPjxjaXJjbGUgY3g9IjE0IiBjeT0iOSIgcj0iMi43NSIvPjxjaXJjbGUgY3g9IjIyLjUiIGN5PSI4IiByPSIyLjc1Ii8+PGNpcmNsZSBjeD0iMzEiIGN5PSI5IiByPSIyLjc1Ii8+PGNpcmNsZSBjeD0iMzkiIGN5PSIxMiIgcj0iMi43NSIvPjwvZz48cGF0aCBzdHJva2UtbGluZWNhcD0iYnV0dCIgZD0iTTkgMjZjOC41LTEuNSAyMS0xLjUgMjcgMGwyLjUtMTIuNUwzMSAyNWwtLjMtMTQuMS01LjIgMTMuNi0zLTE0LjUtMyAxNC41LTUuMi0xMy42TDE0IDI1IDYuNSAxMy41eiIvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJidXR0IiBkPSJNOSAyNmMwIDIgMS41IDIgMi41IDQgMSAxLjUgMSAxIC41IDMuNS0xLjUgMS0xLjUgMi41LTEuNSAyLjUtMS41IDEuNS41IDIuNS41IDIuNSA2LjUgMSAxNi41IDEgMjMgMCAwIDAgMS41LTEgMC0yLjUgMCAwIC41LTEuNS0xLTIuNS0uNS0yLjUtLjUtMiAuNS0zLjUgMS0yIDIuNS0yIDIuNS00LTguNS0xLjUtMTguNS0xLjUtMjcgMHoiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0iYnV0dCIgZD0iTTExIDM4LjVhMzUgMzUgMSAwIDAgMjMgMCIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2VjZWNlYyIgZD0iTTExIDI5YTM1IDM1IDEgMCAxIDIzIDBtLTIxLjUgMi41aDIwbS0yMSAzYTM1IDM1IDEgMCAwIDIyIDBtLTIzIDNhMzUgMzUgMSAwIDAgMjQgMCIvPjwvZz48L3N2Zz4=","bR":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBzdHJva2UtbGluZWNhcD0iYnV0dCIgZD0iTTkgMzloMjd2LTNIOXptMy41LTcgMS41LTIuNWgxN2wxLjUgMi41em0tLjUgNHYtNGgyMXY0eiIvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBkPSJNMTQgMjkuNXYtMTNoMTd2MTN6Ii8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIGQ9Ik0xNCAxNi41IDExIDE0aDIzbC0zIDIuNXpNMTEgMTRWOWg0djJoNVY5aDV2Mmg1VjloNHY1eiIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2VjZWNlYyIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgc3Ryb2tlLXdpZHRoPSIxIiBkPSJNMTIgMzUuNWgyMW0tMjAtNGgxOW0tMTgtMmgxN20tMTctMTNoMTdNMTEgMTRoMjMiLz48L2c+PC9zdmc+","bB":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48ZyBmaWxsPSIjMDAwIiBzdHJva2UtbGluZWNhcD0iYnV0dCI+PHBhdGggZD0iTTkgMzZjMy40LTEgMTAuMS40IDEzLjUtMiAzLjQgMi40IDEwLjEgMSAxMy41IDIgMCAwIDEuNi41IDMgMi0uNyAxLTEuNiAxLTMgLjUtMy40LTEtMTAuMS41LTEzLjUtMS0zLjQgMS41LTEwLjEgMC0xMy41IDEtMS40LjUtMi4zLjUtMy0uNSAxLjQtMiAzLTIgMy0yeiIvPjxwYXRoIGQ9Ik0xNSAzMmMyLjUgMi41IDEyLjUgMi41IDE1IDAgLjUtMS41IDAtMiAwLTIgMC0yLjUtMi41LTQtMi41LTQgNS41LTEuNSA2LTExLjUtNS0xNS41LTExIDQtMTAuNSAxNC01IDE1LjUgMCAwLTIuNSAxLjUtMi41IDQgMCAwLS41LjUgMCAyeiIvPjxwYXRoIGQ9Ik0yNSA4YTIuNSAyLjUgMCAxIDEtNSAwIDIuNSAyLjUgMCAxIDEgNSAweiIvPjwvZz48cGF0aCBzdHJva2U9IiNlY2VjZWMiIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiIGQ9Ik0xNy41IDI2aDEwTTE1IDMwaDE1bS03LjUtMTQuNXY1TTIwIDE4aDUiLz48L2c+PC9zdmc+","bN":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBmaWxsPSIjMDAwIiBkPSJNMjIgMTBjMTAuNSAxIDE2LjUgOCAxNiAyOUgxNWMwLTkgMTAtNi41IDgtMjEiLz48cGF0aCBmaWxsPSIjMDAwIiBkPSJNMjQgMThjLjM4IDIuOTEtNS41NSA3LjM3LTggOS0zIDItMi44MiA0LjM0LTUgNC0xLjA0LS45NCAxLjQxLTMuMDQgMC0zLTEgMCAuMTkgMS4yMy0xIDItMSAwLTQgMS00LTQgMC0yIDYtMTIgNi0xMnMxLjg5LTEuOSAyLTMuNWMtLjczLTEtLjUtMi0uNS0zIDEtMSAzIDIuNSAzIDIuNWgycy43OC0yIDIuNS0zYzEgMCAxIDMgMSAzIi8+PHBhdGggZmlsbD0iI2VjZWNlYyIgc3Ryb2tlPSIjZWNlY2VjIiBkPSJNOS41IDI1LjVhLjUuNSAwIDEgMS0xIDAgLjUuNSAwIDEgMSAxIDBtNS40My05Ljc1YS41IDEuNSAzMCAxIDEtLjg2LS41LjUgMS41IDMwIDEgMSAuODYuNSIvPjxwYXRoIGZpbGw9IiNlY2VjZWMiIHN0cm9rZT0ibm9uZSIgZD0ibTI0LjU1IDEwLjQtLjQ1IDEuNDUuNS4xNWMzLjE1IDEgNS42NSAyLjQ5IDcuOSA2Ljc1UzM1Ljc1IDI5LjA2IDM1LjI1IDM5bC0uMDUuNWgyLjI1bC4wNS0uNWMuNS0xMC4wNi0uODgtMTYuODUtMy4yNS0yMS4zNHMtNS43OS02LjY0LTkuMTktNy4xNnoiLz48L2c+PC9zdmc+","bP":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxwYXRoIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSIgZD0iTTIyLjUgOWE0IDQgMCAwIDAtMy4yMiA2LjM4IDYuNDggNi40OCAwIDAgMC0uODcgMTAuNjVjLTMgMS4wNi03LjQxIDUuNTUtNy40MSAxMy40N2gyM2MwLTcuOTItNC40MS0xMi40MS03LjQxLTEzLjQ3YTYuNDYgNi40NiAwIDAgMC0uODctMTAuNjVBNC4wMSA0LjAxIDAgMCAwIDIyLjUgOXoiLz48L3N2Zz4="};
 const SZ_F="abcdefgh",SZ_NAME={K:"król",Q:"hetman",R:"wieża",B:"goniec",N:"skoczek",P:"pion"};
+const szKing=c=>{const P=szPos(SZ.g);return Object.keys(P).find(s=>P[s]===c+"K");};
 const szAlg=i=>SZ_F[i&15]+(8-(i>>4)); // pole 0x88 z chess.js → „e4”
 const szPc=p=>p?(p.color+p.type.toUpperCase()):null; // {color:"w",type:"n"} → "wN"
 
@@ -4974,6 +5007,8 @@ function szBest(g,L){
 let SZ=null;
 function szPos(g){const P={},B=g.board();B.forEach((row,y)=>row.forEach((p,x)=>{if(p) P[SZ_F[x]+(8-y)]=szPc(p);}));return P;}
 function szDraw(){
+  if(SZ.d3&&window.S3){const P=SZ.kind==="star"?SZ.pos:szPos(SZ.g),chk=SZ.g&&SZ.g.inCheck()?Object.keys(P).find(s=>P[s]===SZ.g.turn()+"K"):null;
+    S3.sync(P,{sel:SZ.sel,tg:SZ.tg,last:SZ.last,chk,hint:SZ.hint,stars:SZ.stars,flip:SZ.flip});return;}
   const b=$("szb"),P=SZ.kind==="star"?SZ.pos:szPos(SZ.g),fl=SZ.flip;let h="";
   const chk=SZ.g&&SZ.g.inCheck()?Object.keys(P).find(s=>P[s]===SZ.g.turn()+"K"):null;
   for(let r=7;r>=0;r--) for(let f=0;f<8;f++){const y=fl?7-r:r,x=fl?7-f:f,sq=SZ_F[x]+(y+1),pc=P[sq],tg=SZ.tg.includes(sq);
@@ -4989,9 +5024,10 @@ function szTargets(sq){
   const g=SZ.g;if(SZ.busy||SZ.over||g.turn()!==SZ.me) return null;const p=g.get(sq);if(!p||p.color!==SZ.me) return null;
   const t=[...new Set(g.moves({square:sq,verbose:true}).map(m=>m.to))];return t.length?t:null;
 }
-$("szb").addEventListener("click",e=>{const b=e.target.closest("[data-sq]");if(!b||!SZ||SZ.busy) return;const sq=b.dataset.sq;
+function szTap(sq){if(!SZ||SZ.busy||CUR!=="szg") return;
   if(SZ.sel&&SZ.tg.includes(sq)){const from=SZ.sel;SZ.sel=null;SZ.tg=[];szTry(from,sq);return;}
-  const t=szTargets(sq);SZ.sel=t?sq:null;SZ.tg=t||[];szDraw();});
+  const t=szTargets(sq);SZ.sel=t?sq:null;SZ.tg=t||[];szDraw();}
+$("szb").addEventListener("click",e=>{const b=e.target.closest("[data-sq]");if(b) szTap(b.dataset.sq);});
 // promocja: wybór figury (hetman, wieża, goniec, skoczek)
 function szTry(from,to){
   if(SZ.kind==="star") return szStarGo(from,to);
@@ -5009,13 +5045,15 @@ function szMove(mv){
 }
 
 /* --- lekcje --- */
-function szLesson(k,tag){
-  const L=SZ_LESSONS[k];SZ={kind:null,lesson:k,b:0,res:[],tag:tag||{},id:Date.now(),start:Date.now()};
+async function szLesson(k,tag){
+  if(SZ3D) await sz3Ready(); else sz2d();
+  const L=SZ_LESSONS[k];SZ={kind:null,lesson:k,b:0,res:[],tag:tag||{},id:Date.now(),start:Date.now(),d3:SZ3D};
   $("szg-t").textContent=`Samouczek: ${L.name}`;szBoardStart();go("szg");
 }
 function szBoardStart(){
   const L=SZ_LESSONS[SZ.lesson],B=L.b[SZ.b];SZ.sel=null;SZ.tg=[];SZ.last=null;SZ.hint=null;SZ.busy=false;SZ.over=false;SZ.moves=0;SZ.tries=0;
   $("szg-end").hidden=true;$("szg-play").hidden=false;$("szg-dots").innerHTML=L.b.map((x,k)=>`<span class="dot${k<SZ.b?" ok":k===SZ.b?" now":""}"></span>`).join("");
+  if(SZ.d3) S3.clear();
   if(B.fen){SZ.kind="rule";SZ.g=new CHESS(B.fen);SZ.me=SZ.g.turn();SZ.flip=SZ.me==="b";SZ.stars=null;szInfo(`${L.txt} ${SZ_GOAL[B.goal]}`);}
   else{SZ.kind="star";SZ.g=null;SZ.pos={[B.at]:"w"+B.p,...(B.en||{})};SZ.stars=[...B.st];SZ.flip=false;SZ.par=szStarPar(B);szInfo(L.txt);}
   szCtl([]);szDraw();
@@ -5023,12 +5061,12 @@ function szBoardStart(){
 function szStarGo(from,to){
   const P=SZ.pos;P[to]=P[from];delete P[from];SZ.stars=SZ.stars.filter(s=>s!==to);SZ.moves++;SZ.last=[from,to];
   const left=SZ.stars.length+Object.values(P).filter(p=>p[0]==="b").length;szDraw();
-  if(!left){sfx("ok");SZ.res.push(SZ.moves<=SZ.par);szInfo(SZ.moves<=SZ.par?`Super! ${SZ.moves} ${SZ.moves===1?"ruch":"ruchy"} – najmniej jak się da.`:`Udało się! Da się w ${SZ.par} – spróbuj następnym razem.`,"ok");SZ.busy=true;setTimeout(szNextBoard,1100);}
+  if(!left){sfx("ok");if(SZ.d3) S3.fireworks(1);SZ.res.push(SZ.moves<=SZ.par);szInfo(SZ.moves<=SZ.par?`Super! ${SZ.moves} ${SZ.moves===1?"ruch":"ruchy"} – najmniej jak się da.`:`Udało się! Da się w ${SZ.par} – spróbuj następnym razem.`,"ok");SZ.busy=true;setTimeout(szNextBoard,1100);}
 }
 function szRuleCheck(m){
   const B=SZ_LESSONS[SZ.lesson].b[SZ.b],g=SZ.g;
   const ok=B.goal==="check"?g.inCheck():B.goal==="mate"?g.isCheckmate():B.goal==="castle"?/[kq]/.test(m.flags):B.goal==="promo"?!!m.promotion:B.goal==="ep"?m.flags.includes("e"):false;
-  if(ok){sfx("ok");SZ.res.push(SZ.tries===0);szInfo(B.goal==="mate"?"Mat! Brawo!":"Świetnie!","ok");SZ.busy=true;setTimeout(szNextBoard,1100);return;}
+  if(ok){sfx("ok");if(SZ.d3){if(B.goal==="mate") S3.topple(szKing(g.turn()));S3.fireworks(B.goal==="mate"?2:1);}SZ.res.push(SZ.tries===0);szInfo(B.goal==="mate"?"Mat! Brawo!":"Świetnie!","ok");SZ.busy=true;setTimeout(szNextBoard,1100);return;}
   SZ.tries++;sfx("bad");szInfo(g.isStalemate()?"To pat – remis! Przeciwnik nie ma ruchu, ale nie ma też szacha. Spróbuj inaczej.":`Nie tym razem. ${SZ_GOAL[B.goal]}`,"bad");
   SZ.busy=true;setTimeout(()=>{g.undo();SZ.last=null;SZ.busy=false;szDraw();},1200);
 }
@@ -5049,17 +5087,18 @@ function szNextBoard(){
 async function szPuzzles(theme,n,tag){
   await szLoad();
   if(!SZ_PZ){try{SZ_PZ=await (await fetch("chess/puzzles.json")).json();}catch(e){alert("Nie udało się wczytać zadań – potrzebny internet przy pierwszym wejściu.");return;}}
+  if(SZ3D) await sz3Ready(); else sz2d();
   const R=szRating(),solved=new Set(szHist("zadania").flatMap(s=>s.recs.filter(r=>r.ok).map(r=>r.t)));
   const pool=(theme==="mix"?["m1","m2","m3"]:[theme]).flatMap(k=>SZ_PZ[k].map(p=>({p,k})));
   let fresh=pool.filter(x=>!solved.has("zad:"+x.p[0]));if(fresh.length<n) fresh=pool;
   const near=shuffle(fresh.sort((a,b)=>Math.abs(a.p[3]-R)-Math.abs(b.p[3]-R)).slice(0,Math.max(n*3,12))).slice(0,n);
-  SZ={kind:"puzzle",cfg:{mode:"zadania",theme,...(tag||{})},list:near,i:0,id:Date.now(),start:Date.now(),
+  SZ={kind:"puzzle",d3:SZ3D,cfg:{mode:"zadania",theme,...(tag||{})},list:near,i:0,id:Date.now(),start:Date.now(),
     recs:near.map(x=>({t:"zad:"+x.p[0],pr:x.p[3],ok:true,tries:[],w:SZ_THEME[x.k].w,done:false}))};
   $("szg-t").textContent=`Zadania: ${SZ_THEME[theme].name}`;szPuzzleShow();go("szg");
 }
 function szPuzzleShow(){
   const x=SZ.list[SZ.i],[,fen,moves]=x.p,g=new CHESS(fen),sol=moves.split(" ");
-  Object.assign(SZ,{g,sol,k:1,sel:null,tg:[],last:null,hint:null,busy:true,over:false,stars:null});SZ.me=g.turn()==="w"?"b":"w";SZ.flip=SZ.me==="b";
+  Object.assign(SZ,{g,sol,k:1,sel:null,tg:[],last:null,hint:null,busy:true,over:false,stars:null});if(SZ.d3) S3.clear();SZ.me=g.turn()==="w"?"b":"w";SZ.flip=SZ.me==="b";
   $("szg-end").hidden=true;$("szg-play").hidden=false;szDots();szDraw();
   szInfo(`${SZ_THEME[x.k].name} · grają ${SZ.me==="w"?"białe":"czarne"} · ocena zadania ${x.p[3]}`);szCtl(["hint","show"]);
   setTimeout(()=>{const m=g.move(szUci(sol[0]));SZ.last=[m.from,m.to];SZ.busy=false;szDraw();},650); // pierwszy ruch robi przeciwnik
@@ -5076,8 +5115,9 @@ function szPuzzleCheck(m){
   SZ.busy=true;setTimeout(()=>{g.undo();SZ.last=null;SZ.busy=false;szDraw();},900);
 }
 function szPuzzleSolved(){
-  const r=SZ.recs[SZ.i];r.done=true;SZ.busy=true;szDots();sfx("ok");szInfo(r.ok?`Mat! +${r.w} pkt`:"Mat! (bez punktów – był błąd)","ok");
-  setTimeout(()=>{SZ.i++;if(SZ.i<SZ.list.length) return szPuzzleShow();szPuzzleEnd();},1200);
+  const r=SZ.recs[SZ.i];r.done=true;SZ.busy=true;szDots();sfx("ok");
+  if(SZ.d3){if(SZ.g.isCheckmate()) S3.topple(szKing(SZ.g.turn()));S3.fireworks(r.ok?2:1);}szInfo(r.ok?`Mat! +${r.w} pkt`:"Mat! (bez punktów – był błąd)","ok");
+  setTimeout(()=>{SZ.i++;if(SZ.i<SZ.list.length) return szPuzzleShow();szPuzzleEnd();},SZ.d3?2600:1200);
 }
 function szPuzzleEnd(){
   SZ.over=true;szArchive(SZ,"done");$("szg-play").hidden=true;
@@ -5087,8 +5127,8 @@ function szPuzzleEnd(){
 
 /* --- gra z komputerem --- */
 async function szGame(k,color,tag){
-  await szLoad();const L=SZ_OPP[k],me=color==="rand"?(Math.random()<.5?"w":"b"):color;
-  SZ={kind:"game",opp:k,g:new CHESS(),me,flip:me==="b",sel:null,tg:[],last:null,hint:null,busy:false,over:false,stars:null,hints:0,id:Date.now(),start:Date.now(),
+  await szLoad();if(SZ3D) await sz3Ready(); else sz2d();const L=SZ_OPP[k],me=color==="rand"?(Math.random()<.5?"w":"b"):color;
+  SZ={kind:"game",d3:SZ3D,opp:k,g:new CHESS(),me,flip:me==="b",sel:null,tg:[],last:null,hint:null,busy:false,over:false,stars:null,hints:0,id:Date.now(),start:Date.now(),
     cfg:{mode:"gra",opp:L.id,color,...(tag||{})}};
   $("szg-t").textContent=`${L.name} · ${L.elo}`;$("szg-end").hidden=true;$("szg-play").hidden=false;$("szg-dots").innerHTML="";
   szCtl([L.undo&&"undo",L.hint&&"hint","resign"].filter(Boolean));szDraw();go("szg");
@@ -5106,6 +5146,7 @@ function szGameAfter(byPc){
 }
 function szGameEnd(res){
   const L=SZ_OPP[SZ.opp],g=SZ.g;SZ.over=true;SZ.busy=false;
+  if(SZ.d3&&!SZ.shown){SZ.shown=true;if(g.isCheckmate()) S3.topple(szKing(g.turn()));if(res==="w") S3.fireworks(3);setTimeout(()=>szGameEnd(res),res==="w"?4200:1800);return;}
   const why=res==="d"?(g.isStalemate()?"Pat – remis.":g.isThreefoldRepetition()?"Trzy razy ta sama pozycja – remis.":g.isInsufficientMaterial()?"Za mało figur do mata – remis.":"Remis."):"";
   szArchive({id:SZ.id,start:SZ.start,cfg:SZ.cfg,recs:[{t:"gra:"+L.id,c:res,ok:res==="w",tries:[],w:L.pts,done:true}],pct:res==="w"?100:res==="d"?50:0},"done");
   const nx=SZ_OPP[SZ.opp+1],unlocked=res==="w"&&nx&&szWins(L.id)===1;
@@ -5153,21 +5194,23 @@ function renderSz(){
   $("sz-t-learn-s").textContent=st?`Gwiazdki: ${st} z ${SZ_LESSONS.length*3}`:"Ruchy figur, szach, mat, roszada";
   $("sz-t-puz-s").textContent=`Mat w 1, 2 i 3 · ranking ${szRating()}`;
   $("sz-t-play-s").textContent=`Przeciwnicy: ${open} z ${SZ_OPP.length}`;
+  $("sz3-learn-s").textContent=$("sz-t-learn-s").textContent;$("sz3-puz-s").textContent=$("sz-t-puz-s").textContent;$("sz3-play-s").textContent=$("sz-t-play-s").textContent;
+  document.querySelectorAll("[data-sz3]").forEach(b=>{b.hidden=!modOn({learn:"sz-nauka",puz:"sz-zadania",play:"sz-gra"}[b.dataset.sz3]);});
   $("sz-t-learn").hidden=!modOn("sz-nauka");$("sz-t-puz").hidden=!modOn("sz-zadania");$("sz-t-play").hidden=!modOn("sz-gra");
 }
-function renderSzl(){
+function renderSzl(){$("szl").querySelector("h1").textContent=SZ3D?"Samouczek 3D":"Samouczek";
   $("szl-list").innerHTML=SZ_LESSONS.map((L,k)=>{const o=szLessonOpen(k),s=szStars(L.id);
     return `<button type="button" class="set-i" data-l="${k}"${o?"":" disabled"}><span class="gl sz-gl" aria-hidden="true"><img src="${SZ_IMG[L.ic]}" alt=""></span>`+
       `<span class="sn"><b>${k+1}. ${L.name}</b><small>${o?(s?`<span class="sz-st">${"★".repeat(s)}<s>${"★".repeat(3-s)}</s></span>`:`${L.b.length} plansze`):"najpierw poprzednia lekcja"}</small></span></button>`;}).join("");
 }
 let SZT="m1",SZN=5,SZC="w";
-function renderSzz(){
+function renderSzz(){$("szz").querySelector("h1").textContent=SZ3D?"Zadania 3D":"Zadania szachowe";
   for(const b of $("szz-theme").children){const on=b.dataset.t===SZT;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
   for(const b of $("szz-n").children){const on=+b.dataset.n===SZN;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
   const H=szHist("zadania"),solved=new Set(H.flatMap(s=>s.recs.filter(r=>r.ok).map(r=>r.t)));
   $("szz-info").innerHTML=`Twój ranking zadań: <b>${szRating()}</b> · rozwiązane: ${solved.size}<small>Zadania dobierają się do rankingu. Punkty: mat w 1 – 2, w 2 – 3, w 3 – 5 (tylko bez pomyłki).</small>`;
 }
-function renderSzo(){
+function renderSzo(){$("szo").querySelector("h1").textContent=SZ3D?"Graj w 3D":"Graj z komputerem";
   for(const b of $("szo-col").children){const on=b.dataset.c===SZC;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
   $("szo-list").innerHTML=SZ_OPP.map((L,k)=>{const o=szOppOpen(k),w=szWins(L.id),n=szHist("gra").filter(s=>s.cfg.opp===L.id).length;
     return `<button type="button" class="set-i" data-o="${k}"${o?"":" disabled"}><span class="gl sz-gl${o?"":" lock"}" aria-hidden="true"><img src="${SZ_IMG[L.pc]}" alt=""></span>`+
@@ -5177,6 +5220,8 @@ $("t-sz").addEventListener("click",()=>go("sz"));
 $("sz-t-learn").addEventListener("click",async()=>{await szLoad();go("szl");});
 $("sz-t-puz").addEventListener("click",()=>go("szz"));
 $("sz-t-play").addEventListener("click",()=>go("szo"));
+$("sz-t-3d").addEventListener("click",()=>go("sz3"));
+document.querySelectorAll("[data-sz3]").forEach(b=>b.addEventListener("click",async()=>{const k=b.dataset.sz3;if(k==="learn"){await szLoad();go("szl");}else go(k==="puz"?"szz":"szo");}));
 $("szl-list").addEventListener("click",async e=>{const b=e.target.closest("[data-l]");if(!b||b.disabled) return;await szLoad();szLesson(+b.dataset.l);});
 $("szz-theme").addEventListener("click",e=>{const b=e.target.closest("[data-t]");if(b){SZT=b.dataset.t;renderSzz();}});
 $("szz-n").addEventListener("click",e=>{const b=e.target.closest("[data-n]");if(b){SZN=+b.dataset.n;renderSzz();}});
