@@ -1038,10 +1038,10 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="szw-sw" id="szw-cols"></div>
   <div class="lbl">Figury</div>
   <div class="szw-grid" id="szw-pcs"></div>
-  <div class="lbl">Komentatorzy</div>
-  <div class="segs" id="szw-talk"><button type="button" data-t="on">Komentują</button><button type="button" data-t="off">Cisza</button></div>
-  <div class="segs" id="szw-voice" style="margin-top:8px"><button type="button" data-v="on">🔊 Na głos</button><button type="button" data-v="off">Tylko dymki</button></div>
-  <p class="abnote">Wybierz komentatora – Zbyszek, Janusz albo Grażyna. Zbite figury się żalą, a przy szachu i macie robi się głośno. Dotknij, żeby wybrać i posłuchać.</p>
+  <div class="lbl">Efekty i komentarze</div>
+  <div class="grp" id="szw-sw"></div>
+  <div class="lbl">Komentator</div>
+  <p class="abnote">Zbyszek, Janusz albo Grażyna – dotknij, żeby wybrać i posłuchać.</p>
   <div class="szw-av" id="szw-av"></div>
 </div>
 <div class="wrap" id="sz3" hidden>
@@ -1552,8 +1552,8 @@ const BADGES={
 const BADGE_NAMES={ball:"Piłka",crown:"Korona",bolt:"Błyskawica",rocket:"Rakieta",none:"Bez znaczka"};
 const SUBS=[["streak","Seria dni"],["date","Data"],["none","Nic"]];
 const NAME_PRESETS=["Henriksen","Kapitan H","Nr 10","Ekipa H"];
-let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null,mods:{},rewSeen:[],tasks:[],taskSeen:[],lib:{ex:[],pk:[]},szSkin:"classic",szBoard:"brown",szPcs:"auto",szTalk:true,szVoice:true,szWho:"zbyszek"};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{},rewSeen:Array.isArray(p.rewSeen)?p.rewSeen.filter(x=>typeof x==="string"):[],tasks:Array.isArray(p.tasks)?p.tasks.filter(t=>t&&t.id&&Array.isArray(t.packs)):[],taskSeen:Array.isArray(p.taskSeen)?p.taskSeen:[],lib:p.lib&&typeof p.lib==="object"?{ex:Array.isArray(p.lib.ex)?p.lib.ex:[],pk:Array.isArray(p.lib.pk)?p.lib.pk:[]}:{ex:[],pk:[]},szSkin:["classic","pilkarze"].includes(p.szSkin)?p.szSkin:"classic",szBoard:typeof p.szBoard==="string"?p.szBoard:"brown",szPcs:typeof p.szPcs==="string"?p.szPcs:"auto",szTalk:p.szTalk!==false,szVoice:p.szVoice!==false,szWho:["zbyszek","janusz","grazyna"].includes(p.szWho)?p.szWho:"zbyszek"};}catch(e){}
+let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null,mods:{},rewSeen:[],tasks:[],taskSeen:[],lib:{ex:[],pk:[]},szSkin:"classic",szBoard:"brown",szPcs:"auto",szTalk:true,szVoice:true,szWho:"zbyszek",szEmo:true,szFx:true,szAnim:true};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{},rewSeen:Array.isArray(p.rewSeen)?p.rewSeen.filter(x=>typeof x==="string"):[],tasks:Array.isArray(p.tasks)?p.tasks.filter(t=>t&&t.id&&Array.isArray(t.packs)):[],taskSeen:Array.isArray(p.taskSeen)?p.taskSeen:[],lib:p.lib&&typeof p.lib==="object"?{ex:Array.isArray(p.lib.ex)?p.lib.ex:[],pk:Array.isArray(p.lib.pk)?p.lib.pk:[]}:{ex:[],pk:[]},szSkin:["classic","pilkarze"].includes(p.szSkin)?p.szSkin:"classic",szBoard:typeof p.szBoard==="string"?p.szBoard:"brown",szPcs:typeof p.szPcs==="string"?p.szPcs:"auto",szTalk:p.szTalk!==false,szVoice:p.szVoice!==false,szWho:["zbyszek","janusz","grazyna"].includes(p.szWho)?p.szWho:"zbyszek",szEmo:p.szEmo!==false,szFx:p.szFx!==false,szAnim:p.szAnim!==false};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -5235,25 +5235,24 @@ async function szClip(u){if(!PREFS.szVoice||SZ_CLIPS[u]===false) return;
     if(SZ_SRC) try{SZ_SRC.stop();}catch(e){}const src=c.createBufferSource();src.buffer=b;src.connect(c.destination);src.start();SZ_SRC=src;szBubbleFor(b.duration*1000);}
   catch(e){SZ_CLIPS[u]=false;}}
 function szSay(cat,who,box){
-  if(!PREFS.szTalk) return;who=who||SZ_TALKERS.find(x=>x.id===PREFS.szWho)||SZ_TALKERS[0];
+  if(!PREFS.szTalk&&!PREFS.szVoice&&!(PREFS.szEmo&&!box)) return;who=who||SZ_TALKERS.find(x=>x.id===PREFS.szWho)||SZ_TALKERS[0];
   const W=SZ_LINES[who.id],c=W[cat]?cat:"cap",n=Math.floor(Math.random()*W[c].length),text=W[c][n];
   const t=box||$("szg-talk");t.innerHTML=`<img src="chess/avatars/${who.id}.svg" alt=""><div><b>${who.name}</b><span>${text}</span></div>`;
-  t.hidden=false;t.style.animation="none";void t.offsetWidth;t.style.animation="";
-  clearTimeout(SZ_TL);SZ_TL=setTimeout(()=>{t.hidden=true;},2600);szClip(`chess/voices/${who.id}/${c}-${n}.m4a`);if(!box) szFace(SZ_MOOD[c]||"idle");}
+  if(PREFS.szTalk){t.hidden=false;t.style.animation="none";void t.offsetWidth;t.style.animation="";clearTimeout(SZ_TL);SZ_TL=setTimeout(()=>{t.hidden=true;},2600);}szClip(`chess/voices/${who.id}/${c}-${n}.m4a`);if(!box) szFace(SZ_MOOD[c]||"idle");}
 // mina u góry ekranu: dziecko zbija = płacz, komputer zbija albo wygrywa = radość, szach od dziecka = przerażenie, promocja = zachwyt
 const SZ_MOOD={cap:"sad",p:"sad",q:"sad",n:"sad",r:"sad",b:"sad",mateW:"sad",capBy:"happy",checkBy:"happy",promoBy:"happy",castleBy:"happy",mateL:"happy",check:"shock",promo:"wow"};
 // animowane emoji Noto (WebP z fonts.gstatic.com – service worker zapisuje je jak czcionki)
 const SZ_EMO={idle:["1f60e"],think:["1f914"],sad:["1f62d"],happy:["1f973","1f61c","1f483"],shock:["1f631"],wow:["1f929"]};
 const szEmoUrl=c=>`https://fonts.gstatic.com/s/e/notoemoji/latest/${c}/512.webp`;
 let SZ_FT=null,SZ_EMO_PRE=false;
-function szFace(mood){const f=$("szg-face");if(!f) return;f.hidden=!PREFS.szTalk;if(!PREFS.szTalk) return;
+function szFace(mood){const f=$("szg-face");if(!f) return;f.hidden=!PREFS.szEmo;if(!PREFS.szEmo) return;
   if(!SZ_EMO_PRE){SZ_EMO_PRE=true;Object.values(SZ_EMO).flat().forEach(c=>{new Image().src=szEmoUrl(c);});}
   mood=mood||"idle";f.onerror=()=>{f.hidden=true;};f.src=szEmoUrl(szPick(SZ_EMO[mood]));
   f.classList.remove("pop");void f.offsetWidth;if(mood!=="idle") f.classList.add("pop");
   clearTimeout(SZ_FT);if(mood!=="idle"&&mood!=="think") SZ_FT=setTimeout(()=>szFace("idle"),3200);}
 // reakcja na ruch (obiekt ruchu chess.js): mat > zbicie > promocja > szach > roszada; kategorie z „By” = ruch komputera/przeciwnika
 function szReact(m,g,box){
-  if(!PREFS.szTalk||!m) return;g=g||SZ.g;const say=c=>szSay(c,null,box);
+  if(!(PREFS.szTalk||PREFS.szVoice||PREFS.szEmo)||!m) return;g=g||SZ.g;const say=c=>szSay(c,null,box);
   const mine=m.color===(SZ.me||"w"),by=mine?"":"By"; // ruch dziecka: zbita figura komputera się żali; ruch komputera: dogryzanie i ostrzeżenia
   if(g&&g.isCheckmate()) return say(mine?"mateW":"mateL");
   if(m.captured) return say(!mine?"capBy":Math.random()<.4?m.captured:"cap");
@@ -5274,9 +5273,7 @@ function renderSzw(){
   const sk=szSkin(),auto=(sk&&(sk.set||sk.rc))?`<button type="button" class="szw-it${PREFS.szPcs==="auto"?" sel":""}" data-p="auto"><span class="pcs"><img src="${szPcImg("wK",sk.set||"cburnett",sk)}" alt=""><img src="${szPcImg("bN",sk.set||"cburnett",sk)}" alt=""></span>Ze skórki</button>`:"";
   $("szw-pcs").innerHTML=auto+SZ_SETS.map(([id,n])=>{const on=PREFS.szPcs===id||(!auto&&PREFS.szPcs==="auto"&&id==="cburnett");
     return `<button type="button" class="szw-it${on?" sel":""}" data-p="${id}" aria-pressed="${on}"><span class="pcs"><img src="${szPcImg("wK",id,null)}" alt=""><img src="${szPcImg("bN",id,null)}" alt=""></span>${n}</button>`;}).join("");
-  for(const b of $("szw-talk").children){const on=(b.dataset.t==="on")===PREFS.szTalk;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
-  for(const b of $("szw-voice").children){const on=(b.dataset.v==="on")===PREFS.szVoice;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
-  $("szw-voice").hidden=!PREFS.szTalk;
+  $("szw-sw").innerHTML=SZ_SW.map(([k,n,d])=>`<button type="button" class="row sw${PREFS[k]?" sel":""}" data-sw="${k}" aria-pressed="${!!PREFS[k]}"><span class="rt"><b>${n}</b><small>${d}</small></span><i class="tg" aria-hidden="true"></i></button>`).join("");
   $("szw-av").innerHTML=SZ_TALKERS.map((t,k)=>{const on=PREFS.szWho===t.id;return `<button type="button" data-a="${k}" class="${on?"sel":""}" aria-pressed="${on}"><img src="chess/avatars/${t.id}.svg" alt=""><span>${t.name}</span><small>${on?"✓ komentuje":"▶ wybierz"}</small></button>`;}).join("");
 }
 $("sz-look").addEventListener("click",()=>go("szw"));
@@ -5285,8 +5282,10 @@ $("szw-skins").addEventListener("click",e=>{const b=e.target.closest("[data-sk]"
   if(PREFS.szPcs!=="auto"&&b.dataset.sk!=="plain") PREFS.szPcs="auto";savePrefs();renderSzw();});
 $("szw-cols").addEventListener("click",e=>{const b=e.target.closest("[data-c]");if(!b) return;PREFS.szBoard=b.dataset.c;savePrefs();renderSzw();});
 $("szw-pcs").addEventListener("click",e=>{const b=e.target.closest("[data-p]");if(!b) return;PREFS.szPcs=b.dataset.p;savePrefs();renderSzw();});
-$("szw-talk").addEventListener("click",e=>{const b=e.target.closest("[data-t]");if(!b) return;PREFS.szTalk=b.dataset.t==="on";savePrefs();renderSzw();});
-$("szw-voice").addEventListener("click",e=>{const b=e.target.closest("[data-v]");if(!b) return;PREFS.szVoice=b.dataset.v==="on";savePrefs();renderSzw();});
+// przełączniki szachów: [klucz PREFS, nazwa, opis]
+const SZ_SW=[["szTalk","Komentarze w dymkach","Tekst nad planszą po zbiciu, szachu i macie"],["szVoice","Głos komentatora","Komentator mówi na głos"],
+  ["szEmo","Emoji u góry","Płacze, cieszy się albo myśli razem z partią"],["szFx","Animacje zbicia","TNT, lawa, wykop, czarna dziura, iskry"],["szAnim","Płynne ruchy figur","Figury przesuwają się po planszy"]];
+$("szw-sw").addEventListener("click",e=>{const b=e.target.closest("[data-sw]");if(!b) return;PREFS[b.dataset.sw]=!PREFS[b.dataset.sw];savePrefs();renderSzw();});
 $("szw-av").addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b) return;const t=SZ_TALKERS[+b.dataset.a];ac();
   if(PREFS.szWho!==t.id){PREFS.szWho=t.id;savePrefs();renderSzw();}
   if(!PREFS.szVoice) return toast("Włącz „Na głos”, żeby usłyszeć");const n=Math.floor(Math.random()*SZ_LINES[t.id].cap.length);
@@ -5307,7 +5306,7 @@ function szDraw(){
       `${f===0?`<i class="rk">${y+1}</i>`:""}${r===0?`<i class="fl">${SZ_F[x]}</i>`:""}</button>`;}
   b.innerHTML=h;
   const k=SZ.g||SZ.pos,pp=SZ.pp;SZ.pp={k,fl,P:{...P}};
-  if(pp&&pp.k===k&&pp.fl===fl) szSlide(b,pp.P,P);
+  if(pp&&pp.k===k&&pp.fl===fl&&PREFS.szAnim) szSlide(b,pp.P,P);
 }
 // płynny ruch: figura przejeżdża z poprzedniego pola (ta sama plansza), zbita znika pod nią
 function szSlide(b,A,P){
@@ -5321,7 +5320,7 @@ function szSlide(b,A,P){
     if(!f) continue;used.add(f);
     const img=at(s).querySelector("img"),r0=at(f).getBoundingClientRect(),r1=at(s).getBoundingClientRect(),dx=r0.left-r1.left,dy=r0.top-r1.top;
     const d=Math.min(380,170+Math.hypot(dx,dy)/r1.width*40),from=`translate(${dx}px,${dy}px)`;dur=Math.max(dur,d);
-    const fx=A[s]&&szSkin()&&SZ_CAP[szSkin().id];
+    const fx=A[s]&&PREFS.szFx&&szSkin()&&SZ_CAP[szSkin().id];
     if(fx) fx(img,at(s),A[s],pc,d,dx,dy);else if(A[s]) fade(s,A[s],d*.55);
     img.style.zIndex=5;
     img.animate(pc[1]==="N"?[{transform:from},{transform:`translate(${dx/2}px,${dy/2}px) scale(1.3)`},{transform:"none"}]:[{transform:from},{transform:"none"}],
@@ -5590,7 +5589,7 @@ function szRpShow(k,anim){const R=SZ.why&&SZ.why.rp,b=$("sz-rpb");if(!R||!b) ret
   const g=new CHESS(R.f[k]),P=szPos(g),fl=SZ.flip,m=k?R.m[k-1]:null,chk=g.inCheck()?Object.keys(P).find(q=>P[q]===g.turn()+"K"):null;let h="";
   for(let r=7;r>=0;r--) for(let f=0;f<8;f++){const y=fl?7-r:r,x=fl?7-f:f,sq=SZ_F[x]+(y+1),pc=P[sq];
     h+=`<div class="sq ${(x+y)%2===0?"dk":"lt"}${m&&(sq===m.from||sq===m.to)?" lm":""}${chk===sq?" chk":""}" data-sq="${sq}">${pc?`<img src="${szPcImg(pc)}" alt="">`:""}</div>`;}
-  b.innerHTML=h;szLookApply(b);if(anim&&k>0) szSlide(b,szPos(new CHESS(R.f[k-1])),P);
+  b.innerHTML=h;szLookApply(b);if(anim&&k>0&&PREFS.szAnim) szSlide(b,szPos(new CHESS(R.f[k-1])),P);
   $("sz-rpr").value=k;SZ.rpk=k;const who=m&&m.color===SZ.me?"Ty":"Komputer";
   $("sz-rpcap").textContent=!m?"Pozycja przed ostatnimi ruchami. Naciśnij ▶":`${k}/${R.m.length} · ${who}: ${SZ_NAME[m.piece.toUpperCase()]} ${m.from}–${m.to}${m.captured?` (bije ${SZ_ACC[m.captured.toUpperCase()].replace("twojego ","").replace("twoją ","")})`:""}${g.isCheckmate()?" – MAT!":g.isStalemate()?" – PAT!":g.inCheck()?" – szach":""}`;
   const t=$("sz-rpt");t.hidden=true;if(anim&&m) szReact(m,g,t);}

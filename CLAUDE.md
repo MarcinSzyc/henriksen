@@ -67,6 +67,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   albo skórka z `SZ_SKINS` (lawa, boisko, kosmos, klocki, roboty: klasa `sk-<id>` na `.szb`, kolory pól w `--sz-lt`/`--sz-dk`, tekstury
   Klocków rysowane `szMcTex()`), `szLookApply(plansza)`. Figury: `PREFS.szPcs` = „auto” (skórka: `set` albo przekolorowane klasyczne `rc`
   przez `szRecolor`) lub zestaw z `SZ_SETS` (`chess/pieces/<zestaw>/<wK…>.svg`, z Lichess, licencje w `chess/LICENSES.md`); `szPcImg(pc)`.
+  Przełączniki na ekranie Wygląd (`SZ_SW`, `#szw-sw`): `szTalk` dymki, `szVoice` głos, `szEmo` emoji u góry, `szFx` animacje zbicia (`SZ_CAP`),
+  `szAnim` płynne ruchy (`szSlide`) – każdy działa osobno.
   Komentatorzy (`PREFS.szTalk`, `PREFS.szVoice`): `SZ_TALKERS` Zbyszek/Janusz/Grażyna (awatary `chess/avatars`), każdy ma własne kwestie
   w `SZ_LINES` (JSON między `/*LINES*/` i `/*END*/` – czyta go `tools/sz_voices.py`) i własny głos: nagrania `chess/voices/<kto>/<kategoria>-<nr>.m4a`
   z głosów Piper (CC0: bass, darkman, gosia), robione `bash tools/sz_voices.sh`; po zmianie kwestii uruchom skrypt ponownie. Brak nagrania = sam dymek.
