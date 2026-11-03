@@ -5543,7 +5543,7 @@ function szBlunder(){
         let rep=null,rv=-1e9;for(const x of g._moves({legal:true})){g._makeMove(x);const v=-szSearch(g,1,-1e9,1e9);g._undoMove();if(v>rv){rv=v;rep=x;}}
         let mate=false;if(rep){g._makeMove(rep);mate=!g._moves({legal:true}).length&&g._isKingAttacked(g._turn);g._undoMove();}
         g.undo();const drop=b2-p2;
-        if(drop>=200&&(!worst||drop>worst.drop)) worst={n:Math.floor(k/2)+1,m,drop,bm:{from:szAlg(bm.from),to:szAlg(bm.to),p:bm.piece.toUpperCase()},rep:rep?{from:szAlg(rep.from),to:szAlg(rep.to),pc:rep.piece.toUpperCase(),p:rep.captured?rep.captured.toUpperCase():null,promotion:rep.promotion,mate}:null};}}
+        if(drop>=200&&(!worst||drop>worst.drop)) worst={n:Math.floor(k/2)+1,m,drop,bm:{from:szAlg(bm.from),to:szAlg(bm.to),p:bm.piece.toUpperCase(),mate:best>=1e5},rep:rep?{from:szAlg(rep.from),to:szAlg(rep.to),pc:rep.piece.toUpperCase(),p:rep.captured?rep.captured.toUpperCase():null,promotion:rep.promotion,mate}:null};}}
     g.move(m.san);}
   return worst;
 }
@@ -5561,7 +5561,7 @@ function szWhy(res){
   const H=g.history({verbose:true}).slice(-2);W.rp=H.length?{f:[H[0].before,...H.map(m=>m.after)],m:H}:null;
   let b=null;try{b=szBlunder();}catch(e){}W.b=b;
   if(b) L.push(`<b>Najważniejszy błąd:</b> ${b.n}. ruch – ${SZ_NAME[b.m.piece.toUpperCase()]} ${b.m.from}–${b.m.to}. `+
-    (g.isStalemate()&&b.m.after===g.fen()?"Ten ruch zabrał przeciwnikowi wszystkie ruchy – zamiast wygranej wyszedł pat. ":b.rep&&b.rep.mate?`Przeciwnik mógł od razu dać mata: ${SZ_NAME[b.rep.pc]} ${b.rep.from}–${b.rep.to}. `:b.rep&&b.rep.p?`Przeciwnik mógł wtedy zbić ${SZ_ACC[b.rep.p]} na ${b.rep.to}. `:"Po nim pozycja mocno się pogorszyła. ")+`Lepiej było: ${SZ_NAME[b.bm.p]} ${b.bm.from}–${b.bm.to}.`);
+    (g.isStalemate()&&b.m.after===g.fen()?"Ten ruch zabrał przeciwnikowi wszystkie ruchy – zamiast wygranej wyszedł pat. ":b.rep&&b.rep.mate?`Przeciwnik mógł od razu dać mata: ${SZ_NAME[b.rep.pc]} ${b.rep.from}–${b.rep.to}. `:b.rep&&b.rep.p?`Przeciwnik mógł wtedy zbić ${SZ_ACC[b.rep.p]} na ${b.rep.to}. `:"Po nim pozycja mocno się pogorszyła. ")+`Lepiej było: ${SZ_NAME[b.bm.p]} ${b.bm.from}–${b.bm.to}${b.bm.mate?" – to był mat!":"."}`);
   const big=res==="l"?"PRZEGRANA":g.isStalemate()?"PAT":"REMIS";
   const rp=W.rp?`<div class="sz-rp"><div class="sz-rph">${W.rp.m.length===2?"Ostatnie 2 ruchy":"Ostatni ruch"}</div><div class="szb sz-mini" id="sz-rpb"></div>
     <div class="sz-talk sz-rpt" id="sz-rpt" hidden></div><p class="sz-rpcap" id="sz-rpcap"></p>
