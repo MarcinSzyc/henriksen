@@ -67,8 +67,14 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   albo skórka z `SZ_SKINS` (lawa, boisko, kosmos, klocki, roboty: klasa `sk-<id>` na `.szb`, kolory pól w `--sz-lt`/`--sz-dk`, tekstury
   Klocków rysowane `szMcTex()`), `szLookApply(plansza)`. Figury: `PREFS.szPcs` = „auto” (skórka: `set` albo przekolorowane klasyczne `rc`
   przez `szRecolor`) lub zestaw z `SZ_SETS` (`chess/pieces/<zestaw>/<wK…>.svg`, z Lichess, licencje w `chess/LICENSES.md`); `szPcImg(pc)`.
-  Komentatorzy (`PREFS.szTalk`, `PREFS.szVoice`): `SZ_TALKERS` Zbyszek/Janusz/Grażyna (awatary `chess/avatars`, głos = synteza mowy pl-PL
-  z innym `pitch`/`rate`), kwestie `SZ_LINES`, `szReact(ruch)` po każdym ruchu (mat > zbicie > promocja > szach > roszada) → `szSay` (dymek `#szg-talk`).
+  Komentatorzy (`PREFS.szTalk`, `PREFS.szVoice`): `SZ_TALKERS` Zbyszek/Janusz/Grażyna (awatary `chess/avatars`), każdy ma własne kwestie
+  w `SZ_LINES` (JSON między `/*LINES*/` i `/*END*/` – czyta go `tools/sz_voices.py`) i własny głos: nagrania `chess/voices/<kto>/<kategoria>-<nr>.m4a`
+  z głosów Piper (CC0: bass, darkman, gosia), robione `bash tools/sz_voices.sh`; po zmianie kwestii uruchom skrypt ponownie. Brak nagrania = sam dymek.
+  `szReact(ruch)` (mat > zbicie > promocja > szach > roszada) → `szSay(kategoria)` → dymek `#szg-talk` + `szClip` (Web Audio).
+  Figury „Klocki” (`set:"mc"`, `szMcPiece`): kwadratowy klocek 16×16 z obrazkiem figury z `SZ_MCP` w środku, rysowany na canvasie.
+  Koniec partii (`szWhy`): dlaczego przegrana (mat – kto szachuje, poddanie) albo remis (pat, powtórzenie, za mało figur, 50 ruchów)
+  i największy błąd z partii (`szBlunder`: spadek oceny ≥ 200 po ruchu dziecka, odpowiedź przeciwnika – bicie albo mat – i lepszy ruch).
+  Przyciski „Pokaż na planszy” / „Pokaż błąd” (`szReview`, krok po kroku `szReviewNext`, `SZ.rv` = prawdziwa partia, „Wróć do wyniku”).
   Zbicia w skórkach 2D (`SZ_CAP[id skórki]`, wołane z `szSlide`): klocki = atakujący jedzie jako TNT (`szTnt()`), miga, wybucha
   pikselami (`szBurst`, wstrząs `szShake`) i wraca do swojej postaci; lawa = popiół i iskry; boisko = wykop za planszę z piłką;
   kosmos = czarna dziura; roboty = zwarcie z iskrami. Cząstki w warstwie fixed (`szLayer`). `SZ_FXEND` + `szWait(ms)` opóźniają ruch

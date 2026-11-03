@@ -24,3 +24,6 @@
 
 ## Awatary komentatorów (`chess/avatars/`)
 - Avataaars, Pablo Stanley (avataaars.com), wygenerowane w DiceBear (dicebear.com) – free for personal and commercial use.
+
+## Głosy komentatorów (`chess/voices/`, nagrywane `tools/sz_voices.sh`)
+- Piper (rhasspy/piper-voices), polskie głosy `bass`, `darkman`, `gosia` – zbiory danych CC0.
