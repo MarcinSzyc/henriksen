@@ -58,6 +58,11 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   chess.js (30× szybciej niż publiczne `move()`; przy aktualizacji chess.js sprawdź, czy te metody nadal są). Sesje `szArchive`
   (gra: `pct` 100/50/0, `recs[0].c` = w/d/l). Puchary `sz-nauka`/`sz-zadania`/`sz-gra`, zakładka Szachy w statystykach, ligi `LIG_CATS.sz`,
   cele rodzica (`szCurEx`, `szRun`). Wyjście z partii w trakcie jej nie zapisuje (brak „Dokończ” dla szachów).
+  Ranking gry (Elo, `szElo(historia)`): z ukończonych partii z komputerem, start 400, K 40 przez 20 partii, potem 20, ELO bota z `SZ_OPP`;
+  partia z cofnięciem albo podpowiedzią (`SZ.as` → `recs[0].as`) jest towarzyska i nie zmienia rankingu. Rangi `SZ_RANKS` (Pion <400,
+  Skoczek, Goniec, Wieża, Hetman, Król ≥1200). Karta `[data-szelo]` na ekranach Szachy i Szachy 3D (`renderSzElo`: ranking, ranga, zmiana
+  w 7 dni, ranking zadań; dotknięcie = Statystyki › Szachy), na kaflach przeciwników szansa i +/− rankingu, na końcu partii odliczanie
+  zmiany i okno awansu `#szrank` (`szRankUp`), w Statystykach › Szachy `#sz-st` (`renderSzSt`: wykres rankingu, najwyżej, bilans W·R·P z botami).
   Płynne ruchy 2D: `szDraw()` pamięta ostatnią pozycję tej samej planszy (`SZ.pp`, klucz = `SZ.g`/`SZ.pos` + `flip`), a `szSlide()`
   przesuwa figury z pola na pole (Web Animations, skoczek podskakuje, zbita znika pod nadjeżdżającą; roszada, promocja, cofanie też).
 - **Szachy 3D** (kafel `#sz-t-3d` na ekranie Szachy → widok `#sz3` z tymi samymi trzema trybami; `SZ3D` = wejście przez 3D, plansza ma `SZ.d3`):
