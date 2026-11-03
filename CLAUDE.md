@@ -63,6 +63,12 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   Skoczek, Goniec, Wieża, Hetman, Król ≥1200). Karta `[data-szelo]` na ekranach Szachy i Szachy 3D (`renderSzElo`: ranking, ranga, zmiana
   w 7 dni, ranking zadań; dotknięcie = Statystyki › Szachy), na kaflach przeciwników szansa i +/− rankingu, na końcu partii odliczanie
   zmiany i okno awansu `#szrank` (`szRankUp`), w Statystykach › Szachy `#sz-st` (`renderSzSt`: wykres rankingu, najwyżej, bilans W·R·P z botami).
+  Wygląd 2D (`#szw`, `#szachy-wyglad`, pasek „Wygląd szachownicy” na ekranie Szachy, `renderSzw`): `PREFS.szBoard` = kolor z `SZ_COLORS`
+  albo skórka z `SZ_SKINS` (lawa, boisko, kosmos, klocki, roboty: klasa `sk-<id>` na `.szb`, kolory pól w `--sz-lt`/`--sz-dk`, tekstury
+  Klocków rysowane `szMcTex()`), `szLookApply(plansza)`. Figury: `PREFS.szPcs` = „auto” (skórka: `set` albo przekolorowane klasyczne `rc`
+  przez `szRecolor`) lub zestaw z `SZ_SETS` (`chess/pieces/<zestaw>/<wK…>.svg`, z Lichess, licencje w `chess/LICENSES.md`); `szPcImg(pc)`.
+  Komentatorzy (`PREFS.szTalk`, `PREFS.szVoice`): `SZ_TALKERS` Zbyszek/Janusz/Grażyna (awatary `chess/avatars`, głos = synteza mowy pl-PL
+  z innym `pitch`/`rate`), kwestie `SZ_LINES`, `szReact(ruch)` po każdym ruchu (mat > zbicie > promocja > szach > roszada) → `szSay` (dymek `#szg-talk`).
   Płynne ruchy 2D: `szDraw()` pamięta ostatnią pozycję tej samej planszy (`SZ.pp`, klucz = `SZ.g`/`SZ.pos` + `flip`), a `szSlide()`
   przesuwa figury z pola na pole (Web Animations, skoczek podskakuje, zbita znika pod nadjeżdżającą; roszada, promocja, cofanie też).
 - **Szachy 3D** (kafel `#sz-t-3d` na ekranie Szachy → widok `#sz3` z tymi samymi trzema trybami; `SZ3D` = wejście przez 3D, plansza ma `SZ.d3`):

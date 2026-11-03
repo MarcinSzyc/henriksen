@@ -13,3 +13,14 @@
   Moeen Sayed i Mujtaba Sayed dla SideFX, konwersja glTF Ed Mackey (MaterialX Project), CC BY 4.0; zmniejszony skryptem `tools/chess3d_model.sh`.
 - `3d/skins/footballer.glb` – „Casual Character” z paczki Ultimate Animated Character Pack, [Quaternius](https://quaternius.com), CC0 (pobrany z [Poly Pizza](https://poly.pizza/m/kZ3DmIoGip)).
 - `3d/addons/utils/SkeletonUtils.js` – Three.js r170, MIT.
+
+## Zestawy figur 2D (`chess/pieces/`) – z repozytorium Lichess (lila, `public/piece/`)
+- `pixel` – therealqtpi, AGPLv3+
+- `horsey` – cham, michael1241, CC BY-NC-SA 4.0
+- `anarcandy` – caderek, CC BY-NC-SA 4.0
+- `california` – Jerry S., CC BY-NC-SA 4.0
+- `fantasy`, `spatial` – Maurizio Monge (github.com/maurimo/chess-art), MIT
+- `rhosgfx` – RhosGFX (rhosgfx.itch.io), CC0 1.0
+
+## Awatary komentatorów (`chess/avatars/`)
+- Avataaars, Pablo Stanley (avataaars.com), wygenerowane w DiceBear (dicebear.com) – free for personal and commercial use.
