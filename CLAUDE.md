@@ -80,6 +80,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   goniec = kometa, skoczek = UFO, pion = gwiazdka; plakietka z białą figurą cburnett na jasnym/ciemnym kółku. Komentuje zawsze wybrany komentator (`PREFS.szWho`, dotknięcie awatara na ekranie Wygląd).
   Koniec partii (`szWhy`): dlaczego przegrana (mat – kto szachuje, poddanie) albo remis (pat, powtórzenie, za mało figur, 50 ruchów)
   i największy błąd z partii (`szBlunder`: spadek oceny ≥ 200 po ruchu dziecka, odpowiedź przeciwnika – bicie albo mat – i lepszy ruch).
+  Na górze karty duży napis PRZEGRANA / PAT / REMIS (`SZ.why.big`). Mała plansza „Ostatnie 2 ruchy” (`SZ.why.rp`, `szRpShow(k,anim)`,
+  `szRpPlay` odtwarza sama, ◀ ▶ i suwak `#sz-rpr`; przy ruchu komentarz `szReact(ruch,plansza,dymek)`).
   Przyciski „Pokaż na planszy” / „Pokaż błąd” (`szReview`, krok po kroku `szReviewNext`, `SZ.rv` = prawdziwa partia, „Wróć do wyniku”).
   Zbicia w skórkach 2D (`SZ_CAP[id skórki]`, wołane z `szSlide`): klocki = atakujący jedzie jako TNT (`szTnt()`), miga, wybucha
   pikselami (`szBurst`, wstrząs `szShake`) i wraca do swojej postaci; lawa = popiół i iskry; boisko = wykop za planszę z piłką;

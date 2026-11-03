@@ -741,6 +741,12 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .szw-it.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
 .szw-it .szb{border-radius:8px;box-shadow:none;width:100%;grid-template-columns:repeat(2,1fr);pointer-events:none}
 .szw-it .pcs img[src^="data:image/png"],.szb .sq img[src^="data:image/png"]{image-rendering:pixelated}
+.sz-res{font-family:var(--display);font-weight:800;font-size:2.6rem;letter-spacing:.06em;margin:4px 0 2px}.sz-res.lost{color:#e03131}.sz-res.draw{color:#f59f00}
+.sz-why>p:first-child{font-size:1.05rem}
+.sz-rp{margin:12px 0 4px;display:flex;flex-direction:column;gap:8px}.sz-rph{font-weight:800;font-size:.8rem;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)}
+.sz-mini{max-width:280px;width:100%;margin:0 auto}.sz-rpcap{margin:0;text-align:center;font-weight:800;min-height:2.6em}
+.sz-rpt{position:static;margin:0 auto;max-width:280px;width:100%}
+.sz-rpc{display:flex;align-items:center;gap:10px;justify-content:center}.sz-rpc button{min-height:44px;min-width:56px;padding:0 10px}.sz-rpc input{flex:1;max-width:160px;accent-color:var(--accent)}
 .sz-why{text-align:left;background:var(--bg);border-radius:16px;padding:10px 14px;margin-top:12px;font-size:.92rem;line-height:1.4}.sz-why p{margin:6px 0}
 .szw-it .pcs{display:flex;justify-content:center;background:#c8b08a;border-radius:8px;width:100%}.szw-it .pcs img{width:44%;aspect-ratio:1}
 .szw-sw{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:8px}
@@ -5223,21 +5229,21 @@ async function szClip(u){if(!PREFS.szVoice||SZ_CLIPS[u]===false) return;
   try{const b=SZ_CLIPS[u]||(SZ_CLIPS[u]=await fetch(u).then(r=>{if(!r.ok) throw 0;return r.arrayBuffer();}).then(a=>new Promise((ok,no)=>c.decodeAudioData(a,ok,no))));
     if(SZ_SRC) try{SZ_SRC.stop();}catch(e){}const src=c.createBufferSource();src.buffer=b;src.connect(c.destination);src.start();SZ_SRC=src;szBubbleFor(b.duration*1000);}
   catch(e){SZ_CLIPS[u]=false;}}
-function szSay(cat,who){
+function szSay(cat,who,box){
   if(!PREFS.szTalk) return;who=who||SZ_TALKERS.find(x=>x.id===PREFS.szWho)||SZ_TALKERS[0];
   const W=SZ_LINES[who.id],c=W[cat]?cat:"cap",n=Math.floor(Math.random()*W[c].length),text=W[c][n];
-  const t=$("szg-talk");t.innerHTML=`<img src="chess/avatars/${who.id}.svg" alt=""><div><b>${who.name}</b><span>${text}</span></div>`;
+  const t=box||$("szg-talk");t.innerHTML=`<img src="chess/avatars/${who.id}.svg" alt=""><div><b>${who.name}</b><span>${text}</span></div>`;
   t.hidden=false;t.style.animation="none";void t.offsetWidth;t.style.animation="";
   clearTimeout(SZ_TL);SZ_TL=setTimeout(()=>{t.hidden=true;},2600);szClip(`chess/voices/${who.id}/${c}-${n}.m4a`);}
 // reakcja na ruch (obiekt ruchu chess.js): mat > zbicie > promocja > szach > roszada; kategorie z „By” = ruch komputera/przeciwnika
-function szReact(m){
-  if(!PREFS.szTalk||!m) return;const g=SZ.g;
+function szReact(m,g,box){
+  if(!PREFS.szTalk||!m) return;g=g||SZ.g;const say=c=>szSay(c,null,box);
   const mine=m.color===(SZ.me||"w"),by=mine?"":"By"; // ruch dziecka: zbita figura komputera się żali; ruch komputera: dogryzanie i ostrzeżenia
-  if(g&&g.isCheckmate()) return szSay(mine?"mateW":"mateL");
-  if(m.captured) return szSay(!mine?"capBy":Math.random()<.4?m.captured:"cap");
-  if(m.promotion) return szSay("promo"+by);
-  if(g&&g.inCheck()) return szSay("check"+by);
-  if(/[kq]/.test(m.flags||"")) szSay("castle"+by);
+  if(g&&g.isCheckmate()) return say(mine?"mateW":"mateL");
+  if(m.captured) return say(!mine?"capBy":Math.random()<.4?m.captured:"cap");
+  if(m.promotion) return say("promo"+by);
+  if(g&&g.inCheck()) return say("check"+by);
+  if(/[kq]/.test(m.flags||"")) say("castle"+by);
 }
 // ekran Wygląd szachownicy
 function renderSzw(){
@@ -5491,10 +5497,11 @@ function szGameEnd(res){
     `<div class="szelo-d">Ranking: <b id="szg-elo">${E0.R}</b> <span class="${dR>=0?"up":"dn"}">${dR>=0?"+":"−"}${Math.abs(dR)}</span></div>`;
   const nx=SZ_OPP[SZ.opp+1],unlocked=res==="w"&&nx&&szWins(L.id)===1;
   $("szg-play").hidden=true;
-  $("szg-end").innerHTML=`<div class="done card">${res==="w"?art(grade(100)):""}<div class="gn">${res==="w"?`Wygrana ${L.z}! +${L.pts} pkt`:res==="d"?why:`${L.name} wygrywa tym razem.`}</div>
-    <div class="gp">${res==="w"?(unlocked?`Odblokowany nowy przeciwnik: <b>${nx.name}</b>!`:"Brawo!"):res==="d"?"Remis to nie przegrana – spróbuj jeszcze raz!":"Każda partia czegoś uczy. Zagraj jeszcze raz!"}</div>${eloH}${szWhy(res)}</div>
+  const whyH=szWhy(res);
+  $("szg-end").innerHTML=`<div class="done card">${res==="w"?art(grade(100)):SZ.why?SZ.why.big:""}<div class="gn">${res==="w"?`Wygrana ${L.z}! +${L.pts} pkt`:res==="d"?why:`${L.name} wygrywa tym razem.`}</div>
+    <div class="gp">${res==="w"?(unlocked?`Odblokowany nowy przeciwnik: <b>${nx.name}</b>!`:"Brawo!"):res==="d"?"Remis to nie przegrana – spróbuj jeszcze raz!":"Każda partia czegoś uczy. Zagraj jeszcze raz!"}</div>${eloH}${whyH}</div>
     <div class="btns"><button type="button" class="again" data-a="again">Zagraj jeszcze raz</button>${unlocked?`<button type="button" class="go-btn" data-a="nextopp">Zagraj ${nx.z}</button>`:`<button type="button" class="go-btn" data-a="back">Gotowe</button>`}</div>`;
-  $("szg-end").hidden=false;scrollTo(0,0);
+  $("szg-end").hidden=false;scrollTo(0,0);if(res!=="w") szRpPlay();
   const el=$("szg-elo");if(el&&dR){const t0=performance.now()+500,f=t=>{const k=Math.min(1,Math.max(0,(t-t0)/900));el.textContent=Math.round(E0.R+dR*(1-(1-k)**3));if(k<1) requestAnimationFrame(f);};requestAnimationFrame(f);}
   const wait=res==="w"&&PREFS.modals?2800:300,v6=res==="w"&&$("szg-end").querySelector(".end-anim"),play=()=>{if(v6) playGoal(v6,nextGoal(6),null,6);};
   if(res==="w"){sfx("final");if(PREFS.modals) celebrate(1,true);}else sfx(res==="d"?"ok":"bad");
@@ -5551,11 +5558,28 @@ function szWhy(res){
   else if(g.isInsufficientMaterial()) L.push(`<b>Dlaczego remis?</b> Zostało za mało figur, żeby dać mata (np. same króle albo król z jednym gońcem lub skoczkiem). Pilnuj pionów, wież i hetmana – to nimi daje się mata.`);
   else if(g.isDrawByFiftyMoves()) L.push(`<b>Dlaczego remis?</b> Przez 50 ruchów nikt nie zbił figury ani nie ruszył pionem. Z przewagą pchaj piony do przodu i spychaj króla przeciwnika na brzeg planszy.`);
   if(!W.txt) W.txt=L.length?L[0].replace(/<[^>]+>/g,""):"Tak wyglądała plansza na końcu partii.";
+  const H=g.history({verbose:true}).slice(-2);W.rp=H.length?{f:[H[0].before,...H.map(m=>m.after)],m:H}:null;
   let b=null;try{b=szBlunder();}catch(e){}W.b=b;
   if(b) L.push(`<b>Najważniejszy błąd:</b> ${b.n}. ruch – ${SZ_NAME[b.m.piece.toUpperCase()]} ${b.m.from}–${b.m.to}. `+
-    (b.rep&&b.rep.mate?`Przeciwnik mógł od razu dać mata: ${SZ_NAME[b.rep.pc]} ${b.rep.from}–${b.rep.to}. `:b.rep&&b.rep.p?`Przeciwnik mógł wtedy zbić ${SZ_ACC[b.rep.p]} na ${b.rep.to}. `:"Po nim pozycja mocno się pogorszyła. ")+`Lepiej było: ${SZ_NAME[b.bm.p]} ${b.bm.from}–${b.bm.to}.`);
-  return L.length?`<div class="sz-why">${L.map(x=>`<p>${x}</p>`).join("")}<div class="btns"><button type="button" class="again" data-a="whyend">👀 Pokaż na planszy</button>${b?`<button type="button" class="again" data-a="whyerr">🔍 Pokaż błąd</button>`:""}</div></div>`:"";
+    (g.isStalemate()&&b.m.after===g.fen()?"Ten ruch zabrał przeciwnikowi wszystkie ruchy – zamiast wygranej wyszedł pat. ":b.rep&&b.rep.mate?`Przeciwnik mógł od razu dać mata: ${SZ_NAME[b.rep.pc]} ${b.rep.from}–${b.rep.to}. `:b.rep&&b.rep.p?`Przeciwnik mógł wtedy zbić ${SZ_ACC[b.rep.p]} na ${b.rep.to}. `:"Po nim pozycja mocno się pogorszyła. ")+`Lepiej było: ${SZ_NAME[b.bm.p]} ${b.bm.from}–${b.bm.to}.`);
+  const big=res==="l"?"PRZEGRANA":g.isStalemate()?"PAT":"REMIS";
+  const rp=W.rp?`<div class="sz-rp"><div class="sz-rph">${W.rp.m.length===2?"Ostatnie 2 ruchy":"Ostatni ruch"}</div><div class="szb sz-mini" id="sz-rpb"></div>
+    <div class="sz-talk sz-rpt" id="sz-rpt" hidden></div><p class="sz-rpcap" id="sz-rpcap"></p>
+    <div class="sz-rpc"><button type="button" class="again" data-rp="-1" aria-label="Poprzedni ruch">◀</button><input type="range" id="sz-rpr" min="0" max="${W.rp.m.length}" value="0" aria-label="Przewiń ruchy"><button type="button" class="again" data-rp="1" aria-label="Następny ruch">▶</button></div></div>`:"";
+  SZ.why.big=`<div class="sz-res ${res==="l"?"lost":"draw"}">${big}</div>`;
+  return L.length?`<div class="sz-why">${L.map(x=>`<p>${x}</p>`).join("")}${rp}<div class="btns"><button type="button" class="again" data-a="whyend">👀 Pokaż na planszy</button>${b?`<button type="button" class="again" data-a="whyerr">🔍 Pokaż błąd</button>`:""}</div></div>`:"";
 }
+// mała plansza w wyjaśnieniu: klatka k = pozycja po k z ostatnich ruchów; anim = przesuń figury z poprzedniej klatki i skomentuj ruch
+function szRpShow(k,anim){const R=SZ.why&&SZ.why.rp,b=$("sz-rpb");if(!R||!b) return;k=Math.max(0,Math.min(R.m.length,k));
+  const g=new CHESS(R.f[k]),P=szPos(g),fl=SZ.flip,m=k?R.m[k-1]:null,chk=g.inCheck()?Object.keys(P).find(q=>P[q]===g.turn()+"K"):null;let h="";
+  for(let r=7;r>=0;r--) for(let f=0;f<8;f++){const y=fl?7-r:r,x=fl?7-f:f,sq=SZ_F[x]+(y+1),pc=P[sq];
+    h+=`<div class="sq ${(x+y)%2===0?"dk":"lt"}${m&&(sq===m.from||sq===m.to)?" lm":""}${chk===sq?" chk":""}" data-sq="${sq}">${pc?`<img src="${szPcImg(pc)}" alt="">`:""}</div>`;}
+  b.innerHTML=h;szLookApply(b);if(anim&&k>0) szSlide(b,szPos(new CHESS(R.f[k-1])),P);
+  $("sz-rpr").value=k;SZ.rpk=k;const who=m&&m.color===SZ.me?"Ty":"Komputer";
+  $("sz-rpcap").textContent=!m?"Pozycja przed ostatnimi ruchami. Naciśnij ▶":`${k}/${R.m.length} · ${who}: ${SZ_NAME[m.piece.toUpperCase()]} ${m.from}–${m.to}${m.captured?` (bije ${SZ_ACC[m.captured.toUpperCase()].replace("twojego ","").replace("twoją ","")})`:""}${g.isCheckmate()?" – MAT!":g.isStalemate()?" – PAT!":g.inCheck()?" – szach":""}`;
+  const t=$("sz-rpt");t.hidden=true;if(anim&&m) szReact(m,g,t);}
+function szRpPlay(){const R=SZ.why&&SZ.why.rp;if(!R) return;clearTimeout(SZ.rpT);szRpShow(0);let k=0;
+  const step=()=>{if(!$("sz-rpb")||$("szg-end").hidden) return;k++;szRpShow(k,true);if(k<R.m.length) SZ.rpT=setTimeout(step,2600);};SZ.rpT=setTimeout(step,1400);}
 // podgląd na planszy: koniec partii albo najważniejszy błąd krok po kroku (SZ.rv = prawdziwa partia, wraca przyciskiem)
 function szReview(kind){const W=SZ.why;if(!W) return;if(!SZ.rv) SZ.rv=SZ.g;szHush();$("szg-end").hidden=true;$("szg-play").hidden=false;
   if(kind==="end"){SZ.g=SZ.rv;SZ.last=null;SZ.hint=W.hl;szInfo(W.txt);szCtl(["rvback"]);}
@@ -5570,9 +5594,10 @@ function szReviewNext(){const b=SZ.why.b,g=SZ.g;
 /* --- przyciski pod szachownicą --- */
 const SZ_BTN={rvnext:"▶ Co dalej?",rvback:"← Wróć do wyniku",undo:"↶ Cofnij",hint:"💡 Podpowiedź",show:"Pokaż rozwiązanie",resign:"Poddaj się"};
 function szCtl(list){$("szg-ctl").innerHTML=list.map(k=>`<button type="button" class="again" data-c="${k}">${SZ_BTN[k]}</button>`).join("");}
+$("szg-end").addEventListener("input",e=>{if(e.target.id==="sz-rpr"&&SZ){clearTimeout(SZ.rpT);const k=+e.target.value;szRpShow(k,k===(SZ.rpk||0)+1);}});
 $("szg-ctl").addEventListener("click",async e=>{const b=e.target.closest("[data-c]");if(!b||!SZ) return;
   if(b.dataset.c==="rvnext") return szReviewNext();
-  if(b.dataset.c==="rvback"){if(SZ.rv){SZ.g=SZ.rv;SZ.rv=null;}szHush();$("szg-play").hidden=true;$("szg-end").hidden=false;return;}
+  if(b.dataset.c==="rvback"){if(SZ.rv){SZ.g=SZ.rv;SZ.rv=null;}szHush();$("szg-play").hidden=true;$("szg-end").hidden=false;szRpShow(SZ.rpk||0);return;}
   if(SZ.busy||SZ.over) return;const c=b.dataset.c,g=SZ.g;
   if(c==="undo"){if(g.history().length<2) return;g.undo();if(g.turn()!==SZ.me) g.undo();SZ.last=null;SZ.hint=null;szDraw();szInfo(SZ.as?"Cofnięte. Twój ruch.":"Cofnięte. Ta partia jest już towarzyska – nie zmieni rankingu.");SZ.as=true;}
   if(c==="hint"){if(SZ.kind==="puzzle"){const u=SZ.sol[SZ.k];SZ.hint=[u.slice(0,2)];SZ.recs[SZ.i].ok=false;szDots();szInfo("Rusz podświetloną figurą (bez punktów za to zadanie).");}
@@ -5581,7 +5606,8 @@ $("szg-ctl").addEventListener("click",async e=>{const b=e.target.closest("[data-
     const step=()=>{if(SZ.k>=SZ.sol.length){SZ.busy=false;return szPuzzleSolved();}const m=g.move(szUci(SZ.sol[SZ.k]));SZ.k++;SZ.last=[m.from,m.to];szDraw();setTimeout(step,800);};step();}
   if(c==="resign"&&await askYes("Poddać się?","Partia zapisze się jako przegrana.","Poddaj się","Graj dalej")) szGameEnd("l");
 });
-$("szg-end").addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b||!SZ) return;const a=b.dataset.a;
+$("szg-end").addEventListener("click",e=>{const r=e.target.closest("[data-rp]");if(r&&SZ){clearTimeout(SZ.rpT);return szRpShow((SZ.rpk||0)+ +r.dataset.rp,+r.dataset.rp>0);}
+  const b=e.target.closest("[data-a]");if(!b||!SZ) return;const a=b.dataset.a;
   if(a==="whyend"||a==="whyerr") return szReview(a==="whyend"?"end":"err");
   if(a==="back") return history.back();
   if(SZ.kind==="game"||SZ.cfg&&SZ.cfg.mode==="gra"){const tag=SZ.cfg.goal?{goal:SZ.cfg.goal,gx:SZ.cfg.gx}:{};
