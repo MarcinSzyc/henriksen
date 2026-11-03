@@ -5218,12 +5218,62 @@ function szSlide(b,A,P){
     if(!f) continue;used.add(f);
     const img=at(s).querySelector("img"),r0=at(f).getBoundingClientRect(),r1=at(s).getBoundingClientRect(),dx=r0.left-r1.left,dy=r0.top-r1.top;
     const d=Math.min(380,170+Math.hypot(dx,dy)/r1.width*40),from=`translate(${dx}px,${dy}px)`;dur=Math.max(dur,d);
-    if(A[s]) fade(s,A[s],d*.55);
+    const fx=A[s]&&szSkin()&&SZ_CAP[szSkin().id];
+    if(fx) fx(img,at(s),A[s],pc,d,dx,dy);else if(A[s]) fade(s,A[s],d*.55);
     img.style.zIndex=5;
     img.animate(pc[1]==="N"?[{transform:from},{transform:`translate(${dx/2}px,${dy/2}px) scale(1.3)`},{transform:"none"}]:[{transform:from},{transform:"none"}],
       {duration:d,easing:"cubic-bezier(.35,.05,.25,1)"}).onfinish=()=>{img.style.zIndex="";};}
   for(const x of gone) if(!used.has(x)&&!P[x]) fade(x,A[x],dur*.55); // bicie w przelocie
 }
+/* --- zbicia w skórkach 2D: TNT w Klockach, popiół w Lawie, wykop z boiska, czarna dziura, iskry robotów ---
+   efekty cząstek rysują się w warstwie fixed na body (przeżywają ponowne rysowanie planszy); SZ_FXEND = kiedy się skończą */
+let SZ_FXEND=0,SZ_TNT=null;
+const szWait=ms=>Math.max(ms,SZ_FXEND-Date.now()+150);
+function szTnt(){if(SZ_TNT) return SZ_TNT;const c=document.createElement("canvas");c.width=c.height=16;const x=c.getContext("2d");
+  for(let i=0;i<16;i++) for(let j=0;j<16;j++){x.fillStyle=j<2||j>13?(i%3?"#5c5c5c":"#3d3d3d"):i%4<2?"#d93a2b":"#b52a1e";x.fillRect(i,j,1,1);}
+  x.fillStyle="#f1f1f1";x.fillRect(0,5,16,6);x.fillStyle="#222";
+  [[1,6,3,1],[2,7,1,3],[6,6,1,4],[9,6,1,4],[7,7,1,1],[8,8,1,1],[12,6,3,1],[13,7,1,3]].forEach(r=>x.fillRect(...r)); // T N T
+  return SZ_TNT=c.toDataURL();}
+function szLayer(ms){const l=document.createElement("div");l.style.cssText="position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden";document.body.appendChild(l);setTimeout(()=>l.remove(),ms);return l;}
+// cząstki z środka pola: cols = kolory, sq = kwadraty (piksele), n = ile, sp = siła
+function szBurst(cell,o){const r=cell.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,l=szLayer(1400);
+  for(let k=0;k<(o.n||22);k++){const e=document.createElement("i"),z=(o.size||.16)*r.width*(.6+Math.random()*.8),a=Math.random()*Math.PI*2,v=(o.sp||1)*r.width*(.8+Math.random()*1.6);
+    e.style.cssText=`position:absolute;left:${cx-z/2}px;top:${cy-z/2}px;width:${z}px;height:${o.line?z/4:z}px;background:${o.cols[k%o.cols.length]};border-radius:${o.sq?0:"50%"};${o.glow?`box-shadow:0 0 ${z}px ${o.cols[k%o.cols.length]}`:""}`;
+    l.appendChild(e);const vx=Math.cos(a)*v,vy=Math.sin(a)*v-(o.up||0)*r.width,g=(o.g==null?1.2:o.g)*r.width,rot=o.line?a*57:Math.random()*540;
+    e.animate([{transform:`rotate(${rot}deg) scale(1)`,opacity:1},{transform:`translate(${vx*.6}px,${vy*.6}px) rotate(${rot}deg)`,opacity:1,offset:.55},
+      {transform:`translate(${vx}px,${vy+g}px) rotate(${rot+180}deg) scale(.4)`,opacity:0}],{duration:(o.ms||800)*(.75+Math.random()*.5),easing:"cubic-bezier(.2,.7,.4,1)",fill:"forwards"});}
+  if(o.flash){const f=document.createElement("i"),w=r.width*2.6;f.style.cssText=`position:absolute;left:${cx-w/2}px;top:${cy-w/2}px;width:${w}px;height:${w}px;border-radius:50%;background:radial-gradient(circle,${o.flash},transparent 65%)`;
+    l.appendChild(f);f.animate([{transform:"scale(.2)",opacity:1},{transform:"scale(1)",opacity:0}],{duration:450,fill:"forwards"});}}
+// zbita figura zostaje na polu, dopóki nie dojedzie atakujący
+function szVictim(cell,pc){const g=document.createElement("img");g.src=szPcImg(pc);g.alt="";g.className="szgone";cell.appendChild(g);return g;}
+function szShake(el,px){el.animate([0,1,2,3,4,5].map(k=>({transform:k===5?"none":`translate(${(Math.random()*2-1)*px}px,${(Math.random()*2-1)*px}px)`})),{duration:320});}
+const SZ_CAP={
+  // Klocki: atakujący jedzie jako TNT, miga, wybucha pikselami i wraca do swojej postaci
+  klocki(img,cell,vpc,pc,d){const v=szVictim(cell,vpc),src=img.src;img.src=szTnt();const blink=480,T=d+blink;SZ_FXEND=Date.now()+T+700;sfx("fuse");
+    setTimeout(()=>img.animate([{filter:"brightness(1)"},{filter:"brightness(3.2)"},{filter:"brightness(1)"}],{duration:blink/3,iterations:3}),d);
+    setTimeout(()=>{v.remove();sfx("boom");szShake(cell.closest(".szb")||cell,6);
+      szBurst(cell,{cols:["#5d9b3a","#866043","#8f8f8f","#3d3d3d","#d93a2b","#f1f1f1","#ffd43b"],sq:true,n:30,size:.17,sp:1.1,up:.6,flash:"rgba(255,240,180,.95)"});
+      img.src=src;img.animate([{transform:"scale(0)"},{transform:"scale(1.25)"},{transform:"none"}],{duration:380,delay:250,fill:"backwards",easing:"ease-out"});},T);},
+  // Lawa: zbita figura zwęgla się w popiół, lecą iskry
+  lava(img,cell,vpc,pc,d){const v=szVictim(cell,vpc);SZ_FXEND=Date.now()+d+700;
+    setTimeout(()=>{sfx("pop");v.animate([{filter:"brightness(1)"},{filter:"brightness(.15) sepia(1)",transform:"scale(.9)",offset:.4},{filter:"brightness(0)",transform:"translateY(30%) scale(.2)",opacity:0}],{duration:600,fill:"forwards"}).onfinish=()=>v.remove();
+      szBurst(cell,{cols:["#ffd43b","#ff922b","#f03e3e","#ffa94d"],n:22,size:.09,sp:.7,up:1.1,g:-.4,glow:true,ms:900});},d*.8);},
+  // Boisko: zbity dostaje wykop i wylatuje za planszę, za nim piłka
+  boisko(img,cell,vpc,pc,d,dx,dy){const v=szVictim(cell,vpc);SZ_FXEND=Date.now()+d+500;
+    setTimeout(()=>{const r=cell.getBoundingClientRect(),l=szLayer(1200),f=document.createElement("img"),len=Math.hypot(dx,dy)||1;v.remove();sfx("pop");
+      f.src=v.src;f.style.cssText=`position:absolute;left:${r.left}px;top:${r.top}px;width:${r.width}px;height:${r.height}px`;l.appendChild(f);
+      const ux=-dx/len,uy=-dy/len,far=innerWidth;f.animate([{transform:"none"},{transform:`translate(${ux*far*.5}px,${uy*far*.5-r.width*2}px) rotate(400deg) scale(.8)`,offset:.5},{transform:`translate(${ux*far}px,${uy*far}px) rotate(900deg) scale(.5)`,opacity:0}],{duration:1000,easing:"ease-out",fill:"forwards"});
+      const ball=document.createElement("span");ball.textContent="⚽";ball.style.cssText=`position:absolute;left:${r.left+r.width*.3}px;top:${r.top+r.height*.3}px;font-size:${r.width*.5}px`;l.appendChild(ball);
+      ball.animate([{transform:"none"},{transform:`translate(${ux*far*.8}px,${uy*far*.8-r.width}px) rotate(720deg)`,opacity:0}],{duration:900,easing:"ease-out",fill:"forwards"});},d*.85);},
+  // Kosmos: zbita figura znika w czarnej dziurze, błyskają gwiazdki
+  kosmos(img,cell,vpc,pc,d){const v=szVictim(cell,vpc);SZ_FXEND=Date.now()+d+700;
+    setTimeout(()=>{sfx("pop");v.animate([{transform:"none"},{transform:"rotate(540deg) scale(0)",opacity:.2}],{duration:650,easing:"ease-in",fill:"forwards"}).onfinish=()=>v.remove();
+      szBurst(cell,{cols:["#fff","#a5d8ff","#d0bfff","#ffe066"],n:16,size:.08,sp:.9,g:0,glow:true,ms:800,flash:"rgba(151,117,250,.8)"});},d*.85);},
+  // Roboty: zwarcie – zbity drży, sypią się iskry
+  roboty(img,cell,vpc,pc,d){const v=szVictim(cell,vpc);SZ_FXEND=Date.now()+d+650;
+    setTimeout(()=>{sfx("pop");v.animate([{transform:"translateX(-6%)"},{transform:"translateX(6%)",filter:"brightness(2.5)"},{transform:"translateX(-6%)"},{transform:"scale(.3)",opacity:0}],{duration:500,fill:"forwards"}).onfinish=()=>v.remove();
+      szBurst(cell,{cols:["#22d3ee","#e3fafc","#ffd43b"],n:20,size:.16,line:true,sp:1,g:.8,glow:true,ms:600,flash:"rgba(34,211,238,.7)"});},d*.85);}
+};
 function szInfo(t,cls){const el=$("szg-info");el.textContent=t;el.className="sz-info"+(cls?" "+cls:"");}
 function szTargets(sq){
   if(SZ.kind==="star") return SZ.pos[sq]&&SZ.pos[sq][0]==="w"?szStarMoves(SZ.pos,sq):null;
@@ -5267,14 +5317,14 @@ function szBoardStart(){
 function szStarGo(from,to){
   const P=SZ.pos,cap=P[to];P[to]=P[from];delete P[from];if(cap) szReact({captured:cap[1].toLowerCase(),color:"w",flags:"c"});SZ.stars=SZ.stars.filter(s=>s!==to);SZ.moves++;SZ.last=[from,to];
   const left=SZ.stars.length+Object.values(P).filter(p=>p[0]==="b").length;szDraw();
-  if(!left){sfx("ok");if(SZ.d3) S3.fireworks(1);SZ.res.push(SZ.moves<=SZ.par);szInfo(SZ.moves<=SZ.par?`Super! ${SZ.moves} ${SZ.moves===1?"ruch":"ruchy"} – najmniej jak się da.`:`Udało się! Da się w ${SZ.par} – spróbuj następnym razem.`,"ok");SZ.busy=true;setTimeout(szNextBoard,1100);}
+  if(!left){sfx("ok");if(SZ.d3) S3.fireworks(1);SZ.res.push(SZ.moves<=SZ.par);szInfo(SZ.moves<=SZ.par?`Super! ${SZ.moves} ${SZ.moves===1?"ruch":"ruchy"} – najmniej jak się da.`:`Udało się! Da się w ${SZ.par} – spróbuj następnym razem.`,"ok");SZ.busy=true;setTimeout(szNextBoard,szWait(1100));}
 }
 function szRuleCheck(m){
   const B=SZ_LESSONS[SZ.lesson].b[SZ.b],g=SZ.g;
   const ok=B.goal==="check"?g.inCheck():B.goal==="mate"?g.isCheckmate():B.goal==="castle"?/[kq]/.test(m.flags):B.goal==="promo"?!!m.promotion:B.goal==="ep"?m.flags.includes("e"):false;
-  if(ok){sfx("ok");if(SZ.d3){if(B.goal==="mate") S3.topple(szKing(g.turn()));S3.fireworks(B.goal==="mate"?2:1);}SZ.res.push(SZ.tries===0);szInfo(B.goal==="mate"?"Mat! Brawo!":"Świetnie!","ok");SZ.busy=true;setTimeout(szNextBoard,1100);return;}
+  if(ok){sfx("ok");if(SZ.d3){if(B.goal==="mate") S3.topple(szKing(g.turn()));S3.fireworks(B.goal==="mate"?2:1);}SZ.res.push(SZ.tries===0);szInfo(B.goal==="mate"?"Mat! Brawo!":"Świetnie!","ok");SZ.busy=true;setTimeout(szNextBoard,szWait(1100));return;}
   SZ.tries++;sfx("bad");szInfo(g.isStalemate()?"To pat – remis! Przeciwnik nie ma ruchu, ale nie ma też szacha. Spróbuj inaczej.":`Nie tym razem. ${SZ_GOAL[B.goal]}`,"bad");
-  SZ.busy=true;setTimeout(()=>{g.undo();SZ.last=null;SZ.busy=false;szDraw();},1200);
+  SZ.busy=true;setTimeout(()=>{g.undo();SZ.last=null;SZ.busy=false;szDraw();},szWait(1200));
 }
 function szNextBoard(){
   const L=SZ_LESSONS[SZ.lesson];SZ.b++;
@@ -5316,9 +5366,9 @@ function szPuzzleCheck(m){
   if(g.isCheckmate()||uci===SZ.sol[SZ.k]){SZ.k++;
     if(g.isCheckmate()||SZ.k>=SZ.sol.length) return szPuzzleSolved();
     sfx("ok");szInfo("Dobrze! Grasz dalej…","ok");SZ.busy=true;
-    setTimeout(()=>{const o=g.move(szUci(SZ.sol[SZ.k]));SZ.k++;SZ.last=[o.from,o.to];SZ.busy=false;szDraw();szInfo("Twój ruch.");szReact(o);},600);return;}
+    setTimeout(()=>{const o=g.move(szUci(SZ.sol[SZ.k]));SZ.k++;SZ.last=[o.from,o.to];SZ.busy=false;szDraw();szInfo("Twój ruch.");szReact(o);},szWait(600));return;}
   r.ok=false;r.tries.push(uci);sfx("bad");szInfo("Nie tędy – spróbuj jeszcze raz.","bad");szDots();
-  SZ.busy=true;setTimeout(()=>{g.undo();SZ.last=null;SZ.busy=false;szDraw();},900);
+  SZ.busy=true;setTimeout(()=>{g.undo();SZ.last=null;SZ.busy=false;szDraw();},szWait(900));
 }
 function szPuzzleSolved(){
   const r=SZ.recs[SZ.i];r.done=true;SZ.busy=true;szDots();sfx("ok");
@@ -5342,7 +5392,7 @@ async function szGame(k,color,tag){
 }
 function szThink(){
   const L=SZ_OPP[SZ.opp];SZ.busy=true;szInfo(`${L.name} myśli…`);
-  setTimeout(()=>{if(!SZ||SZ.kind!=="game"||SZ.over) return;const m=szBest(SZ.g,L);let x=null;if(m){x=SZ.g.move(m);SZ.last=[x.from,x.to];}SZ.busy=false;szDraw();if(x) szReact(x);szGameAfter(true);},450);
+  setTimeout(()=>{if(!SZ||SZ.kind!=="game"||SZ.over) return;const m=szBest(SZ.g,L);let x=null;if(m){x=SZ.g.move(m);SZ.last=[x.from,x.to];}SZ.busy=false;szDraw();if(x) szReact(x);szGameAfter(true);},szWait(450));
 }
 function szGameAfter(byPc){
   const g=SZ.g;

@@ -69,6 +69,10 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   przez `szRecolor`) lub zestaw z `SZ_SETS` (`chess/pieces/<zestaw>/<wK…>.svg`, z Lichess, licencje w `chess/LICENSES.md`); `szPcImg(pc)`.
   Komentatorzy (`PREFS.szTalk`, `PREFS.szVoice`): `SZ_TALKERS` Zbyszek/Janusz/Grażyna (awatary `chess/avatars`, głos = synteza mowy pl-PL
   z innym `pitch`/`rate`), kwestie `SZ_LINES`, `szReact(ruch)` po każdym ruchu (mat > zbicie > promocja > szach > roszada) → `szSay` (dymek `#szg-talk`).
+  Zbicia w skórkach 2D (`SZ_CAP[id skórki]`, wołane z `szSlide`): klocki = atakujący jedzie jako TNT (`szTnt()`), miga, wybucha
+  pikselami (`szBurst`, wstrząs `szShake`) i wraca do swojej postaci; lawa = popiół i iskry; boisko = wykop za planszę z piłką;
+  kosmos = czarna dziura; roboty = zwarcie z iskrami. Cząstki w warstwie fixed (`szLayer`). `SZ_FXEND` + `szWait(ms)` opóźniają ruch
+  komputera, odpowiedź w zadaniach i kolejną planszę lekcji, aż efekt się skończy.
   Płynne ruchy 2D: `szDraw()` pamięta ostatnią pozycję tej samej planszy (`SZ.pp`, klucz = `SZ.g`/`SZ.pos` + `flip`), a `szSlide()`
   przesuwa figury z pola na pole (Web Animations, skoczek podskakuje, zbita znika pod nadjeżdżającą; roszada, promocja, cofanie też).
 - **Szachy 3D** (kafel `#sz-t-3d` na ekranie Szachy → widok `#sz3` z tymi samymi trzema trybami; `SZ3D` = wejście przez 3D, plansza ma `SZ.d3`):
