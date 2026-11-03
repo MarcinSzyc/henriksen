@@ -5158,12 +5158,22 @@ const SZ_LINES=/*LINES*/{"zbyszek": {"cap": ["Aua! Bolało!", "Panie, za co?!", 
 const szPick=a=>a[Math.floor(Math.random()*a.length)];
 let SZ_TL=null,SZ_LAST_T=null;
 let SZ_SRC=null;const SZ_CLIPS={};
-function szHush(){clearTimeout(SZ_TL);const t=$("szg-talk");if(t) t.hidden=true;if(SZ_SRC){try{SZ_SRC.stop();}catch(e){}SZ_SRC=null;}}
+function szHush(){clearTimeout(SZ_TL);const t=$("szg-talk");if(t) t.hidden=true;try{SZ_AUD.pause();}catch(e){}if(SZ_SRC){try{SZ_SRC.stop();}catch(e){}SZ_SRC=null;}}
 // nagranie kwestii przez Web Audio (jak próbki dźwięków); brak pliku = sam dymek
-async function szClip(u){const c=ac();if(!c||!PREFS.szVoice||SZ_CLIPS[u]===false) return;
+// nagranie kwestii: element <audio> (na iPhonie gra też przy przełączniku wyciszenia i po odblokowaniu pierwszym dotknięciem
+// może grać bez dotknięcia, np. po ruchu komputera); gdy play() odmówi – zapas przez Web Audio
+const SZ_AUD=new Audio();SZ_AUD.preload="auto";SZ_AUD.setAttribute("playsinline","");
+const SZ_SILENT="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAIlYAAESsAAACABAAZGF0YQAAAAA=";
+document.addEventListener("pointerdown",()=>{if(SZ_AUD.dataset.ok||!SZ_AUD.paused) return;SZ_AUD.dataset.ok="1";SZ_AUD.src=SZ_SILENT;
+  SZ_AUD.play().then(()=>{if(SZ_AUD.src===SZ_SILENT) SZ_AUD.pause();}).catch(()=>{delete SZ_AUD.dataset.ok;});},{capture:true});
+try{if(navigator.audioSession) navigator.audioSession.type="playback";}catch(e){} // iOS 17+: Web Audio nie wycisza się przełącznikiem
+function szBubbleFor(ms){const t=$("szg-talk");if(t&&!t.hidden){clearTimeout(SZ_TL);SZ_TL=setTimeout(()=>{t.hidden=true;},Math.max(2600,ms+500));}}
+async function szClip(u){if(!PREFS.szVoice||SZ_CLIPS[u]===false) return;
+  try{SZ_AUD.pause();SZ_AUD.src=u;SZ_AUD.currentTime=0;SZ_AUD.onloadedmetadata=()=>szBubbleFor(SZ_AUD.duration*1000);
+    SZ_AUD.onerror=()=>{SZ_CLIPS[u]=false;};await SZ_AUD.play();return;}catch(e){}
+  const c=ac();if(!c) return;
   try{const b=SZ_CLIPS[u]||(SZ_CLIPS[u]=await fetch(u).then(r=>{if(!r.ok) throw 0;return r.arrayBuffer();}).then(a=>new Promise((ok,no)=>c.decodeAudioData(a,ok,no))));
-    if(SZ_SRC) try{SZ_SRC.stop();}catch(e){}const src=c.createBufferSource();src.buffer=b;src.connect(c.destination);src.start();SZ_SRC=src;
-    const t=$("szg-talk");if(t&&!t.hidden){clearTimeout(SZ_TL);SZ_TL=setTimeout(()=>{t.hidden=true;},Math.max(2600,b.duration*1000+500));}}
+    if(SZ_SRC) try{SZ_SRC.stop();}catch(e){}const src=c.createBufferSource();src.buffer=b;src.connect(c.destination);src.start();SZ_SRC=src;szBubbleFor(b.duration*1000);}
   catch(e){SZ_CLIPS[u]=false;}}
 function szSay(cat,who){
   if(!PREFS.szTalk) return;who=who||szPick(SZ_TALKERS.filter(x=>x!==SZ_LAST_T));SZ_LAST_T=who;

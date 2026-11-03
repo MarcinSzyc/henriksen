@@ -70,7 +70,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   Komentatorzy (`PREFS.szTalk`, `PREFS.szVoice`): `SZ_TALKERS` Zbyszek/Janusz/Grażyna (awatary `chess/avatars`), każdy ma własne kwestie
   w `SZ_LINES` (JSON między `/*LINES*/` i `/*END*/` – czyta go `tools/sz_voices.py`) i własny głos: nagrania `chess/voices/<kto>/<kategoria>-<nr>.m4a`
   z głosów Piper (CC0: bass, darkman, gosia), robione `bash tools/sz_voices.sh`; po zmianie kwestii uruchom skrypt ponownie. Brak nagrania = sam dymek.
-  `szReact(ruch)` (mat > zbicie > promocja > szach > roszada) → `szSay(kategoria)` → dymek `#szg-talk` + `szClip` (Web Audio).
+  `szReact(ruch)` (mat > zbicie > promocja > szach > roszada) → `szSay(kategoria)` → dymek `#szg-talk` + `szClip`: jeden element `<audio>`
+  (`SZ_AUD`, odblokowany cichym WAV przy pierwszym dotknięciu – na iPhonie Web Audio milczało), zapasowo Web Audio; `navigator.audioSession.type="playback"`.
   Figury „Klocki” (`set:"mc"`, `szMcPiece`): kwadratowy klocek 16×16 z obrazkiem figury z `SZ_MCP` w środku, rysowany na canvasie.
   Koniec partii (`szWhy`): dlaczego przegrana (mat – kto szachuje, poddanie) albo remis (pat, powtórzenie, za mało figur, 50 ruchów)
   i największy błąd z partii (`szBlunder`: spadek oceny ≥ 200 po ruchu dziecka, odpowiedź przeciwnika – bicie albo mat – i lepszy ruch).
