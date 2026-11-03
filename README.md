@@ -93,6 +93,7 @@ i jest na licencji [Mixkit Sound Effects Free License](https://mixkit.co/license
   [„A Beautiful Game”](https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/ABeautifulGame) – Moeen Sayed i Mujtaba Sayed
   dla SideFX, konwersja glTF: Ed Mackey (MaterialX Project), licencja [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/);
   zmniejszony (`tools/chess3d_model.sh`).
+- Skórka „Piłkarze”: zawodnik „Casual Character” – [Quaternius](https://quaternius.com), CC0 ([Poly Pizza](https://poly.pizza/m/kZ3DmIoGip)).
 
 ## Uruchomienie lokalnie
 

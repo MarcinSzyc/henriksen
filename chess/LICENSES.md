@@ -11,3 +11,5 @@
 - `3d/cannon-es.js` – [cannon-es](https://github.com/pmndrs/cannon-es) 0.20.0, MIT (`3d/LICENSE-cannon-es.txt`).
 - `3d/chess3d.glb` – „A Beautiful Game” z [Khronos glTF Sample Assets](https://github.com/KhronosGroup/glTF-Sample-Assets/tree/main/Models/ABeautifulGame):
   Moeen Sayed i Mujtaba Sayed dla SideFX, konwersja glTF Ed Mackey (MaterialX Project), CC BY 4.0; zmniejszony skryptem `tools/chess3d_model.sh`.
+- `3d/skins/footballer.glb` – „Casual Character” z paczki Ultimate Animated Character Pack, [Quaternius](https://quaternius.com), CC0 (pobrany z [Poly Pizza](https://poly.pizza/m/kZ3DmIoGip)).
+- `3d/addons/utils/SkeletonUtils.js` – Three.js r170, MIT.

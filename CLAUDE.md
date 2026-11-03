@@ -65,6 +65,11 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `szDraw()` przy `SZ.d3` woła `S3.sync(pozycja, {sel,tg,last,chk,hint,stars,flip})` – ruchy, zbicia (odłamki z fizyką, iskry, błysk, fala),
   promocje i gwiazdki wynikają z różnicy pozycji; dotyk przez `szTap(pole)`. Efekty: `S3.fireworks(1–3)`, `S3.topple(pole króla)` przy macie
   (lekcje, zadania, koniec partii – `szGameEnd` najpierw pokazuje efekt, potem ekran końcowy). Poświata (bloom) z wysokim progiem: świecą tylko iskry.
+  Skórki (`PREFS.szSkin`, wybór „Wygląd” na ekranie Szachy 3D, `S3.setSkin`): „classic” = marmurowy zestaw, „pilkarze” = boisko (`makePitch`,
+  murawa w kratę, linie, bramki) i zawodnik `chess/3d/skins/footballer.glb` („Casual Character”, Quaternius, CC0, z Poly Pizza) klonowany
+  `SkeletonUtils.clone`, stroje przez kolory materiałów (`KIT`: białe = niebiescy, czarne = czerwoni), wzrost `PL_SIZE` (pion najmniejszy),
+  numer na plecach: król 9, hetman 10. Animacje z modelu (`play`): Idle, Run (ruch – `run`), Kick_Left/Right + HitRecieve (zbicie – `kickOut`:
+  piłka, zbity wylatuje łukiem za boisko), Death (mat – `topple`) i Wave (cieszynka drużyny). Kolejne skórki: dinozaury, samochody, kosmos.
 - **Edukacja zdrowotna** (widok `#zd`, hash `#zdrowie`, przedmiot `subj:"zd"`): kafel „Sprawdzian 29.10” (`ZD_DATE`, wszystkie pytania
   w losowej kolejności, `cfg.mode:"spr"`) i 4 tematy z lekcji (`ZD_TOPICS`: wartosc, styl, cialo, zach – `cfg.mode` = id tematu).
   Pytanie `{q,c,bad,why}` albo prawda/fałsz `PF(q,ok,why)`; `why` = zdanie z notatki. Gra w quizie angielskim (`enStart`,
