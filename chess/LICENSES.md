@@ -27,3 +27,6 @@
 
 ## Głosy komentatorów (`chess/voices/`, nagrywane `tools/sz_voices.sh`)
 - Piper (rhasspy/piper-voices), polskie głosy `bass`, `darkman`, `gosia` – zbiory danych CC0.
+
+## Miniatura komentatora (emoji)
+- Noto Animated Emoji, Google (googlefonts.github.io/noto-emoji-animation), CC BY 4.0 – wczytywane z fonts.gstatic.com.
