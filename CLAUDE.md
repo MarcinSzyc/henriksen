@@ -45,6 +45,19 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
     Wybór tematów w ustawieniach (`PLP.ev.topics`, pusta lista = wszystkie). **Zdania:** `EN_SENT`
     (`"angielski|polski|3 złe angielskie;…|3 złe polskie;…"` – typowe pomyłki). Ustawienia `PLP.ev` / `PLP.ez` (lvl a1/a2/all, dir pl/en/mix, n).
   - W statystykach zakładka Angielski bez szczegółów rodzica.
+- **Szachy** (kafel `#t-sz`, widoki `#sz` (3 kafle), `#szl` lekcje, `#szz` ustawienia zadań, `#szo` przeciwnicy, `#szg` jedna szachownica `#szb`;
+  hashe `#szachy…`; przedmiot `subj:"sz"`, moduły `sz-nauka` / `sz-zadania` / `sz-gra`). Pliki w `chess/`: `chess.js` (chess.js 1.4.0 ESM, BSD,
+  wczytywany `szLoad()` przez `import()`), `puzzles.json` (480 zadań mat w 1/2/3 z bazy Lichess, CC0; skrypt `tools/lichess_puzzles.py`),
+  licencje w `chess/LICENSES.md`; oba pliki w `SHELL`. Figury cburnett (CC BY-SA) jako `SZ_IMG` w kodzie. Stan planszy `SZ`
+  (`kind`: star – lekcje „zbierz gwiazdki” liczone w `szStarMoves`, minimum ruchów `szStarPar`; rule – jeden ruch z celem
+  check/mate/castle/promo/ep; puzzle – pierwszy ruch z bazy robi przeciwnik, każdy mat też zalicza; game). Lekcje `SZ_LESSONS`
+  (kolejna po ukończeniu poprzedniej, gwiazdki z % plansz bez pomyłki). Zadania: ranking z historii `szRating()` (start 400, jak Elo,
+  rekord ma `pr`), dobór blisko rankingu, nierozwiązane najpierw; punkty mat w 1/2/3 = 2/3/5. Przeciwnicy `SZ_OPP` (250–1000 ELO:
+  `depth`, `rand` = szansa losowego ruchu, `noise` = szum oceny, `mate1`, `undo`/`hint`, `pts` za wygraną), następny po wygranej
+  z poprzednim (`szOppOpen` z historii). Silnik `szBest`/`szSearch`/`szEval`: alfa-beta na wewnętrznych `_moves`/`_makeMove`/`_undoMove`
+  chess.js (30× szybciej niż publiczne `move()`; przy aktualizacji chess.js sprawdź, czy te metody nadal są). Sesje `szArchive`
+  (gra: `pct` 100/50/0, `recs[0].c` = w/d/l). Puchary `sz-nauka`/`sz-zadania`/`sz-gra`, zakładka Szachy w statystykach, ligi `LIG_CATS.sz`,
+  cele rodzica (`szCurEx`, `szRun`). Wyjście z partii w trakcie jej nie zapisuje (brak „Dokończ” dla szachów).
 - **Edukacja zdrowotna** (widok `#zd`, hash `#zdrowie`, przedmiot `subj:"zd"`): kafel „Sprawdzian 29.10” (`ZD_DATE`, wszystkie pytania
   w losowej kolejności, `cfg.mode:"spr"`) i 4 tematy z lekcji (`ZD_TOPICS`: wartosc, styl, cialo, zach – `cfg.mode` = id tematu).
   Pytanie `{q,c,bad,why}` albo prawda/fałsz `PF(q,ok,why)`; `why` = zdanie z notatki. Gra w quizie angielskim (`enStart`,

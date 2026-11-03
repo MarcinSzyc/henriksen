@@ -53,6 +53,8 @@ sw.js                  service worker – działanie offline
 icons/                 ikony aplikacji (SVG + PNG 32/180/192/512 + maskable)
 video/                 filmiki z golami (MP4 360p, bez dźwięku)
 sound/                 próbki dźwięków (AAC .m4a)
+chess/                 szachy: chess.js (BSD), zadania z bazy Lichess (CC0), licencje w LICENSES.md
+tools/                 skrypty pomocnicze (wybór zadań szachowych)
 .nojekyll              GitHub Pages bez Jekylla
 ```
 
@@ -80,6 +82,13 @@ Pozostałe dźwięki są syntezowane w przeglądarce (Web Audio). Start rakiety 
 i jest na licencji [Mixkit Sound Effects Free License](https://mixkit.co/license/#sfxFree):
 
 - `sound/rakieta.m4a` – [Fast rocket whoosh](https://mixkit.co/free-sound-effects/rocket/) (przycięty do 2,6 s, z wyciszeniem)
+
+## Szachy
+
+- Zasady gry: [chess.js](https://github.com/jhlywa/chess.js) 1.4.0, licencja BSD-2-Clause (`chess/chess.js`, `chess/LICENSE-chess.js.txt`).
+- Zadania: wybór 480 zadań (mat w 1, 2 i 3) z [bazy zadań Lichess](https://database.lichess.org/#puzzles), CC0 (`chess/puzzles.json`).
+- Figury: zestaw „cburnett” z [Lichess](https://github.com/lichess-org/lila/tree/master/public/piece/cburnett), autor Colin M.L. Burnett, CC BY-SA 3.0.
+- Komputer: własny prosty silnik w `index.html` (bez zewnętrznych usług).
 
 ## Uruchomienie lokalnie
 

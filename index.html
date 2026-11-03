@@ -55,6 +55,7 @@ header .grow{flex:1;min-width:0}
 .tiles2 .tile.math{height:auto}
 .tile.pl{background:linear-gradient(135deg,#f76707,#b93a0a)}
 .tile.his{background:linear-gradient(135deg,#c2255c,#7a2440)}
+.tile.sz{background:linear-gradient(135deg,#40c057,#1f5f2c)}.tile.sz .wm-img img{opacity:.9}
 .tile.nat{background:linear-gradient(135deg,#94d82d,#4a7a0c)}.tile.hea{background:linear-gradient(135deg,#22b8cf,#0b5e75)}
 .tile.hea .tt{line-height:1.05}
 .tiles2 .tile{aspect-ratio:1/1;min-height:0;padding:18px}
@@ -695,7 +696,27 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .rew-c .rew-th+.rew-p{position:absolute;margin:0;left:10px;top:10px;box-shadow:0 2px 8px rgba(0,0,0,.35)}
 .fxi{flex:none;width:48px;height:48px;border-radius:12px;overflow:hidden}.fxi svg{width:100%;height:100%;display:block}
 .fxi.fxl{display:flex;align-items:center;justify-content:center;background:var(--line);color:var(--muted)}
-.cont-row{display:flex;gap:8px;align-items:stretch}.cont-row[hidden]{display:none}.cont-row .sbar{flex:1;min-width:0}
+.cont-row{display:flex;gap:8px;align-items:stretch}
+.szb{display:grid;grid-template-columns:repeat(8,1fr);width:100%;max-width:520px;margin:0 auto;aspect-ratio:1;border-radius:12px;overflow:hidden;box-shadow:0 6px 18px rgba(0,0,0,.3);touch-action:manipulation}
+.szb .sq{position:relative;border:0;padding:0;margin:0;aspect-ratio:1;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.szb .lt{background:#f0d9b5}.szb .dk{background:#b58863}
+.szb .sq img{width:92%;height:92%;pointer-events:none;position:relative;z-index:1}
+.szb .sel{background:#f6f669!important}.szb .lm.lt{background:#cdd26a}.szb .lm.dk{background:#aaa23a}
+.szb .chk{background:radial-gradient(circle,#ff4d4d 0,#e03131 45%,transparent 75%),#b58863!important}
+.szb .hint{box-shadow:inset 0 0 0 4px #4dabf7}
+.szb .mv::after{content:"";position:absolute;width:30%;height:30%;border-radius:50%;background:rgba(20,85,30,.45);z-index:2}
+.szb .cap::after{content:"";position:absolute;inset:4%;border-radius:50%;border:5px solid rgba(20,85,30,.45);z-index:2}
+.szb .szstar{position:absolute;font-size:min(7vw,2.2rem);color:#f59f00;text-shadow:0 1px 2px rgba(0,0,0,.4);z-index:1;animation:szpulse 1.4s ease-in-out infinite}
+@keyframes szpulse{50%{transform:scale(1.15)}}
+.szb .rk,.szb .fl{position:absolute;font-style:normal;font-size:.6rem;font-weight:800;opacity:.75;pointer-events:none}
+.szb .rk{top:2px;left:3px}.szb .fl{bottom:1px;right:3px}.szb .lt .rk,.szb .lt .fl{color:#b58863}.szb .dk .rk,.szb .dk .fl{color:#f0d9b5}
+.sz-info{min-height:2.6em;margin:8px 2px 10px;font-weight:800;font-size:.95rem;line-height:1.3}.sz-info.ok{color:var(--ok)}.sz-info.bad{color:var(--bad,#e03131)}
+.sz-ctl{display:flex;gap:8px;margin-top:12px}.sz-ctl button{flex:1;min-height:48px}
+.sz-gl{background:#f0d9b5!important}.sz-gl img{width:80%;height:80%}.sz-gl.lock{filter:grayscale(1);opacity:.5}
+.sz-st,.sz-stars{color:#f59f00;letter-spacing:2px}.sz-st s,.sz-stars s{text-decoration:none;opacity:.25}.sz-stars{font-size:3rem;text-align:center}
+.sz-promo{display:flex;gap:8px;justify-content:center}.sz-promo button{width:64px;height:64px;border-radius:14px;border:2px solid var(--line);background:#f0d9b5;padding:4px;cursor:pointer}.sz-promo img{width:100%;height:100%}
+.sz-sum small{display:block;font-weight:700;color:var(--muted);font-size:.8rem;margin-top:4px}
+#szg .set-i:disabled,#szl .set-i:disabled,#szo .set-i:disabled{opacity:.55;cursor:default}.cont-row[hidden]{display:none}.cont-row .sbar{flex:1;min-width:0}
 .cont-x{flex:none;width:56px;border-radius:18px;border:2px solid var(--line);background:var(--card);color:var(--muted);cursor:pointer;display:flex;align-items:center;justify-content:center}
 .cont-x:active{transform:scale(.96)}.cont-x:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
 .adm-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -737,6 +758,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tile math" id="t-math"><span class="wm" aria-hidden="true">+−×÷</span><span class="tt">Matematyka</span><small id="t-math-s">Wybierz ćwiczenia i zaczynamy</small></button>
     <button type="button" class="tile pl" id="t-pl"><span class="wm" aria-hidden="true">ą ę ć ż ó</span><span class="tt">Polski</span><small>Słówka i dyktanda</small></button>
     <button type="button" class="tile en" id="t-en"><span class="wm wm-img" aria-hidden="true"><svg width="58" height="36" viewBox="0 0 60 36"><rect x="1.5" y="1.5" width="57" height="33" rx="3" fill="none" stroke="#fff" stroke-width="3"/><rect x="3" y="3" width="25" height="17" fill="#fff"/><path d="M28 7.5H57M28 13.5H57M28 19.5H57M3 25.5H57M3 31H57" stroke="#fff" stroke-width="3"/></svg><svg width="58" height="36" viewBox="0 0 60 36"><rect x="1.5" y="1.5" width="57" height="33" rx="3" fill="none" stroke="#fff" stroke-width="3"/><path d="M3 3L57 33M57 3L3 33" stroke="#fff" stroke-width="4"/><path d="M30 3V33M3 18H57" stroke="#fff" stroke-width="8"/></svg></span><span class="tt">Angielski</span><small>Słówka i tematyczne zadania</small></button>
+    <button type="button" class="tile sz" id="t-sz"><span class="wm wm-img" aria-hidden="true"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjIgMTBjMTAuNSAxIDE2LjUgOCAxNiAyOUgxNWMwLTkgMTAtNi41IDgtMjEiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjQgMThjLjM4IDIuOTEtNS41NSA3LjM3LTggOS0zIDItMi44MiA0LjM0LTUgNC0xLjA0Mi0uOTQgMS40MS0zLjA0IDAtMy0xIDAgLjE5IDEuMjMtMSAyLTEgMC00LjAwMyAxLTQtNCAwLTIgNi0xMiA2LTEyczEuODktMS45IDItMy41Yy0uNzMtLjk5NC0uNS0yLS41LTMgMS0xIDMgMi41IDMgMi41aDJzLjc4LTEuOTkyIDIuNS0zYzEgMCAxIDMgMSAzIi8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTkuNSAyNS41YS41LjUgMCAxIDEtMSAwIC41LjUgMCAxIDEgMSAwbTUuNDMzLTkuNzVhLjUgMS41IDMwIDEgMS0uODY2LS41LjUgMS41IDMwIDEgMSAuODY2LjUiLz48L2c+PC9zdmc+" alt="" width="56" height="56"></span><span class="tt">Szachy</span><small>Samouczek, zadania i gra z komputerem</small></button>
     <button type="button" class="tile his" id="t-his" data-soon aria-describedby="soon-his"><span class="wm wm-img" aria-hidden="true"><svg width="104" height="84" viewBox="0 0 120 96" fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><path d="M40 44C52 40 70 40 82 42C88 36 94 26 100 18L104 15L106 21C110 26 114 32 114 37C114 40 110 41 106 39C102 37 98 38 96 42C94 50 92 56 88 60C84 66 70 68 56 67C46 67 36 64 34 56C33 50 35 46 40 44Z" stroke="none"/><path d="M84 62L88 93M78 64L74 93M46 64L42 93M54 66L54 93" fill="none" stroke-width="5"/><path d="M36 48C26 50 24 62 28 74" fill="none" stroke-width="5"/><path d="M57 44L70 44L73 24L62 22Z" stroke="none"/><circle cx="68" cy="15" r="6" stroke="none"/><path d="M68 9V3" fill="none" stroke-width="2.5"/><path d="M64 44L71 58M71 28L82 32" fill="none" stroke-width="5"/><path d="M60 42C46 34 44 12 56 1" fill="none" stroke-width="4"/><path d="M52 32L43 30M49 24L40 21M49 16L40 12M51 9L44 3" fill="none" stroke-width="3"/><path d="M38 59L117 10" fill="none" stroke-width="2.5"/><path d="M107 16L117 10L113 21Z" stroke="none"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Historia</span><small id="soon-his">Daty, bitwy, królowie</small></button>
     <button type="button" class="tile nat" id="t-nat" data-soon aria-describedby="soon-nat"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 32C6 14 18 4 36 4c0 18-10 28-26 28z" fill="#fff"/><path d="M6 32L24 14" stroke="rgba(0,0,0,.35)"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Przyroda</span><small id="soon-nat">Rośliny, zwierzęta, mapa</small></button>
     <button type="button" class="tile hea" id="t-zd"><span class="wm wm-img" aria-hidden="true"><svg width="42" height="36" viewBox="0 0 42 36" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 33C8 24 3 17 3 11a9 9 0 0 1 18-2 9 9 0 0 1 18 2c0 6-5 13-18 22z" fill="#fff"/><path d="M7 17h7l3-5 4 9 3-6h11" stroke="rgba(0,0,0,.35)" stroke-width="2.5"/></svg></span><span class="tt">Edukacja zdrowotna</span><small id="t-zd-s">Sprawdzian 29.10 i ćwiczenia</small></button>
@@ -763,7 +785,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div class="fchips who" id="who" hidden role="group" aria-label="Czyje wyniki"></div><p class="abnote" id="who-msg" hidden></p>
   <button type="button" class="sbar" id="st-cups"><span class="si cupsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10v6a5 5 0 0 1-10 0z"/><path d="M7 5H4a3 3 0 0 0 3 4M17 5h3a3 3 0 0 1-3 4M12 14v3M8 21h8l-1-4H9z"/></svg></span><span class="st"><b>Puchary</b><small>Brąz, srebro, złoto i diament – ile już jest</small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
-  <div class="segs subj" id="subj" role="tablist" aria-label="Przedmiot"><button type="button" role="tab" data-s="all" class="sel" aria-selected="true">Wszystko</button><button type="button" role="tab" data-s="mat" aria-selected="false">Matma</button><button type="button" role="tab" data-s="pl" aria-selected="false">Polski</button><button type="button" role="tab" data-s="en" aria-selected="false">Angielski</button><button type="button" role="tab" data-s="zd" aria-selected="false">Zdrowie</button><button type="button" role="tab" data-s="his" aria-selected="false">Historia</button></div>
+  <div class="segs subj" id="subj" role="tablist" aria-label="Przedmiot"><button type="button" role="tab" data-s="all" class="sel" aria-selected="true">Wszystko</button><button type="button" role="tab" data-s="mat" aria-selected="false">Matma</button><button type="button" role="tab" data-s="pl" aria-selected="false">Polski</button><button type="button" role="tab" data-s="en" aria-selected="false">Angielski</button><button type="button" role="tab" data-s="zd" aria-selected="false">Zdrowie</button><button type="button" role="tab" data-s="sz" aria-selected="false">Szachy</button><button type="button" role="tab" data-s="his" aria-selected="false">Historia</button></div>
   <div class="soonbox" id="soonbox" hidden><b id="soon-t">Polski już wkrótce</b><span>Tu pojawią się wyniki, gdy zaczniesz ćwiczyć.</span></div>
   <div class="kid" id="kid">
     <section class="streakc"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round" aria-hidden="true"><path d="M12 2c1 4 5 6 5 11a5 5 0 0 1-10 0c0-2.5 1.2-4 2.5-5 .2 2 1 3 2 3 0-3-1-5.5.5-9z"/></svg>
@@ -920,6 +942,53 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="segs pl-len" id="pzk-f" role="group" aria-label="Pokaż"><button type="button" data-f="all" class="sel">Wszystkie</button><button type="button" data-f="ok">Znane</button><button type="button" data-f="rep">Do powtórki</button></div>
   <ul class="pzk-list" id="pzk-list"></ul>
 </div>
+
+<!-- Szachy: samouczek, zadania, gra z komputerem; jedna szachownica #szb -->
+<div class="wrap" id="sz" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Szachy</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="tiles2 mat-tiles">
+    <button type="button" class="tile mt" id="sz-t-learn" style="--gc:#2b8a3e"><span class="wm wm-img" aria-hidden="true"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgdmlld0JveD0iMCAwIDQ1IDQ1Ij48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSI+PHBhdGggc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgZD0iTTIyLjUgMTEuNjNWNk0yMCA4aDUiLz48cGF0aCBmaWxsPSIjZmZmIiBzdHJva2UtbGluZWNhcD0iYnV0dCIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgZD0iTTIyLjUgMjVzNC41LTcuNSAzLTEwLjVjMCAwLTEtMi41LTMtMi41cy0zIDIuNS0zIDIuNWMtMS41IDMgMyAxMC41IDMgMTAuNSIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0xMS41IDM3YzUuNSAzLjUgMTUuNSAzLjUgMjEgMHYtN3M5LTQuNSA2LTEwLjVjLTQtNi41LTEzLjUtMy41LTE2IDRWMjd2LTMuNWMtMy41LTcuNS0xMy0xMC41LTE2LTQtMyA2IDUgMTAgNSAxMHoiLz48cGF0aCBkPSJNMTEuNSAzMGM1LjUtMyAxNS41LTMgMjEgMG0tMjEgMy41YzUuNS0zIDE1LjUtMyAyMSAwbS0yMSAzLjVjNS41LTMgMTUuNS0zIDIxIDAiLz48L2c+PC9zdmc+" alt="" width="44" height="44"></span><span class="tt">Samouczek</span><small id="sz-t-learn-s"></small></button>
+    <button type="button" class="tile mt" id="sz-t-puz" style="--gc:#c2410c"><span class="wm" aria-hidden="true">#</span><span class="tt">Zadania</span><small id="sz-t-puz-s"></small></button>
+    <button type="button" class="tile mt" id="sz-t-play" style="--gc:#495057"><span class="wm wm-img" aria-hidden="true"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9IiNmZmYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBkPSJNOCAxMmEyIDIgMCAxIDEtNCAwIDIgMiAwIDEgMSA0IDBtMTYuNS00LjVhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwTTQxIDEyYTIgMiAwIDEgMS00IDAgMiAyIDAgMSAxIDQgME0xNiA4LjVhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwTTMzIDlhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwIi8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIGQ9Ik05IDI2YzguNS0xLjUgMjEtMS41IDI3IDBsMi0xMi03IDExVjExbC01LjUgMTMuNS0zLTE1LTMgMTUtNS41LTE0VjI1TDcgMTR6Ii8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIGQ9Ik05IDI2YzAgMiAxLjUgMiAyLjUgNCAxIDEuNSAxIDEgLjUgMy41LTEuNSAxLTEuNSAyLjUtMS41IDIuNS0xLjUgMS41LjUgMi41LjUgMi41IDYuNSAxIDE2LjUgMSAyMyAwIDAgMCAxLjUtMSAwLTIuNSAwIDAgLjUtMS41LTEtMi41LS41LTIuNS0uNS0yIC41LTMuNSAxLTIgMi41LTIgMi41LTQtOC41LTEuNS0xOC41LTEuNS0yNyAweiIvPjxwYXRoIGZpbGw9Im5vbmUiIGQ9Ik0xMS41IDMwYzMuNS0xIDE4LjUtMSAyMiAwTTEyIDMzLjVjNi0xIDE1LTEgMjEgMCIvPjwvZz48L3N2Zz4=" alt="" width="44" height="44"></span><span class="tt">Graj z komputerem</span><small id="sz-t-play-s"></small></button>
+  </div>
+</div>
+<div class="wrap" id="szl" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Samouczek</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <p class="abnote">Krótkie lekcje: ruchy figur, bicie, szach, mat i ruchy specjalne. Kolejna otwiera się po skończeniu poprzedniej.</p>
+  <div class="sets" id="szl-list"></div>
+</div>
+<div class="wrap" id="szz" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Zadania szachowe</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="lbl">Rodzaj</div>
+  <div class="segs" id="szz-theme"><button type="button" data-t="m1">Mat w 1</button><button type="button" data-t="m2">Mat w 2</button><button type="button" data-t="m3">Mat w 3</button><button type="button" data-t="mix">Mieszane</button></div>
+  <div class="lbl">Ile zadań</div>
+  <div class="segs" id="szz-n"><button type="button" data-n="3">3</button><button type="button" data-n="5">5</button><button type="button" data-n="10">10</button></div>
+  <p class="sum sz-sum" id="szz-info"></p>
+  <button type="button" class="go-btn" id="szz-go">Start</button>
+</div>
+<div class="wrap" id="szo" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Graj z komputerem</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="lbl">Grasz</div>
+  <div class="segs" id="szo-col"><button type="button" data-c="w">Białymi</button><button type="button" data-c="b">Czarnymi</button><button type="button" data-c="rand">Losowo</button></div>
+  <div class="lbl">Przeciwnik</div>
+  <div class="sets" id="szo-list"></div>
+</div>
+<div class="wrap" id="szg" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow" id="szg-t">Szachy</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="dots" id="szg-dots"></div>
+  <div id="szg-play">
+    <p class="sz-info" id="szg-info" aria-live="polite"></p>
+    <div class="szb" id="szb" role="grid" aria-label="Szachownica"></div>
+    <div class="sz-ctl" id="szg-ctl"></div>
+  </div>
+  <div id="szg-end" class="pl-end" hidden></div>
+</div>
+<div class="ask" id="szpromo" hidden role="dialog" aria-modal="true" aria-label="Wybierz figurę"><div class="ask-box"><h2>Zamień piona na…</h2><div class="sz-promo" id="szpromo-b"></div></div></div>
 
 <!-- Edukacja zdrowotna: sprawdzian i tematy (quiz jak w angielskim, #enq) -->
 <div class="wrap" id="zd" hidden>
@@ -2288,8 +2357,8 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",sz:"#szachy",szl:"#szachy-nauka",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",sz:"sz",szl:"szl",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
@@ -2307,7 +2376,7 @@ function go(v){
   showView(v);
 }
 addEventListener("popstate",()=>{const v=Object.keys(HASH).find(k=>HASH[k]&&HASH[k]===location.hash)||"home";
-  showView(v==="play"&&!ACTIVE?"home":v==="plw"&&!PW?"plws":v==="pldt"&&!PD?"pld":v==="plz"&&!PZ?"plzs":v==="enq"&&!EN?"en":v==="enset"&&!ENM?"en":v);});
+  showView(v==="play"&&!ACTIVE?"home":v==="plw"&&!PW?"plws":v==="pldt"&&!PD?"pld":v==="plz"&&!PZ?"plzs":v==="enq"&&!EN?"en":v==="enset"&&!ENM?"en":v==="szg"&&!SZ?"sz":v);});
 document.querySelectorAll("[data-back]").forEach(b=>b.addEventListener("click",()=>{if(location.hash) history.back(); else showView("home");}));
 // logo aplikacji obok „wstecz” w nagłówku każdego ekranu: od razu na stronę główną (rozpoczęte gry zostają do dokończenia)
 document.querySelectorAll("header [data-back]").forEach(b=>{const h=document.createElement("button");h.type="button";h.className="home-btn";h.setAttribute("aria-label","Strona główna");
@@ -2387,7 +2456,7 @@ const dni=n=>n===1?"dzień":"dni";
 function renderKid(){
   const soon=!!SUBJ_SOON[SUBJ];
   $("soonbox").hidden=!soon;$("soon-t").textContent=SUBJ_SOON[SUBJ]||"";
-  $("kid").hidden=soon;$("par-btn").hidden=soon||SUBJ==="en"||SUBJ==="zd";$("par").hidden=soon||SUBJ==="pl"||SUBJ==="en"||SUBJ==="zd"||!parOpen;
+  $("kid").hidden=soon;$("par-btn").hidden=soon||SUBJ==="en"||SUBJ==="zd"||SUBJ==="sz";$("par").hidden=soon||SUBJ==="pl"||SUBJ==="en"||SUBJ==="zd"||SUBJ==="sz"||!parOpen;
   // Polski ma własne szczegóły rodzica (#par-pl); „Wszystko” i Matma pokazują matematyczne
   $("par-pl").hidden=soon||SUBJ!=="pl"||!parOpen;if(!$("par-pl").hidden) renderPlPar();
   $("par-s").textContent=SUBJ==="pl"?"Wykresy, ó/u · rz/ż · ch/h, mylone słowa, dyktanda":"Wykresy, oceny, trudne działania, tabliczka";
@@ -2667,6 +2736,7 @@ function plLiveNow(){
 }
 function plShow(v){
   if(v==="pl") renderPl();
+  if(v==="sz") renderSz();if(v==="szl") renderSzl();if(v==="szz") renderSzz();if(v==="szo") renderSzo();
   if(v==="plws") renderPws();
   if(v==="pld") renderPd();
   if(v==="plzs") renderPzs();
@@ -4172,14 +4242,15 @@ if(syncOn()) syncSoon(2500);
    Próg brązu ustawia rodzic (PREFS.cups[kategoria], domyślnie base), kolejne poziomy = próg × x. Nagrody od rodzica:
    PREFS.cupRewards[poziom]. Liczone z historii, więc obejmują też wcześniejsze wyniki; PREFS.cupSeen pamięta pokazane
    puchary, żeby „Nowy puchar!” wyskoczył raz. Rodzic zmienia progi dziecka przez jego wiersz w settings (sync go dociąga). */
-const CUP_SUBJ={mat:"Matematyka",pl:"Polski",en:"Angielski",zd:"Edukacja zdrowotna"};
+const CUP_SUBJ={mat:"Matematyka",pl:"Polski",en:"Angielski",zd:"Edukacja zdrowotna",sz:"Szachy"};
 const CUP_CATS=[
   {id:"mat×",subj:"mat",name:"Mnożenie",base:150},{id:"mat:",subj:"mat",name:"Dzielenie",base:150},
   {id:"mat+",subj:"mat",name:"Dodawanie",base:100},{id:"mat−",subj:"mat",name:"Odejmowanie",base:100},
   {id:"pl-slowka",subj:"pl",name:"Słówka: ó/u, rz/ż, ch/h",base:75},{id:"pl-dyktando",subj:"pl",name:"Dyktanda",base:75},
   {id:"pl-znaczenia",subj:"pl",name:"Znaczenie słów",base:100},
   {id:"en-tobe",subj:"en",name:"To be",base:50},{id:"en-slowka",subj:"en",name:"Słówka angielskie",base:75},{id:"en-zdania",subj:"en",name:"Zdania",base:100},
-  {id:"zd",subj:"zd",name:"Edukacja zdrowotna",base:60}
+  {id:"zd",subj:"zd",name:"Edukacja zdrowotna",base:60},
+  {id:"sz-nauka",subj:"sz",name:"Samouczek szachowy",base:15},{id:"sz-zadania",subj:"sz",name:"Zadania szachowe",base:40},{id:"sz-gra",subj:"sz",name:"Partie z komputerem",base:20}
 ];
 const CUP_LV=[{k:"b",name:"Brąz",to:"brązu",x:1,c:"#cd7f32"},{k:"s",name:"Srebro",to:"srebra",x:3,c:"#b4bfcf"},
   {k:"g",name:"Złoto",to:"złota",x:8,c:"#f2c230"},{k:"d",name:"Diament",to:"diamentu",x:20,c:"#4dd4ff"}];
@@ -4342,6 +4413,7 @@ function ptsW(s,r){
     if(m==="zdania"){const x=ENS.find(y=>y.en===r.c||y.en===r.t);return (x&&x.lvl==="a2"?5:3)+(x&&r.c===x.en?1:0);}
     return /[?.]$/.test(r.c||"")?2:1; // To be: pytania i krótkie odpowiedzi 2, odmiana i am/is/are 1
   }
+  if(sj==="sz") return r.w||1;
   if(sj==="zd") return r.c==="Prawda"||r.c==="Fałsz"?1:2; // edukacja zdrowotna: prawda/fałsz 1, wybór z 4 – 2
   return 1;
 }
@@ -4362,7 +4434,9 @@ const PTS_INFO=[
     ["Znaczenie słów – łatwe / średnie / trudne","ponury / skrupulatny / lakoniczny","2 / 3 / 5"],["…za synonim, przeciwieństwo albo zdanie z luką","","+1"]]],
   ["Angielski",[["To be – odmiana i am / is / are","On jest → He is",1],["To be – pytania i Who / What","Is he red?",2],["To be – krótkie odpowiedzi","Yes, she is.",2],
     ["Słówka A1 / A2 (z angielskiego na polski)","dog → pies","1 / 2"],["…z polskiego na angielski","pies → dog","+1"],
-    ["Zdania A1 / A2 (z angielskiego na polski)","She is my sister.","3 / 5"],["…z polskiego na angielski","","+1"]]]
+    ["Zdania A1 / A2 (z angielskiego na polski)","She is my sister.","3 / 5"],["…z polskiego na angielski","","+1"]]],
+  ["Szachy",[["Samouczek – każda plansza (najkrócej, bez pomyłki)","",1],["Zadanie mat w 1 / w 2 / w 3","","2 / 3 / 5"],
+    ["Wygrana z komputerem","Paweł … Kazimierz","3 – 15"]]]
 ];
 function openPtsInfo(){
   $("ptsinfo-body").innerHTML=PTS_INFO.map(([h,rows])=>`<div class="lbl">${h}</div><table class="ptab">`+
@@ -4393,7 +4467,7 @@ function histSummary(H,P){
   let n=0,d=act.has(T)?T:addDays(T,-1);while(act.has(d)){n++;d=addDays(d,-1);}
   const c=cupCounts(H),cups={b:0,s:0,g:0,d:0}; // najwyższy puchar w każdej kategorii
   CUP_CATS.forEach(x=>{const l=cupLevel(c[x.id]||0,cupBase(P,x.id));if(l>=0) cups[CUP_LV[l].k]++;});
-  subj._on=["mat","pl","en","zd"].filter(k=>subjOn(k));
+  subj._on=["mat","pl","en","zd","sz"].filter(k=>subjOn(k));
   return {week_start:ymd(MON),week_pts:week,total_pts:total,streak:n,cups,subj};
 }
 async function ligPublish(){ // osobno od reszty synchronizacji: brak tabel lig nie może jej zatrzymać
@@ -4460,7 +4534,7 @@ async function renderLig(){
   }catch(x){$("lig-rank").innerHTML='<li class="none">Nie udało się wczytać rankingu.</li>';}
 }
 // punkty w rankingu dla okresu (LIGMODE) i przedmiotu; „ten tydzień” z nieaktualnym podsumowaniem = 0
-const LIG_CATS={all:{name:"Wszystko",c:"var(--accent)"},mat:{name:"Matematyka",c:"#5c7cfa"},pl:{name:"Polski",c:"#f76707"},en:{name:"Angielski",c:"#12b886"}};
+const LIG_CATS={all:{name:"Wszystko",c:"var(--accent)"},mat:{name:"Matematyka",c:"#5c7cfa"},pl:{name:"Polski",c:"#f76707"},en:{name:"Angielski",c:"#12b886"},sz:{name:"Szachy",c:"#2b8a3e"}};
 let LIGCAT="all";
 function ligVal(r,cat){const wk=LIGMODE==="week";if(cat==="all") return wk?r.week_pts:r.total_pts;
   const x=(r.subj||{})[cat]||{};return wk?(r.this_week===false?0:x.w||0):x.t||0;}
@@ -4527,6 +4601,7 @@ const MODS=[
   {g:"Edukacja zdrowotna",items:[{k:"zd-spr",name:"Sprawdzian 29.10",sub:"wszystkie tematy"},{k:"zd-wartosc",name:"Zdrowie jako wartość",sub:"definicja i wymiary zdrowia"},
     {k:"zd-styl",name:"Zdrowy styl życia",sub:"mierniki zdrowia, hartowanie"},{k:"zd-cialo",name:"Moje ciało się zmienia",sub:"dojrzewanie, higiena, żelazo"},
     {k:"zd-zach",name:"Zachowania chroniące i ryzykowne",sub:"środowisko, zdrowe nawyki"}]},
+  {g:"Szachy",items:[{k:"sz-nauka",name:"Samouczek",sub:"ruchy figur, szach, mat, roszada"},{k:"sz-zadania",name:"Zadania",sub:"mat w 1, 2 i 3"},{k:"sz-gra",name:"Graj z komputerem",sub:"przeciwnicy do odblokowania"}]},
   {g:"Historia",items:[{k:"his",name:"Historia",sub:"kafel „Wkrótce” – daty, bitwy, królowie"}]},
   {g:"Przyroda",items:[{k:"nat",name:"Przyroda",sub:"kafel „Wkrótce” – rośliny, zwierzęta, mapa"}]},
   {g:"Inne",always:true,items:[{k:"stats",name:"Statystyki",sub:"punkty, seria, wyniki"},{k:"cups",name:"Nagrody",sub:"puchary, animacje, filmiki"},
@@ -4541,7 +4616,7 @@ function applyMods(){
   show("pl-t-w",modOn("pl-slowka"));show("pl-t-d",modOn("pl-dyktando"));show("pl-t-z",modOn("pl-znaczenia"));show("pz-day",modOn("pl-znaczenia"));
   show("en-t-tobe",modOn("en-tobe"));show("en-t-v",modOn("en-slowka"));show("en-t-z",modOn("en-zdania"));
   show("t-zd",subjOn("zd"));show("zd-spr",modOn("zd-spr"));show("zd-tw",ZD_TOPICS.some(t=>modOn("zd-"+t.id)));if(CUR==="zd") renderZd();
-  show("t-his",modOn("his"));show("t-nat",modOn("nat"));
+  show("t-sz",subjOn("sz"));show("t-his",modOn("his"));show("t-nat",modOn("nat"));
   {const g=$("t-math").parentElement;g.querySelectorAll(":scope>[data-soon]").forEach(b=>g.appendChild(b));} // kafle „Wkrótce” zawsze na końcu
   show("t-stats",modOn("stats"));show("t-cups",modOn("cups"));show("t-help",modOn("help")); // Ligi: ligHomeLine i niżej
   if($("t-lig")&&!modOn("lig")) $("t-lig").hidden=true;
@@ -4581,7 +4656,7 @@ async function renderKidCfg(){
 // podgląd: kopia prawdziwego ekranu startowego w skali, z kaflami tak, jak zobaczy je dziecko
 function kcPreview(){
   const inner=$("kc-inner"),P={mods:KC.mods},grid=$("home").querySelector(".tiles2").cloneNode(true);
-  const vis={"t-math":subjOn("mat",P),"t-pl":subjOn("pl",P),"t-en":subjOn("en",P),"t-zd":subjOn("zd",P)};
+  const vis={"t-math":subjOn("mat",P),"t-pl":subjOn("pl",P),"t-en":subjOn("en",P),"t-zd":subjOn("zd",P),"t-sz":subjOn("sz",P)};
   grid.querySelectorAll("button").forEach(b=>{const on=b.id in vis?vis[b.id]:b.id==="t-his"?modOn("his",P):b.id==="t-nat"?modOn("nat",P):true;b.hidden=!on;});
   const bars=[["t-stats","stats"],["t-cups","cups"],["t-lig","lig"],["t-help","help"]].filter(([,k])=>modOn(k,P)).map(([id])=>id).map(id=>{const b=$(id).cloneNode(true);b.hidden=false;return b;});
   inner.replaceChildren(grid,...bars);
@@ -4710,7 +4785,7 @@ $("adm-refresh").addEventListener("click",()=>{loadReqs();renderAdmin();});
 /* szczegóły za kaflem (admin2.sql: admin_details) – lista w oknie */
 const admD=t=>{if(t==null) return "–";const d=new Date(typeof t==="number"||/^\d+$/.test(t)?+t:t);
   return isNaN(d)?"–":d.toLocaleString("pl-PL",{day:"numeric",month:"numeric",year:"2-digit",hour:"2-digit",minute:"2-digit"});};
-const ROLE={parent:"rodzic",student:"dziecko"},SUBJN={mat:"matematyka",pl:"polski",en:"angielski",zd:"edukacja zdrowotna"};
+const ROLE={parent:"rodzic",student:"dziecko"},SUBJN={mat:"matematyka",pl:"polski",en:"angielski",zd:"edukacja zdrowotna",sz:"szachy"};
 const admSt=st=>st==="pending"?'<span class="adm-pend">czeka</span>':"";
 const ADM_ROW={
   users:x=>[`<b>${esc(x.name||"(bez profilu)")}</b> ${x.role?`<small>${ROLE[x.role]||x.role}</small>`:""} ${admSt(x.status)}`,esc(x.email||""),
@@ -4779,6 +4854,350 @@ $("nag-vid-list").addEventListener("click",e=>{const b=e.target.closest("[data-r
   let a=null;const close=()=>{if(a) a.destroy();w.remove();};w.addEventListener("click",close);
   playGoal(w.querySelector(".goal-anim"),r,()=>setTimeout(close,400),r.t[0]).then(x=>{a=x;});});
 
+/* ===== Szachy (#sz): samouczek, zadania z bazy Lichess i gra z komputerem =====
+   Zasady: chess/chess.js (wczytywany przy pierwszym wejściu, szLoad). Figury: SZ_IMG (cburnett z Lichess, CC BY-SA, w kodzie).
+   Jedna szachownica #szb dla wszystkiego (SZ = bieżąca plansza: kind "star" | "rule" | "puzzle" | "game").
+   Lekcje „zbierz gwiazdki” liczą ruchy same (szStarMoves), reszta przez chess.js. Sesje w historii z subj:"sz",
+   cfg.mode = nauka (lesson) / zadania (theme, rekord ma pr = ocena zadania) / gra (opp, color); ranking zadań i odblokowani
+   przeciwnicy liczą się z historii. Silnik (szBest): alfa-beta na wewnętrznych _moves/_makeMove chess.js, siła z SZ_OPP. */
+let CHESS=null;
+async function szLoad(){if(!CHESS) CHESS=(await import("./chess/chess.js")).Chess;return CHESS;}
+const SZ_IMG={"wK":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgdmlld0JveD0iMCAwIDQ1IDQ1Ij48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSI+PHBhdGggc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgZD0iTTIyLjUgMTEuNjNWNk0yMCA4aDUiLz48cGF0aCBmaWxsPSIjZmZmIiBzdHJva2UtbGluZWNhcD0iYnV0dCIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgZD0iTTIyLjUgMjVzNC41LTcuNSAzLTEwLjVjMCAwLTEtMi41LTMtMi41cy0zIDIuNS0zIDIuNWMtMS41IDMgMyAxMC41IDMgMTAuNSIvPjxwYXRoIGZpbGw9IiNmZmYiIGQ9Ik0xMS41IDM3YzUuNSAzLjUgMTUuNSAzLjUgMjEgMHYtN3M5LTQuNSA2LTEwLjVjLTQtNi41LTEzLjUtMy41LTE2IDRWMjd2LTMuNWMtMy41LTcuNS0xMy0xMC41LTE2LTQtMyA2IDUgMTAgNSAxMHoiLz48cGF0aCBkPSJNMTEuNSAzMGM1LjUtMyAxNS41LTMgMjEgMG0tMjEgMy41YzUuNS0zIDE1LjUtMyAyMSAwbS0yMSAzLjVjNS41LTMgMTUuNS0zIDIxIDAiLz48L2c+PC9zdmc+","wQ":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9IiNmZmYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBkPSJNOCAxMmEyIDIgMCAxIDEtNCAwIDIgMiAwIDEgMSA0IDBtMTYuNS00LjVhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwTTQxIDEyYTIgMiAwIDEgMS00IDAgMiAyIDAgMSAxIDQgME0xNiA4LjVhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwTTMzIDlhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwIi8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIGQ9Ik05IDI2YzguNS0xLjUgMjEtMS41IDI3IDBsMi0xMi03IDExVjExbC01LjUgMTMuNS0zLTE1LTMgMTUtNS41LTE0VjI1TDcgMTR6Ii8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIGQ9Ik05IDI2YzAgMiAxLjUgMiAyLjUgNCAxIDEuNSAxIDEgLjUgMy41LTEuNSAxLTEuNSAyLjUtMS41IDIuNS0xLjUgMS41LjUgMi41LjUgMi41IDYuNSAxIDE2LjUgMSAyMyAwIDAgMCAxLjUtMSAwLTIuNSAwIDAgLjUtMS41LTEtMi41LS41LTIuNS0uNS0yIC41LTMuNSAxLTIgMi41LTIgMi41LTQtOC41LTEuNS0xOC41LTEuNS0yNyAweiIvPjxwYXRoIGZpbGw9Im5vbmUiIGQ9Ik0xMS41IDMwYzMuNS0xIDE4LjUtMSAyMiAwTTEyIDMzLjVjNi0xIDE1LTEgMjEgMCIvPjwvZz48L3N2Zz4=","wR":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9IiNmZmYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBzdHJva2UtbGluZWNhcD0iYnV0dCIgZD0iTTkgMzloMjd2LTNIOXptMy0zdi00aDIxdjR6bS0xLTIyVjloNHYyaDVWOWg1djJoNVY5aDR2NSIvPjxwYXRoIGQ9Im0zNCAxNC0zIDNIMTRsLTMtMyIvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBkPSJNMzEgMTd2MTIuNUgxNFYxNyIvPjxwYXRoIGQ9Im0zMSAyOS41IDEuNSAyLjVoLTIwbDEuNS0yLjUiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBkPSJNMTEgMTRoMjMiLz48L2c+PC9zdmc+","wB":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48ZyBmaWxsPSIjZmZmIiBzdHJva2UtbGluZWNhcD0iYnV0dCI+PHBhdGggZD0iTTkgMzZjMy4zOS0uOTcgMTAuMTEuNDMgMTMuNS0yIDMuMzkgMi40MyAxMC4xMSAxLjAzIDEzLjUgMiAwIDAgMS42NS41NCAzIDItLjY4Ljk3LTEuNjUuOTktMyAuNS0zLjM5LS45Ny0xMC4xMS40Ni0xMy41LTEtMy4zOSAxLjQ2LTEwLjExLjAzLTEzLjUgMS0xLjM1LjQ5LTIuMzIuNDctMy0uNSAxLjM1LTEuOTQgMy0yIDMtMnoiLz48cGF0aCBkPSJNMTUgMzJjMi41IDIuNSAxMi41IDIuNSAxNSAwIC41LTEuNSAwLTIgMC0yIDAtMi41LTIuNS00LTIuNS00IDUuNS0xLjUgNi0xMS41LTUtMTUuNS0xMSA0LTEwLjUgMTQtNSAxNS41IDAgMC0yLjUgMS41LTIuNSA0IDAgMC0uNS41IDAgMnoiLz48cGF0aCBkPSJNMjUgOGEyLjUgMi41IDAgMSAxLTUgMCAyLjUgMi41IDAgMSAxIDUgMHoiLz48L2c+PHBhdGggc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgZD0iTTE3LjUgMjZoMTBNMTUgMzBoMTVtLTcuNS0xNC41djVNMjAgMThoNSIvPjwvZz48L3N2Zz4=","wN":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjIgMTBjMTAuNSAxIDE2LjUgOCAxNiAyOUgxNWMwLTkgMTAtNi41IDgtMjEiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjQgMThjLjM4IDIuOTEtNS41NSA3LjM3LTggOS0zIDItMi44MiA0LjM0LTUgNC0xLjA0Mi0uOTQgMS40MS0zLjA0IDAtMy0xIDAgLjE5IDEuMjMtMSAyLTEgMC00LjAwMyAxLTQtNCAwLTIgNi0xMiA2LTEyczEuODktMS45IDItMy41Yy0uNzMtLjk5NC0uNS0yLS41LTMgMS0xIDMgMi41IDMgMi41aDJzLjc4LTEuOTkyIDIuNS0zYzEgMCAxIDMgMSAzIi8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTkuNSAyNS41YS41LjUgMCAxIDEtMSAwIC41LjUgMCAxIDEgMSAwbTUuNDMzLTkuNzVhLjUgMS41IDMwIDEgMS0uODY2LS41LjUgMS41IDMwIDEgMSAuODY2LjUiLz48L2c+PC9zdmc+","wP":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxwYXRoIGZpbGw9IiNmZmYiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSIgZD0iTTIyLjUgOWMtMi4yMSAwLTQgMS43OS00IDQgMCAuODkuMjkgMS43MS43OCAyLjM4QzE3LjMzIDE2LjUgMTYgMTguNTkgMTYgMjFjMCAyLjAzLjk0IDMuODQgMi40MSA1LjAzLTMgMS4wNi03LjQxIDUuNTUtNy40MSAxMy40N2gyM2MwLTcuOTItNC40MS0xMi40MS03LjQxLTEzLjQ3IDEuNDctMS4xOSAyLjQxLTMgMi40MS01LjAzIDAtMi40MS0xLjMzLTQuNS0zLjI4LTUuNjIuNDktLjY3Ljc4LTEuNDkuNzgtMi4zOCAwLTIuMjEtMS43OS00LTQtNHoiLz48L3N2Zz4=","bK":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgdmlld0JveD0iMCAwIDQ1IDQ1Ij48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSI+PHBhdGggc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgZD0iTTIyLjUgMTEuNlY2Ii8+PHBhdGggZmlsbD0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiIGQ9Ik0yMi41IDI1czQuNS03LjUgMy0xMC41YzAgMC0xLTIuNS0zLTIuNXMtMyAyLjUtMyAyLjVjLTEuNSAzIDMgMTAuNSAzIDEwLjUiLz48cGF0aCBmaWxsPSIjMDAwIiBkPSJNMTEuNSAzN2EyMi4zIDIyLjMgMCAwIDAgMjEgMHYtN3M5LTQuNSA2LTEwLjVjLTQtNi41LTEzLjUtMy41LTE2IDRWMjd2LTMuNWMtMy41LTcuNS0xMy0xMC41LTE2LTQtMyA2IDUgMTAgNSAxMHoiLz48cGF0aCBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBkPSJNMjAgOGg1Ii8+PHBhdGggc3Ryb2tlPSIjZWNlY2VjIiBkPSJNMzIgMjkuNXM4LjUtNCA2LTkuN0MzNC4xIDE0IDI1IDE4IDIyLjUgMjQuNnYyLjEtMi4xQzIwIDE4IDkuOSAxNCA3IDE5LjljLTIuNSA1LjYgNC44IDkgNC44IDkiLz48cGF0aCBzdHJva2U9IiNlY2VjZWMiIGQ9Ik0xMS41IDMwYzUuNS0zIDE1LjUtMyAyMSAwbS0yMSAzLjVjNS41LTMgMTUuNS0zIDIxIDBtLTIxIDMuNWM1LjUtMyAxNS41LTMgMjEgMCIvPjwvZz48L3N2Zz4=","bQ":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48ZyBzdHJva2U9Im5vbmUiPjxjaXJjbGUgY3g9IjYiIGN5PSIxMiIgcj0iMi43NSIvPjxjaXJjbGUgY3g9IjE0IiBjeT0iOSIgcj0iMi43NSIvPjxjaXJjbGUgY3g9IjIyLjUiIGN5PSI4IiByPSIyLjc1Ii8+PGNpcmNsZSBjeD0iMzEiIGN5PSI5IiByPSIyLjc1Ii8+PGNpcmNsZSBjeD0iMzkiIGN5PSIxMiIgcj0iMi43NSIvPjwvZz48cGF0aCBzdHJva2UtbGluZWNhcD0iYnV0dCIgZD0iTTkgMjZjOC41LTEuNSAyMS0xLjUgMjcgMGwyLjUtMTIuNUwzMSAyNWwtLjMtMTQuMS01LjIgMTMuNi0zLTE0LjUtMyAxNC41LTUuMi0xMy42TDE0IDI1IDYuNSAxMy41eiIvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJidXR0IiBkPSJNOSAyNmMwIDIgMS41IDIgMi41IDQgMSAxLjUgMSAxIC41IDMuNS0xLjUgMS0xLjUgMi41LTEuNSAyLjUtMS41IDEuNS41IDIuNS41IDIuNSA2LjUgMSAxNi41IDEgMjMgMCAwIDAgMS41LTEgMC0yLjUgMCAwIC41LTEuNS0xLTIuNS0uNS0yLjUtLjUtMiAuNS0zLjUgMS0yIDIuNS0yIDIuNS00LTguNS0xLjUtMTguNS0xLjUtMjcgMHoiLz48cGF0aCBmaWxsPSJub25lIiBzdHJva2UtbGluZWNhcD0iYnV0dCIgZD0iTTExIDM4LjVhMzUgMzUgMSAwIDAgMjMgMCIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2VjZWNlYyIgZD0iTTExIDI5YTM1IDM1IDEgMCAxIDIzIDBtLTIxLjUgMi41aDIwbS0yMSAzYTM1IDM1IDEgMCAwIDIyIDBtLTIzIDNhMzUgMzUgMSAwIDAgMjQgMCIvPjwvZz48L3N2Zz4=","bR":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBzdHJva2UtbGluZWNhcD0iYnV0dCIgZD0iTTkgMzloMjd2LTNIOXptMy41LTcgMS41LTIuNWgxN2wxLjUgMi41em0tLjUgNHYtNGgyMXY0eiIvPjxwYXRoIHN0cm9rZS1saW5lY2FwPSJidXR0IiBzdHJva2UtbGluZWpvaW49Im1pdGVyIiBkPSJNMTQgMjkuNXYtMTNoMTd2MTN6Ii8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIGQ9Ik0xNCAxNi41IDExIDE0aDIzbC0zIDIuNXpNMTEgMTRWOWg0djJoNVY5aDV2Mmg1VjloNHY1eiIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2VjZWNlYyIgc3Ryb2tlLWxpbmVqb2luPSJtaXRlciIgc3Ryb2tlLXdpZHRoPSIxIiBkPSJNMTIgMzUuNWgyMW0tMjAtNGgxOW0tMTgtMmgxN20tMTctMTNoMTdNMTEgMTRoMjMiLz48L2c+PC9zdmc+","bB":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48ZyBmaWxsPSIjMDAwIiBzdHJva2UtbGluZWNhcD0iYnV0dCI+PHBhdGggZD0iTTkgMzZjMy40LTEgMTAuMS40IDEzLjUtMiAzLjQgMi40IDEwLjEgMSAxMy41IDIgMCAwIDEuNi41IDMgMi0uNyAxLTEuNiAxLTMgLjUtMy40LTEtMTAuMS41LTEzLjUtMS0zLjQgMS41LTEwLjEgMC0xMy41IDEtMS40LjUtMi4zLjUtMy0uNSAxLjQtMiAzLTIgMy0yeiIvPjxwYXRoIGQ9Ik0xNSAzMmMyLjUgMi41IDEyLjUgMi41IDE1IDAgLjUtMS41IDAtMiAwLTIgMC0yLjUtMi41LTQtMi41LTQgNS41LTEuNSA2LTExLjUtNS0xNS41LTExIDQtMTAuNSAxNC01IDE1LjUgMCAwLTIuNSAxLjUtMi41IDQgMCAwLS41LjUgMCAyeiIvPjxwYXRoIGQ9Ik0yNSA4YTIuNSAyLjUgMCAxIDEtNSAwIDIuNSAyLjUgMCAxIDEgNSAweiIvPjwvZz48cGF0aCBzdHJva2U9IiNlY2VjZWMiIHN0cm9rZS1saW5lam9pbj0ibWl0ZXIiIGQ9Ik0xNy41IDI2aDEwTTE1IDMwaDE1bS03LjUtMTQuNXY1TTIwIDE4aDUiLz48L2c+PC9zdmc+","bN":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBmaWxsPSIjMDAwIiBkPSJNMjIgMTBjMTAuNSAxIDE2LjUgOCAxNiAyOUgxNWMwLTkgMTAtNi41IDgtMjEiLz48cGF0aCBmaWxsPSIjMDAwIiBkPSJNMjQgMThjLjM4IDIuOTEtNS41NSA3LjM3LTggOS0zIDItMi44MiA0LjM0LTUgNC0xLjA0LS45NCAxLjQxLTMuMDQgMC0zLTEgMCAuMTkgMS4yMy0xIDItMSAwLTQgMS00LTQgMC0yIDYtMTIgNi0xMnMxLjg5LTEuOSAyLTMuNWMtLjczLTEtLjUtMi0uNS0zIDEtMSAzIDIuNSAzIDIuNWgycy43OC0yIDIuNS0zYzEgMCAxIDMgMSAzIi8+PHBhdGggZmlsbD0iI2VjZWNlYyIgc3Ryb2tlPSIjZWNlY2VjIiBkPSJNOS41IDI1LjVhLjUuNSAwIDEgMS0xIDAgLjUuNSAwIDEgMSAxIDBtNS40My05Ljc1YS41IDEuNSAzMCAxIDEtLjg2LS41LjUgMS41IDMwIDEgMSAuODYuNSIvPjxwYXRoIGZpbGw9IiNlY2VjZWMiIHN0cm9rZT0ibm9uZSIgZD0ibTI0LjU1IDEwLjQtLjQ1IDEuNDUuNS4xNWMzLjE1IDEgNS42NSAyLjQ5IDcuOSA2Ljc1UzM1Ljc1IDI5LjA2IDM1LjI1IDM5bC0uMDUuNWgyLjI1bC4wNS0uNWMuNS0xMC4wNi0uODgtMTYuODUtMy4yNS0yMS4zNHMtNS43OS02LjY0LTkuMTktNy4xNnoiLz48L2c+PC9zdmc+","bP":"data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxwYXRoIHN0cm9rZT0iIzAwMCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2Utd2lkdGg9IjEuNSIgZD0iTTIyLjUgOWE0IDQgMCAwIDAtMy4yMiA2LjM4IDYuNDggNi40OCAwIDAgMC0uODcgMTAuNjVjLTMgMS4wNi03LjQxIDUuNTUtNy40MSAxMy40N2gyM2MwLTcuOTItNC40MS0xMi40MS03LjQxLTEzLjQ3YTYuNDYgNi40NiAwIDAgMC0uODctMTAuNjVBNC4wMSA0LjAxIDAgMCAwIDIyLjUgOXoiLz48L3N2Zz4="};
+const SZ_F="abcdefgh",SZ_NAME={K:"król",Q:"hetman",R:"wieża",B:"goniec",N:"skoczek",P:"pion"};
+const szAlg=i=>SZ_F[i&15]+(8-(i>>4)); // pole 0x88 z chess.js → „e4”
+const szPc=p=>p?(p.color+p.type.toUpperCase()):null; // {color:"w",type:"n"} → "wN"
+
+/* --- samouczek: lekcje i plansze --- */
+// star: figura gracza + gwiazdki (+ czarne figury stoją i czekają na zbicie); rule: pozycja FEN i cel jednego ruchu
+const SZ_LESSONS=[
+  {id:"wieza",name:"Wieża",ic:"wR",txt:"Wieża chodzi prosto: w górę, w dół, w lewo i w prawo, o ile pól chce. Zbierz wszystkie gwiazdki.",
+    b:[{p:"R",at:"a1",st:["a5","e5","e8"]},{p:"R",at:"d4",st:["d8","h8","h1","a1"]}]},
+  {id:"goniec",name:"Goniec",ic:"wB",txt:"Goniec chodzi po skosie i zawsze zostaje na polach jednego koloru. Zbierz gwiazdki.",
+    b:[{p:"B",at:"c1",st:["f4","h6","e3"]},{p:"B",at:"f1",st:["b5","e8","h3"]}]},
+  {id:"hetman",name:"Hetman",ic:"wQ",txt:"Hetman to najsilniejsza figura: chodzi jak wieża i jak goniec naraz.",
+    b:[{p:"Q",at:"d1",st:["d7","a4","h5","g8"]},{p:"Q",at:"a8",st:["h1","h8","b2","e5"]}]},
+  {id:"krol",name:"Król",ic:"wK",txt:"Król chodzi tylko o jedno pole w każdą stronę. Jest najważniejszy – trzeba go chronić!",
+    b:[{p:"K",at:"e1",st:["e3","g3","g5"]},{p:"K",at:"a1",st:["c2","d4","b5"]}]},
+  {id:"skoczek",name:"Skoczek",ic:"wN",txt:"Skoczek skacze literą L: dwa pola prosto i jedno w bok. Jako jedyny przeskakuje inne figury.",
+    b:[{p:"N",at:"b1",st:["c3","d5","e7"]},{p:"N",at:"g1",st:["e2","c3","d5","f6"]}]},
+  {id:"pion",name:"Pion",ic:"wP",txt:"Pion idzie do przodu o jedno pole (z pierwszego ruchu może o dwa). Bije tylko po skosie do przodu!",
+    b:[{p:"P",at:"e2",st:["e4","e5","e6"]},{p:"P",at:"b2",st:["c5"],en:{c3:"bP"}}]},
+  {id:"bicie",name:"Bicie",ic:"bQ",txt:"Bijesz, stając na polu figury przeciwnika. Zbij wszystkie czarne figury – one się nie ruszają.",
+    b:[{p:"R",at:"a1",st:[],en:{a6:"bN",f6:"bB",f2:"bP"}},{p:"N",at:"b1",st:[],en:{c3:"bP",d5:"bR",f6:"bQ"}}]},
+  {id:"szach",name:"Szach",ic:"bK",txt:"Szach to atak na króla – figura może go zbić następnym ruchem.",
+    b:[{fen:"4k3/8/8/8/8/8/8/R3K3 w - - 0 1",goal:"check"},{fen:"4k3/8/8/8/4N3/8/8/4K3 w - - 0 1",goal:"check"},{fen:"4k3/8/8/8/8/8/4B3/4K3 w - - 0 1",goal:"check"}]},
+  {id:"mat",name:"Mat",ic:"wQ",txt:"Mat to szach, przed którym król nie ma ucieczki – i koniec partii.",
+    b:[{fen:"6k1/5ppp/8/8/8/8/8/R5K1 w - - 0 1",goal:"mate"},{fen:"7k/8/6K1/8/8/8/8/1Q6 w - - 0 1",goal:"mate"},{fen:"k7/8/1K6/8/8/8/8/7R w - - 0 1",goal:"mate"}]},
+  {id:"pat",name:"Pat",ic:"bK",txt:"Pat: przeciwnik nie ma żadnego ruchu, ale nie ma szacha – to remis! Uważaj, żeby go nie zrobić.",
+    b:[{fen:"7k/8/5K2/8/8/8/8/6Q1 w - - 0 1",goal:"mate"},{fen:"k7/2K5/8/8/8/8/8/1R6 w - - 0 1",goal:"mate"}]},
+  {id:"roszada",name:"Roszada",ic:"wR",txt:"Roszada: król idzie o dwa pola w stronę wieży, a wieża przeskakuje obok niego. Dotknij króla.",
+    b:[{fen:"r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1",goal:"castle"},{fen:"4k3/8/8/8/8/8/8/R3K1NR w KQ - 0 1",goal:"castle"}]},
+  {id:"promocja",name:"Promocja",ic:"wP",txt:"Pion, który dojdzie do końca planszy, zamienia się w inną figurę – najczęściej w hetmana.",
+    b:[{fen:"8/4P3/8/8/8/8/k7/4K3 w - - 0 1",goal:"promo"},{fen:"3r4/2P5/8/8/8/8/k7/4K3 w - - 0 1",goal:"promo"}]},
+  {id:"przelot",name:"Bicie w przelocie",ic:"wP",txt:"Gdy pion przeciwnika przeskoczy o dwa pola obok twojego piona, możesz go zbić tak, jakby poszedł tylko o jedno.",
+    b:[{fen:"4k3/8/8/3pP3/8/8/8/4K3 w - d6 0 1",goal:"ep"},{fen:"4k3/8/8/8/5pP1/8/8/4K3 b - g3 0 1",goal:"ep"}]}
+];
+const SZ_GOAL={check:"Daj szacha!",mate:"Daj mata!",castle:"Zrób roszadę!",promo:"Zamień piona w figurę!",ep:"Zbij w przelocie!"};
+// ruchy jednej figury na planszy z gwiazdkami: blokują ją czarne figury (można je zbić), gwiazdki są „puste”
+function szStarMoves(pos,at){
+  const [x,y]=[at.charCodeAt(0)-97,+at[1]-1],p=pos[at][1],out=[],ok=(a,b)=>a>=0&&a<8&&b>=0&&b<8,sq=(a,b)=>SZ_F[a]+(b+1);
+  const ray=dirs=>dirs.forEach(([dx,dy])=>{let a=x+dx,b=y+dy;while(ok(a,b)){const s=sq(a,b);out.push(s);if(pos[s]) break;a+=dx;b+=dy;}});
+  const step=dirs=>dirs.forEach(([dx,dy])=>{if(ok(x+dx,y+dy)) out.push(sq(x+dx,y+dy));});
+  const R=[[1,0],[-1,0],[0,1],[0,-1]],B=[[1,1],[1,-1],[-1,1],[-1,-1]];
+  if(p==="R") ray(R);if(p==="B") ray(B);if(p==="Q") ray([...R,...B]);if(p==="K") step([...R,...B]);
+  if(p==="N") step([[1,2],[2,1],[2,-1],[1,-2],[-1,-2],[-2,-1],[-2,1],[-1,2]]);
+  if(p==="P"){if(ok(x,y+1)&&!pos[sq(x,y+1)]){out.push(sq(x,y+1));if(y===1&&!pos[sq(x,y+2)]) out.push(sq(x,y+2));}
+    for(const dx of [-1,1]) if(ok(x+dx,y+1)&&pos[sq(x+dx,y+1)]) out.push(sq(x+dx,y+1));}
+  return out;
+}
+// najmniejsza liczba ruchów na zebranie wszystkiego (BFS po stanach) – do gwiazdek za lekcję
+function szStarPar(b){
+  const goal=[...b.st,...Object.keys(b.en||{})],full=(1<<goal.length)-1,key=(s,m)=>s+m,seen=new Set([key(b.at,0)]);let q=[[b.at,0]],d=0;
+  while(q.length&&d<30){const nq=[];d++;
+    for(const [s,m] of q){const pos={[s]:"w"+b.p};goal.forEach((g,k)=>{if(!(m&1<<k)&&b.en&&b.en[g]) pos[g]=b.en[g];});
+      for(const t of szStarMoves(pos,s)){const k=goal.indexOf(t),nm=k>=0?m|1<<k:m;if(nm===full) return d;const kk=key(t,nm);if(!seen.has(kk)){seen.add(kk);nq.push([t,nm]);}}}
+    q=nq;}
+  return 99;
+}
+
+/* --- zadania i przeciwnicy --- */
+let SZ_PZ=null; // {m1:[[id,fen,moves,ocena]],m2,m3}
+const SZ_THEME={m1:{name:"Mat w 1",w:2},m2:{name:"Mat w 2",w:3},m3:{name:"Mat w 3",w:5},mix:{name:"Mieszane"}};
+const SZ_OPP=[
+  {id:"pawel",name:"Pionek Paweł",z:"z Pionkiem Pawłem",elo:250,pc:"bP",depth:1,rand:.45,noise:250,pts:3,hint:true,undo:true},
+  {id:"stas",name:"Skoczek Staś",z:"ze Skoczkiem Stasiem",elo:400,pc:"bN",depth:1,rand:.22,noise:120,pts:5,hint:true,undo:true},
+  {id:"gosia",name:"Goniec Gosia",z:"z Gońcem Gosią",elo:500,pc:"bB",depth:2,rand:.12,noise:80,pts:7,hint:true,undo:true},
+  {id:"wiktor",name:"Wieża Wiktor",z:"z Wieżą Wiktorem",elo:600,pc:"bR",depth:2,rand:.06,noise:40,pts:9,mate1:true,hint:true},
+  {id:"hania",name:"Hetman Hania",z:"z Hetmanem Hanią",elo:800,pc:"bQ",depth:3,rand:.03,noise:20,pts:12,mate1:true},
+  {id:"kazik",name:"Król Kazimierz",z:"z Królem Kazimierzem",elo:1000,pc:"bK",depth:3,rand:0,noise:8,pts:15,mate1:true}
+];
+const szHist=mode=>loadHist().filter(s=>s.subj==="sz"&&s.cfg&&s.cfg.mode===mode);
+// ranking zadań z historii (start 400, jak Elo: wygrana z trudniejszym daje więcej)
+function szRating(){let R=400;for(const s of szHist("zadania")) for(const r of s.recs||[]) if(r.pr){const e=1/(1+10**((r.pr-R)/400));R+=24*((r.ok?1:0)-e);}return Math.max(100,Math.round(R));}
+const szWins=id=>szHist("gra").filter(s=>s.cfg.opp===id&&s.recs[0]&&s.recs[0].ok).length;
+const szOppOpen=k=>k===0||szWins(SZ_OPP[k-1].id)>0;
+const szLessonDone=id=>szHist("nauka").filter(s=>s.cfg.lesson===id&&s.status==="done");
+const szStars=id=>szLessonDone(id).reduce((a,s)=>Math.max(a,s.pct>=100?3:s.pct>=60?2:1),0);
+const szLessonOpen=k=>k===0||szLessonDone(SZ_LESSONS[k-1].id).length>0;
+
+/* --- silnik: materiał + prosta pozycja, alfa-beta na wewnętrznych funkcjach chess.js (bez SAN – szybko) --- */
+const SZ_V={p:100,n:300,b:320,r:500,q:900,k:0},SZ_PAWN=[0,0,5,10,20,35,60,0];
+function szEval(g){
+  let s=0;const B=g._board;
+  for(let i=0;i<120;i++){if(i&0x88){i+=7;continue;}const p=B[i];if(!p) continue;
+    const f=i&7,r=7-(i>>4),rr=p.color==="w"?r:7-r;let v=SZ_V[p.type];
+    if(p.type==="p") v+=SZ_PAWN[rr]+(f>=2&&f<=5?4:0);
+    else if(p.type==="n"||p.type==="b") v+=14-4*(Math.abs(3.5-f)+Math.abs(3.5-r))/2;
+    else if(p.type==="k") v+=rr===0?10:0;
+    s+=p.color==="w"?v:-v;}
+  return g._turn==="w"?s:-s;
+}
+function szSearch(g,d,a,b){
+  const ms=g._moves({legal:true});if(!ms.length) return g._isKingAttacked(g._turn)?-100000-d:0;
+  if(d===0) return szEval(g);
+  ms.sort((x,y)=>(y.captured?SZ_V[y.captured]+10:0)-(x.captured?SZ_V[x.captured]+10:0));
+  for(const m of ms){g._makeMove(m);const v=-szSearch(g,d-1,-b,-a);g._undoMove();if(v>=b) return v;if(v>a) a=v;}
+  return a;
+}
+// ruch komputera dla poziomu L (albo najlepszy ruch do podpowiedzi: L = {depth, rand:0, noise:0})
+function szBest(g,L){
+  const ms=g._moves({legal:true});if(!ms.length) return null;
+  const pick=m=>({from:szAlg(m.from),to:szAlg(m.to),promotion:m.promotion});
+  if(L.mate1) for(const m of ms){g._makeMove(m);const mate=!g._moves({legal:true}).length&&g._isKingAttacked(g._turn);g._undoMove();if(mate) return pick(m);}
+  if(Math.random()<L.rand) return pick(ms[Math.floor(Math.random()*ms.length)]);
+  let best=null,bv=-Infinity;
+  for(const m of ms){g._makeMove(m);const v=-szSearch(g,L.depth-1,-1e9,1e9)+(Math.random()*2-1)*L.noise;g._undoMove();if(v>bv){bv=v;best=m;}}
+  return pick(best);
+}
+
+/* --- szachownica --- */
+let SZ=null;
+function szPos(g){const P={},B=g.board();B.forEach((row,y)=>row.forEach((p,x)=>{if(p) P[SZ_F[x]+(8-y)]=szPc(p);}));return P;}
+function szDraw(){
+  const b=$("szb"),P=SZ.kind==="star"?SZ.pos:szPos(SZ.g),fl=SZ.flip;let h="";
+  const chk=SZ.g&&SZ.g.inCheck()?Object.keys(P).find(s=>P[s]===SZ.g.turn()+"K"):null;
+  for(let r=7;r>=0;r--) for(let f=0;f<8;f++){const y=fl?7-r:r,x=fl?7-f:f,sq=SZ_F[x]+(y+1),pc=P[sq],tg=SZ.tg.includes(sq);
+    const c=["sq",(x+y)%2===0?"dk":"lt",SZ.sel===sq&&"sel",SZ.last&&SZ.last.includes(sq)&&"lm",chk===sq&&"chk",SZ.hint&&SZ.hint.includes(sq)&&"hint",tg&&(pc?"cap":"mv")].filter(Boolean).join(" ");
+    h+=`<button type="button" class="${c}" data-sq="${sq}" aria-label="${sq}${pc?" "+(pc[0]==="w"?"biały ":"czarny ")+SZ_NAME[pc[1]]:""}">`+
+      `${SZ.stars&&SZ.stars.includes(sq)?'<span class="szstar" aria-hidden="true">★</span>':""}${pc?`<img src="${SZ_IMG[pc]}" alt="" draggable="false">`:""}`+
+      `${f===0?`<i class="rk">${y+1}</i>`:""}${r===0?`<i class="fl">${SZ_F[x]}</i>`:""}</button>`;}
+  b.innerHTML=h;
+}
+function szInfo(t,cls){const el=$("szg-info");el.textContent=t;el.className="sz-info"+(cls?" "+cls:"");}
+function szTargets(sq){
+  if(SZ.kind==="star") return SZ.pos[sq]&&SZ.pos[sq][0]==="w"?szStarMoves(SZ.pos,sq):null;
+  const g=SZ.g;if(SZ.busy||SZ.over||g.turn()!==SZ.me) return null;const p=g.get(sq);if(!p||p.color!==SZ.me) return null;
+  const t=[...new Set(g.moves({square:sq,verbose:true}).map(m=>m.to))];return t.length?t:null;
+}
+$("szb").addEventListener("click",e=>{const b=e.target.closest("[data-sq]");if(!b||!SZ||SZ.busy) return;const sq=b.dataset.sq;
+  if(SZ.sel&&SZ.tg.includes(sq)){const from=SZ.sel;SZ.sel=null;SZ.tg=[];szTry(from,sq);return;}
+  const t=szTargets(sq);SZ.sel=t?sq:null;SZ.tg=t||[];szDraw();});
+// promocja: wybór figury (hetman, wieża, goniec, skoczek)
+function szTry(from,to){
+  if(SZ.kind==="star") return szStarGo(from,to);
+  const ms=SZ.g.moves({square:from,verbose:true}).filter(m=>m.to===to);if(!ms.length) return;
+  if(ms[0].promotion){const c=SZ.me;$("szpromo-b").innerHTML=["q","r","b","n"].map(p=>`<button type="button" data-p="${p}" aria-label="${SZ_NAME[p.toUpperCase()]}"><img src="${SZ_IMG[c+p.toUpperCase()]}" alt=""></button>`).join("");
+    $("szpromo").hidden=false;$("szpromo").onclick=e=>{const b=e.target.closest("[data-p]");if(!b&&e.target.id!=="szpromo") return;$("szpromo").hidden=true;if(b) szMove({from,to,promotion:b.dataset.p});else szDraw();};return;}
+  szMove({from,to});
+}
+// ruch gracza w planszach z chess.js
+function szMove(mv){
+  const g=SZ.g,m=g.move(mv);SZ.last=[m.from,m.to];SZ.hint=null;szDraw();
+  if(SZ.kind==="rule") return szRuleCheck(m);
+  if(SZ.kind==="puzzle") return szPuzzleCheck(m);
+  if(SZ.kind==="game") return szGameAfter();
+}
+
+/* --- lekcje --- */
+function szLesson(k,tag){
+  const L=SZ_LESSONS[k];SZ={kind:null,lesson:k,b:0,res:[],tag:tag||{},id:Date.now(),start:Date.now()};
+  $("szg-t").textContent=`Samouczek: ${L.name}`;szBoardStart();go("szg");
+}
+function szBoardStart(){
+  const L=SZ_LESSONS[SZ.lesson],B=L.b[SZ.b];SZ.sel=null;SZ.tg=[];SZ.last=null;SZ.hint=null;SZ.busy=false;SZ.over=false;SZ.moves=0;SZ.tries=0;
+  $("szg-end").hidden=true;$("szg-play").hidden=false;$("szg-dots").innerHTML=L.b.map((x,k)=>`<span class="dot${k<SZ.b?" ok":k===SZ.b?" now":""}"></span>`).join("");
+  if(B.fen){SZ.kind="rule";SZ.g=new CHESS(B.fen);SZ.me=SZ.g.turn();SZ.flip=SZ.me==="b";SZ.stars=null;szInfo(`${L.txt} ${SZ_GOAL[B.goal]}`);}
+  else{SZ.kind="star";SZ.g=null;SZ.pos={[B.at]:"w"+B.p,...(B.en||{})};SZ.stars=[...B.st];SZ.flip=false;SZ.par=szStarPar(B);szInfo(L.txt);}
+  szCtl([]);szDraw();
+}
+function szStarGo(from,to){
+  const P=SZ.pos;P[to]=P[from];delete P[from];SZ.stars=SZ.stars.filter(s=>s!==to);SZ.moves++;SZ.last=[from,to];
+  const left=SZ.stars.length+Object.values(P).filter(p=>p[0]==="b").length;szDraw();
+  if(!left){sfx("ok");SZ.res.push(SZ.moves<=SZ.par);szInfo(SZ.moves<=SZ.par?`Super! ${SZ.moves} ${SZ.moves===1?"ruch":"ruchy"} – najmniej jak się da.`:`Udało się! Da się w ${SZ.par} – spróbuj następnym razem.`,"ok");SZ.busy=true;setTimeout(szNextBoard,1100);}
+}
+function szRuleCheck(m){
+  const B=SZ_LESSONS[SZ.lesson].b[SZ.b],g=SZ.g;
+  const ok=B.goal==="check"?g.inCheck():B.goal==="mate"?g.isCheckmate():B.goal==="castle"?/[kq]/.test(m.flags):B.goal==="promo"?!!m.promotion:B.goal==="ep"?m.flags.includes("e"):false;
+  if(ok){sfx("ok");SZ.res.push(SZ.tries===0);szInfo(B.goal==="mate"?"Mat! Brawo!":"Świetnie!","ok");SZ.busy=true;setTimeout(szNextBoard,1100);return;}
+  SZ.tries++;sfx("bad");szInfo(g.isStalemate()?"To pat – remis! Przeciwnik nie ma ruchu, ale nie ma też szacha. Spróbuj inaczej.":`Nie tym razem. ${SZ_GOAL[B.goal]}`,"bad");
+  SZ.busy=true;setTimeout(()=>{g.undo();SZ.last=null;SZ.busy=false;szDraw();},1200);
+}
+function szNextBoard(){
+  const L=SZ_LESSONS[SZ.lesson];SZ.b++;
+  if(SZ.b<L.b.length) return szBoardStart();
+  const recs=SZ.res.map((ok,k)=>({t:`nauka:${L.id}:${k}`,ok,tries:[],w:1,done:true}));
+  szArchive({id:SZ.id,start:SZ.start,cfg:{mode:"nauka",lesson:L.id,...SZ.tag},recs},"done");
+  const good=SZ.res.filter(Boolean).length,pct=Math.floor(good*100/recs.length),st=pct>=100?3:pct>=60?2:1,nx=SZ_LESSONS[SZ.lesson+1];
+  $("szg-play").hidden=true;$("szg-dots").innerHTML="";
+  $("szg-end").innerHTML=`<div class="done card"><div class="sz-stars" aria-label="${st} z 3 gwiazdek">${"★".repeat(st)}<s>${"★".repeat(3-st)}</s></div>
+    <div class="gn">Lekcja „${L.name}” zaliczona!</div><div class="gp">${st===3?"Wszystko najkrócej, jak się da – mistrz!":"Za 3 gwiazdki: każda plansza w najmniejszej liczbie ruchów, bez pomyłek."}</div></div>
+    <div class="btns"><button type="button" class="again" data-a="again">Jeszcze raz</button>${nx?`<button type="button" class="go-btn" data-a="next">Dalej: ${nx.name}</button>`:`<button type="button" class="go-btn" data-a="back">Gotowe</button>`}</div>`;
+  $("szg-end").hidden=false;$("szg-t").textContent=`Samouczek: ${L.name}`;sfx("final");if(PREFS.modals) celebrate(recs.length,true);scrollTo(0,0);
+}
+
+/* --- zadania --- */
+async function szPuzzles(theme,n,tag){
+  await szLoad();
+  if(!SZ_PZ){try{SZ_PZ=await (await fetch("chess/puzzles.json")).json();}catch(e){alert("Nie udało się wczytać zadań – potrzebny internet przy pierwszym wejściu.");return;}}
+  const R=szRating(),solved=new Set(szHist("zadania").flatMap(s=>s.recs.filter(r=>r.ok).map(r=>r.t)));
+  const pool=(theme==="mix"?["m1","m2","m3"]:[theme]).flatMap(k=>SZ_PZ[k].map(p=>({p,k})));
+  let fresh=pool.filter(x=>!solved.has("zad:"+x.p[0]));if(fresh.length<n) fresh=pool;
+  const near=shuffle(fresh.sort((a,b)=>Math.abs(a.p[3]-R)-Math.abs(b.p[3]-R)).slice(0,Math.max(n*3,12))).slice(0,n);
+  SZ={kind:"puzzle",cfg:{mode:"zadania",theme,...(tag||{})},list:near,i:0,id:Date.now(),start:Date.now(),
+    recs:near.map(x=>({t:"zad:"+x.p[0],pr:x.p[3],ok:true,tries:[],w:SZ_THEME[x.k].w,done:false}))};
+  $("szg-t").textContent=`Zadania: ${SZ_THEME[theme].name}`;szPuzzleShow();go("szg");
+}
+function szPuzzleShow(){
+  const x=SZ.list[SZ.i],[,fen,moves]=x.p,g=new CHESS(fen),sol=moves.split(" ");
+  Object.assign(SZ,{g,sol,k:1,sel:null,tg:[],last:null,hint:null,busy:true,over:false,stars:null});SZ.me=g.turn()==="w"?"b":"w";SZ.flip=SZ.me==="b";
+  $("szg-end").hidden=true;$("szg-play").hidden=false;szDots();szDraw();
+  szInfo(`${SZ_THEME[x.k].name} · grają ${SZ.me==="w"?"białe":"czarne"} · ocena zadania ${x.p[3]}`);szCtl(["hint","show"]);
+  setTimeout(()=>{const m=g.move(szUci(sol[0]));SZ.last=[m.from,m.to];SZ.busy=false;szDraw();},650); // pierwszy ruch robi przeciwnik
+}
+const szUci=u=>({from:u.slice(0,2),to:u.slice(2,4),promotion:u[4]});
+function szDots(){$("szg-dots").innerHTML=SZ.recs.map((r,k)=>`<span class="dot${r.done?(r.ok?" ok":" fix"):r.ok?"":" fix"}${k===SZ.i?" now":""}"></span>`).join("");}
+function szPuzzleCheck(m){
+  const g=SZ.g,uci=m.from+m.to+(m.promotion||""),r=SZ.recs[SZ.i];
+  if(g.isCheckmate()||uci===SZ.sol[SZ.k]){SZ.k++;
+    if(g.isCheckmate()||SZ.k>=SZ.sol.length) return szPuzzleSolved();
+    sfx("ok");szInfo("Dobrze! Grasz dalej…","ok");SZ.busy=true;
+    setTimeout(()=>{const o=g.move(szUci(SZ.sol[SZ.k]));SZ.k++;SZ.last=[o.from,o.to];SZ.busy=false;szDraw();szInfo("Twój ruch.");},600);return;}
+  r.ok=false;r.tries.push(uci);sfx("bad");szInfo("Nie tędy – spróbuj jeszcze raz.","bad");szDots();
+  SZ.busy=true;setTimeout(()=>{g.undo();SZ.last=null;SZ.busy=false;szDraw();},900);
+}
+function szPuzzleSolved(){
+  const r=SZ.recs[SZ.i];r.done=true;SZ.busy=true;szDots();sfx("ok");szInfo(r.ok?`Mat! +${r.w} pkt`:"Mat! (bez punktów – był błąd)","ok");
+  setTimeout(()=>{SZ.i++;if(SZ.i<SZ.list.length) return szPuzzleShow();szPuzzleEnd();},1200);
+}
+function szPuzzleEnd(){
+  SZ.over=true;szArchive(SZ,"done");$("szg-play").hidden=true;
+  const good=SZ.recs.filter(r=>r.ok).length;plEnd($("szg-end"),SZ,good,SZ.recs.length,"zadań",[],"Jeszcze raz");
+  const R=szRating();$("szg-end").querySelector(".grade").insertAdjacentHTML("beforeend",`<div class="gp">Twój ranking zadań: <b>${R}</b></div>`);
+}
+
+/* --- gra z komputerem --- */
+async function szGame(k,color,tag){
+  await szLoad();const L=SZ_OPP[k],me=color==="rand"?(Math.random()<.5?"w":"b"):color;
+  SZ={kind:"game",opp:k,g:new CHESS(),me,flip:me==="b",sel:null,tg:[],last:null,hint:null,busy:false,over:false,stars:null,hints:0,id:Date.now(),start:Date.now(),
+    cfg:{mode:"gra",opp:L.id,color,...(tag||{})}};
+  $("szg-t").textContent=`${L.name} · ${L.elo}`;$("szg-end").hidden=true;$("szg-play").hidden=false;$("szg-dots").innerHTML="";
+  szCtl([L.undo&&"undo",L.hint&&"hint","resign"].filter(Boolean));szDraw();go("szg");
+  if(me==="b") szThink(); else szInfo(`Grasz białymi. Twój ruch!`);
+}
+function szThink(){
+  const L=SZ_OPP[SZ.opp];SZ.busy=true;szInfo(`${L.name} myśli…`);
+  setTimeout(()=>{if(!SZ||SZ.kind!=="game"||SZ.over) return;const m=szBest(SZ.g,L);if(m){const x=SZ.g.move(m);SZ.last=[x.from,x.to];}SZ.busy=false;szDraw();szGameAfter(true);},450);
+}
+function szGameAfter(byPc){
+  const g=SZ.g;
+  if(g.isGameOver()) return szGameEnd(g.isCheckmate()?(g.turn()===SZ.me?"l":"w"):"d");
+  if(!byPc) return szThink();
+  szInfo(g.inCheck()?"Szach! Broń króla.":"Twój ruch.");
+}
+function szGameEnd(res){
+  const L=SZ_OPP[SZ.opp],g=SZ.g;SZ.over=true;SZ.busy=false;
+  const why=res==="d"?(g.isStalemate()?"Pat – remis.":g.isThreefoldRepetition()?"Trzy razy ta sama pozycja – remis.":g.isInsufficientMaterial()?"Za mało figur do mata – remis.":"Remis."):"";
+  szArchive({id:SZ.id,start:SZ.start,cfg:SZ.cfg,recs:[{t:"gra:"+L.id,c:res,ok:res==="w",tries:[],w:L.pts,done:true}],pct:res==="w"?100:res==="d"?50:0},"done");
+  const nx=SZ_OPP[SZ.opp+1],unlocked=res==="w"&&nx&&szWins(L.id)===1;
+  $("szg-play").hidden=true;
+  $("szg-end").innerHTML=`<div class="done card">${res==="w"?art(grade(100)):""}<div class="gn">${res==="w"?`Wygrana ${L.z}! +${L.pts} pkt`:res==="d"?why:`${L.name} wygrywa tym razem.`}</div>
+    <div class="gp">${res==="w"?(unlocked?`Odblokowany nowy przeciwnik: <b>${nx.name}</b>!`:"Brawo!"):res==="d"?"Remis to nie przegrana – spróbuj jeszcze raz!":"Każda partia czegoś uczy. Zagraj jeszcze raz!"}</div></div>
+    <div class="btns"><button type="button" class="again" data-a="again">Zagraj jeszcze raz</button>${unlocked?`<button type="button" class="go-btn" data-a="nextopp">Zagraj ${nx.z}</button>`:`<button type="button" class="go-btn" data-a="back">Gotowe</button>`}</div>`;
+  $("szg-end").hidden=false;scrollTo(0,0);
+  if(res==="w"){sfx("final");if(PREFS.modals) celebrate(1,true);const v6=$("szg-end").querySelector(".end-anim");if(v6){const k=nextGoal(6);setTimeout(()=>playGoal(v6,k,null,6),PREFS.modals?2800:300);}}
+  else sfx(res==="d"?"ok":"bad");
+}
+
+/* --- przyciski pod szachownicą --- */
+const SZ_BTN={undo:"↶ Cofnij",hint:"💡 Podpowiedź",show:"Pokaż rozwiązanie",resign:"Poddaj się"};
+function szCtl(list){$("szg-ctl").innerHTML=list.map(k=>`<button type="button" class="again" data-c="${k}">${SZ_BTN[k]}</button>`).join("");}
+$("szg-ctl").addEventListener("click",async e=>{const b=e.target.closest("[data-c]");if(!b||!SZ||SZ.busy||SZ.over) return;const c=b.dataset.c,g=SZ.g;
+  if(c==="undo"){if(g.history().length<2) return;g.undo();if(g.turn()!==SZ.me) g.undo();SZ.last=null;SZ.hint=null;szDraw();szInfo("Cofnięte. Twój ruch.");}
+  if(c==="hint"){if(SZ.kind==="puzzle"){const u=SZ.sol[SZ.k];SZ.hint=[u.slice(0,2)];SZ.recs[SZ.i].ok=false;szDots();szInfo("Rusz podświetloną figurą (bez punktów za to zadanie).");}
+    else{const m=szBest(g,{depth:2,rand:0,noise:0,mate1:true});if(m){SZ.hint=[m.from,m.to];SZ.hints++;szInfo("Spróbuj tego ruchu.");}}szDraw();}
+  if(c==="show"&&SZ.kind==="puzzle"){const r=SZ.recs[SZ.i];r.ok=false;SZ.busy=true;szDots();szInfo("Rozwiązanie:");
+    const step=()=>{if(SZ.k>=SZ.sol.length){SZ.busy=false;return szPuzzleSolved();}const m=g.move(szUci(SZ.sol[SZ.k]));SZ.k++;SZ.last=[m.from,m.to];szDraw();setTimeout(step,800);};step();}
+  if(c==="resign"&&await askYes("Poddać się?","Partia zapisze się jako przegrana.","Poddaj się","Graj dalej")) szGameEnd("l");
+});
+$("szg-end").addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b||!SZ) return;const a=b.dataset.a;
+  if(a==="back") return history.back();
+  if(SZ.kind==="game"||SZ.cfg&&SZ.cfg.mode==="gra"){const tag=SZ.cfg.goal?{goal:SZ.cfg.goal,gx:SZ.cfg.gx}:{};
+    if(a==="nextopp") return szGame(SZ.opp+1,SZ.cfg.color,{});return szGame(SZ.opp,SZ.cfg.color,tag);}
+  if(SZ.list){const c=SZ.cfg;return szPuzzles(c.theme,SZ.list.length,c.goal?{goal:c.goal,gx:c.gx}:{});}
+  if(SZ.lesson!=null){const tag=SZ.tag;if(a==="next") return szLesson(SZ.lesson+1,{});return szLesson(SZ.lesson,tag);}
+});
+// zapis do historii jak inne gry (punkty z r.w za odpowiedź dobrą za 1. razem)
+function szArchive(P,status){
+  const recs=P.recs.filter(r=>r.done),done=recs.length;if(!done) return;
+  const H=loadHist(),k=H.findIndex(s=>s.id===P.id);if(k>=0&&H[k].status==="done") return;
+  const good=recs.filter(r=>r.ok).length,pct=P.pct!=null?P.pct:Math.floor(good*100/done);
+  const s={id:P.id,subj:"sz",start:P.start,end:Date.now(),status,cfg:P.cfg,n:P.recs.length,done,
+    recs:recs.map(r=>({t:r.t,pr:r.pr,c:r.c,w:r.w,ok:r.ok,tries:r.tries||[],h:0,ms:0})),pct,grade:grade(pct).n,errors:done-good,hints:0,
+    pts:recs.reduce((a,r)=>a+(r.ok?r.w:0),0),ptsMax:recs.reduce((a,r)=>a+r.w,0)};
+  if(k>=0) H[k]=s; else H.push(s);saveHist(H);
+}
+
+/* --- ekrany: Szachy, lista lekcji, zadania, przeciwnicy --- */
+function renderSz(){
+  const st=SZ_LESSONS.reduce((a,L)=>a+szStars(L.id),0),open=SZ_OPP.filter((x,k)=>szOppOpen(k)).length;
+  $("sz-t-learn-s").textContent=st?`Gwiazdki: ${st} z ${SZ_LESSONS.length*3}`:"Ruchy figur, szach, mat, roszada";
+  $("sz-t-puz-s").textContent=`Mat w 1, 2 i 3 · ranking ${szRating()}`;
+  $("sz-t-play-s").textContent=`Przeciwnicy: ${open} z ${SZ_OPP.length}`;
+  $("sz-t-learn").hidden=!modOn("sz-nauka");$("sz-t-puz").hidden=!modOn("sz-zadania");$("sz-t-play").hidden=!modOn("sz-gra");
+}
+function renderSzl(){
+  $("szl-list").innerHTML=SZ_LESSONS.map((L,k)=>{const o=szLessonOpen(k),s=szStars(L.id);
+    return `<button type="button" class="set-i" data-l="${k}"${o?"":" disabled"}><span class="gl sz-gl" aria-hidden="true"><img src="${SZ_IMG[L.ic]}" alt=""></span>`+
+      `<span class="sn"><b>${k+1}. ${L.name}</b><small>${o?(s?`<span class="sz-st">${"★".repeat(s)}<s>${"★".repeat(3-s)}</s></span>`:`${L.b.length} plansze`):"najpierw poprzednia lekcja"}</small></span></button>`;}).join("");
+}
+let SZT="m1",SZN=5,SZC="w";
+function renderSzz(){
+  for(const b of $("szz-theme").children){const on=b.dataset.t===SZT;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
+  for(const b of $("szz-n").children){const on=+b.dataset.n===SZN;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
+  const H=szHist("zadania"),solved=new Set(H.flatMap(s=>s.recs.filter(r=>r.ok).map(r=>r.t)));
+  $("szz-info").innerHTML=`Twój ranking zadań: <b>${szRating()}</b> · rozwiązane: ${solved.size}<small>Zadania dobierają się do rankingu. Punkty: mat w 1 – 2, w 2 – 3, w 3 – 5 (tylko bez pomyłki).</small>`;
+}
+function renderSzo(){
+  for(const b of $("szo-col").children){const on=b.dataset.c===SZC;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
+  $("szo-list").innerHTML=SZ_OPP.map((L,k)=>{const o=szOppOpen(k),w=szWins(L.id),n=szHist("gra").filter(s=>s.cfg.opp===L.id).length;
+    return `<button type="button" class="set-i" data-o="${k}"${o?"":" disabled"}><span class="gl sz-gl${o?"":" lock"}" aria-hidden="true"><img src="${SZ_IMG[L.pc]}" alt=""></span>`+
+      `<span class="sn"><b>${L.name}</b><small>${o?`ELO ok. ${L.elo} · wygrana: +${L.pts} pkt`:"wygraj z poprzednim, żeby odblokować"}</small>${o&&n?`<small class="lr2">Partie: ${n} · wygrane: ${w}</small>`:""}</span></button>`;}).join("");
+}
+$("t-sz").addEventListener("click",()=>go("sz"));
+$("sz-t-learn").addEventListener("click",async()=>{await szLoad();go("szl");});
+$("sz-t-puz").addEventListener("click",()=>go("szz"));
+$("sz-t-play").addEventListener("click",()=>go("szo"));
+$("szl-list").addEventListener("click",async e=>{const b=e.target.closest("[data-l]");if(!b||b.disabled) return;await szLoad();szLesson(+b.dataset.l);});
+$("szz-theme").addEventListener("click",e=>{const b=e.target.closest("[data-t]");if(b){SZT=b.dataset.t;renderSzz();}});
+$("szz-n").addEventListener("click",e=>{const b=e.target.closest("[data-n]");if(b){SZN=+b.dataset.n;renderSzz();}});
+$("szz-go").addEventListener("click",()=>szPuzzles(SZT,SZN));
+$("szo-col").addEventListener("click",e=>{const b=e.target.closest("[data-c]");if(b){SZC=b.dataset.c;renderSzo();}});
+$("szo-list").addEventListener("click",e=>{const b=e.target.closest("[data-o]");if(!b||b.disabled) return;szGame(+b.dataset.o,SZC);});
+// zapisane ćwiczenie z celu rodzica (exRun): {k:"sz",cfg:{mode,…}}
+async function szRun(c,tag){
+  await szLoad();
+  if(c.mode==="zadania") return szPuzzles(c.theme,c.n||5,tag);
+  if(c.mode==="gra"){const k=SZ_OPP.findIndex(x=>x.id===c.opp);return szGame(Math.max(0,k),c.color||"w",tag);}
+  if(c.mode==="nauka"){const k=SZ_LESSONS.findIndex(x=>x.id===c.lesson);return szLesson(Math.max(0,k),tag);}
+}
+function szCurEx(){
+  if(!SZ) return null;
+  if(SZ.kind==="game"){const L=SZ_OPP[SZ.opp];return {spec:{k:"sz",cfg:{mode:"gra",opp:L.id,color:SZ.cfg.color}},name:`Szachy: partia ${L.z}`,pts:L.pts};}
+  if(SZ.list) return {spec:{k:"sz",cfg:{mode:"zadania",theme:SZ.cfg.theme,n:SZ.list.length}},name:`Szachy: ${SZ_THEME[SZ.cfg.theme].name} · ${SZ.list.length}`,pts:SZ.recs.reduce((a,r)=>a+r.w,0)};
+  if(SZ.lesson!=null){const L=SZ_LESSONS[SZ.lesson];return {spec:{k:"sz",cfg:{mode:"nauka",lesson:L.id}},name:`Szachy: lekcja ${L.name}`,pts:L.b.length};}
+  return null;
+}
+
 /* ===== Cele od rodzica: zapisane ćwiczenia → pakiety → cel z nagrodą z prawdziwego życia =====
    Ćwiczenie: rodzic uruchamia ćwiczenie jak dziecko i w grze dotyka „Dodaj do zapisanych celów” (curEx) – zapisujemy ustawienia
    (spec: mat {cfg,n} · pw {pairs,n} · pd {dict} · pz {lvl,n} · en {cfg,n}) z punktami „do X pkt” w PREFS.lib.ex rodzica.
@@ -4795,15 +5214,16 @@ function cfgTxt(c,n){c={...CFG0,...c};const o=["+","−","×",":"].filter(x=>c.o
   let t=`${n} ${dzialan(n)}: ${o.join(" i ")}`+(!ab||tab?` do ${c.m}`:"");
   if(ab) t+=` · a ${c.ar.join("–")}, b ${c.br.join("–")}`+(cr[0]!=null||cr[1]!=null?`, wynik ${cr[0]??0}–${cr[1]??"∞"}`:"");
   return t+(o.includes(":")?(tab?" · tabliczka":" · dowolne dzielenie"):"")+(c.tens?" · dziesiątki":"")+(c.frac?" · ułamki":"");}
-const exSubj=s=>s.k==="mat"||s.k==="hard"?"mat":s.k==="en"?(s.cfg.subj||"en"):"pl";
+const exSubj=s=>s.k==="sz"?"sz":s.k==="mat"||s.k==="hard"?"mat":s.k==="en"?(s.cfg.subj||"en"):"pl";
 const sumPts=L=>L.reduce((a,x)=>a+(x.pts||0),0);
 const ptsTxt=p=>p==null?"punkty zależą od błędów":`do ${p} pkt`;
 
 function toast(t){const d=document.createElement("div");d.className="toast";d.setAttribute("role","status");d.textContent=t;document.body.appendChild(d);setTimeout(()=>d.remove(),3200);}
 // rodzic: w każdym uruchomionym ćwiczeniu przycisk „Dodaj do zapisanych celów” (pod nagłówkiem) – zapisuje ustawienia tej gry
-const GAME_V=["play","plw","pldt","plz","enq"];
+const GAME_V=["play","plw","pldt","plz","enq","szg"];
 const untag=c=>{const x={...c};delete x.goal;delete x.gx;delete x.task;return x;};
 function curEx(v){
+  if(v==="szg") return szCurEx();
   if(v==="play"){if(!tasks.length) return null;
     if(CFG.practice) return {spec:{k:"hard"},name:"Matematyka: Poćwicz trudne",pts:null};const cfg=untag(CFG),st=SETS.find(x=>x.id===cfg.set);
     return {spec:{k:"mat",cfg,n:N},name:st?st.name:cfgTxt(cfg,N),pts:tasks.reduce((a,x)=>a+wMath(x),0)};}
@@ -4833,6 +5253,7 @@ function exRun(x,tag){
   else if(s.k==="pd"){const d=DICTS.find(y=>y.id===s.dict);if(d) pdStart(d,tag);}
   else if(s.k==="pz"){const st=pzStats();pzStart(pzPick(s.n,pzLevels(s.lvl,st),st),{mode:"znaczenia",lvl:s.lvl,...tag},st);}
   else if(s.k==="en"){const c={...s.cfg,...tag};enStart(enMakeFor(c,s.n),c);}
+  else if(s.k==="sz") szRun(s.cfg,tag);
 }
 
 /* --- cel: postęp i opis --- */
