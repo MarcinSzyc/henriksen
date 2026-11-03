@@ -58,6 +58,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   chess.js (30× szybciej niż publiczne `move()`; przy aktualizacji chess.js sprawdź, czy te metody nadal są). Sesje `szArchive`
   (gra: `pct` 100/50/0, `recs[0].c` = w/d/l). Puchary `sz-nauka`/`sz-zadania`/`sz-gra`, zakładka Szachy w statystykach, ligi `LIG_CATS.sz`,
   cele rodzica (`szCurEx`, `szRun`). Wyjście z partii w trakcie jej nie zapisuje (brak „Dokończ” dla szachów).
+  Płynne ruchy 2D: `szDraw()` pamięta ostatnią pozycję tej samej planszy (`SZ.pp`, klucz = `SZ.g`/`SZ.pos` + `flip`), a `szSlide()`
+  przesuwa figury z pola na pole (Web Animations, skoczek podskakuje, zbita znika pod nadjeżdżającą; roszada, promocja, cofanie też).
 - **Szachy 3D** (kafel `#sz-t-3d` na ekranie Szachy → widok `#sz3` z tymi samymi trzema trybami; `SZ3D` = wejście przez 3D, plansza ma `SZ.d3`):
   moduł ES `chess/3d/sz3d.js` (import map w `<head>`: `three` → `chess/3d/three.module.min.js` r170, `three/addons/` → wybrane dodatki,
   fizyka `chess/3d/cannon-es.js`), ładowany `sz3Ready()` przy pierwszej planszy 3D. Model `chess/3d/chess3d.glb` = „A Beautiful Game”

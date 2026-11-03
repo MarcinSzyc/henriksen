@@ -702,6 +702,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .szb .sq{position:relative;border:0;padding:0;margin:0;aspect-ratio:1;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-tap-highlight-color:transparent}
 .szb .lt{background:#f0d9b5}.szb .dk{background:#b58863}
 .szb .sq img{width:92%;height:92%;pointer-events:none;position:relative;z-index:1}
+.szb .sq img.szgone{position:absolute}
 .szb .sel{background:#f6f669!important}.szb .lm.lt{background:#cdd26a}.szb .lm.dk{background:#aaa23a}
 .szb .chk{background:radial-gradient(circle,#ff4d4d 0,#e03131 45%,transparent 75%),#b58863!important}
 .szb .hint{box-shadow:inset 0 0 0 4px #4dabf7}
@@ -5021,6 +5022,26 @@ function szDraw(){
       `${SZ.stars&&SZ.stars.includes(sq)?'<span class="szstar" aria-hidden="true">★</span>':""}${pc?`<img src="${SZ_IMG[pc]}" alt="" draggable="false">`:""}`+
       `${f===0?`<i class="rk">${y+1}</i>`:""}${r===0?`<i class="fl">${SZ_F[x]}</i>`:""}</button>`;}
   b.innerHTML=h;
+  const k=SZ.g||SZ.pos,pp=SZ.pp;SZ.pp={k,fl,P:{...P}};
+  if(pp&&pp.k===k&&pp.fl===fl) szSlide(b,pp.P,P);
+}
+// płynny ruch: figura przejeżdża z poprzedniego pola (ta sama plansza), zbita znika pod nią
+function szSlide(b,A,P){
+  const gone=Object.keys(A).filter(s=>A[s]!==P[s]),came=Object.keys(P).filter(s=>P[s]!==A[s]);
+  if(!came.length||came.length>2||gone.length>3) return;
+  const at=s=>b.querySelector(`[data-sq="${s}"]`),used=new Set();let dur=0;
+  const fade=(s,pc,d)=>{const g=document.createElement("img");g.src=SZ_IMG[pc];g.alt="";g.className="szgone";at(s).appendChild(g);
+    g.animate([{opacity:1,transform:"none"},{opacity:0,transform:"scale(.3) rotate(-30deg)"}],{duration:260,delay:d,fill:"forwards"}).onfinish=()=>g.remove();};
+  for(const s of came){const pc=P[s];
+    const f=gone.find(x=>A[x]===pc&&!used.has(x))||(/[18]/.test(s[1])&&gone.find(x=>!used.has(x)&&A[x]===pc[0]+"P"));
+    if(!f) continue;used.add(f);
+    const img=at(s).querySelector("img"),r0=at(f).getBoundingClientRect(),r1=at(s).getBoundingClientRect(),dx=r0.left-r1.left,dy=r0.top-r1.top;
+    const d=Math.min(380,170+Math.hypot(dx,dy)/r1.width*40),from=`translate(${dx}px,${dy}px)`;dur=Math.max(dur,d);
+    if(A[s]) fade(s,A[s],d*.55);
+    img.style.zIndex=5;
+    img.animate(pc[1]==="N"?[{transform:from},{transform:`translate(${dx/2}px,${dy/2}px) scale(1.3)`},{transform:"none"}]:[{transform:from},{transform:"none"}],
+      {duration:d,easing:"cubic-bezier(.35,.05,.25,1)"}).onfinish=()=>{img.style.zIndex="";};}
+  for(const x of gone) if(!used.has(x)&&!P[x]) fade(x,A[x],dur*.55); // bicie w przelocie
 }
 function szInfo(t,cls){const el=$("szg-info");el.textContent=t;el.className="sz-info"+(cls?" "+cls:"");}
 function szTargets(sq){
