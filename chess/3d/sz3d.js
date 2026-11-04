@@ -1,17 +1,16 @@
 /* Henriksen – szachownica 3D (kafel „Szachy 3D”). Moduł ES ładowany przez import() z index.html (import map: "three").
    Model: „A Beautiful Game” (Khronos glTF Sample Assets, CC BY 4.0) w chess/3d/chess3d.glb, zmniejszony gltf-transform.
    API: mount(el, {onTap, sound}) → Promise; sync(P, st) – pozycja {pole:"wK"} + {sel, tg, last, chk, hint, stars, flip};
-   fireworks(siła), topple(pole), resize(), pause(), resume(), setSkin("classic"|"pilkarze"). Ruchy i zbicia wynikają z różnicy
+   fireworks(siła), topple(pole), resize(), pause(), resume(), setSkin("classic"|"pilkarze"), view("tilt"|"top"|"reset").
+   Kamera: OrbitControls – jeden palec obraca (zmienia kąt patrzenia), dwa palce przybliżają i przesuwają. Rysowanie tylko, gdy coś
+   się zmienia (render na żądanie); bez poświaty (bloom) i z ograniczoną rozdzielczością – płynniej na telefonie. Ruchy i zbicia wynikają z różnicy
    między kolejnymi sync(). Skórka „Piłkarze”: boisko zamiast planszy, figury = zawodnik „Casual Character” (Quaternius, CC0,
    skins/footballer.glb) w strojach drużyn, różnego wzrostu (pion najmniejszy), król nr 9 i hetman nr 10 na plecach; ruch = bieg,
    zbicie = strzał piłką, po którym zbity odlatuje z boiska, mat = upadek króla i cieszynka drużyny. */
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
-import { EffectComposer } from 'three/addons/postprocessing/EffectComposer.js';
-import { RenderPass } from 'three/addons/postprocessing/RenderPass.js';
-import { UnrealBloomPass } from 'three/addons/postprocessing/UnrealBloomPass.js';
-import { OutputPass } from 'three/addons/postprocessing/OutputPass.js';
+import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 import * as CANNON from './cannon-es.js';
 import * as SkeletonUtils from 'three/addons/utils/SkeletonUtils.js';
@@ -22,7 +21,8 @@ const sqPos = (sq, y = 0) => new THREE.Vector3((3.5 - (sq.charCodeAt(0) - 97)) *
 const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
 const rnd = (a, b) => a + Math.random() * (b - a);
 
-let R, scene, cam, comp, bloom, root, ray, world, el, opts, raf = 0, last = 0, running = false;
+let R, scene, cam, ctl, root, ray, world, el, opts, raf = 0, last = 0, running = false;
+let dirty = true, idleT = 0, lastSt = {};    // dirty = narysuj następną klatkę; idleT = rzadsze klatki, gdy ruszają się tylko piłkarze
 let TOP = 0.0149;                         // wysokość blatu (podstawa figur)
 const tpl = {};                           // "wK" → {obj, y}
 let pieces = new Map();                   // pole → {code, obj}
@@ -42,9 +42,9 @@ export async function mount(container, o) {
   el = container; opts = o || {};
   if (R) { el.appendChild(R.domElement); resize(); resume(); return; }
   R = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-  R.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  R.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
   R.toneMapping = THREE.ACESFilmicToneMapping; R.toneMappingExposure = 1.0;
-  R.shadowMap.enabled = true; R.shadowMap.type = THREE.PCFSoftShadowMap;
+  R.shadowMap.enabled = true; R.shadowMap.type = THREE.PCFShadowMap;
   el.appendChild(R.domElement);
   scene = new THREE.Scene();
   scene.background = new THREE.Color(0x0d1020);
@@ -58,11 +58,10 @@ export async function mount(container, o) {
   sun.shadow.bias = -0.0004; scene.add(sun, new THREE.HemisphereLight(0xbfd4ff, 0x20140a, 0.5));
   root = new THREE.Group(); scene.add(root);
   ray = new THREE.Raycaster();
-
-  comp = new EffectComposer(R);
-  comp.addPass(new RenderPass(scene, cam));
-  bloom = new UnrealBloomPass(new THREE.Vector2(256, 256), 1.0, 0.45, 2.2);
-  comp.addPass(bloom); comp.addPass(new OutputPass());
+  ctl = new OrbitControls(cam, R.domElement);
+  Object.assign(ctl, { enableDamping: true, dampingFactor: 0.12, minDistance: 0.3, maxDistance: 1.4, minPolarAngle: 0.02, maxPolarAngle: 1.3, screenSpacePanning: true, rotateSpeed: 0.7 });
+  ctl.touches = { ONE: THREE.TOUCH.ROTATE, TWO: THREE.TOUCH.DOLLY_PAN };
+  ctl.addEventListener('change', () => { dirty = true; const t = ctl.target; t.x = THREE.MathUtils.clamp(t.x, -.25, .25); t.z = THREE.MathUtils.clamp(t.z, -.25, .25); t.y = TOP; });
 
   world = new CANNON.World({ gravity: new CANNON.Vec3(0, -9.82, 0) });
   const ground = new CANNON.Body({ mass: 0, shape: new CANNON.Plane() });
@@ -73,6 +72,7 @@ export async function mount(container, o) {
 
   await loadModel();
   ground.position.set(0, TOP, 0);
+  R.domElement.addEventListener('pointerdown', e => { downAt = { x: e.clientX, y: e.clientY, t: performance.now() }; });
   R.domElement.addEventListener('pointerup', onTap);
   new ResizeObserver(resize).observe(el);
   resize(); resume();
@@ -112,18 +112,23 @@ export function resume() { if (running) return; running = true; last = performan
 export function resize() {
   if (!R || !el) return;
   const w = el.clientWidth || 360, h = Math.round(w * 1.0);
-  R.setSize(w, h); comp.setSize(w, h); cam.aspect = w / h; cam.updateProjectionMatrix();
-  placeCam();
+  R.setSize(w, h); cam.aspect = w / h; cam.updateProjectionMatrix();
+  if (!camSet) placeCam(); dirty = true;
 }
-function placeCam() {
-  const s = flipped ? 1 : -1;
-  cam.position.set(0, 0.74, s * 0.58); cam.lookAt(0, 0, s * -0.03);
+// widoki kamery: tilt = skos (domyślny), top = z góry jak w 2D; strona zależy od tego, kim gra dziecko
+let camSet = false, VIEW = 'tilt';
+function placeCam(v) {
+  if (v) VIEW = v; const s = flipped ? 1 : -1;
+  if (VIEW === 'top') cam.position.set(0, 0.92, s * 0.02); else cam.position.set(0, 0.78, s * 0.5);
+  ctl.target.set(0, TOP, s * -0.02); ctl.update(); camSet = true; dirty = true;
 }
+export function view(v) { placeCam(v === 'reset' ? 'tilt' : v); }
 function loop(t) {
   if (!running) return;
   const dt = Math.min(0.05, (t - last) / 1000); last = t;
+  ctl.update();
   for (let k = tweens.length - 1; k >= 0; k--) { const w = tweens[k], p = Math.min(1, (t - w.t0) / w.d); if (p < 0) continue; w.f(ease(p), p); if (p >= 1) { tweens.splice(k, 1); w.end && w.end(); } }
-  world.step(1 / 60, dt, 3);
+  if (shards.length) world.step(1 / 60, dt, 3);
   for (let k = shards.length - 1; k >= 0; k--) {
     const s = shards[k]; s.m.position.copy(s.b.position); s.m.quaternion.copy(s.b.quaternion);
     s.life -= dt; if (s.life < 0.6) s.m.scale.setScalar(Math.max(0.01, s.life / 0.6) * s.sc);
@@ -132,20 +137,32 @@ function loop(t) {
   starObjs.forEach(o => { o.rotation.y += dt * 2; o.position.y = TOP + 0.02 + Math.sin(t / 300 + o.userData.ph) * 0.004; });
   marks.forEach(m => { if (m.userData.pulse) m.material.opacity = 0.35 + 0.3 * Math.sin(t / 160); });
   mixers.forEach(m => m.update(dt));
-  stepParticles(dt);
-  if (shake > 0) { shake = Math.max(0, shake - dt * 1.8); placeCam(); cam.position.x += rnd(-1, 1) * shake * 0.01; cam.position.y += rnd(-1, 1) * shake * 0.008; }
-  comp.render();
+  const sparks = fx.list.length || fx.rockets.length; if (sparks || fx.points.geometry.drawRange.count) stepParticles(dt);
+  if (shake > 0) { shake = Math.max(0, shake - dt * 1.8); root.position.set(rnd(-1, 1) * shake * 0.006, rnd(-1, 1) * shake * 0.004, 0); if (!shake) root.position.set(0, 0, 0); }
+  // rysuj tylko, gdy coś się dzieje; same piłkarze w spoczynku – co drugą klatkę
+  const busy = dirty || tweens.length || shards.length || sparks || shake > 0 || starObjs.size || marks.some(m => m.userData.pulse);
+  idleT += dt;
+  if (busy || (mixers.size && idleT > 1 / 30)) { R.render(scene, cam); dirty = false; idleT = 0; }
   raf = requestAnimationFrame(loop);
 }
 
-/* --- dotyk --- */
+/* --- dotyk: krótkie dotknięcie bez przesuwania = wybór pola (przeciąganie obraca kamerę) --- */
+let downAt = null;
 function onTap(e) {
+  if (!downAt || Math.hypot(e.clientX - downAt.x, e.clientY - downAt.y) > 10 || performance.now() - downAt.t > 600) return;
   const r = R.domElement.getBoundingClientRect();
   ray.setFromCamera(new THREE.Vector2(((e.clientX - r.left) / r.width) * 2 - 1, -((e.clientY - r.top) / r.height) * 2 + 1), cam);
-  const hit = new THREE.Vector3(); if (!ray.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0, 1, 0), -TOP), hit)) return;
-  const f = Math.round(3.5 - hit.x / SQ), rk = Math.round(hit.z / SQ + 4.5) - 1;
-  if (f < 0 || f > 7 || rk < 0 || rk > 7) return;
-  opts.onTap && opts.onTap('abcdefgh'[f] + (rk + 1));
+  // pole pod palcem na planszy
+  const hit = new THREE.Vector3(); let plane = null;
+  if (ray.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0, 1, 0), -TOP), hit)) {
+    const f = Math.round(3.5 - hit.x / SQ), rk = Math.round(hit.z / SQ + 4.5) - 1;
+    if (f >= 0 && f <= 7 && rk >= 0 && rk <= 7) plane = 'abcdefgh'[f] + (rk + 1);
+  }
+  // trafiona figura (łatwiej trafić wysoką figurę niż pole pod nią); wolne pole-cel ma pierwszeństwo przed figurą zasłaniającą
+  let piece = null; const objs = []; pieces.forEach((p, sq) => { p.obj.userData.sq = sq; objs.push(p.obj); });
+  for (const h of ray.intersectObjects(objs, true)) { let o = h.object; while (o && !o.userData.sq) o = o.parent; if (o) { piece = o.userData.sq; break; } }
+  const sq = plane && (lastSt.tg || []).includes(plane) && !pieces.has(plane) ? plane : piece || plane;
+  if (sq && opts.onTap) opts.onTap(sq);
 }
 
 /* --- figury --- */
@@ -219,6 +236,7 @@ function starMesh() {
 /* --- synchronizacja z grą --- */
 export function sync(P, st) {
   if (!R) return;
+  lastSt = st; dirty = true;
   if (flipped !== !!st.flip) { flipped = !!st.flip; placeCam(); }
   const old = new Map(pieces), next = new Map(), oldL = [], newL = [];
   for (const sq in P) { const o = old.get(sq); if (o && o.code === P[sq]) { next.set(sq, o); old.delete(sq); } else newL.push(sq); }
@@ -268,7 +286,7 @@ export function sync(P, st) {
   [...starObjs.keys()].filter(s => !stars.includes(s)).forEach(s => { root.remove(starObjs.get(s)); starObjs.delete(s); });
   prevStars = stars.slice();
 }
-export function clear() { pieces.forEach(p => removePiece(p.obj)); pieces = new Map(); starObjs.forEach(o => root.remove(o)); starObjs.clear(); prevStars = []; marks.splice(0).forEach(m => root.remove(m)); }
+export function clear() { dirty = true; pieces.forEach(p => removePiece(p.obj)); pieces = new Map(); starObjs.forEach(o => root.remove(o)); starObjs.clear(); prevStars = []; marks.splice(0).forEach(m => root.remove(m)); }
 
 /* --- król się przewraca (mat) --- */
 export function topple(sq) {
@@ -283,13 +301,13 @@ export function topple(sq) {
     () => { shake = 0.7; burst(o.position.clone(), 50, [0xffffff, 0xced4da], .25, .4); opts.sound && opts.sound('boom'); }, 350);
 }
 
-/* --- cząsteczki: iskry i fajerwerki (Points, mieszanie addytywne, poświata z bloom) --- */
+/* --- cząsteczki: iskry i fajerwerki (Points, mieszanie addytywne) --- */
 function makeParticles(N) {
   const geo = new THREE.BufferGeometry(), pos = new Float32Array(N * 3), col = new Float32Array(N * 3);
   geo.setAttribute('position', new THREE.BufferAttribute(pos, 3)); geo.setAttribute('color', new THREE.BufferAttribute(col, 3));
   const cv = document.createElement('canvas'); cv.width = cv.height = 64; const x = cv.getContext('2d'), gr = x.createRadialGradient(32, 32, 0, 32, 32, 32);
   gr.addColorStop(0, 'rgba(255,255,255,1)'); gr.addColorStop(.35, 'rgba(255,255,255,.7)'); gr.addColorStop(1, 'rgba(255,255,255,0)'); x.fillStyle = gr; x.fillRect(0, 0, 64, 64);
-  const mat = new THREE.PointsMaterial({ size: 0.02, map: new THREE.CanvasTexture(cv), vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true });
+  const mat = new THREE.PointsMaterial({ size: 0.026, map: new THREE.CanvasTexture(cv), vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending, sizeAttenuation: true });
   const pts = new THREE.Points(geo, mat); pts.frustumCulled = false;
   return { points: pts, pos, col, N, list: [], rockets: [] };
 }
@@ -307,7 +325,7 @@ function stepParticles(dt) {
   const L = fx.list; let n = 0;
   for (let k = L.length - 1; k >= 0; k--) { const s = L[k]; s.life -= dt; if (s.life <= 0) { L.splice(k, 1); continue; }
     s.v.y -= 0.35 * s.g * dt; s.v.multiplyScalar(1 - 1.2 * dt); s.p.addScaledVector(s.v, dt); }
-  for (const s of L) { const a = Math.min(1, s.life / s.max * 1.4); fx.pos.set([s.p.x, s.p.y, s.p.z], n * 3); C.copy(s.c).multiplyScalar(a * 5); fx.col.set([C.r, C.g, C.b], n * 3); n++; }
+  for (const s of L) { const a = Math.min(1, s.life / s.max * 1.4); fx.pos.set([s.p.x, s.p.y, s.p.z], n * 3); C.copy(s.c).multiplyScalar(a * 1.6); fx.col.set([C.r, C.g, C.b], n * 3); n++; }
   fx.points.geometry.setDrawRange(0, n); fx.points.geometry.attributes.position.needsUpdate = true; fx.points.geometry.attributes.color.needsUpdate = true;
 }
 // fajerwerki: siła 1 = kilka rakiet, 3 = pokaz na całego

@@ -105,7 +105,10 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   (Khronos, CC BY 4.0) zmniejszony skryptem `tools/chess3d_model.sh` (gltf-transform: weld, simplify, resize 512, webp, meshopt).
   `szDraw()` przy `SZ.d3` woła `S3.sync(pozycja, {sel,tg,last,chk,hint,stars,flip})` – ruchy, zbicia (odłamki z fizyką, iskry, błysk, fala),
   promocje i gwiazdki wynikają z różnicy pozycji; dotyk przez `szTap(pole)`. Efekty: `S3.fireworks(1–3)`, `S3.topple(pole króla)` przy macie
-  (lekcje, zadania, koniec partii – `szGameEnd` najpierw pokazuje efekt, potem ekran końcowy). Poświata (bloom) z wysokim progiem: świecą tylko iskry.
+  (lekcje, zadania, koniec partii – `szGameEnd` najpierw pokazuje efekt, potem ekran końcowy). Wydajność: bez poświaty (bloom), rozdzielczość ≤ 1,5×,
+  zwykłe cienie PCF, rysowanie tylko gdy coś się dzieje (`dirty`; piłkarze w spoczynku 30 kl./s), fizyka tylko przy odłamkach.
+  Kamera: OrbitControls (`chess/3d/addons/controls`, r170) – jeden palec obraca, dwa przybliżają i przesuwają; przyciski Skos / Z góry / ⟲
+  (`#sz3-view` → `S3.view`). Dotyk: krótkie dotknięcie bez przesuwania; najpierw trafiona figura, wolne pole-cel ma pierwszeństwo.
   Skórki (`PREFS.szSkin`, wybór „Wygląd” na ekranie Szachy 3D, `S3.setSkin`): „classic” = marmurowy zestaw, „pilkarze” = boisko (`makePitch`,
   murawa w kratę, linie, bramki) i zawodnik `chess/3d/skins/footballer.glb` („Casual Character”, Quaternius, CC0, z Poly Pizza) klonowany
   `SkeletonUtils.clone`, stroje przez kolory materiałów (`KIT`: białe = niebiescy, czarne = czerwoni), wzrost `PL_SIZE` (pion najmniejszy),
