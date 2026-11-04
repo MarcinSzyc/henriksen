@@ -63,11 +63,11 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   Moduł `sz-3d` ukrywa kafel Szachy 3D.
   Zasady szachów (rodzic: przycisk „Zasady szachów dla dziecka” na ekranie Szachy → `#szrules`, `#szachy-zasady`, `renderSzRules`, `SZR`;
   zapis `szLimit` + `szRules` do wiersza `settings` dziecka, oba w `PARENT_KEYS`). Przełączniki: limit (wyłączony = 0, ostatnia liczba w
-  `szRules.limPrev`) i wyjątki (`daysOn`; `days` = daty `rrrr-mm-dd` → partie, −1 = bez limitu, zostają po wyłączeniu). `extra` / `gate` = cel
-  dziecka `{goal: id z PREFS.tasks, name}` wybierany z jego celów (`szrGoals`): liczą się dzisiejsze pełne przejścia celu (`szGoalPasses`:
-  każde ćwiczenie celu ukończone dziś z oceną ≥ `g`); extra = +1 partia za przejście, gate = szachy otwarte po pierwszym przejściu.
-  Dziecko: karta `[data-szgate]` otwiera cel (`openGoal`). Licznik `szLimCard()` (w `#szo-lim` i na ekranie końcowym partii): pionki zostałe/zagrane;
-  po limicie karta „Na dziś wystarczy szachów!” + „Chcesz baaardzo?” z ćwiczeniami celu extra (`szGoalState`, ✓ w bieżącym przejściu, `[data-szgx]` → `exRun`). Usunięty cel = zasada nie działa (`szRuleOk`).
+  `szRules.limPrev`) i wyjątki (`daysOn`; `days` = daty `rrrr-mm-dd` → partie, −1 = bez limitu, zostają po wyłączeniu). `extra` / `gate` = pakiet z biblioteki rodzica
+  (`szrPacks` z `LIB().pk`, kopiowany: `{pk:{id,name,ex:[{id,name,spec,pts}]}, name, g}`, `g` = wymagana ocena, wspólna dla obu): liczą się dzisiejsze
+  pełne przejścia pakietu (`szPkState`: sesje z `cfg.goal` = "szx"/"szgate" i `cfg.gx` = id ćwiczenia, ocena ≥ g); extra = +1 partia za przejście,
+  gate = szachy otwarte po pierwszym. Dziecko widzi listę ćwiczeń z ✓ (`szRuleList`, `[data-szrun]` → `exRun`) na karcie blokady `[data-szgate]`
+  i w karcie limitu. Starsze zapisy (`goal` = cel dziecka, `spec` = jedno ćwiczenie) nadal działają (`szRuleOk`, `szRuleDone`).
   `szLimitToday()`, `szLeft()`, `szGateOk()`; `szGame`/`szLesson`/`szPuzzles` i `szGuard` pilnują blokady.
   Plakietki nad piłkarzami: `PREFS.szBadges`, przycisk ♟ w `#sz3-view` (tylko skórka piłkarze), `S3.setBadges`.
   `szGuard()` (z `applyMods`, więc też po synchronizacji): gdy rodzic wyłączy szachy albo moduł, w którym dziecko jest (także w trakcie partii),
