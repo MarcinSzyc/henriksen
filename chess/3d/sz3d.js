@@ -69,7 +69,7 @@ export async function mount(container, o) {
   el = container; opts = o || {};
   if (R) { el.appendChild(R.domElement); resize(); resume(); return; }
   R = new THREE.WebGLRenderer({ antialias: true, powerPreference: 'high-performance' });
-  R.setPixelRatio(Math.min(devicePixelRatio || 1, 1.5));
+  R.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
   R.toneMapping = THREE.ACESFilmicToneMapping; R.toneMappingExposure = 1.0;
   R.shadowMap.enabled = true; R.shadowMap.type = THREE.PCFShadowMap;
   el.appendChild(R.domElement);
