@@ -66,7 +66,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `szRules.limPrev`) i wyjątki (`daysOn`; `days` = daty `rrrr-mm-dd` → partie, −1 = bez limitu, zostają po wyłączeniu). `extra` / `gate` = cel
   dziecka `{goal: id z PREFS.tasks, name}` wybierany z jego celów (`szrGoals`): liczą się dzisiejsze pełne przejścia celu (`szGoalPasses`:
   każde ćwiczenie celu ukończone dziś z oceną ≥ `g`); extra = +1 partia za przejście, gate = szachy otwarte po pierwszym przejściu.
-  Dziecko: karta `[data-szgate]` i przycisk w `#szo-lim` otwierają cel (`openGoal`). Usunięty cel = zasada nie działa (`szRuleOk`).
+  Dziecko: karta `[data-szgate]` otwiera cel (`openGoal`). Licznik `szLimCard()` (w `#szo-lim` i na ekranie końcowym partii): pionki zostałe/zagrane;
+  po limicie karta „Na dziś wystarczy szachów!” + „Chcesz baaardzo?” z ćwiczeniami celu extra (`szGoalState`, ✓ w bieżącym przejściu, `[data-szgx]` → `exRun`). Usunięty cel = zasada nie działa (`szRuleOk`).
   `szLimitToday()`, `szLeft()`, `szGateOk()`; `szGame`/`szLesson`/`szPuzzles` i `szGuard` pilnują blokady.
   Plakietki nad piłkarzami: `PREFS.szBadges`, przycisk ♟ w `#sz3-view` (tylko skórka piłkarze), `S3.setBadges`.
   `szGuard()` (z `applyMods`, więc też po synchronizacji): gdy rodzic wyłączy szachy albo moduł, w którym dziecko jest (także w trakcie partii),

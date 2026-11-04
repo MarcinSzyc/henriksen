@@ -774,6 +774,14 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .sz3-tip{margin:6px 2px 0;font-size:.8rem;font-weight:700;color:var(--muted);text-align:center}.szb3 canvas{display:block;width:100%!important;height:auto!important}
 .sz3-load{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;margin:0;font-weight:800;color:#dbe4ff;text-align:center;padding:20px}.sz3-load[hidden]{display:none}
 .sz3-tile{grid-column:1/-1;aspect-ratio:auto!important;min-height:120px;background:linear-gradient(135deg,#7048e8,#1c7ed6 60%,#e64980)!important}.sz-ctl button{flex:1;min-height:48px}
+.szlim-wrap{display:flex;flex-direction:column;gap:12px}.szlim-wrap[hidden]{display:none}.szlim-end{margin-top:14px;text-align:left}
+.szlim{background:var(--card);border:2px solid var(--line);border-radius:20px;padding:14px 16px;display:flex;flex-direction:column;align-items:center;gap:8px;text-align:center}
+.szlim-h{font-weight:800;font-size:1.05rem}.szlim-h b{font-family:var(--display);font-size:1.5rem;color:var(--accent)}
+.szlim-p{display:flex;flex-wrap:wrap;justify-content:center;gap:2px}.szlim-p img{width:36px;height:36px;filter:drop-shadow(0 2px 2px rgba(0,0,0,.35))}.szlim-p img.u{opacity:.25;filter:grayscale(1)}
+.szlim small{color:var(--muted);font-weight:800}
+.szlim.done{background:linear-gradient(135deg,#5f3dc4,#3b5bdb);border:0;color:#fff;padding:18px 16px}.szlim.done .szlim-h{font-family:var(--display);font-size:1.35rem}
+.szlim-e{font-size:2.6rem;line-height:1;animation:szpop .5s cubic-bezier(.3,1.6,.5,1)}.szlim-s{font-weight:700;opacity:.92;font-size:.92rem}
+.szlim-more{display:flex;flex-direction:column;gap:8px}.szlim-more>b{font-size:1.05rem;padding:0 4px}.szlim-more>span,.szlim-more>small{color:var(--muted);font-weight:700;font-size:.85rem;padding:0 4px}.szlim-more .go-btn{margin:0}
 .sz-gate{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--card);border:2px solid var(--accent);border-radius:20px;padding:14px;margin:0 0 14px}
 .sz-gate-i{font-size:2rem}.sz-gate .rt{flex:1;min-width:150px;display:flex;flex-direction:column}.sz-gate .rt small{color:var(--muted);font-weight:800}.sz-gate .go-btn{width:100%;margin:0}
 #szo-lim small{display:block;margin-top:4px;color:var(--muted);font-weight:800}#szo-lim .go-btn,.sz-gate .go-btn{margin-top:10px;width:100%;font-size:1rem;min-height:52px}
@@ -1101,7 +1109,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div class="lbl">Grasz</div>
   <div class="segs" id="szo-col"><button type="button" data-c="w">Białymi</button><button type="button" data-c="b">Czarnymi</button><button type="button" data-c="rand">Losowo</button></div>
-  <p class="sum sz-sum" id="szo-lim" hidden></p>
+  <div class="szlim-wrap" id="szo-lim" hidden></div>
   <div class="lbl">Przeciwnik</div>
   <div class="sets" id="szo-list"></div>
 </div>
@@ -5583,7 +5591,7 @@ function szGameEnd(res){
     `<div class="szelo-d">Ranking: <b id="szg-elo">${E0.R}</b> <span class="${dR>=0?"up":"dn"}">${dR>=0?"+":"−"}${Math.abs(dR)}</span></div>`;
   const nx=SZ_OPP[SZ.opp+1],unlocked=res==="w"&&nx&&szWins(L.id)===1;
   $("szg-play").hidden=true;
-  const whyH=szWhy(res);
+  const whyH=szWhy(res)+(szLeft()!==null?`<div class="szlim-wrap szlim-end">${szLimCard()}</div>`:"");
   $("szg-end").innerHTML=`<div class="done card">${res==="w"?art(grade(100)):SZ.why?SZ.why.big:""}<div class="gn">${res==="w"?`Wygrana ${L.z}! +${L.pts} pkt`:res==="d"?why:`${L.name} wygrywa tym razem.`}</div>
     <div class="gp">${res==="w"?(unlocked?`Odblokowany nowy przeciwnik: <b>${nx.name}</b>!`:"Brawo!"):res==="d"?"Remis to nie przegrana – spróbuj jeszcze raz!":"Każda partia czegoś uczy. Zagraj jeszcze raz!"}</div>${eloH}${whyH}</div>
     <div class="btns"><button type="button" class="again" data-a="again">Zagraj jeszcze raz</button>${unlocked?`<button type="button" class="go-btn" data-a="nextopp">Zagraj ${nx.z}</button>`:`<button type="button" class="go-btn" data-a="back">Gotowe</button>`}</div>`;
@@ -5748,10 +5756,27 @@ function renderSzz(){$("szz").querySelector("h1").textContent=SZ3D?"Zadania 3D":
   const H=szHist("zadania"),solved=new Set(H.flatMap(s=>s.recs.filter(r=>r.ok).map(r=>r.t)));
   $("szz-info").innerHTML=`Twój ranking zadań: <b>${szRating()}</b> · rozwiązane: ${solved.size}<small>Zadania dobierają się do rankingu. Punkty: mat w 1 – 2, w 2 – 3, w 3 – 5 (tylko bez pomyłki).</small>`;
 }
+// ćwiczenia celu dzisiaj: ile przejść już jest i które ćwiczenia są zrobione w bieżącym przejściu
+function szGoalState(t){const X=goalEx(t),t0=dayKey(Date.now());
+  const ok=loadOwnHist().filter(s=>s.cfg&&s.cfg.goal===t.id&&s.status==="done"&&s.start>=t0&&(!t.g||(s.grade||grade(s.pct).n)>=t.g));
+  const cnt=X.map(x=>ok.filter(s=>s.cfg.gx===x.gx).length),pass=X.length?Math.min(...cnt):0;return {X,cnt,pass,cur:X.filter((x,k)=>cnt[k]>pass).length};}
+const partii=n=>n===1?"partia":n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?"partie":"partii";
+function szLimCard(){
+  const left=szLeft();if(left===null) return "";const X0=szR().extra,X=szRuleOk(X0)?X0:null,xd=X?szRuleDone(X,"szx"):0,lim=szLimitToday(),all=lim+xd,used=Math.max(0,all-left);
+  const pawns=`<div class="szlim-p" aria-hidden="true">${Array.from({length:Math.min(all,12)},(_,k)=>`<img src="${SZ_IMG.wP}" alt="" class="${k<used?"u":""}">`).join("")}</div>`;
+  if(left) return `<div class="szlim"><div class="szlim-h">Dziś ${left===1?"została":partii(left)==="partie"?"zostały":"zostało"} ci <b>${left}</b> ${partii(left)}</div>${pawns}${xd?`<small>w tym ${xd} za ${X.goal?"cel":"zadania"} – brawo!</small>`:""}</div>`;
+  let more="";
+  if(X&&X.goal){const t=szGoal(X),st=szGoalState(t);
+    more=`<div class="szlim-more"><b>Chcesz baaardzo? 😉</b><span>Zrób te ćwiczenia, a dostaniesz jeszcze jedną partię:</span><div class="grp">`+
+      st.X.map((x,k)=>{const ok=st.cnt[k]>st.pass;return `<button type="button" class="row gv-row${ok?" ok":""}" data-szgx="${esc(x.gx)}"><span class="gv-c" aria-hidden="true">${ok?"✓":""}</span><span class="rt"><b>${esc(x.name)}</b><small>${CUP_SUBJ[exSubj(x.spec)]||""}${t.g?` · ocena co najmniej ${t.g}`:""}${ok?" · zrobione":""}</small></span></button>`;}).join("")+
+      `</div><small>Zrobione ${st.cur} z ${st.X.length} → +1 partia</small></div>`;}
+  else if(X) more=`<div class="szlim-more"><b>Chcesz baaardzo? 😉</b><span>Zrób zadanie, a dostaniesz jeszcze jedną partię:</span><button type="button" class="go-btn" data-szdo="szx">${esc(X.name)}</button></div>`;
+  return `<div class="szlim done"><div class="szlim-e" aria-hidden="true">🙌</div><div class="szlim-h">Na dziś wystarczy szachów!</div>${pawns}<span class="szlim-s">Zagrałeś dziś ${used} ${partii(used)} – świetna robota. Wróć jutro po więcej.</span></div>${more}`;
+}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-szgx]");if(!b) return;const t=szGoal(szR().extra);if(!t) return;const x=goalEx(t).find(y=>y.gx===b.dataset.szgx);if(x) exRun(x,{goal:t.id,gx:x.gx});});
 function renderSzo(){$("szo").querySelector("h1").textContent=SZ3D?"Graj w 3D":"Graj z komputerem";
-  const X0=szR().extra,X=szRuleOk(X0)?X0:null,left=szLeft(),lim=szLimitToday(),xd=X?szRuleDone(X,"szx"):0;$("szo-lim").hidden=left===null;
-  $("szo-lim").innerHTML=left===null?"":(left?`Dziś możesz zagrać jeszcze <b>${left}</b> ${left===1?"partię":left<5?"partie":"partii"}.`:X?`<b>Limit partii na dziś wykorzystany.</b> Każda kolejna partia = ${X.goal?"przejście celu":"jedno zadanie"}.`:`<b>Limit partii na dziś wykorzystany.</b> Wróć jutro – a teraz możesz poćwiczyć zadania albo samouczek.`)+
-    `<small>Dzisiejszy limit: ${lim}${xd?` + ${xd} za ${X.goal?"cel":"zadania"}`:""}</small>`+(X&&!left?`<button type="button" class="go-btn" data-szdo="szx">${X.goal?"Przejdź cel":"Zrób"}: ${esc(X.name)} → +1 partia</button>`:"");
+  const left=szLeft();$("szo-lim").hidden=left===null;
+  $("szo-lim").innerHTML=szLimCard();$("szo-lim").className="szlim-wrap";
   for(const b of $("szo-col").children){const on=b.dataset.c===SZC;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
   const E=szElo(loadHist()),K=szK(E.n);
   $("szo-list").innerHTML=SZ_OPP.map((L,k)=>{const o=szOppOpen(k),w=szWins(L.id),n=szHist("gra").filter(s=>s.cfg.opp===L.id).length,e=szExp(E.R,L.elo);
