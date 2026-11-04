@@ -2875,7 +2875,7 @@ function plLiveNow(){
 }
 function plShow(v){
   if(v==="pl") renderPl();
-  if(v==="szw") renderSzw();if(v==="szrules") renderSzRules();if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();
+  if(v==="szw") renderSzw();if(v==="szrules"){if(!SZR.prefs) SZR={kid:SZR.kid,prefs:null};renderSzRules();}if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();
   if(window.S3&&v!=="szg") S3.pause();if(v==="szz") renderSzz();if(v==="szo") renderSzo();
   if(v==="plws") renderPws();
   if(v==="pld") renderPd();
@@ -5132,9 +5132,17 @@ function szPlayedToday(){const d=new Date().toDateString();let n=0;try{const x=J
 // gate = zadanie, po którym szachy otwierają się danego dnia; zadanie = {id,name,spec} uruchamiane exRun z cfg.goal "szx" / "szgate"
 const szR=()=>PREFS.szRules&&typeof PREFS.szRules==="object"?PREFS.szRules:{};
 function szTaskDone(tag){const t0=dayKey(Date.now());return loadOwnHist().filter(s=>s.cfg&&s.cfg.goal===tag&&s.status==="done"&&s.start>=t0).length;}
-function szLimitToday(){const d=(szR().days||{})[ymd(Date.now())];return d!=null?(+d<0?null:+d):PREFS.szLimit||null;}
-const szLeft=()=>{const L=szLimitToday();if(L==null) return null;return Math.max(0,L+(szR().extra?szTaskDone("szx"):0)-szPlayedToday());};
-const szGateOk=()=>!szR().gate||szTaskDone("szgate")>0;
+function szLimitToday(){const d=szR().daysOn===false?null:(szR().days||{})[ymd(Date.now())];return d!=null?(+d<0?null:+d):PREFS.szLimit||null;}
+// zadanie = cel dziecka {goal,name}: liczą się dzisiejsze pełne przejścia celu (każde ćwiczenie z oceną ≥ g celu);
+// starsze zapisy {spec} = pojedyncze ćwiczenie oznaczone szx/szgate
+const szGoal=x=>x&&x.goal?(PREFS.tasks||[]).find(t=>t.id===x.goal)||null:null;
+function szGoalPasses(t){const X=goalEx(t),t0=dayKey(Date.now());if(!X.length) return 0;
+  const ok=loadOwnHist().filter(s=>s.cfg&&s.cfg.goal===t.id&&s.status==="done"&&s.start>=t0&&(!t.g||(s.grade||grade(s.pct).n)>=t.g));
+  return Math.min(...X.map(x=>ok.filter(s=>s.cfg.gx===x.gx).length));}
+function szRuleDone(x,tag){if(!x) return 0;if(x.goal){const t=szGoal(x);return t?szGoalPasses(t):0;}return szTaskDone(tag);}
+const szRuleOk=x=>!!x&&(!x.goal||!!szGoal(x)); // cel usunięty przez rodzica = zasada nie działa
+const szLeft=()=>{const L=szLimitToday();if(L==null) return null;const X=szR().extra;return Math.max(0,L+(szRuleOk(X)?szRuleDone(X,"szx"):0)-szPlayedToday());};
+const szGateOk=()=>{const G=szR().gate;return !szRuleOk(G)||szRuleDone(G,"szgate")>0;};
 function szCountGame(){const d=new Date().toDateString();try{localStorage.setItem(SZ_DAYK,JSON.stringify({d,n:szPlayedToday()+1}));}catch(e){}}
 const szWins=id=>szHist("gra").filter(s=>s.cfg.opp===id&&s.recs[0]&&s.recs[0].ok).length;
 const szOppOpen=k=>k===0||szWins(SZ_OPP[k-1].id)>0;
@@ -5716,7 +5724,7 @@ document.querySelectorAll("[data-szelo]").forEach(b=>b.addEventListener("click",
 function renderSz(){
   renderSzElo();$("sz-rules-btn").hidden=!(ME&&ME.role==="parent");
   const gate=!szGateOk(),G=szR().gate;
-  document.querySelectorAll("[data-szgate]").forEach(el=>{el.hidden=!gate;if(gate) el.innerHTML=`<div class="sz-gate-i" aria-hidden="true">🔒</div><div class="rt"><b>Szachy otworzą się po zadaniu</b><small>${esc(G.name)}</small></div><button type="button" class="go-btn" data-szdo="szgate">Zrób zadanie</button>`;});
+  document.querySelectorAll("[data-szgate]").forEach(el=>{el.hidden=!gate;if(gate) el.innerHTML=`<div class="sz-gate-i" aria-hidden="true">🔒</div><div class="rt"><b>Szachy otworzą się po ${G.goal?"celu":"zadaniu"}</b><small>${esc(G.name)}</small></div><button type="button" class="go-btn" data-szdo="szgate">${G.goal?"Otwórz cel":"Zrób zadanie"}</button>`;});
   const st=SZ_LESSONS.reduce((a,L)=>a+szStars(L.id),0),open=SZ_OPP.filter((x,k)=>szOppOpen(k)).length;
   $("sz-t-learn-s").textContent=st?`Gwiazdki: ${st} z ${SZ_LESSONS.length*3}`:"Ruchy figur, szach, mat, roszada";
   $("sz-t-puz-s").textContent=`Mat w 1, 2 i 3 · ranking ${szRating()}`;
@@ -5741,9 +5749,9 @@ function renderSzz(){$("szz").querySelector("h1").textContent=SZ3D?"Zadania 3D":
   $("szz-info").innerHTML=`Twój ranking zadań: <b>${szRating()}</b> · rozwiązane: ${solved.size}<small>Zadania dobierają się do rankingu. Punkty: mat w 1 – 2, w 2 – 3, w 3 – 5 (tylko bez pomyłki).</small>`;
 }
 function renderSzo(){$("szo").querySelector("h1").textContent=SZ3D?"Graj w 3D":"Graj z komputerem";
-  const left=szLeft(),X=szR().extra,lim=szLimitToday(),xd=X?szTaskDone("szx"):0;$("szo-lim").hidden=left===null;
-  $("szo-lim").innerHTML=left===null?"":(left?`Dziś możesz zagrać jeszcze <b>${left}</b> ${left===1?"partię":left<5?"partie":"partii"}.`:X?`<b>Limit partii na dziś wykorzystany.</b> Każda kolejna partia = jedno zadanie.`:`<b>Limit partii na dziś wykorzystany.</b> Wróć jutro – a teraz możesz poćwiczyć zadania albo samouczek.`)+
-    `<small>Dzisiejszy limit: ${lim}${xd?` + ${xd} za zadania`:""}</small>`+(X&&!left?`<button type="button" class="go-btn" data-szdo="szx">Zrób: ${esc(X.name)} → +1 partia</button>`:"");
+  const X0=szR().extra,X=szRuleOk(X0)?X0:null,left=szLeft(),lim=szLimitToday(),xd=X?szRuleDone(X,"szx"):0;$("szo-lim").hidden=left===null;
+  $("szo-lim").innerHTML=left===null?"":(left?`Dziś możesz zagrać jeszcze <b>${left}</b> ${left===1?"partię":left<5?"partie":"partii"}.`:X?`<b>Limit partii na dziś wykorzystany.</b> Każda kolejna partia = ${X.goal?"przejście celu":"jedno zadanie"}.`:`<b>Limit partii na dziś wykorzystany.</b> Wróć jutro – a teraz możesz poćwiczyć zadania albo samouczek.`)+
+    `<small>Dzisiejszy limit: ${lim}${xd?` + ${xd} za ${X.goal?"cel":"zadania"}`:""}</small>`+(X&&!left?`<button type="button" class="go-btn" data-szdo="szx">${X.goal?"Przejdź cel":"Zrób"}: ${esc(X.name)} → +1 partia</button>`:"");
   for(const b of $("szo-col").children){const on=b.dataset.c===SZC;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
   const E=szElo(loadHist()),K=szK(E.n);
   $("szo-list").innerHTML=SZ_OPP.map((L,k)=>{const o=szOppOpen(k),w=szWins(L.id),n=szHist("gra").filter(s=>s.cfg.opp===L.id).length,e=szExp(E.R,L.elo);
@@ -5753,9 +5761,13 @@ function renderSzo(){$("szo").querySelector("h1").textContent=SZ3D?"Graj w 3D":"
 $("t-sz").addEventListener("click",()=>go("sz"));
 // rodzic: zasady szachów dziecka (zapis do jego wiersza settings, jak cele)
 let SZR={kid:null,prefs:null};
-const SZR_N=[[0,"Bez limitu"],[1,"1"],[2,"2"],[3,"3"],[5,"5"],[10,"10"]],SZR_D=[[0,"Bez gry"],[1,"1"],[2,"2"],[3,"3"],[5,"5"],[10,"10"],[-1,"Bez limitu"]];
-const szrChoices=()=>[...SETS.map(st=>({id:"set:"+st.id,name:`Matematyka: ${st.name}`,spec:{k:"mat",cfg:{...st.cfg,set:st.id},n:st.n}})),...LIB().ex.filter(x=>x.spec&&x.spec.k!=="sz")];
-const szrSel=(id,cur)=>`<select class="szr-in" id="${id}"><option value="">— brak —</option>${szrChoices().map(x=>`<option value="${esc(x.id)}"${cur&&cur.id===x.id?" selected":""}>${esc(x.name)}</option>`).join("")}${cur&&!szrChoices().some(x=>x.id===cur.id)?`<option value="${esc(cur.id)}" selected>${esc(cur.name)}</option>`:""}</select>`;
+const SZR_N=[[1,"1"],[2,"2"],[3,"3"],[5,"5"],[10,"10"]],SZR_D=[[0,"Bez gry"],[1,"1"],[2,"2"],[3,"3"],[5,"5"],[10,"10"],[-1,"Bez limitu"]];
+// zadanie do szachów = jeden z celów ustawionych dziecku (Cele dla dziecka); zapis {goal: id celu, name: opis do pokazania}
+const szrGoals=()=>((SZR.prefs&&SZR.prefs.tasks)||[]).filter(t=>t&&t.packs&&!t.given);
+const szrGoalName=t=>`${goalWhat(t)} – ${t.reward}`;
+function szrSel(id,cur){const C=szrGoals();
+  return `<select class="szr-in" id="${id}"><option value="">— brak —</option>${C.map(t=>`<option value="${esc(t.id)}"${cur&&cur.goal===t.id?" selected":""}>${esc(szrGoalName(t))}</option>`).join("")}`+
+    `${cur&&!C.some(t=>cur.goal===t.id)?`<option value="" selected>${cur.goal?"(cel usunięty – wybierz inny)":esc(cur.name)}</option>`:""}</select>`;}
 async function renderSzRules(){
   const body=$("szr-body"),msg=$("szr-msg");msg.textContent="";$("szr-save").hidden=true;
   if(!(ME&&ME.role==="parent")){body.innerHTML='<p class="abnote">Ten widok jest dla rodzica.</p>';$("szr-kids").innerHTML="";return;}
@@ -5765,37 +5777,45 @@ async function renderSzRules(){
   $("szr-kids").innerHTML=FAMILY.map(p=>`<button type="button" data-id="${p.id}" class="${p.id===SZR.kid?"sel":""}" aria-pressed="${p.id===SZR.kid}">${esc(p.name||"–")}</button>`).join("");
   if(!SZR.prefs){body.innerHTML='<p class="abnote">Wczytuję…</p>';
     try{const {data,error}=await SB.from("settings").select("prefs").eq("user_id",SZR.kid).maybeSingle();if(error) throw error;const p=data&&data.prefs||{};
-      SZR.prefs=p;SZR.limit=+p.szLimit||0;const r=p.szRules&&typeof p.szRules==="object"?p.szRules:{};SZR.days={...(r.days||{})};SZR.extra=r.extra||null;SZR.gate=r.gate||null;SZR.dn=2;}
+      SZR.prefs=p;SZR.limit=+p.szLimit||0;const r=p.szRules&&typeof p.szRules==="object"?p.szRules:{};SZR.limPrev=SZR.limit||+r.limPrev||2;SZR.days={...(r.days||{})};SZR.daysOn=r.daysOn!==false;SZR.extra=r.extra||null;SZR.gate=r.gate||null;SZR.dn=2;}
     catch(x){body.innerHTML='<p class="abnote">Nie udało się wczytać ustawień – sprawdź internet.</p>';return;}}
   const today=ymd(Date.now());Object.keys(SZR.days).forEach(d=>{if(d<today) delete SZR.days[d];});
   const seg=(id,list,cur)=>`<div class="segs" id="${id}">${list.map(([n,t])=>`<button type="button" data-n="${n}" class="${cur===n?"sel":""}" aria-pressed="${cur===n}">${t}</button>`).join("")}</div>`;
   const days=Object.keys(SZR.days).sort().map(d=>{const n=+SZR.days[d],dt=new Date(d+"T12:00");
     return `<div class="szr-day"><span>${dt.toLocaleDateString("pl-PL",{weekday:"short",day:"numeric",month:"numeric"})} – ${n<0?"bez limitu":n===0?"bez gry":n+" "+(n===1?"partia":n<5?"partie":"partii")}</span><button type="button" data-del="${d}" aria-label="Usuń wyjątek">✕</button></div>`;}).join("");
-  body.innerHTML=`<div class="lbl">Partie z komputerem dziennie</div>${seg("szr-lim",SZR_N,SZR.limit)}
-    <div class="lbl">Wyjątek na konkretny dzień</div><div class="szr-row"><input type="date" class="szr-in" id="szr-date" min="${today}" value="${SZR.dd||today}"></div>
-    ${seg("szr-dn",SZR_D,SZR.dn)}<button type="button" class="again" id="szr-add" style="width:100%">＋ Dodaj wyjątek</button><div class="szr-days">${days}</div>
-    <div class="lbl">Każda partia ponad limit wymaga zadania</div>${szrSel("szr-extra",SZR.extra)}
-    <p class="abnote">Za każde ukończone zadanie dziecko dostaje jedną partię więcej (tylko gdy jest limit).</p>
-    <div class="lbl">Szachy otwierają się dopiero po zadaniu</div>${szrSel("szr-gate",SZR.gate)}
-    <p class="abnote">Codziennie najpierw to zadanie – dopiero potem samouczek, zadania i gra. Swoje ćwiczenia zapiszesz przyciskiem „Dodaj do zapisanych celów” w dowolnej grze.</p>`;
+  const lon=SZR.limit>0;
+  body.innerHTML=`<div class="grp"><button type="button" class="row sw${lon?" sel":""}" id="szr-lon" aria-pressed="${lon}"><span class="rt"><b>Limit partii z komputerem</b><small>${lon?`${SZR.limit} ${SZR.limit===1?"partia":SZR.limit<5?"partie":"partii"} dziennie`:"Wyłączony – bez limitu"}</small></span><i class="tg" aria-hidden="true"></i></button></div>
+    ${lon?seg("szr-lim",SZR_N,SZR.limit):""}
+    <div class="grp"><button type="button" class="row sw${SZR.daysOn?" sel":""}" id="szr-don" aria-pressed="${SZR.daysOn}"><span class="rt"><b>Wyjątki na konkretne dni</b><small>${SZR.daysOn?"Inny limit w wybrane dni":"Wyłączone – zawsze limit dzienny"}</small></span><i class="tg" aria-hidden="true"></i></button></div>
+    ${SZR.daysOn?`<div class="szr-row"><input type="date" class="szr-in" id="szr-date" min="${today}" value="${SZR.dd||today}"></div>
+    ${seg("szr-dn",SZR_D,SZR.dn)}<button type="button" class="again" id="szr-add" style="width:100%">＋ Dodaj wyjątek</button><div class="szr-days">${days}</div>`:""}
+    ${szrGoals().length?"":`<p class="abnote">Dziecko nie ma jeszcze celów – ustaw je w „Cele dla dziecka” (pakiety ćwiczeń, ocena), a potem wybierz tutaj.</p><button type="button" class="again" id="szr-goals" style="width:100%">🎯 Cele dla dziecka</button>`}
+    <div class="lbl">Każda partia ponad limit wymaga celu</div>${szrSel("szr-extra",SZR.extra)}
+    <p class="abnote">Każde dzisiejsze przejście celu (wszystkie ćwiczenia z oceną z celu) = jedna partia więcej. Działa, gdy jest limit.</p>
+    <div class="lbl">Szachy otwierają się dopiero po celu</div>${szrSel("szr-gate",SZR.gate)}
+    <p class="abnote">Codziennie najpierw ten cel – dopiero potem samouczek, zadania i gra.</p>`;
   const name=(FAMILY.find(p=>p.id===SZR.kid)||{}).name||"dziecka";$("szr-save").hidden=false;$("szr-save").textContent=`Zapisz dla: ${name}`;
 }
 $("szr-kids").addEventListener("click",e=>{const b=e.target.closest("button[data-id]");if(!b||b.dataset.id===SZR.kid) return;SZR={kid:b.dataset.id,prefs:null};renderSzRules();});
 $("szr-body").addEventListener("click",e=>{
-  const l=e.target.closest("#szr-lim [data-n]");if(l){SZR.limit=+l.dataset.n;return renderSzRules();}
+  const l=e.target.closest("#szr-lim [data-n]");if(l){SZR.limit=SZR.limPrev=+l.dataset.n;return renderSzRules();}
+  if(e.target.closest("#szr-lon")){SZR.limit=SZR.limit>0?0:SZR.limPrev||2;return renderSzRules();}
+  if(e.target.closest("#szr-don")){SZR.daysOn=!SZR.daysOn;return renderSzRules();}
+  if(e.target.closest("#szr-goals")){PT={kid:SZR.kid,tasks:null,hist:null};PTT="goal";SZR.prefs=null;return go("ptask");}
   const n=e.target.closest("#szr-dn [data-n]");if(n){SZR.dn=+n.dataset.n;SZR.dd=$("szr-date").value;return renderSzRules();}
   if(e.target.closest("#szr-add")){const d=$("szr-date").value;if(!d) return;SZR.days[d]=SZR.dn;SZR.dd=d;return renderSzRules();}
   const del=e.target.closest("[data-del]");if(del){delete SZR.days[del.dataset.del];renderSzRules();}});
-$("szr-body").addEventListener("change",e=>{const pick=id=>{const v=$(id).value;return v?szrChoices().find(x=>x.id===v)||(SZR[id==="szr-extra"?"extra":"gate"]):null;};
+$("szr-body").addEventListener("change",e=>{const pick=id=>{const v=$(id).value,t=v&&szrGoals().find(g=>g.id===v);return t?{goal:t.id,name:szrGoalName(t)}:null;};
   if(e.target.id==="szr-extra") SZR.extra=pick("szr-extra");if(e.target.id==="szr-gate") SZR.gate=pick("szr-gate");if(e.target.id==="szr-date") SZR.dd=e.target.value;});
 $("szr-save").addEventListener("click",async()=>{const b=$("szr-save");b.disabled=true;
   try{const {data,error}=await SB.from("settings").select("prefs,plp").eq("user_id",SZR.kid).maybeSingle();if(error) throw error;
-    const prefs={...(data&&data.prefs||{}),szLimit:SZR.limit,szRules:{days:SZR.days,extra:SZR.extra?{id:SZR.extra.id,name:SZR.extra.name,spec:SZR.extra.spec}:null,gate:SZR.gate?{id:SZR.gate.id,name:SZR.gate.name,spec:SZR.gate.spec}:null}};
+    const prefs={...(data&&data.prefs||{}),szLimit:SZR.limit,szRules:{days:SZR.days,daysOn:SZR.daysOn,limPrev:SZR.limPrev,extra:SZR.extra&&SZR.extra.goal?SZR.extra:null,gate:SZR.gate&&SZR.gate.goal?SZR.gate:null}};
     const r=await SB.from("settings").upsert({user_id:SZR.kid,prefs,plp:data&&data.plp||{}},{onConflict:"user_id"});if(r.error) throw r.error;
     SZR.prefs=prefs;$("szr-msg").textContent="Zapisane. Telefon dziecka dostanie zmiany najpóźniej w ciągu minuty.";}
   catch(x){$("szr-msg").textContent=acctErr(x);}b.disabled=false;});
 // zadanie od rodzica z ekranów szachów: blokada (szgate) albo dodatkowa partia (szx)
-document.addEventListener("click",e=>{const b=e.target.closest("[data-szdo]");if(!b) return;const R=szR(),x=b.dataset.szdo==="szgate"?R.gate:R.extra;if(x) exRun(x,{goal:b.dataset.szdo});});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-szdo]");if(!b) return;const R=szR(),x=b.dataset.szdo==="szgate"?R.gate:R.extra;if(!x) return;
+  if(x.goal){const t=szGoal(x);if(t) openGoal(t);}else exRun(x,{goal:b.dataset.szdo});});
 $("sz-rules-btn").addEventListener("click",()=>{SZR={kid:SZR.kid,prefs:null};go("szrules");});
 $("sz-t-learn").addEventListener("click",async()=>{await szLoad();go("szl");});
 $("sz-t-puz").addEventListener("click",()=>go("szz"));

@@ -62,11 +62,12 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `szLeft()` = limit − rozpoczęte dziś (licznik `henriksen-szdzien` albo ukończone z historii, większe); `szGame` blokuje start, `#szo-lim` pokazuje stan.
   Moduł `sz-3d` ukrywa kafel Szachy 3D.
   Zasady szachów (rodzic: przycisk „Zasady szachów dla dziecka” na ekranie Szachy → `#szrules`, `#szachy-zasady`, `renderSzRules`, `SZR`;
-  zapis `szLimit` + `szRules` do wiersza `settings` dziecka, oba w `PARENT_KEYS`): `szRules.days` = wyjątki na daty (`rrrr-mm-dd` → partie,
-  −1 = bez limitu), `extra` = zadanie za każdą partię ponad limit, `gate` = zadanie, po którym szachy otwierają się danego dnia. Zadanie
-  `{id,name,spec}` z `szrChoices()` (zestawy `SETS` + ćwiczenia rodzica z `LIB().ex` bez szachów), dziecko uruchamia je `exRun(x,{goal:"szx"|"szgate"})`
-  (przycisk `[data-szdo]`), liczy `szTaskDone(tag)` z dzisiejszych ukończonych sesji. `szLimitToday()`, `szLeft()` = limit + zadania szx − partie,
-  `szGateOk()`; blokada: karta `[data-szgate]`, `szGame`/`szLesson`/`szPuzzles` i `szGuard` jej pilnują.
+  zapis `szLimit` + `szRules` do wiersza `settings` dziecka, oba w `PARENT_KEYS`). Przełączniki: limit (wyłączony = 0, ostatnia liczba w
+  `szRules.limPrev`) i wyjątki (`daysOn`; `days` = daty `rrrr-mm-dd` → partie, −1 = bez limitu, zostają po wyłączeniu). `extra` / `gate` = cel
+  dziecka `{goal: id z PREFS.tasks, name}` wybierany z jego celów (`szrGoals`): liczą się dzisiejsze pełne przejścia celu (`szGoalPasses`:
+  każde ćwiczenie celu ukończone dziś z oceną ≥ `g`); extra = +1 partia za przejście, gate = szachy otwarte po pierwszym przejściu.
+  Dziecko: karta `[data-szgate]` i przycisk w `#szo-lim` otwierają cel (`openGoal`). Usunięty cel = zasada nie działa (`szRuleOk`).
+  `szLimitToday()`, `szLeft()`, `szGateOk()`; `szGame`/`szLesson`/`szPuzzles` i `szGuard` pilnują blokady.
   Plakietki nad piłkarzami: `PREFS.szBadges`, przycisk ♟ w `#sz3-view` (tylko skórka piłkarze), `S3.setBadges`.
   `szGuard()` (z `applyMods`, więc też po synchronizacji): gdy rodzic wyłączy szachy albo moduł, w którym dziecko jest (także w trakcie partii),
   wraca na start albo na ekran Szachy z komunikatem. Telefon dziecka (aplikacja na ekranie) co 60 s pyta tylko o `settings.updated_at`;
