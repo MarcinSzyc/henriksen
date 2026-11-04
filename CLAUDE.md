@@ -84,7 +84,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   przez `szRecolor`) lub zestaw z `SZ_SETS` (`chess/pieces/<zestaw>/<wK…>.svg`, z Lichess, licencje w `chess/LICENSES.md`); `szPcImg(pc)`.
   Przełączniki na ekranie Wygląd (`SZ_SW`, `#szw-sw`): `szTalk` dymki, `szVoice` głos, `szEmo` emoji u góry, `szFx` animacje zbicia (`SZ_CAP`),
   `szAnim` płynne ruchy (`szSlide`) – każdy działa osobno.
-  Komentatorzy (`PREFS.szTalk`, `PREFS.szVoice`): `SZ_TALKERS` Zbyszek/Janusz/Grażyna/Kazek (awatary `chess/avatars`; Janusz i Kazek = własne nagrania ElevenLabs, nie Piper – `sz_voices.py` ich pomija), każdy ma własne kwestie
+  Komentatorzy (`PREFS.szTalk`, `PREFS.szVoice`): `SZ_TALKERS` Zbyszek/Janusz/Grażyna/Kazek (awatary `chess/avatars`; Janusz i Kazek = własne nagrania ElevenLabs, nie Piper – `sz_voices.py` ich pomija; po podmianie nagrań podbij `SZ_VOICE_V[kto]`, bo pliki mają te same nazwy), każdy ma własne kwestie
   w `SZ_LINES` (JSON między `/*LINES*/` i `/*END*/` – czyta go `tools/sz_voices.py`) i własny głos: nagrania `chess/voices/<kto>/<kategoria>-<nr>.m4a`
   z głosów Piper (CC0: bass, darkman, gosia), robione `bash tools/sz_voices.sh`; po zmianie kwestii uruchom skrypt ponownie. Brak nagrania = sam dymek.
   `szReact(ruch)` (mat > zbicie > promocja > szach > roszada; ruch dziecka: zbita figura się żali, ruch komputera: kategorie `capBy`/`checkBy`/
