@@ -99,6 +99,10 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   goniec pająk, skoczek konik polny, pion mrówka), w ruchu animowany WebP z fonts.gstatic.com (`SZ_BUG`, `szBugAnim`, tylko gdy wczytany –
   `SZ_BUG_OK`, `szBugPreload`); `szSlide` prowadzi robaka wolniej (ślimak ×1,5), z kołysaniem, głową w stronę ruchu (`SZ_BUG_FACE`), konik skacze;
   drużyny: obwódka `bug-w`/`bug-b` i plakietka `.szpb` z figurą; zbicie `SZ_CAP.robaki` (na plecy + chmurka). `SZ_FXEND` czeka na koniec marszu.
+  Zestawy robaków opisuje `SZ_BUGS[set]` (`c` = kody emoji, `face` = "L" profil w lewo albo kąt głowy z góry, `slow`, `trail`).
+  Skórka „Robale” (`set:"robale"`, `chess/robale/`): obrzydliwe – król szczur, hetman pająk, wieża dżdżownica, goniec komar,
+  skoczek mucha, pion karaluch; zostawiają ślady (`szTrail`/`SZ_TRAIL`: łapki, brud, śluz, muszyce, krew, nitka pajęczyny), które
+  znikają po ok. 4 s; zbicie `SZ_CAP.robale` = rozgniecenie + plama glutów.
   Figury „Kosmos” (`set:"space"`, `szSpacePiece`, SVG, kolory drużyn `SZ_SPC`): król = Słońce, hetman = planeta z pierścieniem, wieża = rakieta,
   goniec = kometa, skoczek = UFO, pion = gwiazdka; plakietka z białą figurą cburnett na jasnym/ciemnym kółku. Komentuje zawsze wybrany komentator (`PREFS.szWho`, dotknięcie awatara na ekranie Wygląd).
   Koniec partii (`szWhy`): dlaczego przegrana (mat – kto szachuje, poddanie) albo remis (pat, powtórzenie, za mało figur, 50 ruchów)
