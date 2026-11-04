@@ -9,9 +9,9 @@
    zbicie = strzał piłką, po którym zbity odlatuje z boiska, mat = upadek króla i cieszynka drużyny.
    Skórka „Dinozaury”: dżungla z wulkanem, figury = dinozaury z „Animated Dinosaur Pack” (Quaternius, CC0, skins/dino/*.glb);
    drużyny różnią się odcieniem i kółkiem pod nogami, zbicie = atak (Attack), zbity pada (Death) i zapada się w ziemię.
-   Skórka „Roboty”: hala z metalową podłogą, roboty zbudowane z klocków w kodzie (makeRobot) – każda część ma pozycję
-   robota i pozycję auta, więc przy ruchu robot składa się w samochód, jedzie i rozkłada z powrotem; zbicie = strzał laserem,
-   po którym zbity rozpada się na części. Białe = Autoboty (czerwono-niebieskie), czarne = Decepticony (szaro-fioletowe). */
+   Skórka „Roboty”: hala z metalową podłogą, roboty z brył w kodzie według projektu z Claude Design (makeRobot, RB) – każda część ma
+   pozycję i rozmiar robota oraz pojazdu, więc przy ruchu robot składa się w ciężarówkę/auto/czołg/myśliwiec, jedzie i rozkłada z powrotem;
+   zbicie = strzał laserem, po którym zbity rozpada się na części. Białe = Gwardia Pulsara, czarne = Legion Cienia (kolce, wizjer V). */
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
@@ -43,7 +43,7 @@ const mixers = new Set();
 const PL_SIZE = { K: 1.12, Q: 1.08, R: .86, B: .82, N: .78, P: .6 };
 const KIT = { w: { shirt: 0x1c7ed6, shorts: 0xffffff, socks: 0x1c7ed6, gk: 0x94d82d, team: '#1c7ed6' }, b: { shirt: 0xe03131, shorts: 0x212529, socks: 0xe03131, gk: 0xfcc419, team: '#e03131' } };
 const BADGE = {}; // "#1c7ed6wN" → tekstura plakietki nad głową (figura szachowa w kółku w kolorze drużyny)
-const TEAMC = { pilkarze: KIT.w.team + ',' + KIT.b.team, dino: KIT.w.team + ',' + KIT.b.team, roboty: '#e03131,#7048e8' };
+const TEAMC = { pilkarze: KIT.w.team + ',' + KIT.b.team, dino: KIT.w.team + ',' + KIT.b.team, roboty: '#3da5ff,#a04dff' };
 const teamCol = c => (TEAMC[SKIN] || TEAMC.pilkarze).split(',')[c === 'w' ? 0 : 1];
 // plakietka nad postacią: y = wysokość w jednostkach modelu, sc = skala modelu
 function addBadge(o, code, y, sc) {
@@ -547,76 +547,196 @@ function makeJungle() {
   root.add(g); return g;
 }
 
-/* --- Roboty (transformersy z klocków) --- */
-// część: [geometria, materiał, pozycja robota, obrót robota, pozycja auta, obrót auta]; robot ma ok. 1 jednostkę wzrostu, przód = +z
+/* --- Roboty (transformersy z brył, projekt z Claude Design: Gwardia Pulsara kontra Legion Cienia) --- */
+// robot ma ok. 1,1 jednostki wzrostu, przód = +z; pojazd stoi na y = 0, przód też +z.
+// część: [kształt, materiał, wymiar robota, pozycja robota, obrót robota, wymiar pojazdu (0 = ten sam), pozycja pojazdu, obrót pojazdu];
+// pozycja null = część schowana w tej postaci (wysuwa się albo chowa w trakcie przemiany). Nazwa kończąca się na L = para lewa/prawa.
 const H = Math.PI / 2;
-const RB_PARTS = [
-  ['box', [.44, .3, .26], 'A', [0, .72, 0], [0, 0, 0], [0, .2, .27], [H, 0, 0]],        // tułów → maska
-  ['box', [.34, .12, .02], 'G', [0, .78, .135], [0, 0, 0], [0, .35, .07], [-1, 0, 0]],   // szyba na piersi → przednia szyba
-  ['box', [.32, .12, .22], 'D', [0, .5, 0], [0, 0, 0], [0, .17, -.02], [0, 0, 0]],       // biodra → podwozie
-  ['box', [.15, .4, .18], 'B', [-.1, .22, 0], [0, 0, 0], [-.11, .19, -.3], [H, 0, 0]],   // nogi → tył auta
-  ['box', [.15, .4, .18], 'B', [.1, .22, 0], [0, 0, 0], [.11, .19, -.3], [H, 0, 0]],
-  ['box', [.1, .34, .12], 'A', [-.29, .68, 0], [0, 0, 0], [-.25, .15, .03], [H, 0, 0]],  // ręce → progi
-  ['box', [.1, .34, .12], 'A', [.29, .68, 0], [0, 0, 0], [.25, .15, .03], [H, 0, 0]],
-  ['box', [.14, .1, .18], 'B', [-.29, .88, 0], [0, 0, 0], [-.07, .33, -.13], [0, 0, 0]], // barki → dach
-  ['box', [.14, .1, .18], 'B', [.29, .88, 0], [0, 0, 0], [.07, .33, -.13], [0, 0, 0]],
-  ['box', [.16, .15, .15], 'M', [0, .96, 0], [0, 0, 0], [0, .22, -.06], [0, 0, 0]],      // głowa chowa się do środka
-  ['box', [.13, .035, .012], 'E', [0, .98, .078], [0, 0, 0], [0, .22, .425], [0, 0, 0]], // oczy → reflektory
-  ['box', [.36, .03, .012], 'E', [0, .6, .118], [0, 0, 0], [0, .16, -.505], [0, 0, 0]],  // pas → tylne światła
-  ['wheel', 0, 'W', [-.19, .12, 0], [0, 0, H], [-.25, .085, .27], [0, 0, H]],            // koła: na nogach i plecach
-  ['wheel', 0, 'W', [.19, .12, 0], [0, 0, H], [.25, .085, .27], [0, 0, H]],
-  ['wheel', 0, 'W', [-.29, .9, -.12], [0, 0, H], [-.25, .085, -.3], [0, 0, H]],
-  ['wheel', 0, 'W', [.29, .9, -.12], [0, 0, H], [.25, .085, -.3], [0, 0, H]],
-];
-// znaki szczególne figur (w obu postaciach): król = grzebień, hetman = dwie anteny, wieża = działa, goniec = antena, skoczek = skrzydła, pion – nic
-const RB_EXTRA = {
-  K: [['box', [.035, .12, .1], 'B', [0, 1.08, 0], [0, 0, 0], [0, .4, -.12], [0, 0, 0]], ['box', [.03, .08, .06], 'B', [-.07, 1.04, 0], [0, 0, .3], [-.06, .38, -.12], [0, 0, .3]], ['box', [.03, .08, .06], 'B', [.07, 1.04, 0], [0, 0, -.3], [.06, .38, -.12], [0, 0, -.3]]],
-  Q: [['rod', .2, 'M', [-.06, 1.12, 0], [0, 0, .25], [-.15, .4, -.35], [-1.2, 0, 0]], ['rod', .2, 'M', [.06, 1.12, 0], [0, 0, -.25], [.15, .4, -.35], [-1.2, 0, 0]]],
-  R: [['gun', .26, 'M', [-.29, .96, .04], [H, 0, 0], [-.12, .4, -.2], [H, 0, 0]], ['gun', .26, 'M', [.29, .96, .04], [H, 0, 0], [.12, .4, -.2], [H, 0, 0]]],
-  B: [['rod', .26, 'M', [.05, 1.15, 0], [0, 0, 0], [.18, .42, -.4], [-1.2, 0, 0]]],
-  N: [['box', [.36, .025, .14], 'B', [-.22, .82, -.17], [0, .3, .5], [0, .34, -.48], [0, 0, 0]], ['box', [.36, .025, .14], 'B', [.22, .82, -.17], [0, -.3, -.5], [0, .3, -.48], [0, 0, 0]]],
-  P: [],
+// paleta z projektu: P lakier główny, S lakier drugi, A biel/stal, C chrom, M mechanika, T opony, G szyby, E oczy, L reflektory, K kolce, X znak, O kontur
+const RB_PAL = {
+  w: { P: 0xC8102E, S: 0x1F5FD6, A: 0xD9DEE6, C: 0xC9D1DC, M: 0x2B3038, T: 0x1B1D22, G: 0x1A2E46, E: 0x8FE6FF, L: 0xFFF3D1, K: 0x9B6BEA, X: 0x11141A, O: 0x3DA5FF },
+  b: { P: 0x3A3F48, S: 0x6B2FB8, A: 0x857C9C, C: 0x5C6270, M: 0x1C1F25, T: 0x141518, G: 0x1E0F2E, E: 0xFF5A4A, L: 0xFF7A9A, K: 0x9B6BEA, X: 0x0E0B14, O: 0xA04DFF },
 };
-const RB_SIZE = { K: 1.15, Q: 1.08, R: 1.02, B: .96, N: .94, P: .78 };
-const RB_COL = { w: { A: 0xd9302c, B: 0x2456c9, E: 0x4dd8ff }, b: { A: 0x5c6370, B: 0x6d28d9, E: 0xff2a2a } };
+const RB_COL = { w: { E: RB_PAL.w.E }, b: { E: RB_PAL.b.E } };
+// szkielet robota (lewa strona; prawa = lustro)
+const RB_BASE = {
+  footL: ['b', 'M', [.14, .07, .2], [.11, .035, .02]],
+  shinL: ['b', 'S', [.14, .27, .16], [.11, .205, 0]],
+  kneeL: ['b', 'P', [.12, .08, .06], [.11, .33, .08]],
+  thighL: ['b', 'M', [.1, .16, .11], [.11, .43, 0]],
+  pelvis: ['b', 'S', [.3, .1, .17], [0, .55, 0]],
+  abs: ['b', 'M', [.2, .09, .13], [0, .64, 0]],
+  chest: ['b', 'P', [.42, .26, .22], [0, .81, 0]],
+  winL: ['b', 'G', [.16, .08, .015], [.095, .86, .112]],
+  grill: ['b', 'C', [.12, .08, .015], [0, .75, .112]],
+  lightL: ['b', 'L', [.05, .028, .015], [.15, .75, .112]],
+  emb: ['x', 'X', .028, [0, .86, .113], [H, 0, 0]],
+  shL: ['b', 'P', [.15, .13, .19], [.29, .89, 0]],
+  uarmL: ['b', 'M', [.07, .14, .08], [.29, .75, 0]],
+  farmL: ['b', 'S', [.1, .19, .12], [.29, .58, 0]],
+  handL: ['b', 'M', [.07, .07, .07], [.29, .45, 0]],
+  neck: ['b', 'M', [.06, .05, .06], [0, .96, 0]],
+  head: ['b', 'S', [.13, .13, .13], [0, 1.04, 0]],
+  face: ['b', 'A', [.09, .06, .012], [0, 1.02, .066]],
+  eyes: ['b', 'E', [.085, .02, .01], [0, 1.04, .073]],
+  crest: ['b', 'C', [.025, .06, .07], [0, 1.13, 0]],
+};
+// figury: o = zmiany szkieletu (null = bez tej części), v = postać pojazdu {nazwa: [wymiar|0, pozycja, obrót?]}, x = dodatkowe części, vk = skala pojazdu
+const RB = {
+  K: { size: 1.12, vk: .62, // TYTAN / GROMOWŁAD: ciężarówka z naczepą
+    o: { chest: { s: [.46, .26, .24] }, shL: { s: [.17, .14, .21], p: [.32, .9, 0] }, uarmL: { p: [.32, .75, 0] }, farmL: { p: [.32, .58, 0], s: [.11, .19, .13] }, handL: { p: [.32, .45, 0] },
+      winL: { p: [.1, .86, .122] }, grill: { s: [.14, .1, .015], p: [0, .74, .122] }, lightL: { p: [.17, .74, .122] }, emb: { p: [0, .86, .123] }, shinL: { s: [.15, .27, .17] } },
+    v: { chest: [[.4, .2, .2], [0, .17, .44]], winL: [[.15, .08, .015], [.085, .36, .545]], shL: [[.19, .14, .16], [.1, .35, .46]], grill: [[.14, .1, .015], [0, .17, .545]],
+      lightL: [0, [.15, .12, .545]], emb: [0, [0, .27, .546]], shinL: [[.06, .08, .2], [.17, .13, .12]], kneeL: [[.06, .05, .16], [.17, .15, .42]], thighL: [[.05, .04, .95], [.08, .06, -.1]],
+      pelvis: [[.3, .03, .3], [0, .09, .18]], abs: [[.16, .03, .12], [0, .11, .08]], farmL: [[.06, .07, .14], [.19, .09, .28]], crest: [[.04, .03, .08], [0, .45, .44]] },
+    x: [['stackL', 'c', 'C', [.018, .28], [.22, 1.0, -.08], 0, 0, [.19, .42, .33]],
+      ['plateL', 'b', 'C', [.22, .4, .04], [.14, .88, -.17], [0, 0, 0], [.2, .32, .66], [.1, .27, -.25]],
+      ['stripeL', 'b', 'P', [.004, .025, .66], null, 0, 0, [.201, .21, -.25]], ['stripe2L', 'b', 'S', [.004, .015, .66], null, 0, 0, [.201, .18, -.25]],
+      ['twheelL', 'w', 'T', [.07, .05], null, 0, 0, [.16, .07, -.47], [0, 0, H]], ['twheel2L', 'w', 'T', [.07, .05], null, 0, 0, [.16, .07, -.32], [0, 0, H]],
+      ['fwheelL', 'w', 'T', [.07, .05], [.21, .08, .04], [0, 0, H], 0, [.17, .07, .42], [0, 0, H]], ['dwheelL', 'w', 'T', [.07, .05], [.21, .22, -.04], [0, 0, H], 0, [.17, .07, .12], [0, 0, H]],
+      ['guardL', 'b', 'C', [.1, .08, .015], [.11, .17, .088], 0, [.18, .05, .03], [.09, .05, .565]], ['antL', 'c', 'C', [.008, .12], [.09, 1.1, 0], 0, [.008, .06], [.23, .34, .5]]] },
+  Q: { size: 1.08, vk: .7, // ZEFIR / ŻMIJA: supersamochód
+    o: { chest: { m: 'S', s: [.34, .22, .18], p: [0, .84, 0] }, shL: { m: 'S', s: [.13, .11, .16], p: [.24, .91, 0] }, uarmL: { p: [.24, .77, 0], s: [.06, .14, .07] },
+      farmL: { m: 'M', p: [.24, .61, 0], s: [.08, .18, .1] }, handL: { p: [.24, .48, 0], s: [.06, .06, .06] }, shinL: { s: [.11, .32, .13], p: [.09, .23, 0] }, kneeL: { p: [.09, .38, .07], s: [.1, .07, .05] },
+      thighL: { s: [.09, .2, .1], p: [.09, .49, 0], m: 'S' }, footL: { p: [.09, .035, .02], s: [.12, .07, .18] }, pelvis: { s: [.24, .1, .14], p: [0, .64, 0] }, abs: { s: [.16, .08, .11], p: [0, .73, 0] },
+      winL: { s: [.12, .09, .015], p: [.065, .87, .092] }, grill: { m: 'P', s: [.12, .06, .015], p: [0, .71, .058] }, lightL: { p: [.12, .79, .092] }, emb: { p: [0, .8, .093] },
+      neck: { p: [0, .98, 0] }, head: { p: [0, 1.05, 0], s: [.11, .12, .12] }, face: { p: [0, 1.03, .061], s: [.08, .055, .012] }, eyes: { p: [0, 1.045, .068], s: [.075, .02, .01] }, crest: { p: [0, 1.14, 0] } },
+    v: { chest: [[.36, .07, .34], [0, .11, .3]], winL: [[.14, .06, .015], [.075, .19, .08], [-1.0, 0, 0]], head: [[.26, .04, .2], [0, .23, -.06]], abs: [[.28, .06, .24], [0, .17, -.3]],
+      kneeL: [[.03, .05, .1], [.185, .12, -.15]], pelvis: [[.38, .08, .3], [0, .1, -.32]], thighL: [[.04, .08, .34], [.175, .1, -.3]], shL: [[.05, .08, .24], [.17, .1, .28]],
+      shinL: [[.03, .04, .5], [.195, .05, 0]], lightL: [0, [.13, .11, .475]], emb: [0, [0, .15, .476]], grill: [[.34, .02, .05], [0, .07, .45]], crest: [[.36, .02, .08], [0, .27, -.44]] },
+    x: [['doorL', 'b', 'S', [.06, .34, .03], [.15, 1.06, -.1], [0, 0, -.3], [.015, .09, .3], [.2, .15, -.02]],
+      ['fwheelL', 'w', 'T', [.065, .05], [.31, .91, 0], [0, 0, H], 0, [.19, .065, .28], [0, 0, H]], ['rwheelL', 'w', 'T', [.065, .05], [.15, .2, 0], [0, 0, H], 0, [.19, .065, -.3], [0, 0, H]],
+      ['postL', 'b', 'M', [.02, .05, .02], null, 0, 0, [.12, .24, -.44]]] },
+  R: { size: 1.02, vk: .7, // BASTION / KRUSZYCIEL: czołg
+    o: { chest: { s: [.5, .3, .26], p: [0, .78, 0] }, winL: null, grill: null, lightL: null, emb: { p: [0, .8, .133] }, shL: { s: [.17, .17, .24], p: [.33, .82, 0] },
+      uarmL: { p: [.33, .66, 0] }, farmL: { s: [.14, .16, .16], p: [.33, .55, 0] }, handL: { p: [.33, .43, 0] }, pelvis: { s: [.42, .1, .2], p: [0, .58, 0] }, abs: null,
+      shinL: { m: 'T', s: [.15, .32, .2], p: [.12, .2, 0] }, kneeL: { m: 'S', s: [.13, .14, .03], p: [.12, .25, .11] }, thighL: { p: [.12, .45, 0] }, footL: { s: [.17, .07, .22], p: [.12, .035, .02] },
+      neck: null, head: { m: 'P', s: [.11, .09, .1], p: [0, .96, .05] }, face: { p: [0, .955, .102], s: [.08, .05, .012] }, eyes: { p: [0, .96, .109], s: [.07, .018, .01] }, crest: null },
+    v: { chest: [[.3, .12, .3], [0, .28, 0]], shL: [[.06, .1, .3], [.18, .27, 0]], head: [[.08, .04, .08], [.06, .36, -.05]], pelvis: [[.4, .08, .8], [0, .16, 0]],
+      farmL: [[.13, .06, .14], [.1, .17, .38], [.4, 0, 0]], shinL: [[.1, .11, .9], [.23, .06, 0]], kneeL: [[.1, .03, .86], [.23, .125, 0]], emb: [0, [0, .28, .152]] },
+    x: [['gunL', 'c', 'C', [.025, .3], [.33, 1.06, -.02], 0, [.018, .3], [.035, .28, .3], [H, 0, 0]],
+      ['mountL', 'b', 'M', [.07, .08, .08], [.33, .94, -.02], 0, [.07, .07, .08], [.04, .28, .16]],
+      ['rw1L', 'w', 'C', [.03, .01], null, 0, 0, [.282, .06, -.3], [0, 0, H]], ['rw2L', 'w', 'C', [.03, .01], null, 0, 0, [.282, .06, -.1], [0, 0, H]],
+      ['rw3L', 'w', 'C', [.03, .01], null, 0, 0, [.282, .06, .1], [0, 0, H]], ['rw4L', 'w', 'C', [.03, .01], null, 0, 0, [.282, .06, .3], [0, 0, H]],
+      ['hatch', 'b', 'S', [.12, .08, .015], [0, .8, .131], 0, [.1, .02, .1], [0, .345, .05]]] },
+  B: { size: .98, vk: .7, // SOKOLE OKO / SZAKAL: terenówka
+    o: { chest: { m: 'S', s: [.4, .24, .2] }, shL: { m: 'A', s: [.16, .15, .19], p: [.28, .89, 0] }, farmL: { m: 'A', s: [.11, .18, .12], p: [.28, .58, 0] }, uarmL: { p: [.28, .75, 0] },
+      handL: { p: [.28, .45, 0] }, kneeL: { m: 'A' }, winL: { s: [.15, .07, .015], p: [.09, .87, .102] }, grill: { s: [.14, .08, .015], p: [0, .75, .102] }, lightL: { p: [.15, .75, .102] }, emb: { p: [0, .87, .103] } },
+    v: { chest: [[.4, .12, .3], [0, .18, .32]], winL: [[.17, .09, .015], [.09, .29, .16], [-.25, 0, 0]], grill: [[.16, .08, .015], [0, .17, .475]], lightL: [0, [.14, .17, .475]], emb: [0, [0, .23, .476]],
+      head: [[.38, .03, .62], [0, .35, -.13]], farmL: [[.02, .11, .55], [.2, .28, -.13]], shL: [[.06, .05, .2], [.2, .15, .3]], pelvis: [[.4, .14, .62], [0, .17, -.13]],
+      abs: [[.36, .03, .8], [0, .07, 0]], kneeL: [[.04, .03, .18], [.21, .08, 0]], thighL: [[.05, .06, .2], [.2, .15, -.3]] },
+    x: [['rifle', 'b', 'M', [.03, .62, .03], [-.38, .55, .06], 0, [.32, .02, .5], [0, .37, -.12]], ['scope', 'b', 'C', [.03, .1, .03], [-.38, .72, .1], 0, [.025, .2, .025], [.2, .26, .34]],
+      ['spare', 'w', 'T', [.08, .05], [0, 1.0, -.15], [H, 0, 0], 0, [0, .26, .33], [0, 0, 0]], ['bar', 'b', 'M', [.3, .03, .04], [0, .98, -.05], 0, 0, [0, .37, .18]],
+      ['mono', 'c', 'C', [.022, .03], [.04, 1.05, .075], [H, 0, 0], 0, [.12, .38, .1]], ['swinL', 'b', 'G', [.005, .07, .45], null, 0, 0, [.205, .29, -.13]],
+      ['fwheelL', 'w', 'T', [.08, .05], [.2, .08, 0], [0, 0, H], 0, [.2, .08, .3], [0, 0, H]], ['rwheelL', 'w', 'T', [.08, .05], [.2, .23, 0], [0, 0, H], 0, [.2, .08, -.3], [0, 0, H]]] },
+  N: { size: .96, vk: .62, // HURAGAN / SZPON: myśliwiec
+    o: { chest: { m: 'A', s: [.36, .24, .2] }, winL: null, grill: null, lightL: null, emb: { p: [0, .74, .103] }, shL: { s: [.13, .12, .17], p: [.26, .88, 0] },
+      uarmL: { p: [.26, .75, 0] }, farmL: { m: 'A', p: [.26, .58, 0] }, handL: { p: [.26, .45, 0] }, pelvis: { m: 'A' }, shinL: { m: 'A' }, footL: { m: 'C', s: [.12, .08, .16] },
+      head: { m: 'A' }, face: { m: 'M' }, crest: null },
+    v: { chest: [[.2, .12, .5], [0, .14, .12]], pelvis: [[.2, .12, .4], [0, .14, -.3]], shL: [[.06, .08, .14], [.12, .12, .15]], farmL: [[.025, .025, .2], [.22, .1, -.05]],
+      shinL: [[.08, .08, .3], [.06, .12, -.33]], footL: [[.07, .07, .06], [.06, .12, -.52]], thighL: [[.015, .06, .12], [.06, .06, -.25]], kneeL: [[.02, .12, .14], [.09, .24, -.4], [0, 0, -.2]],
+      emb: [0, [0, .15, .376]] },
+    x: [['cockpit', 'b', 'G', [.15, .13, .015], [0, .85, .103], 0, [.1, .07, .2], [0, .22, .22]], ['nose', 'b', 'P', [.12, .07, .03], [0, .66, .08], 0, [.08, .06, .2], [0, .13, .47]],
+      ['wingL', 'b', 'P', [.38, .03, .13], [.22, 1.08, -.14], [0, 0, .95], [.36, .015, .3], [.24, .14, -.05], [0, -.35, 0]],
+      ['finL', 'b', 'P', [.02, .07, .05], [.035, 1.12, 0], [0, 0, -.25], [.14, .012, .1], [.12, .14, -.46]], ['bandL', 'b', 'P', [.102, .03, .122], [.26, .62, 0], 0, [.002, .03, .5], [.101, .14, 0]]] },
+  P: { size: .8, vk: .8, // ISKRA / ZGRZYT: rajdówka
+    o: { chest: { s: [.34, .2, .18], p: [0, .76, 0] }, winL: { s: [.09, .07, .015], p: [.05, .8, .092] }, grill: null, lightL: { p: [.12, .72, .092] }, emb: { p: [0, .72, .093] },
+      shL: { m: 'S', s: [.12, .1, .15], p: [.23, .83, 0] }, uarmL: { p: [.24, .72, 0] }, farmL: { p: [.24, .6, 0], s: [.1, .15, .11] }, handL: { p: [.24, .49, 0], s: [.06, .06, .06] },
+      pelvis: { s: [.26, .09, .15], p: [0, .56, 0] }, abs: { s: [.18, .08, .12], p: [0, .64, 0] }, neck: { p: [0, .88, 0] },
+      head: { s: [.17, .16, .16], p: [0, .97, 0] }, face: { s: [.12, .07, .012], p: [0, .95, .081] }, eyes: { s: [.1, .022, .01], p: [0, .96, .088] }, crest: { s: [.02, .07, .02], p: [0, 1.08, 0] } },
+    v: { chest: [[.34, .1, .26], [0, .14, .22]], winL: [[.12, .07, .015], [.065, .24, .06], [-.6, 0, 0]], lightL: [0, [.12, .14, .355]], emb: [0, [0, .1, .355]],
+      head: [[.3, .12, .26], [0, .25, -.1]], shL: [[.06, .07, .2], [.16, .12, .22]], pelvis: [[.34, .12, .28], [0, .13, -.2]], abs: [[.32, .03, .04], [0, .06, .36]],
+      kneeL: [[.03, .03, .36], [.17, .05, 0]], shinL: [[.05, .07, .18], [.16, .12, -.22]], crest: [[.3, .015, .06], [0, .33, -.32]] },
+    x: [['blaster', 'b', 'C', [.04, .04, .16], [-.3, .6, .08], 0, [.18, .03, .03], [0, .33, .03]], ['swinL', 'b', 'G', [.005, .06, .18], null, 0, 0, [.152, .26, -.1]],
+      ['fwheelL', 'w', 'T', [.07, .05], [.3, .84, 0], [0, 0, H], 0, [.18, .07, .22], [0, 0, H]], ['rwheelL', 'w', 'T', [.07, .05], [.14, .2, -.02], [0, 0, H], 0, [.18, .07, -.22], [0, 0, H]]] },
+};
+// Legion Cienia: kolce na barkach i kolanach, rogi i wizjer V zamiast oczu (tylko w postaci robota)
+const RB_EVIL = [['spikeL', 'k', 'K', [.03, .1], 'shL', [.5, .2, 0], [0, 0, -H]], ['kspikeL', 'k', 'K', [.022, .07], 'kneeL', [.6, 0, 0], [0, 0, -H]],
+  ['hornL', 'k', 'K', [.018, .09], 'head', [.4, .5, 0], [0, 0, -.35]]];
 const RB_MAT = {};
 function rbMat(c, k) {
   const key = c + k; if (RB_MAT[key]) return RB_MAT[key];
-  const C = RB_COL[c], m = k === 'A' || k === 'B' ? new THREE.MeshStandardMaterial({ color: C[k], metalness: .55, roughness: .38 }) :
-    k === 'M' ? new THREE.MeshStandardMaterial({ color: 0xb8c0c8, metalness: .9, roughness: .25 }) :
-    k === 'D' ? new THREE.MeshStandardMaterial({ color: 0x2b2f36, metalness: .6, roughness: .5 }) :
-    k === 'W' ? new THREE.MeshStandardMaterial({ color: 0x1b1d21, metalness: .2, roughness: .8 }) :
-    k === 'G' ? new THREE.MeshStandardMaterial({ color: 0x9ad0ff, metalness: .95, roughness: .08 }) :
-    new THREE.MeshStandardMaterial({ color: C.E, emissive: C.E, emissiveIntensity: 2.2 });
+  const col = RB_PAL[c][k], S = THREE.MeshStandardMaterial;
+  const m = 'PSAK'.includes(k) ? new S({ color: col, metalness: .35, roughness: .3 }) : k === 'C' ? new S({ color: col, metalness: 1, roughness: .14 }) :
+    k === 'M' ? new S({ color: col, metalness: .5, roughness: .6 }) : k === 'T' ? new S({ color: col, roughness: .9 }) :
+    k === 'G' ? new S({ color: col, metalness: .9, roughness: .06 }) : k === 'X' ? new S({ color: col, roughness: .5 }) :
+    new S({ color: col, emissive: col, emissiveIntensity: 2.2 });
   return RB_MAT[key] = m;
 }
-const RB_GEO = { wheel: new THREE.CylinderGeometry(.085, .085, .07, 14), hub: new THREE.CylinderGeometry(.04, .04, .075, 8) };
-function rbGeo(kind, a) {
-  if (kind === 'box') return new THREE.BoxGeometry(...a);
-  if (kind === 'wheel') return RB_GEO.wheel;
-  if (kind === 'rod') return new THREE.CylinderGeometry(.008, .008, a, 6).translate(0, a / 2, 0);
-  return new THREE.CylinderGeometry(.03, .035, a, 10).translate(0, a / 2, 0); // gun
+// bryła z fazowanymi krawędziami (jak w projekcie), w pamięci po wymiarach
+const RB_GEO = {};
+function rbBox(w, h, d) {
+  const key = [w, h, d].join(); if (RB_GEO[key]) return RB_GEO[key];
+  const b = Math.min(w, h, d) * .18, cw = w / 2 - b, ch = h / 2 - b, k = Math.min(cw, ch) * .3, s = new THREE.Shape();
+  s.moveTo(-cw + k, -ch); s.lineTo(cw - k, -ch); s.lineTo(cw, -ch + k); s.lineTo(cw, ch - k); s.lineTo(cw - k, ch); s.lineTo(-cw + k, ch); s.lineTo(-cw, ch - k); s.lineTo(-cw, -ch + k); s.closePath();
+  const g = new THREE.ExtrudeGeometry(s, { depth: Math.max(.001, d - 2 * b), bevelEnabled: true, bevelThickness: b, bevelSize: b, bevelSegments: 1, curveSegments: 1 });
+  g.translate(0, 0, -(d - 2 * b) / 2); return RB_GEO[key] = g;
+}
+function rbMesh(shape, c, mk, a) {
+  let g;
+  if (shape === 'b') g = rbBox(...a);
+  else if (shape === 'c') g = RB_GEO['c' + a] || (RB_GEO['c' + a] = new THREE.CylinderGeometry(a[0], a[0], a[1], 12));
+  else if (shape === 'k') g = RB_GEO['k' + a] || (RB_GEO['k' + a] = new THREE.ConeGeometry(a[0], a[1], 6).translate(0, a[1] / 2, 0));
+  else if (shape === 'x') g = RB_GEO['x' + a] || (RB_GEO['x' + a] = new THREE.CylinderGeometry(a, a, .012, 6));
+  else g = RB_GEO['w' + a] || (RB_GEO['w' + a] = new THREE.CylinderGeometry(a[0], a[0], a[1], 18));
+  const m = new THREE.Mesh(g, rbMat(c, mk)); m.castShadow = true;
+  if (shape === 'w' && mk === 'T') { const h = new THREE.Mesh(RB_GEO['h' + a] || (RB_GEO['h' + a] = new THREE.CylinderGeometry(a[0] * .55, a[0] * .55, a[1] * 1.08, 10)), rbMat(c, 'C')); m.add(h); }
+  if (shape === 'x') { const d = new THREE.Mesh(RB_GEO['xd' + a] || (RB_GEO['xd' + a] = new THREE.CylinderGeometry(a * .5, a * .5, .014, 4)), new THREE.MeshBasicMaterial({ color: c === 'w' ? RB_PAL.w.O : RB_PAL.b.E })); m.add(d); }
+  return m;
+}
+// lista części figury: szkielet z poprawkami + dodatki, pary L/R rozpisane
+function rbParts(c, t) {
+  const R = RB[t], out = [], q = e => new THREE.Quaternion().setFromEuler(new THREE.Euler(...(e || [0, 0, 0])));
+  const add = (name, shape, mk, size, rp, rr, vs, vp, vr) => {
+    const pair = /L$/.test(name), one = (sx, nm) => {
+      const fx = v => v && [v[0] * sx, v[1], v[2]], fr = r => r && (sx > 0 ? r : [r[0], -r[1], -r[2]]);
+      out.push({ name: nm, shape, mk, size, rp: rp && new THREE.Vector3(...fx(rp)), rq: q(fr(rr)), vp: vp && new THREE.Vector3(...fx(vp)), vq: q(fr(vr)),
+        vs: vs && shape === 'b' ? new THREE.Vector3(vs[0] / size[0], vs[1] / size[1], vs[2] / size[2]) : vs && shape !== 'b' ? new THREE.Vector3(vs[0] / size[0], vs[1] / size[1], vs[0] / size[0]) : new THREE.Vector3(1, 1, 1) }); };
+    one(1, name); if (pair) one(-1, name.slice(0, -1) + 'R');
+  };
+  for (const [name, base] of Object.entries(RB_BASE)) {
+    const o = R.o[name]; if (o === null) continue;
+    const [shape, mk0, size0, rp0, rr0] = base, mk = o && o.m || mk0, size = o && o.s || size0, rp = o && o.p || rp0, v = R.v[name];
+    add(name, shape, mk, size, rp, rr0, v && v[0] || null, v ? v[1] : null, v && v[2] || (shape === 'x' ? [H, 0, 0] : null));
+  }
+  for (const [name, shape, mk, size, rp, rr, vs, vp, vr] of R.x) add(name, shape, mk, size, rp, rr || null, vs || null, vp, vr || null);
+  if (c === 'b') {
+    for (const [name, shape, mk, size, at, off, rr] of RB_EVIL) { const B = out.find(p => p.name === at); if (!B) continue;
+      const bs = (R.o[at] && R.o[at].s) || RB_BASE[at][2], p = [B.rp.x + bs[0] * off[0], B.rp.y + bs[1] * off[1], B.rp.z + bs[2] * off[2]];
+      add(name, shape, mk, size, p, rr, null, null, null); }
+    const E = out.find(p => p.name === 'eyes'); if (E) { const i = out.indexOf(E), [w, h, d] = RB_BASE.eyes[2], p = E.rp;
+      out.splice(i, 1); add('visL', 'b', 'E', [w * .55, h, d], [w * .24, p.y - .006, p.z], [0, 0, .35], null, null, null); }
+  }
+  return out;
 }
 function makeRobot(code, sq) {
-  const c = code[0], t = code[1], o = new THREE.Group(), body = new THREE.Group(), s = SQ * 1.4 * RB_SIZE[t], parts = [];
-  for (const [kind, a, mk, rp, rr, cp, cr] of [...RB_PARTS, ...RB_EXTRA[t]]) {
-    const m = new THREE.Mesh(rbGeo(kind, a), rbMat(c, mk)); m.castShadow = true;
-    if (kind === 'wheel') { const h = new THREE.Mesh(RB_GEO.hub, rbMat(c, 'M')); m.add(h); }
-    const P = { m, rp: new THREE.Vector3(...rp), rq: new THREE.Quaternion().setFromEuler(new THREE.Euler(...rr)), cp: new THREE.Vector3(...cp), cq: new THREE.Quaternion().setFromEuler(new THREE.Euler(...cr)), wheel: kind === 'wheel' };
-    m.position.copy(P.rp); m.quaternion.copy(P.rq); body.add(m); parts.push(P);
+  const c = code[0], t = code[1], R = RB[t], o = new THREE.Group(), body = new THREE.Group(), s = SQ * 1.4 * R.size, parts = [];
+  for (const P of rbParts(c, t)) {
+    const m = rbMesh(P.shape, c, P.mk, P.size); P.m = m; P.wheel = P.shape === 'w' && P.mk === 'T';
+    P.d = (P.rp ? THREE.MathUtils.clamp(P.rp.y / 1.15, 0, 1) : .5) * .4; // nogi ruszają pierwsze, głowa ostatnia
+    body.add(m); parts.push(P);
   }
+  const ring = new THREE.Mesh(new THREE.RingGeometry(SQ * .34 / s, SQ * .4 / s, 40).rotateX(-H), new THREE.MeshBasicMaterial({ color: RB_PAL[c].O, transparent: true, opacity: .7, depthWrite: false }));
+  ring.position.y = .0008 / s; ring.renderOrder = 1; o.add(ring);
   o.add(body); o.scale.setScalar(s);
-  addBadge(o, code, 1.32, s);
+  addBadge(o, code, 1.38, s);
   o.position.copy(sqPos(sq, TOP)); o.rotation.y = c === 'w' ? 0 : Math.PI;
-  o.userData = { code, y: TOP, robot: true, face: o.rotation.y, parts, body, form: 0, cap: laser, die: (v, from) => breakApart(v, from) };
-  root.add(o); return o;
+  o.userData = { code, y: TOP, robot: true, face: o.rotation.y, parts, body, vk: R.vk, form: 0, cap: laser, die: (v, from) => breakApart(v, from) };
+  setForm(o, 0); root.add(o); return o;
 }
-// przemiana: k = 0 robot, 1 auto; części ruszają po kolei (mechaniczny efekt), auto jest trochę mniejsze
+// przemiana: k = 0 robot, 1 pojazd; każda część rusza po swoim czasie, leci łukiem w górę i obraca się,
+// części tylko jednej postaci wysuwają się ze środka albo chowają (skala 0)
+const RB_IN = { r: new THREE.Vector3(0, .7, 0), v: new THREE.Vector3(0, .12, 0) }, RB_V = new THREE.Vector3();
 function setForm(o, k) {
-  const U = o.userData; U.form = k; const n = U.parts.length;
-  U.parts.forEach((P, i) => { const e = ease(THREE.MathUtils.clamp((k * (1 + n * .03)) - i * .03, 0, 1));
-    P.m.position.lerpVectors(P.rp, P.cp, e); P.m.quaternion.slerpQuaternions(P.rq, P.cq, e); });
-  U.body.scale.setScalar(1 - k * .25);
+  const U = o.userData; U.form = k;
+  for (const P of U.parts) {
+    const e = ease(THREE.MathUtils.clamp((k - P.d) / .6, 0, 1)), a = P.rp || RB_IN.r, b = P.vp || RB_IN.v;
+    P.m.position.lerpVectors(a, b, e); P.m.position.y += Math.sin(Math.PI * e) * .12;
+    P.m.quaternion.slerpQuaternions(P.rq, P.vq, e);
+    const vis = !P.rp ? e : !P.vp ? 1 - e : 1;
+    RB_V.set(1, 1, 1).lerp(P.vs, e).multiplyScalar(Math.max(.001, vis)); P.m.scale.copy(RB_V); P.m.visible = vis > .01;
+  }
+  U.body.scale.setScalar(1 - k * (1 - U.vk));
 }
 function transform(o, to, d, delay = 0) {
   const k0 = o.userData.form;
@@ -629,9 +749,9 @@ function drive(o, b, knight, onLand) {
   const ang = Math.atan2(b.x - a.x, b.z - a.z), r0 = o.rotation.y, U = o.userData;
   tween(T, e => { o.rotation.y = r0 + shortAng(r0, ang) * e; }, null, wait);
   transform(o, 1, T, wait);
-  tween(d, (e, p) => { o.position.lerpVectors(a, b, e); if (knight) { o.position.y = b.y + Math.sin(Math.PI * p) * SQ * 1.3; U.body.rotation.x = -p * Math.PI * 2; }
+  tween(d, (e, p) => { o.position.lerpVectors(a, b, e); if (knight) { o.position.y = b.y + Math.sin(Math.PI * p) * SQ * 1.3; U.body.rotation.z = p * Math.PI * 2; } // skoczek = myśliwiec: beczka w locie
       U.parts.forEach(P => { if (P.wheel) P.m.rotateY(.5); }); },
-    () => { U.body.rotation.x = 0; opts.sound && opts.sound('tap'); const r1 = o.rotation.y; tween(T, e => { o.rotation.y = r1 + shortAng(r1, U.face) * e; }); onLand && onLand(); }, wait + T);
+    () => { U.body.rotation.z = 0; opts.sound && opts.sound('tap'); const r1 = o.rotation.y; tween(T, e => { o.rotation.y = r1 + shortAng(r1, U.face) * e; }); onLand && onLand(); }, wait + T);
   transform(o, 0, T, wait + T + d);
   return wait + T * 2 + d;
 }

@@ -134,10 +134,14 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   piłka, zbity wylatuje łukiem za boisko), Death (mat – `topple`) i Wave (cieszynka drużyny). Skórka „dino” (`makeDino`, `makeJungle`): modele Quaternius (CC0) `chess/3d/skins/dino/*.glb` z `tools/chess3d_dino.sh` –
   król T-Rex, hetman apatozaur, wieża triceratops, goniec parazaurolof, skoczek raptor, pion stegozaur (`DINO`, długość `DINO_L`);
   drużyny: odcień `DINO_TINT` + kółko pod nogami; zbicie `bite` (Attack → ofiara Death i `sinkAway`), wygrani skaczą (Jump).
-  Skórka „roboty” (`makeRobot`, `makeArena`): transformersy z klocków w kodzie – każda część z `RB_PARTS`/`RB_EXTRA` ma pozycję
-  robota i auta, `setForm(o,0…1)` przestawia części po kolei; ruch `drive` = przemiana w auto, jazda (skoczek skacze z saltem),
-  przemiana z powrotem; zbicie `laser` + `breakApart` (części rozlatują się), mat = król się rozpada, reszta podskakuje (`hop`).
-  Białe = Autoboty (czerwono-niebieskie), czarne = Decepticony (szaro-fioletowe), kolory `RB_COL`. Zbicia postaci idą przez
+  Skórka „roboty” (`makeRobot`, `makeArena`): transformersy według projektu z Claude Design (Gwardia Pulsara = białe, Legion Cienia = czarne;
+  paleta `RB_PAL` z projektu: P/S lakier, A biel, C chrom, M mechanika, T opony, G szyby, E oczy, L reflektory, K kolce, X znak, O kontur/kółko),
+  bryły z fazowanymi krawędziami (`rbBox`). Każda figura w `RB[typ]`: szkielet `RB_BASE` z poprawkami `o` (null = bez części), postać pojazdu
+  `v` (wymiar, pozycja, obrót – części mogą zmieniać rozmiar) i dodatki `x`; nazwa z „L” = para lewa/prawa (lustro). Pojazdy: król ciężarówka
+  z naczepą, hetman supersamochód, wieża czołg, goniec terenówka (karabin → bagażnik), skoczek myśliwiec (w ruchu robi beczkę), pion rajdówka.
+  Legion dostaje kolce, rogi i wizjer V (`RB_EVIL`). `setForm(o,0…1)`: nogi ruszają pierwsze, głowa ostatnia, części lecą łukiem;
+  część bez pozycji w danej postaci chowa się (skala 0). Ruch `drive` = przemiana w pojazd, jazda, przemiana z powrotem; zbicie `laser` + `breakApart`
+  (części rozlatują się), mat = król się rozpada, reszta podskakuje (`hop`). Zbicia postaci idą przez
   `userData.cap(ofiara, atakujący)` (zwraca, ile ms czekać przed ruchem) i `userData.die`; plakietki `addBadge` w kolorach `TEAMC`.
   `S3.busy()` = ile ms trwa jeszcze animacja: `szDraw` przesuwa `SZ_FXEND`, więc komputer i ekran końcowy czekają, aż figura dojedzie.
 - **Edukacja zdrowotna** (widok `#zd`, hash `#zdrowie`, przedmiot `subj:"zd"`): kafel „Sprawdzian 29.10” (`ZD_DATE`, wszystkie pytania
