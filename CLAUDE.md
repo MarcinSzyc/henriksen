@@ -90,7 +90,12 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `szReact(ruch)` (mat > zbicie > promocja > szach > roszada; ruch dziecka: zbita figura się żali, ruch komputera: kategorie `capBy`/`checkBy`/
   `promoBy`/`castleBy` – dogryzanie i ostrzeżenia) → `szSay(kategoria)` → dymek `#szg-talk` + `szClip`: jeden element `<audio>`
   (`SZ_AUD`, odblokowany cichym WAV przy pierwszym dotknięciu – na iPhonie Web Audio milczało), zapasowo Web Audio; `navigator.audioSession.type="playback"`.
-  Miniatura u góry ekranu gry (`#szg-face`, `szFace(mina)`): animowane emoji Noto (Google, CC BY 4.0, WebP z fonts.gstatic.com, `SZ_EMO`):
+  Kibic nad planszą 2D (`#szg-bust`, `data-m` = mina): popiersie wybranego komentatora (`szBustSvg(kto)`, wygląd z `SZ_LOOK` jak awatary:
+  Zbyszek, Janusz w binoklach, Grażyna, Kazek z brodą), SVG + animacje CSS `bz…` (części `bzo on-<mina>`), dół schowany pod planszą (`#szb` ma `z-index:1`).
+  Miny: calm (głowa na ręce, oczy wodzą po planszy), bored (ziewa), hum (nuci, nutki), angry, cry, joy, shock, laugh, nod.
+  `SZ_BUST[kategoria kwestii]` → mina (lista = losowo), `szSay` przekazuje kategorię i komentatora do `szFace(mina,kat,kto)`; po 3,2 s wraca calm,
+  a po 9 s bez ruchu `szIdle` na zmianę nuci albo się nudzi. Przełącznik `PREFS.szEmo` („Kibic u góry”). W 3D zostaje
+  miniatura u góry ekranu gry (`#szg-face`, `szFace(mina)`): animowane emoji Noto (Google, CC BY 4.0, WebP z fonts.gstatic.com, `SZ_EMO`):
   zwykle 😎, komputer myśli 🤔, `SZ_MOOD[kategoria]`: dziecko zbija 😭, komputer zbija/wygrywa 🥳😜💃, szach od dziecka 😱, promocja 🤩; po 3 s wraca.
   Figury „Klocki” (`set:"mc"`, `szMcPiece`): płaskie głowy w stylu Minecrafta (`szCube`: twarz 8×8 z `MC_HEAD` na całe pole, kolory `MC_PAL`;
   białe: Steve, Alex, golem, wieśniak, koń, kurczak; czarne: szkielet Withera, Enderman, zombie, wiedźma, pająk, Creeper) z plakietką figury (`SZ_MCP`)
