@@ -33,3 +33,8 @@
 
 ## Robaki i Robale (`chess/bugs/`, `chess/robale/`)
 - Noto Emoji, Google – statyczne SVG (Apache 2.0); animacje w ruchu: Noto Animated Emoji (CC BY 4.0) z fonts.gstatic.com.
+
+## Szachy 3D – Dinozaury (`chess/3d/skins/dino/`)
+- „Animated Dinosaur Pack” – Quaternius (quaternius.com), CC0 1.0, pobrane z Poly Pizza (T-Rex, Apatosaurus, Triceratops,
+  Parasaurolophus, Velociraptor, Stegosaurus); zmniejszone skryptem `tools/chess3d_dino.sh`.
+- Roboty (skórka „Roboty”) są zbudowane w kodzie (`makeRobot` w `chess/3d/sz3d.js`), bez zewnętrznych modeli.

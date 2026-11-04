@@ -1,12 +1,17 @@
 /* Henriksen – szachownica 3D (kafel „Szachy 3D”). Moduł ES ładowany przez import() z index.html (import map: "three").
    Model: „A Beautiful Game” (Khronos glTF Sample Assets, CC BY 4.0) w chess/3d/chess3d.glb, zmniejszony gltf-transform.
    API: mount(el, {onTap, sound}) → Promise; sync(P, st) – pozycja {pole:"wK"} + {sel, tg, last, chk, hint, stars, flip};
-   fireworks(siła), topple(pole), resize(), pause(), resume(), setSkin("classic"|"pilkarze"), view("tilt"|"top"|"reset").
+   fireworks(siła), topple(pole), resize(), pause(), resume(), setSkin("classic"|"pilkarze"|"dino"|"roboty"), view("tilt"|"top"|"reset").
    Kamera: OrbitControls – jeden palec obraca (zmienia kąt patrzenia), dwa palce przybliżają i przesuwają. Rysowanie tylko, gdy coś
    się zmienia (render na żądanie); bez poświaty (bloom) i z ograniczoną rozdzielczością – płynniej na telefonie. Ruchy i zbicia wynikają z różnicy
    między kolejnymi sync(). Skórka „Piłkarze”: boisko zamiast planszy, figury = zawodnik „Casual Character” (Quaternius, CC0,
    skins/footballer.glb) w strojach drużyn, różnego wzrostu (pion najmniejszy), król nr 9 i hetman nr 10 na plecach; ruch = bieg,
-   zbicie = strzał piłką, po którym zbity odlatuje z boiska, mat = upadek króla i cieszynka drużyny. */
+   zbicie = strzał piłką, po którym zbity odlatuje z boiska, mat = upadek króla i cieszynka drużyny.
+   Skórka „Dinozaury”: dżungla z wulkanem, figury = dinozaury z „Animated Dinosaur Pack” (Quaternius, CC0, skins/dino/*.glb);
+   drużyny różnią się odcieniem i kółkiem pod nogami, zbicie = atak (Attack), zbity pada (Death) i zapada się w ziemię.
+   Skórka „Roboty”: hala z metalową podłogą, roboty zbudowane z klocków w kodzie (makeRobot) – każda część ma pozycję
+   robota i pozycję auta, więc przy ruchu robot składa się w samochód, jedzie i rozkłada z powrotem; zbicie = strzał laserem,
+   po którym zbity rozpada się na części. Białe = Autoboty (czerwono-niebieskie), czarne = Decepticony (szaro-fioletowe). */
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { MeshoptDecoder } from 'three/addons/libs/meshopt_decoder.module.js';
@@ -31,11 +36,30 @@ const tweens = [], shards = [], marks = [], starObjs = new Map();
 let fx;                                    // cząsteczki (iskry, fajerwerki)
 let shake = 0, flipped = null;
 let SKIN = 'classic', boardObj = null, pitch = null, FB = null; // FB: model piłkarza {scene, clips, h}
+let jungle = null, arena = null, DN = null;                    // DN: modele dinozaurów {K: {scene, clips, box}}
+const BG = { classic: 0x0d1020, pilkarze: 0x0d1020, dino: 0x7fb8c9, roboty: 0x0a0f1c };
 const mixers = new Set();
 // piłkarze: wzrost względem króla i stroje drużyn (białe = niebiescy, czarne = czerwoni)
 const PL_SIZE = { K: 1.12, Q: 1.08, R: .86, B: .82, N: .78, P: .6 };
 const KIT = { w: { shirt: 0x1c7ed6, shorts: 0xffffff, socks: 0x1c7ed6, gk: 0x94d82d, team: '#1c7ed6' }, b: { shirt: 0xe03131, shorts: 0x212529, socks: 0xe03131, gk: 0xfcc419, team: '#e03131' } };
-const BADGE = {}; // "wN" → tekstura plakietki nad głową (figura szachowa w kółku w kolorze drużyny)
+const BADGE = {}; // "#1c7ed6wN" → tekstura plakietki nad głową (figura szachowa w kółku w kolorze drużyny)
+const TEAMC = { pilkarze: KIT.w.team + ',' + KIT.b.team, dino: KIT.w.team + ',' + KIT.b.team, roboty: '#e03131,#7048e8' };
+const teamCol = c => (TEAMC[SKIN] || TEAMC.pilkarze).split(',')[c === 'w' ? 0 : 1];
+// plakietka nad postacią: y = wysokość w jednostkach modelu, sc = skala modelu
+function addBadge(o, code, y, sc) {
+  const t = BADGE[teamCol(code[0]) + code]; if (!t) return;
+  const b = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, depthTest: false, transparent: true }));
+  b.renderOrder = 20; b.scale.setScalar(SQ * .5 / sc); b.position.set(0, y, 0); b.userData.badge = true; b.visible = badgesOn; o.add(b);
+}
+async function makeBadges() {
+  const img = opts.img || {}, todo = [];
+  for (const code of Object.keys(img)) { const col = teamCol(code[0]); if (!BADGE[col + code]) todo.push([col, code]); }
+  await Promise.all(todo.map(([col, code]) => new Promise(ok => { const im = new Image(); im.onload = () => {
+    const cv = document.createElement('canvas'); cv.width = cv.height = 128; const x = cv.getContext('2d');
+    x.beginPath(); x.arc(64, 64, 58, 0, 7); x.fillStyle = col; x.fill(); x.lineWidth = 8; x.strokeStyle = '#fff'; x.stroke();
+    x.drawImage(im, 18, 16, 92, 92); const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; BADGE[col + code] = t; ok(); };
+    im.onerror = ok; im.src = img[code]; })));
+}
 let badgesOn = true;
 // plakietki z figurami nad piłkarzami – do włączania i wyłączania (PREFS.szBadges)
 export function setBadges(on) { badgesOn = !!on; root && root.traverse(o => { if (o.userData && o.userData.badge) o.visible = badgesOn; }); dirty = true; }
@@ -171,6 +195,8 @@ function onTap(e) {
 /* --- figury --- */
 function makePiece(code, sq) {
   if (SKIN === 'pilkarze' && FB) return makePlayer(code, sq);
+  if (SKIN === 'dino' && DN) return makeDino(code, sq);
+  if (SKIN === 'roboty') return makeRobot(code, sq);
   const t = tpl[code]; const o = t.obj.clone(true);
   o.position.copy(sqPos(sq, t.y)); o.quaternion.copy(t.rot); o.userData.code = code; o.userData.y = t.y;
   root.add(o); return o;
@@ -178,6 +204,7 @@ function makePiece(code, sq) {
 function tween(d, f, end, delay = 0) { tweens.push({ t0: performance.now() + delay, d, f, end }); }
 function slide(o, to, knight, onLand) {
   if (o.userData.player) return run(o, sqPos(to, o.userData.y), onLand);
+  if (o.userData.robot) return drive(o, sqPos(to, o.userData.y), knight, onLand);
   const a = o.position.clone(), b = sqPos(to, o.userData.y), dist = a.distanceTo(b) / SQ;
   const h = knight ? 0.05 : 0.008 + dist * 0.002, d = knight ? 520 : 260 + dist * 45;
   tween(d, (e, p) => { o.position.lerpVectors(a, b, e); o.position.y = b.y + Math.sin(Math.PI * p) * h; }, () => { opts.sound && opts.sound('tap'); onLand && onLand(); });
@@ -253,13 +280,12 @@ export function sync(P, st) {
     const pair = (fs, ts, promo) => {
       const o = pieces.get(fs); oldL.splice(oldL.indexOf(fs), 1); newL.splice(newL.indexOf(ts), 1);
       const victim = pieces.get(ts) && oldL.includes(ts) ? pieces.get(ts) : null;
-      const kn = o.code[1] === 'N', vic = pieces.get(ts) && oldL.includes(ts) && o.obj.userData.player;
-      if (vic) { o.obj.userData.wait = 650; } // najpierw strzał, potem bieg na pole
+      const kn = o.code[1] === 'N', cap = victim && o.obj.userData.cap;
+      if (cap) { oldL.splice(oldL.indexOf(ts), 1); o.obj.userData.wait = cap(victim.obj, o.obj); } // postacie: najpierw atak (strzał, ugryzienie, laser), potem ruch na pole
       const d = slide(o.obj, ts, kn, () => {
         if (promo) { removePiece(o.obj); const n = makePiece(P[ts], ts); next.get(ts).obj = n; burst(n.position.clone().setY(TOP + .04), 90, [0xffffff, 0x74c0fc, 0xffd43b], .4, .6); opts.sound && opts.sound('cheer'); }
       });
-      if (victim) { oldL.splice(oldL.indexOf(ts), 1);
-        if (o.obj.userData.player) { kickOut(victim.obj, o.obj, d); } else setTimeout(() => explode(victim.obj, o.obj.position.clone()), d * 0.75); }
+      if (victim && !cap) { oldL.splice(oldL.indexOf(ts), 1); setTimeout(() => kill(victim.obj, o.obj.position.clone()), d * 0.75); }
       next.set(ts, { code: P[ts], obj: o.obj });
     };
     // 1) ostatni ruch (też promocja: pion → figura)
@@ -271,7 +297,7 @@ export function sync(P, st) {
       if (best) pair(best, ts, false);
     }
     // 3) zniknęły: zbite (bicie w przelocie) albo cofnięte
-    oldL.forEach(sq => { const o = pieces.get(sq); if (lt && sqPos(sq).distanceTo(sqPos(lt)) < SQ * 1.1) setTimeout(() => explode(o.obj, sqPos(lt)), 220); else fade(o.obj, true); });
+    oldL.forEach(sq => { const o = pieces.get(sq); if (lt && sqPos(sq).distanceTo(sqPos(lt)) < SQ * 1.1) setTimeout(() => kill(o.obj, sqPos(lt)), 220); else fade(o.obj, true); });
     newL.forEach(sq => { const o = makePiece(P[sq], sq); fade(o, false); next.set(sq, { code: P[sq], obj: o }); });
   }
   pieces = next;
@@ -289,14 +315,23 @@ export function sync(P, st) {
   [...starObjs.keys()].filter(s => !stars.includes(s)).forEach(s => { root.remove(starObjs.get(s)); starObjs.delete(s); });
   prevStars = stars.slice();
 }
+// ile ms zostało do końca animacji (komputer czeka z odpowiedzią, aż figura dojedzie)
+export function busy() { const n = performance.now(); return tweens.reduce((m, w) => Math.max(m, w.t0 + w.d - n), 0); }
 export function clear() { dirty = true; pieces.forEach(p => removePiece(p.obj)); pieces = new Map(); starObjs.forEach(o => root.remove(o)); starObjs.clear(); prevStars = []; marks.splice(0).forEach(m => root.remove(m)); }
+
+const kill = (o, from) => o.userData.die ? o.userData.die(o, from) : explode(o, from);
 
 /* --- król się przewraca (mat) --- */
 export function topple(sq) {
   const p = pieces.get(sq); if (!p) return;
+  if (p.obj.userData.robot) { // król robotów rozpada się, a zwycięzcy podskakują
+    setTimeout(() => breakApart(p.obj, null, true), 300);
+    pieces.forEach(q => { if (q.code[0] !== p.code[0]) for (let k = 0; k < 3; k++) hop(q.obj, 700 + k * 420 + Math.random() * 200); });
+    setTimeout(() => opts.sound && opts.sound('cheer'), 900); return;
+  }
   if (p.obj.userData.player) {
     play(p.obj, 'Death', true);
-    pieces.forEach(q => { if (q.code[0] !== p.code[0]) setTimeout(() => play(q.obj, 'Wave', false, true), 300 + Math.random() * 500); });
+    pieces.forEach(q => { if (q.code[0] !== p.code[0]) setTimeout(() => play(q.obj, q.obj.userData.cheer || 'Wave', false, true), 300 + Math.random() * 500); });
     setTimeout(() => { shake = 0.4; opts.sound && opts.sound('cheer'); }, 700); return;
   } const o = p.obj, q0 = o.quaternion.clone(), y0 = o.position.y;
   const ax = new THREE.Vector3(rnd(-1, 1), 0, rnd(-1, 1)).normalize(), q1 = new THREE.Quaternion().setFromAxisAngle(ax, Math.PI / 2 * 0.96).multiply(q0);
@@ -343,23 +378,24 @@ export function fireworks(power = 1) {
 /* --- skórki --- */
 function removePiece(o) { if (o.userData.mixer) { o.userData.mixer.stopAllAction(); mixers.delete(o.userData.mixer); } root.remove(o); }
 export async function setSkin(name) {
-  if (name === 'pilkarze' && !FB) {
-    const g = await new GLTFLoader().loadAsync(new URL('./skins/footballer.glb', import.meta.url).href);
-    g.scene.traverse(o => { if (o.isMesh) { o.castShadow = true; o.frustumCulled = false; } });
-    const box = new THREE.Box3().setFromObject(g.scene);
-    FB = { scene: g.scene, clips: g.animations, h: box.max.y - box.min.y };
-    const img = opts.img || {};
-    await Promise.all(Object.keys(img).map(code => new Promise(ok => { const im = new Image(); im.onload = () => {
-      const cv = document.createElement('canvas'); cv.width = cv.height = 128; const x = cv.getContext('2d');
-      x.beginPath(); x.arc(64, 64, 58, 0, 7); x.fillStyle = KIT[code[0]].team; x.fill(); x.lineWidth = 8; x.strokeStyle = '#fff'; x.stroke();
-      x.drawImage(im, 18, 16, 92, 92); const t = new THREE.CanvasTexture(cv); t.colorSpace = THREE.SRGBColorSpace; BADGE[code] = t; ok(); };
-      im.onerror = ok; im.src = img[code]; })));
-  }
+  if (name === 'pilkarze' && !FB) { const g = await loadChar('./skins/footballer.glb'); FB = { scene: g.scene, clips: g.clips, h: g.box.max.y - g.box.min.y }; }
+  if (name === 'dino' && !DN) { const L = await Promise.all(Object.values(DINO).map(f => loadChar(`./skins/dino/${f}.glb`))); DN = {}; Object.keys(DINO).forEach((t, k) => { DN[t] = L[k]; }); }
   if (name === SKIN) return;
-  clear(); SKIN = name;
+  clear(); SKIN = name; await makeBadges();
+  scene.background.set(BG[SKIN] || BG.classic); scene.fog = SKIN === 'dino' ? new THREE.Fog(BG.dino, 1.2, 3) : null;
   if (boardObj) boardObj.visible = SKIN === 'classic';
   if (SKIN === 'pilkarze' && !pitch) pitch = makePitch();
   if (pitch) pitch.visible = SKIN === 'pilkarze';
+  if (SKIN === 'dino' && !jungle) jungle = makeJungle();
+  if (jungle) jungle.visible = SKIN === 'dino';
+  if (SKIN === 'roboty' && !arena) arena = makeArena();
+  if (arena) arena.visible = SKIN === 'roboty';
+}
+async function loadChar(file) {
+  const ld = new GLTFLoader(); ld.setMeshoptDecoder(MeshoptDecoder);
+  const g = await ld.loadAsync(new URL(file, import.meta.url).href);
+  g.scene.traverse(o => { if (o.isMesh) { o.castShadow = true; o.frustumCulled = false; } });
+  return { scene: g.scene, clips: g.animations, box: new THREE.Box3().setFromObject(g.scene) };
 }
 // boisko: murawa w pasy (pola szachownicy w dwóch odcieniach), linie, bramki za liniami końcowymi
 function makePitch() {
@@ -382,7 +418,7 @@ function makePitch() {
   }
   root.add(g); return g;
 }
-const clip = (o, n) => FB.clips.find(c => c.name.endsWith('|' + n));
+const clip = (o, n) => { const C = o.userData.clips || FB.clips; return C.find(c => c.name.endsWith('|' + n)) || C.find(c => c.name.endsWith('_' + n)); };
 // animacja piłkarza: once = jeden raz i zostaje w ostatniej klatce; back = potem wraca do „Idle”
 function play(o, n, once, back) {
   const m = o.userData.mixer, a = m.clipAction(clip(o, n)), cur = o.userData.act;
@@ -407,12 +443,9 @@ function makePlayer(code, sq) {
     for (const z of [-1, 1]) { const num = new THREE.Mesh(new THREE.PlaneGeometry(FB.h * .3, FB.h * .3), mat);
       num.rotation.y = z < 0 ? Math.PI : 0; num.position.set(0, FB.h * .93, z * FB.h * .15); num.renderOrder = 3; o.add(num); }
   }
-  if (BADGE[code]) { // plakietka z figurą nad głową – zawsze widoczna
-    const b = new THREE.Sprite(new THREE.SpriteMaterial({ map: BADGE[code], depthTest: false, transparent: true }));
-    b.renderOrder = 20; b.scale.setScalar(SQ * .5 / sc); b.position.set(0, FB.h * 1.18, 0); b.userData.badge = true; b.visible = badgesOn; o.add(b);
-  }
+  addBadge(o, code, FB.h * 1.18, sc); // plakietka z figurą nad głową
   o.position.copy(sqPos(sq, TOP)); o.rotation.y = c === 'w' ? 0 : Math.PI;
-  o.userData = { code, y: TOP, player: true, face: o.rotation.y, mixer: new THREE.AnimationMixer(o) };
+  o.userData = { code, y: TOP, player: true, face: o.rotation.y, mixer: new THREE.AnimationMixer(o), cap: (v, att) => { kickOut(v, att); return 650; } };
   mixers.add(o.userData.mixer); play(o, 'Idle').time = Math.random() * 2;
   root.add(o); return o;
 }
@@ -441,4 +474,219 @@ function kickOut(v, att, dMove) {
     tween(900, (e, p) => { v.position.lerpVectors(a, out, p); v.position.y = TOP + Math.sin(Math.PI * p) * SQ * 2.2; v.rotation.x = p * spin * .5; v.rotation.z = p * spin * .3; },
       () => { burst(v.position.clone().setY(TOP + .02), 40, [0xffffff, 0x69db7c], .25, .4); removePiece(v); });
   }, 380);
+}
+
+/* --- Dinozaury --- */
+// król = tyranozaur, hetman = apatozaur, wieża = triceratops, goniec = parazaurolof, skoczek = welociraptor, pion = stegozaur
+const DINO = { K: 'trex', Q: 'apato', R: 'trice', B: 'para', N: 'raptor', P: 'stego' };
+const DINO_L = { K: 1.9, Q: 2.1, R: 1.55, B: 1.45, N: 1.4, P: 1.1 }; // długość względem pola
+const DINO_TINT = { w: [0xd8f5a2, .2], b: [0x4a1010, .45] }; // białe jaśniejsze, czarne ciemniejsze (czerwonawe)
+function makeDino(code, sq) {
+  const c = code[0], t = code[1], M = DN[t], inner = SkeletonUtils.clone(M.scene), o = new THREE.Group(), b = M.box;
+  const len = Math.max(b.max.z - b.min.z, b.max.x - b.min.x), s = SQ * DINO_L[t] / len, [tint, mix] = DINO_TINT[c];
+  inner.traverse(m => { if (!m.isMesh) return; m.material = m.material.clone(); if (!/black|eye/i.test(m.material.name)) m.material.color.lerp(new THREE.Color(tint), mix); });
+  inner.position.set(-(b.min.x + b.max.x) / 2, -b.min.y, -(b.min.z + b.max.z) / 2); o.add(inner); o.scale.setScalar(s);
+  const ring = new THREE.Mesh(new THREE.RingGeometry(SQ * .34 / s, SQ * .4 / s, 40).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: teamCol(c), transparent: true, opacity: .6, depthWrite: false }));
+  ring.position.y = .0008 / s; ring.renderOrder = 1; o.add(ring);
+  addBadge(o, code, (b.max.y - b.min.y) * 1.15, s);
+  o.position.copy(sqPos(sq, TOP)); o.rotation.y = c === 'w' ? 0 : Math.PI;
+  const mixer = new THREE.AnimationMixer(inner);
+  o.userData = { code, y: TOP, player: true, face: o.rotation.y, mixer, clips: M.clips, cheer: 'Jump', cap: bite,
+    die: (v, from) => { play(v, 'Death', true); sinkAway(v, 900); } };
+  mixers.add(mixer); play(o, 'Idle').time = Math.random() * 2;
+  root.add(o); return o;
+}
+// zbicie dinozaurem: obrót do ofiary, atak, ofiara pada i zapada się w ziemię; potem bieg na pole
+function bite(v, att) {
+  const d = v.position.clone().sub(att.position); att.rotation.y = Math.atan2(d.x, d.z);
+  play(att, 'Attack', false, true); opts.sound && opts.sound('roar');
+  setTimeout(() => { play(v, 'Death', true); shake = .3; opts.sound && opts.sound('boom'); burst(v.position.clone().setY(TOP + .02), 50, [0xd9c38c, 0x8d6e4a, 0xffffff], .25, .5); sinkAway(v, 700); }, 450);
+  return 1100;
+}
+function sinkAway(v, delay) {
+  const y0 = v.position.y, s0 = v.scale.x;
+  tween(600, e => { v.position.y = y0 - e * SQ * .5; v.scale.setScalar(s0 * (1 - e * .6)); }, () => removePiece(v), delay);
+}
+// dżungla: plansza z piasku i trawy, kamienie, paprocie i palmy dookoła, wulkan w tle
+function makeJungle() {
+  const g = new THREE.Group(), cv = document.createElement('canvas'); cv.width = cv.height = 1024; const x = cv.getContext('2d'), u = 1024 / 10;
+  x.fillStyle = '#4f6b2a'; x.fillRect(0, 0, 1024, 1024);
+  for (let k = 0; k < 900; k++) { x.fillStyle = `rgba(${30 + Math.random() * 60},${70 + Math.random() * 60},${20 + Math.random() * 30},.5)`; x.fillRect(Math.random() * 1024, Math.random() * 1024, 6, 6); }
+  for (let r = 0; r < 8; r++) for (let f = 0; f < 8; f++) {
+    const lt = (r + f) % 2; x.fillStyle = lt ? '#e3cf9a' : '#7f9c47'; x.fillRect(u + f * u, u + r * u, u, u);
+    for (let k = 0; k < 40; k++) { x.fillStyle = lt ? `rgba(160,130,80,${Math.random() * .35})` : `rgba(40,80,20,${Math.random() * .4})`; x.fillRect(u + f * u + Math.random() * u, u + r * u + Math.random() * u, 4, 4); }
+  }
+  x.strokeStyle = '#5c3d1e'; x.lineWidth = 10; x.strokeRect(u - 5, u - 5, 8 * u + 10, 8 * u + 10);
+  const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
+  const gr = new THREE.Mesh(new THREE.PlaneGeometry(SQ * 10, SQ * 10).rotateX(-Math.PI / 2), new THREE.MeshStandardMaterial({ map: tex, roughness: 1 }));
+  gr.position.y = TOP; gr.receiveShadow = true; g.add(gr);
+  const far = new THREE.Mesh(new THREE.CircleGeometry(3, 48).rotateX(-Math.PI / 2), new THREE.MeshStandardMaterial({ color: 0x3f5a22, roughness: 1 }));
+  far.position.y = TOP - .001; far.receiveShadow = true; g.add(far);
+  const rock = new THREE.MeshStandardMaterial({ color: 0x7d7468, roughness: .9, flatShading: true }), trunk = new THREE.MeshStandardMaterial({ color: 0x6b4a2b, roughness: 1, flatShading: true });
+  const leaf = new THREE.MeshStandardMaterial({ color: 0x2f7d32, roughness: .8, flatShading: true, side: THREE.DoubleSide }), fern = new THREE.MeshStandardMaterial({ color: 0x4caf50, roughness: .8, flatShading: true, side: THREE.DoubleSide });
+  const ring = (rMin, rMax) => { let px, pz; do { px = rnd(-rMax, rMax); pz = rnd(-rMax, rMax); } while (Math.max(Math.abs(px), Math.abs(pz)) < rMin); return [px, pz]; };
+  for (let k = 0; k < 16; k++) { const [px, pz] = ring(SQ * 4.6, SQ * 6.5), m = new THREE.Mesh(new THREE.DodecahedronGeometry(rnd(.008, .02), 0), rock);
+    m.position.set(px, TOP + .004, pz); m.rotation.set(rnd(0, 3), rnd(0, 3), 0); m.scale.y = .6; m.castShadow = true; g.add(m); }
+  for (let k = 0; k < 14; k++) { const [px, pz] = ring(SQ * 4.7, SQ * 6.5), f = new THREE.Group();
+    for (let j = 0; j < 6; j++) { const l = new THREE.Mesh(new THREE.ConeGeometry(.006, .045, 3), fern); l.rotation.set(0, j * 1.05, 0); l.rotateX(1.1); l.position.y = .012; f.add(l); }
+    f.position.set(px, TOP, pz); f.scale.setScalar(rnd(.8, 1.3)); g.add(f); }
+  for (let k = 0; k < 9; k++) { const [px, pz] = ring(SQ * 5.3, SQ * 7.5), p = new THREE.Group(), h = rnd(.16, .26);
+    const tr = new THREE.Mesh(new THREE.CylinderGeometry(.005, .009, h, 6), trunk); tr.position.y = h / 2; tr.rotation.z = rnd(-.15, .15); tr.castShadow = true; p.add(tr);
+    for (let j = 0; j < 7; j++) { const l = new THREE.Mesh(new THREE.PlaneGeometry(.022, .1, 1, 3), leaf), q = l.geometry.attributes.position;
+      for (let i = 0; i < q.count; i++) q.setZ(i, -Math.pow(q.getY(i) + .05, 2) * 4);
+      l.geometry.translate(0, .05, 0); l.position.y = h; l.rotation.y = j * .9; l.rotateX(1.2); l.castShadow = true; p.add(l); }
+    p.position.set(px, TOP, pz); g.add(p); }
+  // wulkan z dymiącym kraterem po stronie czarnych
+  const vol = new THREE.Mesh(new THREE.ConeGeometry(.55, .5, 9, 1, true), new THREE.MeshStandardMaterial({ color: 0x5b4636, roughness: 1, flatShading: true }));
+  vol.position.set(.3, TOP + .25, 1.6); g.add(vol);
+  const lava = new THREE.Mesh(new THREE.CircleGeometry(.07, 9).rotateX(-Math.PI / 2), new THREE.MeshBasicMaterial({ color: 0xff7b00 }));
+  lava.position.set(.3, TOP + .43, 1.6); g.add(lava);
+  root.add(g); return g;
+}
+
+/* --- Roboty (transformersy z klocków) --- */
+// część: [geometria, materiał, pozycja robota, obrót robota, pozycja auta, obrót auta]; robot ma ok. 1 jednostkę wzrostu, przód = +z
+const H = Math.PI / 2;
+const RB_PARTS = [
+  ['box', [.44, .3, .26], 'A', [0, .72, 0], [0, 0, 0], [0, .2, .27], [H, 0, 0]],        // tułów → maska
+  ['box', [.34, .12, .02], 'G', [0, .78, .135], [0, 0, 0], [0, .35, .07], [-1, 0, 0]],   // szyba na piersi → przednia szyba
+  ['box', [.32, .12, .22], 'D', [0, .5, 0], [0, 0, 0], [0, .17, -.02], [0, 0, 0]],       // biodra → podwozie
+  ['box', [.15, .4, .18], 'B', [-.1, .22, 0], [0, 0, 0], [-.11, .19, -.3], [H, 0, 0]],   // nogi → tył auta
+  ['box', [.15, .4, .18], 'B', [.1, .22, 0], [0, 0, 0], [.11, .19, -.3], [H, 0, 0]],
+  ['box', [.1, .34, .12], 'A', [-.29, .68, 0], [0, 0, 0], [-.25, .15, .03], [H, 0, 0]],  // ręce → progi
+  ['box', [.1, .34, .12], 'A', [.29, .68, 0], [0, 0, 0], [.25, .15, .03], [H, 0, 0]],
+  ['box', [.14, .1, .18], 'B', [-.29, .88, 0], [0, 0, 0], [-.07, .33, -.13], [0, 0, 0]], // barki → dach
+  ['box', [.14, .1, .18], 'B', [.29, .88, 0], [0, 0, 0], [.07, .33, -.13], [0, 0, 0]],
+  ['box', [.16, .15, .15], 'M', [0, .96, 0], [0, 0, 0], [0, .22, -.06], [0, 0, 0]],      // głowa chowa się do środka
+  ['box', [.13, .035, .012], 'E', [0, .98, .078], [0, 0, 0], [0, .22, .425], [0, 0, 0]], // oczy → reflektory
+  ['box', [.36, .03, .012], 'E', [0, .6, .118], [0, 0, 0], [0, .16, -.505], [0, 0, 0]],  // pas → tylne światła
+  ['wheel', 0, 'W', [-.19, .12, 0], [0, 0, H], [-.25, .085, .27], [0, 0, H]],            // koła: na nogach i plecach
+  ['wheel', 0, 'W', [.19, .12, 0], [0, 0, H], [.25, .085, .27], [0, 0, H]],
+  ['wheel', 0, 'W', [-.29, .9, -.12], [0, 0, H], [-.25, .085, -.3], [0, 0, H]],
+  ['wheel', 0, 'W', [.29, .9, -.12], [0, 0, H], [.25, .085, -.3], [0, 0, H]],
+];
+// znaki szczególne figur (w obu postaciach): król = grzebień, hetman = dwie anteny, wieża = działa, goniec = antena, skoczek = skrzydła, pion – nic
+const RB_EXTRA = {
+  K: [['box', [.035, .12, .1], 'B', [0, 1.08, 0], [0, 0, 0], [0, .4, -.12], [0, 0, 0]], ['box', [.03, .08, .06], 'B', [-.07, 1.04, 0], [0, 0, .3], [-.06, .38, -.12], [0, 0, .3]], ['box', [.03, .08, .06], 'B', [.07, 1.04, 0], [0, 0, -.3], [.06, .38, -.12], [0, 0, -.3]]],
+  Q: [['rod', .2, 'M', [-.06, 1.12, 0], [0, 0, .25], [-.15, .4, -.35], [-1.2, 0, 0]], ['rod', .2, 'M', [.06, 1.12, 0], [0, 0, -.25], [.15, .4, -.35], [-1.2, 0, 0]]],
+  R: [['gun', .26, 'M', [-.29, .96, .04], [H, 0, 0], [-.12, .4, -.2], [H, 0, 0]], ['gun', .26, 'M', [.29, .96, .04], [H, 0, 0], [.12, .4, -.2], [H, 0, 0]]],
+  B: [['rod', .26, 'M', [.05, 1.15, 0], [0, 0, 0], [.18, .42, -.4], [-1.2, 0, 0]]],
+  N: [['box', [.36, .025, .14], 'B', [-.22, .82, -.17], [0, .3, .5], [0, .34, -.48], [0, 0, 0]], ['box', [.36, .025, .14], 'B', [.22, .82, -.17], [0, -.3, -.5], [0, .3, -.48], [0, 0, 0]]],
+  P: [],
+};
+const RB_SIZE = { K: 1.15, Q: 1.08, R: 1.02, B: .96, N: .94, P: .78 };
+const RB_COL = { w: { A: 0xd9302c, B: 0x2456c9, E: 0x4dd8ff }, b: { A: 0x5c6370, B: 0x6d28d9, E: 0xff2a2a } };
+const RB_MAT = {};
+function rbMat(c, k) {
+  const key = c + k; if (RB_MAT[key]) return RB_MAT[key];
+  const C = RB_COL[c], m = k === 'A' || k === 'B' ? new THREE.MeshStandardMaterial({ color: C[k], metalness: .55, roughness: .38 }) :
+    k === 'M' ? new THREE.MeshStandardMaterial({ color: 0xb8c0c8, metalness: .9, roughness: .25 }) :
+    k === 'D' ? new THREE.MeshStandardMaterial({ color: 0x2b2f36, metalness: .6, roughness: .5 }) :
+    k === 'W' ? new THREE.MeshStandardMaterial({ color: 0x1b1d21, metalness: .2, roughness: .8 }) :
+    k === 'G' ? new THREE.MeshStandardMaterial({ color: 0x9ad0ff, metalness: .95, roughness: .08 }) :
+    new THREE.MeshStandardMaterial({ color: C.E, emissive: C.E, emissiveIntensity: 2.2 });
+  return RB_MAT[key] = m;
+}
+const RB_GEO = { wheel: new THREE.CylinderGeometry(.085, .085, .07, 14), hub: new THREE.CylinderGeometry(.04, .04, .075, 8) };
+function rbGeo(kind, a) {
+  if (kind === 'box') return new THREE.BoxGeometry(...a);
+  if (kind === 'wheel') return RB_GEO.wheel;
+  if (kind === 'rod') return new THREE.CylinderGeometry(.008, .008, a, 6).translate(0, a / 2, 0);
+  return new THREE.CylinderGeometry(.03, .035, a, 10).translate(0, a / 2, 0); // gun
+}
+function makeRobot(code, sq) {
+  const c = code[0], t = code[1], o = new THREE.Group(), body = new THREE.Group(), s = SQ * 1.4 * RB_SIZE[t], parts = [];
+  for (const [kind, a, mk, rp, rr, cp, cr] of [...RB_PARTS, ...RB_EXTRA[t]]) {
+    const m = new THREE.Mesh(rbGeo(kind, a), rbMat(c, mk)); m.castShadow = true;
+    if (kind === 'wheel') { const h = new THREE.Mesh(RB_GEO.hub, rbMat(c, 'M')); m.add(h); }
+    const P = { m, rp: new THREE.Vector3(...rp), rq: new THREE.Quaternion().setFromEuler(new THREE.Euler(...rr)), cp: new THREE.Vector3(...cp), cq: new THREE.Quaternion().setFromEuler(new THREE.Euler(...cr)), wheel: kind === 'wheel' };
+    m.position.copy(P.rp); m.quaternion.copy(P.rq); body.add(m); parts.push(P);
+  }
+  o.add(body); o.scale.setScalar(s);
+  addBadge(o, code, 1.32, s);
+  o.position.copy(sqPos(sq, TOP)); o.rotation.y = c === 'w' ? 0 : Math.PI;
+  o.userData = { code, y: TOP, robot: true, face: o.rotation.y, parts, body, form: 0, cap: laser, die: (v, from) => breakApart(v, from) };
+  root.add(o); return o;
+}
+// przemiana: k = 0 robot, 1 auto; części ruszają po kolei (mechaniczny efekt), auto jest trochę mniejsze
+function setForm(o, k) {
+  const U = o.userData; U.form = k; const n = U.parts.length;
+  U.parts.forEach((P, i) => { const e = ease(THREE.MathUtils.clamp((k * (1 + n * .03)) - i * .03, 0, 1));
+    P.m.position.lerpVectors(P.rp, P.cp, e); P.m.quaternion.slerpQuaternions(P.rq, P.cq, e); });
+  U.body.scale.setScalar(1 - k * .25);
+}
+function transform(o, to, d, delay = 0) {
+  const k0 = o.userData.form;
+  setTimeout(() => opts.sound && opts.sound('tf'), delay);
+  tween(d, (e, p) => setForm(o, k0 + (to - k0) * p), null, delay);
+}
+// ruch robota: składa się w auto, jedzie (skoczek – skacze z obrotem), rozkłada się z powrotem przodem do przeciwnika
+function drive(o, b, knight, onLand) {
+  const a = o.position.clone(), dist = a.distanceTo(b) / SQ, T = 380, d = 260 + dist * 110, wait = o.userData.wait || 0; o.userData.wait = 0;
+  const ang = Math.atan2(b.x - a.x, b.z - a.z), r0 = o.rotation.y, U = o.userData;
+  tween(T, e => { o.rotation.y = r0 + shortAng(r0, ang) * e; }, null, wait);
+  transform(o, 1, T, wait);
+  tween(d, (e, p) => { o.position.lerpVectors(a, b, e); if (knight) { o.position.y = b.y + Math.sin(Math.PI * p) * SQ * 1.3; U.body.rotation.x = -p * Math.PI * 2; }
+      U.parts.forEach(P => { if (P.wheel) P.m.rotateY(.5); }); },
+    () => { U.body.rotation.x = 0; opts.sound && opts.sound('tap'); const r1 = o.rotation.y; tween(T, e => { o.rotation.y = r1 + shortAng(r1, U.face) * e; }); onLand && onLand(); }, wait + T);
+  transform(o, 0, T, wait + T + d);
+  return wait + T * 2 + d;
+}
+// zbicie robotem: obrót do celu, strzał laserem z piersi, cel rozpada się na części
+function laser(v, att) {
+  const d = v.position.clone().sub(att.position), ang = Math.atan2(d.x, d.z), r0 = att.rotation.y;
+  tween(220, e => { att.rotation.y = r0 + shortAng(r0, ang) * e; });
+  setTimeout(() => {
+    const from = att.localToWorld(new THREE.Vector3(0, .78, .2)), to = v.position.clone().setY(TOP + SQ * .7), len = from.distanceTo(to);
+    root.worldToLocal(from); root.worldToLocal(to);
+    const col = RB_COL[att.userData.code[0]].E, beam = new THREE.Mesh(new THREE.CylinderGeometry(.0025, .0025, len, 6).rotateX(H), new THREE.MeshBasicMaterial({ color: col, transparent: true, blending: THREE.AdditiveBlending }));
+    const glow = new THREE.Mesh(new THREE.CylinderGeometry(.007, .007, len, 8).rotateX(H), new THREE.MeshBasicMaterial({ color: col, transparent: true, opacity: .35, blending: THREE.AdditiveBlending, depthWrite: false }));
+    for (const m of [beam, glow]) { m.position.copy(from).lerp(to, .5); m.lookAt(root.localToWorld(to.clone())); root.add(m); }
+    opts.sound && opts.sound('zap');
+    tween(260, e => { beam.material.opacity = 1 - e; glow.material.opacity = .35 * (1 - e); glow.scale.set(1 + e, 1 + e, 1); }, () => { root.remove(beam); root.remove(glow); });
+    burst(to, 40, [col, 0xffffff], .3, .35); breakApart(v, att.position.clone());
+  }, 260);
+  return 750;
+}
+// rozpad robota: części lecą łukiem we wszystkie strony, wirują i znikają; slow = mat (król rozsypuje się wolniej)
+function breakApart(o, from, slow) {
+  const U = o.userData, c = o.position.clone(), dir = from ? c.clone().sub(from).setY(0).normalize() : new THREE.Vector3();
+  opts.sound && opts.sound('boom'); shake = slow ? .7 : .45;
+  burst(c.clone().setY(TOP + SQ * .6), 120, [0xffd43b, 0xff922b, 0xffffff, RB_COL[U.code[0]].E], .5, .6);
+  o.traverse(m => { if (m.isSprite) m.visible = false; });
+  U.parts.forEach(P => {
+    const p0 = P.m.position.clone(), v = new THREE.Vector3(rnd(-1, 1) + dir.x * 1.5, rnd(.6, 1.6), rnd(-1, 1) + dir.z * 1.5).multiplyScalar(slow ? .5 : 1), spin = new THREE.Vector3(rnd(-8, 8), rnd(-8, 8), rnd(-8, 8));
+    const r0 = P.m.rotation.clone(), T = slow ? 1.6 : 1.1, ground = 0.05;
+    tween(T * 1000, (e, p) => { const t = p * T; P.m.position.set(p0.x + v.x * t, Math.max(ground, p0.y + v.y * t - 2.2 * t * t), p0.z + v.z * t);
+      P.m.rotation.set(r0.x + spin.x * t, r0.y + spin.y * t, r0.z + spin.z * t); if (p > .75) P.m.scale.setScalar(Math.max(.01, (1 - p) * 4)); });
+  });
+  setTimeout(() => removePiece(o), (slow ? 1.6 : 1.1) * 1000 + 50);
+}
+function hop(o, delay) { const y = o.position.y; tween(380, (e, p) => { o.position.y = y + Math.sin(Math.PI * p) * SQ * .5; }, null, delay); }
+// hala robotów: stalowe płyty, świecące linie, pas ostrzegawczy dookoła
+function makeArena() {
+  const g = new THREE.Group(), cv = document.createElement('canvas'); cv.width = cv.height = 1024; const x = cv.getContext('2d'), u = 1024 / 10;
+  for (let r = 0; r < 10; r++) for (let f = 0; f < 10; f++) { x.fillStyle = (r + f) % 2 ? '#d9b100' : '#1c1c1c'; x.fillRect(f * u, r * u, u, u); }
+  x.save(); x.beginPath(); x.rect(0, 0, 1024, 1024); x.rect(u, u, 8 * u, 8 * u); x.clip('evenodd');
+  for (let k = -20; k < 30; k++) { x.fillStyle = k % 2 ? '#f2c200' : '#151515'; x.beginPath(); x.moveTo(k * 50, 0); x.lineTo(k * 50 + 50, 0); x.lineTo(k * 50 + 50 - 1024, 1024); x.lineTo(k * 50 - 1024, 1024); x.fill(); }
+  x.restore();
+  for (let r = 0; r < 8; r++) for (let f = 0; f < 8; f++) {
+    const lt = (r + f) % 2, X = u + f * u, Y = u + r * u, gr = x.createLinearGradient(X, Y, X + u, Y + u);
+    gr.addColorStop(0, lt ? '#b7c1cc' : '#3a4350'); gr.addColorStop(1, lt ? '#8b96a3' : '#262d37'); x.fillStyle = gr; x.fillRect(X, Y, u, u);
+    x.fillStyle = lt ? '#6c7783' : '#555f6c'; for (const [a, b] of [[8, 8], [u - 12, 8], [8, u - 12], [u - 12, u - 12]]) x.fillRect(X + a, Y + b, 4, 4); // nity
+  }
+  x.strokeStyle = '#22d3ee'; x.lineWidth = 3; x.shadowColor = '#22d3ee'; x.shadowBlur = 10;
+  for (let k = 0; k <= 8; k++) { x.beginPath(); x.moveTo(u + k * u, u); x.lineTo(u + k * u, 9 * u); x.stroke(); x.beginPath(); x.moveTo(u, u + k * u); x.lineTo(9 * u, u + k * u); x.stroke(); }
+  const tex = new THREE.CanvasTexture(cv); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 8;
+  const fl = new THREE.Mesh(new THREE.PlaneGeometry(SQ * 10, SQ * 10).rotateX(-Math.PI / 2), new THREE.MeshStandardMaterial({ map: tex, roughness: .55, metalness: .5, emissive: 0xffffff, emissiveMap: tex, emissiveIntensity: .12 }));
+  fl.position.y = TOP; fl.receiveShadow = true; g.add(fl);
+  const far = new THREE.Mesh(new THREE.CircleGeometry(3, 48).rotateX(-Math.PI / 2), new THREE.MeshStandardMaterial({ color: 0x161b24, roughness: .7, metalness: .4 }));
+  far.position.y = TOP - .001; g.add(far);
+  // słupy z lampami w rogach
+  const pole = new THREE.MeshStandardMaterial({ color: 0x3a4350, metalness: .8, roughness: .3 }), lamp = new THREE.MeshBasicMaterial({ color: 0x22d3ee });
+  for (const [px, pz] of [[-1, -1], [1, -1], [-1, 1], [1, 1]]) {
+    const p = new THREE.Mesh(new THREE.BoxGeometry(.02, .22, .02), pole); p.position.set(px * SQ * 5.4, TOP + .11, pz * SQ * 5.4); p.castShadow = true; g.add(p);
+    const l = new THREE.Mesh(new THREE.BoxGeometry(.026, .012, .026), lamp); l.position.set(px * SQ * 5.4, TOP + .225, pz * SQ * 5.4); g.add(l);
+  }
+  root.add(g); return g;
 }

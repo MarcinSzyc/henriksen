@@ -343,6 +343,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .row[disabled]{opacity:.55;cursor:default}.row .lock{color:var(--muted);flex:none}
 .fxnew-i{font-size:3.2rem;line-height:1;color:#ffd43b;animation:pop 1.2s both}
 /* Statystyki dla dziecka */
+.segs.two{grid-auto-flow:row;grid-template-columns:1fr 1fr}
 .segs.subj{grid-auto-flow:row;grid-template-columns:repeat(4,minmax(0,1fr))}.subj button{font-size:.88rem;min-height:42px;padding:0 2px}
 .soonbox{background:var(--card);border-radius:22px;padding:36px 20px;text-align:center;display:flex;flex-direction:column;gap:6px}.soonbox[hidden]{display:none}
 .soonbox b{font-family:var(--display);font-size:1.4rem}.soonbox span{font-weight:800;font-size:.9rem;color:var(--muted)}
@@ -1087,7 +1088,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <p class="abnote">To samo co w zwykłych szachach – samouczek, zadania i gra – tylko na planszy 3D: figury suną po polach, zbite rozpadają się na kawałki, a mat kończy się fajerwerkami. Pierwsze wejście pobiera model (kilka MB).</p>
   <div class="lbl">Wygląd</div>
-  <div class="segs" id="sz3-skin"><button type="button" data-k="classic">Klasyczne</button><button type="button" data-k="pilkarze">⚽ Piłkarze</button></div>
+  <div class="segs two" id="sz3-skin"><button type="button" data-k="classic">♞ Klasyczne</button><button type="button" data-k="pilkarze">⚽ Piłkarze</button><button type="button" data-k="dino">🦖 Dinozaury</button><button type="button" data-k="roboty">🤖 Roboty</button></div>
   <div class="sz-gate" data-szgate hidden></div>
   <button type="button" class="szelo" data-szelo></button>
   <div class="tiles2 mat-tiles">
@@ -1595,7 +1596,7 @@ const BADGE_NAMES={ball:"Piłka",crown:"Korona",bolt:"Błyskawica",rocket:"Rakie
 const SUBS=[["streak","Seria dni"],["date","Data"],["none","Nic"]];
 const NAME_PRESETS=["Henriksen","Kapitan H","Nr 10","Ekipa H"];
 let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null,mods:{},rewSeen:[],tasks:[],taskSeen:[],lib:{ex:[],pk:[]},szSkin:"classic",szBoard:"brown",szPcs:"auto",szTalk:true,szVoice:true,szWho:"zbyszek",szEmo:true,szFx:true,szAnim:true,szLimit:0,szRules:{},szBadges:true};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{},rewSeen:Array.isArray(p.rewSeen)?p.rewSeen.filter(x=>typeof x==="string"):[],tasks:Array.isArray(p.tasks)?p.tasks.filter(t=>t&&t.id&&Array.isArray(t.packs)):[],taskSeen:Array.isArray(p.taskSeen)?p.taskSeen:[],lib:p.lib&&typeof p.lib==="object"?{ex:Array.isArray(p.lib.ex)?p.lib.ex:[],pk:Array.isArray(p.lib.pk)?p.lib.pk:[]}:{ex:[],pk:[]},szSkin:["classic","pilkarze"].includes(p.szSkin)?p.szSkin:"classic",szBoard:typeof p.szBoard==="string"?p.szBoard:"brown",szPcs:typeof p.szPcs==="string"?p.szPcs:"auto",szTalk:p.szTalk!==false,szVoice:p.szVoice!==false,szWho:["zbyszek","janusz","grazyna"].includes(p.szWho)?p.szWho:"zbyszek",szEmo:p.szEmo!==false,szFx:p.szFx!==false,szAnim:p.szAnim!==false,szLimit:Math.max(0,Math.min(50,+p.szLimit||0)),szRules:p.szRules&&typeof p.szRules==="object"?p.szRules:{},szBadges:p.szBadges!==false};}catch(e){}
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{},rewSeen:Array.isArray(p.rewSeen)?p.rewSeen.filter(x=>typeof x==="string"):[],tasks:Array.isArray(p.tasks)?p.tasks.filter(t=>t&&t.id&&Array.isArray(t.packs)):[],taskSeen:Array.isArray(p.taskSeen)?p.taskSeen:[],lib:p.lib&&typeof p.lib==="object"?{ex:Array.isArray(p.lib.ex)?p.lib.ex:[],pk:Array.isArray(p.lib.pk)?p.lib.pk:[]}:{ex:[],pk:[]},szSkin:["classic","pilkarze","dino","roboty"].includes(p.szSkin)?p.szSkin:"classic",szBoard:typeof p.szBoard==="string"?p.szBoard:"brown",szPcs:typeof p.szPcs==="string"?p.szPcs:"auto",szTalk:p.szTalk!==false,szVoice:p.szVoice!==false,szWho:["zbyszek","janusz","grazyna"].includes(p.szWho)?p.szWho:"zbyszek",szEmo:p.szEmo!==false,szFx:p.szFx!==false,szAnim:p.szAnim!==false,szLimit:Math.max(0,Math.min(50,+p.szLimit||0)),szRules:p.szRules&&typeof p.szRules==="object"?p.szRules:{},szBadges:p.szBadges!==false};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -2390,6 +2391,10 @@ const SFX={
   boom:()=>{tone(120,0,.7,"sine",.6,32);noise(0,1.5,.7,"lowpass",3000,120,.008);noise(.02,.35,.3,"highpass",1500,600,.005);
     for(let k=0;k<6;k++) noise(.25+k*.09,.06,.08,"bandpass",2500-k*200,1800,.004);},
   ok:()=>{tone(660,0,.12);tone(990,.09,.2);},
+  // Szachy 3D: przemiana robota (mechaniczne kliknięcia i świst serwa), laser, ryk dinozaura
+  tf:()=>{for(let k=0;k<6;k++) noise(k*.055,.035,.12,"bandpass",2200+k*300,1500,.002);tone(300,0,.32,"sawtooth",.05,620);tone(620,.3,.12,"square",.04,240);},
+  zap:()=>{tone(1800,0,.22,"sawtooth",.07,120);tone(2400,.01,.18,"square",.04,300);},
+  roar:()=>{tone(90,0,.6,"sawtooth",.18,55);noise(0,.65,.35,"lowpass",900,200,.05);tone(140,.05,.5,"square",.06,70);},
   tap:()=>{tone(170,0,.08,"sine",.25,90);noise(0,.04,.12,"bandpass",1800,900,.002);}, // figura stawiana na planszy (Szachy 3D)
   pop:()=>{noise(0,.25,.18,"lowpass",2600,300,.004);for(let k=0;k<4;k++) noise(.08+k*.07,.04,.05,"highpass",4000,5000,.003);},
   goal:()=>{tone(2700,0,.12,"sine",.1);tone(2700,.17,.4,"sine",.1);[523,659,784,1047].forEach((f,k)=>tone(f,.65+k*.08,.22,"triangle",.15));},
@@ -5037,16 +5042,16 @@ window.S3=null;
 $("sz3-view").addEventListener("click",e=>{const b=e.target.closest("[data-v]");if(!b||!window.S3) return;
   if(b.dataset.v==="badges"){PREFS.szBadges=!PREFS.szBadges;savePrefs();S3.setBadges(PREFS.szBadges);szBadgeBtn();toast(PREFS.szBadges?"Plakietki z figurami włączone":"Plakietki z figurami wyłączone");return;}
   if(S3.view) S3.view(b.dataset.v);});
-function szBadgeBtn(){const b=$("sz3-badges");b.hidden=PREFS.szSkin!=="pilkarze";b.classList.toggle("off",!PREFS.szBadges);b.setAttribute("aria-pressed",!!PREFS.szBadges);}
+function szBadgeBtn(){const b=$("sz3-badges");b.hidden=PREFS.szSkin==="classic";b.classList.toggle("off",!PREFS.szBadges);b.setAttribute("aria-pressed",!!PREFS.szBadges);}
 // moduł 3D: Three.js + model + fizyka; raz wczytany zostaje (S3.mount przenosi płótno, gdy trzeba)
 async function sz3Ready(){
   const box=$("szb3"),ld=$("szb3-load");box.hidden=false;$("szb").hidden=true;
   if(!window.S3){ld.hidden=false;ld.textContent="Wczytuję szachy 3D…";
     try{const M=await import("./chess/3d/sz3d.js");
-      await M.mount(box,{img:SZ_IMG,onTap:szTap,sound:k=>{if(k==="launch"||k==="boom"||k==="ok"||k==="cheer"||k==="tap"||k==="pop") sfx(k);},
+      await M.mount(box,{img:SZ_IMG,onTap:szTap,sound:k=>{if(SFX[k]) sfx(k);},
         progress:f=>{ld.textContent=`Wczytuję szachy 3D… ${Math.round(f*100)}%`;}});window.S3=M;}
     catch(e){ld.textContent="Nie udało się wczytać szachów 3D – sprawdź internet albo zagraj w zwykłe szachy.";throw e;}}
-  if(PREFS.szSkin!=="classic"){ld.hidden=false;ld.textContent="Wczytuję piłkarzy…";}
+  if(PREFS.szSkin!=="classic"){ld.hidden=false;ld.textContent={pilkarze:"Wczytuję piłkarzy…",dino:"Wczytuję dinozaury…",roboty:"Buduję roboty…"}[PREFS.szSkin];}
   try{await S3.setSkin(PREFS.szSkin);}catch(e){await S3.setSkin("classic");}
   if(S3.setBadges) S3.setBadges(PREFS.szBadges);szBadgeBtn();
   ld.hidden=true;S3.clear();S3.resume();S3.resize();
@@ -5416,7 +5421,7 @@ let SZ=null;
 function szPos(g){const P={},B=g.board();B.forEach((row,y)=>row.forEach((p,x)=>{if(p) P[SZ_F[x]+(8-y)]=szPc(p);}));return P;}
 function szDraw(){
   if(SZ.d3&&window.S3){const P=SZ.kind==="star"?SZ.pos:szPos(SZ.g),chk=SZ.g&&SZ.g.inCheck()?Object.keys(P).find(s=>P[s]===SZ.g.turn()+"K"):null;
-    S3.sync(P,{sel:SZ.sel,tg:SZ.tg,last:SZ.last,chk,hint:SZ.hint,stars:SZ.stars,flip:SZ.flip});return;}
+    S3.sync(P,{sel:SZ.sel,tg:SZ.tg,last:SZ.last,chk,hint:SZ.hint,stars:SZ.stars,flip:SZ.flip});if(S3.busy) SZ_FXEND=Math.max(SZ_FXEND,Date.now()+S3.busy());return;}
   const b=$("szb"),P=SZ.kind==="star"?SZ.pos:szPos(SZ.g),fl=SZ.flip,bugs=!!SZ_BUGS[szSet()];let h="";szLookApply(b);if(bugs) szBugPreload(szSet());
   const chk=SZ.g&&SZ.g.inCheck()?Object.keys(P).find(s=>P[s]===SZ.g.turn()+"K"):null;
   for(let r=7;r>=0;r--) for(let f=0;f<8;f++){const y=fl?7-r:r,x=fl?7-f:f,sq=SZ_F[x]+(y+1),pc=P[sq],tg=SZ.tg.includes(sq);
@@ -5649,7 +5654,8 @@ function szGameAfter(byPc){
 }
 function szGameEnd(res){
   const L=SZ_OPP[SZ.opp],g=SZ.g;SZ.over=true;SZ.busy=false;
-  if(SZ.d3&&!SZ.shown){SZ.shown=true;if(g.isCheckmate()) S3.topple(szKing(g.turn()));if(res==="w") S3.fireworks(3);setTimeout(()=>szGameEnd(res),res==="w"?4200:1800);return;}
+  if(SZ.d3&&!SZ.shown){SZ.shown=true;const w=Math.max(0,SZ_FXEND-Date.now()); // najpierw figura musi dojechać
+    setTimeout(()=>{if(g.isCheckmate()) S3.topple(szKing(g.turn()));if(res==="w") S3.fireworks(3);},w);setTimeout(()=>szGameEnd(res),w+(res==="w"?4200:1800));return;}
   const why=res==="d"?(g.isStalemate()?"Pat – remis.":g.isThreefoldRepetition()?"Trzy razy ta sama pozycja – remis.":g.isInsufficientMaterial()?"Za mało figur do mata – remis.":"Remis."):"";
   const E0=szElo(loadOwnHist());
   szArchive({id:SZ.id,start:SZ.start,cfg:SZ.cfg,recs:[{t:"gra:"+L.id,c:res,ok:res==="w",tries:[],w:L.pts,done:true,...(SZ.as?{as:1}:{})}],pct:res==="w"?100:res==="d"?50:0},"done");

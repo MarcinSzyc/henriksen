@@ -131,7 +131,15 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `SkeletonUtils.clone`, stroje przez kolory materiałów (`KIT`: białe = niebiescy, czarne = czerwoni), wzrost `PL_SIZE` (pion najmniejszy),
   numer na plecach i piersi: król 9, hetman 10, wieża w stroju bramkarza (`KIT.gk`), nad głową każdego plakietka z figurą (`BADGE`, sprite
   bez testu głębi, obrazki figur z `SZ_IMG` przez `mount({img})`). Animacje z modelu (`play`): Idle, Run (ruch – `run`), Kick_Left/Right + HitRecieve (zbicie – `kickOut`:
-  piłka, zbity wylatuje łukiem za boisko), Death (mat – `topple`) i Wave (cieszynka drużyny). Kolejne skórki: dinozaury, samochody, kosmos.
+  piłka, zbity wylatuje łukiem za boisko), Death (mat – `topple`) i Wave (cieszynka drużyny). Skórka „dino” (`makeDino`, `makeJungle`): modele Quaternius (CC0) `chess/3d/skins/dino/*.glb` z `tools/chess3d_dino.sh` –
+  król T-Rex, hetman apatozaur, wieża triceratops, goniec parazaurolof, skoczek raptor, pion stegozaur (`DINO`, długość `DINO_L`);
+  drużyny: odcień `DINO_TINT` + kółko pod nogami; zbicie `bite` (Attack → ofiara Death i `sinkAway`), wygrani skaczą (Jump).
+  Skórka „roboty” (`makeRobot`, `makeArena`): transformersy z klocków w kodzie – każda część z `RB_PARTS`/`RB_EXTRA` ma pozycję
+  robota i auta, `setForm(o,0…1)` przestawia części po kolei; ruch `drive` = przemiana w auto, jazda (skoczek skacze z saltem),
+  przemiana z powrotem; zbicie `laser` + `breakApart` (części rozlatują się), mat = król się rozpada, reszta podskakuje (`hop`).
+  Białe = Autoboty (czerwono-niebieskie), czarne = Decepticony (szaro-fioletowe), kolory `RB_COL`. Zbicia postaci idą przez
+  `userData.cap(ofiara, atakujący)` (zwraca, ile ms czekać przed ruchem) i `userData.die`; plakietki `addBadge` w kolorach `TEAMC`.
+  `S3.busy()` = ile ms trwa jeszcze animacja: `szDraw` przesuwa `SZ_FXEND`, więc komputer i ekran końcowy czekają, aż figura dojedzie.
 - **Edukacja zdrowotna** (widok `#zd`, hash `#zdrowie`, przedmiot `subj:"zd"`): kafel „Sprawdzian 29.10” (`ZD_DATE`, wszystkie pytania
   w losowej kolejności, `cfg.mode:"spr"`) i 4 tematy z lekcji (`ZD_TOPICS`: wartosc, styl, cialo, zach – `cfg.mode` = id tematu).
   Pytanie `{q,c,bad,why}` albo prawda/fałsz `PF(q,ok,why)`; `why` = zdanie z notatki. Gra w quizie angielskim (`enStart`,
