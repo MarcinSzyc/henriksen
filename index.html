@@ -731,6 +731,12 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .szb.sk-kosmos .sq img{filter:drop-shadow(0 0 5px rgba(165,216,255,.9))}
 .szb.sk-klocki .lt{background:var(--mc-l) 0 0/100% 100%;image-rendering:pixelated}.szb.sk-klocki .dk{background:var(--mc-d) 0 0/100% 100%;image-rendering:pixelated}
 .szb.sk-klocki{border-radius:0}.szb.sk-klocki .sq img{image-rendering:pixelated;filter:drop-shadow(2px 2px 0 rgba(0,0,0,.45))}
+.szb.sk-robaki .lt{background:radial-gradient(circle at 30% 25%,rgba(255,255,255,.25) 0 6%,transparent 7%),radial-gradient(circle at 70% 70%,rgba(255,255,255,.18) 0 4%,transparent 5%),var(--sz-lt)}
+.szb.sk-robaki .dk{background:radial-gradient(circle at 65% 30%,rgba(0,0,0,.08) 0 7%,transparent 8%),radial-gradient(circle at 25% 75%,rgba(0,0,0,.07) 0 5%,transparent 6%),var(--sz-dk)}
+.szb .sq img.bug{width:84%;height:84%}.szb .sq img.bug-w{filter:drop-shadow(0 0 1.5px #fff) drop-shadow(0 0 1.5px #fff) drop-shadow(0 2px 2px rgba(0,0,0,.35))}
+.szb .sq img.bug-b{filter:drop-shadow(0 0 1.5px #c92a2a) drop-shadow(0 0 1.5px #c92a2a) drop-shadow(0 2px 2px rgba(0,0,0,.35))}
+.szpb{position:absolute;right:4%;bottom:4%;width:30%;height:30%;border-radius:50%;display:flex;align-items:center;justify-content:center;z-index:2;pointer-events:none;border:1.5px solid #10102a}
+.szpb img{width:80%!important;height:80%!important}.szpb-w{background:#f8f9fa}.szpb-b{background:#c92a2a}
 .szb.sk-roboty .lt{background:radial-gradient(circle at 12% 12%,#6c757d 1.6px,transparent 2.2px),radial-gradient(circle at 88% 12%,#6c757d 1.6px,transparent 2.2px),radial-gradient(circle at 12% 88%,#6c757d 1.6px,transparent 2.2px),radial-gradient(circle at 88% 88%,#6c757d 1.6px,transparent 2.2px),linear-gradient(145deg,#e9ecef,#adb5bd)}
 .szb.sk-roboty .dk{background:radial-gradient(circle at 12% 12%,#868e96 1.6px,transparent 2.2px),radial-gradient(circle at 88% 12%,#868e96 1.6px,transparent 2.2px),radial-gradient(circle at 12% 88%,#868e96 1.6px,transparent 2.2px),radial-gradient(circle at 88% 88%,#868e96 1.6px,transparent 2.2px),linear-gradient(145deg,#495057,#212529);box-shadow:inset 0 0 0 1px rgba(34,211,238,.45)}
 .szb.sk-roboty .sq img{filter:drop-shadow(0 0 3px rgba(34,211,238,.8))}
@@ -5208,8 +5214,9 @@ const SZ_SKINS=[{id:"lava",name:"Lawa",lt:"#3a2a27",dk:"#ff6b00",rc:{w:"#ffd43b"
   {id:"boisko",name:"Boisko",lt:"#5cb85c",dk:"#4a9e4f",rc:{w:"#4dabf7",b:"#e03131",l:"#fff"}},
   {id:"kosmos",name:"Kosmos",lt:"#3b3f8f",dk:"#0b0d24",set:"space"},
   {id:"klocki",name:"Klocki",lt:"#5d9b3a",dk:"#866043",set:"mc"},
+  {id:"robaki",name:"Robaki",lt:"#b9dc9b",dk:"#86b765",set:"bugs"},
   {id:"roboty",name:"Roboty",lt:"#ced4da",dk:"#343a40",rc:{w:"#e9ecef",b:"#495057",l:"#22d3ee"}}];
-const SZ_SETS=[["cburnett","Klasyczne"],["mc","Klocki"],["space","Kosmos"],["pixel","Piksele"],["horsey","Kreskówka"],["anarcandy","Szalone"],["fantasy","Fantasy"],["rhosgfx","Drewniane"],["spatial","Kosmiczne"],["california","Nowoczesne"]];
+const SZ_SETS=[["cburnett","Klasyczne"],["mc","Klocki"],["space","Kosmos"],["bugs","Robaki"],["pixel","Piksele"],["horsey","Kreskówka"],["anarcandy","Szalone"],["fantasy","Fantasy"],["rhosgfx","Drewniane"],["spatial","Kosmiczne"],["california","Nowoczesne"]];
 const szSkin=()=>SZ_SKINS.find(x=>x.id===PREFS.szBoard)||null;
 const szSet=()=>PREFS.szPcs!=="auto"&&SZ_SETS.some(x=>x[0]===PREFS.szPcs)?PREFS.szPcs:(szSkin()&&szSkin().set)||"cburnett";
 const SZ_PCACHE={};
@@ -5219,6 +5226,7 @@ function szRecolor(uri,c,rc){let x=atob(uri.split(",")[1]);
 function szPcImg(pc,set,sk){set=set||szSet();sk=sk===undefined?szSkin():sk;
   if(set==="mc") return szMcPiece(pc);
   if(set==="space") return szSpacePiece(pc);
+  if(set==="bugs") return `chess/bugs/${pc[1]}.svg`;
   if(set!=="cburnett") return `chess/pieces/${set}/${pc}.svg`;
   if(!sk||!sk.rc) return SZ_IMG[pc];const k=sk.id+pc;return SZ_PCACHE[k]||(SZ_PCACHE[k]=szRecolor(SZ_IMG[pc],pc[0],sk.rc));}
 // obrazki figur na klockach (10×10 pikseli); o = oko skoczka
@@ -5286,6 +5294,12 @@ function szSpacePiece(pc){const k="sp"+pc;if(SZ_PCACHE[k]) return SZ_PCACHE[k];
     default:g=`<polygon points="${star(50,52,34,15)}" fill="${C.a}" ${o}/><polygon points="${star(50,52,17,8)}" fill="${C.b}" opacity=".7"/>`;}
   const badge=`<circle cx="84" cy="84" r="15" fill="${pc[0]==="w"?"#f8f9fa":"#212529"}" stroke="#10102a" stroke-width="2.5"/><image href="${SZ_IMG["w"+pc[1]]}" x="72" y="72" width="24" height="24"/>`;
   return SZ_PCACHE[k]="data:image/svg+xml;charset=utf-8,"+encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">${g}${badge}</svg>`);}
+// Robaki: w spoczynku statyczny rysunek emoji Noto (chess/bugs), w ruchu animowany WebP z nóżkami (fonts.gstatic.com, CC BY 4.0);
+// król = skorpion, hetman = pszczoła, wieża = ślimak, goniec = pająk, skoczek = konik polny, pion = mrówka
+const SZ_BUG={K:"1f982",Q:"1f41d",R:"1f40c",B:"1f577",N:"1f997",P:"1f41c"},SZ_BUG_FACE={P:-1,Q:-1,R:-1,N:-1}; // −1 = głową w lewo (obracamy przy ruchu w prawo)
+const SZ_BUG_OK=new Set(); // animacje już wczytane (podmieniamy tylko gotowe, żeby robak nie znikał)
+const szBugAnim=t=>`https://fonts.gstatic.com/s/e/notoemoji/latest/${SZ_BUG[t]}/512.webp`;
+function szBugPreload(){Object.keys(SZ_BUG).forEach(t=>{if(SZ_BUG_OK.has(t)) return;const im=new Image();im.onload=()=>SZ_BUG_OK.add(t);im.src=szBugAnim(t);});}
 // pikselowe tekstury trawy i ziemi dla skórki Klocki (rysowane raz)
 let SZ_MC=null;
 function szMcTex(){if(SZ_MC) return SZ_MC;let seed=7;const rnd=()=>(seed=(seed*16807)%2147483647)/2147483647;
@@ -5384,12 +5398,12 @@ function szPos(g){const P={},B=g.board();B.forEach((row,y)=>row.forEach((p,x)=>{
 function szDraw(){
   if(SZ.d3&&window.S3){const P=SZ.kind==="star"?SZ.pos:szPos(SZ.g),chk=SZ.g&&SZ.g.inCheck()?Object.keys(P).find(s=>P[s]===SZ.g.turn()+"K"):null;
     S3.sync(P,{sel:SZ.sel,tg:SZ.tg,last:SZ.last,chk,hint:SZ.hint,stars:SZ.stars,flip:SZ.flip});return;}
-  const b=$("szb"),P=SZ.kind==="star"?SZ.pos:szPos(SZ.g),fl=SZ.flip;let h="";szLookApply(b);
+  const b=$("szb"),P=SZ.kind==="star"?SZ.pos:szPos(SZ.g),fl=SZ.flip,bugs=szSet()==="bugs";let h="";szLookApply(b);if(bugs) szBugPreload();
   const chk=SZ.g&&SZ.g.inCheck()?Object.keys(P).find(s=>P[s]===SZ.g.turn()+"K"):null;
   for(let r=7;r>=0;r--) for(let f=0;f<8;f++){const y=fl?7-r:r,x=fl?7-f:f,sq=SZ_F[x]+(y+1),pc=P[sq],tg=SZ.tg.includes(sq);
     const c=["sq",(x+y)%2===0?"dk":"lt",SZ.sel===sq&&"sel",SZ.last&&SZ.last.includes(sq)&&"lm",chk===sq&&"chk",SZ.hint&&SZ.hint.includes(sq)&&"hint",tg&&(pc?"cap":"mv")].filter(Boolean).join(" ");
     h+=`<button type="button" class="${c}" data-sq="${sq}" aria-label="${sq}${pc?" "+(pc[0]==="w"?"biały ":"czarny ")+SZ_NAME[pc[1]]:""}">`+
-      `${SZ.stars&&SZ.stars.includes(sq)?'<span class="szstar" aria-hidden="true">★</span>':""}${pc?`<img src="${szPcImg(pc)}" alt="" draggable="false">`:""}`+
+      `${SZ.stars&&SZ.stars.includes(sq)?'<span class="szstar" aria-hidden="true">★</span>':""}${pc?`<img src="${szPcImg(pc)}" alt="" draggable="false"${bugs?` class="bug bug-${pc[0]}"`:""}>${bugs?`<span class="szpb szpb-${pc[0]}" aria-hidden="true"><img src="${SZ_IMG["w"+pc[1]]}" alt=""></span>`:""}`:""}`+
       `${f===0?`<i class="rk">${y+1}</i>`:""}${r===0?`<i class="fl">${SZ_F[x]}</i>`:""}</button>`;}
   b.innerHTML=h;
   const k=SZ.g||SZ.pos,pp=SZ.pp;SZ.pp={k,fl,P:{...P}};
@@ -5406,10 +5420,18 @@ function szSlide(b,A,P){
     const f=gone.find(x=>A[x]===pc&&!used.has(x))||(/[18]/.test(s[1])&&gone.find(x=>!used.has(x)&&A[x]===pc[0]+"P"));
     if(!f) continue;used.add(f);
     const img=at(s).querySelector("img"),r0=at(f).getBoundingClientRect(),r1=at(s).getBoundingClientRect(),dx=r0.left-r1.left,dy=r0.top-r1.top;
-    const d=Math.min(380,170+Math.hypot(dx,dy)/r1.width*40),from=`translate(${dx}px,${dy}px)`;dur=Math.max(dur,d);
+    const bug=img.classList.contains("bug"),dist=Math.hypot(dx,dy)/r1.width;
+    const d=bug?Math.min(1500,(380+dist*170)*(pc[1]==="R"?1.5:1)):Math.min(380,170+dist*40),from=`translate(${dx}px,${dy}px)`;dur=Math.max(dur,d);
     const fx=A[s]&&PREFS.szFx&&szSkin()&&SZ_CAP[szSkin().id];
     if(fx) fx(img,at(s),A[s],pc,d,dx,dy);else if(A[s]) fade(s,A[s],d*.55);
     img.style.zIndex=5;
+    if(bug){SZ_FXEND=Math.max(SZ_FXEND,Date.now()+d);const t=pc[1],st=img.src,vx=-dx,vy=-dy,side=!!SZ_BUG_FACE[t]; // robak z profilu: głową w stronę ruchu (odbicie + obrót)
+      let rot=0,fx2=1;if(side){if(vx>0){fx2=-1;rot=Math.atan2(vy,vx);}else{rot=Math.atan2(vy,vx)-Math.PI;}rot=Math.atan2(Math.sin(rot),Math.cos(rot))*180/Math.PI;}
+      const sx=`rotate(${rot.toFixed(1)}deg) scaleX(${fx2})`;if(SZ_BUG_OK.has(t)) img.src=szBugAnim(t);
+      const pb=at(s).querySelector(".szpb");if(pb) pb.animate([{opacity:0},{opacity:0,offset:.85},{opacity:1}],{duration:d});
+      const K=t==="N"?[{transform:`${from} ${sx}`},{transform:`translate(${dx/2}px,${dy/2-r1.height*.5}px) ${sx} scale(1.25)`},{transform:"none"}]:
+        Array.from({length:9},(_,k)=>{const q=k/8;return {transform:`translate(${dx*(1-q)}px,${dy*(1-q)+(k%2?-2:0)}px) rotate(${k===8?0:(k%2?7:-7)}deg) ${k===8?"":sx}`};});
+      img.animate(K,{duration:d,easing:"linear"}).onfinish=()=>{img.style.zIndex="";img.src=st;};continue;}
     img.animate(pc[1]==="N"?[{transform:from},{transform:`translate(${dx/2}px,${dy/2}px) scale(1.3)`},{transform:"none"}]:[{transform:from},{transform:"none"}],
       {duration:d,easing:"cubic-bezier(.35,.05,.25,1)"}).onfinish=()=>{img.style.zIndex="";};}
   for(const x of gone) if(!used.has(x)&&!P[x]) fade(x,A[x],dur*.55); // bicie w przelocie
@@ -5436,6 +5458,9 @@ function szBurst(cell,o){const r=cell.getBoundingClientRect(),cx=r.left+r.width/
 function szVictim(cell,pc){const g=document.createElement("img");g.src=szPcImg(pc);g.alt="";g.className="szgone";cell.appendChild(g);return g;}
 function szShake(el,px){el.animate([0,1,2,3,4,5].map(k=>({transform:k===5?"none":`translate(${(Math.random()*2-1)*px}px,${(Math.random()*2-1)*px}px)`})),{duration:320});}
 const SZ_CAP={
+  robaki(img,cell,vpc,pc,d){const v=szVictim(cell,vpc);SZ_FXEND=Date.now()+d+800;
+    setTimeout(()=>{sfx("pop");v.animate([{transform:"none"},{transform:"translateY(-25%) rotate(180deg) scale(.9)",offset:.4},{transform:"translateY(10%) rotate(180deg) scale(.2)",opacity:0}],{duration:800,easing:"ease-in",fill:"forwards"}).onfinish=()=>v.remove();
+      szBurst(cell,{cols:["#a47148","#d4a373","#e9edc9","#ccd5ae"],n:16,size:.12,sp:.6,up:.3,g:.3,ms:700});},d*.85);},
   // Klocki: atakujący jedzie jako TNT, miga, wybucha pikselami i wraca do swojej postaci
   klocki(img,cell,vpc,pc,d){const v=szVictim(cell,vpc),src=img.src;img.src=szTnt();const blink=480,T=d+blink;SZ_FXEND=Date.now()+T+700;sfx("fuse");
     setTimeout(()=>img.animate([{filter:"brightness(1)"},{filter:"brightness(3.2)"},{filter:"brightness(1)"}],{duration:blink/3,iterations:3}),d);

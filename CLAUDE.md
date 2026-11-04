@@ -95,6 +95,10 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   Figury „Klocki” (`set:"mc"`, `szMcPiece`): płaskie głowy w stylu Minecrafta (`szCube`: twarz 8×8 z `MC_HEAD` na całe pole, kolory `MC_PAL`;
   białe: Steve, Alex, golem, wieśniak, koń, kurczak; czarne: szkielet Withera, Enderman, zombie, wiedźma, pająk, Creeper) z plakietką figury (`SZ_MCP`)
   w rogu; TNT przy zbiciu też płaskie.
+  Skórka „Robaki” (`set:"bugs"`): w spoczynku statyczne emoji Noto `chess/bugs/<K…P>.svg` (król skorpion, hetman pszczoła, wieża ślimak,
+  goniec pająk, skoczek konik polny, pion mrówka), w ruchu animowany WebP z fonts.gstatic.com (`SZ_BUG`, `szBugAnim`, tylko gdy wczytany –
+  `SZ_BUG_OK`, `szBugPreload`); `szSlide` prowadzi robaka wolniej (ślimak ×1,5), z kołysaniem, głową w stronę ruchu (`SZ_BUG_FACE`), konik skacze;
+  drużyny: obwódka `bug-w`/`bug-b` i plakietka `.szpb` z figurą; zbicie `SZ_CAP.robaki` (na plecy + chmurka). `SZ_FXEND` czeka na koniec marszu.
   Figury „Kosmos” (`set:"space"`, `szSpacePiece`, SVG, kolory drużyn `SZ_SPC`): król = Słońce, hetman = planeta z pierścieniem, wieża = rakieta,
   goniec = kometa, skoczek = UFO, pion = gwiazdka; plakietka z białą figurą cburnett na jasnym/ciemnym kółku. Komentuje zawsze wybrany komentator (`PREFS.szWho`, dotknięcie awatara na ekranie Wygląd).
   Koniec partii (`szWhy`): dlaczego przegrana (mat – kto szachuje, poddanie) albo remis (pat, powtórzenie, za mało figur, 50 ruchów)

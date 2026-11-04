@@ -30,3 +30,6 @@
 
 ## Miniatura komentatora (emoji)
 - Noto Animated Emoji, Google (googlefonts.github.io/noto-emoji-animation), CC BY 4.0 – wczytywane z fonts.gstatic.com.
+
+## Robaki (`chess/bugs/`)
+- Noto Emoji, Google – statyczne SVG (Apache 2.0); animacje w ruchu: Noto Animated Emoji (CC BY 4.0) z fonts.gstatic.com.
