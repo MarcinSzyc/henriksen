@@ -770,9 +770,16 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .szb3{position:relative;width:100%;max-width:560px;margin:0 auto;border-radius:16px;overflow:hidden;min-height:200px;background:#0d1020;touch-action:manipulation}
 .szb3[hidden]{display:none}.szb3[hidden]+.sz3-tip{display:none}
 .sz3-view{position:absolute;top:8px;right:8px;display:flex;gap:6px;z-index:2}.sz3-view button{border:0;border-radius:10px;padding:6px 10px;font:inherit;font-weight:800;font-size:.8rem;background:rgba(13,16,32,.7);color:#dbe4ff;cursor:pointer;backdrop-filter:blur(4px)}
+.sz3-view button.off{opacity:.45;text-decoration:line-through}
 .sz3-tip{margin:6px 2px 0;font-size:.8rem;font-weight:700;color:var(--muted);text-align:center}.szb3 canvas{display:block;width:100%!important;height:auto!important}
 .sz3-load{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;margin:0;font-weight:800;color:#dbe4ff;text-align:center;padding:20px}.sz3-load[hidden]{display:none}
 .sz3-tile{grid-column:1/-1;aspect-ratio:auto!important;min-height:120px;background:linear-gradient(135deg,#7048e8,#1c7ed6 60%,#e64980)!important}.sz-ctl button{flex:1;min-height:48px}
+.sz-gate{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--card);border:2px solid var(--accent);border-radius:20px;padding:14px;margin:0 0 14px}
+.sz-gate-i{font-size:2rem}.sz-gate .rt{flex:1;min-width:150px;display:flex;flex-direction:column}.sz-gate .rt small{color:var(--muted);font-weight:800}.sz-gate .go-btn{width:100%;margin:0}
+#szo-lim small{display:block;margin-top:4px;color:var(--muted);font-weight:800}#szo-lim .go-btn,.sz-gate .go-btn{margin-top:10px;width:100%;font-size:1rem;min-height:52px}
+.szr-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.szr-in{font:inherit;font-weight:700;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--fg);flex:1;min-width:0}
+.szr-days{display:flex;flex-direction:column;gap:6px;margin-top:8px}.szr-day{display:flex;align-items:center;gap:10px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 12px;font-weight:800}
+.szr-day span{flex:1}.szr-day button{border:0;background:none;color:var(--muted);font-size:1.1rem;cursor:pointer}
 .szelo{width:100%;border:0;font:inherit;text-align:left;background:linear-gradient(135deg,#495057,#212529);color:#fff;border-radius:22px;padding:14px 16px;margin:0 0 14px;display:flex;align-items:center;gap:14px;cursor:pointer}
 .szelo .ri{flex:none;width:56px;height:56px;border-radius:16px;background:#f0d9b5;display:flex;align-items:center;justify-content:center}.szelo .ri img{width:84%;height:84%}
 .szelo .m{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1}.szelo .k{font-size:.72rem;font-weight:800;letter-spacing:.05em;text-transform:uppercase;opacity:.85}
@@ -1021,6 +1028,8 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 <div class="wrap" id="sz" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Szachy</h1><div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="sz-gate" data-szgate hidden></div>
+  <button type="button" class="more pmore" id="sz-rules-btn" hidden style="margin-bottom:14px"><span><b>👨‍👧 Zasady szachów dla dziecka</b><small>Limit partii, wyjątki na dni, zadanie za dodatkową partię</small></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
   <button type="button" class="szelo" data-szelo></button>
   <button type="button" class="more pmore" id="sz-look" style="margin-bottom:14px"><span><b>🎨 Wygląd szachownicy</b><small>Kolory, skórki, figury i komentatorzy</small></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
   <div class="tiles2 mat-tiles">
@@ -1029,6 +1038,14 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tile mt sz3-tile" id="sz-t-3d" style="--gc:#7048e8"><span class="wm" aria-hidden="true">3D</span><span class="tt">Szachy 3D</span><small>Figury jak prawdziwe, wybuchy i fajerwerki</small></button>
     <button type="button" class="tile mt" id="sz-t-play" style="--gc:#495057"><span class="wm wm-img" aria-hidden="true"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9IiNmZmYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBkPSJNOCAxMmEyIDIgMCAxIDEtNCAwIDIgMiAwIDEgMSA0IDBtMTYuNS00LjVhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwTTQxIDEyYTIgMiAwIDEgMS00IDAgMiAyIDAgMSAxIDQgME0xNiA4LjVhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwTTMzIDlhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwIi8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIGQ9Ik05IDI2YzguNS0xLjUgMjEtMS41IDI3IDBsMi0xMi03IDExVjExbC01LjUgMTMuNS0zLTE1LTMgMTUtNS41LTE0VjI1TDcgMTR6Ii8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIGQ9Ik05IDI2YzAgMiAxLjUgMiAyLjUgNCAxIDEuNSAxIDEgLjUgMy41LTEuNSAxLTEuNSAyLjUtMS41IDIuNS0xLjUgMS41LjUgMi41LjUgMi41IDYuNSAxIDE2LjUgMSAyMyAwIDAgMCAxLjUtMSAwLTIuNSAwIDAgLjUtMS41LTEtMi41LS41LTIuNS0uNS0yIC41LTMuNSAxLTIgMi41LTIgMi41LTQtOC41LTEuNS0xOC41LTEuNS0yNyAweiIvPjxwYXRoIGZpbGw9Im5vbmUiIGQ9Ik0xMS41IDMwYzMuNS0xIDE4LjUtMSAyMiAwTTEyIDMzLjVjNi0xIDE1LTEgMjEgMCIvPjwvZz48L3N2Zz4=" alt="" width="44" height="44"></span><span class="tt">Graj z komputerem</span><small id="sz-t-play-s"></small></button>
   </div>
+</div>
+<div class="wrap" id="szrules" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Zasady szachów</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="fchips who" id="szr-kids" role="group" aria-label="Dziecko"></div>
+  <div id="szr-body"></div>
+  <button type="button" class="go-btn" id="szr-save" hidden>Zapisz</button>
+  <div class="abnote" id="szr-msg" aria-live="polite"></div>
 </div>
 <div class="wrap" id="szw" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Wygląd szachownicy</h1><div class="right">
@@ -1052,6 +1069,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <p class="abnote">To samo co w zwykłych szachach – samouczek, zadania i gra – tylko na planszy 3D: figury suną po polach, zbite rozpadają się na kawałki, a mat kończy się fajerwerkami. Pierwsze wejście pobiera model (kilka MB).</p>
   <div class="lbl">Wygląd</div>
   <div class="segs" id="sz3-skin"><button type="button" data-k="classic">Klasyczne</button><button type="button" data-k="pilkarze">⚽ Piłkarze</button></div>
+  <div class="sz-gate" data-szgate hidden></div>
   <button type="button" class="szelo" data-szelo></button>
   <div class="tiles2 mat-tiles">
     <button type="button" class="tile mt" data-sz3="learn" style="--gc:#2b8a3e"><span class="tt">Samouczek</span><small id="sz3-learn-s"></small></button>
@@ -1093,7 +1111,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <div class="sz-talk sz-talk-top" id="szg-talk" hidden aria-live="polite"></div>
     <div class="szb" id="szb" role="grid" aria-label="Szachownica"></div>
     <div class="szb3" id="szb3" hidden><p class="sz3-load" id="szb3-load">Wczytuję szachy 3D…</p>
-      <div class="sz3-view" id="sz3-view" aria-label="Widok planszy"><button type="button" data-v="tilt" aria-label="Widok ze skosu">Skos</button><button type="button" data-v="top" aria-label="Widok z góry">Z góry</button><button type="button" data-v="reset" aria-label="Wróć do widoku">⟲</button></div></div>
+      <div class="sz3-view" id="sz3-view" aria-label="Widok planszy"><button type="button" data-v="tilt" aria-label="Widok ze skosu">Skos</button><button type="button" data-v="top" aria-label="Widok z góry">Z góry</button><button type="button" data-v="reset" aria-label="Wróć do widoku">⟲</button><button type="button" data-v="badges" id="sz3-badges" aria-label="Plakietki z figurami nad piłkarzami" hidden>♟</button></div></div>
     <p class="sz3-tip" id="sz3-tip">Przeciągnij palcem, żeby obrócić planszę. Dwoma palcami przybliżysz i przesuniesz.</p>
     <div class="sz-ctl" id="szg-ctl"></div>
   </div>
@@ -1557,8 +1575,8 @@ const BADGES={
 const BADGE_NAMES={ball:"Piłka",crown:"Korona",bolt:"Błyskawica",rocket:"Rakieta",none:"Bez znaczka"};
 const SUBS=[["streak","Seria dni"],["date","Data"],["none","Nic"]];
 const NAME_PRESETS=["Henriksen","Kapitan H","Nr 10","Ekipa H"];
-let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null,mods:{},rewSeen:[],tasks:[],taskSeen:[],lib:{ex:[],pk:[]},szSkin:"classic",szBoard:"brown",szPcs:"auto",szTalk:true,szVoice:true,szWho:"zbyszek",szEmo:true,szFx:true,szAnim:true,szLimit:0};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{},rewSeen:Array.isArray(p.rewSeen)?p.rewSeen.filter(x=>typeof x==="string"):[],tasks:Array.isArray(p.tasks)?p.tasks.filter(t=>t&&t.id&&Array.isArray(t.packs)):[],taskSeen:Array.isArray(p.taskSeen)?p.taskSeen:[],lib:p.lib&&typeof p.lib==="object"?{ex:Array.isArray(p.lib.ex)?p.lib.ex:[],pk:Array.isArray(p.lib.pk)?p.lib.pk:[]}:{ex:[],pk:[]},szSkin:["classic","pilkarze"].includes(p.szSkin)?p.szSkin:"classic",szBoard:typeof p.szBoard==="string"?p.szBoard:"brown",szPcs:typeof p.szPcs==="string"?p.szPcs:"auto",szTalk:p.szTalk!==false,szVoice:p.szVoice!==false,szWho:["zbyszek","janusz","grazyna"].includes(p.szWho)?p.szWho:"zbyszek",szEmo:p.szEmo!==false,szFx:p.szFx!==false,szAnim:p.szAnim!==false,szLimit:Math.max(0,Math.min(50,+p.szLimit||0))};}catch(e){}
+let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null,mods:{},rewSeen:[],tasks:[],taskSeen:[],lib:{ex:[],pk:[]},szSkin:"classic",szBoard:"brown",szPcs:"auto",szTalk:true,szVoice:true,szWho:"zbyszek",szEmo:true,szFx:true,szAnim:true,szLimit:0,szRules:{},szBadges:true};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{},rewSeen:Array.isArray(p.rewSeen)?p.rewSeen.filter(x=>typeof x==="string"):[],tasks:Array.isArray(p.tasks)?p.tasks.filter(t=>t&&t.id&&Array.isArray(t.packs)):[],taskSeen:Array.isArray(p.taskSeen)?p.taskSeen:[],lib:p.lib&&typeof p.lib==="object"?{ex:Array.isArray(p.lib.ex)?p.lib.ex:[],pk:Array.isArray(p.lib.pk)?p.lib.pk:[]}:{ex:[],pk:[]},szSkin:["classic","pilkarze"].includes(p.szSkin)?p.szSkin:"classic",szBoard:typeof p.szBoard==="string"?p.szBoard:"brown",szPcs:typeof p.szPcs==="string"?p.szPcs:"auto",szTalk:p.szTalk!==false,szVoice:p.szVoice!==false,szWho:["zbyszek","janusz","grazyna"].includes(p.szWho)?p.szWho:"zbyszek",szEmo:p.szEmo!==false,szFx:p.szFx!==false,szAnim:p.szAnim!==false,szLimit:Math.max(0,Math.min(50,+p.szLimit||0)),szRules:p.szRules&&typeof p.szRules==="object"?p.szRules:{},szBadges:p.szBadges!==false};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -2474,8 +2492,8 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",szw:"#szachy-wyglad",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",szw:"szw",sz:"sz",sz3:"sz3",szl:"szl",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",szw:"#szachy-wyglad",szrules:"#szachy-zasady",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",szw:"szw",szrules:"szrules",sz:"sz",sz3:"sz3",szl:"szl",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
@@ -2854,7 +2872,7 @@ function plLiveNow(){
 }
 function plShow(v){
   if(v==="pl") renderPl();
-  if(v==="szw") renderSzw();if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();
+  if(v==="szw") renderSzw();if(v==="szrules") renderSzRules();if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();
   if(window.S3&&v!=="szg") S3.pause();if(v==="szz") renderSzz();if(v==="szo") renderSzo();
   if(v==="plws") renderPws();
   if(v==="pld") renderPd();
@@ -4378,7 +4396,7 @@ const CUP_CATS=[
 const CUP_LV=[{k:"b",name:"Brąz",to:"brązu",x:1,c:"#cd7f32"},{k:"s",name:"Srebro",to:"srebra",x:3,c:"#b4bfcf"},
   {k:"g",name:"Złoto",to:"złota",x:8,c:"#f2c230"},{k:"d",name:"Diament",to:"diamentu",x:20,c:"#4dd4ff"}];
 const CUP_STEPS=[20,30,50,75,100,150,200,300,400,500,750,1000,1500,2000,3000,4000,5000,7500,10000];
-const PARENT_KEYS=["cups","cupRewards","mods","tasks","szLimit"]; // ustawia rodzic – przy konflikcie wygrywa wersja z bazy
+const PARENT_KEYS=["cups","cupRewards","mods","tasks","szLimit","szRules"]; // ustawia rodzic – przy konflikcie wygrywa wersja z bazy
 const cupCat=(s,r)=>{const sj=s.subj||"mat";if(sj==="zd") return "zd";return sj==="mat"?"mat"+(Array.isArray(r.t)?r.t[1]:""):sj+"-"+((s.cfg&&s.cfg.mode)||(sj==="en"?"tobe":"slowka"));};
 function cupCounts(H){const c={};for(const s of H) for(const r of s.recs||[]) if(r.ok){const k=cupCat(s,r);c[k]=(c[k]||0)+recW(s,r);}return c;} // punkty, nie liczba zadań
 const cupBase=(P,id)=>(P&&P.cups&&+P.cups[id])||CUP_CATS.find(x=>x.id===id).base;
@@ -4739,9 +4757,9 @@ function szGuard(){
   const CH=["sz","sz3","szl","szz","szo","szw","szg"];if(!CH.includes(CUR)) return;
   const need=CUR==="szl"?"sz-nauka":CUR==="szz"?"sz-zadania":CUR==="szo"?"sz-gra":CUR==="sz3"?"sz-3d":
     CUR==="szg"&&SZ?(SZ.kind==="game"||SZ.cfg&&SZ.cfg.mode==="gra"?"sz-gra":SZ.list?"sz-zadania":"sz-nauka"):null;
-  const all=subjOn("sz"),mod=!need||modOn(need)&&!(CUR==="szg"&&SZ&&SZ.d3&&!modOn("sz-3d"));if(all&&mod) return;
+  const all=subjOn("sz"),mod=(!need||modOn(need)&&!(CUR==="szg"&&SZ&&SZ.d3&&!modOn("sz-3d")))&&(CUR==="sz"||CUR==="szw"||szGateOk());if(all&&mod) return;
   if(SZ){SZ.over=true;SZ.busy=true;}szHush();
-  toast(all?"Rodzic wyłączył tę część szachów.":"Rodzic wyłączył szachy.");go(all?"sz":"home");}
+  toast(!all?"Rodzic wyłączył szachy.":szGateOk()?"Rodzic wyłączył tę część szachów.":"Szachy otworzą się po zadaniu od rodzica.");go(all?"sz":"home");}
 function applyMods(){
   const show=(id,on)=>{const el=$(id);if(el) el.hidden=!on;};
   show("t-math",subjOn("mat"));if(CUR==="mat") renderMat();show("t-pl",subjOn("pl"));show("t-en",subjOn("en"));
@@ -4997,7 +5015,10 @@ $("nag-vid-list").addEventListener("click",e=>{const b=e.target.closest("[data-r
    przeciwnicy liczą się z historii. Silnik (szBest): alfa-beta na wewnętrznych _moves/_makeMove chess.js, siła z SZ_OPP. */
 let CHESS=null,SZ3D=false; // SZ3D: wejście przez kafel „Szachy 3D” (plansza z chess/3d/sz3d.js)
 window.S3=null;
-$("sz3-view").addEventListener("click",e=>{const b=e.target.closest("[data-v]");if(b&&window.S3&&S3.view) S3.view(b.dataset.v);});
+$("sz3-view").addEventListener("click",e=>{const b=e.target.closest("[data-v]");if(!b||!window.S3) return;
+  if(b.dataset.v==="badges"){PREFS.szBadges=!PREFS.szBadges;savePrefs();S3.setBadges(PREFS.szBadges);szBadgeBtn();toast(PREFS.szBadges?"Plakietki z figurami włączone":"Plakietki z figurami wyłączone");return;}
+  if(S3.view) S3.view(b.dataset.v);});
+function szBadgeBtn(){const b=$("sz3-badges");b.hidden=PREFS.szSkin!=="pilkarze";b.classList.toggle("off",!PREFS.szBadges);b.setAttribute("aria-pressed",!!PREFS.szBadges);}
 // moduł 3D: Three.js + model + fizyka; raz wczytany zostaje (S3.mount przenosi płótno, gdy trzeba)
 async function sz3Ready(){
   const box=$("szb3"),ld=$("szb3-load");box.hidden=false;$("szb").hidden=true;
@@ -5008,6 +5029,7 @@ async function sz3Ready(){
     catch(e){ld.textContent="Nie udało się wczytać szachów 3D – sprawdź internet albo zagraj w zwykłe szachy.";throw e;}}
   if(PREFS.szSkin!=="classic"){ld.hidden=false;ld.textContent="Wczytuję piłkarzy…";}
   try{await S3.setSkin(PREFS.szSkin);}catch(e){await S3.setSkin("classic");}
+  if(S3.setBadges) S3.setBadges(PREFS.szBadges);szBadgeBtn();
   ld.hidden=true;S3.clear();S3.resume();S3.resize();
 }
 function sz2d(){$("szb3").hidden=true;$("szb").hidden=false;if(window.S3) S3.pause();}
@@ -5103,7 +5125,13 @@ function szElo(H){
 const SZ_DAYK="henriksen-szdzien";
 function szPlayedToday(){const d=new Date().toDateString();let n=0;try{const x=JSON.parse(localStorage.getItem(SZ_DAYK)||"{}");if(x.d===d) n=x.n||0;}catch(e){}
   const t0=new Date();t0.setHours(0,0,0,0);return Math.max(n,szHist("gra").filter(s=>s.start>=t0.getTime()).length);}
-const szLeft=()=>PREFS.szLimit?Math.max(0,PREFS.szLimit-szPlayedToday()):null;
+// zasady rodzica (PREFS.szRules): days {"rrrr-mm-dd": partie, -1 = bez limitu}, extra = zadanie za +1 partię ponad limit,
+// gate = zadanie, po którym szachy otwierają się danego dnia; zadanie = {id,name,spec} uruchamiane exRun z cfg.goal "szx" / "szgate"
+const szR=()=>PREFS.szRules&&typeof PREFS.szRules==="object"?PREFS.szRules:{};
+function szTaskDone(tag){const t0=dayKey(Date.now());return loadOwnHist().filter(s=>s.cfg&&s.cfg.goal===tag&&s.status==="done"&&s.start>=t0).length;}
+function szLimitToday(){const d=(szR().days||{})[ymd(Date.now())];return d!=null?(+d<0?null:+d):PREFS.szLimit||null;}
+const szLeft=()=>{const L=szLimitToday();if(L==null) return null;return Math.max(0,L+(szR().extra?szTaskDone("szx"):0)-szPlayedToday());};
+const szGateOk=()=>!szR().gate||szTaskDone("szgate")>0;
 function szCountGame(){const d=new Date().toDateString();try{localStorage.setItem(SZ_DAYK,JSON.stringify({d,n:szPlayedToday()+1}));}catch(e){}}
 const szWins=id=>szHist("gra").filter(s=>s.cfg.opp===id&&s.recs[0]&&s.recs[0].ok).length;
 const szOppOpen=k=>k===0||szWins(SZ_OPP[k-1].id)>0;
@@ -5431,6 +5459,7 @@ function szMove(mv){
 
 /* --- lekcje --- */
 async function szLesson(k,tag){
+  if(!szGateOk()){toast("Szachy otworzą się po zadaniu od rodzica.");go("sz");return;}
   if(SZ3D) await sz3Ready(); else sz2d();
   const L=SZ_LESSONS[k];SZ={kind:null,lesson:k,b:0,res:[],tag:tag||{},id:Date.now(),start:Date.now(),d3:SZ3D};
   $("szg-t").textContent=`Samouczek: ${L.name}`;szBoardStart();go("szg");
@@ -5470,6 +5499,7 @@ function szNextBoard(){
 
 /* --- zadania --- */
 async function szPuzzles(theme,n,tag){
+  if(!szGateOk()){toast("Szachy otworzą się po zadaniu od rodzica.");go("sz");return;}
   await szLoad();
   if(!SZ_PZ){try{SZ_PZ=await (await fetch("chess/puzzles.json")).json();}catch(e){alert("Nie udało się wczytać zadań – potrzebny internet przy pierwszym wejściu.");return;}}
   if(SZ3D) await sz3Ready(); else sz2d();
@@ -5512,6 +5542,7 @@ function szPuzzleEnd(){
 
 /* --- gra z komputerem --- */
 async function szGame(k,color,tag){
+  if(!szGateOk()){toast("Szachy otworzą się po zadaniu od rodzica.");go("sz");return;}
   if(szLeft()===0){toast("Limit partii na dziś wykorzystany – wróć jutro albo poćwicz zadania!");if(CUR!=="szo") go("szo");else renderSzo();return;}
   szCountGame();await szLoad();if(SZ3D) await sz3Ready(); else sz2d();const L=SZ_OPP[k],me=color==="rand"?(Math.random()<.5?"w":"b"):color;
   SZ={kind:"game",d3:SZ3D,opp:k,g:new CHESS(),me,flip:me==="b",sel:null,tg:[],last:null,hint:null,busy:false,over:false,stars:null,hints:0,id:Date.now(),start:Date.now(),
@@ -5680,7 +5711,9 @@ function renderSzElo(){
 }
 document.querySelectorAll("[data-szelo]").forEach(b=>b.addEventListener("click",()=>{if(isGuest()||!modOn("stats")) return;go("stats");$("subj").querySelector('[data-s="sz"]').click();}));
 function renderSz(){
-  renderSzElo();
+  renderSzElo();$("sz-rules-btn").hidden=!(ME&&ME.role==="parent");
+  const gate=!szGateOk(),G=szR().gate;
+  document.querySelectorAll("[data-szgate]").forEach(el=>{el.hidden=!gate;if(gate) el.innerHTML=`<div class="sz-gate-i" aria-hidden="true">🔒</div><div class="rt"><b>Szachy otworzą się po zadaniu</b><small>${esc(G.name)}</small></div><button type="button" class="go-btn" data-szdo="szgate">Zrób zadanie</button>`;});
   const st=SZ_LESSONS.reduce((a,L)=>a+szStars(L.id),0),open=SZ_OPP.filter((x,k)=>szOppOpen(k)).length;
   $("sz-t-learn-s").textContent=st?`Gwiazdki: ${st} z ${SZ_LESSONS.length*3}`:"Ruchy figur, szach, mat, roszada";
   $("sz-t-puz-s").textContent=`Mat w 1, 2 i 3 · ranking ${szRating()}`;
@@ -5688,7 +5721,8 @@ function renderSz(){
   for(const b of $("sz3-skin").children){const on=b.dataset.k===PREFS.szSkin;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
   $("sz3-learn-s").textContent=$("sz-t-learn-s").textContent;$("sz3-puz-s").textContent=$("sz-t-puz-s").textContent;$("sz3-play-s").textContent=$("sz-t-play-s").textContent;
   document.querySelectorAll("[data-sz3]").forEach(b=>{b.hidden=!modOn({learn:"sz-nauka",puz:"sz-zadania",play:"sz-gra"}[b.dataset.sz3]);});
-  $("sz-t-learn").hidden=!modOn("sz-nauka");$("sz-t-puz").hidden=!modOn("sz-zadania");$("sz-t-play").hidden=!modOn("sz-gra");$("sz-t-3d").hidden=!modOn("sz-3d");
+  $("sz-t-learn").hidden=gate||!modOn("sz-nauka");$("sz-t-puz").hidden=gate||!modOn("sz-zadania");$("sz-t-play").hidden=gate||!modOn("sz-gra");$("sz-t-3d").hidden=gate||!modOn("sz-3d");
+  if(gate) document.querySelectorAll("[data-sz3]").forEach(b=>{b.hidden=true;});
   const left=szLeft();if(left!==null&&modOn("sz-gra")){const t=left?`Dziś zostało: ${left} z ${PREFS.szLimit} ${PREFS.szLimit===1?"partii":"partii"}`:"Limit partii na dziś wykorzystany";$("sz-t-play-s").textContent=t;$("sz3-play-s").textContent=t;}
 }
 function renderSzl(){$("szl").querySelector("h1").textContent=SZ3D?"Samouczek 3D":"Samouczek";
@@ -5704,7 +5738,9 @@ function renderSzz(){$("szz").querySelector("h1").textContent=SZ3D?"Zadania 3D":
   $("szz-info").innerHTML=`Twój ranking zadań: <b>${szRating()}</b> · rozwiązane: ${solved.size}<small>Zadania dobierają się do rankingu. Punkty: mat w 1 – 2, w 2 – 3, w 3 – 5 (tylko bez pomyłki).</small>`;
 }
 function renderSzo(){$("szo").querySelector("h1").textContent=SZ3D?"Graj w 3D":"Graj z komputerem";
-  const left=szLeft();$("szo-lim").hidden=left===null;$("szo-lim").innerHTML=left===null?"":left?`Dziś możesz zagrać jeszcze <b>${left}</b> z ${PREFS.szLimit} partii.`:`<b>Limit partii na dziś wykorzystany.</b> Wróć jutro – a teraz możesz poćwiczyć zadania albo samouczek.`;
+  const left=szLeft(),X=szR().extra,lim=szLimitToday(),xd=X?szTaskDone("szx"):0;$("szo-lim").hidden=left===null;
+  $("szo-lim").innerHTML=left===null?"":(left?`Dziś możesz zagrać jeszcze <b>${left}</b> ${left===1?"partię":left<5?"partie":"partii"}.`:X?`<b>Limit partii na dziś wykorzystany.</b> Każda kolejna partia = jedno zadanie.`:`<b>Limit partii na dziś wykorzystany.</b> Wróć jutro – a teraz możesz poćwiczyć zadania albo samouczek.`)+
+    `<small>Dzisiejszy limit: ${lim}${xd?` + ${xd} za zadania`:""}</small>`+(X&&!left?`<button type="button" class="go-btn" data-szdo="szx">Zrób: ${esc(X.name)} → +1 partia</button>`:"");
   for(const b of $("szo-col").children){const on=b.dataset.c===SZC;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
   const E=szElo(loadHist()),K=szK(E.n);
   $("szo-list").innerHTML=SZ_OPP.map((L,k)=>{const o=szOppOpen(k),w=szWins(L.id),n=szHist("gra").filter(s=>s.cfg.opp===L.id).length,e=szExp(E.R,L.elo);
@@ -5712,6 +5748,52 @@ function renderSzo(){$("szo").querySelector("h1").textContent=SZ3D?"Graj w 3D":"
       `<span class="sn"><b>${L.name}</b><small>${o?`ELO ok. ${L.elo} · wygrana: +${L.pts} pkt`:"wygraj z poprzednim, żeby odblokować"}</small>${o?`<small class="lr2">Twoja szansa: ${Math.round(e*100)}% · ranking +${Math.round(K*(1-e))} / −${Math.round(K*e)}</small>`:""}${o&&n?`<small class="lr2">Partie: ${n} · wygrane: ${w}</small>`:""}</span></button>`;}).join("");
 }
 $("t-sz").addEventListener("click",()=>go("sz"));
+// rodzic: zasady szachów dziecka (zapis do jego wiersza settings, jak cele)
+let SZR={kid:null,prefs:null};
+const SZR_N=[[0,"Bez limitu"],[1,"1"],[2,"2"],[3,"3"],[5,"5"],[10,"10"]],SZR_D=[[0,"Bez gry"],[1,"1"],[2,"2"],[3,"3"],[5,"5"],[10,"10"],[-1,"Bez limitu"]];
+const szrChoices=()=>[...SETS.map(st=>({id:"set:"+st.id,name:`Matematyka: ${st.name}`,spec:{k:"mat",cfg:{...st.cfg,set:st.id},n:st.n}})),...LIB().ex.filter(x=>x.spec&&x.spec.k!=="sz")];
+const szrSel=(id,cur)=>`<select class="szr-in" id="${id}"><option value="">— brak —</option>${szrChoices().map(x=>`<option value="${esc(x.id)}"${cur&&cur.id===x.id?" selected":""}>${esc(x.name)}</option>`).join("")}${cur&&!szrChoices().some(x=>x.id===cur.id)?`<option value="${esc(cur.id)}" selected>${esc(cur.name)}</option>`:""}</select>`;
+async function renderSzRules(){
+  const body=$("szr-body"),msg=$("szr-msg");msg.textContent="";$("szr-save").hidden=true;
+  if(!(ME&&ME.role==="parent")){body.innerHTML='<p class="abnote">Ten widok jest dla rodzica.</p>';$("szr-kids").innerHTML="";return;}
+  if(!FAMILY){try{await sbLoad();const {data}=await SB.from("profiles").select("id,name,role").eq("family_id",ME.family);FAMILY=(data||[]).filter(p=>p.role==="student");}catch(e){FAMILY=[];}}
+  if(!FAMILY.length){body.innerHTML='<p class="abnote">Nie masz jeszcze dziecka w rodzinie.</p>';$("szr-kids").innerHTML="";return;}
+  if(!SZR.kid||!FAMILY.some(p=>p.id===SZR.kid)) SZR.kid=FAMILY[0].id;
+  $("szr-kids").innerHTML=FAMILY.map(p=>`<button type="button" data-id="${p.id}" class="${p.id===SZR.kid?"sel":""}" aria-pressed="${p.id===SZR.kid}">${esc(p.name||"–")}</button>`).join("");
+  if(!SZR.prefs){body.innerHTML='<p class="abnote">Wczytuję…</p>';
+    try{const {data,error}=await SB.from("settings").select("prefs").eq("user_id",SZR.kid).maybeSingle();if(error) throw error;const p=data&&data.prefs||{};
+      SZR.prefs=p;SZR.limit=+p.szLimit||0;const r=p.szRules&&typeof p.szRules==="object"?p.szRules:{};SZR.days={...(r.days||{})};SZR.extra=r.extra||null;SZR.gate=r.gate||null;SZR.dn=2;}
+    catch(x){body.innerHTML='<p class="abnote">Nie udało się wczytać ustawień – sprawdź internet.</p>';return;}}
+  const today=ymd(Date.now());Object.keys(SZR.days).forEach(d=>{if(d<today) delete SZR.days[d];});
+  const seg=(id,list,cur)=>`<div class="segs" id="${id}">${list.map(([n,t])=>`<button type="button" data-n="${n}" class="${cur===n?"sel":""}" aria-pressed="${cur===n}">${t}</button>`).join("")}</div>`;
+  const days=Object.keys(SZR.days).sort().map(d=>{const n=+SZR.days[d],dt=new Date(d+"T12:00");
+    return `<div class="szr-day"><span>${dt.toLocaleDateString("pl-PL",{weekday:"short",day:"numeric",month:"numeric"})} – ${n<0?"bez limitu":n===0?"bez gry":n+" "+(n===1?"partia":n<5?"partie":"partii")}</span><button type="button" data-del="${d}" aria-label="Usuń wyjątek">✕</button></div>`;}).join("");
+  body.innerHTML=`<div class="lbl">Partie z komputerem dziennie</div>${seg("szr-lim",SZR_N,SZR.limit)}
+    <div class="lbl">Wyjątek na konkretny dzień</div><div class="szr-row"><input type="date" class="szr-in" id="szr-date" min="${today}" value="${SZR.dd||today}"></div>
+    ${seg("szr-dn",SZR_D,SZR.dn)}<button type="button" class="again" id="szr-add" style="margin-top:8px;width:100%">＋ Dodaj wyjątek</button><div class="szr-days">${days}</div>
+    <div class="lbl">Każda partia ponad limit wymaga zadania</div>${szrSel("szr-extra",SZR.extra)}
+    <p class="abnote">Za każde ukończone zadanie dziecko dostaje jedną partię więcej (tylko gdy jest limit).</p>
+    <div class="lbl">Szachy otwierają się dopiero po zadaniu</div>${szrSel("szr-gate",SZR.gate)}
+    <p class="abnote">Codziennie najpierw to zadanie – dopiero potem samouczek, zadania i gra. Swoje ćwiczenia zapiszesz przyciskiem „Dodaj do zapisanych celów” w dowolnej grze.</p>`;
+  const name=(FAMILY.find(p=>p.id===SZR.kid)||{}).name||"dziecka";$("szr-save").hidden=false;$("szr-save").textContent=`Zapisz dla: ${name}`;
+}
+$("szr-kids").addEventListener("click",e=>{const b=e.target.closest("button[data-id]");if(!b||b.dataset.id===SZR.kid) return;SZR={kid:b.dataset.id,prefs:null};renderSzRules();});
+$("szr-body").addEventListener("click",e=>{
+  const l=e.target.closest("#szr-lim [data-n]");if(l){SZR.limit=+l.dataset.n;return renderSzRules();}
+  const n=e.target.closest("#szr-dn [data-n]");if(n){SZR.dn=+n.dataset.n;SZR.dd=$("szr-date").value;return renderSzRules();}
+  if(e.target.closest("#szr-add")){const d=$("szr-date").value;if(!d) return;SZR.days[d]=SZR.dn;SZR.dd=d;return renderSzRules();}
+  const del=e.target.closest("[data-del]");if(del){delete SZR.days[del.dataset.del];renderSzRules();}});
+$("szr-body").addEventListener("change",e=>{const pick=id=>{const v=$(id).value;return v?szrChoices().find(x=>x.id===v)||(SZR[id==="szr-extra"?"extra":"gate"]):null;};
+  if(e.target.id==="szr-extra") SZR.extra=pick("szr-extra");if(e.target.id==="szr-gate") SZR.gate=pick("szr-gate");if(e.target.id==="szr-date") SZR.dd=e.target.value;});
+$("szr-save").addEventListener("click",async()=>{const b=$("szr-save");b.disabled=true;
+  try{const {data,error}=await SB.from("settings").select("prefs,plp").eq("user_id",SZR.kid).maybeSingle();if(error) throw error;
+    const prefs={...(data&&data.prefs||{}),szLimit:SZR.limit,szRules:{days:SZR.days,extra:SZR.extra?{id:SZR.extra.id,name:SZR.extra.name,spec:SZR.extra.spec}:null,gate:SZR.gate?{id:SZR.gate.id,name:SZR.gate.name,spec:SZR.gate.spec}:null}};
+    const r=await SB.from("settings").upsert({user_id:SZR.kid,prefs,plp:data&&data.plp||{}},{onConflict:"user_id"});if(r.error) throw r.error;
+    SZR.prefs=prefs;$("szr-msg").textContent="Zapisane. Telefon dziecka dostanie zmiany najpóźniej w ciągu minuty.";}
+  catch(x){$("szr-msg").textContent=acctErr(x);}b.disabled=false;});
+// zadanie od rodzica z ekranów szachów: blokada (szgate) albo dodatkowa partia (szx)
+document.addEventListener("click",e=>{const b=e.target.closest("[data-szdo]");if(!b) return;const R=szR(),x=b.dataset.szdo==="szgate"?R.gate:R.extra;if(x) exRun(x,{goal:b.dataset.szdo});});
+$("sz-rules-btn").addEventListener("click",()=>{SZR={kid:SZR.kid,prefs:null};go("szrules");});
 $("sz-t-learn").addEventListener("click",async()=>{await szLoad();go("szl");});
 $("sz-t-puz").addEventListener("click",()=>go("szz"));
 $("sz-t-play").addEventListener("click",()=>go("szo"));

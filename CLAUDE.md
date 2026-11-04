@@ -61,6 +61,13 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   Limit partii z komputerem dziennie: `PREFS.szLimit` (0 = bez limitu, klucz rodzica w `PARENT_KEYS`), ustawiany w „Co widzi dziecko” (`#kc-szlim`, `KC.szLimit`);
   `szLeft()` = limit − rozpoczęte dziś (licznik `henriksen-szdzien` albo ukończone z historii, większe); `szGame` blokuje start, `#szo-lim` pokazuje stan.
   Moduł `sz-3d` ukrywa kafel Szachy 3D.
+  Zasady szachów (rodzic: przycisk „Zasady szachów dla dziecka” na ekranie Szachy → `#szrules`, `#szachy-zasady`, `renderSzRules`, `SZR`;
+  zapis `szLimit` + `szRules` do wiersza `settings` dziecka, oba w `PARENT_KEYS`): `szRules.days` = wyjątki na daty (`rrrr-mm-dd` → partie,
+  −1 = bez limitu), `extra` = zadanie za każdą partię ponad limit, `gate` = zadanie, po którym szachy otwierają się danego dnia. Zadanie
+  `{id,name,spec}` z `szrChoices()` (zestawy `SETS` + ćwiczenia rodzica z `LIB().ex` bez szachów), dziecko uruchamia je `exRun(x,{goal:"szx"|"szgate"})`
+  (przycisk `[data-szdo]`), liczy `szTaskDone(tag)` z dzisiejszych ukończonych sesji. `szLimitToday()`, `szLeft()` = limit + zadania szx − partie,
+  `szGateOk()`; blokada: karta `[data-szgate]`, `szGame`/`szLesson`/`szPuzzles` i `szGuard` jej pilnują.
+  Plakietki nad piłkarzami: `PREFS.szBadges`, przycisk ♟ w `#sz3-view` (tylko skórka piłkarze), `S3.setBadges`.
   `szGuard()` (z `applyMods`, więc też po synchronizacji): gdy rodzic wyłączy szachy albo moduł, w którym dziecko jest (także w trakcie partii),
   wraca na start albo na ekran Szachy z komunikatem. Telefon dziecka (aplikacja na ekranie) co 60 s pyta tylko o `settings.updated_at`;
   pełna synchronizacja tylko, gdy rodzic coś zmienił. `ligPublish` wysyła podsumowanie tylko, gdy się zmieniło (`LIGSENT`).

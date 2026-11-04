@@ -36,6 +36,9 @@ const mixers = new Set();
 const PL_SIZE = { K: 1.12, Q: 1.08, R: .86, B: .82, N: .78, P: .6 };
 const KIT = { w: { shirt: 0x1c7ed6, shorts: 0xffffff, socks: 0x1c7ed6, gk: 0x94d82d, team: '#1c7ed6' }, b: { shirt: 0xe03131, shorts: 0x212529, socks: 0xe03131, gk: 0xfcc419, team: '#e03131' } };
 const BADGE = {}; // "wN" → tekstura plakietki nad głową (figura szachowa w kółku w kolorze drużyny)
+let badgesOn = true;
+// plakietki z figurami nad piłkarzami – do włączania i wyłączania (PREFS.szBadges)
+export function setBadges(on) { badgesOn = !!on; root && root.traverse(o => { if (o.userData && o.userData.badge) o.visible = badgesOn; }); dirty = true; }
 
 /* --- start --- */
 export async function mount(container, o) {
@@ -406,7 +409,7 @@ function makePlayer(code, sq) {
   }
   if (BADGE[code]) { // plakietka z figurą nad głową – zawsze widoczna
     const b = new THREE.Sprite(new THREE.SpriteMaterial({ map: BADGE[code], depthTest: false, transparent: true }));
-    b.renderOrder = 20; b.scale.setScalar(SQ * .5 / sc); b.position.set(0, FB.h * 1.18, 0); o.add(b);
+    b.renderOrder = 20; b.scale.setScalar(SQ * .5 / sc); b.position.set(0, FB.h * 1.18, 0); b.userData.badge = true; b.visible = badgesOn; o.add(b);
   }
   o.position.copy(sqPos(sq, TOP)); o.rotation.y = c === 'w' ? 0 : Math.PI;
   o.userData = { code, y: TOP, player: true, face: o.rotation.y, mixer: new THREE.AnimationMixer(o) };
