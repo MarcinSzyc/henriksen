@@ -26,10 +26,11 @@
 - Avataaars, Pablo Stanley (avataaars.com), wygenerowane w DiceBear (dicebear.com) – free for personal and commercial use.
 
 ## Głosy komentatorów (`chess/voices/`, nagrywane `tools/sz_voices.sh`)
-- Piper (rhasspy/piper-voices), polski głos `gosia` (Grażyna; wcześniej też `bass`, `darkman`) – zbiory danych CC0.
+- Dawniej Piper (rhasspy/piper-voices, CC0); teraz wszystkie nagrania są z ElevenLabs.
 - Kazek (`chess/voices/kazek/`): nagrania z ElevenLabs (głos „Marek – Conversational”) przygotowane przez właściciela aplikacji; skrypt ich nie nadpisuje.
 - Janusz (`chess/voices/janusz/`): nagrania z ElevenLabs (głos „Alex – Warm Storyteller”), jeden plik pocięty na kwestie; skrypt ich nie nadpisuje.
 - Zbyszek (`chess/voices/zbyszek/`): nagrania z ElevenLabs (głos „Tomasz Z – Expressive and Deep”), pocięte tak samo.
+- Grażyna (`chess/voices/grazyna/`): nagrania z ElevenLabs (głos „Monika Sogam”), nowe teksty, pocięte tak samo.
 
 ## Miniatura komentatora (emoji)
 - Noto Animated Emoji, Google (googlefonts.github.io/noto-emoji-animation), CC BY 4.0 – wczytywane z fonts.gstatic.com.
