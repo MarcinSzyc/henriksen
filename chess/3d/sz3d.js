@@ -395,7 +395,10 @@ async function loadChar(file) {
   const ld = new GLTFLoader(); ld.setMeshoptDecoder(MeshoptDecoder);
   const g = await ld.loadAsync(new URL(file, import.meta.url).href);
   g.scene.traverse(o => { if (o.isMesh) { o.castShadow = true; o.frustumCulled = false; } });
-  return { scene: g.scene, clips: g.animations, box: new THREE.Box3().setFromObject(g.scene) };
+  // wymiary liczone w pozie „Idle” (precyzyjnie, z kośćmi) – poza spoczynkowa modelu bywa inna (triceratops miał coś pod ziemią i wisiał w powietrzu)
+  const idle = g.animations.find(c => /[|_]Idle$/.test(c.name));
+  if (idle) { const m = new THREE.AnimationMixer(g.scene); m.clipAction(idle).play(); m.update(0); g.scene.updateMatrixWorld(true); }
+  return { scene: g.scene, clips: g.animations, box: new THREE.Box3().setFromObject(g.scene, !!idle) };
 }
 // boisko: murawa w pasy (pola szachownicy w dwóch odcieniach), linie, bramki za liniami końcowymi
 function makePitch() {
