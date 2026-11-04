@@ -2453,8 +2453,8 @@ applyTheme();applyName();applyView();
 /* Dźwięki: krótkie tony z Web Audio, bez plików (działa offline) */
 let AC=null;
 function ac(){
-  if(!AC){const C=window.AudioContext||window.webkitAudioContext;if(!C) return null;AC=new C();}
-  if(AC.state==="suspended") AC.resume();
+  if(!AC||AC.state==="closed"){const C=window.AudioContext||window.webkitAudioContext;if(!C) return null;AC=new C();}
+  if(AC.state!=="running") AC.resume().catch(()=>{}); // iOS: po powiadomieniu albo cudzym dźwięku stan „interrupted”, nie tylko „suspended”
   return AC;
 }
 function tone(f,at,dur,type,vol,f2){
@@ -5455,14 +5455,18 @@ const SZ_SILENT="data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAIlYAAESsA
 document.addEventListener("pointerdown",()=>{if(SZ_AUD.dataset.ok||!SZ_AUD.paused) return;SZ_AUD.dataset.ok="1";SZ_AUD.src=SZ_SILENT;
   SZ_AUD.play().then(()=>{if(SZ_AUD.src===SZ_SILENT) SZ_AUD.pause();}).catch(()=>{delete SZ_AUD.dataset.ok;});},{capture:true});
 try{if(navigator.audioSession) navigator.audioSession.type="playback";}catch(e){} // iOS 17+: Web Audio nie wycisza się przełącznikiem
+// po powrocie do aplikacji iOS potrafi znów zablokować <audio> – odblokuj przy następnym dotknięciu i obudź Web Audio
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState!=="visible") return;delete SZ_AUD.dataset.ok;if(AC&&AC.state!=="running") AC.resume().catch(()=>{});});
 function szBubbleFor(ms){const t=$("szg-talk");if(t&&!t.hidden){clearTimeout(SZ_TL);SZ_TL=setTimeout(()=>{t.hidden=true;},Math.max(2600,ms+500));}}
 async function szClip(u){if(!PREFS.szVoice||SZ_CLIPS[u]===false) return;
   try{SZ_AUD.pause();SZ_AUD.src=u;SZ_AUD.currentTime=0;SZ_AUD.onloadedmetadata=()=>szBubbleFor(SZ_AUD.duration*1000);
-    SZ_AUD.onerror=()=>{SZ_CLIPS[u]=false;};await SZ_AUD.play();return;}catch(e){}
+    SZ_AUD.onerror=()=>{if(SZ_AUD.error&&SZ_AUD.error.code===4&&SZ_AUD.src.endsWith(u)) SZ_CLIPS[u]=false;};await SZ_AUD.play();return;} // 4 = brak pliku; przerwane wczytanie nie wyłącza nagrania na zawsze
+  catch(e){if(e&&e.name==="AbortError") return;delete SZ_AUD.dataset.ok;} // AbortError = przerwane nowszym nagraniem; inaczej zablokowane – odblokuj przy dotknięciu, teraz Web Audio
   const c=ac();if(!c) return;
-  try{const b=SZ_CLIPS[u]||(SZ_CLIPS[u]=await fetch(u).then(r=>{if(!r.ok) throw 0;return r.arrayBuffer();}).then(a=>new Promise((ok,no)=>c.decodeAudioData(a,ok,no))));
+  try{let miss=false;const b=SZ_CLIPS[u]||(SZ_CLIPS[u]=await fetch(u).then(r=>{if(!r.ok){miss=true;throw 0;}return r.arrayBuffer();}).then(a=>new Promise((ok,no)=>c.decodeAudioData(a,ok,no))).catch(e=>{if(miss) return false;throw e;}));
+    if(!b) return;
     if(SZ_SRC) try{SZ_SRC.stop();}catch(e){}const src=c.createBufferSource();src.buffer=b;src.connect(c.destination);src.start();SZ_SRC=src;szBubbleFor(b.duration*1000);}
-  catch(e){SZ_CLIPS[u]=false;}}
+  catch(e){delete SZ_CLIPS[u];}} // błąd chwilowy (np. przerwane audio) – następnym razem spróbuj znowu
 function szSay(cat,who,box){
   if(!PREFS.szTalk&&!PREFS.szVoice&&!(PREFS.szEmo&&!box)) return;who=who||SZ_TALKERS.find(x=>x.id===PREFS.szWho)||SZ_TALKERS[0];
   const W=SZ_LINES[who.id],c=W[cat]?cat:"cap",n=Math.floor(Math.random()*W[c].length),text=W[c][n];

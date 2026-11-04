@@ -90,6 +90,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `szReact(ruch)` (mat > zbicie > promocja > szach > roszada; ruch dziecka: zbita figura się żali, ruch komputera: kategorie `capBy`/`checkBy`/
   `promoBy`/`castleBy` – dogryzanie i ostrzeżenia) → `szSay(kategoria)` → dymek `#szg-talk` + `szClip`: jeden element `<audio>`
   (`SZ_AUD`, odblokowany cichym WAV przy pierwszym dotknięciu – na iPhonie Web Audio milczało), zapasowo Web Audio; `navigator.audioSession.type="playback"`.
+  `ac()` wznawia AudioContext z każdego stanu ≠ running (iOS: „interrupted” po powiadomieniu albo cudzym dźwięku); po powrocie do aplikacji `<audio>` odblokowuje się
+  znów przy dotknięciu. `SZ_CLIPS[u]=false` tylko dla brakującego pliku (404 / kod błędu 4) – przerwane albo zablokowane odtwarzanie nie wycisza nagrania na resztę partii.
   Kibic nad planszą 2D (`#szg-bust`, `data-m` = mina): popiersie wybranego komentatora (`szBustSvg(kto)`, wygląd z `SZ_LOOK` jak awatary:
   Zbyszek, Janusz w binoklach, Grażyna, Kazek z brodą), SVG + animacje CSS `bz…` (części `bzo on-<mina>`), całe popiersie nad planszą (dół ucięty `clip-path`, ręce i para mogą wychodzić w górę).
   Miny: calm (głowa na ręce, oczy wodzą po planszy), bored (ziewa), hum (nuci, nutki), angry, cry, joy, shock, laugh, nod.
