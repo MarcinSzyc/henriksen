@@ -788,7 +788,8 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .bz-steam circle{fill:#C7CED6;opacity:0}.bz-tears circle{fill:#5DB2F0;opacity:0}.bz-nt{fill:#2A1A1A;stroke:#2A1A1A;stroke-width:5;opacity:0}
 .sz-bust .bzo{display:none}
 .sz-bust[data-m=calm] .on-calm,.sz-bust[data-m=bored] .on-bored,.sz-bust[data-m=hum] .on-hum,.sz-bust[data-m=angry] .on-angry,.sz-bust[data-m=cry] .on-cry,
-.sz-bust[data-m=joy] .on-joy,.sz-bust[data-m=shock] .on-shock,.sz-bust[data-m=laugh] .on-laugh,.sz-bust[data-m=nod] .on-nod{display:inline}
+.sz-bust[data-m=joy] .on-joy,.sz-bust[data-m=shock] .on-shock,.sz-bust[data-m=laugh] .on-laugh,.sz-bust[data-m=nod] .on-nod,
+.sz-bust[data-m=palm] .on-palm,.sz-bust[data-m=sweat] .on-sweat,.sz-bust[data-m=love] .on-love,.sz-bust[data-m=dizzy] .on-dizzy{display:inline}
 /* spokój: głowa na ręce, oczy wodzą po planszy */
 .sz-bust[data-m=calm] .bz-head{animation:bzsway 4s ease-in-out infinite}.sz-bust[data-m=calm] .bz-pup{animation:bzlook 4.4s ease-in-out infinite}
 .sz-bust[data-m=calm] .bz-lid{animation:bzblink 4.4s infinite}.sz-bust[data-m=calm] .bz-st{animation:bzstache 4.4s infinite}
@@ -848,6 +849,27 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 /* kiwanie głową z uśmiechem */
 .sz-bust[data-m=nod] .bz-head{animation:bznod .9s ease-in-out infinite}
 @keyframes bznod{0%,50%,100%{transform:none}25%,75%{transform:translateY(10px) scaleY(.97)}}
+.bz-drop{fill:#6EC3F5}.bz-heart{fill:#E8344E}.bz-star{fill:#FFD43B;stroke:#E0A800;stroke-width:3}
+/* facepalm: dłoń na oczach, głowa kręci się z niedowierzaniem */
+.sz-bust[data-m=palm] .bz-head{animation:bzpalm 1.1s ease-in-out infinite}.sz-bust[data-m=palm] .bz-h5 g{animation:bzin .35s cubic-bezier(.3,1.6,.5,1) both}
+.sz-bust[data-m=palm] .bz-bl{transform:translateY(-4px) rotate(-14deg)}.sz-bust[data-m=palm] .bz-br{transform:translateY(-4px) rotate(14deg)}
+@keyframes bzpalm{0%,100%{transform:translateY(12px) rotate(-5deg)}50%{transform:translateY(12px) rotate(5deg)}}
+/* pot: kropla spływa, oczy latają na boki */
+.sz-bust[data-m=sweat] .bz-head{animation:bztrem .2s linear infinite alternate}.sz-bust[data-m=sweat] .bz-drop{animation:bzdrip 1.1s ease-in infinite}
+.sz-bust[data-m=sweat] .bz-pup{animation:bzdart .6s steps(1) infinite}.sz-bust[data-m=sweat] .bz-lid{transform:translateY(-14px)}
+.sz-bust[data-m=sweat] .bz-bl{transform:translateY(-10px) rotate(-12deg)}.sz-bust[data-m=sweat] .bz-br{transform:translateY(-10px) rotate(12deg)}
+@keyframes bzdrip{0%{transform:translateY(0);opacity:0}15%{opacity:1}100%{transform:translateY(90px);opacity:0}}
+@keyframes bzdart{0%{transform:translateX(-9px)}50%{transform:translateX(9px)}}
+/* zakochany: serca zamiast oczu, serduszka lecą w górę */
+.sz-bust[data-m=love] .bz-all{animation:bzhop .7s cubic-bezier(.3,0,.5,1) infinite}.sz-bust[data-m=love] .on-love .bz-heart{animation:bzbeat .35s ease-in-out infinite alternate}
+.sz-bust[data-m=love] .bz-fh{animation:bzfloat 1.6s linear infinite}.sz-bust[data-m=love] .bz-fh+.bz-fh{animation-delay:.8s}
+@keyframes bzbeat{from{scale:.85}to{scale:1.15}}
+@keyframes bzfloat{0%{translate:0 0;opacity:0}20%{opacity:1}100%{translate:0 -140px;opacity:0}}
+/* zawroty: spirale w oczach, gwiazdki krążą nad głową */
+.sz-bust[data-m=dizzy] .bz-head{animation:bzwob 1.2s ease-in-out infinite}.sz-bust[data-m=dizzy] .bz-spiral{animation:bzspin .9s linear infinite}
+.sz-bust[data-m=dizzy] .bz-stars{animation:bzspin 2.2s linear infinite}.sz-bust[data-m=dizzy] .bz-bl,.sz-bust[data-m=dizzy] .bz-br{transform:translateY(-14px)}
+@keyframes bzspin{to{rotate:360deg}}
+@keyframes bzwob{0%,100%{transform:translate(-8px,4px) rotate(-7deg)}50%{transform:translate(8px,4px) rotate(7deg)}}
 @media (prefers-reduced-motion:reduce){.sz-bust *{animation:none!important}}
 .sz-info{min-height:2.6em;margin:8px 2px 10px;font-weight:800;font-size:.95rem;line-height:1.3}.sz-info.ok{color:var(--ok)}.sz-info.bad{color:var(--bad,#e03131)}
 .sz-ctl{display:flex;gap:8px;margin-top:12px}
@@ -5449,7 +5471,7 @@ function szSay(cat,who,box){
 // mina u góry ekranu: dziecko zbija = płacz, komputer zbija albo wygrywa = radość, szach od dziecka = przerażenie, promocja = zachwyt
 const SZ_MOOD={cap:"sad",p:"sad",q:"sad",n:"sad",r:"sad",b:"sad",mateW:"sad",capBy:"happy",checkBy:"happy",promoBy:"happy",castleBy:"happy",mateL:"happy",check:"shock",promo:"wow"};
 // animowane emoji Noto (WebP z fonts.gstatic.com – service worker zapisuje je jak czcionki)
-const SZ_EMO={idle:["1f60e"],think:["1f914"],sad:["1f62d"],happy:["1f973","1f61c","1f483"],shock:["1f631"],wow:["1f929"]};
+const SZ_EMO={idle:["1f60e"],think:["1f914","1f9d0"],sad:["1f62d","1f622","1f97a","1f629"],happy:["1f973","1f61c","1f483","1f602","1f606"],shock:["1f631","1f628","1f630"],wow:["1f929","1f60d"]};
 const szEmoUrl=c=>`https://fonts.gstatic.com/s/e/notoemoji/latest/${c}/512.webp`;
 let SZ_FT=null,SZ_EMO_PRE=false;
 // plansza 2D: popiersie wybranego komentatora nad planszą (#szg-bust, data-m = mina), 3D: emoji
@@ -5459,7 +5481,7 @@ const SZ_LOOK={zbyszek:{sk:"#E9B98A",skd:"#D19E6E",hr:"#3B2420",st:"#1F1A1A",cl:
   grazyna:{sk:"#F0A65E",skd:"#D88C48",hr:"#C83C12",st:"#C83C12",cl:"#E5508C",cl2:"#C23C72",in:"#EDEDED",hair:"curly",gl:"round",gc:"#E8508F",wear:"blazer",lash:1},
   kazek:{sk:"#C98A5A",skd:"#AE7246",hr:"#4A2E22",st:"#4A2E22",cl:"#24507E",cl2:"#1A3D62",in:"#24507E",hair:"quiff",fh:"beard",wear:"hoodie"}};
 // kategoria kwestii (SZ_LINES) → mina; lista = losowo
-const SZ_BUST={cap:["angry","cry"],p:"cry",q:"cry",n:"cry",r:"cry",b:"cry",mateL:"cry",mateW:"joy",check:"joy",promo:"joy",castle:"nod",castleBy:"nod",capBy:"laugh",checkBy:"shock",promoBy:"shock",
+const SZ_BUST={cap:["cry","cry","palm","angry"],p:"cry",q:["dizzy","cry"],n:["cry","palm"],r:["cry","dizzy"],b:["cry","palm"],mateL:"cry",mateW:["joy","love"],check:["joy","sweat"],promo:["love","joy"],castle:"nod",castleBy:"nod",capBy:["laugh","joy"],checkBy:["shock","sweat"],promoBy:["shock","dizzy"],
   idle:"calm",think:"calm",sad:"angry",shock:"shock",wow:"joy",happy:"joy"};
 function szBustSvg(id){const L=SZ_LOOK[id]||SZ_LOOK.janusz;
   const hand=(sx,hx,hy)=>`<g><path class="bz-slv" d="M${sx} 820 L${hx} ${hy+26}"/><ellipse class="bz-skin" cx="${hx}" cy="${hy}" rx="36" ry="32"/></g>`;
@@ -5489,29 +5511,31 @@ function szBustSvg(id){const L=SZ_LOOK[id]||SZ_LOOK.janusz;
     `<ellipse class="bz-cheek" cx="230" cy="402" rx="26" ry="14"/><ellipse class="bz-cheek" cx="410" cy="402" rx="26" ry="14"/>${beard}`+
     `<path class="bz-mouth bzo on-calm" d="${mouth.calm}"/><path class="bz-mouth bzo on-nod" d="${mouth.smile}"/>`+
     `<g class="bzo on-angry"><path class="bz-mouth" d="${mouth.shout}"/><rect class="bz-teeth" x="290" y="440" width="60" height="14" rx="5"/></g>`+
-    `<g class="bzo on-joy on-laugh"><path class="bz-mouth" d="${mouth.grin}"/><rect class="bz-teeth" x="284" y="440" width="72" height="12" rx="5"/><ellipse class="bz-tongue" cx="320" cy="490" rx="24" ry="11"/></g>`+
-    `<path class="bz-mouth bzo on-cry m-wail" d="${mouth.wail}"/><ellipse class="bz-mouth bzo on-hum on-shock m-o" cx="320" cy="464" rx="14" ry="17"/><ellipse class="bz-mouth bzo on-bored m-yawn" cx="320" cy="470" rx="30" ry="40"/>`+
-    `<g class="bzo on-calm on-bored on-angry on-shock on-nod">${eye("L",270)}${eye("R",370)}${lash}</g>`+
-    `<path class="bz-line bzo on-joy on-laugh" d="M246 340 Q270 312 294 340 M346 340 Q370 312 394 340"/><path class="bz-line bzo on-hum on-cry" d="M246 330 Q270 346 294 330 M346 330 Q370 346 394 330"/>`+
+    `<g class="bzo on-joy on-laugh on-love"><path class="bz-mouth" d="${mouth.grin}"/><rect class="bz-teeth" x="284" y="440" width="72" height="12" rx="5"/><ellipse class="bz-tongue" cx="320" cy="490" rx="24" ry="11"/></g>`+
+    `<path class="bz-mouth bzo on-cry on-palm m-wail" d="${mouth.wail}"/><ellipse class="bz-mouth bzo on-hum on-shock on-dizzy m-o" cx="320" cy="464" rx="14" ry="17"/><ellipse class="bz-mouth bzo on-bored m-yawn" cx="320" cy="470" rx="30" ry="40"/>`+
+    `<g class="bzo on-calm on-bored on-angry on-shock on-nod on-sweat">${eye("L",270)}${eye("R",370)}${lash}</g>`+
+    `<path class="bz-line bzo on-joy on-laugh" d="M246 340 Q270 312 294 340 M346 340 Q370 312 394 340"/><path class="bz-line bzo on-hum on-cry on-palm" d="M246 330 Q270 346 294 330 M346 330 Q370 346 394 330"/>`+
     `<rect class="bz-hr bz-bl" x="238" y="268" width="64" height="20" rx="10"/><rect class="bz-hr bz-br" x="338" y="268" width="64" height="20" rx="10"/>`+
     `<ellipse class="bz-nose" cx="320" cy="382" rx="30" ry="25"/>${gl}${stache?`<path class="bz-st" d="${stache}"/>`:""}`+
     `<g class="bzo on-angry bz-steam"><circle cx="176" cy="330" r="14" style="--dx:-60px"/><circle cx="176" cy="330" r="14" style="--dx:-60px"/><circle cx="464" cy="330" r="14" style="--dx:60px"/><circle cx="464" cy="330" r="14" style="--dx:60px"/></g>`+
     `<g class="bzo on-cry bz-tears">${[-50,-80,-30,50,80,30].map((d,i)=>`<circle cx="${i<3?262:378}" cy="344" r="10" style="--dx:${d}px"/>`).join("")}</g>`+
-    `<g class="bzo on-hum bz-notes"><g transform="translate(372 452)"><path class="bz-nt" d="M-12 0 a12 9 -20 1 0 24 0 a12 9 -20 1 0 -24 0 M10 -2 V-46 Q24 -40 30 -26"/></g><g transform="translate(352 452)"><path class="bz-nt" d="M-12 0 a12 9 -20 1 0 24 0 a12 9 -20 1 0 -24 0 M10 -2 V-46 Q24 -40 30 -26"/></g></g></g>`+
+    `<path class="bz-line bzo on-sweat" d="M286 470 Q298 458 310 470 Q322 482 334 470 Q346 458 358 470"/><path class="bz-drop bzo on-sweat" d="M436 226 Q452 256 436 266 Q420 256 436 226 Z"/><g class="bzo on-love"><path class="bz-heart" transform="translate(270 338) scale(1.9)" d="M0 14 C-34 -14 -22 -38 0 -20 C22 -38 34 -14 0 14 Z"/><path class="bz-heart" transform="translate(370 338) scale(1.9)" d="M0 14 C-34 -14 -22 -38 0 -20 C22 -38 34 -14 0 14 Z"/></g><g class="bzo on-love bz-fhs"><path class="bz-heart bz-fh" transform="translate(196 230) scale(.6)" d="M0 14 C-34 -14 -22 -38 0 -20 C22 -38 34 -14 0 14 Z"/><path class="bz-heart bz-fh" transform="translate(448 214) scale(.7)" d="M0 14 C-34 -14 -22 -38 0 -20 C22 -38 34 -14 0 14 Z"/></g><g class="bzo on-dizzy"><path class="bz-line bz-spiral" d="M270 332 m-4 0 a4 4 0 1 1 8 0 a9 9 0 1 1 -18 0 a14 14 0 1 1 28 0 a19 19 0 1 1 -38 0"/><path class="bz-line bz-spiral" d="M370 332 m-4 0 a4 4 0 1 1 8 0 a9 9 0 1 1 -18 0 a14 14 0 1 1 28 0 a19 19 0 1 1 -38 0"/></g><g class="bzo on-dizzy bz-stars"><path class="bz-star" d="M220 150 l8 16 18 3 -13 12 3 18 -16 -9 -16 9 3 -18 -13 -12 18 -3 Z"/><path class="bz-star" d="M320 118 l8 16 18 3 -13 12 3 18 -16 -9 -16 9 3 -18 -13 -12 18 -3 Z"/><path class="bz-star" d="M420 150 l8 16 18 3 -13 12 3 18 -16 -9 -16 9 3 -18 -13 -12 18 -3 Z"/></g><g class="bzo on-hum bz-notes"><g transform="translate(372 452)"><path class="bz-nt" d="M-12 0 a12 9 -20 1 0 24 0 a12 9 -20 1 0 -24 0 M10 -2 V-46 Q24 -40 30 -26"/></g><g transform="translate(352 452)"><path class="bz-nt" d="M-12 0 a12 9 -20 1 0 24 0 a12 9 -20 1 0 -24 0 M10 -2 V-46 Q24 -40 30 -26"/></g></g></g>`+
     `<g class="bzo on-calm on-bored">${hand(510,418,482)}</g><g class="bzo on-angry bz-h2">${hand(130,182,286)}${hand(510,458,286)}</g>`+
-    `<g class="bzo on-joy bz-h3">${hand(130,150,205)}${hand(510,490,205)}</g><g class="bzo on-shock bz-h4">${hand(130,214,432)}${hand(510,426,432)}</g></g></svg>`;}
+    `<g class="bzo on-joy bz-h3">${hand(130,150,205)}${hand(510,490,205)}</g><g class="bzo on-palm bz-h5">${hand(510,320,318)}</g><g class="bzo on-shock bz-h4">${hand(130,214,432)}${hand(510,426,432)}</g></g></svg>`;}
 // bezczynność: po chwili kibic nuci albo się nudzi (na zmianę)
 let SZ_IDLE=null,SZ_IDN=0;
 function szIdle(b){clearTimeout(SZ_IDLE);SZ_IDLE=setTimeout(()=>{if(CUR!=="szg"||b.hidden||b.dataset.m!=="calm") return;b.dataset.m=SZ_IDN++%2?"bored":"hum";
   SZ_IDLE=setTimeout(()=>{if(b.dataset.m==="hum"||b.dataset.m==="bored"){b.dataset.m="calm";szIdle(b);}},5500);},9000);}
-function szFace(mood,cat,who){const f=$("szg-face"),b=$("szg-bust");if(!f) return;const d2=!(SZ&&SZ.d3);
+let SZ_FLOCK=0; // do tej chwili trwa reakcja (płacz, złość…) – „myślę” i „spokój” jej nie przerywają
+function szFace(mood,cat,who,force){const f=$("szg-face"),b=$("szg-bust");if(!f) return;const d2=!(SZ&&SZ.d3);
+  if(!force&&!cat&&(!mood||mood==="idle"||mood==="think")&&Date.now()<SZ_FLOCK) return;if(cat||mood&&mood!=="idle"&&mood!=="think") SZ_FLOCK=Date.now()+2800;
   f.hidden=!PREFS.szEmo||d2;b.hidden=!PREFS.szEmo||!d2;if(!PREFS.szEmo) return;mood=mood||"idle";
   if(d2){who=who||PREFS.szWho;if(b.dataset.who!==who){b.innerHTML=szBustSvg(who);b.dataset.who=who;}const m=SZ_BUST[cat]||SZ_BUST[mood]||"calm";
     b.dataset.m=Array.isArray(m)?szPick(m):m;if(b.dataset.m==="calm") szIdle(b);else clearTimeout(SZ_IDLE);}
   else{if(!SZ_EMO_PRE){SZ_EMO_PRE=true;Object.values(SZ_EMO).flat().forEach(c=>{new Image().src=szEmoUrl(c);});}
   f.onerror=()=>{f.hidden=true;};f.src=szEmoUrl(szPick(SZ_EMO[mood]));
   f.classList.remove("pop");void f.offsetWidth;if(mood!=="idle") f.classList.add("pop");}
-  clearTimeout(SZ_FT);if(mood!=="idle"&&mood!=="think"||SZ_BUST[cat]) SZ_FT=setTimeout(()=>szFace("idle"),3200);}
+  clearTimeout(SZ_FT);if(mood!=="idle"&&mood!=="think"||SZ_BUST[cat]) SZ_FT=setTimeout(()=>szFace("idle",null,null,true),3200);}
 // reakcja na ruch (obiekt ruchu chess.js): mat > zbicie > promocja > szach > roszada; kategorie z „By” = ruch komputera/przeciwnika
 function szReact(m,g,box){
   if(!(PREFS.szTalk||PREFS.szVoice||PREFS.szEmo)||!m) return;g=g||SZ.g;const say=c=>szSay(c,null,box);

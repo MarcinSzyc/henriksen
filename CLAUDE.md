@@ -96,7 +96,10 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `SZ_BUST[kategoria kwestii]` → mina (lista = losowo), `szSay` przekazuje kategorię i komentatora do `szFace(mina,kat,kto)`; po 3,2 s wraca calm,
   a po 9 s bez ruchu `szIdle` na zmianę nuci albo się nudzi. Kibic stoi po lewej, a dymek `#szg-talk` (klasa `bz-say`, `top` = `offsetTop` kibica) wychodzi od niego w prawo, więc nie zasłania `#szg-info`. Przełącznik `PREFS.szEmo` („Kibic u góry”). W 3D zostaje
   miniatura u góry ekranu gry (`#szg-face`, `szFace(mina)`): animowane emoji Noto (Google, CC BY 4.0, WebP z fonts.gstatic.com, `SZ_EMO`):
-  zwykle 😎, komputer myśli 🤔, `SZ_MOOD[kategoria]`: dziecko zbija 😭, komputer zbija/wygrywa 🥳😜💃, szach od dziecka 😱, promocja 🤩; po 3 s wraca.
+  zwykle 😎, komputer myśli 🤔🧐, `SZ_MOOD[kategoria]`: dziecko zbija 😭😢🥺😩, komputer zbija/wygrywa 🥳😜💃😂😆, szach od dziecka 😱😨😰, promocja 🤩😍; po 3 s wraca.
+  W 2D zamiast emoji popiersie komentatora (`szBustSvg`, `#szg-bust[data-m]`, mina z `SZ_BUST[kategoria]`): calm, hum, bored (bezczynność), angry, cry, joy, laugh,
+  shock, nod oraz palm (dłoń na twarzy), sweat (kropla potu), love (serca w oczach), dizzy (spirale i gwiazdki). `SZ_FLOCK`: przez 2,8 s po reakcji
+  „myślę” i „spokój” komputera jej nie przerywają (wcześniej płacz po biciu znikał, gdy komputer zaczynał myśleć).
   Figury „Klocki” (`set:"mc"`, `szMcPiece`): płaskie głowy w stylu Minecrafta (`szCube`: twarz 8×8 z `MC_HEAD` na całe pole, kolory `MC_PAL`;
   białe: Steve, Alex, golem, wieśniak, koń, kurczak; czarne: szkielet Withera, Enderman, zombie, wiedźma, pająk, Creeper) z plakietką figury (`SZ_MCP`)
   w rogu; TNT przy zbiciu też płaskie.
