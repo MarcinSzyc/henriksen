@@ -115,7 +115,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   znikają po ok. 4 s; zbicie `SZ_CAP.robale` = rozgniecenie + plama glutów.
   Figury „Kosmos” (`set:"space"`, `szSpacePiece`, SVG, kolory drużyn `SZ_SPC`): król = Słońce, hetman = planeta z pierścieniem, wieża = rakieta,
   goniec = kometa, skoczek = UFO, pion = gwiazdka; plakietka z białą figurą cburnett na jasnym/ciemnym kółku. Komentuje zawsze wybrany komentator (`PREFS.szWho`, dotknięcie awatara na ekranie Wygląd).
-  Koniec partii (`szWhy`): dlaczego przegrana (mat – kto szachuje, poddanie) albo remis (pat, powtórzenie, za mało figur, 50 ruchów)
+  Koniec partii: `szGameEnd(res)` najpierw czeka, aż ostatni ruch dojedzie (`SZ_FXEND`, min. 420 ms w 2D), potem ok. 1,6 s (wygrana 0,9 s, w 3D przewrócony król
+  i 2,2 s) i dopiero pokazuje kartę; `szGameEnd(res,true)` = od razu (poddanie). Wyjaśnienie (`szWhy`): dlaczego przegrana (mat – kto szachuje, poddanie) albo remis (pat, powtórzenie, za mało figur, 50 ruchów)
   i największy błąd z partii (`szBlunder`: spadek oceny ≥ 200 po ruchu dziecka, odpowiedź przeciwnika – bicie albo mat – i lepszy ruch;
   liczony w tle po kawałkach ok. 12 ms – karta końca pokazuje się od razu, akapit `#sz-blunder` i przycisk „Pokaż błąd” `#sz-whyerr` dochodzą po analizie).
   Na górze karty duży napis PRZEGRANA / PAT / REMIS (`SZ.why.big`). Mała plansza „Ostatnie 2 ruchy” (`SZ.why.rp`, `szRpShow(k,anim)`,

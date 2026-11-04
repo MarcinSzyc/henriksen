@@ -5817,10 +5817,13 @@ function szGameAfter(byPc){
   if(!byPc) return szThink();
   szInfo(g.inCheck()?"Szach! Broń króla.":"Twój ruch.");
 }
-function szGameEnd(res){
+function szGameEnd(res,now){
   const L=SZ_OPP[SZ.opp],g=SZ.g;SZ.over=true;SZ.busy=false;
-  if(SZ.d3&&!SZ.shown){SZ.shown=true;const w=Math.max(0,SZ_FXEND-Date.now()); // najpierw figura musi dojechać
-    setTimeout(()=>{if(g.isCheckmate()) S3.topple(szKing(g.turn()));if(res==="w") S3.fireworks(3);},w);setTimeout(()=>szGameEnd(res),w+(res==="w"?4200:1800));return;}
+  // najpierw ostatni ruch musi dojechać (i efekt zbicia się skończyć), potem chwila na zobaczenie mata/pata, dopiero wtedy karta końca
+  if(!now&&!SZ.shown){SZ.shown=true;const me=SZ,w=Math.max(SZ.d3?0:420,SZ_FXEND-Date.now()),go2=()=>{if(SZ===me&&CUR==="szg") szGameEnd(res,true);};
+    if(SZ.d3){setTimeout(()=>{if(g.isCheckmate()) S3.topple(szKing(g.turn()));if(res==="w") S3.fireworks(3);},w);setTimeout(go2,w+(res==="w"?4200:2200));}
+    else setTimeout(go2,w+(res==="w"?900:1600));
+    szInfo(res==="w"?"Mat! Wygrywasz!":res==="l"?(g.isCheckmate()?"Mat… Spójrz na planszę.":"Koniec partii."):"Remis!");return;}
   const why=res==="d"?(g.isStalemate()?"Pat – remis.":g.isThreefoldRepetition()?"Trzy razy ta sama pozycja – remis.":g.isInsufficientMaterial()?"Za mało figur do mata – remis.":"Remis."):"";
   const E0=szElo(loadOwnHist());
   szArchive({id:SZ.id,start:SZ.start,cfg:SZ.cfg,recs:[{t:"gra:"+L.id,c:res,ok:res==="w",tries:[],w:L.pts,done:true,...(SZ.as?{as:1}:{})}],pct:res==="w"?100:res==="d"?50:0},"done");
@@ -5939,7 +5942,7 @@ $("szg-ctl").addEventListener("click",async e=>{const b=e.target.closest("[data-
     else{const m=szBest(g,{depth:2,rand:0,noise:0,mate1:true});if(m){SZ.hint=[m.from,m.to];SZ.hints++;szInfo(SZ.as?"Spróbuj tego ruchu.":"Spróbuj tego ruchu. Z podpowiedzią partia jest towarzyska – bez zmiany rankingu.");SZ.as=true;}}szDraw();}
   if(c==="show"&&SZ.kind==="puzzle"){const r=SZ.recs[SZ.i];r.ok=false;SZ.busy=true;szDots();szInfo("Rozwiązanie:");
     const step=()=>{if(SZ.k>=SZ.sol.length){SZ.busy=false;return szPuzzleSolved();}const m=g.move(szUci(SZ.sol[SZ.k]));SZ.k++;SZ.last=[m.from,m.to];szDraw();setTimeout(step,800);};step();}
-  if(c==="resign"&&await askYes("Poddać się?","Partia zapisze się jako przegrana.","Poddaj się","Graj dalej")) szGameEnd("l");
+  if(c==="resign"&&await askYes("Poddać się?","Partia zapisze się jako przegrana.","Poddaj się","Graj dalej")) szGameEnd("l",true);
 });
 $("szg-end").addEventListener("click",e=>{const r=e.target.closest("[data-rp]");if(r&&SZ){clearTimeout(SZ.rpT);return szRpShow((SZ.rpk||0)+ +r.dataset.rp,+r.dataset.rp>0);}
   const b=e.target.closest("[data-a]");if(!b||!SZ) return;const a=b.dataset.a;
