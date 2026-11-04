@@ -28,6 +28,7 @@
 ## Głosy komentatorów (`chess/voices/`, nagrywane `tools/sz_voices.sh`)
 - Piper (rhasspy/piper-voices), polskie głosy `bass`, `darkman`, `gosia` – zbiory danych CC0.
 - Kazek (`chess/voices/kazek/`): nagrania z ElevenLabs (głos „Marek – Conversational”) przygotowane przez właściciela aplikacji; skrypt ich nie nadpisuje.
+- Janusz (`chess/voices/janusz/`): nagrania z ElevenLabs (głos „Alex – Warm Storyteller”), jeden plik pocięty na kwestie; skrypt ich nie nadpisuje.
 
 ## Miniatura komentatora (emoji)
 - Noto Animated Emoji, Google (googlefonts.github.io/noto-emoji-animation), CC BY 4.0 – wczytywane z fonts.gstatic.com.
