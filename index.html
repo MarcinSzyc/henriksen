@@ -774,9 +774,12 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .sz-face{width:58px;height:58px;flex:none;object-fit:contain}.sz-face.pop{animation:szpop .35s cubic-bezier(.3,1.6,.5,1)}
 @keyframes szpop{from{transform:scale(.5);opacity:.3}}
 .sz-talk-top{left:68px}.sz-talk-top img{display:none}
-/* Kibic nad planszą 2D (zamiast emoji): popiersie wybranego komentatora (szBustSvg), data-m = mina, animacje w CSS */
-.sz-bust{width:140px;margin:-4px auto -18px;position:relative;pointer-events:none}
-.sz-bust svg{display:block;width:100%;height:auto;overflow:visible}#szb{z-index:1}
+/* Kibic nad planszą 2D (zamiast emoji): całe popiersie wybranego komentatora nad planszą (dół ucięty clip-path), data-m = mina, animacje w CSS */
+.sz-bust{width:140px;margin:-4px 0 6px 18px;position:relative;pointer-events:none}
+/* dymek wychodzi od kibica (po prawej od niego), nie zasłania „Twój ruch” */
+.sz-talk.bz-say{left:164px;right:0;padding:8px 12px}.sz-talk.bz-say::before,.sz-talk.bz-say::after{content:"";position:absolute;top:22px;border:11px solid transparent}
+.sz-talk.bz-say::before{left:-24px;border-right-color:var(--line)}.sz-talk.bz-say::after{left:-20px;border-right-color:var(--card)}
+.sz-bust svg{display:block;width:100%;height:auto;overflow:visible;clip-path:inset(-300px -300px 0 -300px)}#szb{z-index:1}
 .sz-bust *{transform-box:fill-box;transform-origin:center}.sz-bust .bz-all{transform-box:view-box;transform-origin:320px 620px}.sz-bust .bz-head{transform-box:view-box;transform-origin:320px 500px}
 .bz-skin{fill:var(--sk)}.bz-skd{fill:var(--skd)}.bz-cl{fill:var(--cl)}.bz-cl2{fill:var(--cl2)}.bz-in{fill:var(--in)}.bz-hr{fill:var(--hr)}.bz-hr circle{fill:var(--hr)}.bz-st{fill:var(--st)}.bz-bow{fill:#F28C28}
 .bz-flush{fill:#E8553A;opacity:0}.bz-shine{fill:#fff;opacity:.45}.bz-cheek{fill:#E8603F;opacity:.28}.bz-nose{fill:var(--skd)}.bz-mouth,.bz-pup{fill:#2A1A1A}.bz-teeth,.bz-white{fill:#fff}.bz-tongue{fill:#F0707A}.bz-lid{fill:var(--skd)}
@@ -833,7 +836,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .sz-bust[data-m=joy] .bz-pn{animation:bzpn .55s infinite}.sz-bust[data-m=joy] .bz-h3 g{animation:bzin .35s cubic-bezier(.3,1.6,.5,1) both,bzpump .28s .35s ease-in-out infinite alternate}.sz-bust[data-m=joy] .bz-h3 g+g{animation-delay:0s,.49s}
 @keyframes bzhop{0%,100%{transform:scale(1.03,.96)}45%{transform:translateY(-22px) scale(.98,1.03)}}
 @keyframes bzrock{from{transform:rotate(-4deg)}to{transform:rotate(4deg)}}
-@keyframes bzpump{to{transform:translateY(-18px)}}
+@keyframes bzpump{to{transform:translateY(-10px)}}
 /* przerażenie: ręce na policzkach, oczy jak spodki */
 .sz-bust[data-m=shock] .bz-all{transform:scale(.98,.95)}.sz-bust[data-m=shock] .bz-head{animation:bztrem .12s linear infinite alternate}
 .sz-bust[data-m=shock] .bz-pup{transform:scale(.6)}.sz-bust[data-m=shock] .bz-bl,.sz-bust[data-m=shock] .bz-br{transform:translateY(-18px)}.sz-bust[data-m=shock] .m-o{transform:scale(1.3,1.7)}
@@ -5442,7 +5445,7 @@ function szSay(cat,who,box){
   if(!PREFS.szTalk&&!PREFS.szVoice&&!(PREFS.szEmo&&!box)) return;who=who||SZ_TALKERS.find(x=>x.id===PREFS.szWho)||SZ_TALKERS[0];
   const W=SZ_LINES[who.id],c=W[cat]?cat:"cap",n=Math.floor(Math.random()*W[c].length),text=W[c][n];
   const t=box||$("szg-talk");t.innerHTML=`<img src="chess/avatars/${who.id}.svg" alt=""><div><b>${who.name}</b><span>${text}</span></div>`;
-  if(PREFS.szTalk){t.hidden=false;t.style.animation="none";void t.offsetWidth;t.style.animation="";clearTimeout(SZ_TL);SZ_TL=setTimeout(()=>{t.hidden=true;},2600);}szClip(szVoice(who.id,`${c}-${n}`));if(!box) szFace(SZ_MOOD[c]||"idle",c,who.id);}
+  if(PREFS.szTalk){t.hidden=false;t.style.animation="none";void t.offsetWidth;t.style.animation="";clearTimeout(SZ_TL);SZ_TL=setTimeout(()=>{t.hidden=true;},2600);}szClip(szVoice(who.id,`${c}-${n}`));if(!box){szFace(SZ_MOOD[c]||"idle",c,who.id);const bu=$("szg-bust"),on=!bu.hidden;t.classList.toggle("bz-say",on);t.style.top=on?bu.offsetTop+14+"px":"";}}
 // mina u góry ekranu: dziecko zbija = płacz, komputer zbija albo wygrywa = radość, szach od dziecka = przerażenie, promocja = zachwyt
 const SZ_MOOD={cap:"sad",p:"sad",q:"sad",n:"sad",r:"sad",b:"sad",mateW:"sad",capBy:"happy",checkBy:"happy",promoBy:"happy",castleBy:"happy",mateL:"happy",check:"shock",promo:"wow"};
 // animowane emoji Noto (WebP z fonts.gstatic.com – service worker zapisuje je jak czcionki)
@@ -5496,7 +5499,7 @@ function szBustSvg(id){const L=SZ_LOOK[id]||SZ_LOOK.janusz;
     `<g class="bzo on-cry bz-tears">${[-50,-80,-30,50,80,30].map((d,i)=>`<circle cx="${i<3?262:378}" cy="344" r="10" style="--dx:${d}px"/>`).join("")}</g>`+
     `<g class="bzo on-hum bz-notes"><g transform="translate(372 452)"><path class="bz-nt" d="M-12 0 a12 9 -20 1 0 24 0 a12 9 -20 1 0 -24 0 M10 -2 V-46 Q24 -40 30 -26"/></g><g transform="translate(352 452)"><path class="bz-nt" d="M-12 0 a12 9 -20 1 0 24 0 a12 9 -20 1 0 -24 0 M10 -2 V-46 Q24 -40 30 -26"/></g></g></g>`+
     `<g class="bzo on-calm on-bored">${hand(510,418,482)}</g><g class="bzo on-angry bz-h2">${hand(130,182,286)}${hand(510,458,286)}</g>`+
-    `<g class="bzo on-joy bz-h3">${hand(130,150,150)}${hand(510,490,150)}</g><g class="bzo on-shock bz-h4">${hand(130,214,432)}${hand(510,426,432)}</g></g></svg>`;}
+    `<g class="bzo on-joy bz-h3">${hand(130,150,205)}${hand(510,490,205)}</g><g class="bzo on-shock bz-h4">${hand(130,214,432)}${hand(510,426,432)}</g></g></svg>`;}
 // bezczynność: po chwili kibic nuci albo się nudzi (na zmianę)
 let SZ_IDLE=null,SZ_IDN=0;
 function szIdle(b){clearTimeout(SZ_IDLE);SZ_IDLE=setTimeout(()=>{if(CUR!=="szg"||b.hidden||b.dataset.m!=="calm") return;b.dataset.m=SZ_IDN++%2?"bored":"hum";
