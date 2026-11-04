@@ -7,6 +7,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CACHE = os.path.expanduser("~/.cache/henriksen-piper")
 HF = "https://huggingface.co/rhasspy/piper-voices/resolve/main/pl/pl_PL"
 # kto: (głos, kolejne zapasowe głosy, tempo: >1 wolniej, <1 szybciej)
+# Kazek ma własne nagrania (ElevenLabs) – skrypt go pomija
 WHO = {"zbyszek": (["bass", "mc_speech"], 1.08), "janusz": (["darkman", "mc_speech"], 0.9), "grazyna": (["gosia"], 1.0)}
 
 def model(names):
