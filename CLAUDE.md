@@ -65,8 +65,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   zapis `szLimit` + `szRules` do wiersza `settings` dziecka, oba w `PARENT_KEYS`). Przełączniki: limit (wyłączony = 0, ostatnia liczba w
   `szRules.limPrev`) i wyjątki (`daysOn`; `days` = daty `rrrr-mm-dd` → partie, −1 = bez limitu, zostają po wyłączeniu). `extra` / `gate` = pakiet z biblioteki rodzica
   (`szrPacks` z `LIB().pk`, kopiowany: `{pk:{id,name,ex:[{id,name,spec,pts}]}, name, g}`, `g` = wymagana ocena, wspólna dla obu): liczą się dzisiejsze
-  pełne przejścia pakietu (`szPkState`: sesje z `cfg.goal` = "szx"/"szgate" i `cfg.gx` = id ćwiczenia, ocena ≥ g); extra = `extra.n` partii za przejście (1/2/3/5, domyślnie 1),
-  najwyżej `extra.max` dodatkowych dziennie (0 = bez ograniczenia; `szBonus()`), gate = szachy otwarte po pierwszym. Dziecko widzi listę ćwiczeń z ✓ (`szRuleList`, `[data-szrun]` → `exRun`) na karcie blokady `[data-szgate]`
+  pełne przejścia pakietu (`szPkState`: sesje z `cfg.goal` = "szx"/"szgate" i `cfg.gx` = id ćwiczenia, ocena ≥ g); extra = `extra.n` partii za przejście (suwak 1–10, domyślnie 1),
+  najwyżej `extra.max` dodatkowych dziennie (suwak 0–20, 0 = bez ograniczenia; `szBonus()`, suwaki `szrRange`), gate = szachy otwarte po pierwszym. Dziecko widzi listę ćwiczeń z ✓ (`szRuleList`, `[data-szrun]` → `exRun`) na karcie blokady `[data-szgate]`
   i w karcie limitu. Starsze zapisy (`goal` = cel dziecka, `spec` = jedno ćwiczenie) nadal działają (`szRuleOk`, `szRuleDone`).
   `szLimitToday()`, `szLeft()`, `szGateOk()`; `szGame`/`szLesson`/`szPuzzles` i `szGuard` pilnują blokady.
   Plakietki nad piłkarzami: `PREFS.szBadges`, przycisk ♟ w `#sz3-view` (tylko skórka piłkarze), `S3.setBadges`.

@@ -796,6 +796,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 #szo-lim small{display:block;margin-top:4px;color:var(--muted);font-weight:800}#szo-lim .go-btn,.sz-gate .go-btn{margin-top:10px;width:100%;font-size:1rem;min-height:52px}
 .szr-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.szr-in{font:inherit;font-weight:700;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--fg);flex:1;min-width:0}
 select.szr-in,input.szr-in{width:100%;box-sizing:border-box}
+.szr-rg{display:flex;align-items:center;gap:12px;padding:4px 2px}.szr-rg input{flex:1;min-width:0;height:36px;accent-color:var(--accent)}.szr-rg b{min-width:5.2em;text-align:right;font-size:1.05rem}
 #szr-body{display:flex;flex-direction:column;gap:12px}#szr-body .lbl{margin:10px 0 -4px}#szr-body .lbl:first-child{margin-top:0}
 #szr-body .abnote{margin:-4px 4px 0}#szr-body .szr-days:empty{display:none}#szr-body .szr-days{margin-top:0}
 .szr-days{display:flex;flex-direction:column;gap:6px;margin-top:8px}.szr-day{display:flex;align-items:center;gap:10px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 12px;font-weight:800}
@@ -5871,7 +5872,11 @@ const szrPkName=p=>`${p.name} · ${p.exs.length} ${p.exs.length===1?"ćwiczenie"
 function szrSel(id,cur){const C=szrPacks(),cid=cur&&cur.pk?cur.pk.id:null;
   return `<select class="szr-in" id="${id}"><option value="">— brak —</option>${C.map(p=>`<option value="${esc(p.id)}"${cid===p.id?" selected":""}>${esc(szrPkName(p))}</option>`).join("")}`+
     `${cur&&!(cid&&C.some(p=>p.id===cid))?`<option value="__keep" selected>${esc(cur.name)}${cur.pk?"":" (stare ustawienie)"}</option>`:""}</select>`;}
-const SZR_G=[[0,"Dowolna"],[3,"3"],[4,"4"],[5,"5"],[6,"6"]],SZR_XN=[[1,"1"],[2,"2"],[3,"3"],[5,"5"]],SZR_XM=[[0,"Bez limitu"],[1,"1"],[2,"2"],[3,"3"],[5,"5"],[10,"10"]];
+const SZR_G=[[0,"Dowolna"],[3,"3"],[4,"4"],[5,"5"],[6,"6"]];
+// suwaki dodatkowych partii: za jedno przejście 1–10, najwięcej dziennie 0–20 (0 = bez limitu)
+const szrXV=(id,v)=>id==="szr-xm"&&!v?"Bez limitu":`${v} ${partii(v)}`;
+const szrRange=(id,min,max,v,lab)=>`<div class="szr-rg"><input type="range" id="${id}" min="${min}" max="${max}" step="1" value="${v}" aria-label="${lab}"><b id="${id}-v">${szrXV(id,v)}</b></div>`;
+const szrXNote=()=>`Każde dzisiejsze przejście pakietu (wszystkie ćwiczenia) = ${SZR.extra&&SZR.xn>1?`${SZR.xn} ${partii(SZR.xn)}`:"jedna partia"} więcej${SZR.extra&&SZR.xm?`, ale najwyżej ${SZR.xm} ${partii(SZR.xm)} ponad limit dziennie`:""}. Działa, gdy jest limit.`;
 async function renderSzRules(){
   const body=$("szr-body"),msg=$("szr-msg");msg.textContent="";$("szr-save").hidden=true;
   if(!(ME&&ME.role==="parent")){body.innerHTML='<p class="abnote">Ten widok jest dla rodzica.</p>';$("szr-kids").innerHTML="";return;}
@@ -5895,9 +5900,9 @@ async function renderSzRules(){
     ${seg("szr-dn",SZR_D,SZR.dn)}<button type="button" class="again" id="szr-add" style="width:100%">＋ Dodaj wyjątek</button><div class="szr-days">${days}</div>`:""}
     ${szrPacks().length?"":`<p class="abnote">Nie masz jeszcze pakietów. Zapisz ćwiczenia („Dodaj do zapisanych celów” w grze) i złóż z nich pakiet w „Cele dla dziecka › Pakiety”.</p><button type="button" class="again" id="szr-goals" style="width:100%">📦 Pakiety ćwiczeń</button>`}
     <div class="lbl">Każda partia ponad limit wymaga pakietu</div>${szrSel("szr-extra",SZR.extra)}
-    ${SZR.extra?`<div class="lbl">Partii za jedno przejście pakietu</div>${seg("szr-xn",SZR_XN,SZR.xn||1)}
-    <div class="lbl">Najwięcej dodatkowych partii dziennie</div>${seg("szr-xm",SZR_XM,SZR.xm||0)}`:""}
-    <p class="abnote">Każde dzisiejsze przejście pakietu (wszystkie ćwiczenia) = ${SZR.extra&&SZR.xn>1?`${SZR.xn} ${partii(SZR.xn)}`:"jedna partia"} więcej${SZR.extra&&SZR.xm?`, ale najwyżej ${SZR.xm} ${partii(SZR.xm)} ponad limit dziennie`:""}. Działa, gdy jest limit.</p>
+    ${SZR.extra?`<div class="lbl">Partii za jedno przejście pakietu</div>${szrRange("szr-xn",1,10,SZR.xn||1,"Partii za jedno przejście pakietu")}
+    <div class="lbl">Najwięcej dodatkowych partii dziennie</div>${szrRange("szr-xm",0,20,SZR.xm||0,"Najwięcej dodatkowych partii dziennie")}`:""}
+    <p class="abnote" id="szr-xnote">${szrXNote()}</p>
     <div class="lbl">Szachy otwierają się dopiero po pakiecie</div>${szrSel("szr-gate",SZR.gate)}
     <p class="abnote">Codziennie najpierw ten pakiet – dopiero potem samouczek, zadania i gra.</p>
     ${SZR.extra||SZR.gate?`<div class="lbl">Ocena w ćwiczeniach co najmniej</div>${seg("szr-g",SZR_G,SZR.g||0)}<p class="abnote">Ćwiczenie z niższą oceną trzeba powtórzyć.</p>`:""}`;
@@ -5909,12 +5914,13 @@ $("szr-body").addEventListener("click",e=>{
   if(e.target.closest("#szr-lon")){SZR.limit=SZR.limit>0?0:SZR.limPrev||2;return renderSzRules();}
   if(e.target.closest("#szr-don")){SZR.daysOn=!SZR.daysOn;return renderSzRules();}
   if(e.target.closest("#szr-goals")){PT={kid:SZR.kid,tasks:null,hist:null};PTT="pk";return go("ptask");}
-  const xn=e.target.closest("#szr-xn [data-n]");if(xn){SZR.xn=+xn.dataset.n;return renderSzRules();}
-  const xm=e.target.closest("#szr-xm [data-n]");if(xm){SZR.xm=+xm.dataset.n;return renderSzRules();}
   const gg=e.target.closest("#szr-g [data-n]");if(gg){SZR.g=+gg.dataset.n;return renderSzRules();}
   const n=e.target.closest("#szr-dn [data-n]");if(n){SZR.dn=+n.dataset.n;SZR.dd=$("szr-date").value;return renderSzRules();}
   if(e.target.closest("#szr-add")){const d=$("szr-date").value;if(!d) return;SZR.days[d]=SZR.dn;SZR.dd=d;return renderSzRules();}
   const del=e.target.closest("[data-del]");if(del){delete SZR.days[del.dataset.del];renderSzRules();}});
+// suwak: tylko podpis i opis, bez przerysowania (inaczej przerywa przeciąganie)
+$("szr-body").addEventListener("input",e=>{const id=e.target.id;if(id!=="szr-xn"&&id!=="szr-xm") return;const v=+e.target.value;
+  if(id==="szr-xn") SZR.xn=v;else SZR.xm=v;$(id+"-v").textContent=szrXV(id,v);$("szr-xnote").textContent=szrXNote();});
 $("szr-body").addEventListener("change",e=>{const pick=id=>{const v=$(id).value,k=id==="szr-extra"?"extra":"gate";if(v==="__keep") return SZR[k];
     const p=v&&szrPacks().find(q=>q.id===v);return p?{pk:{id:p.id,name:p.name,ex:p.exs.map(x=>({id:x.id,name:x.name,spec:x.spec,pts:x.pts}))},name:szrPkName(p)}:null;};
   if(e.target.id==="szr-extra"){SZR.extra=pick("szr-extra");return renderSzRules();}if(e.target.id==="szr-gate"){SZR.gate=pick("szr-gate");return renderSzRules();}if(e.target.id==="szr-date") SZR.dd=e.target.value;});
