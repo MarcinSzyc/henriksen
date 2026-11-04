@@ -111,7 +111,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   Figury „Kosmos” (`set:"space"`, `szSpacePiece`, SVG, kolory drużyn `SZ_SPC`): król = Słońce, hetman = planeta z pierścieniem, wieża = rakieta,
   goniec = kometa, skoczek = UFO, pion = gwiazdka; plakietka z białą figurą cburnett na jasnym/ciemnym kółku. Komentuje zawsze wybrany komentator (`PREFS.szWho`, dotknięcie awatara na ekranie Wygląd).
   Koniec partii (`szWhy`): dlaczego przegrana (mat – kto szachuje, poddanie) albo remis (pat, powtórzenie, za mało figur, 50 ruchów)
-  i największy błąd z partii (`szBlunder`: spadek oceny ≥ 200 po ruchu dziecka, odpowiedź przeciwnika – bicie albo mat – i lepszy ruch).
+  i największy błąd z partii (`szBlunder`: spadek oceny ≥ 200 po ruchu dziecka, odpowiedź przeciwnika – bicie albo mat – i lepszy ruch;
+  liczony w tle po kawałkach ok. 12 ms – karta końca pokazuje się od razu, akapit `#sz-blunder` i przycisk „Pokaż błąd” `#sz-whyerr` dochodzą po analizie).
   Na górze karty duży napis PRZEGRANA / PAT / REMIS (`SZ.why.big`). Mała plansza „Ostatnie 2 ruchy” (`SZ.why.rp`, `szRpShow(k,anim)`,
   `szRpPlay` odtwarza sama, ◀ ▶ i suwak `#sz-rpr`; przy ruchu komentarz `szReact(ruch,plansza,dymek)`).
   Przyciski „Pokaż na planszy” / „Pokaż błąd” (`szReview`, krok po kroku `szReviewNext`, `SZ.rv` = prawdziwa partia, „Wróć do wyniku”).

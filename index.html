@@ -5837,10 +5837,12 @@ function szRankUp(R,then){
 
 // dlaczego przegrana albo remis – prostym językiem, plus najważniejszy błąd z partii
 const SZ_GEN={P:"piona",N:"skoczka",B:"gońca",R:"wieży",Q:"hetmana",K:"króla"},SZ_ACC={P:"twojego piona",N:"twojego skoczka",B:"twojego gońca",R:"twoją wieżę",Q:"twojego hetmana",K:"twojego króla"};
-function szBlunder(){
-  const H=SZ.g.history({verbose:true});if(!H.length) return null;const g=new CHESS(H[0].before),me=SZ.me;let worst=null;
+// liczone w tle (co ok. 12 ms oddaje stronę), bo w długiej partii to kilka sekund – wcześniej plansza zamarzała po pacie/remisie
+async function szBlunder(alive){
+  const H=SZ.g.history({verbose:true});if(!H.length) return null;const g=new CHESS(H[0].before),me=SZ.me;let worst=null,t=performance.now();
   const val=d=>-szSearch(g,d,-1e9,1e9); // po ruchu gracza: ocena z jego strony
   for(let k=0;k<H.length;k++){const m=H[k];
+    if(performance.now()-t>12){await new Promise(ok=>setTimeout(ok,0));if(!alive()) return null;t=performance.now();}
     if(m.color===me){const ms=g._moves({legal:true});
       if(ms.length>1){let best=-1e9,bm=null;for(const x of ms){g._makeMove(x);const v=val(1);g._undoMove();if(v>best){best=v;bm=x;}}
         g._makeMove(bm);const b2=val(2);g._undoMove();g.move(m.san);const p2=val(2);
@@ -5863,15 +5865,16 @@ function szWhy(res){
   else if(g.isDrawByFiftyMoves()) L.push(`<b>Dlaczego remis?</b> Przez 50 ruchów nikt nie zbił figury ani nie ruszył pionem. Z przewagą pchaj piony do przodu i spychaj króla przeciwnika na brzeg planszy.`);
   if(!W.txt) W.txt=L.length?L[0].replace(/<[^>]+>/g,""):"Tak wyglądała plansza na końcu partii.";
   const H=g.history({verbose:true}).slice(-2);W.rp=H.length?{f:[H[0].before,...H.map(m=>m.after)],m:H}:null;
-  let b=null;try{b=szBlunder();}catch(e){}W.b=b;
-  if(b) L.push(`<b>Najważniejszy błąd:</b> ${b.n}. ruch – ${SZ_NAME[b.m.piece.toUpperCase()]} ${b.m.from}–${b.m.to}. `+
-    (g.isStalemate()&&b.m.after===g.fen()?"Ten ruch zabrał przeciwnikowi wszystkie ruchy – zamiast wygranej wyszedł pat. ":b.rep&&b.rep.mate?`Przeciwnik mógł od razu dać mata: ${SZ_NAME[b.rep.pc]} ${b.rep.from}–${b.rep.to}. `:b.rep&&b.rep.p?`Przeciwnik mógł wtedy zbić ${SZ_ACC[b.rep.p]} na ${b.rep.to}. `:"Po nim pozycja mocno się pogorszyła. ")+`Lepiej było: ${SZ_NAME[b.bm.p]} ${b.bm.from}–${b.bm.to}${b.bm.mate?" – to był mat!":"."}`);
+  W.b=null;const why=W;szBlunder(()=>SZ&&SZ.why===why).then(b=>{if(!b||!SZ||SZ.why!==why) return;why.b=b; // błąd dopisuje się, gdy analiza skończy
+    const el=$("sz-blunder"),bt=$("sz-whyerr");if(!el) return;el.innerHTML=`<b>Najważniejszy błąd:</b> ${b.n}. ruch – ${SZ_NAME[b.m.piece.toUpperCase()]} ${b.m.from}–${b.m.to}. `+
+    (g.isStalemate()&&b.m.after===g.fen()?"Ten ruch zabrał przeciwnikowi wszystkie ruchy – zamiast wygranej wyszedł pat. ":b.rep&&b.rep.mate?`Przeciwnik mógł od razu dać mata: ${SZ_NAME[b.rep.pc]} ${b.rep.from}–${b.rep.to}. `:b.rep&&b.rep.p?`Przeciwnik mógł wtedy zbić ${SZ_ACC[b.rep.p]} na ${b.rep.to}. `:"Po nim pozycja mocno się pogorszyła. ")+`Lepiej było: ${SZ_NAME[b.bm.p]} ${b.bm.from}–${b.bm.to}${b.bm.mate?" – to był mat!":"."}`;
+    el.hidden=false;if(bt) bt.hidden=false;}).catch(()=>{});
   const big=res==="l"?"PRZEGRANA":g.isStalemate()?"PAT":"REMIS";
   const rp=W.rp?`<div class="sz-rp"><div class="sz-rph">${W.rp.m.length===2?"Ostatnie 2 ruchy":"Ostatni ruch"}</div><div class="szb sz-mini" id="sz-rpb"></div>
     <div class="sz-talk sz-rpt" id="sz-rpt" hidden></div><p class="sz-rpcap" id="sz-rpcap"></p>
     <div class="sz-rpc"><button type="button" class="again" data-rp="-1" aria-label="Poprzedni ruch">◀</button><input type="range" id="sz-rpr" min="0" max="${W.rp.m.length}" value="0" aria-label="Przewiń ruchy"><button type="button" class="again" data-rp="1" aria-label="Następny ruch">▶</button></div></div>`:"";
   SZ.why.big=`<div class="sz-res ${res==="l"?"lost":"draw"}">${big}</div>`;
-  return L.length?`<div class="sz-why">${L.map(x=>`<p>${x}</p>`).join("")}${rp}<div class="btns"><button type="button" class="again" data-a="whyend">👀 Pokaż na planszy</button>${b?`<button type="button" class="again" data-a="whyerr">🔍 Pokaż błąd</button>`:""}</div></div>`:"";
+  return L.length?`<div class="sz-why">${L.map(x=>`<p>${x}</p>`).join("")}<p id="sz-blunder" hidden></p>${rp}<div class="btns"><button type="button" class="again" data-a="whyend">👀 Pokaż na planszy</button><button type="button" class="again" data-a="whyerr" id="sz-whyerr" hidden>🔍 Pokaż błąd</button></div></div>`:"";
 }
 // mała plansza w wyjaśnieniu: klatka k = pozycja po k z ostatnich ruchów; anim = przesuń figury z poprzedniej klatki i skomentuj ruch
 function szRpShow(k,anim){const R=SZ.why&&SZ.why.rp,b=$("sz-rpb");if(!R||!b) return;k=Math.max(0,Math.min(R.m.length,k));
