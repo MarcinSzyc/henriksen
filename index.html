@@ -779,6 +779,8 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 #szo-lim small{display:block;margin-top:4px;color:var(--muted);font-weight:800}#szo-lim .go-btn,.sz-gate .go-btn{margin-top:10px;width:100%;font-size:1rem;min-height:52px}
 .szr-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.szr-in{font:inherit;font-weight:700;padding:10px 12px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--fg);flex:1;min-width:0}
 select.szr-in,input.szr-in{width:100%;box-sizing:border-box}
+#szr-body{display:flex;flex-direction:column;gap:12px}#szr-body .lbl{margin:10px 0 -4px}#szr-body .lbl:first-child{margin-top:0}
+#szr-body .abnote{margin:-4px 4px 0}#szr-body .szr-days:empty{display:none}#szr-body .szr-days{margin-top:0}
 .szr-days{display:flex;flex-direction:column;gap:6px;margin-top:8px}.szr-day{display:flex;align-items:center;gap:10px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 12px;font-weight:800}
 .szr-day span{flex:1}.szr-day button{border:0;background:none;color:var(--muted);font-size:1.1rem;cursor:pointer}
 .szelo{width:100%;border:0;font:inherit;text-align:left;background:linear-gradient(135deg,#495057,#212529);color:#fff;border-radius:22px;padding:14px 16px;margin:0 0 14px;display:flex;align-items:center;gap:14px;cursor:pointer}
@@ -5771,7 +5773,7 @@ async function renderSzRules(){
     return `<div class="szr-day"><span>${dt.toLocaleDateString("pl-PL",{weekday:"short",day:"numeric",month:"numeric"})} – ${n<0?"bez limitu":n===0?"bez gry":n+" "+(n===1?"partia":n<5?"partie":"partii")}</span><button type="button" data-del="${d}" aria-label="Usuń wyjątek">✕</button></div>`;}).join("");
   body.innerHTML=`<div class="lbl">Partie z komputerem dziennie</div>${seg("szr-lim",SZR_N,SZR.limit)}
     <div class="lbl">Wyjątek na konkretny dzień</div><div class="szr-row"><input type="date" class="szr-in" id="szr-date" min="${today}" value="${SZR.dd||today}"></div>
-    ${seg("szr-dn",SZR_D,SZR.dn)}<button type="button" class="again" id="szr-add" style="margin-top:8px;width:100%">＋ Dodaj wyjątek</button><div class="szr-days">${days}</div>
+    ${seg("szr-dn",SZR_D,SZR.dn)}<button type="button" class="again" id="szr-add" style="width:100%">＋ Dodaj wyjątek</button><div class="szr-days">${days}</div>
     <div class="lbl">Każda partia ponad limit wymaga zadania</div>${szrSel("szr-extra",SZR.extra)}
     <p class="abnote">Za każde ukończone zadanie dziecko dostaje jedną partię więcej (tylko gdy jest limit).</p>
     <div class="lbl">Szachy otwierają się dopiero po zadaniu</div>${szrSel("szr-gate",SZR.gate)}
