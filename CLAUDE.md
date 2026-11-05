@@ -82,7 +82,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `szLimitToday()`, `szLeft()`, `szGateOk()`; `szGame`/`szLesson`/`szPuzzles` i `szGuard` pilnują blokady.
   Plakietki nad piłkarzami: `PREFS.szBadges`, przycisk ♟ w `#sz3-view` (tylko skórka piłkarze), `S3.setBadges`.
   `szGuard()` (z `applyMods`, więc też po synchronizacji): gdy rodzic wyłączy szachy albo moduł, w którym dziecko jest (także w trakcie partii),
-  wraca na start albo na ekran Szachy z komunikatem. Telefon dziecka (aplikacja na ekranie) co 60 s pyta tylko o `settings.updated_at`;
+  wraca na start albo na ekran Szachy z komunikatem. Na ekranie Szachy / Szachy 3D `szGuard` rysuje go od nowa (`renderSz`), bo zasady rodzica (blokada, limit) mogą dojść już po jego otwarciu; Ciekawostki zostają otwarte mimo blokady. Telefon dziecka (aplikacja na ekranie) co 60 s pyta tylko o `settings.updated_at`;
   pełna synchronizacja tylko, gdy rodzic coś zmienił. `ligPublish` wysyła podsumowanie tylko, gdy się zmieniło (`LIGSENT`).
   Gra na czas: wybór „Tempo” na ekranie przeciwników (`#szo-tc`, `SZ_TCS`: bez czasu / 10 min / 5 min / 3+2, ostatni wybór w `henriksen-sztc`, `SZTC`),
   `cfg.tc` w sesji; zegar `SZ.ck={w,b,inc,t0}` (ms), `#szg-clock` (`szClockDraw`), czas zużyty i dodatek liczy `szCkMove` w `szGameAfter`, interwał 250 ms

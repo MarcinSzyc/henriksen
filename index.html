@@ -4902,12 +4902,13 @@ const MODS=[
 const MOD_OLD={};MODS.forEach(g=>g.items.forEach(x=>{if(x.nw) MOD_OLD[x.k]=g.items.filter(y=>!y.nw).map(y=>y.k);}));
 const modOn=(k,P=PREFS)=>!(P&&P.mods&&(P.mods[k]===false||P.mods[k]===undefined&&MOD_OLD[k]&&MOD_OLD[k].every(o=>P.mods[o]===false)||k.startsWith("mat-")&&P.mods.mat===false||(k==="his"||k==="nat")&&P.mods.soon===false&&P.mods[k]!==true));
 const subjOn=(sj,P=PREFS)=>MODS.find(g=>g.items[0].k.startsWith(sj+"-")).items.some(x=>modOn(x.k,P));
-// rodzic wyłączył szachy albo moduł, w którym dziecko jest teraz (np. po synchronizacji) – wyjście, także z trwającej partii
+// rodzic wyłączył szachy albo moduł, w którym dziecko jest teraz (np. po synchronizacji) – wyjście, także z trwającej partii;
+// ekran Szachy rysuje się od nowa, bo nowe zasady rodzica (blokada, limit) mogły dojść już po jego otwarciu
 function szGuard(){
-  const CH=["sz","sz3","szl","szz","szo","szw","szg"];if(!CH.includes(CUR)) return;
+  const CH=["sz","sz3","szl","szz","szo","szw","szg","szop","szcf"];if(!CH.includes(CUR)) return;if(CUR==="sz"||CUR==="sz3") renderSz();
   const need=CUR==="szop"?"sz-otwarcia":CUR==="szcf"?"sz-ciekawostki":CUR==="szl"?"sz-nauka":CUR==="szz"?"sz-zadania":CUR==="szo"?"sz-gra":CUR==="sz3"?"sz-3d":
     CUR==="szg"&&SZ?(SZ.kind==="open"?"sz-otwarcia":SZ.kind==="game"||SZ.cfg&&SZ.cfg.mode==="gra"?"sz-gra":SZ.list?"sz-zadania":"sz-nauka"):null;
-  const all=subjOn("sz"),mod=(!need||modOn(need)&&!(CUR==="szg"&&SZ&&SZ.d3&&!modOn("sz-3d")))&&(CUR==="sz"||CUR==="szw"||szGateOk());if(all&&mod) return;
+  const all=subjOn("sz"),mod=(!need||modOn(need)&&!(CUR==="szg"&&SZ&&SZ.d3&&!modOn("sz-3d")))&&(CUR==="sz"||CUR==="szw"||CUR==="szcf"||szGateOk());if(all&&mod) return;
   if(SZ){SZ.over=true;SZ.busy=true;}szHush();
   toast(!all?"Rodzic wyłączył szachy.":szGateOk()?"Rodzic wyłączył tę część szachów.":"Szachy otworzą się po zadaniu od rodzica.");go(all?"sz":"home");}
 function applyMods(){
