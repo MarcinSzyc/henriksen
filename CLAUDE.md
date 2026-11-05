@@ -243,7 +243,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
 - **Co widzi dziecko (`#kidcfg`, kafel rodzica na górze startu):** rodzic włącza i wyłącza moduły dziecka (`MODS`: każdy przedmiot
   ma własną sekcję; Historia `his` i Przyroda `nat` mają przełącznik, choć są „Wkrótce”; „Inne” (`always`, zawsze rozwinięte)
   to tylko paski z dołu startu: `stats`, `cups`, `lig`, `help`;
-  dawne `mods.soon:false` wyłącza obie). Zapis w `PREFS.mods` dziecka (klucz w `PARENT_KEYS`),
+  dawne `mods.soon:false` wyłącza obie). Moduł dodany później ma w `MODS` znacznik `nw`: bez zapisu u dziecka jest wyłączony, gdy rodzic wyłączył wszystkie starsze moduły przedmiotu (`MOD_OLD` w `modOn`) – inaczej nowy kafel „otwierałby” wyłączony przedmiot; włączenie zapisuje `true`. Zapis w `PREFS.mods` dziecka (klucz w `PARENT_KEYS`),
   `applyMods()` ukrywa kafle; przedmiot znika, gdy wszystkie jego moduły są wyłączone. `subj._on` w podsumowaniu lig wyklucza
   dziecko z rankingu przedmiotu, którego nie ma.
 - **Cele od rodzica (`#ptask`, `#zadania`, pasek rodzica „Cele dla dziecka”, zakładki `#pt-tabs` Cele / Pakiety / Ćwiczenia, `PTT`):**

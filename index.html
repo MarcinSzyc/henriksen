@@ -4891,14 +4891,16 @@ const MODS=[
   {g:"Edukacja zdrowotna",items:[{k:"zd-spr",name:"Sprawdzian 29.10",sub:"wszystkie tematy"},{k:"zd-wartosc",name:"Zdrowie jako wartość",sub:"definicja i wymiary zdrowia"},
     {k:"zd-styl",name:"Zdrowy styl życia",sub:"mierniki zdrowia, hartowanie"},{k:"zd-cialo",name:"Moje ciało się zmienia",sub:"dojrzewanie, higiena, żelazo"},
     {k:"zd-zach",name:"Zachowania chroniące i ryzykowne",sub:"środowisko, zdrowe nawyki"}]},
-  {g:"Szachy",items:[{k:"sz-nauka",name:"Samouczek",sub:"ruchy figur, szach, mat, roszada"},{k:"sz-zadania",name:"Zadania",sub:"mat w 1, 2 i 3"},{k:"sz-gra",name:"Graj z komputerem",sub:"przeciwnicy do odblokowania"},{k:"sz-3d",name:"Szachy 3D",sub:"plansza 3D, wybuchy, piłkarze"},{k:"sz-otwarcia",name:"Otwarcia",sub:"znane otwarcia z historią"},{k:"sz-ciekawostki",name:"Ciekawostki",sub:"fakty o szachach"}]},
+  {g:"Szachy",items:[{k:"sz-nauka",name:"Samouczek",sub:"ruchy figur, szach, mat, roszada"},{k:"sz-zadania",name:"Zadania",sub:"mat w 1, 2 i 3"},{k:"sz-gra",name:"Graj z komputerem",sub:"przeciwnicy do odblokowania"},{k:"sz-3d",name:"Szachy 3D",sub:"plansza 3D, wybuchy, piłkarze"},{k:"sz-otwarcia",nw:1,name:"Otwarcia",sub:"znane otwarcia z historią"},{k:"sz-ciekawostki",nw:1,name:"Ciekawostki",sub:"fakty o szachach"}]},
   {g:"Historia",items:[{k:"his",name:"Historia",sub:"kafel „Wkrótce” – daty, bitwy, królowie"}]},
   {g:"Przyroda",items:[{k:"nat",name:"Przyroda",sub:"kafel „Wkrótce” – rośliny, zwierzęta, mapa"}]},
   {g:"Inne",always:true,items:[{k:"stats",name:"Statystyki",sub:"punkty, seria, wyniki"},{k:"cups",name:"Nagrody",sub:"puchary, animacje, filmiki"},
     {k:"lig",name:"Ligi",sub:"ranking z kolegami"},{k:"help",name:"Instrukcje",sub:"konto, PIN, puchary, ligi"}]}
 ];
 // stare ustawienie mods.mat === false (cała matematyka) wyłącza wszystkie jej kafle
-const modOn=(k,P=PREFS)=>!(P&&P.mods&&(P.mods[k]===false||k.startsWith("mat-")&&P.mods.mat===false||(k==="his"||k==="nat")&&P.mods.soon===false&&P.mods[k]!==true));
+// moduł dodany później (nw) bez zapisu u dziecka: wyłączony, gdy rodzic wyłączył wszystkie starsze moduły przedmiotu
+const MOD_OLD={};MODS.forEach(g=>g.items.forEach(x=>{if(x.nw) MOD_OLD[x.k]=g.items.filter(y=>!y.nw).map(y=>y.k);}));
+const modOn=(k,P=PREFS)=>!(P&&P.mods&&(P.mods[k]===false||P.mods[k]===undefined&&MOD_OLD[k]&&MOD_OLD[k].every(o=>P.mods[o]===false)||k.startsWith("mat-")&&P.mods.mat===false||(k==="his"||k==="nat")&&P.mods.soon===false&&P.mods[k]!==true));
 const subjOn=(sj,P=PREFS)=>MODS.find(g=>g.items[0].k.startsWith(sj+"-")).items.some(x=>modOn(x.k,P));
 // rodzic wyłączył szachy albo moduł, w którym dziecko jest teraz (np. po synchronizacji) – wyjście, także z trwającej partii
 function szGuard(){
@@ -4942,11 +4944,11 @@ async function renderKidCfg(){
   const name=(FAMILY.find(p=>p.id===KC.kid)||{}).name||"Dziecko";
   $("kc-save").hidden=false;$("kc-save").textContent=`Zapisz dla: ${name}`;
   // grupa = przełącznik całego kafla (widoczny od razu) + rozwijana lista modułów w środku (gdy jest ich więcej niż jeden)
-  list.innerHTML=MODS.map((g,gi)=>{const n=g.items.filter(x=>KC.mods[x.k]!==false).length,many=g.items.length>1,acc=many&&!g.always,open=many&&(g.always||KC.open.has(gi));
+  list.innerHTML=MODS.map((g,gi)=>{const n=g.items.filter(x=>modOn(x.k,{mods:KC.mods})).length,many=g.items.length>1,acc=many&&!g.always,open=many&&(g.always||KC.open.has(gi));
     const sum=n===g.items.length?(many?"wszystko włączone":"włączone"):n?`włączone: ${n} z ${g.items.length}`:"wyłączone";
     return `<div class="kc-head${n?" on":""}"><button type="button" class="kc-acc" ${acc?`data-g="${gi}" aria-expanded="${open}"`:"disabled"}><span><b>${g.g}</b><small>${sum}</small></span>${acc?'<svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>':""}</button>`+
       `<button type="button" class="kc-master${n?" sel":""}" data-all="${gi}" role="switch" aria-checked="${n>0}" aria-label="${g.g} – cały kafel"><i class="tg" aria-hidden="true"></i></button></div>`+
-      (many?`<div class="grp"${open?"":" hidden"}>`+g.items.map(x=>{const on=KC.mods[x.k]!==false;
+      (many?`<div class="grp"${open?"":" hidden"}>`+g.items.map(x=>{const on=modOn(x.k,{mods:KC.mods});
       return `<button type="button" class="row sw${on?" sel":""}" data-k="${x.k}" aria-pressed="${on}"><span class="rt"><b>${x.name}</b><small>${x.sub}</small></span><i class="tg" aria-hidden="true"></i></button>`;}).join("")+`</div>`:"");}).join("")+
     (modOn("sz-gra",{mods:KC.mods})?`<div class="lbl">Szachy: partie z komputerem dziennie</div><div class="segs" id="kc-szlim">${[0,1,2,3,5,10].map(n=>{const on=(KC.szLimit||0)===n;return `<button type="button" data-n="${n}" class="${on?"sel":""}" aria-pressed="${on}">${n||"Bez limitu"}</button>`;}).join("")}</div>
       <p class="abnote">Samouczek i zadania bez limitu. Żeby całkiem wyłączyć granie, wyłącz „Graj z komputerem” w Szachach powyżej.</p>`:"")+
@@ -4969,11 +4971,11 @@ $("kc-list").addEventListener("click",e=>{
   const lim=e.target.closest("#kc-szlim [data-n]");if(lim){KC.szLimit=+lim.dataset.n;renderKidCfg();return;}
   const a=e.target.closest("button[data-g]");if(a){const g=+a.dataset.g;KC.open.has(g)?KC.open.delete(g):KC.open.add(g);renderKidCfg();return;}
   // cały kafel: coś włączone → wyłącz wszystko w grupie, wszystko wyłączone → włącz wszystko
-  const m=e.target.closest("button[data-all]");if(m){const g=MODS[+m.dataset.all],any=g.items.some(x=>KC.mods[x.k]!==false);
+  const m=e.target.closest("button[data-all]");if(m){const g=MODS[+m.dataset.all],any=g.items.some(x=>modOn(x.k,{mods:KC.mods}));
     g.items.forEach(x=>{if(any) KC.mods[x.k]=false; else delete KC.mods[x.k];});delete KC.mods.mat;renderKidCfg();return;}
   const b=e.target.closest("button[data-k]");if(!b) return;const k=b.dataset.k;
   if(KC.mods.mat===false){MODS[0].items.forEach(x=>{KC.mods[x.k]=false;});delete KC.mods.mat;}
-  if(KC.mods[k]===false) delete KC.mods[k]; else KC.mods[k]=false;renderKidCfg();});
+  if(modOn(k,{mods:KC.mods})) KC.mods[k]=false; else if(MOD_OLD[k]) KC.mods[k]=true; else delete KC.mods[k];renderKidCfg();});
 $("kc-save").addEventListener("click",async()=>{
   const b=$("kc-save");b.disabled=true;
   try{const prefs={...KC.prefs,mods:KC.mods,szLimit:KC.szLimit||0};
