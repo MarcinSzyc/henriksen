@@ -775,6 +775,9 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 @keyframes szpop{from{transform:scale(.5);opacity:.3}}
 .sz-talk-top{left:68px}.sz-talk-top img{display:none}
 /* Kibic nad planszą 2D (zamiast emoji): całe popiersie wybranego komentatora nad planszą (dół ucięty clip-path), data-m = mina, animacje w CSS */
+.sz-facts{display:flex;flex-direction:column;gap:10px}.sz-fact{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:12px 14px}
+.sz-fact-i{font-size:1.8rem;line-height:1;flex:none;width:40px;text-align:center}.sz-fact b{display:block;margin-bottom:2px}.sz-fact p{margin:0;color:var(--muted);font-weight:600;line-height:1.4}
+.sz-op .sz-op-i{font-size:3rem;line-height:1;margin-bottom:4px}.sz-op .sz-why{text-align:left}.sz-why ul{margin:4px 0 10px;padding-left:20px}.sz-why li{margin:4px 0}
 .sz-bust{width:140px;margin:-4px 0 6px 18px;position:relative;pointer-events:none}
 /* dymek wychodzi od kibica (po prawej od niego), nie zasłania „Twój ruch” */
 .sz-talk.bz-say{left:164px;right:0;padding:8px 12px}.sz-talk.bz-say::before,.sz-talk.bz-say::after{content:"";position:absolute;top:22px;border:11px solid transparent}
@@ -1155,6 +1158,8 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tile mt" id="sz-t-puz" style="--gc:#c2410c"><span class="wm" aria-hidden="true">#</span><span class="tt">Zadania</span><small id="sz-t-puz-s"></small></button>
     <button type="button" class="tile mt sz3-tile" id="sz-t-3d" style="--gc:#7048e8"><span class="wm" aria-hidden="true">3D</span><span class="tt">Szachy 3D</span><small>Figury jak prawdziwe, wybuchy i fajerwerki</small></button>
     <button type="button" class="tile mt" id="sz-t-play" style="--gc:#495057"><span class="wm wm-img" aria-hidden="true"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9IiNmZmYiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBkPSJNOCAxMmEyIDIgMCAxIDEtNCAwIDIgMiAwIDEgMSA0IDBtMTYuNS00LjVhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwTTQxIDEyYTIgMiAwIDEgMS00IDAgMiAyIDAgMSAxIDQgME0xNiA4LjVhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwTTMzIDlhMiAyIDAgMSAxLTQgMCAyIDIgMCAxIDEgNCAwIi8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIGQ9Ik05IDI2YzguNS0xLjUgMjEtMS41IDI3IDBsMi0xMi03IDExVjExbC01LjUgMTMuNS0zLTE1LTMgMTUtNS41LTE0VjI1TDcgMTR6Ii8+PHBhdGggc3Ryb2tlLWxpbmVjYXA9ImJ1dHQiIGQ9Ik05IDI2YzAgMiAxLjUgMiAyLjUgNCAxIDEuNSAxIDEgLjUgMy41LTEuNSAxLTEuNSAyLjUtMS41IDIuNS0xLjUgMS41LjUgMi41LjUgMi41IDYuNSAxIDE2LjUgMSAyMyAwIDAgMCAxLjUtMSAwLTIuNSAwIDAgLjUtMS41LTEtMi41LS41LTIuNS0uNS0yIC41LTMuNSAxLTIgMi41LTIgMi41LTQtOC41LTEuNS0xOC41LTEuNS0yNyAweiIvPjxwYXRoIGZpbGw9Im5vbmUiIGQ9Ik0xMS41IDMwYzMuNS0xIDE4LjUtMSAyMiAwTTEyIDMzLjVjNi0xIDE1LTEgMjEgMCIvPjwvZz48L3N2Zz4=" alt="" width="44" height="44"></span><span class="tt">Graj z komputerem</span><small id="sz-t-play-s"></small></button>
+    <button type="button" class="tile mt" id="sz-t-open" style="--gc:#1971c2"><span class="wm" aria-hidden="true">📖</span><span class="tt">Otwarcia</span><small id="sz-t-open-s"></small></button>
+    <button type="button" class="tile mt" id="sz-t-facts" style="--gc:#e8590c"><span class="wm" aria-hidden="true">💡</span><span class="tt">Ciekawostki</span><small>Skąd są szachy, rekordy, mistrzowie</small></button>
   </div>
 </div>
 <div class="wrap" id="szrules" hidden>
@@ -1200,6 +1205,18 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <p class="abnote">Krótkie lekcje: ruchy figur, bicie, szach, mat i ruchy specjalne. Kolejna otwiera się po skończeniu poprzedniej.</p>
   <div class="sets" id="szl-list"></div>
+</div>
+<div class="wrap" id="szop" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Otwarcia</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <p class="abnote">Najsłynniejsze otwarcia: kto je wymyślił, dlaczego mają sens i jak się je gra. Ty grasz swoją stronę, komputer odpowiada ruchami z teorii.</p>
+  <div class="sets" id="szop-list"></div>
+</div>
+<div class="wrap" id="szcf" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Ciekawostki</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <p class="abnote">Fakty o szachach, które warto znać – i którymi można zaskoczyć kolegów.</p>
+  <div class="sz-facts" id="szcf-list"></div>
 </div>
 <div class="wrap" id="szz" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Zadania szachowe</h1><div class="right">
@@ -2615,8 +2632,8 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",szw:"#szachy-wyglad",szrules:"#szachy-zasady",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",szw:"szw",szrules:"szrules",sz:"sz",sz3:"sz3",szl:"szl",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",szw:"#szachy-wyglad",szrules:"#szachy-zasady",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szop:"#szachy-otwarcia",szcf:"#szachy-ciekawostki",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",szw:"szw",szrules:"szrules",sz:"sz",sz3:"sz3",szl:"szl",szop:"szop",szcf:"szcf",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
@@ -2995,7 +3012,7 @@ function plLiveNow(){
 }
 function plShow(v){
   if(v==="pl") renderPl();
-  if(v==="szw") renderSzw();if(v==="szrules"){SZR={kid:SZR.kid,prefs:null};renderSzRules();} /* zawsze świeże cele i ustawienia dziecka (np. po dodaniu celu) */if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();
+  if(v==="szw") renderSzw();if(v==="szrules"){SZR={kid:SZR.kid,prefs:null};renderSzRules();} /* zawsze świeże cele i ustawienia dziecka (np. po dodaniu celu) */if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();if(v==="szop") renderSzop();if(v==="szcf") renderSzcf();
   if(window.S3&&v!=="szg") S3.pause();if(v==="szz") renderSzz();if(v==="szo") renderSzo();
   if(v==="plws") renderPws();
   if(v==="pld") renderPd();
@@ -4866,7 +4883,7 @@ const MODS=[
   {g:"Edukacja zdrowotna",items:[{k:"zd-spr",name:"Sprawdzian 29.10",sub:"wszystkie tematy"},{k:"zd-wartosc",name:"Zdrowie jako wartość",sub:"definicja i wymiary zdrowia"},
     {k:"zd-styl",name:"Zdrowy styl życia",sub:"mierniki zdrowia, hartowanie"},{k:"zd-cialo",name:"Moje ciało się zmienia",sub:"dojrzewanie, higiena, żelazo"},
     {k:"zd-zach",name:"Zachowania chroniące i ryzykowne",sub:"środowisko, zdrowe nawyki"}]},
-  {g:"Szachy",items:[{k:"sz-nauka",name:"Samouczek",sub:"ruchy figur, szach, mat, roszada"},{k:"sz-zadania",name:"Zadania",sub:"mat w 1, 2 i 3"},{k:"sz-gra",name:"Graj z komputerem",sub:"przeciwnicy do odblokowania"},{k:"sz-3d",name:"Szachy 3D",sub:"plansza 3D, wybuchy, piłkarze"}]},
+  {g:"Szachy",items:[{k:"sz-nauka",name:"Samouczek",sub:"ruchy figur, szach, mat, roszada"},{k:"sz-zadania",name:"Zadania",sub:"mat w 1, 2 i 3"},{k:"sz-gra",name:"Graj z komputerem",sub:"przeciwnicy do odblokowania"},{k:"sz-3d",name:"Szachy 3D",sub:"plansza 3D, wybuchy, piłkarze"},{k:"sz-otwarcia",name:"Otwarcia",sub:"znane otwarcia z historią"},{k:"sz-ciekawostki",name:"Ciekawostki",sub:"fakty o szachach"}]},
   {g:"Historia",items:[{k:"his",name:"Historia",sub:"kafel „Wkrótce” – daty, bitwy, królowie"}]},
   {g:"Przyroda",items:[{k:"nat",name:"Przyroda",sub:"kafel „Wkrótce” – rośliny, zwierzęta, mapa"}]},
   {g:"Inne",always:true,items:[{k:"stats",name:"Statystyki",sub:"punkty, seria, wyniki"},{k:"cups",name:"Nagrody",sub:"puchary, animacje, filmiki"},
@@ -4878,8 +4895,8 @@ const subjOn=(sj,P=PREFS)=>MODS.find(g=>g.items[0].k.startsWith(sj+"-")).items.s
 // rodzic wyłączył szachy albo moduł, w którym dziecko jest teraz (np. po synchronizacji) – wyjście, także z trwającej partii
 function szGuard(){
   const CH=["sz","sz3","szl","szz","szo","szw","szg"];if(!CH.includes(CUR)) return;
-  const need=CUR==="szl"?"sz-nauka":CUR==="szz"?"sz-zadania":CUR==="szo"?"sz-gra":CUR==="sz3"?"sz-3d":
-    CUR==="szg"&&SZ?(SZ.kind==="game"||SZ.cfg&&SZ.cfg.mode==="gra"?"sz-gra":SZ.list?"sz-zadania":"sz-nauka"):null;
+  const need=CUR==="szop"?"sz-otwarcia":CUR==="szcf"?"sz-ciekawostki":CUR==="szl"?"sz-nauka":CUR==="szz"?"sz-zadania":CUR==="szo"?"sz-gra":CUR==="sz3"?"sz-3d":
+    CUR==="szg"&&SZ?(SZ.kind==="open"?"sz-otwarcia":SZ.kind==="game"||SZ.cfg&&SZ.cfg.mode==="gra"?"sz-gra":SZ.list?"sz-zadania":"sz-nauka"):null;
   const all=subjOn("sz"),mod=(!need||modOn(need)&&!(CUR==="szg"&&SZ&&SZ.d3&&!modOn("sz-3d")))&&(CUR==="sz"||CUR==="szw"||szGateOk());if(all&&mod) return;
   if(SZ){SZ.over=true;SZ.busy=true;}szHush();
   toast(!all?"Rodzic wyłączył szachy.":szGateOk()?"Rodzic wyłączył tę część szachów.":"Szachy otworzą się po zadaniu od rodzica.");go(all?"sz":"home");}
@@ -5710,6 +5727,7 @@ function szMove(mv){
   const g=SZ.g,m=g.move(mv);SZ.last=[m.from,m.to];SZ.hint=null;szDraw();szReact(m);
   if(SZ.kind==="rule") return szRuleCheck(m);
   if(SZ.kind==="puzzle") return szPuzzleCheck(m);
+  if(SZ.kind==="open") return szOpCheck(m);
   if(SZ.kind==="game") return szGameAfter();
 }
 
@@ -5751,6 +5769,142 @@ function szNextBoard(){
     <div class="gn">Lekcja „${L.name}” zaliczona!</div><div class="gp">${st===3?"Wszystko najkrócej, jak się da – mistrz!":"Za 3 gwiazdki: każda plansza w najmniejszej liczbie ruchów, bez pomyłek."}</div></div>
     <div class="btns"><button type="button" class="again" data-a="again">Jeszcze raz</button>${nx?`<button type="button" class="go-btn" data-a="next">Dalej: ${nx.name}</button>`:`<button type="button" class="go-btn" data-a="back">Gotowe</button>`}</div>`;
   $("szg-end").hidden=false;$("szg-t").textContent=`Samouczek: ${L.name}`;sfx("final");if(PREFS.modals) celebrate(recs.length,true);scrollTo(0,0);
+}
+
+/* --- otwarcia: dziecko gra ruchy swojej strony, komputer odpowiada ruchami z teorii; przed planszą karta „kto, dlaczego, ciekawostka” --- */
+// side = kolorem gra dziecko; moves = ruchy SAN po kolei; n = komentarz do każdego półruchu (ten sam indeks)
+const SZ_OPEN=[
+  {id:"zasady",name:"Złote zasady otwarcia",ico:"⭐",side:"w",moves:"e4 e5 Nf3 Nc6 Bc4 Bc5 O-O Nf6 d3 d6",
+    who:"Zasady dobrego otwarcia znali już dawni mistrzowie. W XIX wieku uczył ich Wilhelm Steinitz – pierwszy oficjalny mistrz świata (od 1886 roku).",
+    why:["Zajmij środek planszy pionem – stamtąd figury mają najwięcej ruchów.","Najpierw wyprowadź skoczki i gońce, hetman poczeka.","Zrób roszadę – król schowa się bezpiecznie w rogu.","Nie ruszaj dwa razy tą samą figurą, jeśli nie musisz."],
+    fun:"Arcymistrzowie znają na pamięć tysiące ruchów z otwarć, ale nawet oni mówią: zasady są ważniejsze niż pamięć.",
+    n:["Pion do środka – zajmujemy centrum.","Czarne też biorą środek.","Skoczek wychodzi i atakuje piona e5.","Czarne bronią piona skoczkiem.","Goniec na c4 – patrzy na pole f7, najsłabsze u czarnych.","Czarne robią to samo: goniec na c5.","Roszada! Król bezpieczny, wieża wchodzi do gry.","Kolejna lekka figura czarnych wychodzi.","Mały ruch piona otwiera drogę gońcowi c1.","Czarne odpowiadają tym samym – obie strony mają gotową pozycję."]},
+  {id:"wloska",name:"Partia włoska",ico:"🇮🇹",side:"w",moves:"e4 e5 Nf3 Nc6 Bc4 Bc5 c3 Nf6 d4",
+    who:"Jedno z najstarszych otwarć – opisywano je już około 500 lat temu. W XVII wieku grał je słynny włoski mistrz Gioachino Greco. Po włosku nazywa się „Giuoco Piano”, czyli „cicha gra”.",
+    why:["Goniec na c4 celuje w pole f7 – broni go tylko król.","Pion c3 przygotowuje d4, żeby zbudować mocny środek z dwóch pionów.","Wszystkie ruchy rozwijają figury albo walczą o centrum."],
+    fun:"Tym otwarciem grają zarówno początkujący, jak i mistrzowie świata – bo jest proste, a jednocześnie bardzo głębokie.",
+    n:["Pion do środka.","Czarne odpowiadają symetrycznie.","Skoczek atakuje piona e5.","Czarne bronią skoczkiem.","Goniec na c4 – to jest właśnie partia włoska!","Czarne też ustawiają gońca na c5.","Pion c3 – szykujemy d4.","Czarne rozwijają skoczka i atakują piona e4.","d4! Dwa piony w środku – białe przejmują centrum."]},
+  {id:"hiszp",name:"Partia hiszpańska",ico:"🇪🇸",side:"w",moves:"e4 e5 Nf3 Nc6 Bb5 a6 Ba4 Nf6 O-O",
+    who:"Nazwa pochodzi od hiszpańskiego księdza Ruya Lópeza de Segury, który opisał to otwarcie w swojej książce o szachach w 1561 roku.",
+    why:["Goniec b5 atakuje skoczka, który broni piona e5 – białe naciskają na środek czarnych.","Pionem a6 czarne „pytają” gońca, czy chce się wymienić.","Białe szybko robią roszadę i są gotowe do walki."],
+    fun:"Gra się je od ponad 450 lat i wciąż jest jednym z najczęstszych otwarć w meczach o mistrzostwo świata.",
+    n:["Pion do środka.","Czarne też.","Skoczek atakuje piona e5.","Czarne bronią skoczkiem c6.","Goniec b5 – atakujemy obrońcę piona e5. To partia hiszpańska!","Czarne przeganiają gońca pionem.","Goniec cofa się na a4, ale dalej trzyma skoczka na celowniku.","Czarne rozwijają drugiego skoczka.","Roszada – król bezpieczny, można zaczynać plan."]},
+  {id:"szewski",name:"Obrona przed matem szewskim",ico:"🛡️",side:"b",moves:"e4 e5 Qh5 Nc6 Bc4 g6 Qf3 Nf6",
+    who:"Mat szewski to najsłynniejsza pułapka dla początkujących: hetman i goniec razem atakują pole f7, broni go tylko król. Tu grasz czarnymi i uczysz się, jak się nie dać złapać.",
+    why:["Najpierw broń piona e5 skoczkiem – rozwijasz figurę i bronisz.","Pion g6 przegania hetmana z h5.","Skoczek f6 zasłania pole f7 przed hetmanem z f3."],
+    fun:"Białe, które próbują mata szewskiego, tracą czas wczesnym hetmanem – a ty w tym czasie rozwijasz figury i masz lepszą pozycję.",
+    n:["Białe zajmują środek.","Ty też – pion do środka.","Białe wychodzą hetmanem bardzo wcześnie… uwaga na f7!","Skoczek broni piona e5.","Goniec c4 – teraz hetman i goniec celują w f7! Grozi mat.","g6! Przeganiasz hetmana i bronisz.","Hetman wraca na f3 – znowu grozi mat na f7!","Skoczek f6 zasłania drogę hetmanowi. Mat obroniony!"]},
+  {id:"sycyl",name:"Obrona sycylijska",ico:"🌋",side:"b",moves:"e4 c5 Nf3 d6 d4 cxd4 Nxd4 Nf6 Nc3",
+    who:"Opisywał ją już w 1617 roku Włoch Pietro Carrera. Nazwa wzięła się od szachistów z Sycylii, którzy ją grali.",
+    why:["Pion c5 walczy o ważne pole d4 z boku, a nie z przodu.","Pozycja nie jest symetryczna – czarne grają o wygraną, nie tylko o remis.","Po wymianie na d4 czarne mają więcej pionów w środku."],
+    fun:"To najpopularniejsza odpowiedź na 1.e4 wśród arcymistrzów. Grali ją m.in. Bobby Fischer i Garri Kasparow.",
+    n:["Białe zajmują środek.","c5! Walczysz o pole d4 z boku – to obrona sycylijska.","Skoczek białych celuje w d4.","Pion d6 przygotowuje wyjście gońcowi i pilnuje e5.","Białe otwierają środek.","Zbijasz – wymieniasz piona c na środkowego piona białych.","Białe odbijają skoczkiem.","Skoczek f6 atakuje piona e4.","Białe bronią piona skoczkiem. Klasyczna sycylijska gotowa!"]},
+  {id:"franc",name:"Obrona francuska",ico:"🇫🇷",side:"b",moves:"e4 e6 d4 d5 Nc3 Nf6",
+    who:"Nazwa pochodzi z meczu korespondencyjnego Londyn – Paryż w 1834 roku, w którym gracze z Paryża użyli tego otwarcia.",
+    why:["Pion e6 przygotowuje d5 – czarne atakują piona e4.","Pozycja czarnych jest bardzo solidna, trudno ją rozbić.","Minus: goniec c8 jest na razie zamknięty za pionami."],
+    fun:"Mówi się, że w obronie francuskiej czarne budują twierdzę, a potem kontratakują.",
+    n:["Białe zajmują środek.","e6 – skromnie, ale szykujesz d5. To obrona francuska.","Białe biorą drugiego piona do środka.","d5! Atakujesz piona e4.","Białe bronią piona skoczkiem.","Skoczek f6 znowu atakuje e4 – czarne naciskają na środek."]},
+  {id:"karo",name:"Obrona Caro-Kann",ico:"🏰",side:"b",moves:"e4 c6 d4 d5 Nc3 dxe4 Nxe4 Bf5",
+    who:"Nazwa od dwóch szachistów: Anglika Horatio Caro i Austriaka Marcusa Kanna, którzy badali ją w 1886 roku.",
+    why:["Pion c6 przygotowuje d5, jak we francuskiej…","…ale goniec c8 nie jest zamknięty – wychodzi na f5.","Czarne mają bardzo mocną strukturę pionów."],
+    fun:"Lubił ją mistrz świata Anatolij Karpow. To otwarcie dla cierpliwych – czarne rzadko przegrywają szybko.",
+    n:["Białe zajmują środek.","c6 – przygotowujesz d5. To Caro-Kann.","Białe biorą drugiego piona do środka.","d5! Atakujesz piona e4.","Białe bronią skoczkiem.","Zbijasz piona e4.","Białe odbijają skoczkiem.","Goniec f5 – wychodzi na wolność i atakuje skoczka. To przewaga Caro-Kann!"]},
+  {id:"skand",name:"Obrona skandynawska",ico:"🛶",side:"b",moves:"e4 d5 exd5 Qxd5 Nc3 Qa5",
+    who:"Jedno z najstarszych znanych otwarć: grano je w partii z 1475 roku w Walencji w Hiszpanii – jednej z najstarszych zapisanych partii szachowych. Nazwa pochodzi od szachistów ze Skandynawii, którzy badali je w XIX wieku.",
+    why:["d5 od razu atakuje piona e4 – czarne nie czekają.","Hetman odbija piona i jest aktywny.","Minus: hetman wychodzi wcześnie i musi uciekać przed skoczkiem."],
+    fun:"To proste otwarcie do zapamiętania – już w drugim ruchu wiadomo, jak będzie wyglądała partia.",
+    n:["Białe zajmują środek.","d5! Od razu atakujesz piona e4.","Białe zbijają.","Odbijasz hetmanem.","Skoczek atakuje hetmana – zyskuje tempo.","Hetman ucieka na a5 – tu jest bezpieczny i atakuje skoczka c3."]},
+  {id:"gambh",name:"Gambit hetmański",ico:"👑",side:"w",moves:"d4 d5 c4 e6 Nc3 Nf6 Bg5",
+    who:"Opisany już w rękopisie z Getyngi z około 1500 roku – jednej z najstarszych książek o szachach.",
+    why:["Białe „oferują” piona c4, żeby odciągnąć piona d5 od środka.","Jeśli czarne zbiją, białe zwykle odzyskają piona – to nie jest prawdziwa ofiara.","Słowo „gambit” pochodzi od włoskiego „gambetto” – podstawienie nogi."],
+    fun:"Serial „Gambit królowej” z 2020 roku sprawił, że miliony ludzi na świecie zaczęły grać w szachy.",
+    n:["Pion hetmański do środka.","Czarne też.","c4 – gambit! Oferujesz piona, żeby rozbić środek czarnych.","Czarne nie biorą – e6 trzyma piona d5.","Skoczek naciska na d5.","Czarne bronią d5 skoczkiem.","Goniec g5 przypina skoczka – pion d5 słabnie."]},
+  {id:"kid",name:"Obrona królewsko-indyjska",ico:"🐘",side:"b",moves:"d4 Nf6 c4 g6 Nc3 Bg7 e4 d6 Nf3 O-O",
+    who:"Stała się popularna w XX wieku. To było ulubione otwarcie Bobby'ego Fischera i Garriego Kasparowa.",
+    why:["Czarne pozwalają białym zająć środek pionami…","…chowają króla roszadą…","…i dopiero potem kontratakują środek. To styl „hipernowoczesny”."],
+    fun:"Goniec na g7 to „fianchetto” – z włoskiego „mały bok”. Z tego miejsca strzela po całej długiej przekątnej.",
+    n:["Białe zajmują środek.","Skoczek f6 pilnuje pola e4.","Białe dokładają piona c4.","g6 – szykujesz miejsce dla gońca.","Białe rozwijają skoczka.","Goniec g7 – fianchetto! Celuje w środek planszy.","Białe biorą trzeciego piona do środka.","d6 – skromny pion pilnuje e5.","Białe rozwijają drugiego skoczka.","Roszada – król bezpieczny, teraz czas na kontratak!"]},
+  {id:"gambk",name:"Gambit królewski",ico:"⚔️",side:"w",moves:"e4 e5 f4 exf4 Bc4 Qh4+ Kf1 b5 Bxb5",
+    who:"Ulubione otwarcie XIX wieku, epoki „romantycznych” szachów. Tak zaczęła się słynna „Nieśmiertelna partia” Adolfa Anderssena z Lionelem Kieseritzkym (Londyn 1851).",
+    why:["Białe oddają piona f, żeby otworzyć linię f i szybko atakować.","Ryzyko: król białych jest słabszy – stąd szach hetmanem z h4.","To otwarcie dla odważnych, którzy lubią atak!"],
+    fun:"W Nieśmiertelnej partii Anderssen oddał obie wieże i hetmana, a i tak dał mata lekkimi figurami.",
+    n:["Pion do środka.","Czarne też.","f4 – gambit królewski! Oddajesz piona za atak.","Czarne biorą piona.","Goniec c4 celuje w f7.","Szach hetmanem! Tak jest w Nieśmiertelnej partii.","Król musi uciec na f1 – traci roszadę, ale jest bezpieczny.","Czarne też oddają piona, żeby odciągnąć gońca.","Zbijasz piona – białe mają przewagę, a gra jest pełna ataku."]},
+];
+const szOpenDone=id=>szHist("nauka").filter(s=>s.status==="done"&&s.cfg.open===id);
+const szOpenStars=id=>szOpenDone(id).reduce((a,s)=>Math.max(a,s.pct>=100?3:s.pct>=60?2:1),0);
+function renderSzop(){
+  $("szop-list").innerHTML=SZ_OPEN.map((O,k)=>{const s=szOpenStars(O.id);
+    return `<button type="button" class="set-i" data-op="${k}"><span class="gl sz-gl" aria-hidden="true" style="font-size:1.6rem">${O.ico}</span><span class="sn"><b>${O.name}</b><small>${s?`<span class="sz-st">${"★".repeat(s)}<s>${"★".repeat(3-s)}</s></span> · `:""}Grasz ${O.side==="w"?"białymi":"czarnymi"} · ${O.moves.split(" ").filter((m,i)=>(i%2===0)===(O.side==="w")).length} ruchów</small></span></button>`;}).join("");
+}
+// karta przed planszą: kto wymyślił, dlaczego ma sens, ciekawostka
+async function szOpening(k,tag){
+  if(!szGateOk()){toast("Szachy otworzą się po zadaniu od rodzica.");go("sz");return;}
+  await szLoad();if(SZ3D) await sz3Ready(); else sz2d();
+  const O=SZ_OPEN[k];SZ={kind:"open",open:k,tag:tag||{},id:Date.now(),start:Date.now(),d3:SZ3D,g:new CHESS(),me:O.side,flip:O.side==="b",sel:null,tg:[],last:null,hint:null,busy:true,over:false,stars:null,res:[],tries:0,cfg:{mode:"nauka",open:O.id,...(tag||{})}};
+  $("szg-t").textContent=`Otwarcie: ${O.name}`;$("szg-dots").innerHTML="";szCtl([]);
+  $("szg-play").hidden=true;$("szg-end").innerHTML=`<div class="done card sz-op"><div class="sz-op-i" aria-hidden="true">${O.ico}</div><div class="gn">${O.name}</div>
+    <div class="gp">Grasz ${O.side==="w"?"białymi":"czarnymi"}. Komputer zagra drugą stronę według teorii.</div>
+    <div class="sz-why"><p><b>Skąd się wzięło?</b> ${O.who}</p><p><b>Dlaczego to ma sens?</b></p><ul>${O.why.map(x=>`<li>${x}</li>`).join("")}</ul><p><b>💡 Ciekawostka:</b> ${O.fun}</p></div></div>
+    <div class="btns"><button type="button" class="go-btn" data-a="opgo">Zagraj otwarcie ▶</button></div>`;
+  $("szg-end").hidden=false;go("szg");scrollTo(0,0);
+}
+const szOpMoves=O=>O.moves.split(" ");
+function szOpStart(){const O=SZ_OPEN[SZ.open];SZ.g=new CHESS();SZ.last=null;SZ.hint=null;SZ.res=[];SZ.tries=0;SZ.over=false;SZ.busy=false;
+  $("szg-end").hidden=true;$("szg-play").hidden=false;szOpDots();szDraw();szOpNext();}
+function szOpDots(){const O=SZ_OPEN[SZ.open],M=szOpMoves(O).map((m,i)=>i).filter(i=>(i%2===0)===(O.side==="w")),h=SZ.g.history().length;
+  $("szg-dots").innerHTML=M.map((i,k)=>`<span class="dot${i<h?(SZ.res[k]===false?" bad":" ok"):i===h||i===h+1&&SZ.g.turn()!==SZ.me?" now":""}"></span>`).join("");}
+// kolejny półruch: komputer gra ruch z teorii, dziecko czeka na swój
+function szOpNext(){
+  const O=SZ_OPEN[SZ.open],M=szOpMoves(O),h=SZ.g.history().length;
+  if(h>=M.length) return szOpEnd();
+  if(SZ.g.turn()===SZ.me){SZ.busy=false;szInfo(h?`${O.n[h-1]} Twój ruch.`:"Twój ruch – zaczynasz!");return;}
+  SZ.busy=true;setTimeout(()=>{if(!SZ||SZ.kind!=="open") return;const x=SZ.g.move(M[h]);SZ.last=[x.from,x.to];szDraw();szReact(x);szOpDots();
+    const left=SZ.g.history().length;if(left>=M.length) return szOpEnd();SZ.busy=false;szInfo(`${O.n[h]} Twój ruch.`);},szWait(h?700:400));
+}
+function szOpCheck(m){
+  const O=SZ_OPEN[SZ.open],M=szOpMoves(O),h=SZ.g.history().length-1;
+  if(m.san===M[h]){SZ.res.push(SZ.tries===0);SZ.tries=0;SZ.hint=null;sfx("ok");szInfo(O.n[h],"ok");szOpDots();SZ.busy=true;setTimeout(szOpNext,szWait(1300));return;}
+  SZ.tries++;sfx("bad");const t=new CHESS(SZ.g.history({verbose:true})[h].before).move(M[h]);
+  SZ.hint=SZ.tries>1?[t.from,t.to]:[t.from];
+  szInfo(SZ.tries>1?`W tym otwarciu gra się ${SZ_NAME[t.piece.toUpperCase()]} ${t.from}–${t.to}. Spróbuj!`:`Dobry pomysł, ale w tym otwarciu gramy inaczej. Podpowiedź: rusz figurą na ${t.from}.`,"bad");
+  SZ.busy=true;setTimeout(()=>{SZ.g.undo();SZ.last=null;SZ.busy=false;szDraw();},szWait(1200));
+}
+function szOpEnd(){
+  const O=SZ_OPEN[SZ.open],recs=SZ.res.map((ok,k)=>({t:`otwarcie:${O.id}:${k}`,ok,tries:[],w:1,done:true}));SZ.over=true;SZ.busy=false;
+  szArchive({id:SZ.id,start:SZ.start,cfg:SZ.cfg,recs},"done");
+  const good=SZ.res.filter(Boolean).length,pct=Math.floor(good*100/recs.length),st=pct>=100?3:pct>=60?2:1,nx=SZ_OPEN[SZ.open+1];
+  setTimeout(()=>{if(!SZ||SZ.kind!=="open") return;$("szg-play").hidden=true;$("szg-dots").innerHTML="";
+    $("szg-end").innerHTML=`<div class="done card"><div class="sz-stars" aria-label="${st} z 3 gwiazdek">${"★".repeat(st)}<s>${"★".repeat(3-st)}</s></div>
+      <div class="gn">${O.name} – opanowane!</div><div class="gp">${st===3?"Wszystkie ruchy bez pomyłki – brawo!":"Za 3 gwiazdki: wszystkie ruchy bez pomyłki."}</div>
+      <div class="sz-why"><p><b>Zapamiętaj:</b></p><ul>${O.why.map(x=>`<li>${x}</li>`).join("")}</ul></div></div>
+      <div class="btns"><button type="button" class="again" data-a="again">Jeszcze raz</button>${nx?`<button type="button" class="go-btn" data-a="next">Dalej: ${nx.name}</button>`:`<button type="button" class="go-btn" data-a="back">Gotowe</button>`}</div>`;
+    $("szg-end").hidden=false;sfx("final");if(PREFS.modals) celebrate(recs.length,true);scrollTo(0,0);},szWait(1400));
+}
+/* --- ciekawostki szachowe --- */
+const SZ_FACTS=[
+  ["🇮🇳","Skąd są szachy?","Szachy powstały w Indiach około 1500 lat temu. Pierwsza wersja nazywała się czaturanga."],
+  ["👑","Co znaczy „szach-mat”?","Pochodzi z perskiego „szah mat” – „król jest bezradny”."],
+  ["🐢","Hetman był kiedyś słaby","Dawniej hetman ruszał się tylko o jedno pole po skosie. Najsilniejszą figurą stał się w Hiszpanii około 1475 roku."],
+  ["🌌","Więcej partii niż atomów","Możliwych partii szachowych jest więcej niż atomów we wszechświecie – liczba z ponad 100 zerami."],
+  ["⏳","Najdłuższa możliwa partia","Dzięki zasadzie 50 ruchów partia nie może trwać w nieskończoność – najdłuższa możliwa ma około 5949 ruchów."],
+  ["🤖","Komputer kontra mistrz","W 1997 roku komputer Deep Blue po raz pierwszy wygrał mecz z mistrzem świata Garrim Kasparowem."],
+  ["🧒","Najmłodszy arcymistrz","Abhimanyu Mishra został arcymistrzem w 2021 roku, mając 12 lat i 4 miesiące."],
+  ["🇳🇴","Magnus Carlsen","Arcymistrzem został w wieku 13 lat, a mistrzem świata był od 2013 do 2023 roku."],
+  ["🇵🇱","Polak pokonał Carlsena","W 2020 roku Jan-Krzysztof Duda wygrał z Magnusem Carlsenem i przerwał jego serię 125 partii bez porażki."],
+  ["👩","Judit Polgár","Najlepsza szachistka w historii. Wygrywała z mistrzami świata, m.in. z Garrim Kasparowem w 2002 roku."],
+  ["⬜","Biały po prawej","Szachownicę zawsze kładzie się tak, żeby w prawym dolnym rogu było białe pole."],
+  ["🏰","Jedyny ruch dwiema figurami","Roszada to jedyny ruch, w którym ruszają się naraz dwie figury: król i wieża."],
+  ["💨","Bicie w przelocie","Zasadę bicia w przelocie dodano około 500 lat temu, kiedy piony dostały prawo ruchu o dwa pola."],
+  ["⚡","Najszybszy mat","Mat głupca trwa tylko 2 ruchy: 1.f3 e5 2.g4 Hh4#. Dlatego nie ruszaj pionów przed królem na początku!"],
+  ["🦵","Co to jest gambit?","Słowo pochodzi z włoskiego „gambetto” – podstawienie nogi. To ofiara piona na początku partii."],
+  ["🚀","Szachy w kosmosie","W 1970 roku kosmonauci ze statku Sojuz 9 zagrali partię z ludźmi na Ziemi – to pierwsza partia w kosmosie."],
+  ["🌍","Dzień Szachów","20 lipca to Międzynarodowy Dzień Szachów – tego dnia w 1924 roku w Paryżu powstała FIDE, światowa federacja szachowa."],
+  ["🥊","Szachoboks","Istnieje sport, w którym rundy szachów przeplatają się z rundami boksu."],
+  ["📜","Program na papierze","Około 1950 roku Alan Turing napisał program do gry w szachy, zanim powstał komputer, który mógł go uruchomić – liczył go ręcznie."],
+  ["🐴","Skoczek przeskakuje","Skoczek to jedyna figura, która może przeskakiwać inne. Z pola na brzegu ma mniej ruchów – dlatego mówi się: „skoczek na brzegu to wstyd”."],
+];
+function renderSzcf(){
+  $("szcf-list").innerHTML=SZ_FACTS.map(([i,h,t])=>`<div class="sz-fact"><span class="sz-fact-i" aria-hidden="true">${i}</span><div><b>${h}</b><p>${t}</p></div></div>`).join("");
 }
 
 /* --- zadania --- */
@@ -5976,6 +6130,7 @@ $("szg-end").addEventListener("click",e=>{const r=e.target.closest("[data-rp]");
     if(a==="nextopp") return szGame(SZ.opp+1,SZ.cfg.color,{});return szGame(SZ.opp,SZ.cfg.color,tag);}
   if(SZ.list){const c=SZ.cfg;return szPuzzles(c.theme,SZ.list.length,c.goal?{goal:c.goal,gx:c.gx}:{});}
   if(SZ.lesson!=null){const tag=SZ.tag;if(a==="next") return szLesson(SZ.lesson+1,{});return szLesson(SZ.lesson,tag);}
+  if(SZ.kind==="open"){if(a==="opgo") return szOpStart();if(a==="next") return szOpening(SZ.open+1,{});return szOpening(SZ.open,SZ.tag);}
 });
 // zapis do historii jak inne gry (punkty z r.w za odpowiedź dobrą za 1. razem)
 function szArchive(P,status){
@@ -6009,7 +6164,9 @@ function renderSz(){
   for(const b of $("sz3-skin").children){const on=b.dataset.k===PREFS.szSkin;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
   $("sz3-learn-s").textContent=$("sz-t-learn-s").textContent;$("sz3-puz-s").textContent=$("sz-t-puz-s").textContent;$("sz3-play-s").textContent=$("sz-t-play-s").textContent;
   document.querySelectorAll("[data-sz3]").forEach(b=>{b.hidden=!modOn({learn:"sz-nauka",puz:"sz-zadania",play:"sz-gra"}[b.dataset.sz3]);});
-  $("sz-t-learn").hidden=gate||!modOn("sz-nauka");$("sz-t-puz").hidden=gate||!modOn("sz-zadania");$("sz-t-play").hidden=gate||!modOn("sz-gra");$("sz-t-3d").hidden=gate||!modOn("sz-3d");
+  $("sz-t-learn").hidden=gate||!modOn("sz-nauka");$("sz-t-open").hidden=gate||!modOn("sz-otwarcia");$("sz-t-facts").hidden=!modOn("sz-ciekawostki");
+  {const so=SZ_OPEN.reduce((a,O)=>a+szOpenStars(O.id),0);$("sz-t-open-s").textContent=so?`Gwiazdki: ${so} z ${SZ_OPEN.length*3}`:"Włoska, hiszpańska, sycylijska i inne";}
+  $("sz-t-puz").hidden=gate||!modOn("sz-zadania");$("sz-t-play").hidden=gate||!modOn("sz-gra");$("sz-t-3d").hidden=gate||!modOn("sz-3d");
   if(gate) document.querySelectorAll("[data-sz3]").forEach(b=>{b.hidden=true;});
   const left=szLeft();if(left!==null&&modOn("sz-gra")){const t=left?`Dziś zostało: ${left} z ${PREFS.szLimit} ${PREFS.szLimit===1?"partii":"partii"}`:"Limit partii na dziś wykorzystany";$("sz-t-play-s").textContent=t;$("sz3-play-s").textContent=t;}
 }
@@ -6126,6 +6283,8 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-szdo]");if
   if(x.goal){const t=szGoal(x);if(t) openGoal(t);}else exRun(x,{goal:b.dataset.szdo});});
 $("sz-rules-btn").addEventListener("click",()=>{SZR={kid:SZR.kid,prefs:null};go("szrules");});
 $("sz-t-learn").addEventListener("click",async()=>{await szLoad();go("szl");});
+$("sz-t-open").addEventListener("click",()=>go("szop"));$("sz-t-facts").addEventListener("click",()=>go("szcf"));
+$("szop-list").addEventListener("click",e=>{const b=e.target.closest("[data-op]");if(b) szOpening(+b.dataset.op,{});});
 $("sz-t-puz").addEventListener("click",()=>go("szz"));
 $("sz-t-play").addEventListener("click",()=>go("szo"));
 $("sz-t-3d").addEventListener("click",()=>go("sz3"));
@@ -6142,6 +6301,7 @@ async function szRun(c,tag){
   await szLoad();
   if(c.mode==="zadania") return szPuzzles(c.theme,c.n||5,tag);
   if(c.mode==="gra"){const k=SZ_OPP.findIndex(x=>x.id===c.opp);return szGame(Math.max(0,k),c.color||"w",tag);}
+  if(c.mode==="nauka"&&c.open){const k=SZ_OPEN.findIndex(x=>x.id===c.open);return szOpening(Math.max(0,k),tag);}
   if(c.mode==="nauka"){const k=SZ_LESSONS.findIndex(x=>x.id===c.lesson);return szLesson(Math.max(0,k),tag);}
 }
 function szCurEx(){
@@ -6149,6 +6309,7 @@ function szCurEx(){
   if(SZ.kind==="game"){const L=SZ_OPP[SZ.opp];return {spec:{k:"sz",cfg:{mode:"gra",opp:L.id,color:SZ.cfg.color}},name:`Szachy: partia ${L.z}`,pts:L.pts};}
   if(SZ.list) return {spec:{k:"sz",cfg:{mode:"zadania",theme:SZ.cfg.theme,n:SZ.list.length}},name:`Szachy: ${SZ_THEME[SZ.cfg.theme].name} · ${SZ.list.length}`,pts:SZ.recs.reduce((a,r)=>a+r.w,0)};
   if(SZ.lesson!=null){const L=SZ_LESSONS[SZ.lesson];return {spec:{k:"sz",cfg:{mode:"nauka",lesson:L.id}},name:`Szachy: lekcja ${L.name}`,pts:L.b.length};}
+  if(SZ.kind==="open"){const O=SZ_OPEN[SZ.open];return {spec:{k:"sz",cfg:{mode:"nauka",open:O.id}},name:`Szachy: otwarcie ${O.name}`,pts:szOpMoves(O).filter((m,i)=>(i%2===0)===(O.side==="w")).length};}
   return null;
 }
 

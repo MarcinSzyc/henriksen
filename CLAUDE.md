@@ -64,6 +64,14 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   Limit partii z komputerem dziennie: `PREFS.szLimit` (0 = bez limitu, klucz rodzica w `PARENT_KEYS`), ustawiany w „Co widzi dziecko” (`#kc-szlim`, `KC.szLimit`);
   `szLeft()` = limit − rozpoczęte dziś (licznik `henriksen-szdzien` albo ukończone z historii, większe); `szGame` blokuje start, `#szo-lim` pokazuje stan.
   Moduł `sz-3d` ukrywa kafel Szachy 3D.
+  Otwarcia (kafel `#sz-t-open`, widok `#szop`, hash `#szachy-otwarcia`, moduł `sz-otwarcia`): `SZ_OPEN` = 11 otwarć `{id,name,ico,side,moves (SAN),
+  n (komentarz do każdego półruchu),who,why[],fun}` – złote zasady, włoska, hiszpańska, obrona przed matem szewskim, sycylijska, francuska, Caro-Kann,
+  skandynawska, gambit hetmański, królewsko-indyjska, gambit królewski. `szOpening(k)` = karta „Skąd się wzięło? / Dlaczego to ma sens? / Ciekawostka”,
+  „Zagraj otwarcie” → `szOpStart`; `SZ.kind="open"`: dziecko gra stronę `side`, komputer odpowiada ruchem z teorii (`szOpNext`), zły ruch = podpowiedź
+  (pole figury, potem cały ruch) i cofnięcie (`szOpCheck`). Koniec `szOpEnd`: gwiazdki jak w lekcjach, zapis `cfg:{mode:"nauka",open:id}` (puchar Samouczka),
+  gwiazdki z historii `szOpenStars`. Da się zapisać jako cel rodzica (`szCurEx`/`szRun` z `cfg.open`).
+  Ciekawostki (kafel `#sz-t-facts`, widok `#szcf`, `#szachy-ciekawostki`, moduł `sz-ciekawostki`): `SZ_FACTS` = [emoji, tytuł, tekst]. Nowe fakty dopisuj
+  sprawdzone (daty, nazwiska).
   Zasady szachów (rodzic: przycisk „Zasady szachów dla dziecka” na ekranie Szachy → `#szrules`, `#szachy-zasady`, `renderSzRules`, `SZR`;
   zapis `szLimit` + `szRules` do wiersza `settings` dziecka, oba w `PARENT_KEYS`). Przełączniki: limit (wyłączony = 0, ostatnia liczba w
   `szRules.limPrev`) i wyjątki (`daysOn`; `days` = daty `rrrr-mm-dd` → partie, −1 = bez limitu, zostają po wyłączeniu). `extra` / `gate` = pakiet z biblioteki rodzica
