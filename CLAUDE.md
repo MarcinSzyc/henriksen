@@ -195,6 +195,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `.adm-k` (przyciski); brak funkcji w bazie = komunikat „uruchom admin.sql”. SQL testowany lokalnie na Postgresie z atrapą `auth`.
   Kafel otwiera okno `#admd` z listą z `admin_details(p_kind)` (`supabase/admin2.sql`; users/families/parents/students/active/
   sessions/leagues/nofamily), wiersze rysuje `ADM_ROW[kind]`.
+  Pod kaflami „Co robią dzieci” (`renderAdmKids`, `#adm-kids`, `supabase/admin3.sql`: `admin_kids()`): karta każdego dziecka – sesje dziś / w 7 dni, punkty w tygodniu,
+  przedmioty w 7 dni, a w szachach partie z komputerem dziś / 7 dni / razem, pasek W·R·P, przeciwnicy (id z `SZ_OPP`), partie na czas, zadania i lekcje.
   Kafel „Goście w 7 dni” (`supabase/guests.sql`): `admin_guest_stats()` i lista `admin_guests()` (imię, urządzenie z UA, wejścia, sesje, dni).
 - **Ruch gości (`guests.sql`, `guestPing(kind,subj)`):** gość wysyła zwykłym `fetch` do RPC `guest_ping` (anon): `open` przy starcie,
   `session` przy nowej ukończonej sesji w `saveHist` (sam przedmiot, `GSENT` bez powtórek), `name` przy zmianie imienia w `savePrefs`.
@@ -205,6 +207,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   a przy starcie kasuje je na telefonie bez `henriksen-auth` i bez `henriksen-sync` (wygasłe logowanie zostawia sync, więc
   niewysłane wyniki czekają; wylogowanie najpierw wysyła i czyści sync). Statystyki, Puchary i Ligi: okno `#guest` z zaproszeniem
   do Konta rodziny (nasłuch kliknięć w fazie przechwytywania), podpisy kafli „Zaloguj się…”. Kopii gość nie wczyta.
+  Imię gościa: przy starcie bez zapisanego imienia okno `#gname` (bez pomijania, min. 2 litery); imię w `henriksen-gimie` (`GNAMEK`, poza `STATE_KEYS`),
+  `savePrefs` je aktualizuje i wysyła `guestPing("name")`, więc w Administracji › Goście widać imię zamiast „(bez imienia)”.
 - **Synchronizacja (etap 2):** `localStorage` zostaje główną pamięcią. `saveHist()` zapisuje lokalnie (`saveHistLocal`) i budzi
   `syncSoon()` → `syncNow()`: wysyła sesje, których podpis `sesSig` zmienił się od ostatniej wysyłki, pobiera nowsze z bazy
   (po `updated_at`) i łączy po `id` (ukończona > przerwana > dłuższa); ustawienia `PREFS`/`PLP` – wygrywa nowszy zapis

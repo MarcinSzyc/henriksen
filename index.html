@@ -932,6 +932,22 @@ select.szr-in,input.szr-in{width:100%;box-sizing:border-box}
 .adm-k span{font-weight:800;font-size:.92rem}
 .adm-k small{color:var(--muted);font-weight:700;font-size:.78rem}
 .adm-k.warn{border-color:#e8590c}.adm-k.warn small{color:#e8590c}
+/* karta dziecka w Administracji (admin3.sql: admin_kids) – dziś, 7 dni, przedmioty i szachy */
+.adm-kids{display:flex;flex-direction:column;gap:12px;margin-top:16px}.adm-kids:empty{display:none}
+.adm-kids>h2{font-size:1.05rem;margin:4px 2px 0}
+.adm-kid{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
+.adm-kid-h{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap}
+.adm-kid-h b{font-family:var(--display);font-weight:800;font-size:1.3rem}.adm-kid-h small{color:var(--muted);font-weight:700;font-size:.8rem}
+.adm-nums{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.adm-n{background:var(--key);color:var(--key-fg);border-radius:12px;padding:8px 10px;display:flex;flex-direction:column;min-width:0}
+.adm-n b{font-family:var(--display);font-weight:800;font-size:1.6rem;line-height:1.1;font-variant-numeric:tabular-nums}
+.adm-n small{color:var(--muted);font-weight:700;font-size:.74rem}
+.adm-chips{display:flex;flex-wrap:wrap;gap:6px}.adm-chips span{background:var(--key);color:var(--key-fg);border-radius:999px;padding:3px 10px;font-weight:700;font-size:.8rem}
+.adm-sec{font-weight:800;font-size:.95rem;display:flex;align-items:center;gap:6px;margin-top:2px}
+.adm-wdl{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--key)}.adm-wdl i{display:block}
+.adm-wdl .w{background:var(--ok)}.adm-wdl .d{background:var(--muted)}.adm-wdl .l{background:var(--bad)}
+.adm-wdl-t{display:flex;gap:12px;flex-wrap:wrap;font-weight:800;font-size:.86rem}.adm-wdl-t .w{color:var(--ok)}.adm-wdl-t .l{color:var(--bad)}.adm-wdl-t .d{color:var(--muted)}
+.adm-lines{display:flex;flex-direction:column;gap:4px;font-size:.86rem;font-weight:700}.adm-lines small{color:var(--muted);font-weight:700}
 </style>
 <script>/* motyw z ustawień przed narysowaniem strony, bez mignięcia */
 try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t==="light"||t==="dark") document.documentElement.dataset.theme=t;}catch(e){}</script>
@@ -1457,6 +1473,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <button type="button" class="sbar req-bar" id="adm-req" hidden><span class="si reqsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M19 8v6M22 11h-6"/></svg></span>
     <span class="st"><b>Prośby o zgodę</b><small id="adm-req-s"></small></span><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
   <div class="adm-grid" id="adm-grid"></div>
+  <div class="adm-kids" id="adm-kids"></div>
   <p class="abnote" id="adm-msg" aria-live="polite"></p>
   <button type="button" class="again" id="adm-refresh">Odśwież</button>
 </div>
@@ -1583,6 +1600,12 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <div class="pin-pad" id="pin-pad"><button type="button" data-k="1">1</button><button type="button" data-k="2">2</button><button type="button" data-k="3">3</button><button type="button" data-k="4">4</button><button type="button" data-k="5">5</button><button type="button" data-k="6">6</button><button type="button" data-k="7">7</button><button type="button" data-k="8">8</button><button type="button" data-k="9">9</button><span></span><button type="button" data-k="0">0</button><button type="button" data-k="del" aria-label="Usuń cyfrę">⌫</button></div>
     <button type="button" class="again" id="pin-forgot">Nie pamiętam PIN-u</button></div>
 </div>
+<div class="ask" id="gname" hidden role="dialog" aria-modal="true" aria-labelledby="gname-t">
+  <div class="ask-box"><h2 id="gname-t">Cześć! Jak masz na imię?</h2>
+    <p class="ask-sub">Imię pojawi się na górze aplikacji.</p>
+    <input id="gname-in" type="text" maxlength="20" autocomplete="given-name" autocapitalize="words" spellcheck="false" placeholder="Twoje imię" aria-label="Imię">
+    <button type="button" class="go-btn" id="gname-ok" disabled>Dalej</button></div>
+</div>
 <div class="ask" id="cupset" hidden role="dialog" aria-modal="true" aria-labelledby="cupset-h">
   <div class="ask-box sheet">
     <div class="shd"><div><h2 id="cupset-h">Progi i nagrody</h2><span class="shs" id="cupset-for"></span></div><button type="button" class="xbtn" id="cupset-x" aria-label="Zamknij"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
@@ -1699,7 +1722,7 @@ const $=id=>document.getElementById(id);
    nie zapisuje: wyniki, rozpoczęte działania i ustawienia żyją tylko do zamknięcia aplikacji. Zapis tych kluczy jest tu blokowany,
    a stare dane z telefonu, na którym nikt nie jest zalogowany, kasowane przy starcie. Klucze konta (me/auth/pin/sync) bez zmian. */
 const STATE_KEYS=["henriksen-ustawienia","tabliczka100-postep","henriksen-historia","henriksen-polski"];
-const GDEV="henriksen-dev",GSENT=new Set();let GNAME=null; // ruch gości (guestPing niżej)
+const GDEV="henriksen-dev",GNAMEK="henriksen-gimie",GSENT=new Set();let GNAME=null; // ruch gości (guestPing niżej); imię gościa poza STATE_KEYS, bo jego ustawienia się nie zapisują
 function isGuest(){try{const m=JSON.parse(localStorage.getItem("henriksen-me"));return !(m&&m.role);}catch(e){return true;}}
 (()=>{const set=Storage.prototype.setItem;
   Storage.prototype.setItem=function(k,v){if(this===localStorage&&STATE_KEYS.includes(k)&&isGuest()) return;return set.call(this,k,v);};
@@ -2402,6 +2425,7 @@ function render0(){
 }
 /* Ustawienia (menu ☰): motyw i ekran bez wygaszania */
 function savePrefs(){try{localStorage.setItem(PKEY,JSON.stringify(PREFS));}catch(e){}try{markSettings();}catch(e){}
+  try{if(isGuest()) localStorage.setItem(GNAMEK,(PREFS.name||"").trim());}catch(e){}
   try{if(GNAME!==null&&(PREFS.name||"").trim()!==GNAME) guestPing("name");}catch(e){}}
 const TOGGLES=[["o-fx","fx"],["o-dots","dots"],["o-pct","pct"],["o-pts","pts"],["o-grade","grade"],["o-hints","hints"],["o-modals","modals"],["o-goals","goals"],["o-sound","sound"],["awake","awake"]];
 function applyView(){$("dots").hidden=!PREFS.dots;updateLive();showStats();if(i<N) resetHint();}
@@ -5080,8 +5104,34 @@ async function renderAdmin(){
     let gs=null;try{const r2=await SB.rpc("admin_guest_stats");if(!r2.error) gs=r2.data;}catch(e){}
     g.innerHTML+=gs?k("guests",gs.active_week,"Goście w 7 dni",`bez logowania · sesje: ${gs.sessions_week} · wszystkich urządzeń: ${gs.guests}`)
       :`<div class="adm-k"><b>–</b><span>Goście</span><small>uruchom supabase/guests.sql</small></div>`;
+    renderAdmKids();
     m.textContent=s.last_session?`Ostatnia sesja: ${new Date(+s.last_session).toLocaleString("pl-PL",{dateStyle:"short",timeStyle:"short"})}`:"Nie ma jeszcze żadnej sesji.";
   }catch(e){g.innerHTML="";m.textContent=/admin_stats|schema cache|function/i.test(String(e&&e.message))?"Brakuje funkcji w bazie – uruchom supabase/admin.sql w Supabase.":acctErr(e);}
+}
+// karta każdego dziecka: dziś / 7 dni / punkty, przedmioty w 7 dni i szachy (partie, wynik W·R·P, przeciwnicy, zadania, lekcje)
+async function renderAdmKids(){
+  const el=$("adm-kids");let rows;
+  try{const r=await SB.rpc("admin_kids");if(r.error) throw r.error;rows=r.data||[];}
+  catch(e){el.innerHTML=/admin_kids|schema cache|function/i.test(String(e&&e.message))?'<p class="abnote">Szczegóły dzieci i szachów: uruchom supabase/admin3.sql w Supabase.</p>':"";return;}
+  const num=(v,lab)=>`<div class="adm-n"><b>${v}</b><small>${lab}</small></div>`;
+  const pl=(n,a,b,c)=>n===1?a:n%10>=2&&n%10<=4&&(n%100<10||n%100>=20)?b:c;
+  el.innerHTML=rows.length?`<h2>Co robią dzieci</h2>`+rows.map(x=>{
+    const G=x.games||{},P=x.puzzles||{},wk=x.week_subj||{},gw=+G.week||0;
+    const subj=Object.keys(wk).sort((a,b)=>wk[b]-wk[a]).map(k=>`<span>${SUBJN[k]||esc(k)} ${wk[k]}</span>`).join("");
+    const oppTxt=Object.entries(G.opps||{}).map(([id,o])=>{const L=SZ_OPP.find(q=>q.id===id);return [L?L.elo:0,`${esc(L?L.name:id)} – ${o.n} ${pl(o.n,"partia","partie","partii")}, wygrane ${o.w}`];})
+      .sort((a,b)=>a[0]-b[0]).map(o=>o[1]).join("<br>");
+    const bar=gw?`<div class="adm-wdl" aria-hidden="true">${["w","d","l"].map(k=>G[k]?`<i class="${k}" style="flex:${G[k]}"></i>`:"").join("")}</div>
+      <div class="adm-wdl-t"><span class="w">${G.w} ${pl(G.w,"wygrana","wygrane","wygranych")}</span><span class="d">${G.d} ${pl(G.d,"remis","remisy","remisów")}</span><span class="l">${G.l} ${pl(G.l,"przegrana","przegrane","przegranych")}</span></div>`:"";
+    return `<div class="adm-kid"><div class="adm-kid-h"><b>${esc(x.name||"–")}</b><small>ostatnio ${admD(x.last_session)}</small></div>
+      <div class="adm-nums">${num(x.today,"sesje dziś")}${num(x.week,"sesje w 7 dni")}${num(x.week_pts!=null?x.week_pts:"–","pkt w tygodniu")}</div>
+      ${subj?`<div class="adm-chips">${subj}</div>`:""}
+      <div class="adm-sec">♟ Szachy – partie z komputerem</div>
+      <div class="adm-nums">${num(G.today||0,"dziś")}${num(gw,"w 7 dni")}${num(G.all||0,"razem")}</div>
+      ${bar}
+      <div class="adm-lines">${oppTxt?`<small>Przeciwnicy w 7 dni</small><span>${oppTxt}</span>`:""}${G.timed?`<span>Na czas: ${G.timed} ${pl(G.timed,"partia","partie","partii")}</span>`:""}
+        <span>Zadania w 7 dni: ${P.sets?`${P.sets} ${pl(P.sets,"zestaw","zestawy","zestawów")}, ${P.ok} z ${P.done} dobrze`:"brak"}</span>
+        <span>Lekcje i otwarcia w 7 dni: ${x.lessons||0}</span>
+        <small>Ostatnia partia: ${G.last?admD(G.last):"jeszcze nie grał(a)"}</small></div></div>`;}).join(""):"";
 }
 $("t-admin").addEventListener("click",()=>go("admin"));
 $("adm-req").addEventListener("click",()=>go("reqs"));
@@ -6732,6 +6782,14 @@ if(load()){
 history.replaceState(null,"",location.pathname+location.search);
 showView("home");
 guestPing("open");
+// gość bez imienia: przy każdym starcie pyta o imię (bez pomijania), zapamiętane w GNAMEK wraca do nagłówka
+if(isGuest()){let n="";try{n=localStorage.getItem(GNAMEK)||"";}catch(e){}
+  if(n){PREFS.name=n;applyName();}
+  else{$("gname").hidden=false;setTimeout(()=>$("gname-in").focus(),300);}}
+$("gname-in").addEventListener("input",e=>{$("gname-ok").disabled=e.target.value.trim().length<2;});
+$("gname-in").addEventListener("keydown",e=>{if(e.key==="Enter"&&!$("gname-ok").disabled) $("gname-ok").click();});
+$("gname-ok").addEventListener("click",()=>{const n=$("gname-in").value.trim().slice(0,20);if(n.length<2) return;
+  PREFS.name=n;savePrefs();applyName();$("gname").hidden=true;$("gname-in").blur();});
 
 /* PWA: działanie offline */
 if("serviceWorker" in navigator&&location.protocol.startsWith("http")){
