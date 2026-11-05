@@ -57,7 +57,10 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   z poprzednim (`szOppOpen` z historii). Silnik `szBest`/`szSearch`/`szEval`: alfa-beta na wewnętrznych `_moves`/`_makeMove`/`_undoMove`
   chess.js (30× szybciej niż publiczne `move()`; przy aktualizacji chess.js sprawdź, czy te metody nadal są). Sesje `szArchive`
   (gra: `pct` 100/50/0, `recs[0].c` = w/d/l). Puchary `sz-nauka`/`sz-zadania`/`sz-gra`, zakładka Szachy w statystykach, ligi `LIG_CATS.sz`,
-  cele rodzica (`szCurEx`, `szRun`). Wyjście z partii w trakcie jej nie zapisuje (brak „Dokończ” dla szachów).
+  cele rodzica (`szCurEx`, `szRun`). Partia z komputerem zapisuje się po każdym ruchu (`szSave` → `resPut` miejsce `sz` w `henriksen-wznow`:
+  ruchy SAN, przeciwnik, kolor, 2D/3D, `as`, `cfg`); przycisk „⏸ Przerwij” (`pause`) i zwykłe wyjście zostawiają ją do dokończenia – kafel „Dokończ”
+  na starcie (`renderResume`, `k:"sz"`) i na górze listy przeciwników (`szResBar`); `szResume` odtwarza partię bez liczenia do dziennego limitu;
+  ✕ usuwa bez zapisu w historii; nowa partia pyta o zastąpienie; koniec partii (`szGameEnd`) kasuje zapis. Gość nie zapisuje. Lekcje i zadania bez zapisu.
   Limit partii z komputerem dziennie: `PREFS.szLimit` (0 = bez limitu, klucz rodzica w `PARENT_KEYS`), ustawiany w „Co widzi dziecko” (`#kc-szlim`, `KC.szLimit`);
   `szLeft()` = limit − rozpoczęte dziś (licznik `henriksen-szdzien` albo ukończone z historii, większe); `szGame` blokuje start, `#szo-lim` pokazuje stan.
   Moduł `sz-3d` ukrywa kafel Szachy 3D.

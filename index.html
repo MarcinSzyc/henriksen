@@ -5800,25 +5800,48 @@ function szPuzzleEnd(){
 async function szGame(k,color,tag){
   if(!szGateOk()){toast("Szachy otworzą się po zadaniu od rodzica.");go("sz");return;}
   if(szLeft()===0){toast("Limit partii na dziś wykorzystany – wróć jutro albo poćwicz zadania!");if(CUR!=="szo") go("szo");else renderSzo();return;}
-  szCountGame();await szLoad();if(SZ3D) await sz3Ready(); else sz2d();const L=SZ_OPP[k],me=color==="rand"?(Math.random()<.5?"w":"b"):color;
+  if(!isGuest()&&resMine().sz&&!await askYes("Zacząć nową partię?","Masz niedokończoną partię – nowa ją zastąpi.","Nowa partia","Wróć")) return;
+  resPut(o=>{delete o.sz;});szCountGame();await szLoad();if(SZ3D) await sz3Ready(); else sz2d();const L=SZ_OPP[k],me=color==="rand"?(Math.random()<.5?"w":"b"):color;
   SZ={kind:"game",d3:SZ3D,opp:k,g:new CHESS(),me,flip:me==="b",sel:null,tg:[],last:null,hint:null,busy:false,over:false,stars:null,hints:0,id:Date.now(),start:Date.now(),
     cfg:{mode:"gra",opp:L.id,color,...(tag||{})}};
   $("szg-t").textContent=`${L.name} · ${L.elo}`;$("szg-end").hidden=true;$("szg-play").hidden=false;$("szg-dots").innerHTML="";
-  szCtl([L.undo&&"undo",L.hint&&"hint","resign"].filter(Boolean));szDraw();go("szg");
+  szCtl([L.undo&&"undo",L.hint&&"hint","pause","resign"].filter(Boolean));szDraw();go("szg");
   if(me==="b") szThink(); else szInfo(`Grasz białymi. Twój ruch!`);
 }
 function szThink(){
   const L=SZ_OPP[SZ.opp];SZ.busy=true;szInfo(`${L.name} myśli…`);szFace("think");
   setTimeout(()=>{if(!SZ||SZ.kind!=="game"||SZ.over) return;const m=szBest(SZ.g,L);let x=null;if(m){x=SZ.g.move(m);SZ.last=[x.from,x.to];}SZ.busy=false;szDraw();szFace();if(x) szReact(x);szGameAfter(true);},szWait(450));
 }
+// przerwana partia z komputerem: migawka w henriksen-wznow (resPut, osobne miejsce „sz”) po każdym ruchu – dziecko może wyjść i wrócić
+function szSave(){if(!SZ||SZ.kind!=="game"||SZ.rv) return;const H=SZ.g.history();
+  if(SZ.over||!H.length) return resPut(me=>{delete me.sz;});const L=SZ_OPP[SZ.opp];
+  resPut(me=>{me.sz={opp:SZ.opp,me:SZ.me,cfg:SZ.cfg,id:SZ.id,start:SZ.start,d3:!!SZ.d3,as:SZ.as?1:0,hints:SZ.hints||0,moves:H,title:`Szachy ${L.z}`};});}
+async function szResume(s){
+  if(!szGateOk()){toast("Szachy otworzą się po zadaniu od rodzica.");go("sz");return;}
+  const L=SZ_OPP[s.opp];if(!L){resPut(me=>{delete me.sz;});return;}
+  await szLoad();SZ3D=!!s.d3;if(SZ3D) await sz3Ready(); else sz2d();
+  const g=new CHESS();try{s.moves.forEach(m=>g.move(m));}catch(e){resPut(me=>{delete me.sz;});toast("Nie udało się wczytać partii.");return;}
+  const H=g.history({verbose:true}),x=H[H.length-1];
+  SZ={kind:"game",d3:SZ3D,opp:s.opp,g,me:s.me,flip:s.me==="b",sel:null,tg:[],last:x?[x.from,x.to]:null,hint:null,busy:false,over:false,stars:null,hints:s.hints||0,as:!!s.as,id:s.id,start:s.start,cfg:s.cfg};
+  $("szg-t").textContent=`${L.name} · ${L.elo}`;$("szg-end").hidden=true;$("szg-play").hidden=false;$("szg-dots").innerHTML="";
+  szCtl([L.undo&&"undo",L.hint&&"hint","pause","resign"].filter(Boolean));szDraw();go("szg");
+  if(g.isGameOver()) return szGameAfter(true);
+  if(g.turn()!==s.me) szThink(); else szInfo(g.inCheck()?"Wracamy do gry! Szach – broń króla.":"Wracamy do gry! Twój ruch.");
+}
+const szResBar=()=>{const s=!isGuest()&&resMine().sz;return s?`<div class="cont-row"><button type="button" class="sbar res-bar" data-szres="go"><span class="si matsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span>
+  <span class="st"><b>Dokończ: ${esc(s.title)}</b><small>${(Math.floor(s.moves.length/2)+1)}. ruch · grasz ${s.me==="w"?"białymi":"czarnymi"}${s.d3?" · 3D":""}</small></span>${RES_GO}</button>
+  <button type="button" class="cont-x" data-szres="x" aria-label="Nie kończ tej partii">${RES_X}</button></div>`:"";};
+async function szResAct(a){const s=resMine().sz;if(!s) return;
+  if(a==="go") return szResume(s);
+  if(await askYes("Nie kończyć tej partii?",`${s.title}, ${(Math.floor(s.moves.length/2)+1)}. ruch. Partia zniknie i nie zapisze się w historii.`,"Nie kończ","Wróć")){resPut(me=>{delete me.sz;});if(CUR==="szo") renderSzo();else renderHome();}}
 function szGameAfter(byPc){
-  const g=SZ.g;
+  const g=SZ.g;szSave();
   if(g.isGameOver()) return szGameEnd(g.isCheckmate()?(g.turn()===SZ.me?"l":"w"):"d");
   if(!byPc) return szThink();
   szInfo(g.inCheck()?"Szach! Broń króla.":"Twój ruch.");
 }
 function szGameEnd(res,now){
-  const L=SZ_OPP[SZ.opp],g=SZ.g;SZ.over=true;SZ.busy=false;
+  const L=SZ_OPP[SZ.opp],g=SZ.g;SZ.over=true;SZ.busy=false;resPut(me=>{delete me.sz;});
   // najpierw ostatni ruch musi dojechać (i efekt zbicia się skończyć), potem chwila na zobaczenie mata/pata, dopiero wtedy karta końca
   if(!now&&!SZ.shown){SZ.shown=true;const me=SZ,w=Math.max(SZ.d3?0:420,SZ_FXEND-Date.now()),go2=()=>{if(SZ===me&&CUR==="szg") szGameEnd(res,true);};
     if(SZ.d3){setTimeout(()=>{if(g.isCheckmate()) S3.topple(szKing(g.turn()));if(res==="w") S3.fireworks(3);},w);setTimeout(go2,w+(res==="w"?4200:2200));}
@@ -5930,14 +5953,15 @@ function szReviewNext(){const b=SZ.why.b,g=SZ.g;
   szInfo(r.mate?`Mat! Twój ruch odsłonił króla i przeciwnik od razu to wykorzystał. Zanim ruszysz pionem przy królu, sprawdź, czy nie otwierasz drogi do niego.`:r.p?`Przeciwnik zbija ${SZ_ACC[r.p]} na ${r.to}! Dlatego zanim ruszysz figurą, sprawdź, czy nie zostawiasz czegoś bez obrony.`:`Przeciwnik odpowiada ${SZ_NAME[r.pc]} ${r.from}–${r.to} i ma lepszą pozycję.`);szCtl(["rvback"]);}
 
 /* --- przyciski pod szachownicą --- */
-const SZ_BTN={rvnext:"▶ Co dalej?",rvback:"← Wróć do wyniku",undo:"↶ Cofnij",hint:"💡 Podpowiedź",show:"Pokaż rozwiązanie",resign:"Poddaj się"};
+const SZ_BTN={rvnext:"▶ Co dalej?",rvback:"← Wróć do wyniku",undo:"↶ Cofnij",hint:"💡 Podpowiedź",show:"Pokaż rozwiązanie",resign:"Poddaj się",pause:"⏸ Przerwij"};
 function szCtl(list){$("szg-ctl").innerHTML=list.map(k=>`<button type="button" class="again" data-c="${k}">${SZ_BTN[k]}</button>`).join("");}
 $("szg-end").addEventListener("input",e=>{if(e.target.id==="sz-rpr"&&SZ){clearTimeout(SZ.rpT);const k=+e.target.value;szRpShow(k,k===(SZ.rpk||0)+1);}});
 $("szg-ctl").addEventListener("click",async e=>{const b=e.target.closest("[data-c]");if(!b||!SZ) return;
   if(b.dataset.c==="rvnext") return szReviewNext();
   if(b.dataset.c==="rvback"){if(SZ.rv){SZ.g=SZ.rv;SZ.rv=null;}szHush();$("szg-play").hidden=true;$("szg-end").hidden=false;szRpShow(SZ.rpk||0);return;}
+  if(b.dataset.c==="pause"){if(SZ.over) return;szSave();toast(isGuest()?"Gość nie zapisuje partii – zaloguj się, żeby wrócić do gry.":"Partia zapisana – dokończysz ją na starcie albo w „Graj z komputerem”.");go("szo");return;}
   if(SZ.busy||SZ.over) return;const c=b.dataset.c,g=SZ.g;
-  if(c==="undo"){if(g.history().length<2) return;g.undo();if(g.turn()!==SZ.me) g.undo();SZ.last=null;SZ.hint=null;szDraw();szInfo(SZ.as?"Cofnięte. Twój ruch.":"Cofnięte. Ta partia jest już towarzyska – nie zmieni rankingu.");SZ.as=true;}
+  if(c==="undo"){if(g.history().length<2) return;g.undo();if(g.turn()!==SZ.me) g.undo();SZ.last=null;SZ.hint=null;szDraw();szSave();szInfo(SZ.as?"Cofnięte. Twój ruch.":"Cofnięte. Ta partia jest już towarzyska – nie zmieni rankingu.");SZ.as=true;}
   if(c==="hint"){if(SZ.kind==="puzzle"){const u=SZ.sol[SZ.k];SZ.hint=[u.slice(0,2)];SZ.recs[SZ.i].ok=false;szDots();szInfo("Rusz podświetloną figurą (bez punktów za to zadanie).");}
     else{const m=szBest(g,{depth:2,rand:0,noise:0,mate1:true});if(m){SZ.hint=[m.from,m.to];SZ.hints++;szInfo(SZ.as?"Spróbuj tego ruchu.":"Spróbuj tego ruchu. Z podpowiedzią partia jest towarzyska – bez zmiany rankingu.");SZ.as=true;}}szDraw();}
   if(c==="show"&&SZ.kind==="puzzle"){const r=SZ.recs[SZ.i];r.ok=false;SZ.busy=true;szDots();szInfo("Rozwiązanie:");
@@ -6025,7 +6049,7 @@ function renderSzo(){$("szo").querySelector("h1").textContent=SZ3D?"Graj w 3D":"
   $("szo-lim").innerHTML=szLimCard();$("szo-lim").className="szlim-wrap";
   for(const b of $("szo-col").children){const on=b.dataset.c===SZC;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
   const E=szElo(loadHist()),K=szK(E.n);
-  $("szo-list").innerHTML=SZ_OPP.map((L,k)=>{const o=szOppOpen(k),w=szWins(L.id),n=szHist("gra").filter(s=>s.cfg.opp===L.id).length,e=szExp(E.R,L.elo);
+  $("szo-list").innerHTML=szResBar()+SZ_OPP.map((L,k)=>{const o=szOppOpen(k),w=szWins(L.id),n=szHist("gra").filter(s=>s.cfg.opp===L.id).length,e=szExp(E.R,L.elo);
     return `<button type="button" class="set-i" data-o="${k}"${o&&left!==0?"":" disabled"}><span class="gl sz-gl${o?"":" lock"}" aria-hidden="true"><img src="${SZ_IMG[L.pc]}" alt=""></span>`+
       `<span class="sn"><b>${L.name}</b><small>${o?`ELO ok. ${L.elo} · wygrana: +${L.pts} pkt`:"wygraj z poprzednim, żeby odblokować"}</small>${o?`<small class="lr2">Twoja szansa: ${Math.round(e*100)}% · ranking +${Math.round(K*(1-e))} / −${Math.round(K*e)}</small>`:""}${o&&n?`<small class="lr2">Partie: ${n} · wygrane: ${w}</small>`:""}</span></button>`;}).join("");
 }
@@ -6112,7 +6136,7 @@ $("szz-theme").addEventListener("click",e=>{const b=e.target.closest("[data-t]")
 $("szz-n").addEventListener("click",e=>{const b=e.target.closest("[data-n]");if(b){SZN=+b.dataset.n;renderSzz();}});
 $("szz-go").addEventListener("click",()=>szPuzzles(SZT,SZN));
 $("szo-col").addEventListener("click",e=>{const b=e.target.closest("[data-c]");if(b){SZC=b.dataset.c;renderSzo();}});
-$("szo-list").addEventListener("click",e=>{const b=e.target.closest("[data-o]");if(!b||b.disabled) return;szGame(+b.dataset.o,SZC);});
+$("szo-list").addEventListener("click",e=>{const r=e.target.closest("[data-szres]");if(r) return szResAct(r.dataset.szres);const b=e.target.closest("[data-o]");if(!b||b.disabled) return;szGame(+b.dataset.o,SZC);});
 // zapisane ćwiczenie z celu rodzica (exRun): {k:"sz",cfg:{mode,…}}
 async function szRun(c,tag){
   await szLoad();
@@ -6479,6 +6503,7 @@ function renderResume(){
   if(!isGuest()){
     if(ACTIVE&&i<N&&i>0) rows.push({k:"mat",title:$("title").textContent,sub:`Matematyka · ${i} / ${N}`});
     const g=resMine().game;if(g) rows.push({k:"game",title:g.title,sub:`${g.done} / ${g.n} · dokończ`});
+    const z=resMine().sz;if(z) rows.push({k:"sz",title:z.title,sub:`${(Math.floor(z.moves.length/2)+1)}. ruch · dokończ partię`});
   }
   el.hidden=!rows.length;
   el.innerHTML=rows.map(r=>`<div class="cont-row"><button type="button" class="sbar res-bar" data-res="${r.k}"><span class="si matsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span>
@@ -6487,6 +6512,7 @@ function renderResume(){
 }
 $("resume").addEventListener("click",async e=>{
   const go1=e.target.closest("[data-res]"),x=e.target.closest("[data-resx]");
+  if(go1&&go1.dataset.res==="sz") return szResAct("go");if(x&&x.dataset.resx==="sz") return szResAct("x");
   if(go1){if(go1.dataset.res==="mat") go("play");
     else{const g=resMine().game;if(g&&!resumeGame(g)){resPut(me=>{delete me.game;});renderHome();}}return;}
   if(x){if(x.dataset.resx==="mat"){if(await matDrop()) renderHome();return;}
