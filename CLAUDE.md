@@ -84,6 +84,12 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `szGuard()` (z `applyMods`, więc też po synchronizacji): gdy rodzic wyłączy szachy albo moduł, w którym dziecko jest (także w trakcie partii),
   wraca na start albo na ekran Szachy z komunikatem. Telefon dziecka (aplikacja na ekranie) co 60 s pyta tylko o `settings.updated_at`;
   pełna synchronizacja tylko, gdy rodzic coś zmienił. `ligPublish` wysyła podsumowanie tylko, gdy się zmieniło (`LIGSENT`).
+  Gra na czas: wybór „Tempo” na ekranie przeciwników (`#szo-tc`, `SZ_TCS`: bez czasu / 10 min / 5 min / 3+2, ostatni wybór w `henriksen-sztc`, `SZTC`),
+  `cfg.tc` w sesji; zegar `SZ.ck={w,b,inc,t0}` (ms), `#szg-clock` (`szClockDraw`), czas zużyty i dodatek liczy `szCkMove` w `szGameAfter`, interwał 250 ms
+  chodzi tylko na ekranie partii przy widocznej aplikacji (wyjście = zegar stoi; zapis i wznowienie partii niosą `ck`); poniżej 30 s czerwony, poniżej 10 s tyka.
+  Flaga (`szFlag`): przegrana, a remis, gdy przeciwnik nie ma czym dać mata (`szCanMate`); `SZ.flag` zmienia teksty końca i `szWhy`.
+  Osobny ranking na czas: `szElo(H,true)` liczy tylko sesje z `cfg.tc`, `szElo(H)` tylko bez – rangi i okno awansu tylko z głównego;
+  na karcie rankingu „· na czas X”, w Statystykach › Szachy „Ranking na czas”.
   Ranking gry (Elo, `szElo(historia)`): z ukończonych partii z komputerem, start 400, K 40 przez 20 partii, potem 20, ELO bota z `SZ_OPP`;
   partia z cofnięciem albo podpowiedzią (`SZ.as` → `recs[0].as`) jest towarzyska i nie zmienia rankingu. Rangi `SZ_RANKS` (Pion <400,
   Skoczek, Goniec, Wieża, Hetman, Król ≥1200). Karta `[data-szelo]` na ekranach Szachy i Szachy 3D (`renderSzElo`: ranking, ranga, zmiana

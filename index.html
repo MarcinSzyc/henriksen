@@ -775,6 +775,10 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 @keyframes szpop{from{transform:scale(.5);opacity:.3}}
 .sz-talk-top{left:68px}.sz-talk-top img{display:none}
 /* Kibic nad planszą 2D (zamiast emoji): całe popiersie wybranego komentatora nad planszą (dół ucięty clip-path), data-m = mina, animacje w CSS */
+.sz-clock{display:flex;justify-content:space-between;gap:10px;margin:0 0 8px}.sz-clock[hidden]{display:none}
+.sz-clock span{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 10px;border-radius:14px;border:2px solid var(--line);background:var(--card);font-weight:800;font-size:1.25rem;font-variant-numeric:tabular-nums;opacity:.6}
+.sz-clock span.on{opacity:1;border-color:var(--accent)}.sz-clock img{width:24px;height:24px}.sz-clock .me.low{color:#fff;background:#e03131;border-color:#e03131;opacity:1}.sz-clock .me.low.on{animation:szck 1s steps(2) infinite}
+@keyframes szck{50%{opacity:.55}}
 .sz-facts{display:flex;flex-direction:column;gap:10px}.sz-fact{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:12px 14px}
 .sz-fact-i{font-size:1.8rem;line-height:1;flex:none;width:40px;text-align:center}.sz-fact b{display:block;margin-bottom:2px}.sz-fact p{margin:0;color:var(--muted);font-weight:600;line-height:1.4}
 .sz-op .sz-op-i{font-size:3rem;line-height:1;margin-bottom:4px}.sz-op .sz-why{text-align:left}.sz-why ul{margin:4px 0 10px;padding-left:20px}.sz-why li{margin:4px 0}
@@ -995,6 +999,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="kid" id="sz-st" hidden>
     <section class="scard"><div class="kh"><h2>Ranking szachowy</h2><span id="sz-st-s"></span></div><div class="chart" id="ch-elo"></div></section>
     <div class="k2"><div><span class="k">Najwyżej</span><b id="sz-st-max"></b></div><div><span class="k">Ranking zadań</span><b id="sz-st-pz"></b></div></div>
+    <div class="k2"><div><span class="k">Ranking na czas</span><b id="sz-st-tc"></b></div></div>
     <section class="scard"><div class="kh"><h2>Z przeciwnikami</h2><span>wygrane · remisy · przegrane</span></div><div class="szbots" id="sz-st-bots"></div></section>
   </div>
   <button type="button" class="more pmore" id="par-btn" aria-expanded="false" aria-controls="par"><span><b>Szczegóły dla rodzica</b><small id="par-s">Wykresy, oceny, trudne działania, tabliczka</small></span><svg class="chev" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 9l7 7 7-7"/></svg></button>
@@ -1233,6 +1238,8 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div class="lbl">Grasz</div>
   <div class="segs" id="szo-col"><button type="button" data-c="w">Białymi</button><button type="button" data-c="b">Czarnymi</button><button type="button" data-c="rand">Losowo</button></div>
+  <div class="lbl">Tempo</div>
+  <div class="segs" id="szo-tc"></div><p class="abnote" id="szo-tc-n"></p>
   <div class="szlim-wrap" id="szo-lim" hidden></div>
   <div class="lbl">Przeciwnik</div>
   <div class="sets" id="szo-list"></div>
@@ -1243,6 +1250,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="dots" id="szg-dots"></div>
   <div id="szg-play">
     <div class="sz-top"><img class="sz-face" id="szg-face" alt="" hidden><p class="sz-info" id="szg-info" aria-live="polite"></p></div>
+    <div class="sz-clock" id="szg-clock" hidden></div>
     <div class="sz-bust" id="szg-bust" data-m="calm" hidden aria-hidden="true"></div>
     <div class="sz-talk sz-talk-top" id="szg-talk" hidden aria-live="polite"></div>
     <div class="szb" id="szb" role="grid" aria-label="Szachownica"></div>
@@ -5253,9 +5261,10 @@ const SZ_RANKS=[[0,"Pion","P","Piona","Piona"],[400,"Skoczek","N","Skoczka","Sko
 const szRank=R=>SZ_RANKS.filter(x=>R>=x[0]).pop();
 const szExp=(R,o)=>1/(1+10**((o-R)/400));
 const szK=n=>n<20?40:20;
-function szElo(H){
+// timed = ranking partii na czas (cfg.tc), osobny jak w FIDE (klasyczny / szybki); bez czasu = główny ranking i rangi
+function szElo(H,timed){
   let R=400,n=0,max=400;const pts=[];
-  for(const s of H.filter(s=>s.subj==="sz"&&s.cfg&&s.cfg.mode==="gra"&&s.status==="done").sort((a,b)=>a.start-b.start)){
+  for(const s of H.filter(s=>s.subj==="sz"&&s.cfg&&s.cfg.mode==="gra"&&s.status==="done"&&!!s.cfg.tc===!!timed).sort((a,b)=>a.start-b.start)){
     const r=s.recs&&s.recs[0],L=SZ_OPP.find(x=>x.id===s.cfg.opp);if(!r||!L||r.as) continue;
     const d=Math.round(szK(n)*((r.c==="w"?1:r.c==="d"?.5:0)-szExp(R,L.elo)));R=Math.max(100,R+d);n++;max=Math.max(max,R);pts.push({t:s.start,v:R,d,c:r.c,L});}
   const wk=Date.now()-7*864e5,before=pts.filter(p=>p.t<wk).pop();
@@ -5601,7 +5610,7 @@ $("szw-av").addEventListener("click",e=>{const b=e.target.closest("[data-a]");if
 /* --- szachownica --- */
 let SZ=null;
 function szPos(g){const P={},B=g.board();B.forEach((row,y)=>row.forEach((p,x)=>{if(p) P[SZ_F[x]+(8-y)]=szPc(p);}));return P;}
-function szDraw(){
+function szDraw(){szClockDraw();
   if(SZ.d3&&window.S3){const P=SZ.kind==="star"?SZ.pos:szPos(SZ.g),chk=SZ.g&&SZ.g.inCheck()?Object.keys(P).find(s=>P[s]===SZ.g.turn()+"K"):null;
     S3.sync(P,{sel:SZ.sel,tg:SZ.tg,last:SZ.last,chk,hint:SZ.hint,stars:SZ.stars,flip:SZ.flip});if(S3.busy) SZ_FXEND=Math.max(SZ_FXEND,Date.now()+S3.busy());return;}
   const b=$("szb"),P=SZ.kind==="star"?SZ.pos:szPos(SZ.g),fl=SZ.flip,bugs=!!SZ_BUGS[szSet()];let h="";szLookApply(b);if(bugs) szBugPreload(szSet());
@@ -5957,7 +5966,8 @@ async function szGame(k,color,tag){
   if(!isGuest()&&resMine().sz&&!await askYes("Zacząć nową partię?","Masz niedokończoną partię – nowa ją zastąpi.","Nowa partia","Wróć")) return;
   resPut(o=>{delete o.sz;});szCountGame();await szLoad();if(SZ3D) await sz3Ready(); else sz2d();const L=SZ_OPP[k],me=color==="rand"?(Math.random()<.5?"w":"b"):color;
   SZ={kind:"game",d3:SZ3D,opp:k,g:new CHESS(),me,flip:me==="b",sel:null,tg:[],last:null,hint:null,busy:false,over:false,stars:null,hints:0,id:Date.now(),start:Date.now(),
-    cfg:{mode:"gra",opp:L.id,color,...(tag||{})}};
+    cfg:{mode:"gra",opp:L.id,color,...(szTcOf(SZTC)?{tc:SZTC}:{}),...(tag||{})}};
+  {const T=szTcOf(SZTC);SZ.ck=T?{w:T.m*6e4,b:T.m*6e4,inc:T.i*1e3,t0:null}:null;}
   $("szg-t").textContent=`${L.name} · ${L.elo}`;$("szg-end").hidden=true;$("szg-play").hidden=false;$("szg-dots").innerHTML="";
   szCtl([L.undo&&"undo",L.hint&&"hint","pause","resign"].filter(Boolean));szDraw();go("szg");
   if(me==="b") szThink(); else szInfo(`Grasz białymi. Twój ruch!`);
@@ -5969,27 +5979,46 @@ function szThink(){
 // przerwana partia z komputerem: migawka w henriksen-wznow (resPut, osobne miejsce „sz”) po każdym ruchu – dziecko może wyjść i wrócić
 function szSave(){if(!SZ||SZ.kind!=="game"||SZ.rv) return;const H=SZ.g.history();
   if(SZ.over||!H.length) return resPut(me=>{delete me.sz;});const L=SZ_OPP[SZ.opp];
-  resPut(me=>{me.sz={opp:SZ.opp,me:SZ.me,cfg:SZ.cfg,id:SZ.id,start:SZ.start,d3:!!SZ.d3,as:SZ.as?1:0,hints:SZ.hints||0,moves:H,title:`Szachy ${L.z}`};});}
+  const C=SZ.ck,ck=C?{w:szCkLeft("w"),b:szCkLeft("b"),inc:C.inc}:null;
+  resPut(me=>{me.sz={opp:SZ.opp,me:SZ.me,cfg:SZ.cfg,id:SZ.id,start:SZ.start,d3:!!SZ.d3,as:SZ.as?1:0,hints:SZ.hints||0,moves:H,ck,title:`Szachy ${L.z}`};});}
 async function szResume(s){
   if(!szGateOk()){toast("Szachy otworzą się po zadaniu od rodzica.");go("sz");return;}
   const L=SZ_OPP[s.opp];if(!L){resPut(me=>{delete me.sz;});return;}
   await szLoad();SZ3D=!!s.d3;if(SZ3D) await sz3Ready(); else sz2d();
   const g=new CHESS();try{s.moves.forEach(m=>g.move(m));}catch(e){resPut(me=>{delete me.sz;});toast("Nie udało się wczytać partii.");return;}
   const H=g.history({verbose:true}),x=H[H.length-1];
-  SZ={kind:"game",d3:SZ3D,opp:s.opp,g,me:s.me,flip:s.me==="b",sel:null,tg:[],last:x?[x.from,x.to]:null,hint:null,busy:false,over:false,stars:null,hints:s.hints||0,as:!!s.as,id:s.id,start:s.start,cfg:s.cfg};
+  SZ={kind:"game",d3:SZ3D,opp:s.opp,g,me:s.me,flip:s.me==="b",sel:null,tg:[],last:x?[x.from,x.to]:null,hint:null,busy:false,over:false,stars:null,hints:s.hints||0,as:!!s.as,id:s.id,start:s.start,cfg:s.cfg,ck:s.ck?{...s.ck,t0:null}:null};
   $("szg-t").textContent=`${L.name} · ${L.elo}`;$("szg-end").hidden=true;$("szg-play").hidden=false;$("szg-dots").innerHTML="";
   szCtl([L.undo&&"undo",L.hint&&"hint","pause","resign"].filter(Boolean));szDraw();go("szg");
   if(g.isGameOver()) return szGameAfter(true);
   if(g.turn()!==s.me) szThink(); else szInfo(g.inCheck()?"Wracamy do gry! Szach – broń króla.":"Wracamy do gry! Twój ruch.");
 }
 const szResBar=()=>{const s=!isGuest()&&resMine().sz;return s?`<div class="cont-row"><button type="button" class="sbar res-bar" data-szres="go"><span class="si matsi" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></span>
-  <span class="st"><b>Dokończ: ${esc(s.title)}</b><small>${(Math.floor(s.moves.length/2)+1)}. ruch · grasz ${s.me==="w"?"białymi":"czarnymi"}${s.d3?" · 3D":""}</small></span>${RES_GO}</button>
+  <span class="st"><b>Dokończ: ${esc(s.title)}</b><small>${(Math.floor(s.moves.length/2)+1)}. ruch · grasz ${s.me==="w"?"białymi":"czarnymi"}${s.ck?` · ⏱ ${szCkFmt(s.ck[s.me])}`:""}${s.d3?" · 3D":""}</small></span>${RES_GO}</button>
   <button type="button" class="cont-x" data-szres="x" aria-label="Nie kończ tej partii">${RES_X}</button></div>`:"";};
 async function szResAct(a){const s=resMine().sz;if(!s) return;
   if(a==="go") return szResume(s);
   if(await askYes("Nie kończyć tej partii?",`${s.title}, ${(Math.floor(s.moves.length/2)+1)}. ruch. Partia zniknie i nie zapisze się w historii.`,"Nie kończ","Wróć")){resPut(me=>{delete me.sz;});if(CUR==="szo") renderSzo();else renderHome();}}
+function szCkMove(){const C=SZ&&SZ.ck;if(!C) return;const mv=SZ.g.turn()==="w"?"b":"w";if(C.t0){C[mv]=Math.max(0,C[mv]-(Date.now()-C.t0));C.t0=Date.now();}C[mv]+=C.inc;szClockDraw();}
+const szCkFmt=ms=>{const t=Math.ceil(ms/1000);return `${Math.floor(t/60)}:${String(t%60).padStart(2,"0")}`;};
+function szCkLeft(c){const C=SZ.ck;return Math.max(0,C[c]-(C.t0&&SZ.g.turn()===c?Date.now()-C.t0:0));}
+function szClockDraw(){const el=$("szg-clock");if(!el) return;const on=!!(SZ&&SZ.kind==="game"&&SZ.ck);el.hidden=!on;if(!on) return;
+  const L=SZ_OPP[SZ.opp],op=SZ.me==="w"?"b":"w",turn=SZ.over?null:SZ.g.turn(),me=szCkLeft(SZ.me);
+  el.innerHTML=`<span class="${turn===op?"on":""}"><img src="${SZ_IMG[op+L.pc[1]]}" alt="">${szCkFmt(szCkLeft(op))}</span>`+
+    `<span class="me${turn===SZ.me?" on":""}${me<3e4?" low":""}">⏱ Ty ${szCkFmt(me)}</span>`;}
+// zegar chodzi tylko na ekranie partii i przy widocznej aplikacji; wyjście albo schowanie aplikacji go zatrzymuje
+let SZ_TICKN=0;
+setInterval(()=>{if(!SZ||SZ.kind!=="game"||!SZ.ck||SZ.over) return;const C=SZ.ck,run=CUR==="szg"&&!document.hidden&&!$("szg-play").hidden;
+  if(!run){if(C.t0){const c=SZ.g.turn();C[c]=Math.max(0,C[c]-(Date.now()-C.t0));C.t0=null;}return;}
+  if(!C.t0) C.t0=Date.now();const c=SZ.g.turn(),left=szCkLeft(c);szClockDraw();
+  if(c===SZ.me&&left<1e4&&left>0&&PREFS.sound&&++SZ_TICKN%4===0) try{tone(1400,0,.04,"square",.05);}catch(e){}
+  if(left<=0){C[c]=0;C.t0=null;szFlag(c);}},250);
+// koniec czasu: przegrywa ten, komu spadła flaga – chyba że przeciwnik nie ma czym dać mata (wtedy remis)
+const szCanMate=c=>{const P=SZ.g.board().flat().filter(x=>x&&x.color===c&&x.type!=="k");return P.some(x=>"pqr".includes(x.type))||P.length>=2;};
+function szFlag(c){if(SZ.over) return;SZ.flag=c;const other=c==="w"?"b":"w";sfx("bad");
+  szGameEnd(!szCanMate(other)?"d":c===SZ.me?"l":"w");}
 function szGameAfter(byPc){
-  const g=SZ.g;szSave();
+  const g=SZ.g;szCkMove();szSave();
   if(g.isGameOver()) return szGameEnd(g.isCheckmate()?(g.turn()===SZ.me?"l":"w"):"d");
   if(!byPc) return szThink();
   szInfo(g.inCheck()?"Szach! Broń króla.":"Twój ruch.");
@@ -6000,13 +6029,13 @@ function szGameEnd(res,now){
   if(!now&&!SZ.shown){SZ.shown=true;const me=SZ,w=Math.max(SZ.d3?0:420,SZ_FXEND-Date.now()),go2=()=>{if(SZ===me&&CUR==="szg") szGameEnd(res,true);};
     if(SZ.d3){setTimeout(()=>{if(g.isCheckmate()) S3.topple(szKing(g.turn()));if(res==="w") S3.fireworks(3);},w);setTimeout(go2,w+(res==="w"?4200:2200));}
     else setTimeout(go2,w+(res==="w"?900:1600));
-    szInfo(res==="w"?"Mat! Wygrywasz!":res==="l"?(g.isCheckmate()?"Mat… Spójrz na planszę.":"Koniec partii."):"Remis!");return;}
-  const why=res==="d"?(g.isStalemate()?"Pat – remis.":g.isThreefoldRepetition()?"Trzy razy ta sama pozycja – remis.":g.isInsufficientMaterial()?"Za mało figur do mata – remis.":"Remis."):"";
-  const E0=szElo(loadOwnHist());
+    szInfo(SZ.flag?(SZ.flag===SZ.me?"⏰ Koniec twojego czasu!":"⏰ Komputerowi skończył się czas!"):res==="w"?"Mat! Wygrywasz!":res==="l"?(g.isCheckmate()?"Mat… Spójrz na planszę.":"Koniec partii."):"Remis!");szClockDraw();return;}
+  const why=res==="d"?(SZ.flag?"Koniec czasu – remis, bo przeciwnik nie miał czym dać mata.":g.isStalemate()?"Pat – remis.":g.isThreefoldRepetition()?"Trzy razy ta sama pozycja – remis.":g.isInsufficientMaterial()?"Za mało figur do mata – remis.":"Remis."):"";
+  const TC=!!SZ.cfg.tc,E0=szElo(loadOwnHist(),TC);
   szArchive({id:SZ.id,start:SZ.start,cfg:SZ.cfg,recs:[{t:"gra:"+L.id,c:res,ok:res==="w",tries:[],w:L.pts,done:true,...(SZ.as?{as:1}:{})}],pct:res==="w"?100:res==="d"?50:0},"done");
-  const E1=szElo(loadOwnHist()),dR=E1.R-E0.R,up=szRank(E1.R)[0]>szRank(E0.R)[0]&&!isGuest();
+  const E1=szElo(loadOwnHist(),TC),dR=E1.R-E0.R,up=!TC&&szRank(E1.R)[0]>szRank(E0.R)[0]&&!isGuest();
   const eloH=isGuest()?"":SZ.as?`<div class="szelo-d">Partia towarzyska (cofanie albo podpowiedź) – ranking bez zmian: <b>${E1.R}</b></div>`:
-    `<div class="szelo-d">Ranking: <b id="szg-elo">${E0.R}</b> <span class="${dR>=0?"up":"dn"}">${dR>=0?"+":"−"}${Math.abs(dR)}</span></div>`;
+    `<div class="szelo-d">${TC?"Ranking na czas":"Ranking"}: <b id="szg-elo">${E0.R}</b> <span class="${dR>=0?"up":"dn"}">${dR>=0?"+":"−"}${Math.abs(dR)}</span></div>`;
   const nx=SZ_OPP[SZ.opp+1],unlocked=res==="w"&&nx&&szWins(L.id)===1;
   $("szg-play").hidden=true;
   const whyH=szWhy(res)+(szLeft()!==null?`<div class="szlim-wrap szlim-end">${szLimCard()}</div>`:"");
@@ -6028,7 +6057,7 @@ function renderSzSt(){
     bands:SZ_RANKS.filter(x=>x[0]>lo&&x[0]<hi).map(x=>[x[0],"♙♘♗♖♕♔"["PNBRQK".indexOf(x[2])]]),
     empty:"Jeszcze nie ma partii z rankingiem",hint:"Dotknij punktu, żeby zobaczyć partię",
     tip:p=>`${fdate(p.t).join(" ")} · ${p.c==="w"?"wygrana":p.c==="d"?"remis":"przegrana"} ${p.L.z} · ${p.d>=0?"+":"−"}${Math.abs(p.d)} → ${p.v}`});
-  $("sz-st-max").textContent=E.max;$("sz-st-pz").textContent=szRating();
+  $("sz-st-max").textContent=E.max;$("sz-st-pz").textContent=szRating();{const ET=szElo(H,true);$("sz-st-tc").textContent=ET.n?`${ET.R} (najwyżej ${ET.max})`:"–";}
   const G=H.filter(s=>s.subj==="sz"&&s.cfg&&s.cfg.mode==="gra"&&s.status==="done"&&s.recs&&s.recs[0]);
   const rows=SZ_OPP.map(L=>{const g=G.filter(s=>s.cfg.opp===L.id),c=x=>g.filter(s=>s.recs[0].c===x).length;
     return g.length?`<div><img src="${SZ_IMG[L.pc]}" alt=""><span>${L.name} <small>${L.elo}</small></span><b>${c("w")} · ${c("d")} · ${c("l")}</b></div>`:"";}).join("");
@@ -6066,7 +6095,9 @@ function szWhy(res){
   if(res==="l"&&g.isCheckmate()){const k=szKing(me),at=g.attackers(k,op).map(q=>`${SZ_GEN[g.get(q).type.toUpperCase()]} z ${q}`);
     W.hl=g.attackers(k,op);W.txt=`Mat: twój król na ${k} jest szachowany (atakujące figury na niebiesko) i nie ma żadnego ruchu.`;
     L.push(`<b>Dlaczego przegrana?</b> Mat: twój król na ${k} był szachowany (przez ${at.join(" i ")}) i nie miał żadnego ruchu – nie mógł uciec na wolne pole, zasłonić się ani zbić atakującej figury.`);}
+  else if(res==="l"&&SZ.flag) {W.txt="Skończył ci się czas na zegarze.";L.push(`<b>Dlaczego przegrana?</b> Skończył ci się czas na zegarze. W grze na czas pilnuj zegara – gdy czasu jest mało, lepiej szybko zagrać prosty, bezpieczny ruch.`);}
   else if(res==="l") L.push(`<b>Dlaczego przegrana?</b> Partia została poddana.`);
+  else if(SZ.flag) L.push(`<b>Dlaczego remis?</b> Skończył ci się czas, ale przeciwnik miał za mało figur, żeby dać mata – w takiej sytuacji jest remis.`);
   else if(g.isStalemate()){const k=szKing(g.turn());W.hl=[k];W.txt=`Pat: król na ${k} nie jest w szachu, ale ${g.turn()===me?"ty nie masz":"przeciwnik nie ma"} żadnego ruchu – każde pole wokół króla jest atakowane.`;L.push(`<b>Dlaczego remis?</b> Pat: ${g.turn()===me?"ty nie miałeś":"przeciwnik nie miał"} żadnego ruchu, a król nie był w szachu. Wtedy nikt nie wygrywa. Gdy masz przewagę, zostaw królowi przeciwnika wolne pole albo dawaj szacha.`);}
   else if(g.isThreefoldRepetition()) L.push(`<b>Dlaczego remis?</b> Ta sama pozycja powtórzyła się trzy razy. Gdy masz przewagę, nie powtarzaj ruchów – szukaj nowego planu, np. przesuń inną figurę.`);
   else if(g.isInsufficientMaterial()) L.push(`<b>Dlaczego remis?</b> Zostało za mało figur, żeby dać mata (np. same króle albo król z jednym gońcem lub skoczkiem). Pilnuj pionów, wież i hetmana – to nimi daje się mata.`);
@@ -6145,10 +6176,10 @@ function szArchive(P,status){
 
 /* --- ekrany: Szachy, lista lekcji, zadania, przeciwnicy --- */
 function renderSzElo(){
-  const E=szElo(loadHist()),rk=szRank(E.R),on=modOn("sz-gra");
+  const E=szElo(loadHist()),rk=szRank(E.R),on=modOn("sz-gra"),ET=szElo(loadHist(),true);
   const tr=E.week>0?`<span class="up">▲ +${E.week}</span> w tym tygodniu`:E.week<0?`<span class="dn">▼ ${E.week}</span> w tym tygodniu`:isGuest()?"zaloguj się, żeby zapisywać ranking":E.n?"bez zmian w tym tygodniu":"zagraj partię, żeby ruszyć";
   document.querySelectorAll("[data-szelo]").forEach(b=>{b.hidden=!on;b.setAttribute("aria-label",`Twój ranking ${E.R}, ranga ${rk[1]}`);
-    b.innerHTML=`<span class="ri" aria-hidden="true"><img src="${SZ_IMG["w"+rk[2]]}" alt=""></span><span class="m"><span class="k">Twój ranking · ${rk[1]}</span><b>${E.R}</b><small>${tr}</small></span>`+
+    b.innerHTML=`<span class="ri" aria-hidden="true"><img src="${SZ_IMG["w"+rk[2]]}" alt=""></span><span class="m"><span class="k">Twój ranking · ${rk[1]}</span><b>${E.R}</b><small>${tr}${ET.n?` · na czas ${ET.R}`:""}</small></span>`+
       (modOn("sz-zadania")?`<span class="pz"><span class="k">Zadania</span><b>${szRating()}</b></span>`:"");});
 }
 document.querySelectorAll("[data-szelo]").forEach(b=>b.addEventListener("click",()=>{if(isGuest()||!modOn("stats")) return;go("stats");$("subj").querySelector('[data-s="sz"]').click();}));
@@ -6176,6 +6207,10 @@ function renderSzl(){$("szl").querySelector("h1").textContent=SZ3D?"Samouczek 3D
       `<span class="sn"><b>${k+1}. ${L.name}</b><small>${o?(s?`<span class="sz-st">${"★".repeat(s)}<s>${"★".repeat(3-s)}</s></span>`:`${L.b.length} plansze`):"najpierw poprzednia lekcja"}</small></span></button>`;}).join("");
 }
 let SZT="m1",SZN=5,SZC="w";
+// tempo partii z komputerem: m = minuty na partię, i = sekundy dodawane po każdym ruchu
+const SZ_TCS=[{id:"",name:"Bez czasu"},{id:"10",name:"10 min",m:10,i:0},{id:"5",name:"5 min",m:5,i:0},{id:"3+2",name:"3 + 2",m:3,i:2}];
+let SZTC="";try{SZTC=localStorage.getItem("henriksen-sztc")||"";if(!SZ_TCS.some(t=>t.id===SZTC)) SZTC="";}catch(e){}
+const szTcOf=id=>SZ_TCS.find(t=>t.id===id&&t.m)||null;
 function renderSzz(){$("szz").querySelector("h1").textContent=SZ3D?"Zadania 3D":"Zadania szachowe";
   for(const b of $("szz-theme").children){const on=b.dataset.t===SZT;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
   for(const b of $("szz-n").children){const on=+b.dataset.n===SZN;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
@@ -6205,7 +6240,9 @@ function renderSzo(){$("szo").querySelector("h1").textContent=SZ3D?"Graj w 3D":"
   const left=szLeft();$("szo-lim").hidden=left===null;
   $("szo-lim").innerHTML=szLimCard();$("szo-lim").className="szlim-wrap";
   for(const b of $("szo-col").children){const on=b.dataset.c===SZC;b.classList.toggle("sel",on);b.setAttribute("aria-pressed",on);}
-  const E=szElo(loadHist()),K=szK(E.n);
+  $("szo-tc").innerHTML=SZ_TCS.map(t=>`<button type="button" data-tc="${t.id}" class="${t.id===SZTC?"sel":""}" aria-pressed="${t.id===SZTC}">${t.name}</button>`).join("");
+  $("szo-tc-n").textContent=SZTC?"Gra na czas ma osobny ranking. Gdy skończy ci się czas, przegrywasz.":"";
+  const E=szElo(loadHist(),!!szTcOf(SZTC)),K=szK(E.n);
   $("szo-list").innerHTML=szResBar()+SZ_OPP.map((L,k)=>{const o=szOppOpen(k),w=szWins(L.id),n=szHist("gra").filter(s=>s.cfg.opp===L.id).length,e=szExp(E.R,L.elo);
     return `<button type="button" class="set-i" data-o="${k}"${o&&left!==0?"":" disabled"}><span class="gl sz-gl${o?"":" lock"}" aria-hidden="true"><img src="${SZ_IMG[L.pc]}" alt=""></span>`+
       `<span class="sn"><b>${L.name}</b><small>${o?`ELO ok. ${L.elo} · wygrana: +${L.pts} pkt`:"wygraj z poprzednim, żeby odblokować"}</small>${o?`<small class="lr2">Twoja szansa: ${Math.round(e*100)}% · ranking +${Math.round(K*(1-e))} / −${Math.round(K*e)}</small>`:""}${o&&n?`<small class="lr2">Partie: ${n} · wygrane: ${w}</small>`:""}</span></button>`;}).join("");
@@ -6295,18 +6332,19 @@ $("szz-theme").addEventListener("click",e=>{const b=e.target.closest("[data-t]")
 $("szz-n").addEventListener("click",e=>{const b=e.target.closest("[data-n]");if(b){SZN=+b.dataset.n;renderSzz();}});
 $("szz-go").addEventListener("click",()=>szPuzzles(SZT,SZN));
 $("szo-col").addEventListener("click",e=>{const b=e.target.closest("[data-c]");if(b){SZC=b.dataset.c;renderSzo();}});
+$("szo-tc").addEventListener("click",e=>{const b=e.target.closest("[data-tc]");if(!b) return;SZTC=b.dataset.tc;try{localStorage.setItem("henriksen-sztc",SZTC);}catch(x){}renderSzo();});
 $("szo-list").addEventListener("click",e=>{const r=e.target.closest("[data-szres]");if(r) return szResAct(r.dataset.szres);const b=e.target.closest("[data-o]");if(!b||b.disabled) return;szGame(+b.dataset.o,SZC);});
 // zapisane ćwiczenie z celu rodzica (exRun): {k:"sz",cfg:{mode,…}}
 async function szRun(c,tag){
   await szLoad();
   if(c.mode==="zadania") return szPuzzles(c.theme,c.n||5,tag);
-  if(c.mode==="gra"){const k=SZ_OPP.findIndex(x=>x.id===c.opp);return szGame(Math.max(0,k),c.color||"w",tag);}
+  if(c.mode==="gra"){const k=SZ_OPP.findIndex(x=>x.id===c.opp);SZTC=szTcOf(c.tc)?c.tc:"";return szGame(Math.max(0,k),c.color||"w",tag);}
   if(c.mode==="nauka"&&c.open){const k=SZ_OPEN.findIndex(x=>x.id===c.open);return szOpening(Math.max(0,k),tag);}
   if(c.mode==="nauka"){const k=SZ_LESSONS.findIndex(x=>x.id===c.lesson);return szLesson(Math.max(0,k),tag);}
 }
 function szCurEx(){
   if(!SZ) return null;
-  if(SZ.kind==="game"){const L=SZ_OPP[SZ.opp];return {spec:{k:"sz",cfg:{mode:"gra",opp:L.id,color:SZ.cfg.color}},name:`Szachy: partia ${L.z}`,pts:L.pts};}
+  if(SZ.kind==="game"){const L=SZ_OPP[SZ.opp];return {spec:{k:"sz",cfg:{mode:"gra",opp:L.id,color:SZ.cfg.color,...(SZ.cfg.tc?{tc:SZ.cfg.tc}:{})}},name:`Szachy: partia ${L.z}${SZ.cfg.tc?` (${szTcOf(SZ.cfg.tc).name})`:""}`,pts:L.pts};}
   if(SZ.list) return {spec:{k:"sz",cfg:{mode:"zadania",theme:SZ.cfg.theme,n:SZ.list.length}},name:`Szachy: ${SZ_THEME[SZ.cfg.theme].name} · ${SZ.list.length}`,pts:SZ.recs.reduce((a,r)=>a+r.w,0)};
   if(SZ.lesson!=null){const L=SZ_LESSONS[SZ.lesson];return {spec:{k:"sz",cfg:{mode:"nauka",lesson:L.id}},name:`Szachy: lekcja ${L.name}`,pts:L.b.length};}
   if(SZ.kind==="open"){const O=SZ_OPEN[SZ.open];return {spec:{k:"sz",cfg:{mode:"nauka",open:O.id}},name:`Szachy: otwarcie ${O.name}`,pts:szOpMoves(O).filter((m,i)=>(i%2===0)===(O.side==="w")).length};}
