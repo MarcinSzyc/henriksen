@@ -13,7 +13,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
 - Po zmianie ikon/manifestu podbij `VERSION` w `sw.js`.
 
 ## Architektura `index.html`
-- **Widoki:** `#home` (kwadratowe kafle 2×3: Matematyka, Polski, Angielski, Edukacja zdrowotna oraz Historia i Przyroda jako „Wkrótce” – `applyMods()` zawsze przenosi kafle `[data-soon]` na koniec siatki – `[data-soon]`, tylko potrząśnięcie; pasek Statystyki), `#play` (gra), `#stats-v` (statystyki); `go(v)` + `history.pushState`
+- **Widoki:** `#home` (kwadratowe kafle nauki: Matematyka, Polski, Angielski, Edukacja zdrowotna oraz Historia i Przyroda jako „Wkrótce”; pod cienką linią „Gry” (`#games-sep`, znika, gdy obie gry wyłączone) osobna siatka `#games`: Szachy i Łamigłówki – `applyMods()` zawsze przenosi kafle `[data-soon]` na koniec siatki – `[data-soon]`, tylko potrząśnięcie; pasek Statystyki), `#play` (gra), `#stats-v` (statystyki); `go(v)` + `history.pushState`
   (`#gra`, `#statystyki`), więc „wstecz” w telefonie wraca na start. Obok strzałki wstecz w nagłówku każdego ekranu jest logo
   aplikacji (`.home-btn`, wstawiane w JS do każdego `header [data-back]`) = `go("home")`; rozpoczęte gry zostają do dokończenia. Aplikacja zawsze startuje na `#home`.
   Wczytanie zapisanej sesji (`load()` → `render0()`/`finish(true)`) jest na samym końcu skryptu – `finish()` zapisuje
