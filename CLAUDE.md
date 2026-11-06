@@ -173,6 +173,19 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   (części rozlatują się), mat = król się rozpada, reszta podskakuje (`hop`). Zbicia postaci idą przez
   `userData.cap(ofiara, atakujący)` (zwraca, ile ms czekać przed ruchem) i `userData.die`; plakietki `addBadge` w kolorach `TEAMC`.
   `S3.busy()` = ile ms trwa jeszcze animacja: `szDraw` przesuwa `SZ_FXEND`, więc komputer i ekran końcowy czekają, aż figura dojedzie.
+- **Łamigłówki** (kafel `#t-lg`, widoki `#lg` (kafle: Block Out, Mosty „Wkrótce”), `#lgb` lista poziomów, `#lgg` gra; hashe `#lamiglowki`, `#block-out`,
+  `#block-out-gra`; przedmiot `subj:"lg"`, moduł `lg-blockout`, puchar `lg-blockout`, ligi `LIG_CATS.lg`). **Block Out** (jak „Block Out! – Color Sort Puzzle”):
+  kolorowe klocki (oczka, odblask; SVG `boSvg`) wyjeżdżają drzwiami swojego koloru na brzegu planszy. Silnik i solver `BO_CORE` (między `/*BO-CORE*/` i
+  `/*BO-END*/`, kopia z `tools/blockout_core.js` – zmieniaj oba): `reach` (gdzie klocek dojedzie, także za róg), `exitAt` (kolor, szerokość drzwi,
+  wolna droga do brzegu), `solve` (BFS po ruchach). Ruch = jedno przeciągnięcie (`pointer*` na `#bo-board`: klocek idzie za palcem kratka po kratce,
+  za brzeg przy swoich drzwiach albo dotknięcie stojącego przy drzwiach = wyjazd, `boOver`). Strzałka `lk` = tylko poziomo/pionowo, lód `ice` = stoi,
+  aż wyjedzie tyle innych. 40 poziomów `BO_LEVELS` w 4 światach (`BO_WORLDS`: zwykłe, zakręty, strzałki, lód) z `tools/blockout_levels.js`
+  (poziom budowany od końca – klocki wjeżdżają drzwiami – więc zawsze da się przejść; par = BFS albo długość budowy). Gwiazdki: ≤ par 3, ≤ par+3 2,
+  podpowiedź (`boHint`: klocek, który już wyjedzie → ruch, po którym ktoś wyjedzie → krótki BFS) najwyżej 2. Sesja `cfg:{mode:"blockout",lvl}`,
+  `recs[0]` = `{st,mv,par,w}`, punkty `gwiazdki × (świat+1)`. Cofnij / Od nowa. Następny poziom po przejściu poprzedniego.
+  Zasady rodzica jak w szachach, wspólny kod: `RSEC` (sz / lg: klucze `szLimit`/`szRules` i `lgLimit`/`lgRules`, znaczniki `szx`/`szgate` i `lgx`/`lggate`,
+  teksty edytora), `rlR(s)`, `szLimitToday(s)`, `szBonus(s)`, `szLeft(s)`, `szGateOk(s)`; edytor `#szrules` z `SZR.sec` (przycisk „Zasady łamigłówek”
+  na ekranie `#lg`). Limit liczy rozpoczęte poziomy (`lgPlayedToday`, licznik `henriksen-lgdzien`); `lgLimCard`, `lgGuard` (z `applyMods`).
 - **Edukacja zdrowotna** (widok `#zd`, hash `#zdrowie`, przedmiot `subj:"zd"`): kafel „Sprawdzian 29.10” (`ZD_DATE`, wszystkie pytania
   w losowej kolejności, `cfg.mode:"spr"`) i 4 tematy z lekcji (`ZD_TOPICS`: wartosc, styl, cialo, zach – `cfg.mode` = id tematu).
   Pytanie `{q,c,bad,why}` albo prawda/fałsz `PF(q,ok,why)`; `why` = zdanie z notatki. Gra w quizie angielskim (`enStart`,

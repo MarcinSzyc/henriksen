@@ -779,6 +779,35 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .sz-clock span{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 10px;border-radius:14px;border:2px solid var(--line);background:var(--card);font-weight:800;font-size:1.25rem;font-variant-numeric:tabular-nums;opacity:.6}
 .sz-clock span.on{opacity:1;border-color:var(--accent)}.sz-clock img{width:24px;height:24px}.sz-clock .me.low{color:#fff;background:#e03131;border-color:#e03131;opacity:1}.sz-clock .me.low.on{animation:szck 1s steps(2) infinite}
 @keyframes szck{50%{opacity:.55}}
+.tile.lg{background:linear-gradient(135deg,#ff6b6b,#7048e8)}
+.bo-wm{display:grid!important;grid-template-columns:repeat(2,18px);gap:4px}.bo-wm i{width:18px;height:18px;border-radius:5px;background:var(--c);box-shadow:inset 0 3px 0 rgba(255,255,255,.35)}
+.bo-lv{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px}
+.bo-lv button{aspect-ratio:1;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--text);font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0}
+.bo-lv button b{font-size:1.25rem}.bo-lv button small{font-size:.7rem;color:#f2b705;letter-spacing:-1px}.bo-lv button small s{color:var(--line);text-decoration:none}
+.bo-lv button.done{border-color:#e64980}.bo-lv button:disabled{opacity:.45}
+.bo-top{display:flex;justify-content:space-between;align-items:center;font-weight:700;margin:2px 4px 6px;color:var(--muted)}.bo-top b{color:var(--text);font-size:1.3rem}
+.bo-wrap{display:flex;justify-content:center;margin:4px 0 10px}
+.bo-board{position:relative;background:#0f1a36;border-radius:18px;overflow:hidden;touch-action:none;box-shadow:0 10px 26px rgba(0,0,0,.28),inset 0 0 0 3px rgba(255,255,255,.06)}
+.bo-floor{position:absolute;border-radius:8px;background:repeating-conic-gradient(#1c2b52 0 25%,#213361 0 50%) 0 0/calc(2*var(--cs)) calc(2*var(--cs))}
+.bo-door{position:absolute;background:var(--c);box-shadow:0 0 14px var(--c);background-image:repeating-linear-gradient(45deg,rgba(255,255,255,.28) 0 5px,transparent 5px 11px)}
+.bo-dT{border-radius:0 0 8px 8px}.bo-dB{border-radius:8px 8px 0 0}.bo-dL{border-radius:0 8px 8px 0}.bo-dR{border-radius:8px 0 0 8px}
+.bo-b{position:absolute;transition:left .07s linear,top .07s linear;cursor:grab;filter:drop-shadow(0 3px 2px rgba(0,0,0,.35))}
+.bo-b svg{display:block;pointer-events:none}.bo-b.drag{z-index:3;filter:drop-shadow(0 6px 6px rgba(0,0,0,.45)) brightness(1.08)}
+.bo-b.out{transition:transform .38s ease-in,opacity .38s ease-in;opacity:.2;z-index:2}
+.bo-b.nope{animation:bonope .35s}@keyframes bonope{25%{translate:-5px 0}75%{translate:5px 0}}
+.bo-b.hint{animation:bohint .5s 3}@keyframes bohint{50%{filter:drop-shadow(0 0 12px #fff) brightness(1.3)}}
+.bo-ghost{position:absolute;opacity:.4;pointer-events:none;outline:3px dashed #fff;outline-offset:-3px;border-radius:10px;animation:boghost 1.2s infinite}@keyframes boghost{50%{opacity:.15}}
+.bo-ice{transition:opacity .6s}.bo-ice.melt{opacity:0}
+.bo-pop{position:fixed;width:8px;height:8px;border-radius:2px;pointer-events:none;z-index:60;animation:bopop .7s ease-out forwards}
+@keyframes bopop{to{transform:translate(var(--dx),var(--dy)) rotate(200deg);opacity:0}}
+.bo-tip{text-align:center;min-height:1em}
+.bo-ctl{display:flex;gap:8px}.bo-ctl button{flex:1;min-height:48px;padding:0 6px;white-space:nowrap}
+.bo-end{position:fixed;inset:0;z-index:50;background:rgba(10,15,30,.55);display:flex;align-items:center;justify-content:center;padding:16px}
+.bo-card{background:var(--card);border-radius:22px;padding:22px 18px;width:min(360px,100%);text-align:center;display:flex;flex-direction:column;gap:8px;box-shadow:0 20px 50px rgba(0,0,0,.35)}
+.bo-card>b{font-size:1.6rem}.bo-card small{color:var(--muted);font-weight:600}.bo-pts{font-weight:800;color:#e64980}
+.bo-stars{font-size:3rem;letter-spacing:4px}.bo-stars span{color:var(--line);display:inline-block}.bo-stars span.on{color:#f2b705;animation:bostar .5s both}
+@keyframes bostar{0%{transform:scale(0) rotate(-90deg)}70%{transform:scale(1.3)}100%{transform:scale(1)}}
+.bo-btns{display:flex;flex-direction:column;gap:8px;margin-top:6px}
 .sz-facts{display:flex;flex-direction:column;gap:10px}.sz-fact{display:flex;gap:12px;align-items:flex-start;background:var(--card);border:2px solid var(--line);border-radius:16px;padding:12px 14px}
 .sz-fact-i{font-size:1.8rem;line-height:1;flex:none;width:40px;text-align:center}.sz-fact b{display:block;margin-bottom:2px}.sz-fact p{margin:0;color:var(--muted);font-weight:600;line-height:1.4}
 .sz-op .sz-op-i{font-size:3rem;line-height:1;margin-bottom:4px}.sz-op .sz-why{text-align:left}.sz-why ul{margin:4px 0 10px;padding-left:20px}.sz-why li{margin:4px 0}
@@ -976,6 +1005,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tile pl" id="t-pl"><span class="wm" aria-hidden="true">ą ę ć ż ó</span><span class="tt">Polski</span><small>Słówka i dyktanda</small></button>
     <button type="button" class="tile en" id="t-en"><span class="wm wm-img" aria-hidden="true"><svg width="58" height="36" viewBox="0 0 60 36"><rect x="1.5" y="1.5" width="57" height="33" rx="3" fill="none" stroke="#fff" stroke-width="3"/><rect x="3" y="3" width="25" height="17" fill="#fff"/><path d="M28 7.5H57M28 13.5H57M28 19.5H57M3 25.5H57M3 31H57" stroke="#fff" stroke-width="3"/></svg><svg width="58" height="36" viewBox="0 0 60 36"><rect x="1.5" y="1.5" width="57" height="33" rx="3" fill="none" stroke="#fff" stroke-width="3"/><path d="M3 3L57 33M57 3L3 33" stroke="#fff" stroke-width="4"/><path d="M30 3V33M3 18H57" stroke="#fff" stroke-width="8"/></svg></span><span class="tt">Angielski</span><small>Słówka i tematyczne zadania</small></button>
     <button type="button" class="tile sz" id="t-sz"><span class="wm wm-img" aria-hidden="true"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjIgMTBjMTAuNSAxIDE2LjUgOCAxNiAyOUgxNWMwLTkgMTAtNi41IDgtMjEiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjQgMThjLjM4IDIuOTEtNS41NSA3LjM3LTggOS0zIDItMi44MiA0LjM0LTUgNC0xLjA0Mi0uOTQgMS40MS0zLjA0IDAtMy0xIDAgLjE5IDEuMjMtMSAyLTEgMC00LjAwMyAxLTQtNCAwLTIgNi0xMiA2LTEyczEuODktMS45IDItMy41Yy0uNzMtLjk5NC0uNS0yLS41LTMgMS0xIDMgMi41IDMgMi41aDJzLjc4LTEuOTkyIDIuNS0zYzEgMCAxIDMgMSAzIi8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTkuNSAyNS41YS41LjUgMCAxIDEtMSAwIC41LjUgMCAxIDEgMSAwbTUuNDMzLTkuNzVhLjUgMS41IDMwIDEgMS0uODY2LS41LjUgMS41IDMwIDEgMSAuODY2LjUiLz48L2c+PC9zdmc+" alt="" width="56" height="56"></span><span class="tt">Szachy</span><small>Samouczek, zadania i gra z komputerem</small></button>
+    <button type="button" class="tile lg" id="t-lg"><span class="wm" aria-hidden="true">🧩</span><span class="tt">Łamigłówki</span><small>Block Out i więcej</small></button>
     <button type="button" class="tile his" id="t-his" data-soon aria-describedby="soon-his"><span class="wm wm-img" aria-hidden="true"><svg width="104" height="84" viewBox="0 0 120 96" fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><path d="M40 44C52 40 70 40 82 42C88 36 94 26 100 18L104 15L106 21C110 26 114 32 114 37C114 40 110 41 106 39C102 37 98 38 96 42C94 50 92 56 88 60C84 66 70 68 56 67C46 67 36 64 34 56C33 50 35 46 40 44Z" stroke="none"/><path d="M84 62L88 93M78 64L74 93M46 64L42 93M54 66L54 93" fill="none" stroke-width="5"/><path d="M36 48C26 50 24 62 28 74" fill="none" stroke-width="5"/><path d="M57 44L70 44L73 24L62 22Z" stroke="none"/><circle cx="68" cy="15" r="6" stroke="none"/><path d="M68 9V3" fill="none" stroke-width="2.5"/><path d="M64 44L71 58M71 28L82 32" fill="none" stroke-width="5"/><path d="M60 42C46 34 44 12 56 1" fill="none" stroke-width="4"/><path d="M52 32L43 30M49 24L40 21M49 16L40 12M51 9L44 3" fill="none" stroke-width="3"/><path d="M38 59L117 10" fill="none" stroke-width="2.5"/><path d="M107 16L117 10L113 21Z" stroke="none"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Historia</span><small id="soon-his">Daty, bitwy, królowie</small></button>
     <button type="button" class="tile nat" id="t-nat" data-soon aria-describedby="soon-nat"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 32C6 14 18 4 36 4c0 18-10 28-26 28z" fill="#fff"/><path d="M6 32L24 14" stroke="rgba(0,0,0,.35)"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Przyroda</span><small id="soon-nat">Rośliny, zwierzęta, mapa</small></button>
     <button type="button" class="tile hea" id="t-zd"><span class="wm wm-img" aria-hidden="true"><svg width="42" height="36" viewBox="0 0 42 36" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 33C8 24 3 17 3 11a9 9 0 0 1 18-2 9 9 0 0 1 18 2c0 6-5 13-18 22z" fill="#fff"/><path d="M7 17h7l3-5 4 9 3-6h11" stroke="rgba(0,0,0,.35)" stroke-width="2.5"/></svg></span><span class="tt">Edukacja zdrowotna</span><small id="t-zd-s">Sprawdzian 29.10 i ćwiczenia</small></button>
@@ -1238,6 +1268,32 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <p class="abnote">Fakty o szachach, które warto znać – i którymi można zaskoczyć kolegów.</p>
   <div class="sz-facts" id="szcf-list"></div>
+</div>
+<div class="wrap" id="lg" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Łamigłówki</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="sz-gate" data-lggate hidden></div>
+  <button type="button" class="more pmore" id="lg-rules-btn" hidden style="margin-bottom:14px"><span><b>👨‍👧 Zasady łamigłówek dla dziecka</b><small>Limit poziomów, wyjątki na dni, ćwiczenia za dodatkowe poziomy</small></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  <div class="tiles2 mat-tiles">
+    <button type="button" class="tile mt" id="lg-t-bo" style="--gc:#e64980"><span class="wm bo-wm" aria-hidden="true"><i style="--c:#ff4d6d"></i><i style="--c:#2f80ff"></i><i style="--c:#ffb703"></i><i style="--c:#2bc76a"></i></span><span class="tt">Block Out</span><small id="lg-t-bo-s"></small></button>
+    <button type="button" class="tile mt" id="lg-t-br" data-soon style="--gc:#868e96"><span class="wm" aria-hidden="true">🌉</span><span class="tt">Mosty</span><small>Wkrótce: zbuduj most, który utrzyma auto</small></button>
+  </div>
+</div>
+<div class="wrap" id="lgb" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Block Out</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div id="lgb-lim" class="szlim-wrap" hidden></div>
+  <p class="abnote">Przeciągnij klocek do drzwi w tym samym kolorze. Mniej ruchów = więcej gwiazdek.</p>
+  <div id="lgb-list"></div>
+</div>
+<div class="wrap" id="lgg" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Block Out</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="bo-top"><span id="bo-mv"></span><span id="bo-st"></span></div>
+  <div class="bo-wrap"><div class="bo-board" id="bo-board"></div></div>
+  <p class="abnote bo-tip" id="bo-tip"></p>
+  <div class="bo-ctl"><button type="button" class="again" id="bo-undo">↶ Cofnij</button><button type="button" class="again" id="bo-reset">⟲ Od nowa</button><button type="button" class="again" id="bo-hint">💡 Pomoc</button></div>
+  <div class="bo-end" id="bo-end" hidden></div>
 </div>
 <div class="wrap" id="szz" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Zadania szachowe</h1><div class="right">
@@ -1742,8 +1798,8 @@ const BADGES={
 const BADGE_NAMES={ball:"Piłka",crown:"Korona",bolt:"Błyskawica",rocket:"Rakieta",none:"Bez znaczka"};
 const SUBS=[["streak","Seria dni"],["date","Data"],["none","Nic"]];
 const NAME_PRESETS=["Henriksen","Kapitan H","Nr 10","Ekipa H"];
-let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null,mods:{},rewSeen:[],tasks:[],taskSeen:[],lib:{ex:[],pk:[]},szSkin:"classic",szBoard:"brown",szPcs:"auto",szTalk:true,szVoice:true,szWho:"zbyszek",szEmo:true,szFx:true,szAnim:true,szLimit:0,szRules:{},szBadges:true};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{},rewSeen:Array.isArray(p.rewSeen)?p.rewSeen.filter(x=>typeof x==="string"):[],tasks:Array.isArray(p.tasks)?p.tasks.filter(t=>t&&t.id&&Array.isArray(t.packs)):[],taskSeen:Array.isArray(p.taskSeen)?p.taskSeen:[],lib:p.lib&&typeof p.lib==="object"?{ex:Array.isArray(p.lib.ex)?p.lib.ex:[],pk:Array.isArray(p.lib.pk)?p.lib.pk:[]}:{ex:[],pk:[]},szSkin:["classic","pilkarze","dino","roboty"].includes(p.szSkin)?p.szSkin:"classic",szBoard:typeof p.szBoard==="string"?p.szBoard:"brown",szPcs:typeof p.szPcs==="string"?p.szPcs:"auto",szTalk:p.szTalk!==false,szVoice:p.szVoice!==false,szWho:["zbyszek","janusz","grazyna"].includes(p.szWho)?p.szWho:"zbyszek",szEmo:p.szEmo!==false,szFx:p.szFx!==false,szAnim:p.szAnim!==false,szLimit:Math.max(0,Math.min(50,+p.szLimit||0)),szRules:p.szRules&&typeof p.szRules==="object"?p.szRules:{},szBadges:p.szBadges!==false};}catch(e){}
+let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null,mods:{},rewSeen:[],tasks:[],taskSeen:[],lib:{ex:[],pk:[]},szSkin:"classic",szBoard:"brown",szPcs:"auto",szTalk:true,szVoice:true,szWho:"zbyszek",szEmo:true,szFx:true,szAnim:true,szLimit:0,szRules:{},lgLimit:0,lgRules:{},szBadges:true};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{},rewSeen:Array.isArray(p.rewSeen)?p.rewSeen.filter(x=>typeof x==="string"):[],tasks:Array.isArray(p.tasks)?p.tasks.filter(t=>t&&t.id&&Array.isArray(t.packs)):[],taskSeen:Array.isArray(p.taskSeen)?p.taskSeen:[],lib:p.lib&&typeof p.lib==="object"?{ex:Array.isArray(p.lib.ex)?p.lib.ex:[],pk:Array.isArray(p.lib.pk)?p.lib.pk:[]}:{ex:[],pk:[]},szSkin:["classic","pilkarze","dino","roboty"].includes(p.szSkin)?p.szSkin:"classic",szBoard:typeof p.szBoard==="string"?p.szBoard:"brown",szPcs:typeof p.szPcs==="string"?p.szPcs:"auto",szTalk:p.szTalk!==false,szVoice:p.szVoice!==false,szWho:["zbyszek","janusz","grazyna"].includes(p.szWho)?p.szWho:"zbyszek",szEmo:p.szEmo!==false,szFx:p.szFx!==false,szAnim:p.szAnim!==false,szLimit:Math.max(0,Math.min(50,+p.szLimit||0)),szRules:p.szRules&&typeof p.szRules==="object"?p.szRules:{},lgLimit:Math.max(0,+p.lgLimit||0),lgRules:p.lgRules&&typeof p.lgRules==="object"?p.lgRules:{},szBadges:p.szBadges!==false};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -2664,8 +2720,8 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",szw:"#szachy-wyglad",szrules:"#szachy-zasady",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szop:"#szachy-otwarcia",szcf:"#szachy-ciekawostki",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",szw:"szw",szrules:"szrules",sz:"sz",sz3:"sz3",szl:"szl",szop:"szop",szcf:"szcf",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",lg:"#lamiglowki",lgb:"#block-out",lgg:"#block-out-gra",szw:"#szachy-wyglad",szrules:"#szachy-zasady",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szop:"#szachy-otwarcia",szcf:"#szachy-ciekawostki",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",lg:"lg",lgb:"lgb",lgg:"lgg",szw:"szw",szrules:"szrules",sz:"sz",sz3:"sz3",szl:"szl",szop:"szop",szcf:"szcf",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
@@ -2683,7 +2739,7 @@ function go(v){
   showView(v);
 }
 addEventListener("popstate",()=>{const v=Object.keys(HASH).find(k=>HASH[k]&&HASH[k]===location.hash)||"home";
-  showView(v==="play"&&!ACTIVE?"home":v==="plw"&&!PW?"plws":v==="pldt"&&!PD?"pld":v==="plz"&&!PZ?"plzs":v==="enq"&&!EN?"en":v==="enset"&&!ENM?"en":v==="szg"&&!SZ?"sz":v);});
+  showView(v==="play"&&!ACTIVE?"home":v==="plw"&&!PW?"plws":v==="pldt"&&!PD?"pld":v==="plz"&&!PZ?"plzs":v==="enq"&&!EN?"en":v==="enset"&&!ENM?"en":v==="szg"&&!SZ?"sz":v==="lgg"&&!BO?"lgb":v);});
 document.querySelectorAll("[data-back]").forEach(b=>b.addEventListener("click",()=>{if(location.hash) history.back(); else showView("home");}));
 // logo aplikacji obok „wstecz” w nagłówku każdego ekranu: od razu na stronę główną (rozpoczęte gry zostają do dokończenia)
 document.querySelectorAll("header [data-back]").forEach(b=>{const h=document.createElement("button");h.type="button";h.className="home-btn";h.setAttribute("aria-label","Strona główna");
@@ -3044,7 +3100,7 @@ function plLiveNow(){
 }
 function plShow(v){
   if(v==="pl") renderPl();
-  if(v==="szw") renderSzw();if(v==="szrules"){SZR={kid:SZR.kid,prefs:null};renderSzRules();} /* zawsze świeże cele i ustawienia dziecka (np. po dodaniu celu) */if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();if(v==="szop") renderSzop();if(v==="szcf") renderSzcf();
+  if(v==="szw") renderSzw();if(v==="szrules"){SZR={kid:SZR.kid,prefs:null,sec:SZR.sec};renderSzRules();}if(v==="lg") renderLg();if(v==="lgb") renderLgb(); /* zawsze świeże cele i ustawienia dziecka (np. po dodaniu celu) */if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();if(v==="szop") renderSzop();if(v==="szcf") renderSzcf();
   if(window.S3&&v!=="szg") S3.pause();if(v==="szz") renderSzz();if(v==="szo") renderSzo();
   if(v==="plws") renderPws();
   if(v==="pld") renderPd();
@@ -4555,7 +4611,7 @@ if(syncOn()) syncSoon(2500);
    Próg brązu ustawia rodzic (PREFS.cups[kategoria], domyślnie base), kolejne poziomy = próg × x. Nagrody od rodzica:
    PREFS.cupRewards[poziom]. Liczone z historii, więc obejmują też wcześniejsze wyniki; PREFS.cupSeen pamięta pokazane
    puchary, żeby „Nowy puchar!” wyskoczył raz. Rodzic zmienia progi dziecka przez jego wiersz w settings (sync go dociąga). */
-const CUP_SUBJ={mat:"Matematyka",pl:"Polski",en:"Angielski",zd:"Edukacja zdrowotna",sz:"Szachy"};
+const CUP_SUBJ={mat:"Matematyka",pl:"Polski",en:"Angielski",zd:"Edukacja zdrowotna",sz:"Szachy",lg:"Łamigłówki"};
 const CUP_CATS=[
   {id:"mat×",subj:"mat",name:"Mnożenie",base:150},{id:"mat:",subj:"mat",name:"Dzielenie",base:150},
   {id:"mat+",subj:"mat",name:"Dodawanie",base:100},{id:"mat−",subj:"mat",name:"Odejmowanie",base:100},
@@ -4563,12 +4619,13 @@ const CUP_CATS=[
   {id:"pl-znaczenia",subj:"pl",name:"Znaczenie słów",base:100},
   {id:"en-tobe",subj:"en",name:"To be",base:50},{id:"en-slowka",subj:"en",name:"Słówka angielskie",base:75},{id:"en-zdania",subj:"en",name:"Zdania",base:100},
   {id:"zd",subj:"zd",name:"Edukacja zdrowotna",base:60},
-  {id:"sz-nauka",subj:"sz",name:"Samouczek szachowy",base:15},{id:"sz-zadania",subj:"sz",name:"Zadania szachowe",base:40},{id:"sz-gra",subj:"sz",name:"Partie z komputerem",base:20}
+  {id:"sz-nauka",subj:"sz",name:"Samouczek szachowy",base:15},{id:"sz-zadania",subj:"sz",name:"Zadania szachowe",base:40},{id:"sz-gra",subj:"sz",name:"Partie z komputerem",base:20},
+  {id:"lg-blockout",subj:"lg",name:"Block Out",base:40}
 ];
 const CUP_LV=[{k:"b",name:"Brąz",to:"brązu",x:1,c:"#cd7f32"},{k:"s",name:"Srebro",to:"srebra",x:3,c:"#b4bfcf"},
   {k:"g",name:"Złoto",to:"złota",x:8,c:"#f2c230"},{k:"d",name:"Diament",to:"diamentu",x:20,c:"#4dd4ff"}];
 const CUP_STEPS=[20,30,50,75,100,150,200,300,400,500,750,1000,1500,2000,3000,4000,5000,7500,10000];
-const PARENT_KEYS=["cups","cupRewards","mods","tasks","szLimit","szRules"]; // ustawia rodzic – przy konflikcie wygrywa wersja z bazy
+const PARENT_KEYS=["cups","cupRewards","mods","tasks","szLimit","szRules","lgLimit","lgRules"]; // ustawia rodzic – przy konflikcie wygrywa wersja z bazy
 const cupCat=(s,r)=>{const sj=s.subj||"mat";if(sj==="zd") return "zd";return sj==="mat"?"mat"+(Array.isArray(r.t)?r.t[1]:""):sj+"-"+((s.cfg&&s.cfg.mode)||(sj==="en"?"tobe":"slowka"));};
 function cupCounts(H){const c={};for(const s of H) for(const r of s.recs||[]) if(r.ok){const k=cupCat(s,r);c[k]=(c[k]||0)+recW(s,r);}return c;} // punkty, nie liczba zadań
 const cupBase=(P,id)=>(P&&P.cups&&+P.cups[id])||CUP_CATS.find(x=>x.id===id).base;
@@ -4726,7 +4783,7 @@ function ptsW(s,r){
     if(m==="zdania"){const x=ENS.find(y=>y.en===r.c||y.en===r.t);return (x&&x.lvl==="a2"?5:3)+(x&&r.c===x.en?1:0);}
     return /[?.]$/.test(r.c||"")?2:1; // To be: pytania i krótkie odpowiedzi 2, odmiana i am/is/are 1
   }
-  if(sj==="sz") return r.w||1;
+  if(sj==="sz"||sj==="lg") return r.w||1;
   if(sj==="zd") return r.c==="Prawda"||r.c==="Fałsz"?1:2; // edukacja zdrowotna: prawda/fałsz 1, wybór z 4 – 2
   return 1;
 }
@@ -4780,7 +4837,7 @@ function histSummary(H,P){
   let n=0,d=act.has(T)?T:addDays(T,-1);while(act.has(d)){n++;d=addDays(d,-1);}
   const c=cupCounts(H),cups={b:0,s:0,g:0,d:0}; // najwyższy puchar w każdej kategorii
   CUP_CATS.forEach(x=>{const l=cupLevel(c[x.id]||0,cupBase(P,x.id));if(l>=0) cups[CUP_LV[l].k]++;});
-  subj._on=["mat","pl","en","zd","sz"].filter(k=>subjOn(k));
+  subj._on=["mat","pl","en","zd","sz","lg"].filter(k=>subjOn(k));
   return {week_start:ymd(MON),week_pts:week,total_pts:total,streak:n,cups,subj};
 }
 async function ligPublish(){ // osobno od reszty synchronizacji: brak tabel lig nie może jej zatrzymać
@@ -4848,7 +4905,7 @@ async function renderLig(){
   }catch(x){$("lig-rank").innerHTML='<li class="none">Nie udało się wczytać rankingu.</li>';}
 }
 // punkty w rankingu dla okresu (LIGMODE) i przedmiotu; „ten tydzień” z nieaktualnym podsumowaniem = 0
-const LIG_CATS={all:{name:"Wszystko",c:"var(--accent)"},mat:{name:"Matematyka",c:"#5c7cfa"},pl:{name:"Polski",c:"#f76707"},en:{name:"Angielski",c:"#12b886"},sz:{name:"Szachy",c:"#2b8a3e"}};
+const LIG_CATS={all:{name:"Wszystko",c:"var(--accent)"},mat:{name:"Matematyka",c:"#5c7cfa"},pl:{name:"Polski",c:"#f76707"},en:{name:"Angielski",c:"#12b886"},sz:{name:"Szachy",c:"#2b8a3e"},lg:{name:"Łamigłówki",c:"#e64980"}};
 let LIGCAT="all";
 function ligVal(r,cat){const wk=LIGMODE==="week";if(cat==="all") return wk?r.week_pts:r.total_pts;
   const x=(r.subj||{})[cat]||{};return wk?(r.this_week===false?0:x.w||0):x.t||0;}
@@ -4916,6 +4973,7 @@ const MODS=[
     {k:"zd-styl",name:"Zdrowy styl życia",sub:"mierniki zdrowia, hartowanie"},{k:"zd-cialo",name:"Moje ciało się zmienia",sub:"dojrzewanie, higiena, żelazo"},
     {k:"zd-zach",name:"Zachowania chroniące i ryzykowne",sub:"środowisko, zdrowe nawyki"}]},
   {g:"Szachy",items:[{k:"sz-nauka",name:"Samouczek",sub:"ruchy figur, szach, mat, roszada"},{k:"sz-zadania",name:"Zadania",sub:"mat w 1, 2 i 3"},{k:"sz-gra",name:"Graj z komputerem",sub:"przeciwnicy do odblokowania"},{k:"sz-3d",name:"Szachy 3D",sub:"plansza 3D, wybuchy, piłkarze"},{k:"sz-otwarcia",nw:1,name:"Otwarcia",sub:"znane otwarcia z historią"},{k:"sz-ciekawostki",nw:1,name:"Ciekawostki",sub:"fakty o szachach"}]},
+  {g:"Łamigłówki",items:[{k:"lg-blockout",name:"Block Out",sub:"kolorowe klocki do drzwi"}]},
   {g:"Historia",items:[{k:"his",name:"Historia",sub:"kafel „Wkrótce” – daty, bitwy, królowie"}]},
   {g:"Przyroda",items:[{k:"nat",name:"Przyroda",sub:"kafel „Wkrótce” – rośliny, zwierzęta, mapa"}]},
   {g:"Inne",always:true,items:[{k:"stats",name:"Statystyki",sub:"punkty, seria, wyniki"},{k:"cups",name:"Nagrody",sub:"puchary, animacje, filmiki"},
@@ -4941,7 +4999,7 @@ function applyMods(){
   show("pl-t-w",modOn("pl-slowka"));show("pl-t-d",modOn("pl-dyktando"));show("pl-t-z",modOn("pl-znaczenia"));show("pz-day",modOn("pl-znaczenia"));
   show("en-t-tobe",modOn("en-tobe"));show("en-t-v",modOn("en-slowka"));show("en-t-z",modOn("en-zdania"));
   show("t-zd",subjOn("zd"));show("zd-spr",modOn("zd-spr"));show("zd-tw",ZD_TOPICS.some(t=>modOn("zd-"+t.id)));if(CUR==="zd") renderZd();
-  show("t-sz",subjOn("sz"));show("t-his",modOn("his"));show("t-nat",modOn("nat"));szGuard();
+  show("t-sz",subjOn("sz"));show("t-lg",subjOn("lg"));try{lgGuard();}catch(e){}show("t-his",modOn("his"));show("t-nat",modOn("nat"));szGuard();
   {const g=$("t-math").parentElement;g.querySelectorAll(":scope>[data-soon]").forEach(b=>g.appendChild(b));} // kafle „Wkrótce” zawsze na końcu
   show("t-stats",modOn("stats"));show("t-cups",modOn("cups"));show("t-help",modOn("help")); // Ligi: ligHomeLine i niżej
   if($("t-lig")&&!modOn("lig")) $("t-lig").hidden=true;
@@ -4983,7 +5041,7 @@ async function renderKidCfg(){
 // podgląd: kopia prawdziwego ekranu startowego w skali, z kaflami tak, jak zobaczy je dziecko
 function kcPreview(){
   const inner=$("kc-inner"),P={mods:KC.mods},grid=$("home").querySelector(".tiles2").cloneNode(true);
-  const vis={"t-math":subjOn("mat",P),"t-pl":subjOn("pl",P),"t-en":subjOn("en",P),"t-zd":subjOn("zd",P),"t-sz":subjOn("sz",P)};
+  const vis={"t-math":subjOn("mat",P),"t-pl":subjOn("pl",P),"t-en":subjOn("en",P),"t-zd":subjOn("zd",P),"t-sz":subjOn("sz",P),"t-lg":subjOn("lg",P)};
   grid.querySelectorAll("button").forEach(b=>{const on=b.id in vis?vis[b.id]:b.id==="t-his"?modOn("his",P):b.id==="t-nat"?modOn("nat",P):true;b.hidden=!on;});
   const bars=[["t-stats","stats"],["t-cups","cups"],["t-lig","lig"],["t-help","help"]].filter(([,k])=>modOn(k,P)).map(([id])=>id).map(id=>{const b=$(id).cloneNode(true);b.hidden=false;return b;});
   inner.replaceChildren(grid,...bars);
@@ -5329,9 +5387,20 @@ function szPlayedToday(){const d=new Date().toDateString();let n=0;try{const x=J
   const t0=new Date();t0.setHours(0,0,0,0);return Math.max(n,szHist("gra").filter(s=>s.start>=t0.getTime()).length);}
 // zasady rodzica (PREFS.szRules): days {"rrrr-mm-dd": partie, -1 = bez limitu}, extra = zadanie za +1 partię ponad limit,
 // gate = zadanie, po którym szachy otwierają się danego dnia; zadanie = {id,name,spec} uruchamiane exRun z cfg.goal "szx" / "szgate"
-const szR=()=>PREFS.szRules&&typeof PREFS.szRules==="object"?PREFS.szRules:{};
+// te same zasady dla łamigłówek (PREFS.lgLimit / lgRules, znaczniki lgx / lggate); s = "sz" albo "lg"
+const RSEC={sz:{r:"szRules",l:"szLimit",x:"szx",g:"szgate",def:2,u:n=>partii(n),one:"jedna partia",title:"Zasady szachów",limT:"Limit partii z komputerem",
+    N:[[1,"1"],[2,"2"],[3,"3"],[5,"5"],[10,"10"]],D:[[0,"Bez gry"],[1,"1"],[2,"2"],[3,"3"],[5,"5"],[10,"10"],[-1,"Bez limitu"]],
+    extraT:"Każda partia ponad limit wymaga pakietu",perT:"Partii za jedno przejście pakietu",maxT:"Najwięcej dodatkowych partii dziennie",
+    gateT:"Szachy otwierają się dopiero po pakiecie",gateN:"Codziennie najpierw ten pakiet – dopiero potem samouczek, zadania i gra."},
+  lg:{r:"lgRules",l:"lgLimit",x:"lgx",g:"lggate",def:5,u:n=>poziomow(n),one:"jeden poziom",title:"Zasady łamigłówek",limT:"Limit poziomów łamigłówek",
+    N:[[3,"3"],[5,"5"],[10,"10"],[15,"15"],[20,"20"]],D:[[0,"Bez gry"],[3,"3"],[5,"5"],[10,"10"],[20,"20"],[-1,"Bez limitu"]],
+    extraT:"Każdy poziom ponad limit wymaga pakietu",perT:"Poziomów za jedno przejście pakietu",maxT:"Najwięcej dodatkowych poziomów dziennie",
+    gateT:"Łamigłówki otwierają się dopiero po pakiecie",gateN:"Codziennie najpierw ten pakiet – dopiero potem łamigłówki."}};
+const rlR=s=>{const v=PREFS[RSEC[s].r];return v&&typeof v==="object"?v:{};};
+const rlSec=tag=>Object.keys(RSEC).find(k=>RSEC[k].x===tag||RSEC[k].g===tag)||"sz";
+const szR=()=>rlR("sz");
 function szTaskDone(tag){const t0=dayKey(Date.now());return loadOwnHist().filter(s=>s.cfg&&s.cfg.goal===tag&&s.status==="done"&&s.start>=t0).length;}
-function szLimitToday(){const d=szR().daysOn===false?null:(szR().days||{})[ymd(Date.now())];return d!=null?(+d<0?null:+d):PREFS.szLimit||null;}
+function szLimitToday(s="sz"){const R=rlR(s),d=R.daysOn===false?null:(R.days||{})[ymd(Date.now())];return d!=null?(+d<0?null:+d):PREFS[RSEC[s].l]||null;}
 // zadanie = cel dziecka {goal,name}: liczą się dzisiejsze pełne przejścia celu (każde ćwiczenie z oceną ≥ g celu);
 // starsze zapisy {spec} = pojedyncze ćwiczenie oznaczone szx/szgate
 const szGoal=x=>x&&x.goal?(PREFS.tasks||[]).find(t=>t.id===x.goal)||null:null;
@@ -5350,13 +5419,13 @@ function szRuleList(x,tag){
       return `<button type="button" class="row gv-row${ok?" ok":""}" data-szrun="${tag}|${esc(e.gx)}"><span class="gv-c" aria-hidden="true">${ok?"✓":""}</span><span class="rt"><b>${esc(e.name)}</b><small>${CUP_SUBJ[exSubj(e.spec)]||""}${x.g?` · ocena co najmniej ${x.g}`:""}${ok?" · zrobione":""}</small></span></button>`;}).join("")+
     `</div><small>Zrobione ${st.cur} z ${st.X.length}</small>`;}
   return `<button type="button" class="go-btn" data-szdo="${tag}">${x.goal?"Otwórz cel":"Zrób"}: ${esc(x.name)}</button>`;}
-document.addEventListener("click",e=>{const b=e.target.closest("[data-szrun]");if(!b) return;const [tag,gx]=b.dataset.szrun.split("|"),x=tag==="szgate"?szR().gate:szR().extra;
+document.addEventListener("click",e=>{const b=e.target.closest("[data-szrun]");if(!b) return;const [tag,gx]=b.dataset.szrun.split("|"),sec=rlSec(tag),x=tag===RSEC[sec].g?rlR(sec).gate:rlR(sec).extra;
   const ex=x&&x.pk&&x.pk.ex.find(y=>y.id===gx);if(ex) exRun(ex,{goal:tag,gx:ex.id});});
 // partie za pakiet: extra.n = ile za jedno przejście (domyślnie 1), extra.max = najwięcej dodatkowych dziennie (0 = bez ograniczenia)
-function szBonus(){const X=szR().extra;if(!szRuleOk(X)) return {X:null,got:0,per:1,max:0,full:false};
-  const per=Math.max(1,+X.n||1),max=Math.max(0,+X.max||0),raw=szRuleDone(X,"szx")*per,got=max?Math.min(max,raw):raw;return {X,got,per,max,full:!!max&&got>=max};}
-const szLeft=()=>{const L=szLimitToday();if(L==null) return null;return Math.max(0,L+szBonus().got-szPlayedToday());};
-const szGateOk=()=>{const G=szR().gate;return !szRuleOk(G)||szRuleDone(G,"szgate")>0;};
+function szBonus(s="sz"){const X=rlR(s).extra;if(!szRuleOk(X)) return {X:null,got:0,per:1,max:0,full:false};
+  const per=Math.max(1,+X.n||1),max=Math.max(0,+X.max||0),raw=szRuleDone(X,RSEC[s].x)*per,got=max?Math.min(max,raw):raw;return {X,got,per,max,full:!!max&&got>=max};}
+const szLeft=(s="sz")=>{const L=szLimitToday(s);if(L==null) return null;return Math.max(0,L+szBonus(s).got-(s==="sz"?szPlayedToday():lgPlayedToday()));};
+const szGateOk=(s="sz")=>{const G=rlR(s).gate;return !szRuleOk(G)||szRuleDone(G,RSEC[s].g)>0;};
 function szCountGame(){const d=new Date().toDateString();try{localStorage.setItem(SZ_DAYK,JSON.stringify({d,n:szPlayedToday()+1}));}catch(e){}}
 const szWins=id=>szHist("gra").filter(s=>s.cfg.opp===id&&s.recs[0]&&s.recs[0].ok).length;
 const szOppOpen=k=>k===0||szWins(SZ_OPP[k-1].id)>0;
@@ -5969,6 +6038,255 @@ function renderSzcf(){
   $("szcf-list").innerHTML=SZ_FACTS.map(([i,h,t])=>`<div class="sz-fact"><span class="sz-fact-i" aria-hidden="true">${i}</span><div><b>${h}</b><p>${t}</p></div></div>`).join("");
 }
 
+/* --- Łamigłówki: Block Out (kolorowe klocki wyjeżdżają drzwiami swojego koloru) --- */
+// poziomy z tools/blockout_levels.js: "plansza|drzwi|klocki|par" (par = najmniej ruchów, ~ = z budowy poziomu)
+const BO_LEVELS=[
+  "4x5|B220;L211|1:00:00;0:00,01,02:12;1:00:30|3",
+  "5x5|R130;T411|0:00:40;0:00,10,01,11:22;0:00,10:14|3",
+  "4x5|B310;B021;T212|1:00:21;2:00:11;0:00,01,02:01;0:00,01:32|4",
+  "4x5|T020;R211|0:00:22;0:00,01:30;0:00,10,01,11:23;0:00:14|4",
+  "5x5|T110;L231|1:00,01:20;1:00,01,02:32;1:00:24|3",
+  "4x5|T020;R031|1:00:01;1:00,10:24;0:00,10:12;1:00,10,20:00;1:00,10:11|5",
+  "5x5|T010;B231|0:00,01:41;0:00,01:32;0:00,01,02:00;1:00,10,20:14;1:00:43|5",
+  "4x5|L120;B121;T122|2:00,01,02:22;2:00,01,02:01;2:00,10,01,11:10;1:00,01,02:12|4",
+  "5x5|L220;R321|0:00,10,20:21;1:00:33;1:00:14;0:00,10,20:12;1:00,01:43|5",
+  "5x5|T210;R311;B222|1:00:02;1:00,10:12;2:00,10,01,11:31;1:00:13;1:00,10:33|5",
+  "5x6|L320;B221;R112|1:00,01,11:33;2:00:45;0:00,10,11:03;0:00,01,11:04;2:00,10:01;1:00,01,11:24|7",
+  "5x5|T020;B021;R022;T313|2:00,01:03;0:00,01,02:42;2:00,10:12;1:00:21;2:00,10,01:30;0:00,01:00|6",
+  "5x6|L320;B221;R112|1:00,01,11:33;2:00:45;0:00,10,11:03;0:00,01,11:04;2:00,10:01;1:00,01,11:24|7",
+  "5x5|B220;R031;L322;T033|2:00,10,01,11:00;0:00,01,11:03;2:00,10:22;1:00,10,11:30;0:00,10:13;0:00,10:24|6",
+  "5x5|B220;R031;L322;T033|2:00,10,01,11:00;0:00,01,11:03;2:00,10:22;1:00,10,11:30;0:00,10:13;0:00,10:24|6",
+  "5x6|B030;T121;L212|2:00,10,20:24;1:00,10,01,11:01;1:00,10,01:32;1:00,10:10;0:00,01,02:13|5",
+  "5x5|L030;B231;L412|0:00,01:12;1:00,10:10;1:00,10,20:01;1:00,01:23;1:00,10:32|5",
+  "5x5|L030;B231;L412|0:00,01:12;1:00,10:10;1:00,10,20:01;1:00,01:23;1:00,10:32|5",
+  "5x6|T130;R121;L122|2:00,10,11:20;0:00:05;0:00,01:14;2:00:42;2:10,01,11:23;2:00,10,11:02|9",
+  "5x6|T130;R121;L122|2:00,10,11:20;0:00:05;0:00,01:14;2:00:42;2:10,01,11:23;2:00,10,11:02|9",
+  "6x6|T030;B311;R232|2:00,01,02,12:23;2:00,10:30;2:00,10:04:h;0:00,01,02,12:00;2:00,10,01:33:h;2:00,01,02:51|6",
+  "6x6|L510;L021;B322;R223;T234|4:00,10,11:31;2:00,01,02:00;2:10,01,11:43;1:00,10,01,11:10:h;2:00,01,02:23;2:00,10:35:v|6",
+  "6x6|T220;R121;B422;T513|0:00,01,02,12:21:v;2:00,01,02,12:00;2:00,10,11:40:v;0:00,01,02:30:v;2:00,10,11:24;2:00,01:44|6",
+  "5x6|B230;T231;R412|1:00,01,02:13;1:00,10,01:10;0:00,10:22;0:00,10,01:23;0:00,10,01:34:v;1:00,01:04;1:00,10,01:30|7",
+  "6x6|T120;L011;L312;T513;R424|0:00,01,02,12:13:v;4:00,10,20:11;4:00,10,11:34:h;0:00,01:01;3:00,01:50:v;4:00,01:54:h|6",
+  "6x6|T120;L011;L312;T513;R424|0:00,01,02,12:13:v;4:00,10,20:11;4:00,10,11:34:h;0:00,01:01;3:00,01:50:v;4:00,01:54:h|6",
+  "6x6|R230;L031;B022|2:00,01,02,12:00:v;0:00,10,20:20;0:00,01,02:42:h;2:00,10,11:03:v;2:00,01,11:04:v;0:00,01:50;0:00,01:53|7",
+  "6x6|R230;L031;B022|2:00,01,02,12:00:v;0:00,10,20:20;0:00,01,02:42:h;2:00,10,11:03:v;2:00,01,11:04:v;0:00,01:50;0:00,01:53|7",
+  "5x6|T310;L421;R422;R023|2:00,10,20,11:10;2:00,10,01:04:h;2:10,01,11:14:h;2:00,10,01:34:h;3:00,01,11:02;3:00,01:32;3:00,01:42|7",
+  "5x6|L110;R011;B322;T033;B114|3:00,10,11:03:v;2:00,01,02:23;0:00,10:31:h;3:00,10,20:01;1:00,10:00;2:00,01:42:v;2:00,10,11:34:v|7",
+  "6x6|R030;T511;T132;B413;L214|2:00,10:12:v;2:00,01,02:43;1:00:53:v;2:00,01,02:31:1;4:00:11:1;0:00,01,02:50;2:00,10:10:v|7",
+  "6x6|B110;B321;L412;R313;T224|1:00,01,11,12:22;1:00,10,01:41;2:00:03;2:00:21;1:00,01,02:53:2;1:10,11,12,02:33:1;0:00,01,02:11|7",
+  "6x6|B110;B321;L412;R313;T224|1:00,01,11,12:22;1:00,10,01:41;2:00:03;2:00:21;1:00,01,02:53:2;1:10,11,12,02:33:1;0:00,01,02:11|7",
+  "6x6|T230;B031;L122;R033;L414|3:00,10:12:h2;0:10,01,11:22:2;3:00,10,01,11:04;3:00,10,01:44;0:00,10,20:20:v;3:00:11:h2;2:00,01:02:1;3:10,11,12,02:40|8",
+  "6x6|B030;L111;T332;T113;R514|4:00,10,20:01;1:00:52;0:00,10,20:34:2;4:00:14:3;0:00,10:45:1;2:00,10:10;2:00,10,11:02;2:00,10,01,11:32|14",
+  "6x6|B030;L111;T332;T113;R514|4:00,10,20:01;1:00:52;0:00,10,20:34:2;4:00:14:3;0:00,10:45:1;2:00,10:10;2:00,10,11:02;2:00,10,01,11:32|14",
+  "6x6|L020;R121;T032;R413;B034|4:00,01,11:44;2:10,01,11:11:2;1:00:03;1:00,10,11:20;4:00,10,20,11:13;3:00:34;2:10,01,11:00;1:10,20,01,11:31;0:00:00|16",
+  "6x6|L020;R121;T032;R413;B034|4:00,01,11:44;2:10,01,11:11:2;1:00:03;1:00,10,11:20;4:00,10,20,11:13;3:00:34;2:10,01,11:00;1:10,20,01,11:31;0:00:00|16",
+  "6x7|L420;R131;T012;B213;L014|1:00,01,02,12:10:2;1:10,20,01,11:20;0:00,10,01:05:3;1:00,10,20:24;0:00,10,20:23;1:00,01,11,12:41:2;3:00:13;2:00:36:1;2:00,01,02:01|16",
+  "6x7|L420;R131;T012;B213;L014|1:00,01,02,12:10:2;1:10,20,01,11:20;0:00,10,01:05:3;1:00,10,20:24;0:00,10,20:23;1:00,01,11,12:41:2;3:00:13;2:00:36:1;2:00,01,02:01|16"
+];
+/*BO-CORE*/
+// Block Out: plansza w×h, drzwi na brzegach {s:"T"|"B"|"L"|"R",p:początek,n:długość,c:kolor}, klocki {c,cells:[[x,y]],x,y,lk:""|"h"|"v",ice:n}.
+// Ruch = przesunięcie jednego klocka w dowolne osiągalne miejsce (palcem także „za róg”), a jeśli stoi przy drzwiach swojego koloru – wyjazd.
+// Lód: klocek stoi, dopóki nie wyjedzie tyle innych klocków (ice). Strzałka (lk) = tylko poziomo albo pionowo.
+const BO_CORE=(()=>{
+  const parse=s=>{const [wh,ds,bs]=s.split("|"),[w,h]=wh.split("x").map(Number);
+    const doors=ds.split(";").map(d=>({s:d[0],p:+d[1],n:+d[2],c:+d[3]}));
+    const blocks=bs.split(";").map(b=>{const [c,cl,xy,ex]=b.split(":"),cells=cl.split(",").map(q=>[+q[0],+q[1]]);
+      return {c:+c,cells,x:+xy[0],y:+xy[1],lk:ex&&/[hv]/.test(ex)?ex.match(/[hv]/)[0]:"",ice:ex&&/\d/.test(ex)?+ex.match(/\d+/)[0]:0};});
+    return {w,h,doors,blocks};};
+  const start=L=>({pos:L.blocks.map(b=>[b.x,b.y]),out:0});
+  const occ=(L,st)=>{const g=new Int8Array(L.w*L.h).fill(-1);
+    st.pos.forEach((p,i)=>{if(!p) return;for(const [cx,cy] of L.blocks[i].cells) g[(p[1]+cy)*L.w+p[0]+cx]=i;});return g;};
+  // g = zajętość wszystkich klocków; własne pola klocka i traktujemy jak wolne
+  const fits=(L,g,b,x,y,i)=>b.cells.every(([cx,cy])=>{const X=x+cx,Y=y+cy;if(X<0||Y<0||X>=L.w||Y>=L.h) return false;const v=g[Y*L.w+X];return v<0||v===i;});
+  const movable=(L,st,i)=>!!st.pos[i]&&L.blocks[i].ice<=st.out;
+  // wszystkie miejsca, do których klocek dojedzie (krok po kratce, bez przenikania)
+  function reach(L,st,i,g){g=g||occ(L,st);const b=L.blocks[i],[x0,y0]=st.pos[i],seen=new Set([x0+","+y0]),q=[[x0,y0]],out=[];
+    if(!movable(L,st,i)) return [];
+    const dirs=b.lk==="h"?[[1,0],[-1,0]]:b.lk==="v"?[[0,1],[0,-1]]:[[1,0],[-1,0],[0,1],[0,-1]];
+    while(q.length){const [x,y]=q.shift();out.push([x,y]);
+      for(const [dx,dy] of dirs){const k=(x+dx)+","+(y+dy);if(seen.has(k)) continue;if(fits(L,g,b,x+dx,y+dy,i)){seen.add(k);q.push([x+dx,y+dy]);}}}
+    return out;}
+  // drzwi, którymi klocek stojący w (x,y) wyjedzie: kolor, szerokość i wolna droga do brzegu
+  function exitAt(L,st,i,x,y,g){g=g||occ(L,st);const b=L.blocks[i];
+    if(b.ice>st.out) return null;
+    const xs=b.cells.map(c=>x+c[0]),ys=b.cells.map(c=>y+c[1]),x0=Math.min(...xs),x1=Math.max(...xs),y0=Math.min(...ys),y1=Math.max(...ys);
+    for(const d of L.doors){if(d.c!==b.c) continue;
+      if(b.lk==="h"&&(d.s==="T"||d.s==="B")) continue;if(b.lk==="v"&&(d.s==="L"||d.s==="R")) continue;
+      const hz=d.s==="T"||d.s==="B",a0=hz?x0:y0,a1=hz?x1:y1;if(a0<d.p||a1>d.p+d.n-1) continue;
+      const clear=b.cells.every(([cx,cy])=>{let X=x+cx,Y=y+cy;const [dx,dy]={T:[0,-1],B:[0,1],L:[-1,0],R:[1,0]}[d.s];
+        for(;;){X+=dx;Y+=dy;if(X<0||Y<0||X>=L.w||Y>=L.h) return true;const v=g[Y*L.w+X];if(v>=0&&v!==i) return false;}});
+      if(clear) return d;}
+    return null;}
+  const key=st=>st.pos.map(p=>p?p[0]+"."+p[1]:"-").join("|");
+  // najkrótsze rozwiązanie (BFS po ruchach); cap = limit stanów, null = brak albo za trudne
+  function solve(L,st0,cap=60000){st0=st0||start(L);const seen=new Map([[key(st0),null]]),q=[st0];let n=0;
+    while(q.length){const st=q.shift();
+      if(st.pos.every(p=>!p)){const path=[];let k=key(st);for(let e=seen.get(k);e;e=seen.get(k)){path.unshift(e.m);k=e.k;}return {par:path.length,path};}
+      const g=occ(L,st);
+      for(let i=0;i<st.pos.length;i++){if(!movable(L,st,i)) continue;const R=reach(L,st,i,g);let ex=null;
+        for(const [x,y] of R) if(exitAt(L,st,i,x,y,g)){ex=[x,y];break;}
+        const nx=ex?[{x:ex[0],y:ex[1],out:true}]:R.filter(([x,y])=>x!==st.pos[i][0]||y!==st.pos[i][1]).map(([x,y])=>({x,y,out:false}));
+        for(const m of nx){const pos=st.pos.slice();pos[i]=m.out?null:[m.x,m.y];const s2={pos,out:st.out+(m.out?1:0)},k2=key(s2);
+          if(seen.has(k2)) continue;seen.set(k2,{k:key(st),m:{i,...m}});q.push(s2);if(++n>cap) return null;}}}
+    return null;}
+  return {parse,start,occ,reach,exitAt,solve,movable,key};
+})();
+/*BO-END*/
+const BO_WORLDS=[
+  {name:"Pierwsze kroki",tip:"Przeciągnij klocek do drzwi w tym samym kolorze. Mniej ruchów = więcej gwiazdek."},
+  {name:"Zakręty",tip:"Czasem trzeba najpierw zrobić miejsce – przesuń klocek, który zawadza."},
+  {name:"Strzałki",tip:"Nowość: klocek ze strzałką jeździ tylko w jedną stronę – ↔ poziomo, ↕ pionowo."},
+  {name:"Lód",tip:"Nowość: zamrożony klocek odmarza, gdy wyjadą inne – liczba mówi, ile jeszcze."}];
+const BO_COL=["#ff4d6d","#2f80ff","#2bc76a","#ffb703","#9b5cff","#ff8a2b","#ff5fb3","#22c3d6"];
+const poziomow=n=>n===1?"poziom":n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?"poziomy":"poziomów";
+const boLevel=k=>{const s=BO_LEVELS[k],j=s.lastIndexOf("|"),L=BO_CORE.parse(s.slice(0,j));L.par=+s.slice(j+1);L.k=k;L.world=Math.floor(k/10);return L;};
+const boStarMap=()=>{const m={};loadHist().forEach(s=>{if(s.subj==="lg"&&s.cfg&&s.cfg.mode==="blockout"&&s.status==="done"){const r=s.recs[0]||{};m[s.cfg.lvl]=Math.max(m[s.cfg.lvl]||0,r.st||1);}});return m;};
+const boPts=(k,st)=>st*(Math.floor(k/10)+1);
+// dzienny limit poziomów (zasady rodzica jak w szachach): liczy rozpoczęte poziomy
+const LG_DAYK="henriksen-lgdzien";
+function lgPlayedToday(){const d=new Date().toDateString();let n=0;try{const x=JSON.parse(localStorage.getItem(LG_DAYK)||"{}");if(x.d===d) n=x.n||0;}catch(e){}
+  const t0=dayKey(Date.now());return Math.max(n,loadHist().filter(s=>s.subj==="lg"&&s.start>=t0).length);}
+function lgCount(){const d=new Date().toDateString();try{localStorage.setItem(LG_DAYK,JSON.stringify({d,n:lgPlayedToday()+1}));}catch(e){}}
+function lgLimCard(){
+  const left=szLeft("lg");if(left===null) return "";const B=szBonus("lg"),X=B.full?null:B.X,get=B.max?Math.min(B.per,B.max-B.got):B.per;
+  if(left) return `<div class="szlim"><div class="szlim-h">Dziś ${left===1?"został":poziomow(left)==="poziomy"?"zostały":"zostało"} ci <b>${left}</b> ${poziomow(left)}</div>${B.got?`<small>w tym ${B.got} za ćwiczenia – brawo!</small>`:""}</div>`;
+  const more=X&&X.pk?`<div class="szlim-more"><b>Chcesz jeszcze? 😉</b><span>Zrób te ćwiczenia, a dostaniesz ${get} ${poziomow(get)} więcej:</span>${szRuleList(X,"lgx").replace(/Zrobione (\d+) z (\d+)/,`Zrobione $1 z $2 → +${get} ${poziomow(get)}`)}</div>`:"";
+  return `<div class="szlim done"><div class="szlim-e" aria-hidden="true">🙌</div><div class="szlim-h">Na dziś wystarczy łamigłówek!</div><span class="szlim-s">Świetna robota. Wróć jutro po więcej.</span>${B.full?`<small>Dodatkowe poziomy za ćwiczenia też już wykorzystane (${B.max}).</small>`:""}</div>${more}`;
+}
+function renderLg(){
+  const gate=!szGateOk("lg"),G=rlR("lg").gate;$("lg-rules-btn").hidden=!(ME&&ME.role==="parent");
+  document.querySelectorAll("[data-lggate]").forEach(el=>{el.hidden=!gate;if(gate) el.innerHTML=`<div class="sz-gate-i" aria-hidden="true">🔒</div><div class="rt"><b>Łamigłówki otworzą się po ćwiczeniach</b><small>${esc(G.name)}</small></div><div class="sz-gate-l">${szRuleList(G,"lggate")}</div>`;});
+  const m=boStarMap(),st=Object.values(m).reduce((a,b)=>a+b,0);
+  $("lg-t-bo").hidden=gate||!modOn("lg-blockout");
+  $("lg-t-bo-s").textContent=st?`Gwiazdki: ${st} z ${BO_LEVELS.length*3}`:"Kolorowe klocki do drzwi";
+  const left=szLeft("lg");if(left!==null&&!gate) $("lg-t-bo-s").textContent+=left?` · dziś jeszcze ${left}`:" · na dziś koniec";
+}
+function renderLgb(){
+  const m=boStarMap(),left=szLeft("lg");$("lgb-lim").hidden=left===null;$("lgb-lim").innerHTML=lgLimCard();
+  $("lgb-list").innerHTML=BO_WORLDS.map((W,w)=>`<div class="lbl">Świat ${w+1}: ${W.name}</div><div class="bo-lv">`+
+    Array.from({length:10},(_,j)=>{const k=w*10+j,s=m[k]||0,open=k===0||m[k-1]>0;
+      return `<button type="button" data-bo="${k}" class="${s?"done":""}"${open&&left!==0?"":" disabled"} aria-label="Poziom ${k+1}${s?`, ${s} z 3 gwiazdek`:open?"":", zablokowany"}"><b>${open?k+1:"🔒"}</b><small>${s?"★".repeat(s)+"<s>"+"★".repeat(3-s)+"</s>":"&nbsp;"}</small></button>`;}).join("")+`</div>`).join("");
+}
+let BO=null;
+function lgPlay(k,again){
+  if(!szGateOk("lg")){toast("Łamigłówki otworzą się po ćwiczeniach od rodzica.");return go("lg");}
+  if(szLeft("lg")===0){toast("Na dziś wystarczy łamigłówek!");return go("lgb");}
+  if(k>=BO_LEVELS.length){toast("Wszystkie poziomy przeszedłeś – brawo! Nowe wkrótce.");return go("lgb");}
+  lgCount();const L=boLevel(k);
+  BO={L,k,st:BO_CORE.start(L),moves:0,undo:[],hint:0,start:Date.now(),id:"lg"+Date.now().toString(36)};
+  if(CUR!=="lgg") go("lgg");boDraw();
+}
+// klocek jako SVG: zaokrąglone kratki z łącznikami, odblask, oczka, strzałka, lód
+function boSvg(b,cs){
+  const c=BO_COL[b.c],bw=Math.max(...b.cells.map(q=>q[0]))+1,bh=Math.max(...b.cells.map(q=>q[1]))+1,has=(x,y)=>b.cells.some(q=>q[0]===x&&q[1]===y),p=Math.max(2,cs*.05),r=cs*.24;
+  let base="",hl="",ice="";
+  for(const [x,y] of b.cells){const X=x*cs,Y=y*cs;
+    base+=`<rect x="${X+p}" y="${Y+p}" width="${cs-2*p}" height="${cs-2*p}" rx="${r}"/>`;
+    if(has(x+1,y)) base+=`<rect x="${X+cs/2}" y="${Y+p}" width="${cs}" height="${cs-2*p}"/>`;
+    if(has(x,y+1)) base+=`<rect x="${X+p}" y="${Y+cs/2}" width="${cs-2*p}" height="${cs}"/>`;
+    if(has(x+1,y)&&has(x,y+1)&&has(x+1,y+1)) base+=`<rect x="${X+cs/2}" y="${Y+cs/2}" width="${cs}" height="${cs}"/>`; // środek kwadratu 2×2
+    hl+=`<rect x="${X+cs*.16}" y="${Y+cs*.12}" width="${cs*.68}" height="${cs*.16}" rx="${cs*.08}"/>`;
+    ice+=`<rect x="${X+p}" y="${Y+p}" width="${cs-2*p}" height="${cs-2*p}" rx="${r}"/>`+(has(x+1,y)?`<rect x="${X+cs/2}" y="${Y+p}" width="${cs}" height="${cs-2*p}"/>`:"")+(has(x,y+1)?`<rect x="${X+p}" y="${Y+cs/2}" width="${cs-2*p}" height="${cs}"/>`:"")+(has(x+1,y)&&has(x,y+1)&&has(x+1,y+1)?`<rect x="${X+cs/2}" y="${Y+cs/2}" width="${cs}" height="${cs}"/>`:"");}
+  const [ex,ey]=b.cells[0],e1=ex*cs+cs*.34,e2=ex*cs+cs*.66,eyY=ey*cs+cs*.52,er=cs*.11;
+  const eyes=`<circle cx="${e1}" cy="${eyY}" r="${er}" fill="#fff"/><circle cx="${e2}" cy="${eyY}" r="${er}" fill="#fff"/><circle class="bo-pu" cx="${e1}" cy="${eyY+er*.25}" r="${er*.55}" fill="#1b1b2f"/><circle class="bo-pu" cx="${e2}" cy="${eyY+er*.25}" r="${er*.55}" fill="#1b1b2f"/>`;
+  const [lx,ly]=b.cells[b.cells.length-1],arr=b.lk?`<text x="${lx*cs+cs/2}" y="${ly*cs+cs*.62}" text-anchor="middle" font-size="${cs*.5}" font-weight="900" fill="#fff" stroke="rgba(0,0,0,.35)" stroke-width="${cs*.03}">${b.lk==="h"?"↔":"↕"}</text>`:"";
+  return `<svg width="${bw*cs}" height="${bh*cs}" viewBox="0 0 ${bw*cs} ${bh*cs}" aria-hidden="true"><g fill="${c}" stroke="rgba(0,0,0,.18)" stroke-width="${cs*.02}">${base}</g><g fill="${c}">${base}</g>`+
+    `<g fill="#fff" opacity=".28">${hl}</g>${eyes}${arr}`+(b.ice?`<g class="bo-ice"><g fill="#e3f7ff" opacity=".55" stroke="#fff" stroke-width="${cs*.04}">${ice}</g><text class="bo-icen" x="${ex*cs+cs/2}" y="${ey*cs+cs*.66}" text-anchor="middle" font-size="${cs*.5}" font-weight="900" fill="#fff" stroke="#1971c2" stroke-width="${cs*.05}" paint-order="stroke"></text></g>`:"")+`</svg>`;
+}
+function boDraw(){
+  const L=BO.L,bd=$("bo-board"),W=Math.min(document.documentElement.clientWidth-32,460),H=Math.max(260,innerHeight-300);
+  const cs=Math.floor(Math.min(W/(L.w+.7),H/(L.h+.7))),f=Math.round(cs*.35);BO.cs=cs;BO.f=f;
+  bd.style.width=cs*L.w+2*f+"px";bd.style.height=cs*L.h+2*f+"px";bd.style.setProperty("--cs",cs+"px");
+  let h=`<div class="bo-floor" style="left:${f}px;top:${f}px;width:${cs*L.w}px;height:${cs*L.h}px"></div>`;
+  for(const d of L.doors){const hz=d.s==="T"||d.s==="B",x=hz?f+d.p*cs:d.s==="L"?0:f+L.w*cs,y=hz?(d.s==="T"?0:f+L.h*cs):f+d.p*cs;
+    h+=`<div class="bo-door bo-d${d.s}" style="left:${x}px;top:${y}px;width:${hz?d.n*cs:f}px;height:${hz?f:d.n*cs}px;--c:${BO_COL[d.c]}"></div>`;}
+  L.blocks.forEach((b,i)=>{if(!BO.st.pos[i]) return;const bw=Math.max(...b.cells.map(q=>q[0]))+1,bh=Math.max(...b.cells.map(q=>q[1]))+1;
+    h+=`<div class="bo-b" data-i="${i}" style="width:${bw*cs}px;height:${bh*cs}px">${boSvg(b,cs)}</div>`;});
+  bd.innerHTML=h;BO.st.pos.forEach((p,i)=>{if(p) boPlace(i);});boIce();
+  $("lgg").querySelector("h1").textContent=`Poziom ${BO.k+1}`;
+  $("bo-tip").textContent=BO.k%10===0||L.world>=2?BO_WORLDS[L.world].tip:"";boInfo();$("bo-end").hidden=true;
+}
+const boEl=i=>$("bo-board").querySelector(`.bo-b[data-i="${i}"]`);
+function boPlace(i){const el=boEl(i),p=BO.st.pos[i];if(!el||!p) return;el.style.left=BO.f+p[0]*BO.cs+"px";el.style.top=BO.f+p[1]*BO.cs+"px";}
+function boIce(){BO.L.blocks.forEach((b,i)=>{if(!b.ice) return;const el=boEl(i);if(!el) return;const n=b.ice-BO.st.out,g=el.querySelector(".bo-ice");if(!g) return;
+  if(n<=0){if(!g.classList.contains("melt")){g.classList.add("melt");setTimeout(()=>g.remove(),600);}}else g.querySelector(".bo-icen").textContent=n;});}
+function boInfo(){const L=BO.L;$("bo-mv").innerHTML=`Ruchy: <b>${BO.moves}</b>`;$("bo-st").innerHTML=`3★ w ${L.par} ${L.par===1?"ruchu":"ruchach"}`;$("bo-undo").disabled=!BO.undo.length;}
+const boSnap=()=>({pos:BO.st.pos.map(p=>p&&p.slice()),out:BO.st.out,moves:BO.moves});
+function boExit(i,d){const L=BO.L,b=L.blocks[i],el=boEl(i),bw=Math.max(...b.cells.map(q=>q[0]))+1,bh=Math.max(...b.cells.map(q=>q[1]))+1;
+  BO.st.pos[i]=null;BO.st.out++;sfx("ok");
+  if(el){const k=BO.cs,dist={T:[0,-(bh*k+BO.f+8)],B:[0,bh*k+BO.f+8],L:[-(bw*k+BO.f+8),0],R:[bw*k+BO.f+8,0]}[d.s];
+    el.classList.add("out");el.style.transform=`translate(${dist[0]}px,${dist[1]}px)`;setTimeout(()=>el.remove(),420);
+    const r=el.getBoundingClientRect();boPop(r.left+r.width/2+dist[0]*.7,r.top+r.height/2+dist[1]*.7,BO_COL[b.c]);}
+  boIce();if(BO.st.pos.every(p=>!p)) setTimeout(boWin,450);}
+// konfetti przy wyjeździe (warstwa fixed, jak efekty szachów)
+function boPop(x,y,c){for(let k=0;k<14;k++){const s=document.createElement("i");s.className="bo-pop";s.style.left=x+"px";s.style.top=y+"px";s.style.background=k%3?c:"#fff";
+  const a=Math.random()*Math.PI*2,v=30+Math.random()*50;s.style.setProperty("--dx",Math.cos(a)*v+"px");s.style.setProperty("--dy",Math.sin(a)*v+"px");document.body.appendChild(s);setTimeout(()=>s.remove(),700);}}
+function boWin(){if(!BO||BO.won) return;BO.won=true;const L=BO.L,mv=BO.moves,st0=mv<=L.par?3:mv<=L.par+3?2:1,st=BO.hint?Math.min(2,st0):st0,w=boPts(BO.k,st),pct={3:100,2:75,1:50}[st];
+  const best=boStarMap()[BO.k]||0;
+  const H=loadHist();H.push({id:BO.id,subj:"lg",start:BO.start,end:Date.now(),status:"done",cfg:{mode:"blockout",lvl:BO.k,...(BO.tag||{})},n:1,done:1,
+    recs:[{t:`Block Out ${BO.k+1}`,ok:true,st,mv,par:L.par,w,tries:[],h:BO.hint,ms:Date.now()-BO.start}],pct,grade:grade(pct).n,errors:0,hints:BO.hint,pts:w,ptsMax:boPts(BO.k,3)});saveHist(H);
+  sfx("final");try{const dpr=devicePixelRatio||1;cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;cx.setTransform(dpr,0,0,dpr,0,0);for(let k=0;k<st;k++) setTimeout(()=>burst(innerWidth*(.25+Math.random()*.5),innerHeight*(.2+Math.random()*.3)),k*260);}catch(e){}
+  const nxt=BO.k+1<BO_LEVELS.length,left=szLeft("lg");
+  $("bo-end").innerHTML=`<div class="bo-card"><div class="bo-stars">${[1,2,3].map(n=>`<span class="${n<=st?"on":""}" style="animation-delay:${n*.18}s">★</span>`).join("")}</div>`+
+    `<b>${st===3?"Mistrzowsko!":st===2?"Super!":"Udało się!"}</b><small>Ruchy: ${mv} · na 3 gwiazdki: ${L.par}${BO.hint?" · z podpowiedzią najwyżej 2★":""}</small>`+
+    `<div class="bo-pts">+${w} pkt${st>best&&best?" · nowy rekord!":""}</div>`+
+    `<div class="bo-btns">${nxt&&left!==0?`<button type="button" class="go-btn" data-boa="next">Dalej ▶</button>`:""}<button type="button" class="again" data-boa="again">Jeszcze raz</button><button type="button" class="again" data-boa="list">Lista poziomów</button></div>`+
+    (left===0?`<small>To był ostatni poziom na dziś.</small>`:"")+`</div>`;
+  $("bo-end").hidden=false;try{setTimeout(cupsCheck,1500);}catch(e){}
+}
+// podpowiedź: klocek, który już może wyjechać; inaczej ruch, po którym któryś wyjedzie; inaczej krótkie szukanie
+function boHint(){if(!BO||BO.won) return;const L=BO.L,st=BO.st,C=BO_CORE,g=C.occ(L,st),can=(s,i,G)=>C.reach(L,s,i,G).find(([x,y])=>C.exitAt(L,s,i,x,y,G));
+  let m=null;
+  for(let i=0;i<L.blocks.length&&!m;i++) if(C.movable(L,st,i)&&can(st,i,g)) m={i,p:can(st,i,g),txt:"Ten klocek może już wyjechać!"};
+  for(let i=0;i<L.blocks.length&&!m;i++){if(!C.movable(L,st,i)) continue;
+    for(const p of C.reach(L,st,i,g)){const pos=st.pos.slice();pos[i]=p;const s2={pos,out:st.out},g2=C.occ(L,s2);
+      if(L.blocks.some((b,j)=>j!==i&&C.movable(L,s2,j)&&can(s2,j,g2))){m={i,p,txt:"Przesuń ten klocek tutaj – zrobisz komuś miejsce."};break;}}}
+  if(!m){const r=C.solve(L,{pos:st.pos.map(p=>p&&p.slice()),out:st.out},6000);if(r&&r.path.length){const x=r.path[0];m={i:x.i,p:[x.x,x.y],txt:"Spróbuj przesunąć ten klocek tutaj."};}}
+  if(!m){toast("Hmm, cofnij kilka ruchów albo zacznij od nowa.");return;}
+  BO.hint++;toast(m.txt);const el=boEl(m.i);if(el){el.classList.remove("hint");void el.offsetWidth;el.classList.add("hint");}
+  const b=L.blocks[m.i],bw=Math.max(...b.cells.map(q=>q[0]))+1,bh=Math.max(...b.cells.map(q=>q[1]))+1,gh=document.createElement("div");
+  gh.className="bo-ghost";gh.style.cssText=`left:${BO.f+m.p[0]*BO.cs}px;top:${BO.f+m.p[1]*BO.cs}px;width:${bw*BO.cs}px;height:${bh*BO.cs}px`;gh.innerHTML=boSvg({...b,ice:0},BO.cs);
+  $("bo-board").appendChild(gh);setTimeout(()=>gh.remove(),2400);
+}
+// przeciąganie: klocek idzie za palcem kratka po kratce (także za róg); za brzeg przy swoich drzwiach = wyjazd
+$("bo-board").addEventListener("pointerdown",e=>{if(!BO||BO.won) return;const el=e.target.closest(".bo-b");if(!el) return;const i=+el.dataset.i,L=BO.L,b=L.blocks[i];
+  if(!BO_CORE.movable(L,BO.st,i)){el.classList.remove("nope");void el.offsetWidth;el.classList.add("nope");sfx("bad");
+    if(b.ice>BO.st.out) toast(`Zamrożony! Odmarznie, gdy wyjadą jeszcze ${b.ice-BO.st.out} ${b.ice-BO.st.out===1?"klocek":"klocki"}.`);return;}
+  const R=$("bo-board").getBoundingClientRect(),p=BO.st.pos[i];
+  BO.drag={i,id:e.pointerId,gx:(e.clientX-R.left-BO.f)/BO.cs-p[0],gy:(e.clientY-R.top-BO.f)/BO.cs-p[1],snap:boSnap(),moved:false};
+  el.classList.add("drag");try{$("bo-board").setPointerCapture(e.pointerId);}catch(x){}e.preventDefault();});
+$("bo-board").addEventListener("pointermove",e=>{const D=BO&&BO.drag;if(!D||D.id!==e.pointerId) return;const L=BO.L,b=L.blocks[D.i],R=$("bo-board").getBoundingClientRect();
+  const tx=(e.clientX-R.left-BO.f)/BO.cs-D.gx,ty=(e.clientY-R.top-BO.f)/BO.cs-D.gy,bw=Math.max(...b.cells.map(q=>q[0]))+1,bh=Math.max(...b.cells.map(q=>q[1]))+1;
+  const Tx=Math.max(0,Math.min(L.w-bw,Math.round(tx))),Ty=Math.max(0,Math.min(L.h-bh,Math.round(ty))),g=BO_CORE.occ(L,BO.st),free=(x,y)=>b.cells.every(([cx,cy])=>{const v=g[(y+cy)*L.w+x+cx];return v<0||v===D.i;});
+  for(let n=0;n<30;n++){const [x,y]=BO.st.pos[D.i],dx=Math.sign(Tx-x)*(b.lk==="v"?0:1),dy=Math.sign(Ty-y)*(b.lk==="h"?0:1);if(!dx&&!dy) break;
+    const ax=Math.abs(Tx-x)>=Math.abs(Ty-y),tries=ax?[[dx,0],[0,dy]]:[[0,dy],[dx,0]];let ok=false;
+    for(const [sx,sy] of tries) if((sx||sy)&&free(x+sx,y+sy)){BO.st.pos[D.i]=[x+sx,y+sy];ok=true;D.moved=true;break;}
+    if(!ok) break;}
+  boPlace(D.i);D.tx=tx;D.ty=ty;
+  if(boOver(D,.35)) boDragEnd(true,boOver(D,.35));});
+// palec wyjechał za brzeg przy drzwiach koloru klocka (o ile kratki) → te drzwi
+function boOver(D,m){const L=BO.L,b=L.blocks[D.i],p=BO.st.pos[D.i];if(!p||D.tx==null) return null;const d=BO_CORE.exitAt(L,BO.st,D.i,p[0],p[1]);if(!d) return null;
+  const bw=Math.max(...b.cells.map(q=>q[0]))+1,bh=Math.max(...b.cells.map(q=>q[1]))+1;
+  return d.s==="T"&&D.ty<-m||d.s==="B"&&D.ty>L.h-bh+m||d.s==="L"&&D.tx<-m||d.s==="R"&&D.tx>L.w-bw+m?d:null;}
+function boDragEnd(exit,d){const D=BO&&BO.drag;if(!D) return;BO.drag=null;const el=boEl(D.i);if(el) el.classList.remove("drag");
+  if(!exit&&D.moved&&boOver(D,.15)){exit=true;d=boOver(D,.15);} // puszczony tuż za brzegiem przy drzwiach
+  if(!exit&&!D.moved){const p=BO.st.pos[D.i],dd=p&&BO_CORE.exitAt(BO.L,BO.st,D.i,p[0],p[1]);if(dd){exit=true;d=dd;}} // dotknięcie klocka przy jego drzwiach = wyjazd
+  if(!exit&&!D.moved) return;BO.undo.push(D.snap);BO.moves++;if(exit) boExit(D.i,d);boInfo();}
+["pointerup","pointercancel"].forEach(t=>$("bo-board").addEventListener(t,e=>{if(BO&&BO.drag&&BO.drag.id===e.pointerId) boDragEnd(false);}));
+$("bo-undo").addEventListener("click",()=>{if(!BO||BO.won||!BO.undo.length) return;const s=BO.undo.pop();BO.st={pos:s.pos,out:s.out};BO.moves=s.moves;boDraw();});
+$("bo-reset").addEventListener("click",()=>{if(!BO||BO.won) return;BO.st=BO_CORE.start(BO.L);BO.moves=0;BO.undo=[];boDraw();});
+$("bo-hint").addEventListener("click",boHint);
+$("bo-end").addEventListener("click",e=>{const b=e.target.closest("[data-boa]");if(!b) return;const a=b.dataset.boa;
+  if(a==="next") return lgPlay(BO.k+1);if(a==="again") return lgPlay(BO.k);BO=null;go("lgb");});
+$("lgb-list").addEventListener("click",e=>{const b=e.target.closest("[data-bo]");if(b&&!b.disabled) lgPlay(+b.dataset.bo);});
+$("lg-t-bo").addEventListener("click",()=>go("lgb"));
+$("t-lg").addEventListener("click",()=>go("lg"));
+$("lg-rules-btn").addEventListener("click",()=>{SZR={kid:SZR.kid,prefs:null,sec:"lg"};go("szrules");});
+addEventListener("resize",()=>{if(CUR==="lgg"&&BO&&!BO.drag) boDraw();});
+// rodzic wyłączył łamigłówki albo dziś obowiązuje blokada – wyjście z ekranów łamigłówek
+function lgGuard(){if(!["lg","lgb","lgg"].includes(CUR)) return;
+  if(!subjOn("lg")){toast("Rodzic wyłączył łamigłówki.");return go("home");}
+  if(CUR!=="lg"&&(!modOn("lg-blockout")||!szGateOk("lg"))){toast(!modOn("lg-blockout")?"Rodzic wyłączył tę łamigłówkę.":"Łamigłówki otworzą się po ćwiczeniach od rodzica.");go("lg");}}
+
 /* --- zadania --- */
 async function szPuzzles(theme,n,tag){
   if(!szGateOk()){toast("Szachy otworzą się po zadaniu od rodzica.");go("sz");return;}
@@ -6312,10 +6630,11 @@ function szrSel(id,cur){const C=szrPacks(),cid=cur&&cur.pk?cur.pk.id:null;
     `${cur&&!(cid&&C.some(p=>p.id===cid))?`<option value="__keep" selected>${esc(cur.name)}${cur.pk?"":" (stare ustawienie)"}</option>`:""}</select>`;}
 const SZR_G=[[0,"Dowolna"],[3,"3"],[4,"4"],[5,"5"],[6,"6"]];
 // suwaki dodatkowych partii: za jedno przejście 1–10, najwięcej dziennie 0–20 (0 = bez limitu)
-const szrXV=(id,v)=>id==="szr-xm"&&!v?"Bez limitu":`${v} ${partii(v)}`;
+const szrXV=(id,v)=>id==="szr-xm"&&!v?"Bez limitu":`${v} ${RSEC[SZR.sec||"sz"].u(v)}`;
 const szrRange=(id,min,max,v,lab)=>`<div class="szr-rg"><input type="range" id="${id}" min="${min}" max="${max}" step="1" value="${v}" aria-label="${lab}"><b id="${id}-v">${szrXV(id,v)}</b></div>`;
-const szrXNote=()=>`Każde dzisiejsze przejście pakietu (wszystkie ćwiczenia) = ${SZR.extra&&SZR.xn>1?`${SZR.xn} ${partii(SZR.xn)}`:"jedna partia"} więcej${SZR.extra&&SZR.xm?`, ale najwyżej ${SZR.xm} ${partii(SZR.xm)} ponad limit dziennie`:""}. Działa, gdy jest limit.`;
+const szrXNote=()=>{const U=RSEC[SZR.sec||"sz"];return `Każde dzisiejsze przejście pakietu (wszystkie ćwiczenia) = ${SZR.extra&&SZR.xn>1?`${SZR.xn} ${U.u(SZR.xn)}`:U.one} więcej${SZR.extra&&SZR.xm?`, ale najwyżej ${SZR.xm} ${U.u(SZR.xm)} ponad limit dziennie`:""}. Działa, gdy jest limit.`;};
 async function renderSzRules(){
+  const RS=RSEC[SZR.sec||"sz"],U=RS.u;$("szrules").querySelector("h1").textContent=RS.title;
   const body=$("szr-body"),msg=$("szr-msg");msg.textContent="";$("szr-save").hidden=true;
   if(!(ME&&ME.role==="parent")){body.innerHTML='<p class="abnote">Ten widok jest dla rodzica.</p>';$("szr-kids").innerHTML="";return;}
   if(!FAMILY){try{await sbLoad();const {data}=await SB.from("profiles").select("id,name,role").eq("family_id",ME.family);FAMILY=(data||[]).filter(p=>p.role==="student");}catch(e){FAMILY=[];}}
@@ -6324,29 +6643,29 @@ async function renderSzRules(){
   $("szr-kids").innerHTML=FAMILY.map(p=>`<button type="button" data-id="${p.id}" class="${p.id===SZR.kid?"sel":""}" aria-pressed="${p.id===SZR.kid}">${esc(p.name||"–")}</button>`).join("");
   if(!SZR.prefs){body.innerHTML='<p class="abnote">Wczytuję…</p>';
     try{const {data,error}=await SB.from("settings").select("prefs").eq("user_id",SZR.kid).maybeSingle();if(error) throw error;const p=data&&data.prefs||{};
-      SZR.prefs=p;SZR.limit=+p.szLimit||0;const r=p.szRules&&typeof p.szRules==="object"?p.szRules:{};SZR.limPrev=SZR.limit||+r.limPrev||2;SZR.days={...(r.days||{})};SZR.daysOn=r.daysOn!==false;SZR.extra=r.extra||null;SZR.xn=(r.extra&&+r.extra.n)||1;SZR.xm=(r.extra&&+r.extra.max)||0;SZR.g=(r.extra&&r.extra.g)||(r.gate&&r.gate.g)||0;SZR.gate=r.gate||null;SZR.dn=2;}
+      SZR.prefs=p;SZR.limit=+p[RS.l]||0;const r=p[RS.r]&&typeof p[RS.r]==="object"?p[RS.r]:{};SZR.limPrev=SZR.limit||+r.limPrev||RS.def;SZR.days={...(r.days||{})};SZR.daysOn=r.daysOn!==false;SZR.extra=r.extra||null;SZR.xn=(r.extra&&+r.extra.n)||1;SZR.xm=(r.extra&&+r.extra.max)||0;SZR.g=(r.extra&&r.extra.g)||(r.gate&&r.gate.g)||0;SZR.gate=r.gate||null;SZR.dn=2;}
     catch(x){body.innerHTML='<p class="abnote">Nie udało się wczytać ustawień – sprawdź internet.</p>';return;}}
   const today=ymd(Date.now());Object.keys(SZR.days).forEach(d=>{if(d<today) delete SZR.days[d];});
   const seg=(id,list,cur)=>`<div class="segs" id="${id}">${list.map(([n,t])=>`<button type="button" data-n="${n}" class="${cur===n?"sel":""}" aria-pressed="${cur===n}">${t}</button>`).join("")}</div>`;
   const days=Object.keys(SZR.days).sort().map(d=>{const n=+SZR.days[d],dt=new Date(d+"T12:00");
-    return `<div class="szr-day"><span>${dt.toLocaleDateString("pl-PL",{weekday:"short",day:"numeric",month:"numeric"})} – ${n<0?"bez limitu":n===0?"bez gry":n+" "+(n===1?"partia":n<5?"partie":"partii")}</span><button type="button" data-del="${d}" aria-label="Usuń wyjątek">✕</button></div>`;}).join("");
+    return `<div class="szr-day"><span>${dt.toLocaleDateString("pl-PL",{weekday:"short",day:"numeric",month:"numeric"})} – ${n<0?"bez limitu":n===0?"bez gry":n+" "+U(n)}</span><button type="button" data-del="${d}" aria-label="Usuń wyjątek">✕</button></div>`;}).join("");
   const lon=SZR.limit>0;
-  body.innerHTML=`<div class="grp"><button type="button" class="row sw${lon?" sel":""}" id="szr-lon" aria-pressed="${lon}"><span class="rt"><b>Limit partii z komputerem</b><small>${lon?`${SZR.limit} ${SZR.limit===1?"partia":SZR.limit<5?"partie":"partii"} dziennie`:"Wyłączony – bez limitu"}</small></span><i class="tg" aria-hidden="true"></i></button></div>
-    ${lon?seg("szr-lim",SZR_N,SZR.limit):""}
+  body.innerHTML=`<div class="grp"><button type="button" class="row sw${lon?" sel":""}" id="szr-lon" aria-pressed="${lon}"><span class="rt"><b>${RS.limT}</b><small>${lon?`${SZR.limit} ${U(SZR.limit)} dziennie`:"Wyłączony – bez limitu"}</small></span><i class="tg" aria-hidden="true"></i></button></div>
+    ${lon?seg("szr-lim",RS.N,SZR.limit):""}
     <div class="grp"><button type="button" class="row sw${SZR.daysOn?" sel":""}" id="szr-don" aria-pressed="${SZR.daysOn}"><span class="rt"><b>Wyjątki na konkretne dni</b><small>${SZR.daysOn?"Inny limit w wybrane dni":"Wyłączone – zawsze limit dzienny"}</small></span><i class="tg" aria-hidden="true"></i></button></div>
     ${SZR.daysOn?`<div class="szr-row"><input type="date" class="szr-in" id="szr-date" min="${today}" value="${SZR.dd||today}"></div>
-    ${seg("szr-dn",SZR_D,SZR.dn)}<button type="button" class="again" id="szr-add" style="width:100%">＋ Dodaj wyjątek</button><div class="szr-days">${days}</div>`:""}
+    ${seg("szr-dn",RS.D,SZR.dn)}<button type="button" class="again" id="szr-add" style="width:100%">＋ Dodaj wyjątek</button><div class="szr-days">${days}</div>`:""}
     ${szrPacks().length?"":`<p class="abnote">Nie masz jeszcze pakietów. Zapisz ćwiczenia („Dodaj do zapisanych celów” w grze) i złóż z nich pakiet w „Cele dla dziecka › Pakiety”.</p><button type="button" class="again" id="szr-goals" style="width:100%">📦 Pakiety ćwiczeń</button>`}
-    <div class="lbl">Każda partia ponad limit wymaga pakietu</div>${szrSel("szr-extra",SZR.extra)}
-    ${SZR.extra?`<div class="lbl">Partii za jedno przejście pakietu</div>${szrRange("szr-xn",1,10,SZR.xn||1,"Partii za jedno przejście pakietu")}
-    <div class="lbl">Najwięcej dodatkowych partii dziennie</div>${szrRange("szr-xm",0,20,SZR.xm||0,"Najwięcej dodatkowych partii dziennie")}`:""}
+    <div class="lbl">${RS.extraT}</div>${szrSel("szr-extra",SZR.extra)}
+    ${SZR.extra?`<div class="lbl">${RS.perT}</div>${szrRange("szr-xn",1,10,SZR.xn||1,RS.perT)}
+    <div class="lbl">${RS.maxT}</div>${szrRange("szr-xm",0,20,SZR.xm||0,RS.maxT)}`:""}
     <p class="abnote" id="szr-xnote">${szrXNote()}</p>
-    <div class="lbl">Szachy otwierają się dopiero po pakiecie</div>${szrSel("szr-gate",SZR.gate)}
-    <p class="abnote">Codziennie najpierw ten pakiet – dopiero potem samouczek, zadania i gra.</p>
+    <div class="lbl">${RS.gateT}</div>${szrSel("szr-gate",SZR.gate)}
+    <p class="abnote">${RS.gateN}</p>
     ${SZR.extra||SZR.gate?`<div class="lbl">Ocena w ćwiczeniach co najmniej</div>${seg("szr-g",SZR_G,SZR.g||0)}<p class="abnote">Ćwiczenie z niższą oceną trzeba powtórzyć.</p>`:""}`;
   const name=(FAMILY.find(p=>p.id===SZR.kid)||{}).name||"dziecka";$("szr-save").hidden=false;$("szr-save").textContent=`Zapisz dla: ${name}`;
 }
-$("szr-kids").addEventListener("click",e=>{const b=e.target.closest("button[data-id]");if(!b||b.dataset.id===SZR.kid) return;SZR={kid:b.dataset.id,prefs:null};renderSzRules();});
+$("szr-kids").addEventListener("click",e=>{const b=e.target.closest("button[data-id]");if(!b||b.dataset.id===SZR.kid) return;SZR={kid:b.dataset.id,prefs:null,sec:SZR.sec};renderSzRules();});
 $("szr-body").addEventListener("click",e=>{
   const l=e.target.closest("#szr-lim [data-n]");if(l){SZR.limit=SZR.limPrev=+l.dataset.n;return renderSzRules();}
   if(e.target.closest("#szr-lon")){SZR.limit=SZR.limit>0?0:SZR.limPrev||2;return renderSzRules();}
@@ -6364,14 +6683,14 @@ $("szr-body").addEventListener("change",e=>{const pick=id=>{const v=$(id).value,
   if(e.target.id==="szr-extra"){SZR.extra=pick("szr-extra");return renderSzRules();}if(e.target.id==="szr-gate"){SZR.gate=pick("szr-gate");return renderSzRules();}if(e.target.id==="szr-date") SZR.dd=e.target.value;});
 $("szr-save").addEventListener("click",async()=>{const b=$("szr-save");b.disabled=true;
   try{const {data,error}=await SB.from("settings").select("prefs,plp").eq("user_id",SZR.kid).maybeSingle();if(error) throw error;
-    const prefs={...(data&&data.prefs||{}),szLimit:SZR.limit,szRules:{days:SZR.days,daysOn:SZR.daysOn,limPrev:SZR.limPrev,extra:SZR.extra?{...SZR.extra,g:SZR.g||0,n:SZR.xn||1,max:SZR.xm||0}:null,gate:SZR.gate?{...SZR.gate,g:SZR.g||0}:null}};
+    const RS=RSEC[SZR.sec||"sz"],prefs={...(data&&data.prefs||{}),[RS.l]:SZR.limit,[RS.r]:{days:SZR.days,daysOn:SZR.daysOn,limPrev:SZR.limPrev,extra:SZR.extra?{...SZR.extra,g:SZR.g||0,n:SZR.xn||1,max:SZR.xm||0}:null,gate:SZR.gate?{...SZR.gate,g:SZR.g||0}:null}};
     const r=await SB.from("settings").upsert({user_id:SZR.kid,prefs,plp:data&&data.plp||{}},{onConflict:"user_id"});if(r.error) throw r.error;
     SZR.prefs=prefs;$("szr-msg").textContent="Zapisane. Telefon dziecka dostanie zmiany najpóźniej w ciągu minuty.";}
   catch(x){$("szr-msg").textContent=acctErr(x);}b.disabled=false;});
 // zadanie od rodzica z ekranów szachów: blokada (szgate) albo dodatkowa partia (szx)
-document.addEventListener("click",e=>{const b=e.target.closest("[data-szdo]");if(!b) return;const R=szR(),x=b.dataset.szdo==="szgate"?R.gate:R.extra;if(!x) return;
+document.addEventListener("click",e=>{const b=e.target.closest("[data-szdo]");if(!b) return;const sec=rlSec(b.dataset.szdo),R=rlR(sec),x=b.dataset.szdo===RSEC[sec].g?R.gate:R.extra;if(!x) return;
   if(x.goal){const t=szGoal(x);if(t) openGoal(t);}else exRun(x,{goal:b.dataset.szdo});});
-$("sz-rules-btn").addEventListener("click",()=>{SZR={kid:SZR.kid,prefs:null};go("szrules");});
+$("sz-rules-btn").addEventListener("click",()=>{SZR={kid:SZR.kid,prefs:null,sec:"sz"};go("szrules");});
 $("sz-t-learn").addEventListener("click",async()=>{await szLoad();go("szl");});
 $("sz-t-open").addEventListener("click",()=>go("szop"));$("sz-t-facts").addEventListener("click",()=>go("szcf"));
 $("szop-list").addEventListener("click",e=>{const b=e.target.closest("[data-op]");if(b) szOpening(+b.dataset.op,{});});
