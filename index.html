@@ -1037,7 +1037,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tile sz" id="t-sz"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="#fff" stroke="none" stroke-linecap="round" stroke-linejoin="round"><path d="M10 33h22v-4H10z"/><path d="M13 29c0-5 2-8 6-11l-2-3-5 3-4-3 7-8c2-2 4-4 8-4 6 0 11 6 11 15v11z"/><circle cx="21" cy="9" r="1.6" fill="rgba(0,0,0,.35)"/></svg></span><span class="tt">Szachy</span><small>Samouczek, zadania i gra z komputerem</small></button>
     <button type="button" class="tile lg" id="t-lg"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="#fff" stroke="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10h8a4.5 4.5 0 1 1 9 0h8v8a4.5 4.5 0 1 1 0 9v6h-8a4.5 4.5 0 1 0-9 0H5v-8a4.5 4.5 0 1 0 0-9z"/></svg></span><span class="tt">Łamigłówki</span><small>Block Out i więcej</small></button>
   </div>
-  <div class="home-sep" aria-hidden="true"><span>Ustawienia</span></div>
+  <div class="home-sep" id="set-sep" aria-hidden="true"><span>Ustawienia</span></div>
   <button type="button" class="sbar" id="t-stats"><span class="si" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg></span>
     <span class="st"><b>Statystyki</b><small id="t-stats-s">Tu zobaczysz swoje wyniki</small></span>
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
@@ -5121,7 +5121,7 @@ function kcPreview(){
   const vis={"t-math":subjOn("mat",P),"t-pl":subjOn("pl",P),"t-en":subjOn("en",P),"t-zd":subjOn("zd",P),"t-sz":subjOn("sz",P),"t-lg":subjOn("lg",P)};
   [grid,games].forEach(gr=>gr.querySelectorAll("button").forEach(b=>{const on=b.id in vis?vis[b.id]:b.id==="t-his"?modOn("his",P):b.id==="t-nat"?modOn("nat",P):true;b.hidden=!on;}));sep.hidden=!(vis["t-sz"]||vis["t-lg"]);
   const bars=[["t-stats","stats"],["t-cups","cups"],["t-lig","lig"],["t-help","help"]].filter(([,k])=>modOn(k,P)).map(([id])=>id).map(id=>{const b=$(id).cloneNode(true);b.hidden=false;return b;});
-  inner.replaceChildren(grid,sep,games,...bars);
+  inner.replaceChildren(grid,sep,games,...(bars.length?[$("set-sep").cloneNode(true)]:[]),...bars);
   inner.querySelectorAll("[id]").forEach(el=>el.removeAttribute("id"));
   inner.querySelectorAll("button").forEach(b=>{b.tabIndex=-1;b.disabled=true;});
   inner.parentElement.style.height=Math.ceil(inner.offsetHeight*.5)+"px";
