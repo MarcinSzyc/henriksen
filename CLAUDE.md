@@ -192,7 +192,9 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   3★ ≤ koszt wzorca, 2★ ≤ × 1,25). Budowa: przeciągnij od kotwy/węzła, koniec przyciąga się do kratki w zasięgu materiału (`brTarget`), 🗑️ usuwa belkę,
   Cofnij, Zburz; projekt każdego poziomu zapisany w `henriksen-mosty`. Jazda: belki kolorowane obciążeniem (zielone → czerwone), pęknięte spadają.
   Wygrana: gwiazdki z kosztu, punkty `gwiazdki × (1 + nr/3)`, ciekawostka o mostach (`BR_FACTS`). Sesja `cfg:{mode:"mosty",lvl}`, `recs[0]={st,cost,w}`.
-  **Trójki** (jak Threes!; widok `#lgt`, hash `#trojki`, moduł `lg-trojki`, puchar `lg-trojki`): plansza 4×4, przesunięcie palcem/strzałką
+  **Trójki** (jak Threes!; widok `#lgt`, hash `#trojki`, moduł `lg-trojki`, puchar `lg-trojki`): plansza 4×4, 5×5 albo 6×6 (`TH_SIZES`, `#th-size`,
+  ostatni wybór `henriksen-trojki-n`, `cfg.n`, rekord i progi gwiazdek `thStarsAt` osobno dla każdej wielkości). Kafle mają numery (`TH.id`) i zostają w DOM –
+  `thRender(an)` tylko przesuwa je (CSS transition), łączony kafel najeżdża na drugi i znika (`die`). Przesunięcie palcem/strzałką
   (`thGo`): każdy kafel o jedno pole, 1+2=3, od 3 łączą się równe (`thCan`); nowy kafel wjeżdża z brzegu w jednym z ruszonych rzędów,
   talia po 4× 1/2/3 + czasem bonus (`thDraw`), podgląd „Następny”. Wynik jak w Threes (3^(log2(v/3)+1)), przy łączeniu dymek „6+6”, przy nowym
   największym kaflu podpowiedź „48 = 3 × 16”. Gra zapisuje się po każdym ruchu (`henriksen-trojki`) i wraca po wyjściu; koniec = brak ruchów

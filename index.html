@@ -787,10 +787,10 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .th-wrap{display:flex;justify-content:center;margin:6px 0}
 .th-board{position:relative;width:min(100%,400px);aspect-ratio:1;background:#bbd9d9;border-radius:18px;touch-action:none;padding:6px;box-sizing:border-box}
 .th-board.nope{animation:bonope .3s}
-.th-c,.th-t,.th-eq{position:absolute;left:6px;top:6px;width:calc((100% - 12px)/4);height:calc((100% - 12px)/4);transform:translate(calc(var(--c)*100%),calc(var(--r)*100%));box-sizing:border-box;padding:4px}
+.th-c,.th-t,.th-eq{position:absolute;left:6px;top:6px;width:calc((100% - 12px)/var(--n,4));height:calc((100% - 12px)/var(--n,4));transform:translate(calc(var(--c)*100%),calc(var(--r)*100%));box-sizing:border-box;padding:4px}
 .th-c::before{content:"";display:block;width:100%;height:100%;border-radius:12px;background:#cde6e6}
-.th-t{transition:transform .12s ease-out;font-size:clamp(1.4rem,9vw,2.6rem)}.th-t b{display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:12px;font-weight:900;box-shadow:0 5px 0 rgba(0,0,0,.18)}
-.th-t.t1 b{background:#66ccff;color:#fff}.th-t.t2 b{background:#ff6680;color:#fff}.th-t.t3 b{background:#fff;color:#1b1b2f;box-shadow:0 5px 0 #f5b041}.th-t.top b{color:#e8590c}
+.th-t{transition:transform .12s ease-out;z-index:1}.th-t.die{z-index:2}.th-t b{display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:12px;font-weight:900;box-shadow:0 5px 0 rgba(0,0,0,.18)}
+.th-t.t1 b{background:#66ccff;color:#fff}.th-t.t2 b{background:#ff6680;color:#fff}.th-t b{font-size:1em}.th-t.t3 b{background:#fff;color:#1b1b2f;box-shadow:0 5px 0 #f5b041}.th-t.top b{color:#e8590c}
 .th-t.pop b{animation:thpop .22s}@keyframes thpop{50%{transform:scale(1.15)}}
 .th-t.in-L b{animation:thinL .18s}.th-t.in-R b{animation:thinR .18s}.th-t.in-U b{animation:thinU .18s}.th-t.in-D b{animation:thinD .18s}
 @keyframes thinL{from{transform:translateX(60%);opacity:0}}@keyframes thinR{from{transform:translateX(-60%);opacity:0}}@keyframes thinU{from{transform:translateY(60%);opacity:0}}@keyframes thinD{from{transform:translateY(-60%);opacity:0}}
@@ -1327,6 +1327,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Trójki</h1><div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div class="bo-top"><span id="th-score"></span><span class="th-nxw">Następny: <span id="th-next" class="th-t th-nx"></span></span></div>
+  <div class="segs" id="th-size" role="group" aria-label="Wielkość planszy"></div>
   <div class="th-wrap"><div class="th-board" id="th-board"></div></div>
   <div class="bo-top"><span id="th-best"></span><span id="th-rec"></span></div>
   <p class="abnote bo-tip">Przesuń palcem po planszy. 1 łączy się tylko z 2, a od 3 w górę – tylko takie same liczby. Po każdym ruchu z brzegu wjeżdża nowy kafel.</p>
@@ -6204,7 +6205,7 @@ function renderLg(){
   document.querySelectorAll("[data-lggate]").forEach(el=>{el.hidden=!gate;if(gate) el.innerHTML=`<div class="sz-gate-i" aria-hidden="true">🔒</div><div class="rt"><b>Łamigłówki otworzą się po ćwiczeniach</b><small>${esc(G.name)}</small></div><div class="sz-gate-l">${szRuleList(G,"lggate")}</div>`;});
   const m=boStarMap(),st=Object.values(m).reduce((a,b)=>a+b,0);
   $("lg-t-bo").hidden=gate||!modOn("lg-blockout");$("lg-t-br").hidden=gate||!modOn("lg-mosty");$("lg-t-th").hidden=gate||!modOn("lg-trojki");
-  {const R=thRecord();let sv=null;try{sv=JSON.parse(localStorage.getItem(THK)||"null");}catch(e){}$("lg-t-th-s").textContent=sv&&sv.g?`Gra w toku · kafel ${thMax(sv.g)}`:R.sc?`Rekord: ${R.sc} · kafel ${R.mx}`:"1+2=3, 3+3=6, 6+6=12…";}
+  {const R=thRecord(null);let sv=null;try{sv=JSON.parse(localStorage.getItem(THK)||"null");}catch(e){}$("lg-t-th-s").textContent=sv&&sv.g?`Gra w toku · kafel ${thMax(sv.g)}`:R.sc?`Rekord: ${R.sc} · kafel ${R.mx}`:"1+2=3, 3+3=6, 6+6=12…";}
   {const bm=brStarMap(),bs=Object.values(bm).reduce((a,b)=>a+b,0);$("lg-t-br-s").textContent=bs?`Gwiazdki: ${bs} z ${BR_LEVELS.length*3}`:"Zbuduj most, który utrzyma auto";}
   $("lg-t-bo-s").textContent=st?`Gwiazdki: ${st} z ${BO_LEVELS.length*3}`:"Kolorowe klocki do drzwi";
   const left=szLeft("lg");if(left!==null&&!gate) $("lg-t-bo-s").textContent+=left?` · dziś jeszcze ${left}`:" · na dziś koniec";
@@ -6588,60 +6589,72 @@ addEventListener("resize",()=>{if(CUR==="lgs"&&BR){brSize();brDraw();}});
 
 /* --- Łamigłówki: Trójki (jak Threes!) – 1+2=3, potem równe się łączą: 3+3=6, 6+6=12…; po ruchu wjeżdża nowy kafel --- */
 const THK="henriksen-trojki"; // przerwana gra (wraca po wyjściu)
-let TH=null;
+const TH_SIZES=[4,5,6];
+let TH=null,THN=4;
 const thCan=(a,b)=>a+b===3||a>=3&&a===b;
 const thScore=g=>g.flat().reduce((s,v)=>s+(v>=3?3**(Math.log2(v/3)+1):0),0);
 const thMax=g=>Math.max(...g.flat());
+const thStarsAt=n=>({4:[96,192],5:[192,384],6:[384,768]})[n]||[96,192];
 // talia: po cztery 1, 2 i 3; przy dużych kaflach czasem bonus (6…max/8)
 function thDraw(){if(!TH.deck.length){TH.deck=[1,1,1,1,2,2,2,2,3,3,3,3];shuffle(TH.deck);}
   const mx=thMax(TH.g);if(mx>=48&&Math.random()<1/21){const opts=[];for(let v=6;v<=mx/8;v*=2) opts.push(v);if(opts.length) return opts[Math.floor(Math.random()*opts.length)];}
   return TH.deck.pop();}
-function thNew(){const g=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];TH={g,deck:[],next:0,moves:0,start:Date.now(),id:"lg"+Date.now().toString(36),best:0};
-  const cells=shuffle([...Array(16).keys()]).slice(0,9);cells.forEach(k=>{g[k>>2][k&3]=thDraw();});TH.next=thDraw();TH.best=thMax(g);thSave();}
+// g = wartości, id = numery kafli (do animacji: ten sam kafel przesuwa się, a nie rysuje od nowa)
+function thNew(n){const E=()=>Array.from({length:n},()=>Array(n).fill(0));TH={n,g:E(),id:E(),uid:0,deck:[],next:0,moves:0,start:Date.now(),id0:"lg"+Date.now().toString(36),best:0};
+  shuffle([...Array(n*n).keys()]).slice(0,Math.round(n*n*.5)).forEach(k=>{const r=Math.floor(k/n),c=k%n;TH.g[r][c]=thDraw();TH.id[r][c]=++TH.uid;});
+  TH.next=thDraw();TH.best=thMax(TH.g);thSave();}
 const thSave=()=>{try{localStorage.setItem(THK,JSON.stringify(TH));}catch(e){}};
-// ruch: każdy kafel o jedno pole w stronę ruchu (wolne pole albo łączenie); zwraca przesunięcia do animacji
-function thMove(dir){const g=TH.g,moves=[],moved=new Set(),merges=[];
-  const cell=(l,i)=>dir==="L"?[l,i]:dir==="R"?[l,3-i]:dir==="U"?[i,l]:[3-i,l];
-  for(let l=0;l<4;l++){const done=[false,false,false,false];
-    for(let i=1;i<4;i++){const [r,c]=cell(l,i),[r0,c0]=cell(l,i-1),v=g[r][c];if(!v) continue;const t=g[r0][c0];
-      if(!t){g[r0][c0]=v;g[r][c]=0;moves.push([r,c,r0,c0]);moved.add(l);}
-      else if(!done[i-1]&&thCan(t,v)){g[r0][c0]=t+v;g[r][c]=0;done[i-1]=true;moves.push([r,c,r0,c0]);moved.add(l);merges.push([r0,c0,t,v]);}}}
+// ruch: każdy kafel o jedno pole w stronę ruchu (wolne pole albo łączenie)
+function thMove(dir){const {g,id,n}=TH,M=n-1,slides=[],moved=new Set(),merges=[];
+  const cell=(l,i)=>dir==="L"?[l,i]:dir==="R"?[l,M-i]:dir==="U"?[i,l]:[M-i,l];
+  for(let l=0;l<n;l++){const done=Array(n).fill(false);
+    for(let i=1;i<n;i++){const [r,c]=cell(l,i),[r0,c0]=cell(l,i-1),v=g[r][c];if(!v) continue;const t=g[r0][c0];
+      if(!t){g[r0][c0]=v;id[r0][c0]=id[r][c];g[r][c]=0;id[r][c]=0;slides.push({id:id[r0][c0],r:r0,c:c0});moved.add(l);}
+      else if(!done[i-1]&&thCan(t,v)){slides.push({id:id[r][c],r:r0,c:c0,die:true});g[r0][c0]=t+v;g[r][c]=0;id[r][c]=0;done[i-1]=true;moved.add(l);merges.push({r:r0,c:c0,a:t,b:v,id:id[r0][c0]});}}}
   if(!moved.size) return null;
-  const L=[...moved],l=L[Math.floor(Math.random()*L.length)],[nr,nc]=cell(l,3);g[nr][nc]=TH.next;TH.next=thDraw();TH.moves++;
-  return {moves,merges,add:[nr,nc,dir]};}
-const thCanMove=()=>["L","R","U","D"].some(d=>{const g=TH.g;for(let l=0;l<4;l++) for(let i=1;i<4;i++){const cell=(i)=>d==="L"?[l,i]:d==="R"?[l,3-i]:d==="U"?[i,l]:[3-i,l];
-  const [r,c]=cell(i),[r0,c0]=cell(i-1);if(g[r][c]&&(!g[r0][c0]||thCan(g[r0][c0],g[r][c]))) return true;}return false;});
+  const L=[...moved],l=L[Math.floor(Math.random()*L.length)],[nr,nc]=cell(l,M);g[nr][nc]=TH.next;id[nr][nc]=++TH.uid;TH.next=thDraw();TH.moves++;
+  return {slides,merges,add:{r:nr,c:nc,id:id[nr][nc],dir}};}
+const thCanMove=()=>{const {g,n}=TH,M=n-1;return ["L","R","U","D"].some(d=>{for(let l=0;l<n;l++) for(let i=1;i<n;i++){const cell=i=>d==="L"?[l,i]:d==="R"?[l,M-i]:d==="U"?[i,l]:[M-i,l];
+  const [r,c]=cell(i),[r0,c0]=cell(i-1);if(g[r][c]&&(!g[r0][c0]||thCan(g[r0][c0],g[r][c]))) return true;}return false;});};
 const thCls=v=>v===1?"t1":v===2?"t2":v>=TH.best&&v>=12?"t3 top":"t3";
-function thRender(an){const B=$("th-board");
-  let h="";for(let k=0;k<16;k++) h+=`<div class="th-c" style="--r:${k>>2};--c:${k&3}"></div>`;
-  TH.g.forEach((row,r)=>row.forEach((v,c)=>{if(!v) return;const isNew=an&&an.add&&an.add[0]===r&&an.add[1]===c,mg=an&&an.merges.some(m=>m[0]===r&&m[1]===c);
-    h+=`<div class="th-t ${thCls(v)}${isNew?" in-"+an.add[2]:""}${mg?" pop":""}" style="--r:${r};--c:${c}"><b style="font-size:${v>=1000?.62:v>=100?.78:1}em">${v}</b></div>`;}));
-  B.innerHTML=h;
+const thTile=v=>`<b style="font-size:${v>=1000?.6:v>=100?.78:1}em">${v}</b>`;
+const thPos=(el,r,c)=>{el.style.setProperty("--r",r);el.style.setProperty("--c",c);};
+// rysowanie: kafle zostają w DOM, zmienia się tylko pozycja (CSS transition = przesuwanie, łączony najeżdża na drugi i znika)
+function thRender(an){const B=$("th-board"),n=TH.n;B.style.setProperty("--n",n);
+  if(!an||B.dataset.n!=n||!B.querySelector(".th-c")){B.dataset.n=n;let h="";for(let k=0;k<n*n;k++) h+=`<div class="th-c" style="--r:${Math.floor(k/n)};--c:${k%n}"></div>`;B.innerHTML=h;
+    TH.g.forEach((row,r)=>row.forEach((v,c)=>{if(!v) return;const el=document.createElement("div");el.className="th-t "+thCls(v);el.dataset.id=TH.id[r][c];thPos(el,r,c);el.innerHTML=thTile(v);B.appendChild(el);}));}
+  else{const byId=id=>B.querySelector(`.th-t[data-id="${id}"]`);
+    an.slides.forEach(s=>{const el=byId(s.id);if(!el) return;thPos(el,s.r,s.c);if(s.die){el.classList.add("die");setTimeout(()=>el.remove(),140);}});
+    setTimeout(()=>{an.merges.forEach(m=>{const el=byId(m.id);if(!el) return;const v=TH.g[m.r][m.c];el.className="th-t pop "+thCls(v);el.innerHTML=thTile(v);});
+      an.merges.slice(0,3).forEach(m=>{const f=document.createElement("div");f.className="th-eq";thPos(f,m.r,m.c);f.textContent=`${m.a}+${m.b}`;B.appendChild(f);setTimeout(()=>f.remove(),900);});},120);
+    const a=an.add,el=document.createElement("div");el.className=`th-t ${thCls(TH.g[a.r][a.c])} in-${a.dir}`;el.dataset.id=a.id;thPos(el,a.r,a.c);el.innerHTML=thTile(TH.g[a.r][a.c]);B.appendChild(el);}
+  B.style.fontSize=`clamp(1rem,${36/n}vw,${10.4/n}rem)`;
   $("th-next").className="th-t th-nx "+(TH.next===1?"t1":TH.next===2?"t2":"t3");$("th-next").innerHTML=`<b>${TH.next>3?"+":TH.next}</b>`;
   $("th-score").innerHTML=`Wynik: <b>${thScore(TH.g)}</b>`;$("th-best").textContent=`Największy: ${thMax(TH.g)}`;
-  if(an) an.merges.slice(0,3).forEach(([r,c,a,b])=>{const f=document.createElement("div");f.className="th-eq";f.style.cssText=`--r:${r};--c:${c}`;f.textContent=`${a}+${b}`;B.appendChild(f);setTimeout(()=>f.remove(),900);});}
+  $("th-size").innerHTML=TH_SIZES.map(s=>`<button type="button" data-n="${s}" class="${s===n?"sel":""}" aria-pressed="${s===n}">${s}×${s}</button>`).join("");
+  const R=thRecord(n);$("th-rec").textContent=R.sc?`Rekord ${n}×${n}: ${R.sc}`:"Połącz 1 z 2, potem równe.";}
 function thGo(dir){if(!TH||TH.over) return;const an=thMove(dir);if(!an){const B=$("th-board");B.classList.remove("nope");void B.offsetWidth;B.classList.add("nope");return;}
   if(an.merges.length) sfx("ok");const mx=thMax(TH.g);
-  if(mx>TH.best&&mx>=12){TH.best=mx;toast(`Nowy kafel ${mx}! To ${3} × ${mx/3}${mx>=24?` = ${mx/2} + ${mx/2}`:""}.`);}
+  if(mx>TH.best&&mx>=12){TH.best=mx;toast(`Nowy kafel ${mx}! To 3 × ${mx/3}${mx>=24?` = ${mx/2} + ${mx/2}`:""}.`);}
   thSave();thRender(an);if(!thCanMove()) setTimeout(thEnd,500);}
-function thEnd(){if(!TH||TH.over) return;TH.over=true;const sc=thScore(TH.g),mx=thMax(TH.g),st=mx>=192?3:mx>=96?2:1,w=Math.max(1,Math.round(Math.log2(mx/3)+1)),pct={3:100,2:75,1:50}[st];
+function thEnd(){if(!TH||TH.over) return;TH.over=true;const n=TH.n,sc=thScore(TH.g),mx=thMax(TH.g),[s2,s3]=thStarsAt(n),st=mx>=s3?3:mx>=s2?2:1,w=Math.max(1,Math.round(Math.log2(mx/3)+1)),pct={3:100,2:75,1:50}[st];
   try{localStorage.removeItem(THK);}catch(e){}
-  const H=loadHist();H.push({id:TH.id,subj:"lg",start:TH.start,end:Date.now(),status:"done",cfg:{mode:"trojki"},n:1,done:1,
-    recs:[{t:`Trójki: ${mx}`,ok:true,st,sc,mx,w,tries:[],h:0,ms:Date.now()-TH.start}],pct,grade:grade(pct).n,errors:0,hints:0,pts:w,ptsMax:w});saveHist(H);
-  const best=thRecord();sfx("final");
-  $("th-end").innerHTML=`<div class="bo-card"><div class="bo-stars">${[1,2,3].map(n=>`<span class="${n<=st?"on":""}" style="animation-delay:${n*.18}s">★</span>`).join("")}</div><b>Koniec ruchów!</b>`+
-    `<small>Wynik: ${sc} · największy kafel: ${mx}${best.sc<=sc?" · rekord!":` · rekord: ${best.sc}`}</small><div class="bo-pts">+${w} pkt</div>`+
+  const before=thRecord(n),H=loadHist();H.push({id:TH.id0,subj:"lg",start:TH.start,end:Date.now(),status:"done",cfg:{mode:"trojki",n},n:1,done:1,
+    recs:[{t:`Trójki ${n}×${n}: ${mx}`,ok:true,st,sc,mx,w,tries:[],h:0,ms:Date.now()-TH.start}],pct,grade:grade(pct).n,errors:0,hints:0,pts:w,ptsMax:w});saveHist(H);
+  sfx("final");
+  $("th-end").innerHTML=`<div class="bo-card"><div class="bo-stars">${[1,2,3].map(k=>`<span class="${k<=st?"on":""}" style="animation-delay:${k*.18}s">★</span>`).join("")}</div><b>Koniec ruchów!</b>`+
+    `<small>Wynik: ${sc} · największy kafel: ${mx}${sc>before.sc?" · rekord!":` · rekord: ${before.sc}`}</small><small>Na 3★ na planszy ${n}×${n}: kafel ${s3}</small><div class="bo-pts">+${w} pkt</div>`+
     `<small class="br-fact">💡 ${mx} = 3 × ${mx/3}. Każdy kafel to 3 razy potęga dwójki: 3, 6, 12, 24, 48, 96, 192…</small>`+
     `<div class="bo-btns"><button type="button" class="go-btn" data-tha="new">Nowa gra</button><button type="button" class="again" data-tha="list">Wróć</button></div></div>`;
   $("th-end").hidden=false;try{setTimeout(cupsCheck,1500);}catch(e){}}
-const thRecord=()=>loadHist().filter(s=>s.subj==="lg"&&s.cfg&&s.cfg.mode==="trojki").reduce((a,s)=>{const r=s.recs[0]||{};return {sc:Math.max(a.sc,r.sc||0),mx:Math.max(a.mx,r.mx||0)};},{sc:0,mx:0});
-function thOpen(fresh){
+const thRecord=n=>loadHist().filter(s=>s.subj==="lg"&&s.cfg&&s.cfg.mode==="trojki"&&(n==null||(s.cfg.n||4)===n)).reduce((a,s)=>{const r=s.recs[0]||{};return {sc:Math.max(a.sc,r.sc||0),mx:Math.max(a.mx,r.mx||0)};},{sc:0,mx:0});
+function thOpen(fresh,n){
   if(!szGateOk("lg")){toast("Łamigłówki otworzą się po ćwiczeniach od rodzica.");return go("lg");}
   let sv=null;try{sv=JSON.parse(localStorage.getItem(THK)||"null");}catch(e){}
-  if(sv&&sv.g&&!fresh) TH=sv;
-  else{if(szLeft("lg")===0){toast("Na dziś wystarczy łamigłówek!");return go("lg");}lgCount();thNew();}
-  if(CUR!=="lgt") go("lgt");$("th-end").hidden=true;thRender();
-  const R=thRecord();$("th-rec").textContent=R.sc?`Rekord: ${R.sc} · kafel ${R.mx}`:"Połącz 1 z 2, a potem równe liczby.";}
+  if(sv&&sv.g&&Array.isArray(sv.id)&&!fresh){TH=sv;TH.n=TH.n||TH.g.length;}
+  else{if(szLeft("lg")===0){toast("Na dziś wystarczy łamigłówek!");return go("lg");}lgCount();THN=n||THN;try{localStorage.setItem("henriksen-trojki-n",THN);}catch(e){}thNew(THN);}
+  if(CUR!=="lgt") go("lgt");$("th-end").hidden=true;thRender();}
+try{THN=+localStorage.getItem("henriksen-trojki-n")||4;}catch(e){}
 // sterowanie: przesunięcie palcem po planszy albo strzałki
 {let p0=null;const B=$("th-board");
   B.addEventListener("pointerdown",e=>{p0=[e.clientX,e.clientY];try{B.setPointerCapture(e.pointerId);}catch(x){}e.preventDefault();});
@@ -6649,8 +6662,10 @@ function thOpen(fresh){
     thGo(Math.abs(dx)>Math.abs(dy)?(dx>0?"R":"L"):(dy>0?"D":"U"));});
   B.addEventListener("pointercancel",()=>{p0=null;});
   addEventListener("keydown",e=>{if(CUR!=="lgt") return;const d={ArrowLeft:"L",ArrowRight:"R",ArrowUp:"U",ArrowDown:"D"}[e.key];if(d){e.preventDefault();thGo(d);}});}
-$("th-new").addEventListener("click",async()=>{if(TH&&!TH.over&&TH.moves>0&&!await askYes("Zacząć od nowa?","Obecna gra przepadnie.","Nowa gra","Gram dalej")) return;try{localStorage.removeItem(THK);}catch(e){}thOpen(true);});
-$("th-end").addEventListener("click",e=>{const b=e.target.closest("[data-tha]");if(!b) return;$("th-end").hidden=true;if(b.dataset.tha==="new") return thOpen(true);go("lg");});
+const thAskNew=async()=>!(TH&&!TH.over&&TH.moves>0)||await askYes("Zacząć od nowa?","Obecna gra przepadnie.","Nowa gra","Gram dalej");
+$("th-new").addEventListener("click",async()=>{if(!await thAskNew()) return;try{localStorage.removeItem(THK);}catch(e){}thOpen(true,TH?TH.n:THN);});
+$("th-size").addEventListener("click",async e=>{const b=e.target.closest("[data-n]");if(!b||TH&&+b.dataset.n===TH.n) return;if(!await thAskNew()) return;try{localStorage.removeItem(THK);}catch(x){}thOpen(true,+b.dataset.n);});
+$("th-end").addEventListener("click",e=>{const b=e.target.closest("[data-tha]");if(!b) return;$("th-end").hidden=true;if(b.dataset.tha==="new") return thOpen(true,TH.n);go("lg");});
 
 /* --- zadania --- */
 async function szPuzzles(theme,n,tag){
