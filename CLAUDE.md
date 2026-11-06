@@ -201,7 +201,13 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   (`thEnd`: gwiazdki z największego kafla 96/192, punkty = log2(max/3)+1, sesja `cfg:{mode:"trojki"}`, `recs[0]={sc,mx}`). Nowa gra liczy się do limitu. Pod planszą ranking `thRank`: 5 najlepszych wyników (wszystkie plansze) i 8 ostatnich partii.
   Id sesji łamigłówek to liczby (`Date.now()`) – baza ma `bigint`; starsze tekstowe „lg…” są zamieniane przy starcie.
   Poziomy Block Out i Mostów są otwarte do najdalej zaliczonego + 1.
-  Zasady rodzica **osobno dla każdej gry** (`LGG`: bo = Block Out, br = Mosty, th = Trójki; klucze `boLimit`/`boRules`, `brLimit`/`brRules`,
+  **Flow** (jak Flow Free; widoki `#lgf` lista, `#lgfg` gra; hashe `#flow`, `#flow-gra`; moduł `lg-flow`, puchar `lg-flow`): połącz kropki w tym samym
+  kolorze rurkami, bez krzyżowania, całą planszę. 40 poziomów `FL_LEVELS` (5×5, 6×6, 7×7, 8×8) z `tools/flow_levels.js` – plansza losowo podzielona na ścieżki
+  (≥ 3 pola, nie dotykają same siebie, kropki pary nie obok siebie), więc rozwiązanie istnieje; zapis „n|ścieżki” (pola jako znaki `FL_ABC`), kropki = końce.
+  Rysowanie (`flStep`): od kropki albo końca rurki, cofanie skraca, wjechanie w cudzą rurkę ją przecina, szybki ruch palcem idzie po polach. Wygrana: wszystkie pary
+  połączone i plansza pełna (`flCheck`). Gwiazdki: ruchy ≤ liczba par 3★, ≤ +3 2★; „Pomoc” pokazuje jedną rurkę z rozwiązania (najwyżej 2★). Kolory po angielsku
+  (`FL_COL`: kolor, en, pl) – przy połączeniu pary dymek „RED – czerwony”, na końcu lista słówek. Sesja `cfg:{mode:"flow",lvl}`, punkty `gwiazdki × (świat+1)`.
+  Zasady rodzica **osobno dla każdej gry** (`LGG`: bo = Block Out, br = Mosty, th = Trójki, fl = Flow; klucze `boLimit`/`boRules`, `brLimit`/`brRules`,
   `thLimit`/`thRules` w `PARENT_KEYS`, znaczniki `box`/`bogate` itd., `RSEC[g]` z `lgSecOf`): limit dzienny (Block Out i Mosty – poziomy, Trójki – partie),
   wyjątki na dni, „najpierw pakiet” i dodatkowe za pakiet. Licznik `henriksen-lgdzien` = `{d, n:{bo,br,th}}`, `lgPlayedToday(g)` (też z historii po `cfg.mode`),
   `lgCount(g)`, karta `lgLimCard(g)` (lista poziomów, w Trójkach `#th-lim`), blokady na ekranie `#lg` w `#lg-gates` (zablokowana gra znika z kafli),
@@ -230,7 +236,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   (czekające), rodziny (czekające), aktywni i sesje w 7 dni, ligi, konta bez profilu, ostatnia sesja. `renderAdmin()` rysuje kafle
   `.adm-k` (przyciski); brak funkcji w bazie = komunikat „uruchom admin.sql”. SQL testowany lokalnie na Postgresie z atrapą `auth`.
   Karty dzieci „Co robią dzieci” (`renderAdmKids`, `admin_kids` w `supabase/admin3.sql`): sesje, szachy (partie, W·R·P, minuty w 7 dni)
-  i łamigłówki (`admin_lg_mode`: dla blockout / mosty / trojki – partie dziś / 7 dni / razem, minuty gry z end−start (max 60 min na sesję),
+  i łamigłówki (`admin_lg_mode`: dla blockout / mosty / flow / trojki – partie dziś / 7 dni / razem, minuty gry z end−start (max 60 min na sesję),
   najdalszy poziom, liczba 3★, rekord i największy kafel Trójek, 5 ostatnich partii). Po zmianie admin3.sql trzeba go uruchomić w Supabase ponownie.
   Kafel otwiera okno `#admd` z listą z `admin_details(p_kind)` (`supabase/admin2.sql`; users/families/parents/students/active/
   sessions/leagues/nofamily), wiersze rysuje `ADM_ROW[kind]`.

@@ -1,7 +1,7 @@
 -- Henriksen – panel Administracja: co robi każde dziecko (dziś, w 7 dni, szachy), tylko dla admina z app_admins.
 -- Uruchom raz po admin2.sql (Supabase → SQL Editor → New query → Run). Nic nie zmienia w danych.
 -- Partie z komputerem = sesje subj 'sz' z cfg.mode 'gra' (zapisują się po końcu partii), wynik w recs[0].c = w/d/l.
--- Łamigłówki = sesje subj 'lg', cfg.mode blockout / mosty / trojki (admin_lg_mode); czas gry = suma (end - start) w minutach.
+-- Łamigłówki = sesje subj 'lg', cfg.mode blockout / mosty / flow / trojki (admin_lg_mode); czas gry = suma (end - start) w minutach.
 
 create or replace function public.admin_lg_mode(p_user uuid, p_mode text, p_week bigint, p_day bigint) returns json
 language sql stable security definer set search_path = public as $$
@@ -69,6 +69,7 @@ begin
          and s.start >= v_week) as lessons,
       json_build_object('blockout', public.admin_lg_mode(p.id, 'blockout', v_week, v_day),
                         'mosty',    public.admin_lg_mode(p.id, 'mosty', v_week, v_day),
+                        'flow',     public.admin_lg_mode(p.id, 'flow', v_week, v_day),
                         'trojki',   public.admin_lg_mode(p.id, 'trojki', v_week, v_day)) as lg
     from profiles p left join families f on f.id = p.family_id left join public_stats ps on ps.user_id = p.id
     where p.role = 'student') x;

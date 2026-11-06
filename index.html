@@ -803,11 +803,13 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .th-wm{display:flex!important;gap:3px}.th-wm i{font-style:normal;width:20px;height:26px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.9rem}
 .th-wm .t1{background:#66ccff;color:#fff}.th-wm .t2{background:#ff6680;color:#fff}.th-wm .t3{background:#fff;color:#1b1b2f}
 .lg-gates{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}.lg-gates:empty{display:none}
+.fl-board{width:min(100%,420px);aspect-ratio:1;touch-action:none;border-radius:14px;display:block}
+.fl-wm svg{display:block}.fl-words{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}.fl-words span{background:var(--c);color:#111;font-weight:800;border-radius:8px;padding:2px 8px}
 .tile.lg{background:linear-gradient(135deg,#ff6b6b,#7048e8)}
 .bo-wm{display:grid!important;grid-template-columns:repeat(2,18px);gap:4px}.bo-wm i{width:18px;height:18px;border-radius:5px;background:var(--c);box-shadow:inset 0 3px 0 rgba(255,255,255,.35)}
 .bo-lv{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:8px 0 18px}#lgb-list .lbl{margin:0}
 .bo-lv button{aspect-ratio:1;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--text);font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0}
-.bo-lv button b{font-size:1.25rem}.bo-lv button small{font-size:.7rem;color:#f2b705;letter-spacing:-1px}.bo-lv button small s{color:var(--line);text-decoration:none}
+.bo-lv button b{font-size:clamp(1.6rem,8.5vw,2.3rem);line-height:1;font-family:var(--display);font-weight:800}.bo-lv button:disabled b{font-size:clamp(1.4rem,7vw,1.9rem);opacity:.8}.bo-lv button small{font-size:.8rem;line-height:1;color:#f2b705;letter-spacing:-1px}.bo-lv button small s{color:var(--line);text-decoration:none}
 .bo-lv button.done{border-color:#e64980}.bo-lv button:disabled{opacity:.45}
 .bo-top{display:flex;justify-content:space-between;align-items:center;font-weight:700;margin:2px 4px 6px;color:var(--muted)}.bo-top b{color:var(--text);font-size:1.3rem}
 .bo-wrap{display:flex;justify-content:center;margin:4px 0 10px}
@@ -1308,6 +1310,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tile mt" id="lg-t-bo" style="--gc:#e64980"><span class="wm bo-wm" aria-hidden="true"><i style="--c:#ff4d6d"></i><i style="--c:#2f80ff"></i><i style="--c:#ffb703"></i><i style="--c:#2bc76a"></i></span><span class="tt">Block Out</span><small id="lg-t-bo-s"></small></button>
     <button type="button" class="tile mt" id="lg-t-br" style="--gc:#1c7ed6"><span class="wm" aria-hidden="true">🌉</span><span class="tt">Mosty</span><small id="lg-t-br-s"></small></button>
     <button type="button" class="tile mt" id="lg-t-th" style="--gc:#f08c00"><span class="wm th-wm" aria-hidden="true"><i class="t1">1</i><i class="t2">2</i><i class="t3">3</i></span><span class="tt">Trójki</span><small id="lg-t-th-s"></small></button>
+    <button type="button" class="tile mt" id="lg-t-fl" style="--gc:#0ca678"><span class="wm fl-wm" aria-hidden="true"><svg width="54" height="34" viewBox="0 0 54 34"><path d="M7 7h20v20h20" fill="none" stroke="#ff3b3b" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/><circle cx="7" cy="7" r="6" fill="#ff3b3b"/><circle cx="47" cy="27" r="6" fill="#ff3b3b"/><path d="M40 7h7" stroke="#ffd60a" stroke-width="7" stroke-linecap="round"/><circle cx="47" cy="7" r="6" fill="#ffd60a"/><circle cx="36" cy="7" r="6" fill="#ffd60a"/></svg></span><span class="tt">Flow</span><small id="lg-t-fl-s"></small></button>
   </div>
 </div>
 <div class="wrap" id="lgb" hidden>
@@ -1346,6 +1349,22 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <button type="button" class="again" id="th-new" style="width:100%">⟲ Nowa gra</button>
   <div class="th-rank" id="th-rank"></div>
   <div class="bo-end" id="th-end" hidden></div>
+</div>
+<div class="wrap" id="lgf" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Flow</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div id="lgf-lim" class="szlim-wrap" hidden></div>
+  <p class="abnote">Połącz kropki w tym samym kolorze. Rurki nie mogą się krzyżować i muszą wypełnić całą planszę.</p>
+  <div id="lgf-list"></div>
+</div>
+<div class="wrap" id="lgfg" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Flow</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="bo-top"><span id="fl-info"></span><span id="fl-fill"></span></div>
+  <div class="th-wrap"><svg class="fl-board" id="fl-board" role="img" aria-label="Plansza Flow"></svg></div>
+  <p class="abnote bo-tip">Przeciągnij palcem od kropki do kropki w tym samym kolorze. Wjedź w swoją rurkę, żeby ją skrócić.</p>
+  <div class="bo-ctl"><button type="button" class="again" id="fl-reset">⟲ Od nowa</button><button type="button" class="again" id="fl-hint">💡 Pomoc</button></div>
+  <div class="bo-end" id="fl-end" hidden></div>
 </div>
 <div class="wrap" id="lgg" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Block Out</h1><div class="right">
@@ -1859,8 +1878,8 @@ const BADGES={
 const BADGE_NAMES={ball:"Piłka",crown:"Korona",bolt:"Błyskawica",rocket:"Rakieta",none:"Bez znaczka"};
 const SUBS=[["streak","Seria dni"],["date","Data"],["none","Nic"]];
 const NAME_PRESETS=["Henriksen","Kapitan H","Nr 10","Ekipa H"];
-let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null,mods:{},rewSeen:[],tasks:[],taskSeen:[],lib:{ex:[],pk:[]},szSkin:"classic",szBoard:"brown",szPcs:"auto",szTalk:true,szVoice:true,szWho:"zbyszek",szEmo:true,szFx:true,szAnim:true,szLimit:0,szRules:{},lgLimit:0,lgRules:{},boLimit:0,boRules:{},brLimit:0,brRules:{},thLimit:0,thRules:{},szBadges:true};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{},rewSeen:Array.isArray(p.rewSeen)?p.rewSeen.filter(x=>typeof x==="string"):[],tasks:Array.isArray(p.tasks)?p.tasks.filter(t=>t&&t.id&&Array.isArray(t.packs)):[],taskSeen:Array.isArray(p.taskSeen)?p.taskSeen:[],lib:p.lib&&typeof p.lib==="object"?{ex:Array.isArray(p.lib.ex)?p.lib.ex:[],pk:Array.isArray(p.lib.pk)?p.lib.pk:[]}:{ex:[],pk:[]},szSkin:["classic","pilkarze","dino","roboty"].includes(p.szSkin)?p.szSkin:"classic",szBoard:typeof p.szBoard==="string"?p.szBoard:"brown",szPcs:typeof p.szPcs==="string"?p.szPcs:"auto",szTalk:p.szTalk!==false,szVoice:p.szVoice!==false,szWho:["zbyszek","janusz","grazyna"].includes(p.szWho)?p.szWho:"zbyszek",szEmo:p.szEmo!==false,szFx:p.szFx!==false,szAnim:p.szAnim!==false,szLimit:Math.max(0,Math.min(50,+p.szLimit||0)),szRules:p.szRules&&typeof p.szRules==="object"?p.szRules:{},lgLimit:Math.max(0,+p.lgLimit||0),lgRules:p.lgRules&&typeof p.lgRules==="object"?p.lgRules:{},boLimit:Math.max(0,+p.boLimit||0),boRules:p.boRules&&typeof p.boRules==="object"?p.boRules:{},brLimit:Math.max(0,+p.brLimit||0),brRules:p.brRules&&typeof p.brRules==="object"?p.brRules:{},thLimit:Math.max(0,+p.thLimit||0),thRules:p.thRules&&typeof p.thRules==="object"?p.thRules:{},szBadges:p.szBadges!==false};}catch(e){}
+let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null,mods:{},rewSeen:[],tasks:[],taskSeen:[],lib:{ex:[],pk:[]},szSkin:"classic",szBoard:"brown",szPcs:"auto",szTalk:true,szVoice:true,szWho:"zbyszek",szEmo:true,szFx:true,szAnim:true,szLimit:0,szRules:{},lgLimit:0,lgRules:{},boLimit:0,boRules:{},brLimit:0,brRules:{},thLimit:0,thRules:{},flLimit:0,flRules:{},szBadges:true};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{},rewSeen:Array.isArray(p.rewSeen)?p.rewSeen.filter(x=>typeof x==="string"):[],tasks:Array.isArray(p.tasks)?p.tasks.filter(t=>t&&t.id&&Array.isArray(t.packs)):[],taskSeen:Array.isArray(p.taskSeen)?p.taskSeen:[],lib:p.lib&&typeof p.lib==="object"?{ex:Array.isArray(p.lib.ex)?p.lib.ex:[],pk:Array.isArray(p.lib.pk)?p.lib.pk:[]}:{ex:[],pk:[]},szSkin:["classic","pilkarze","dino","roboty"].includes(p.szSkin)?p.szSkin:"classic",szBoard:typeof p.szBoard==="string"?p.szBoard:"brown",szPcs:typeof p.szPcs==="string"?p.szPcs:"auto",szTalk:p.szTalk!==false,szVoice:p.szVoice!==false,szWho:["zbyszek","janusz","grazyna"].includes(p.szWho)?p.szWho:"zbyszek",szEmo:p.szEmo!==false,szFx:p.szFx!==false,szAnim:p.szAnim!==false,szLimit:Math.max(0,Math.min(50,+p.szLimit||0)),szRules:p.szRules&&typeof p.szRules==="object"?p.szRules:{},lgLimit:Math.max(0,+p.lgLimit||0),lgRules:p.lgRules&&typeof p.lgRules==="object"?p.lgRules:{},boLimit:Math.max(0,+p.boLimit||0),boRules:p.boRules&&typeof p.boRules==="object"?p.boRules:{},brLimit:Math.max(0,+p.brLimit||0),brRules:p.brRules&&typeof p.brRules==="object"?p.brRules:{},thLimit:Math.max(0,+p.thLimit||0),thRules:p.thRules&&typeof p.thRules==="object"?p.thRules:{},flLimit:Math.max(0,+p.flLimit||0),flRules:p.flRules&&typeof p.flRules==="object"?p.flRules:{},szBadges:p.szBadges!==false};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -2781,8 +2800,8 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",lgt:"#trojki",lgm:"#mosty",lgs:"#mosty-gra",lg:"#lamiglowki",lgb:"#block-out",lgg:"#block-out-gra",szw:"#szachy-wyglad",szrules:"#szachy-zasady",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szop:"#szachy-otwarcia",szcf:"#szachy-ciekawostki",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",lgt:"lgt",lgm:"lgm",lgs:"lgs",lg:"lg",lgb:"lgb",lgg:"lgg",szw:"szw",szrules:"szrules",sz:"sz",sz3:"sz3",szl:"szl",szop:"szop",szcf:"szcf",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",lgf:"#flow",lgfg:"#flow-gra",lgt:"#trojki",lgm:"#mosty",lgs:"#mosty-gra",lg:"#lamiglowki",lgb:"#block-out",lgg:"#block-out-gra",szw:"#szachy-wyglad",szrules:"#szachy-zasady",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szop:"#szachy-otwarcia",szcf:"#szachy-ciekawostki",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",lgf:"lgf",lgfg:"lgfg",lgt:"lgt",lgm:"lgm",lgs:"lgs",lg:"lg",lgb:"lgb",lgg:"lgg",szw:"szw",szrules:"szrules",sz:"sz",sz3:"sz3",szl:"szl",szop:"szop",szcf:"szcf",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
@@ -2800,7 +2819,7 @@ function go(v){
   showView(v);
 }
 addEventListener("popstate",()=>{const v=Object.keys(HASH).find(k=>HASH[k]&&HASH[k]===location.hash)||"home";
-  showView(v==="play"&&!ACTIVE?"home":v==="plw"&&!PW?"plws":v==="pldt"&&!PD?"pld":v==="plz"&&!PZ?"plzs":v==="enq"&&!EN?"en":v==="enset"&&!ENM?"en":v==="szg"&&!SZ?"sz":v==="lgg"&&!BO?"lgb":v==="lgs"&&!BR?"lgm":v==="lgt"&&!TH?"lg":v);});
+  showView(v==="play"&&!ACTIVE?"home":v==="plw"&&!PW?"plws":v==="pldt"&&!PD?"pld":v==="plz"&&!PZ?"plzs":v==="enq"&&!EN?"en":v==="enset"&&!ENM?"en":v==="szg"&&!SZ?"sz":v==="lgg"&&!BO?"lgb":v==="lgs"&&!BR?"lgm":v==="lgt"&&!TH?"lg":v==="lgfg"&&!FL?"lgf":v);});
 document.querySelectorAll("[data-back]").forEach(b=>b.addEventListener("click",()=>{if(location.hash) history.back(); else showView("home");}));
 // logo aplikacji obok „wstecz” w nagłówku każdego ekranu: od razu na stronę główną (rozpoczęte gry zostają do dokończenia)
 document.querySelectorAll("header [data-back]").forEach(b=>{const h=document.createElement("button");h.type="button";h.className="home-btn";h.setAttribute("aria-label","Strona główna");
@@ -3161,7 +3180,7 @@ function plLiveNow(){
 }
 function plShow(v){
   if(v==="pl") renderPl();
-  if(v==="szw") renderSzw();if(v==="szrules"){SZR={kid:SZR.kid,prefs:null,sec:SZR.sec};renderSzRules();}if(v==="lg") renderLg();if(v==="lgb") renderLgb();if(v==="lgm") renderLgm();try{if(v!=="lgs"&&BR&&BR.S) brStop();}catch(e){} /* zawsze świeże cele i ustawienia dziecka (np. po dodaniu celu) */if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();if(v==="szop") renderSzop();if(v==="szcf") renderSzcf();
+  if(v==="szw") renderSzw();if(v==="szrules"){SZR={kid:SZR.kid,prefs:null,sec:SZR.sec};renderSzRules();}if(v==="lg") renderLg();if(v==="lgb") renderLgb();if(v==="lgm") renderLgm();if(v==="lgf") renderLgf();try{if(v!=="lgs"&&BR&&BR.S) brStop();}catch(e){} /* zawsze świeże cele i ustawienia dziecka (np. po dodaniu celu) */if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();if(v==="szop") renderSzop();if(v==="szcf") renderSzcf();
   if(window.S3&&v!=="szg") S3.pause();if(v==="szz") renderSzz();if(v==="szo") renderSzo();
   if(v==="plws") renderPws();
   if(v==="pld") renderPd();
@@ -4681,12 +4700,12 @@ const CUP_CATS=[
   {id:"en-tobe",subj:"en",name:"To be",base:50},{id:"en-slowka",subj:"en",name:"Słówka angielskie",base:75},{id:"en-zdania",subj:"en",name:"Zdania",base:100},
   {id:"zd",subj:"zd",name:"Edukacja zdrowotna",base:60},
   {id:"sz-nauka",subj:"sz",name:"Samouczek szachowy",base:15},{id:"sz-zadania",subj:"sz",name:"Zadania szachowe",base:40},{id:"sz-gra",subj:"sz",name:"Partie z komputerem",base:20},
-  {id:"lg-blockout",subj:"lg",name:"Block Out",base:40},{id:"lg-mosty",subj:"lg",name:"Mosty",base:25},{id:"lg-trojki",subj:"lg",name:"Trójki",base:30}
+  {id:"lg-blockout",subj:"lg",name:"Block Out",base:40},{id:"lg-mosty",subj:"lg",name:"Mosty",base:25},{id:"lg-trojki",subj:"lg",name:"Trójki",base:30},{id:"lg-flow",subj:"lg",name:"Flow",base:40}
 ];
 const CUP_LV=[{k:"b",name:"Brąz",to:"brązu",x:1,c:"#cd7f32"},{k:"s",name:"Srebro",to:"srebra",x:3,c:"#b4bfcf"},
   {k:"g",name:"Złoto",to:"złota",x:8,c:"#f2c230"},{k:"d",name:"Diament",to:"diamentu",x:20,c:"#4dd4ff"}];
 const CUP_STEPS=[20,30,50,75,100,150,200,300,400,500,750,1000,1500,2000,3000,4000,5000,7500,10000];
-const PARENT_KEYS=["cups","cupRewards","mods","tasks","szLimit","szRules","lgLimit","lgRules","boLimit","boRules","brLimit","brRules","thLimit","thRules"]; // ustawia rodzic – przy konflikcie wygrywa wersja z bazy
+const PARENT_KEYS=["cups","cupRewards","mods","tasks","szLimit","szRules","lgLimit","lgRules","boLimit","boRules","brLimit","brRules","thLimit","thRules","flLimit","flRules"]; // ustawia rodzic – przy konflikcie wygrywa wersja z bazy
 const cupCat=(s,r)=>{const sj=s.subj||"mat";if(sj==="zd") return "zd";return sj==="mat"?"mat"+(Array.isArray(r.t)?r.t[1]:""):sj+"-"+((s.cfg&&s.cfg.mode)||(sj==="en"?"tobe":"slowka"));};
 function cupCounts(H){const c={};for(const s of H) for(const r of s.recs||[]) if(r.ok){const k=cupCat(s,r);c[k]=(c[k]||0)+recW(s,r);}return c;} // punkty, nie liczba zadań
 const cupBase=(P,id)=>(P&&P.cups&&+P.cups[id])||CUP_CATS.find(x=>x.id===id).base;
@@ -5034,7 +5053,7 @@ const MODS=[
     {k:"zd-styl",name:"Zdrowy styl życia",sub:"mierniki zdrowia, hartowanie"},{k:"zd-cialo",name:"Moje ciało się zmienia",sub:"dojrzewanie, higiena, żelazo"},
     {k:"zd-zach",name:"Zachowania chroniące i ryzykowne",sub:"środowisko, zdrowe nawyki"}]},
   {g:"Szachy",items:[{k:"sz-nauka",name:"Samouczek",sub:"ruchy figur, szach, mat, roszada"},{k:"sz-zadania",name:"Zadania",sub:"mat w 1, 2 i 3"},{k:"sz-gra",name:"Graj z komputerem",sub:"przeciwnicy do odblokowania"},{k:"sz-3d",name:"Szachy 3D",sub:"plansza 3D, wybuchy, piłkarze"},{k:"sz-otwarcia",nw:1,name:"Otwarcia",sub:"znane otwarcia z historią"},{k:"sz-ciekawostki",nw:1,name:"Ciekawostki",sub:"fakty o szachach"}]},
-  {g:"Łamigłówki",items:[{k:"lg-blockout",name:"Block Out",sub:"kolorowe klocki do drzwi"},{k:"lg-mosty",nw:1,name:"Mosty",sub:"budowanie mostów z fizyką"},{k:"lg-trojki",nw:1,name:"Trójki",sub:"łączenie liczb 1+2=3, 3+3=6…"}]},
+  {g:"Łamigłówki",items:[{k:"lg-blockout",name:"Block Out",sub:"kolorowe klocki do drzwi"},{k:"lg-mosty",nw:1,name:"Mosty",sub:"budowanie mostów z fizyką"},{k:"lg-trojki",nw:1,name:"Trójki",sub:"łączenie liczb 1+2=3, 3+3=6…"},{k:"lg-flow",nw:1,name:"Flow",sub:"połącz kropki rurkami, kolory po angielsku"}]},
   {g:"Historia",items:[{k:"his",name:"Historia",sub:"kafel „Wkrótce” – daty, bitwy, królowie"}]},
   {g:"Przyroda",items:[{k:"nat",name:"Przyroda",sub:"kafel „Wkrótce” – rośliny, zwierzęta, mapa"}]},
   {g:"Inne",always:true,items:[{k:"stats",name:"Statystyki",sub:"punkty, seria, wyniki"},{k:"cups",name:"Nagrody",sub:"puchary, animacje, filmiki"},
@@ -5242,7 +5261,7 @@ async function renderAdmKids(){
     const bar=gw?`<div class="adm-wdl" aria-hidden="true">${["w","d","l"].map(k=>G[k]?`<i class="${k}" style="flex:${G[k]}"></i>`:"").join("")}</div>
       <div class="adm-wdl-t"><span class="w">${G.w} ${pl(G.w,"wygrana","wygrane","wygranych")}</span><span class="d">${G.d} ${pl(G.d,"remis","remisy","remisów")}</span><span class="l">${G.l} ${pl(G.l,"przegrana","przegrane","przegranych")}</span></div>`:"";
     // łamigłówki (admin3.sql: admin_lg_mode) – ile gra, ile minut, wyniki, ostatnie partie
-    const LGN={blockout:"Block Out",mosty:"Mosty",trojki:"Trójki"};
+    const LGN={blockout:"Block Out",mosty:"Mosty",flow:"Flow",trojki:"Trójki"};
     const lgSec=x.lg?Object.keys(LGN).map(k=>{const o=x.lg[k];if(!o||!o.all) return "";
       const res=k==="trojki"?`Rekord: ${o.best} pkt · największy kafel ${o.tile}`:`Najdalej: poziom ${o.lvl} · na 3★: ${o.three} ${pl(o.three,"raz","razy","razy")}`;
       const rec=(o.recent||[]).map(q=>k==="trojki"?`${q.sc} (kafel ${q.mx}, ${q.n||4}×${q.n||4})`:`poz. ${+q.lvl+1} ${"★".repeat(+q.st||0)}${q.cost?` · ${q.cost} 💰`:q.mv?` · ${q.mv} ruchów`:""}`).join(" · ");
@@ -5472,6 +5491,7 @@ const lgSecOf=(id,name,unit,one,N,D,def)=>({r:id+"Rules",l:id+"Limit",x:id+"x",g
 Object.assign(RSEC,{
   bo:lgSecOf("bo","Block Out",n=>poziomow(n),"jeden poziom",[[3,"3"],[5,"5"],[10,"10"],[15,"15"],[20,"20"]],[[0,"Bez gry"],[3,"3"],[5,"5"],[10,"10"],[20,"20"],[-1,"Bez limitu"]],5),
   br:lgSecOf("br","Mosty",n=>poziomow(n),"jeden poziom",[[1,"1"],[2,"2"],[3,"3"],[5,"5"],[10,"10"]],[[0,"Bez gry"],[1,"1"],[2,"2"],[3,"3"],[5,"5"],[-1,"Bez limitu"]],3),
+  fl:lgSecOf("fl","Flow",n=>poziomow(n),"jeden poziom",[[3,"3"],[5,"5"],[10,"10"],[15,"15"],[20,"20"]],[[0,"Bez gry"],[3,"3"],[5,"5"],[10,"10"],[20,"20"],[-1,"Bez limitu"]],5),
   th:lgSecOf("th","Trójki",n=>partii(n),"jedna partia",[[1,"1"],[2,"2"],[3,"3"],[5,"5"],[10,"10"]],[[0,"Bez gry"],[1,"1"],[2,"2"],[3,"3"],[5,"5"],[-1,"Bez limitu"]],2)});
 const rlR=s=>{const v=PREFS[RSEC[s].r];return v&&typeof v==="object"?v:{};};
 const rlSec=tag=>Object.keys(RSEC).find(k=>RSEC[k].x===tag||RSEC[k].g===tag)||"sz";
@@ -6223,6 +6243,7 @@ const boPts=(k,st)=>st*(Math.floor(k/10)+1);
 // dzienny limit poziomów (zasady rodzica jak w szachach): liczy rozpoczęte poziomy
 const LG_DAYK="henriksen-lgdzien";
 const LGG={bo:{mode:"blockout",name:"Block Out",op:"otworzy",mod:"lg-blockout",tile:"lg-t-bo",u:n=>poziomow(n)},br:{mode:"mosty",name:"Mosty",op:"otworzą",mod:"lg-mosty",tile:"lg-t-br",u:n=>poziomow(n)},
+  fl:{mode:"flow",name:"Flow",op:"otworzy",mod:"lg-flow",tile:"lg-t-fl",u:n=>poziomow(n)},
   th:{mode:"trojki",name:"Trójki",op:"otworzą",mod:"lg-trojki",tile:"lg-t-th",u:n=>partii(n)}};
 // dzienny limit każdej gry: rozpoczęte poziomy / partie dziś (licznik albo historia, większe)
 function lgPlayedToday(g){const d=new Date().toDateString();let n=0;try{const x=JSON.parse(localStorage.getItem(LG_DAYK)||"{}");if(x.d===d&&x.n&&typeof x.n==="object") n=x.n[g]||0;}catch(e){}
@@ -6242,6 +6263,7 @@ function renderLg(){
   Object.keys(LGG).forEach(g=>{$(LGG[g].tile).hidden=!modOn(LGG[g].mod)||gated.includes(g);});
   {const R=thRecord(null);let sv=null;try{sv=JSON.parse(localStorage.getItem(THK)||"null");}catch(e){}$("lg-t-th-s").textContent=sv&&sv.g?`Gra w toku · kafel ${thMax(sv.g)}`:R.sc?`Rekord: ${R.sc} · kafel ${R.mx}`:"1+2=3, 3+3=6, 6+6=12…";}
   {const bm=brStarMap(),bs=Object.values(bm).reduce((a,b)=>a+b,0);$("lg-t-br-s").textContent=bs?`Gwiazdki: ${bs} z ${BR_LEVELS.length*3}`:"Zbuduj most, który utrzyma auto";}
+  {const m=flStarMap(),st=Object.values(m).reduce((a,b)=>a+b,0);$("lg-t-fl-s").textContent=st?`Gwiazdki: ${st} z ${FL_LEVELS.length*3}`:"Połącz kropki w tym samym kolorze";}
   {const m=boStarMap(),st=Object.values(m).reduce((a,b)=>a+b,0);$("lg-t-bo-s").textContent=st?`Gwiazdki: ${st} z ${BO_LEVELS.length*3}`:"Kolorowe klocki do drzwi";}
   Object.keys(LGG).forEach(g=>{const left=szLeft(g);if(left!==null) $(LGG[g].tile+"-s").textContent+=left?` · dziś jeszcze ${left}`:" · na dziś koniec";});
 }
@@ -6249,7 +6271,7 @@ function renderLgb(){
   const m=boStarMap(),left=szLeft("bo"),top=Math.max(-1,...Object.keys(m).map(Number));$("lgb-lim").hidden=left===null;$("lgb-lim").innerHTML=lgLimCard("bo");
   $("lgb-list").innerHTML=BO_WORLDS.map((W,w)=>`<div class="lbl">Świat ${w+1}: ${W.name}</div><div class="bo-lv">`+
     Array.from({length:10},(_,j)=>{const k=w*10+j,s=m[k]||0,open=k<=top+1;
-      return `<button type="button" data-bo="${k}" class="${s?"done":""}"${open&&left!==0?"":" disabled"} aria-label="Poziom ${k+1}${s?`, ${s} z 3 gwiazdek`:open?"":", zablokowany"}"><b>${open?k+1:"🔒"}</b><small>${s?"★".repeat(s)+"<s>"+"★".repeat(3-s)+"</s>":"&nbsp;"}</small></button>`;}).join("")+`</div>`).join("");
+      return `<button type="button" data-bo="${k}" class="${s?"done":""}"${open&&left!==0?"":" disabled"} aria-label="Poziom ${k+1}${s?`, ${s} z 3 gwiazdek`:open?"":", zablokowany"}"><b>${open?k+1:"🔒"}</b>${s?`<small>${"★".repeat(s)}<s>${"★".repeat(3-s)}</s></small>`:""}</button>`;}).join("")+`</div>`).join("");
 }
 let BO=null;
 function lgPlay(k,again){
@@ -6368,9 +6390,9 @@ $("t-lg").addEventListener("click",()=>go("lg"));
 $("lg-rules-btn").addEventListener("click",()=>{SZR={kid:SZR.kid,prefs:null,sec:"bo"};go("szrules");});
 addEventListener("resize",()=>{if(CUR==="lgg"&&BO&&!BO.drag) boDraw();});
 // rodzic wyłączył łamigłówki albo dziś obowiązuje blokada – wyjście z ekranów łamigłówek
-function lgGuard(){if(!["lg","lgb","lgg","lgm","lgs","lgt"].includes(CUR)) return;
+function lgGuard(){if(!["lg","lgb","lgg","lgm","lgs","lgt","lgf","lgfg"].includes(CUR)) return;
   if(!subjOn("lg")){toast("Rodzic wyłączył łamigłówki.");return go("home");}
-  const g=CUR==="lgb"||CUR==="lgg"?"bo":CUR==="lgm"||CUR==="lgs"?"br":CUR==="lgt"?"th":null;if(!g) return;
+  const g=CUR==="lgb"||CUR==="lgg"?"bo":CUR==="lgm"||CUR==="lgs"?"br":CUR==="lgt"?"th":CUR==="lgf"||CUR==="lgfg"?"fl":null;if(!g) return;
   if(!modOn(LGG[g].mod)){toast("Rodzic wyłączył tę łamigłówkę.");return go("lg");}
   if(!szGateOk(g)){toast(`${LGG[g].name} ${LGG[g].op} się po ćwiczeniach od rodzica.`);go("lg");}}
 
@@ -6460,7 +6482,7 @@ const brStarMap=()=>{const m={};loadHist().forEach(s=>{if(s.subj==="lg"&&s.cfg&&
 const brPts=(k,st)=>st*(1+Math.floor(k/3));
 function renderLgm(){const m=brStarMap(),left=szLeft("br");$("lgm-lim").hidden=left===null;$("lgm-lim").innerHTML=lgLimCard("br");
   const top=Math.max(-1,...Object.keys(m).map(Number));$("lgm-list").innerHTML=`<div class="bo-lv">`+BR_LEVELS.map((L,k)=>{const s=m[k]||0,open=k<=top+1;
-    return `<button type="button" data-br="${k}" class="${s?"done":""}"${open&&left!==0?"":" disabled"} aria-label="Most ${k+1}: ${L.name}${s?`, ${s} z 3 gwiazdek`:""}"><b>${open?k+1:"🔒"}</b><small>${s?"★".repeat(s)+"<s>"+"★".repeat(3-s)+"</s>":"&nbsp;"}</small></button>`;}).join("")+`</div>`;}
+    return `<button type="button" data-br="${k}" class="${s?"done":""}"${open&&left!==0?"":" disabled"} aria-label="Most ${k+1}: ${L.name}${s?`, ${s} z 3 gwiazdek`:""}"><b>${open?k+1:"🔒"}</b>${s?`<small>${"★".repeat(s)}<s>${"★".repeat(3-s)}</s></small>`:""}</button>`;}).join("")+`</div>`;}
 let BR=null;
 function brPlay(k){
   if(!szGateOk("br")){toast("Mosty otworzą się po ćwiczeniach od rodzica.");return go("lg");}
@@ -6709,6 +6731,125 @@ const thAskNew=async()=>!(TH&&!TH.over&&TH.moves>0)||await askYes("Zacząć od n
 $("th-new").addEventListener("click",async()=>{if(!await thAskNew()) return;try{localStorage.removeItem(THK);}catch(e){}thOpen(true,TH?TH.n:THN);});
 $("th-size").addEventListener("click",async e=>{const b=e.target.closest("[data-n]");if(!b||TH&&+b.dataset.n===TH.n) return;if(!await thAskNew()) return;try{localStorage.removeItem(THK);}catch(x){}thOpen(true,+b.dataset.n);});
 $("th-end").addEventListener("click",e=>{const b=e.target.closest("[data-tha]");if(!b) return;$("th-end").hidden=true;if(b.dataset.tha==="new") return thOpen(true,TH.n);go("lg");});
+
+/* --- Łamigłówki: Flow (połącz kropki w tym samym kolorze; rurki się nie krzyżują i wypełniają całą planszę) --- */
+// poziomy z tools/flow_levels.js: "n|ścieżka;…" – ścieżka = rozwiązanie (pola jako znaki FL_ABC), kropki = jej końce
+const FL_LEVELS=[
+  "5|noje9432;gfk;cba5;lmhid87;016",
+  "5|105afkl;2349ejon;gb678di;mhc",
+  "5|jonmlkfa5;bghid;2349e;c78;610",
+  "5|ba501238;ijo;49ed;nmlkf;67chg",
+  "5|349ejonm;01278dih;65afkl;gbc",
+  "5|fklmnoje;a50123;76bg;chi;498d",
+  "5|105afk;ejon;6bglm;498dih;c723",
+  "5|id894;lkfa5;bghmnoje;327c;016",
+  "5|noje94;832105a;67cdi;kfgb;lmh",
+  "5|fklmnoj;ghide9432;c78;6ba;501",
+  "6|jiouvwxyzt;6cdekqp;01789;hnms;2345b;rlfga",
+  "6|ciouvwxyzt;nhb54321;mga98760;qpjdef;srlk",
+  "6|ghb543210;lf9a;wxyztnm;srqke876c;pvu;oijd",
+  "6|932106ciou;zyxwvpjd78;mlkq;54agfe;bhntsr",
+  "6|rxyztnhb;2345;agms;89flkqwvuo;106cijp;ed7",
+  "6|tzyxwvu;jio;mnhb54;dc601239ag;78ekqp;flrs",
+  "6|yztnhb5;a432106cio;smgf987dj;pvu;lrxw;qke",
+  "6|ouvw;pjic6012345;hba98;gfed7;klmntzyx;srq",
+  "6|yztnh;5bagms;ciouvwxrl;432106;f987djp;qke",
+  "6|fghntz;pou;ekjic6012345b;syxwv;a987d;mlrq",
+  "7|7elszGHIJ;ovCBAtm;LMFyrkd65;jcb432;ungf810;wDK;Exqpiha9",
+  "7|wxyFMLKJI;ipqrkd6543;0129abcj;zGH;nmf87;CDE;elstAB;uvohg",
+  "7|le7012;vunmf;MFyrkd6543a;jcb;IJKLExqpi;89gho;ABCDw;HGzst",
+  "7|6dkryFMLKJ;opwDE;2107elszGH;c543a98f;bijqx;ngh;IBAtm;Cvu",
+  "7|ryFMLKJIB;kd6543210;opqjc;nmlszGH;e789ab;wxE;fghi;DCvutA",
+  "7|GHIJK;vCBAzsle701;456dkryFM;Dwponut;abcjqxEL;ihgfm;3298",
+  "7|07elszGHIJ;tABCDKLMFyr;gfm;nuvw;jkd65432;hopqxE;a981;ibc",
+  "7|70123456dkr;KLMFyxqjcba;elst;ghipwDE;ovCJIHGz;98fmnuBA",
+  "7|MFyrkd;zGHIJKLEx;sle7;65cjqpwD;vCBAtmf8;b43210;iho;a9gnu",
+  "7|utsle7;6dkryFMLKJIBA;45cjqxE;23abip;vohg9810;zGH;CDw;fmn",
+  "8|nvDLT;MUVWXYZ_-;KSRQPONFEwog8;910;tuC;IJB;567f;zAsklme;bjrqyGH;dc432aihpx",
+  "8|-TLDvnf7654;FEMUVWXYQ;xwog;AzyGON;b321;edckjr;ia980;Z_SKCuml;PHIJR;stB;qph",
+  "8|yzAstuvnf;DLT-_ZYX;567;qrjklme;8gowEMUVWOGHI;234cd;hiab;PQRSK;JBC;910;NFxp",
+  "8|b32108;WXYZ_-TLDvn;hgowEMUV;PQRSKCume;pxFN;jia9;IJBtldc;ksAzH;OGyqr;f7654",
+  "8|2108g;RZ_-TLDvnf7;e6543ba9hp;owEMUVW;cdlmu;jkstBCKS;xFNOP;QYX;iqrzAIJ;yGH",
+  "8|JIHPXYZ_-T;f76543210;VWO;zABCu;pog89abck;xwEMU;DLK;mnv;hiqyGFN;QRS;edltsrj",
+  "8|g801234;JKLT-_ZYX;xwo;GFEMUVW;h9abcd567;zyqp;rsABCDvnf;lkji;tume;HIQRS;NOP",
+  "8|NOWXYZ_-TL;jb32108go;Btlkc456;GFEMUV;def7;vDCKSRQPHzr;yqia9;wxph;sAIJ;nmu",
+  "8|UVWXYZ_-TLDv;GOPQRSKCumnf;MNFxyzHIJBt;lde67;345;910;ia2;qrj;phg8;owE;Askcb",
+  "8|Z_-TLDvnf76;GOWXYQRS;32108gowEMU;KJIAsr;jba9hpxFNV;BCumed54;tlkc;iqyzHP"
+];
+const FL_ABC="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-";
+// kolory z nazwami po angielsku – po połączeniu pary wyskakuje słówko (przemycony angielski)
+const FL_COL=[["#ff3b3b","red","czerwony"],["#2f7cf6","blue","niebieski"],["#22b14c","green","zielony"],["#ffd60a","yellow","żółty"],["#ff8c1a","orange","pomarańczowy"],
+  ["#2fd3e8","light blue","jasnoniebieski"],["#e040fb","pink","różowy"],["#8b1e1e","dark red","ciemnoczerwony"],["#7b3fe4","purple","fioletowy"],["#f2f2f2","white","biały"],["#9aa0a6","grey","szary"]];
+const FL_WORLDS=["Rozgrzewka 5×5","Mała plansza 6×6","Średnia 7×7","Wielka 8×8"];
+const flLevel=k=>{const [n,ps]=FL_LEVELS[k].split("|"),sol=ps.split(";").map(p=>[...p].map(c=>FL_ABC.indexOf(c)));return {k,n:+n,sol,dots:sol.map(p=>[p[0],p[p.length-1]])};};
+const flStarMap=()=>{const m={};loadHist().forEach(s=>{if(s.subj==="lg"&&s.cfg&&s.cfg.mode==="flow"&&s.status==="done"){const r=s.recs[0]||{};m[s.cfg.lvl]=Math.max(m[s.cfg.lvl]||0,r.st||1);}});return m;};
+const flPts=(k,st)=>st*(Math.floor(k/10)+1);
+function renderLgf(){const m=flStarMap(),left=szLeft("fl"),top=Math.max(-1,...Object.keys(m).map(Number));$("lgf-lim").hidden=left===null;$("lgf-lim").innerHTML=lgLimCard("fl");
+  $("lgf-list").innerHTML=FL_WORLDS.map((W,w)=>`<div class="lbl">Świat ${w+1}: ${W}</div><div class="bo-lv">`+
+    Array.from({length:10},(_,j)=>{const k=w*10+j,s=m[k]||0,open=k<=top+1;
+      return `<button type="button" data-fl="${k}" class="${s?"done":""}"${open&&left!==0?"":" disabled"} aria-label="Poziom ${k+1}${s?`, ${s} z 3 gwiazdek`:""}"><b>${open?k+1:"🔒"}</b>${s?`<small>${"★".repeat(s)}<s>${"★".repeat(3-s)}</s></small>`:""}</button>`;}).join("")+`</div>`).join("");}
+let FL=null;
+function flPlay(k){
+  if(!szGateOk("fl")){toast("Flow otworzy się po ćwiczeniach od rodzica.");return go("lg");}
+  if(szLeft("fl")===0){toast("Na dziś wystarczy Flow!");return go("lgf");}
+  if(k>=FL_LEVELS.length){toast("Wszystkie poziomy przeszedłeś – brawo! Nowe wkrótce.");return go("lgf");}
+  lgCount("fl");const L=flLevel(k);FL={L,k,p:L.dots.map(()=>[]),moves:0,hint:0,start:Date.now(),id:Date.now(),done:new Set()};
+  if(CUR!=="lgfg") go("lgfg");$("fl-end").hidden=true;flDraw();}
+const flOwner=(k)=>{for(let c=0;c<FL.p.length;c++) if(FL.p[c].includes(k)) return c;return -1;};
+const flDotOf=k=>FL.L.dots.findIndex(d=>d[0]===k||d[1]===k);
+const flComplete=c=>{const p=FL.p[c],d=FL.L.dots[c];return p.length>1&&(p[0]===d[0]&&p[p.length-1]===d[1]||p[0]===d[1]&&p[p.length-1]===d[0]);};
+function flDraw(){const L=FL.L,n=L.n,B=$("fl-board"),u=100;let h=`<rect width="${n*u}" height="${n*u}" fill="#0d1117" rx="10"/>`;
+  for(let k=0;k<n*n;k++){const c=flOwner(k),x=k%n*u,y=Math.floor(k/n)*u;if(c>=0) h+=`<rect x="${x+2}" y="${y+2}" width="${u-4}" height="${u-4}" fill="${FL_COL[c][0]}" opacity=".22" rx="6"/>`;}
+  for(let i=1;i<n;i++) h+=`<line x1="${i*u}" y1="0" x2="${i*u}" y2="${n*u}" stroke="#30363d" stroke-width="2"/><line x1="0" y1="${i*u}" x2="${n*u}" y2="${i*u}" stroke="#30363d" stroke-width="2"/>`;
+  FL.p.forEach((p,c)=>{if(p.length<2) return;h+=`<polyline points="${p.map(k=>`${k%n*u+u/2},${Math.floor(k/n)*u+u/2}`).join(" ")}" fill="none" stroke="${FL_COL[c][0]}" stroke-width="${u*.36}" stroke-linecap="round" stroke-linejoin="round"/>`;});
+  L.dots.forEach((d,c)=>d.forEach(k=>{h+=`<circle cx="${k%n*u+u/2}" cy="${Math.floor(k/n)*u+u/2}" r="${u*.34}" fill="${FL_COL[c][0]}"${flComplete(c)?` stroke="#fff" stroke-width="4"`:""}/>`;}));
+  if(FL.ghost) h+=`<polyline points="${FL.ghost.p.map(k=>`${k%n*u+u/2},${Math.floor(k/n)*u+u/2}`).join(" ")}" fill="none" stroke="#fff" stroke-dasharray="14 12" stroke-width="8" stroke-linecap="round" opacity=".85"/>`;
+  B.setAttribute("viewBox",`0 0 ${n*u} ${n*u}`);B.innerHTML=h;
+  const cov=FL.p.reduce((a,p)=>a+p.length,0),pipes=L.dots.filter((d,c)=>flComplete(c)).length;
+  $("fl-info").innerHTML=`Połączone: <b>${pipes}/${L.dots.length}</b>`;$("fl-fill").innerHTML=`Plansza: <b>${Math.round(cov*100/(n*n))}%</b> · ruchy: ${FL.moves}`;
+  $("lgfg").querySelector("h1").textContent=`Flow ${FL.k+1}`;}
+// rysowanie palcem: od kropki albo końca rurki; cofanie skraca, wjechanie w cudzą rurkę ją przecina
+function flCell(e){const R=$("fl-board").getBoundingClientRect(),n=FL.L.n,c=Math.floor((e.clientX-R.left)/R.width*n),r=Math.floor((e.clientY-R.top)/R.height*n);return r<0||c<0||r>=n||c>=n?-1:r*n+c;}
+function flStep(k){const D=FL.drag,c=D.c,p=FL.p[c],n=FL.L.n,last=p[p.length-1];if(k===last) return;
+  const adj=Math.abs(k-last)===n||Math.abs(k-last)===1&&Math.floor(k/n)===Math.floor(last/n);if(!adj) return;
+  const i=p.indexOf(k);if(i>=0){FL.p[c]=p.slice(0,i+1);D.ch=true;return;}
+  if(flComplete(c)) return;
+  const dot=flDotOf(k);if(dot>=0&&dot!==c) return;
+  const o=flOwner(k);if(o>=0&&o!==c){const q=FL.p[o],j=q.indexOf(k);FL.p[o]=q.slice(0,j);}
+  p.push(k);D.ch=true;
+  if(flComplete(c)&&!FL.done.has(c)){FL.done.add(c);sfx("ok");const t=FL_COL[c];toast(`${t[1].toUpperCase()} – ${t[2]} ✓`);}}
+$("fl-board").addEventListener("pointerdown",e=>{if(!FL||FL.won) return;const k=flCell(e);if(k<0) return;e.preventDefault();
+  let c=flDotOf(k);
+  if(c>=0) FL.p[c]=[k];
+  else{c=flOwner(k);if(c<0) return;const p=FL.p[c],i=p.indexOf(k);FL.p[c]=p.slice(0,i+1);}
+  FL.done.delete(c);FL.drag={c,id:e.pointerId,ch:true,last:k};FL.ghost=null;try{$("fl-board").setPointerCapture(e.pointerId);}catch(x){}flDraw();});
+$("fl-board").addEventListener("pointermove",e=>{const D=FL&&FL.drag;if(!D||D.id!==e.pointerId) return;const k=flCell(e);if(k<0||k===D.last) return;
+  // szybki ruch palcem: przejdź po kolei przez pola w linii prostej
+  const n=FL.L.n;let cur=FL.p[D.c][FL.p[D.c].length-1];for(let s=0;s<2*n&&cur!==k;s++){const cr=Math.floor(cur/n),cc=cur%n,kr=Math.floor(k/n),kc=k%n;
+    const nx=Math.abs(kc-cc)>=Math.abs(kr-cr)?cur+Math.sign(kc-cc):cur+n*Math.sign(kr-cr);flStep(nx);const now=FL.p[D.c][FL.p[D.c].length-1];if(now===cur) break;cur=now;}
+  D.last=k;flDraw();});
+["pointerup","pointercancel"].forEach(t=>$("fl-board").addEventListener(t,e=>{const D=FL&&FL.drag;if(!D||D.id!==e.pointerId) return;FL.drag=null;if(D.ch) FL.moves++;flDraw();flCheck();}));
+function flCheck(){const L=FL.L,all=L.dots.every((d,c)=>flComplete(c)),cov=FL.p.reduce((a,p)=>a+p.length,0);
+  if(!all) return;if(cov<L.n*L.n){toast("Wszystko połączone – teraz wypełnij całą planszę!");return;}flWin();}
+function flWin(){if(FL.won) return;FL.won=true;const L=FL.L,c=L.dots.length,st0=FL.moves<=c?3:FL.moves<=c+3?2:1,st=FL.hint?Math.min(2,st0):st0,w=flPts(FL.k,st),pct={3:100,2:75,1:50}[st],best=flStarMap()[FL.k]||0;
+  const H=loadHist();H.push({id:FL.id,subj:"lg",start:FL.start,end:Date.now(),status:"done",cfg:{mode:"flow",lvl:FL.k},n:1,done:1,
+    recs:[{t:`Flow ${FL.k+1}`,ok:true,st,mv:FL.moves,par:c,w,tries:[],h:FL.hint,ms:Date.now()-FL.start}],pct,grade:grade(pct).n,errors:0,hints:FL.hint,pts:w,ptsMax:flPts(FL.k,3)});saveHist(H);
+  sfx("final");try{const dpr=devicePixelRatio||1;cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;cx.setTransform(dpr,0,0,dpr,0,0);for(let k=0;k<st;k++) setTimeout(()=>burst(innerWidth*(.25+Math.random()*.5),innerHeight*(.2+Math.random()*.3)),k*260);}catch(e){}
+  const nxt=FL.k+1<FL_LEVELS.length,left=szLeft("fl"),words=L.dots.map((d,i)=>`<span style="--c:${FL_COL[i][0]}">${FL_COL[i][1]}</span>`).join("");
+  $("fl-end").innerHTML=`<div class="bo-card"><div class="bo-stars">${[1,2,3].map(k=>`<span class="${k<=st?"on":""}" style="animation-delay:${k*.18}s">★</span>`).join("")}</div>`+
+    `<b>${st===3?"Perfekcyjnie!":st===2?"Super!":"Udało się!"}</b><small>Ruchy: ${FL.moves} · na 3★: ${c} (jedna rurka = jeden ruch)${FL.hint?" · z podpowiedzią najwyżej 2★":""}</small><div class="bo-pts">+${w} pkt${st>best&&best?" · nowy rekord!":""}</div>`+
+    `<small class="br-fact">🇬🇧 Kolory po angielsku:<span class="fl-words">${words}</span></small>`+
+    `<div class="bo-btns">${nxt&&left!==0?`<button type="button" class="go-btn" data-fla="next">Dalej ▶</button>`:""}<button type="button" class="again" data-fla="again">Jeszcze raz</button><button type="button" class="again" data-fla="list">Lista poziomów</button></div>`+
+    (left===0?`<small>To był ostatni poziom na dziś.</small>`:"")+`</div>`;
+  $("fl-end").hidden=false;try{setTimeout(cupsCheck,1500);}catch(e){}}
+// podpowiedź: pokaż przerywaną linią jedną rurkę z rozwiązania (pierwszą jeszcze niepołączoną)
+$("fl-hint").addEventListener("click",()=>{if(!FL||FL.won) return;const L=FL.L,c=L.dots.findIndex((d,i)=>!flComplete(i)||FL.p[i].join()!==L.sol[i].join()&&FL.p[i].join()!==L.sol[i].slice().reverse().join());
+  if(c<0) return;FL.hint++;FL.ghost={c,p:L.sol[c]};toast(`Tak biegnie ${FL_COL[c][1]} (${FL_COL[c][2]}).`);flDraw();setTimeout(()=>{if(FL&&FL.ghost&&FL.ghost.c===c){FL.ghost=null;flDraw();}},2600);});
+$("fl-reset").addEventListener("click",()=>{if(!FL||FL.won) return;FL.p=FL.L.dots.map(()=>[]);FL.done=new Set();FL.moves=0;flDraw();});
+$("fl-end").addEventListener("click",e=>{const b=e.target.closest("[data-fla]");if(!b) return;const a=b.dataset.fla;$("fl-end").hidden=true;
+  if(a==="next") return flPlay(FL.k+1);if(a==="again") return flPlay(FL.k);FL=null;go("lgf");});
+$("lgf-list").addEventListener("click",e=>{const b=e.target.closest("[data-fl]");if(b&&!b.disabled) flPlay(+b.dataset.fl);});
+$("lg-t-fl").addEventListener("click",()=>go("lgf"));
 
 /* --- zadania --- */
 async function szPuzzles(theme,n,tag){
