@@ -4,7 +4,7 @@
 // Projekt: {n:[[x,y]] nowe węzły (indeksy po kotwach), b:[[a,b,mat]]}
 const BR_CORE=(()=>{
   const MAT={road:{name:"Droga",cost:20,max:2.3,dens:1.2,str:900,c:"#495057"},wood:{name:"Drewno",cost:12,max:2.3,dens:.8,str:700,c:"#b5793a"},
-    steel:{name:"Stal",cost:30,max:3.2,dens:1.5,str:1800,c:"#8aa0b8"},rope:{name:"Lina",cost:8,max:4.5,dens:.3,str:1000,c:"#c9a26b",rope:true}};
+    steel:{name:"Stal",cost:30,max:3.2,dens:1.5,str:1800,c:"#8aa0b8"},rope:{name:"Lina",cost:8,max:6,dens:.3,str:1000,c:"#c9a26b",rope:true}};
   // pojazd = części (nadwozie, lokomotywa, wagony), każda na dwóch kołach (przesunięcia od środka pojazdu); ciężar dzieli się na wszystkie koła
   const CARS={car:{name:"Auto",fall:"Auto wpadło do wody!",m:20,v:2.4,parts:[{k:"car",w:[-.7,.7]}]},
     truck:{name:"Ciężarówka",fall:"Ciężarówka wpadła do wody!",m:45,v:1.9,parts:[{k:"truck",w:[-1.1,.9]}]},

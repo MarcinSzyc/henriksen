@@ -364,7 +364,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .wk i{display:block;width:100%;border-radius:8px;background:var(--accent);min-height:4px}.wk i.z{background:var(--line)}.wk .td i{background:#f76707}
 .wk span{font-size:.75rem;font-weight:800;color:var(--muted)}.wk .v{color:var(--fg)}.wk .td span:last-child{color:#f76707}
 .motiv{background:var(--ok-soft);color:var(--ok);border-radius:20px;padding:14px 16px;display:flex;align-items:center;gap:12px;font-weight:800;font-size:.95rem;line-height:1.35}.motiv svg{flex:none}
-.more.pmore{border:2px solid var(--line);border-radius:20px;padding:0 16px;min-height:64px}
+.more.pmore{border:2px solid var(--line);border-radius:20px;padding:12px 16px;min-height:64px}
 .par{display:flex;flex-direction:column;gap:14px}.par[hidden]{display:none}
 /* Arkusze: nowa sesja (zestawy / własne) i ustawienia */
 .sheet{text-align:left;max-width:420px;gap:12px}
@@ -400,7 +400,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .step button:disabled{opacity:.35;cursor:default}
 .step output{font-family:var(--display);font-weight:800;font-size:1.7rem}
 .more{min-height:54px;border:0;background:transparent;color:var(--fg);padding:0 4px;display:flex;align-items:center;gap:10px;font:inherit;text-align:left;cursor:pointer}
-.more span{flex:1;display:flex;flex-direction:column;gap:1px}.more b{font-size:1rem}.more small{font-weight:800;font-size:.8rem;color:var(--muted)}
+.more span{flex:1;display:flex;flex-direction:column;gap:3px}.more b{font-size:1rem;line-height:1.25}.more small{font-weight:800;font-size:.8rem;line-height:1.35;color:var(--muted)}
 .more .chev{color:var(--muted);transition:transform .15s}.more[aria-expanded="true"] .chev{transform:rotate(180deg)}
 .morebox{display:flex;flex-direction:column;gap:10px;margin-top:-6px}.morebox[hidden]{display:none}
 #msec,#msec2{display:flex;flex-direction:column;gap:12px}#msec[hidden],#msec2[hidden]{display:none}
@@ -780,6 +780,11 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .sz-clock span{flex:1;display:flex;align-items:center;justify-content:center;gap:6px;padding:8px 10px;border-radius:14px;border:2px solid var(--line);background:var(--card);font-weight:800;font-size:1.25rem;font-variant-numeric:tabular-nums;opacity:.6}
 .sz-clock span.on{opacity:1;border-color:var(--accent)}.sz-clock img{width:24px;height:24px}.sz-clock .me.low{color:#fff;background:#e03131;border-color:#e03131;opacity:1}.sz-clock .me.low.on{animation:szck 1s steps(2) infinite}
 @keyframes szck{50%{opacity:.55}}
+.br-mts{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:4px 0 12px}.br-mts .lbl{width:100%;margin:0 0 2px}
+.br-mt{display:inline-flex;align-items:center;gap:6px;background:var(--card);border:2px solid var(--line);border-radius:999px;padding:4px 10px;font-weight:800;font-size:.85rem}
+.br-mt i{width:18px;height:6px;border-radius:3px}.br-mt.lock{opacity:.55}.br-mt small{font-weight:700;color:var(--muted)}
+.br-new{display:flex;flex-direction:column;align-items:center;gap:2px;background:linear-gradient(135deg,rgba(255,212,59,.25),rgba(255,146,43,.2));border:2px solid #fcc419;border-radius:14px;padding:10px}
+.br-new i{width:40px;height:8px;border-radius:4px;margin-bottom:4px}
 .br-cv{border-radius:16px;touch-action:none;box-shadow:0 8px 22px rgba(0,0,0,.22)}
 .br-mats{display:flex;gap:6px;margin-bottom:10px}.br-mats.off{opacity:.4;pointer-events:none}
 .br-mats button{flex:1;min-height:56px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--text);font:inherit;font-weight:800;font-size:.85rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px 2px}
@@ -1313,6 +1318,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 <div class="wrap" id="lgb" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Block Out</h1><div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <button type="button" class="more pmore" data-lgr="bo" hidden style="margin-bottom:14px"><span><b>👨‍👧 Zasady gry Block Out dla dziecka</b><small>Limit gier, wyjątki na dni, ćwiczenia przed grą i za dodatkowe gry</small></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
   <div id="lgb-lim" class="szlim-wrap" hidden></div>
   <p class="abnote">Przeciągnij klocek do drzwi w tym samym kolorze. Mniej ruchów = więcej gwiazdek.</p>
   <div id="lgb-list"></div>
@@ -1320,8 +1326,10 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 <div class="wrap" id="lgm" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Mosty</h1><div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <button type="button" class="more pmore" data-lgr="br" hidden style="margin-bottom:14px"><span><b>👨‍👧 Zasady gry Mosty dla dziecka</b><small>Limit gier, wyjątki na dni, ćwiczenia przed grą i za dodatkowe gry</small></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
   <div id="lgm-lim" class="szlim-wrap" hidden></div>
   <p class="abnote">Zbuduj most z belek, a potem puść auto. Za mniejszy koszt dostaniesz więcej gwiazdek. Trójkąty trzymają najlepiej!</p>
+  <div class="br-mts" id="lgm-mats"></div>
   <div id="lgm-list"></div>
 </div>
 <div class="wrap" id="lgs" hidden>
@@ -1337,6 +1345,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 <div class="wrap" id="lgt" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Trójki</h1><div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <button type="button" class="more pmore" data-lgr="th" hidden style="margin-bottom:14px"><span><b>👨‍👧 Zasady gry Trójki dla dziecka</b><small>Limit gier, wyjątki na dni, ćwiczenia przed grą i za dodatkowe gry</small></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
   <div class="bo-top"><span id="th-score"></span><span class="th-nxw">Następny: <span id="th-next" class="th-t th-nx"></span></span></div>
   <div id="th-lim" class="szlim-wrap" hidden></div>
   <div class="segs" id="th-size" role="group" aria-label="Wielkość planszy"></div>
@@ -1350,6 +1359,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 <div class="wrap" id="lgf" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Flow</h1><div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <button type="button" class="more pmore" data-lgr="fl" hidden style="margin-bottom:14px"><span><b>👨‍👧 Zasady gry Flow dla dziecka</b><small>Limit gier, wyjątki na dni, ćwiczenia przed grą i za dodatkowe gry</small></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
   <div id="lgf-lim" class="szlim-wrap" hidden></div>
   <p class="abnote">Połącz kropki w tym samym kolorze. Rurki nie mogą się krzyżować i muszą wypełnić całą planszę.</p>
   <div id="lgf-list"></div>
@@ -3177,7 +3187,7 @@ function plLiveNow(){
 }
 function plShow(v){
   if(v==="pl") renderPl();
-  if(v==="szw") renderSzw();if(v==="szrules"){SZR={kid:SZR.kid,prefs:null,sec:SZR.sec};renderSzRules();}if(v==="lg") renderLg();if(v==="lgb") renderLgb();if(v==="lgm") renderLgm();if(v==="lgf") renderLgf();try{if(v!=="lgs"&&BR&&BR.S) brStop();}catch(e){} /* zawsze świeże cele i ustawienia dziecka (np. po dodaniu celu) */if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();if(v==="szop") renderSzop();if(v==="szcf") renderSzcf();
+  if(v==="szw") renderSzw();if(v==="szrules"){SZR={kid:SZR.kid,prefs:null,sec:SZR.sec};renderSzRules();}document.querySelectorAll("[data-lgr]").forEach(b=>{b.hidden=!(ME&&ME.role==="parent");});if(v==="lg") renderLg();if(v==="lgb") renderLgb();if(v==="lgm") renderLgm();if(v==="lgf") renderLgf();try{if(v!=="lgs"&&BR&&BR.S) brStop();}catch(e){} /* zawsze świeże cele i ustawienia dziecka (np. po dodaniu celu) */if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();if(v==="szop") renderSzop();if(v==="szcf") renderSzcf();
   if(window.S3&&v!=="szg") S3.pause();if(v==="szz") renderSzz();if(v==="szo") renderSzo();
   if(v==="plws") renderPws();
   if(v==="pld") renderPd();
@@ -6385,6 +6395,7 @@ $("bo-end").addEventListener("click",e=>{const b=e.target.closest("[data-boa]");
 $("lgb-list").addEventListener("click",e=>{const b=e.target.closest("[data-bo]");if(b&&!b.disabled) lgPlay(+b.dataset.bo);});
 $("lg-t-bo").addEventListener("click",()=>go("lgb"));$("lg-t-br").addEventListener("click",()=>go("lgm"));$("lg-t-th").addEventListener("click",()=>thOpen());
 $("t-lg").addEventListener("click",()=>go("lg"));
+document.querySelectorAll("[data-lgr]").forEach(b=>b.addEventListener("click",()=>{SZR={kid:SZR.kid,prefs:null,sec:b.dataset.lgr};go("szrules");}));
 $("lg-rules-btn").addEventListener("click",()=>{SZR={kid:SZR.kid,prefs:null,sec:"bo"};go("szrules");});
 addEventListener("resize",()=>{if(CUR==="lgg"&&BO&&!BO.drag) boDraw();});
 // rodzic wyłączył łamigłówki albo dziś obowiązuje blokada – wyjście z ekranów łamigłówek
@@ -6401,7 +6412,7 @@ function lgGuard(){if(!["lg","lgb","lgg","lgm","lgs","lgt","lgf","lgfg"].include
 // Projekt: {n:[[x,y]] nowe węzły (indeksy po kotwach), b:[[a,b,mat]]}
 const BR_CORE=(()=>{
   const MAT={road:{name:"Droga",cost:20,max:2.3,dens:1.2,str:900,c:"#495057"},wood:{name:"Drewno",cost:12,max:2.3,dens:.8,str:700,c:"#b5793a"},
-    steel:{name:"Stal",cost:30,max:3.2,dens:1.5,str:1800,c:"#8aa0b8"},rope:{name:"Lina",cost:8,max:4.5,dens:.3,str:1000,c:"#c9a26b",rope:true}};
+    steel:{name:"Stal",cost:30,max:3.2,dens:1.5,str:1800,c:"#8aa0b8"},rope:{name:"Lina",cost:8,max:6,dens:.3,str:1000,c:"#c9a26b",rope:true}};
   // pojazd = części (nadwozie, lokomotywa, wagony), każda na dwóch kołach (przesunięcia od środka pojazdu); ciężar dzieli się na wszystkie koła
   const CARS={car:{name:"Auto",fall:"Auto wpadło do wody!",m:20,v:2.4,parts:[{k:"car",w:[-.7,.7]}]},
     truck:{name:"Ciężarówka",fall:"Ciężarówka wpadła do wody!",m:45,v:1.9,parts:[{k:"truck",w:[-1.1,.9]}]},
@@ -6466,9 +6477,14 @@ const BR_LEVELS=[
   {"name":"Długi most","w":10,"ly":0,"ry":0,"an":[[0,0],[10,0],[5,-1]],"pil":[[5,-1]],"mats":["road","wood","steel"],"car":"car","tip":"Stalowa belka może być dłuższa (do 3 kratek) – sięgnie dalej od filaru.","budget":680,"s3":424,"s2":530},
   {"name":"Pociąg","w":8,"ly":0,"ry":0,"an":[[0,0],[8,0],[4,-1]],"pil":[[4,-1]],"mats":["road","wood","steel"],"car":"train","tip":"Pociąg jest długi – stoi na kilku przęsłach naraz. Ciężar rozkłada się na wszystkie koła.","budget":370,"s3":226,"s2":283},
   {"name":"Wielki finał","w":10,"ly":0,"ry":0,"an":[[0,0],[10,0]],"mats":["road","wood","steel"],"car":"truck","tip":"Najdłuższa przepaść i najcięższy ładunek. Użyj wszystkiego, czego się nauczyłeś!","budget":1390,"s3":864,"s2":1080},
-  {"name":"Ekspres","w":10,"ly":0,"ry":0,"an":[[0,0],[10,0]],"mats":["road","wood","steel"],"car":"train","tip":"Ostatnie wyzwanie: cały pociąg nad najdłuższą przepaścią. Kratownica z najmocniejszego materiału!","budget":1390,"s3":864,"s2":1080}
+  {"name":"Ekspres","w":10,"ly":0,"ry":0,"an":[[0,0],[10,0]],"mats":["road","wood","steel"],"car":"train","tip":"Ostatnie wyzwanie: cały pociąg nad najdłuższą przepaścią. Kratownica z najmocniejszego materiału!","budget":1390,"s3":864,"s2":1080},
+  {"name":"Pierwsza lina","w":8,"ly":0,"ry":0,"an":[[0,0],[8,0],[0,3],[8,3]],"mats":["road","rope"],"car":"car","tip":"Nowy materiał: lina! Jest tania i lekka, ale tylko ciągnie – nie podeprze drogi od dołu. Zawieś drogę na linach z wysokich pylonów.","budget":420,"s3":258,"s2":323},
+  {"name":"Most podwieszany","w":10,"ly":0,"ry":0,"an":[[0,0],[10,0],[0,4],[10,4]],"mats":["road","wood","steel","rope"],"car":"truck","tip":"Tak wygląda Most Świętokrzyski w Warszawie – liny biegną prosto z pylonu do drogi. Liny są dużo tańsze niż stalowa kratownica.","budget":580,"s3":362,"s2":453},
+  {"name":"Pociąg nad zatoką","w":12,"ly":0,"ry":0,"an":[[0,0],[12,0],[0,4],[12,4],[6,4],[6,-1]],"pil":[[6,-1]],"mats":["road","wood","steel","rope"],"car":"train","tip":"Najdłuższa przepaść! Na skale w środku stoi trzeci pylon – rozwieś liny w obie strony.","budget":780,"s3":486,"s2":608}
 ];
 const BR_FACTS=["Most Golden Gate w San Francisco otwarto w 1937 roku. Ma ok. 2,7 km długości.",
+  "Most wiszący trzyma się na grubych linach rozpiętych między pylonami, a most podwieszany – na linach biegnących prosto z pylonu do jezdni.",
+  "Most Świętokrzyski w Warszawie to most podwieszany: jezdnia wisi na linach przymocowanych do jednego wysokiego pylonu.",
   "Trójkąt nie zmieni kształtu, dopóki żaden bok się nie złamie. Dlatego mosty i dźwigi są pełne trójkątów.",
   "Wieża Eiffla (1889) to też kratownica – tysiące żelaznych belek połączonych w trójkąty.",
   "Rzymianie budowali kamienne mosty łukowe. Niektóre stoją do dziś, po prawie 2000 lat!",
@@ -6479,21 +6495,28 @@ const brSaved=()=>{try{return JSON.parse(localStorage.getItem(BRK)||"{}");}catch
 const brStarMap=()=>{const m={};loadHist().forEach(s=>{if(s.subj==="lg"&&s.cfg&&s.cfg.mode==="mosty"&&s.status==="done"){const r=s.recs[0]||{};m[s.cfg.lvl]=Math.max(m[s.cfg.lvl]||0,r.st||1);}});return m;};
 const brPts=(k,st)=>st*(1+Math.floor(k/3));
 function renderLgm(){const m=brStarMap(),left=szLeft("br");$("lgm-lim").hidden=left===null;$("lgm-lim").innerHTML=lgLimCard("br");
-  const top=Math.max(-1,...Object.keys(m).map(Number));$("lgm-list").innerHTML=`<div class="bo-lv">`+BR_LEVELS.map((L,k)=>{const s=m[k]||0,open=k<=top+1;
+  const top=Math.max(-1,...Object.keys(m).map(Number));
+  $("lgm-mats").innerHTML=`<span class="lbl">Twoje materiały</span>`+BR_MORDER.map(x=>{const M=BR_CORE.MAT[x],u=BR_UNLOCK.find(q=>q[0]===x),has=brHas(x,top);
+    return `<span class="br-mt${has?"":" lock"}"><i style="background:${M.c}"></i>${M.name}${has?"":` <small>🔒 po Moście ${u[1]}</small>`}</span>`;}).join("");
+  $("lgm-list").innerHTML=`<div class="bo-lv">`+BR_LEVELS.map((L,k)=>{const s=m[k]||0,open=k<=top+1;
     return `<button type="button" data-br="${k}" class="${s?"done":""}"${open&&left!==0?"":" disabled"} aria-label="Most ${k+1}: ${L.name}${s?`, ${s} z 3 gwiazdek`:""}"><b>${open?k+1:"🔒"}</b>${s?`<small>${"★".repeat(s)}<s>${"★".repeat(3-s)}</s></small>`:""}</button>`;}).join("")+`</div>`;}
+const BR_UNLOCK=[["steel",7],["rope",12]],BR_MORDER=["road","wood","steel","rope"];
+const brTop=()=>Math.max(-1,...Object.keys(brStarMap()).map(Number));
+const brHas=(m,top=brTop())=>{const u=BR_UNLOCK.find(x=>x[0]===m);return !u||top>=u[1]-1;};
+const brMats=L=>{const top=brTop();return BR_MORDER.filter(m=>L.mats.includes(m)||BR_UNLOCK.some(x=>x[0]===m)&&brHas(m,top)&&L.mats.includes("wood"));};
 let BR=null;
 function brPlay(k){
   if(!szGateOk("br")){toast("Mosty otworzą się po ćwiczeniach od rodzica.");return go("lg");}
   if(szLeft("br")===0){toast("Na dziś wystarczy mostów!");return go("lgm");}
   if(k>=BR_LEVELS.length){toast("Wszystkie mosty zbudowane – brawo! Nowe wkrótce.");return go("lgm");}
   lgCount("br");const L=BR_LEVELS[k],sv=brSaved()[k];
-  BR={L,k,d:sv&&sv.n&&sv.b?{n:sv.n.map(p=>p.slice()),b:sv.b.map(b=>b.slice())}:{n:[],b:[]},mat:L.mats[0],undo:[],S:null,start:Date.now(),id:Date.now()};
+  BR={L,k,d:sv&&sv.n&&sv.b?{n:sv.n.map(p=>p.slice()),b:sv.b.map(b=>b.slice())}:{n:[],b:[]},mat:brMats(L)[0],undo:[],S:null,start:Date.now(),id:Date.now()};
   if(CUR!=="lgs") go("lgs");brUI();
 }
 const brP=()=>BR.L.an.concat(BR.d.n);
 const brCost=()=>BR_CORE.cost(BR.L,BR.d);
 function brUI(){const L=BR.L;$("lgs").querySelector("h1").textContent=`Most ${BR.k+1}: ${L.name}`;$("br-tip").textContent=L.tip;
-  $("br-mats").innerHTML=L.mats.map(m=>{const M=BR_CORE.MAT[m];return `<button type="button" data-mat="${m}" class="${BR.mat===m?"sel":""}" aria-pressed="${BR.mat===m}"><i style="background:${M.c}"></i>${M.name}<small>${M.cost}/kratka</small></button>`;}).join("")+
+  $("br-mats").innerHTML=brMats(L).map(m=>{const M=BR_CORE.MAT[m];return `<button type="button" data-mat="${m}" class="${BR.mat===m?"sel":""}" aria-pressed="${BR.mat===m}"><i style="background:${M.c}"></i>${M.name}<small>${M.cost}/kratka</small></button>`;}).join("")+
     `<button type="button" data-mat="del" class="${BR.mat==="del"?"sel":""}" aria-pressed="${BR.mat==="del"}"><span aria-hidden="true">🗑️</span>Usuń<small>dotknij belki</small></button>`;
   brInfo();$("br-end").hidden=true;brSize();brDraw();}
 function brInfo(){const c=brCost(),L=BR.L,sim=!!BR.S;
@@ -6502,7 +6525,7 @@ function brInfo(){const c=brCost(),L=BR.L,sim=!!BR.S;
   ["br-undo","br-clear"].forEach(id=>$(id).disabled=sim);$("br-undo").disabled=sim||!BR.undo.length;$("br-mats").classList.toggle("off",sim);}
 // widok: świat (kratki, y w górę) → piksele płótna
 function brSize(){const cv2=$("br-cv"),w=Math.min(document.documentElement.clientWidth-32,520),h=Math.round(Math.min(w*.8,Math.max(240,innerHeight-360))),dpr=devicePixelRatio||1;
-  cv2.style.width=w+"px";cv2.style.height=h+"px";cv2.width=w*dpr;cv2.height=h*dpr;const L=BR.L,top=Math.max(L.ly,L.ry)+3.2,bot=BR_CORE.WATER-1.1,x0=-3.2,x1=L.w+3.2;
+  cv2.style.width=w+"px";cv2.style.height=h+"px";cv2.width=w*dpr;cv2.height=h*dpr;const L=BR.L,top=Math.max(L.ly+3.2,L.ry+3.2,...L.an.map(a=>a[1]+1.4)),bot=BR_CORE.WATER-1.1,x0=-3.2,x1=L.w+3.2;
   const sc=Math.min(w/(x1-x0),h/(top-bot));BR.v={sc,ox:(w-(x1-x0)*sc)/2-x0*sc,oy:(h-(top-bot)*sc)/2+top*sc,dpr,w,h};}
 const brX=x=>BR.v.ox+x*BR.v.sc,brY=y=>BR.v.oy-y*BR.v.sc;
 function brDraw(){const c=$("br-cv").getContext("2d"),V=BR.v,L=BR.L,sc=V.sc,S=BR.S;c.setTransform(V.dpr,0,0,V.dpr,0,0);
@@ -6513,13 +6536,16 @@ function brDraw(){const c=$("br-cv").getContext("2d"),V=BR.v,L=BR.L,sc=V.sc,S=BR
   // brzegi i filary
   const rock=(x0,x1,yt)=>{c.fillStyle="#8d6e4a";c.fillRect(brX(x0),brY(yt),(x1-x0)*sc,V.h);c.fillStyle="#5fbf4a";c.fillRect(brX(x0),brY(yt),(x1-x0)*sc,Math.max(5,sc*.22));};
   rock(-6,0,L.ly);rock(L.w,L.w+6,L.ry);(L.pil||[]).forEach(([px,py])=>{c.fillStyle="#7a7f87";c.fillRect(brX(px-.5),brY(py),sc,V.h);});
+  L.an.forEach(([ax,ay])=>{const pil=(L.pil||[]).find(q=>Math.abs(q[0]-ax)<.5),gy=ax<=0?L.ly:ax>=L.w?L.ry:pil?pil[1]:null;if(gy==null||ay<=gy+.01) return;
+    const x0=brX(ax)-sc*.22,y0=brY(ay+.25),hh=brY(gy)-y0;c.fillStyle="#adb5bd";c.fillRect(x0,y0,sc*.44,hh);c.fillStyle="#868e96";for(let y=y0+sc*.3;y<y0+hh-2;y+=sc*.5) c.fillRect(x0,y,sc*.44,Math.max(1,sc*.06));
+    c.fillStyle="#495057";c.fillRect(x0-sc*.06,y0-sc*.06,sc*.56,sc*.14);});
   // meta
   const fx=brX(L.w+2.2),fy=brY(L.ry);c.fillStyle="#333";c.fillRect(fx,fy-sc*1.6,3,sc*1.6);c.fillStyle="#e03131";c.beginPath();c.moveTo(fx+3,fy-sc*1.6);c.lineTo(fx+3+sc*.7,fy-sc*1.35);c.lineTo(fx+3,fy-sc*1.1);c.fill();
   // kratki (budowa)
   if(!S){c.fillStyle="rgba(20,40,80,.28)";for(let x=-1;x<=L.w+1;x++) for(let y=Math.ceil(BR_CORE.WATER+1);y<=Math.max(L.ly,L.ry)+3;y++) if(!BR_CORE.solid(L,x,y)){c.beginPath();c.arc(brX(x),brY(y),Math.max(1.5,sc*.05),0,7);c.fill();}}
   // belki
   const N=S?S.N:brP().map(p=>({x:p[0],y:p[1]})),Bs=S?S.B:BR.d.b.map(([a,b,mat])=>({a,b,mat}));
-  const drawBeam=(A,B2,mat,col)=>{const M=BR_CORE.MAT[mat];c.lineCap="round";c.strokeStyle=col||M.c;c.lineWidth=sc*(mat==="road"?.24:.15);c.beginPath();c.moveTo(brX(A.x),brY(A.y));c.lineTo(brX(B2.x),brY(B2.y));c.stroke();
+  const drawBeam=(A,B2,mat,col)=>{const M=BR_CORE.MAT[mat];c.lineCap="round";c.strokeStyle=col||M.c;c.lineWidth=sc*(mat==="road"?.24:mat==="rope"?.07:.15);c.beginPath();c.moveTo(brX(A.x),brY(A.y));c.lineTo(brX(B2.x),brY(B2.y));c.stroke();
     if(mat==="road"&&!col){c.strokeStyle="#ffd43b";c.lineWidth=Math.max(1.5,sc*.035);c.setLineDash([sc*.18,sc*.16]);c.stroke();c.setLineDash([]);}
     if(mat==="steel"&&!col){c.strokeStyle="rgba(255,255,255,.55)";c.lineWidth=Math.max(1,sc*.035);c.stroke();}};
   for(const b of Bs){if(b.broken){drawBeam(N[b.a],N[b.b],b.mat,"rgba(224,49,49,.45)");continue;}let col=null;if(S){const r=Math.min(1,Math.abs(b.f)/BR_CORE.MAT[b.mat].str);col=r<.5?`hsl(${120-r*120},75%,42%)`:`hsl(${120-r*120},85%,${45-(r-.5)*20}%)`;}drawBeam(N[b.a],N[b.b],b.mat,col);}
@@ -6627,13 +6653,14 @@ function brTick(t){if(!BR||!BR.S) return;const S=BR.S;let dt=Math.min(.05,(t-BR.
 function brFail(why){if(!BR||!BR.S) return;cancelAnimationFrame(BR.raf);
   $("br-end").innerHTML=`<div class="bo-card"><div class="bo-stars" aria-hidden="true">💥</div><b>${why||"Most się zawalił!"}</b><small>Czerwone belki były najbardziej obciążone. Dodaj trójkąty albo mocniejszy materiał.</small>`+
     `<div class="bo-btns"><button type="button" class="go-btn" data-bra="fix">Popraw most</button></div></div>`;$("br-end").hidden=false;sfx("bad");}
-function brWin(){if(!BR||!BR.S) return;cancelAnimationFrame(BR.raf);const L=BR.L,c=brCost(),st=c<=L.s3?3:c<=L.s2?2:1,w=brPts(BR.k,st),pct={3:100,2:75,1:50}[st],best=brStarMap()[BR.k]||0;
+function brWin(){if(!BR||!BR.S) return;cancelAnimationFrame(BR.raf);const had=BR_UNLOCK.filter(x=>brHas(x[0]));const L=BR.L,c=brCost(),st=c<=L.s3?3:c<=L.s2?2:1,w=brPts(BR.k,st),pct={3:100,2:75,1:50}[st],best=brStarMap()[BR.k]||0;
   const H=loadHist();H.push({id:Date.now(),subj:"lg",start:BR.start,end:Date.now(),status:"done",cfg:{mode:"mosty",lvl:BR.k},n:1,done:1,
     recs:[{t:`Most ${BR.k+1}: ${L.name}`,ok:true,st,cost:c,w,tries:[],h:0,ms:Date.now()-BR.start}],pct,grade:grade(pct).n,errors:0,hints:0,pts:w,ptsMax:brPts(BR.k,3)});saveHist(H);
   sfx("final");try{const dpr=devicePixelRatio||1;cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;cx.setTransform(dpr,0,0,dpr,0,0);for(let k=0;k<st;k++) setTimeout(()=>burst(innerWidth*(.25+Math.random()*.5),innerHeight*(.2+Math.random()*.3)),k*260);}catch(e){}
   const nxt=BR.k+1<BR_LEVELS.length,left=szLeft("br");
   $("br-end").innerHTML=`<div class="bo-card"><div class="bo-stars">${[1,2,3].map(n=>`<span class="${n<=st?"on":""}" style="animation-delay:${n*.18}s">★</span>`).join("")}</div>`+
     `<b>${st===3?"Inżynier roku!":st===2?"Mocny most!":"Przejechało!"}</b><small>Koszt: ${c} 💰 · na 3★: do ${L.s3}${st<3?" – spróbuj taniej!":""}</small><div class="bo-pts">+${w} pkt${st>best&&best?" · nowy rekord!":""}</div>`+
+    (()=>{const nw=BR_UNLOCK.filter(x=>brHas(x[0])&&!had.includes(x));return nw.map(x=>{const M=BR_CORE.MAT[x[0]];return `<div class="br-new"><i style="background:${M.c}"></i><b>🎁 Nowy materiał: ${M.name}!</b><small>${x[0]==="rope"?"Tania i lekka, ale tylko ciągnie. Przyda się w mostach wiszących.":"Mocniejsza i dłuższa niż drewno."} Możesz jej używać na każdym moście.</small></div>`;}).join("");})()+
     `<small class="br-fact">💡 ${BR_FACTS[BR.k%BR_FACTS.length]}</small>`+
     `<div class="bo-btns">${nxt&&left!==0?`<button type="button" class="go-btn" data-bra="next">Następny most ▶</button>`:""}<button type="button" class="again" data-bra="fix">Buduj taniej</button><button type="button" class="again" data-bra="list">Lista mostów</button></div>`+
     (left===0?`<small>To był ostatni poziom na dziś.</small>`:"")+`</div>`;

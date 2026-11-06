@@ -42,6 +42,17 @@ const LV=[
  {name:"Ekspres",w:10,ly:0,ry:0,an:[[0,0],[10,0]],mats:["road","wood","steel"],car:"train",
   tip:"Ostatnie wyzwanie: cały pociąg nad najdłuższą przepaścią. Kratownica z najmocniejszego materiału!",
   ref:W(10,"steel"),fail:W(10,"wood")},
+ {name:"Pierwsza lina",w:8,ly:0,ry:0,an:[[0,0],[8,0],[0,3],[8,3]],mats:["road","rope"],car:"car",
+  tip:"Nowy materiał: lina! Jest tania i lekka, ale tylko ciągnie – nie podeprze drogi od dołu. Zawieś drogę na linach z wysokich pylonów.",
+  ref:{n:[[2,0],[4,0],[6,0]],b:[[0,4,"road"],[4,5,"road"],[5,6,"road"],[6,1,"road"],[2,4,"rope"],[2,5,"rope"],[3,6,"rope"]]},fail:{n:[[2,0],[4,0],[6,0]],b:[[0,4,"road"],[4,5,"road"],[5,6,"road"],[6,1,"road"]]}},
+ {name:"Most podwieszany",w:10,ly:0,ry:0,an:[[0,0],[10,0],[0,4],[10,4]],mats:["road","wood","steel","rope"],car:"truck",
+  tip:"Tak wygląda Most Świętokrzyski w Warszawie – liny biegną prosto z pylonu do drogi. Liny są dużo tańsze niż stalowa kratownica.",
+  ref:{n:[[2,0],[4,0],[6,0],[8,0]],b:[[0,4,"road"],[4,5,"road"],[5,6,"road"],[6,7,"road"],[7,1,"road"],[2,4,"rope"],[2,5,"rope"],[3,6,"rope"],[3,7,"rope"]]},
+  fail:{n:[[2,0],[4,0],[6,0],[8,0]],b:[[0,4,"road"],[4,5,"road"],[5,6,"road"],[6,7,"road"],[7,1,"road"]]}},
+ {name:"Pociąg nad zatoką",w:12,ly:0,ry:0,an:[[0,0],[12,0],[0,4],[12,4],[6,4],[6,-1]],pil:[[6,-1]],mats:["road","wood","steel","rope"],car:"train",
+  tip:"Najdłuższa przepaść! Na skale w środku stoi trzeci pylon – rozwieś liny w obie strony.",
+  ref:{n:[[2,0],[4,0],[6,0],[8,0],[10,0]],b:[[0,6,"road"],[6,7,"road"],[7,8,"road"],[8,9,"road"],[9,10,"road"],[10,1,"road"],[2,6,"rope"],[2,7,"rope"],[4,7,"rope"],[4,9,"rope"],[3,10,"rope"],[3,9,"rope"],[5,8,"wood"]]},
+  fail:{n:[[2,0],[4,0],[6,0],[8,0],[10,0]],b:[[0,6,"road"],[6,7,"road"],[7,8,"road"],[8,9,"road"],[9,10,"road"],[10,1,"road"],[5,8,"wood"]]}},
 ];
 let ok=true;const out=[];
 LV.forEach((L,k)=>{const lenOk=L.ref.b.every(([a,b,m])=>{const P=L.an.concat(L.ref.n);return C.blen(P[a],P[b])<=C.MAT[m].max+1e-9;});

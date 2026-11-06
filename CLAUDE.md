@@ -186,9 +186,11 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   **Mosty** (jak Bridge Constructor; widoki `#lgm` lista, `#lgs` gra; hashe `#mosty`, `#mosty-gra`; moduł `lg-mosty`, puchar `lg-mosty`):
   fizyka `BR_CORE` (między `/*BR-CORE*/` i `/*BR-END*/`, kopia `tools/bridge_core.js` – zmieniaj oba): węzły-przeguby i belki jako więzy XPBD
   (SUB 30 kroków × IT 4 iteracje na klatkę), siła belki z mnożnika λ, belka pęka po kilku krokach ponad `MAT[m].str`. Materiały `MAT`: droga
-  (po niej jedzie auto), drewno, stal (dłuższa i mocniejsza), lina (na przyszłość). Pojazdy `CARS` (auto, ciężarówka, pociąg = lokomotywa + 2 wagony): każda część na dwóch kołach (`parts[].w` = przesunięcia), ciężar dzielony na wszystkie koła; rysunek `brCar` (część przechyla się z mostem, kręcące się koła, kierowcy, dym z komina `brPuffs`), koła szukają podpory (`support`:
+  (po niej jedzie auto), drewno, stal (dłuższa i mocniejsza), lina (tania, do 6 kratek, tylko ciągnie). Odblokowanie `BR_UNLOCK`: stal po Moście 7,
+  lina po Moście 12 – potem na każdym moście z drewnem (`brMats`); pasek „Twoje materiały” na liście, „🎁 Nowy materiał” na karcie wygranej.
+  Klasyczny most wiszący (łańcuch przegubów) jest w tej fizyce mechanizmem i się składa – poziomy z linami są podwieszane (liny prosto z pylonu). Pojazdy `CARS` (auto, ciężarówka, pociąg = lokomotywa + 2 wagony): każda część na dwóch kołach (`parts[].w` = przesunięcia), ciężar dzielony na wszystkie koła; rysunek `brCar` (część przechyla się z mostem, kręcące się koła, kierowcy, dym z komina `brPuffs`), koła szukają podpory (`support`:
   teren albo droga), ciężar idzie na węzły belki pod kołem; rusza po 1 s (most najpierw układa się pod własnym ciężarem); woda = `WATER`.
-  12 poziomów `BR_LEVELS` (2 z pociągiem) z `tools/bridge_levels.js` (każdy ma most wzorcowy sprawdzany fizyką, a „naiwny” musi się zawalić; budżet = wzorzec × 1,6,
+  15 poziomów `BR_LEVELS` (2 z pociągiem, 3 podwieszane z linami i pylonami – kotwy nad ziemią rysowane jako pylony) z `tools/bridge_levels.js` (każdy ma most wzorcowy sprawdzany fizyką, a „naiwny” musi się zawalić; budżet = wzorzec × 1,6,
   3★ ≤ koszt wzorca, 2★ ≤ × 1,25). Budowa: przeciągnij od kotwy/węzła, koniec przyciąga się do kratki w zasięgu materiału (`brTarget`), 🗑️ usuwa belkę,
   Cofnij, Zburz; projekt każdego poziomu zapisany w `henriksen-mosty`. Jazda: belki kolorowane obciążeniem (zielone → czerwone), pęknięte spadają.
   Wygrana: gwiazdki z kosztu, punkty `gwiazdki × (1 + nr/3)`, ciekawostka o mostach (`BR_FACTS`). Sesja `cfg:{mode:"mosty",lvl}`, `recs[0]={st,cost,w}`.
@@ -211,7 +213,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `thLimit`/`thRules` w `PARENT_KEYS`, znaczniki `box`/`bogate` itd., `RSEC[g]` z `lgSecOf`): „limit gier” dziennie (jednostka `gier(n)`: gra/gry/gier – każdy rozpoczęty poziom albo partia to jedna gra),
   wyjątki na dni, „najpierw pakiet” i dodatkowe za pakiet. Licznik `henriksen-lgdzien` = `{d, n:{bo,br,th}}`, `lgPlayedToday(g)` (też z historii po `cfg.mode`),
   `lgCount(g)`, karta `lgLimCard(g)` (lista poziomów, w Trójkach `#th-lim`), blokady na ekranie `#lg` w `#lg-gates` (zablokowana gra znika z kafli),
-  `lgGuard` sprawdza grę bieżącego ekranu. Edytor `#szrules` z zakładkami gier `#szr-games` (`SZR.sec` = bo/br/th). Stare wspólne `lgLimit`/`lgRules` nic już nie robią.
+  `lgGuard` sprawdza grę bieżącego ekranu. Edytor `#szrules` z zakładkami gier `#szr-games` (`SZR.sec` = bo/br/th/fl); przycisk rodzica „Zasady gry … dla dziecka” (`[data-lgr]`) na ekranie Łamigłówek i na liście każdej gry. Stare wspólne `lgLimit`/`lgRules` nic już nie robią.
   Dawny opis wspólnych zasad: `RSEC` (sz / lg: klucze `szLimit`/`szRules` i `lgLimit`/`lgRules`, znaczniki `szx`/`szgate` i `lgx`/`lggate`,
   teksty edytora), `rlR(s)`, `szLimitToday(s)`, `szBonus(s)`, `szLeft(s)`, `szGateOk(s)`; edytor `#szrules` z `SZR.sec` (przycisk „Zasady łamigłówek”
   na ekranie `#lg`). Limit liczy rozpoczęte poziomy (`lgPlayedToday`, licznik `henriksen-lgdzien`); `lgLimCard`, `lgGuard` (z `applyMods`).
