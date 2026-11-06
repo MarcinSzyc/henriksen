@@ -785,6 +785,9 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .br-mats button{flex:1;min-height:56px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--text);font:inherit;font-weight:800;font-size:.85rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px 2px}
 .br-mats button i{width:26px;height:6px;border-radius:3px}.br-mats button small{font-weight:600;color:var(--muted);font-size:.68rem}.br-mats button.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
 #br-cost b.over{color:#e03131}.br-go{flex:1.4!important;margin:0!important}.br-go.stop{background:#868e96}.br-fact{text-align:left;background:var(--bg);border-radius:12px;padding:8px 10px}
+.th-rank{display:flex;flex-direction:column;gap:8px;margin-top:16px}.th-rl{display:flex;flex-direction:column;gap:6px}
+.th-rr{display:grid;grid-template-columns:52px 1fr auto auto;align-items:center;gap:10px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 12px}
+.th-rr b{font-family:var(--display);font-size:1.2rem}.th-rr span,.th-rr small{color:var(--muted);font-weight:700;font-size:.85rem}.th-rr.gold{border-color:#f2b705}.th-rn{font-size:1.1rem;color:var(--text)!important}
 .th-wrap{display:flex;justify-content:center;margin:6px 0}
 .th-board{position:relative;width:min(100%,400px);aspect-ratio:1;background:#bbd9d9;border-radius:18px;touch-action:none;padding:6px;box-sizing:border-box}
 .th-board.nope{animation:bonope .3s}
@@ -801,7 +804,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .th-wm .t1{background:#66ccff;color:#fff}.th-wm .t2{background:#ff6680;color:#fff}.th-wm .t3{background:#fff;color:#1b1b2f}
 .tile.lg{background:linear-gradient(135deg,#ff6b6b,#7048e8)}
 .bo-wm{display:grid!important;grid-template-columns:repeat(2,18px);gap:4px}.bo-wm i{width:18px;height:18px;border-radius:5px;background:var(--c);box-shadow:inset 0 3px 0 rgba(255,255,255,.35)}
-.bo-lv{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px}
+.bo-lv{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:8px 0 18px}#lgb-list .lbl{margin:0}
 .bo-lv button{aspect-ratio:1;border-radius:14px;border:2px solid var(--line);background:var(--card);color:var(--text);font:inherit;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:0}
 .bo-lv button b{font-size:1.25rem}.bo-lv button small{font-size:.7rem;color:#f2b705;letter-spacing:-1px}.bo-lv button small s{color:var(--line);text-decoration:none}
 .bo-lv button.done{border-color:#e64980}.bo-lv button:disabled{opacity:.45}
@@ -982,6 +985,7 @@ select.szr-in,input.szr-in{width:100%;box-sizing:border-box}
 .adm-k small{color:var(--muted);font-weight:700;font-size:.78rem}
 .adm-k.warn{border-color:#e8590c}.adm-k.warn small{color:#e8590c}
 /* karta dziecka w Administracji (admin3.sql: admin_kids) – dziś, 7 dni, przedmioty i szachy */
+.adm-lgm{display:flex;flex-direction:column;gap:2px;background:var(--bg);border-radius:12px;padding:8px 10px}.adm-lgm b{font-weight:800}.adm-lgm span{font-weight:700;font-size:.85rem}.adm-lgm small,.adm-note{color:var(--muted);font-weight:600;font-size:.78rem}
 .adm-kids{display:flex;flex-direction:column;gap:12px;margin-top:16px}.adm-kids:empty{display:none}
 .adm-kids>h2{font-size:1.05rem;margin:4px 2px 0}
 .adm-kid{background:var(--card);border:2px solid var(--line);border-radius:18px;padding:14px;display:flex;flex-direction:column;gap:10px}
@@ -1033,6 +1037,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tile sz" id="t-sz"><span class="wm wm-img" aria-hidden="true"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJjb2xvci1zY2hlbWU6bGlnaHQgb25seSIgd2lkdGg9IjQ1IiBoZWlnaHQ9IjQ1IiB2aWV3Qm94PSIwIDAgNDUgNDUiPjxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCIgc3Ryb2tlPSIjMDAwIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iMS41Ij48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjIgMTBjMTAuNSAxIDE2LjUgOCAxNiAyOUgxNWMwLTkgMTAtNi41IDgtMjEiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMjQgMThjLjM4IDIuOTEtNS41NSA3LjM3LTggOS0zIDItMi44MiA0LjM0LTUgNC0xLjA0Mi0uOTQgMS40MS0zLjA0IDAtMy0xIDAgLjE5IDEuMjMtMSAyLTEgMC00LjAwMyAxLTQtNCAwLTIgNi0xMiA2LTEyczEuODktMS45IDItMy41Yy0uNzMtLjk5NC0uNS0yLS41LTMgMS0xIDMgMi41IDMgMi41aDJzLjc4LTEuOTkyIDIuNS0zYzEgMCAxIDMgMSAzIi8+PHBhdGggZmlsbD0iIzAwMCIgZD0iTTkuNSAyNS41YS41LjUgMCAxIDEtMSAwIC41LjUgMCAxIDEgMSAwbTUuNDMzLTkuNzVhLjUgMS41IDMwIDEgMS0uODY2LS41LjUgMS41IDMwIDEgMSAuODY2LjUiLz48L2c+PC9zdmc+" alt="" width="56" height="56"></span><span class="tt">Szachy</span><small>Samouczek, zadania i gra z komputerem</small></button>
     <button type="button" class="tile lg" id="t-lg"><span class="wm" aria-hidden="true">🧩</span><span class="tt">Łamigłówki</span><small>Block Out i więcej</small></button>
   </div>
+  <div class="home-sep" aria-hidden="true"><span>Ustawienia</span></div>
   <button type="button" class="sbar" id="t-stats"><span class="si" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg></span>
     <span class="st"><b>Statystyki</b><small id="t-stats-s">Tu zobaczysz swoje wyniki</small></span>
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="color:var(--muted)"><path d="M9 5l7 7-7 7"/></svg></button>
@@ -1336,6 +1341,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="bo-top"><span id="th-best"></span><span id="th-rec"></span></div>
   <p class="abnote bo-tip">Przesuń palcem po planszy. 1 łączy się tylko z 2, a od 3 w górę – tylko takie same liczby. Po każdym ruchu z brzegu wjeżdża nowy kafel.</p>
   <button type="button" class="again" id="th-new" style="width:100%">⟲ Nowa gra</button>
+  <div class="th-rank" id="th-rank"></div>
   <div class="bo-end" id="th-end" hidden></div>
 </div>
 <div class="wrap" id="lgg" hidden>
@@ -5232,16 +5238,24 @@ async function renderAdmKids(){
       .sort((a,b)=>a[0]-b[0]).map(o=>o[1]).join("<br>");
     const bar=gw?`<div class="adm-wdl" aria-hidden="true">${["w","d","l"].map(k=>G[k]?`<i class="${k}" style="flex:${G[k]}"></i>`:"").join("")}</div>
       <div class="adm-wdl-t"><span class="w">${G.w} ${pl(G.w,"wygrana","wygrane","wygranych")}</span><span class="d">${G.d} ${pl(G.d,"remis","remisy","remisów")}</span><span class="l">${G.l} ${pl(G.l,"przegrana","przegrane","przegranych")}</span></div>`:"";
+    // łamigłówki (admin3.sql: admin_lg_mode) – ile gra, ile minut, wyniki, ostatnie partie
+    const LGN={blockout:"Block Out",mosty:"Mosty",trojki:"Trójki"};
+    const lgSec=x.lg?Object.keys(LGN).map(k=>{const o=x.lg[k];if(!o||!o.all) return "";
+      const res=k==="trojki"?`Rekord: ${o.best} pkt · największy kafel ${o.tile}`:`Najdalej: poziom ${o.lvl} · na 3★: ${o.three} ${pl(o.three,"raz","razy","razy")}`;
+      const rec=(o.recent||[]).map(q=>k==="trojki"?`${q.sc} (kafel ${q.mx}, ${q.n||4}×${q.n||4})`:`poz. ${+q.lvl+1} ${"★".repeat(+q.st||0)}${q.cost?` · ${q.cost} 💰`:q.mv?` · ${q.mv} ruchów`:""}`).join(" · ");
+      return `<div class="adm-lgm"><b>${LGN[k]}</b><span>dziś ${o.today} · 7 dni: ${o.week} (${o.min_week} min) · razem: ${o.all} (${o.min_all} min)</span><span>${res}</span><small>Ostatnie: ${rec} · ${admD(o.last)}</small></div>`;}).join(""):null;
     return `<div class="adm-kid"><div class="adm-kid-h"><b>${esc(x.name||"–")}</b><small>ostatnio ${admD(x.last_session)}</small></div>
       <div class="adm-nums">${num(x.today,"sesje dziś")}${num(x.week,"sesje w 7 dni")}${num(x.week_pts!=null?x.week_pts:"–","pkt w tygodniu")}</div>
       ${subj?`<div class="adm-chips">${subj}</div>`:""}
       <div class="adm-sec">♟ Szachy – partie z komputerem</div>
-      <div class="adm-nums">${num(G.today||0,"dziś")}${num(gw,"w 7 dni")}${num(G.all||0,"razem")}</div>
+      <div class="adm-nums">${num(G.today||0,"dziś")}${num(gw,"w 7 dni")}${num(G.all||0,"razem")}${G.min_week!=null?num(G.min_week,"min w 7 dni"):""}</div>
       ${bar}
       <div class="adm-lines">${oppTxt?`<small>Przeciwnicy w 7 dni</small><span>${oppTxt}</span>`:""}${G.timed?`<span>Na czas: ${G.timed} ${pl(G.timed,"partia","partie","partii")}</span>`:""}
         <span>Zadania w 7 dni: ${P.sets?`${P.sets} ${pl(P.sets,"zestaw","zestawy","zestawów")}, ${P.ok} z ${P.done} dobrze`:"brak"}</span>
         <span>Lekcje i otwarcia w 7 dni: ${x.lessons||0}</span>
-        <small>Ostatnia partia: ${G.last?admD(G.last):"jeszcze nie grał(a)"}</small></div></div>`;}).join(""):"";
+        <small>Ostatnia partia: ${G.last?admD(G.last):"jeszcze nie grał(a)"}</small></div>
+      <div class="adm-sec">🧩 Łamigłówki</div>
+      ${lgSec==null?'<small class="adm-note">Uruchom ponownie supabase/admin3.sql, żeby widzieć łamigłówki.</small>':lgSec||'<small class="adm-note">Jeszcze nie grał(a).</small>'}</div>`;}).join(""):"";
 }
 $("t-admin").addEventListener("click",()=>go("admin"));
 $("adm-req").addEventListener("click",()=>go("reqs"));
@@ -5249,7 +5263,7 @@ $("adm-refresh").addEventListener("click",()=>{loadReqs();renderAdmin();});
 /* szczegóły za kaflem (admin2.sql: admin_details) – lista w oknie */
 const admD=t=>{if(t==null) return "–";const d=new Date(typeof t==="number"||/^\d+$/.test(t)?+t:t);
   return isNaN(d)?"–":d.toLocaleString("pl-PL",{day:"numeric",month:"numeric",year:"2-digit",hour:"2-digit",minute:"2-digit"});};
-const ROLE={parent:"rodzic",student:"dziecko"},SUBJN={mat:"matematyka",pl:"polski",en:"angielski",zd:"edukacja zdrowotna",sz:"szachy"};
+const ROLE={parent:"rodzic",student:"dziecko"},SUBJN={mat:"matematyka",pl:"polski",en:"angielski",zd:"edukacja zdrowotna",sz:"szachy",lg:"łamigłówki"};
 const admSt=st=>st==="pending"?'<span class="adm-pend">czeka</span>':"";
 const ADM_ROW={
   users:x=>[`<b>${esc(x.name||"(bez profilu)")}</b> ${x.role?`<small>${ROLE[x.role]||x.role}</small>`:""} ${admSt(x.status)}`,esc(x.email||""),
@@ -6092,6 +6106,8 @@ function renderSzcf(){
 
 /* --- Łamigłówki: Block Out (kolorowe klocki wyjeżdżają drzwiami swojego koloru) --- */
 // poziomy z tools/blockout_levels.js: "plansza|drzwi|klocki|par" (par = najmniej ruchów, ~ = z budowy poziomu)
+// starsze sesje łamigłówek miały id tekstowe ("lg…") – baza przyjmuje tylko liczby, więc zamiana przy starcie
+try{const H=loadOwnHist();let ch=false;H.forEach((s,k)=>{if(typeof s.id==="string"){const n=parseInt(s.id.replace(/^lg/,"").split("-")[0],36);s.id=(isFinite(n)?n:Date.now())+k;ch=true;}});if(ch) saveHistLocal(H);}catch(e){}
 const BO_LEVELS=[
   "4x5|B220;L211|1:00:00;0:00,01,02:12;1:00:30|3",
   "5x5|R130;T411|0:00:40;0:00,10,01,11:22;0:00,10:14|3",
@@ -6215,9 +6231,9 @@ function renderLg(){
   const left=szLeft("lg");if(left!==null&&!gate) $("lg-t-bo-s").textContent+=left?` · dziś jeszcze ${left}`:" · na dziś koniec";
 }
 function renderLgb(){
-  const m=boStarMap(),left=szLeft("lg");$("lgb-lim").hidden=left===null;$("lgb-lim").innerHTML=lgLimCard();
+  const m=boStarMap(),left=szLeft("lg"),top=Math.max(-1,...Object.keys(m).map(Number));$("lgb-lim").hidden=left===null;$("lgb-lim").innerHTML=lgLimCard();
   $("lgb-list").innerHTML=BO_WORLDS.map((W,w)=>`<div class="lbl">Świat ${w+1}: ${W.name}</div><div class="bo-lv">`+
-    Array.from({length:10},(_,j)=>{const k=w*10+j,s=m[k]||0,open=k===0||m[k-1]>0;
+    Array.from({length:10},(_,j)=>{const k=w*10+j,s=m[k]||0,open=k<=top+1;
       return `<button type="button" data-bo="${k}" class="${s?"done":""}"${open&&left!==0?"":" disabled"} aria-label="Poziom ${k+1}${s?`, ${s} z 3 gwiazdek`:open?"":", zablokowany"}"><b>${open?k+1:"🔒"}</b><small>${s?"★".repeat(s)+"<s>"+"★".repeat(3-s)+"</s>":"&nbsp;"}</small></button>`;}).join("")+`</div>`).join("");
 }
 let BO=null;
@@ -6226,7 +6242,7 @@ function lgPlay(k,again){
   if(szLeft("lg")===0){toast("Na dziś wystarczy łamigłówek!");return go("lgb");}
   if(k>=BO_LEVELS.length){toast("Wszystkie poziomy przeszedłeś – brawo! Nowe wkrótce.");return go("lgb");}
   lgCount();const L=boLevel(k);
-  BO={L,k,st:BO_CORE.start(L),moves:0,undo:[],hint:0,start:Date.now(),id:"lg"+Date.now().toString(36)};
+  BO={L,k,st:BO_CORE.start(L),moves:0,undo:[],hint:0,start:Date.now(),id:Date.now()};
   if(CUR!=="lgg") go("lgg");boDraw();
 }
 // klocek jako SVG: zaokrąglone kratki z łącznikami, odblask, oczka, strzałka, lód
@@ -6428,7 +6444,7 @@ const brSaved=()=>{try{return JSON.parse(localStorage.getItem(BRK)||"{}");}catch
 const brStarMap=()=>{const m={};loadHist().forEach(s=>{if(s.subj==="lg"&&s.cfg&&s.cfg.mode==="mosty"&&s.status==="done"){const r=s.recs[0]||{};m[s.cfg.lvl]=Math.max(m[s.cfg.lvl]||0,r.st||1);}});return m;};
 const brPts=(k,st)=>st*(1+Math.floor(k/3));
 function renderLgm(){const m=brStarMap(),left=szLeft("lg");$("lgm-lim").hidden=left===null;$("lgm-lim").innerHTML=lgLimCard();
-  $("lgm-list").innerHTML=`<div class="bo-lv">`+BR_LEVELS.map((L,k)=>{const s=m[k]||0,open=k===0||m[k-1]>0;
+  const top=Math.max(-1,...Object.keys(m).map(Number));$("lgm-list").innerHTML=`<div class="bo-lv">`+BR_LEVELS.map((L,k)=>{const s=m[k]||0,open=k<=top+1;
     return `<button type="button" data-br="${k}" class="${s?"done":""}"${open&&left!==0?"":" disabled"} aria-label="Most ${k+1}: ${L.name}${s?`, ${s} z 3 gwiazdek`:""}"><b>${open?k+1:"🔒"}</b><small>${s?"★".repeat(s)+"<s>"+"★".repeat(3-s)+"</s>":"&nbsp;"}</small></button>`;}).join("")+`</div>`;}
 let BR=null;
 function brPlay(k){
@@ -6436,7 +6452,7 @@ function brPlay(k){
   if(szLeft("lg")===0){toast("Na dziś wystarczy łamigłówek!");return go("lgm");}
   if(k>=BR_LEVELS.length){toast("Wszystkie mosty zbudowane – brawo! Nowe wkrótce.");return go("lgm");}
   lgCount();const L=BR_LEVELS[k],sv=brSaved()[k];
-  BR={L,k,d:sv&&sv.n&&sv.b?{n:sv.n.map(p=>p.slice()),b:sv.b.map(b=>b.slice())}:{n:[],b:[]},mat:L.mats[0],undo:[],S:null,start:Date.now(),id:"lg"+Date.now().toString(36)};
+  BR={L,k,d:sv&&sv.n&&sv.b?{n:sv.n.map(p=>p.slice()),b:sv.b.map(b=>b.slice())}:{n:[],b:[]},mat:L.mats[0],undo:[],S:null,start:Date.now(),id:Date.now()};
   if(CUR!=="lgs") go("lgs");brUI();
 }
 const brP=()=>BR.L.an.concat(BR.d.n);
@@ -6576,7 +6592,7 @@ function brFail(why){if(!BR||!BR.S) return;cancelAnimationFrame(BR.raf);
   $("br-end").innerHTML=`<div class="bo-card"><div class="bo-stars" aria-hidden="true">💥</div><b>${why||"Most się zawalił!"}</b><small>Czerwone belki były najbardziej obciążone. Dodaj trójkąty albo mocniejszy materiał.</small>`+
     `<div class="bo-btns"><button type="button" class="go-btn" data-bra="fix">Popraw most</button></div></div>`;$("br-end").hidden=false;sfx("bad");}
 function brWin(){if(!BR||!BR.S) return;cancelAnimationFrame(BR.raf);const L=BR.L,c=brCost(),st=c<=L.s3?3:c<=L.s2?2:1,w=brPts(BR.k,st),pct={3:100,2:75,1:50}[st],best=brStarMap()[BR.k]||0;
-  const H=loadHist();H.push({id:BR.id+"-"+Date.now().toString(36),subj:"lg",start:BR.start,end:Date.now(),status:"done",cfg:{mode:"mosty",lvl:BR.k},n:1,done:1,
+  const H=loadHist();H.push({id:Date.now(),subj:"lg",start:BR.start,end:Date.now(),status:"done",cfg:{mode:"mosty",lvl:BR.k},n:1,done:1,
     recs:[{t:`Most ${BR.k+1}: ${L.name}`,ok:true,st,cost:c,w,tries:[],h:0,ms:Date.now()-BR.start}],pct,grade:grade(pct).n,errors:0,hints:0,pts:w,ptsMax:brPts(BR.k,3)});saveHist(H);
   sfx("final");try{const dpr=devicePixelRatio||1;cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;cx.setTransform(dpr,0,0,dpr,0,0);for(let k=0;k<st;k++) setTimeout(()=>burst(innerWidth*(.25+Math.random()*.5),innerHeight*(.2+Math.random()*.3)),k*260);}catch(e){}
   const nxt=BR.k+1<BR_LEVELS.length,left=szLeft("lg");
@@ -6604,7 +6620,7 @@ function thDraw(){if(!TH.deck.length){TH.deck=[1,1,1,1,2,2,2,2,3,3,3,3];shuffle(
   const mx=thMax(TH.g);if(mx>=48&&Math.random()<1/21){const opts=[];for(let v=6;v<=mx/8;v*=2) opts.push(v);if(opts.length) return opts[Math.floor(Math.random()*opts.length)];}
   return TH.deck.pop();}
 // g = wartości, id = numery kafli (do animacji: ten sam kafel przesuwa się, a nie rysuje od nowa)
-function thNew(n){const E=()=>Array.from({length:n},()=>Array(n).fill(0));TH={n,g:E(),id:E(),uid:0,deck:[],next:0,moves:0,start:Date.now(),id0:"lg"+Date.now().toString(36),best:0};
+function thNew(n){const E=()=>Array.from({length:n},()=>Array(n).fill(0));TH={n,g:E(),id:E(),uid:0,deck:[],next:0,moves:0,start:Date.now(),id0:Date.now(),best:0};
   shuffle([...Array(n*n).keys()]).slice(0,Math.round(n*n*.5)).forEach(k=>{const r=Math.floor(k/n),c=k%n;TH.g[r][c]=thDraw();TH.id[r][c]=++TH.uid;});
   TH.next=thDraw();TH.best=thMax(TH.g);thSave();}
 const thSave=()=>{try{localStorage.setItem(THK,JSON.stringify(TH));}catch(e){}};
@@ -6650,14 +6666,21 @@ function thEnd(){if(!TH||TH.over) return;TH.over=true;const n=TH.n,sc=thScore(TH
     `<small>Wynik: ${sc} · największy kafel: ${mx}${sc>before.sc?" · rekord!":` · rekord: ${before.sc}`}</small><small>Na 3★ na planszy ${n}×${n}: kafel ${s3}</small><div class="bo-pts">+${w} pkt</div>`+
     `<small class="br-fact">💡 ${mx} = 3 × ${mx/3}. Każdy kafel to 3 razy potęga dwójki: 3, 6, 12, 24, 48, 96, 192…</small>`+
     `<div class="bo-btns"><button type="button" class="go-btn" data-tha="new">Nowa gra</button><button type="button" class="again" data-tha="list">Wróć</button></div></div>`;
-  $("th-end").hidden=false;try{setTimeout(cupsCheck,1500);}catch(e){}}
+  $("th-end").hidden=false;thRank();try{setTimeout(cupsCheck,1500);}catch(e){}}
 const thRecord=n=>loadHist().filter(s=>s.subj==="lg"&&s.cfg&&s.cfg.mode==="trojki"&&(n==null||(s.cfg.n||4)===n)).reduce((a,s)=>{const r=s.recs[0]||{};return {sc:Math.max(a.sc,r.sc||0),mx:Math.max(a.mx,r.mx||0)};},{sc:0,mx:0});
+// ranking: najlepsze wyniki (wszystkie plansze) i ostatnie partie
+function thRank(){const H=loadHist().filter(s=>s.subj==="lg"&&s.cfg&&s.cfg.mode==="trojki"&&s.recs&&s.recs[0]),row=(s,k,b)=>{const r=s.recs[0],n=s.cfg.n||4;
+    return `<div class="th-rr${b&&k===0?" gold":""}"><span class="th-rn">${b?["🥇","🥈","🥉"][k]||k+1:new Date(s.start).toLocaleDateString("pl-PL",{day:"numeric",month:"numeric"})}</span><b>${r.sc||0}</b><span>kafel ${r.mx||"–"}</span><small>${n}×${n}</small></div>`;};
+  if(!H.length){$("th-rank").innerHTML="";return;}
+  const best=H.slice().sort((a,b)=>(b.recs[0].sc||0)-(a.recs[0].sc||0)).slice(0,5),last=H.slice().sort((a,b)=>b.start-a.start).slice(0,8);
+  $("th-rank").innerHTML=`<div class="lbl">🏆 Najlepsze wyniki</div><div class="th-rl">${best.map((s,k)=>row(s,k,true)).join("")}</div>`+
+    `<div class="lbl">🕑 Ostatnie partie</div><div class="th-rl">${last.map((s,k)=>row(s,k,false)).join("")}</div>`;}
 function thOpen(fresh,n){
   if(!szGateOk("lg")){toast("Łamigłówki otworzą się po ćwiczeniach od rodzica.");return go("lg");}
   let sv=null;try{sv=JSON.parse(localStorage.getItem(THK)||"null");}catch(e){}
   if(sv&&sv.g&&Array.isArray(sv.id)&&!fresh){TH=sv;TH.n=TH.n||TH.g.length;}
   else{if(szLeft("lg")===0){toast("Na dziś wystarczy łamigłówek!");return go("lg");}lgCount();THN=n||THN;try{localStorage.setItem("henriksen-trojki-n",THN);}catch(e){}thNew(THN);}
-  if(CUR!=="lgt") go("lgt");$("th-end").hidden=true;thRender();}
+  if(CUR!=="lgt") go("lgt");$("th-end").hidden=true;thRender();thRank();}
 try{THN=+localStorage.getItem("henriksen-trojki-n")||4;}catch(e){}
 // sterowanie: przesunięcie palcem po planszy albo strzałki
 {let p0=null;const B=$("th-board");

@@ -13,7 +13,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
 - Po zmianie ikon/manifestu podbij `VERSION` w `sw.js`.
 
 ## Architektura `index.html`
-- **Widoki:** `#home` (kwadratowe kafle nauki: Matematyka, Polski, Angielski, Edukacja zdrowotna oraz Historia i Przyroda jako „Wkrótce”; pod cienką linią „Gry” (`#games-sep`, znika, gdy obie gry wyłączone) osobna siatka `#games`: Szachy i Łamigłówki – `applyMods()` zawsze przenosi kafle `[data-soon]` na koniec siatki – `[data-soon]`, tylko potrząśnięcie; pasek Statystyki), `#play` (gra), `#stats-v` (statystyki); `go(v)` + `history.pushState`
+- **Widoki:** `#home` (kwadratowe kafle nauki: Matematyka, Polski, Angielski, Edukacja zdrowotna oraz Historia i Przyroda jako „Wkrótce”; pod cienką linią „Gry” (`#games-sep`, znika, gdy obie gry wyłączone) osobna siatka `#games`: Szachy i Łamigłówki; pod nimi linia „Ustawienia” nad paskami Statystyki, Nagrody, Ligi, Instrukcje – `applyMods()` zawsze przenosi kafle `[data-soon]` na koniec siatki – `[data-soon]`, tylko potrząśnięcie; pasek Statystyki), `#play` (gra), `#stats-v` (statystyki); `go(v)` + `history.pushState`
   (`#gra`, `#statystyki`), więc „wstecz” w telefonie wraca na start. Obok strzałki wstecz w nagłówku każdego ekranu jest logo
   aplikacji (`.home-btn`, wstawiane w JS do każdego `header [data-back]`) = `go("home")`; rozpoczęte gry zostają do dokończenia. Aplikacja zawsze startuje na `#home`.
   Wczytanie zapisanej sesji (`load()` → `render0()`/`finish(true)`) jest na samym końcu skryptu – `finish()` zapisuje
@@ -198,7 +198,9 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   (`thGo`): każdy kafel o jedno pole, 1+2=3, od 3 łączą się równe (`thCan`); nowy kafel wjeżdża z brzegu w jednym z ruszonych rzędów,
   talia po 4× 1/2/3 + czasem bonus (`thDraw`), podgląd „Następny”. Wynik jak w Threes (3^(log2(v/3)+1)), przy łączeniu dymek „6+6”, przy nowym
   największym kaflu podpowiedź „48 = 3 × 16”. Gra zapisuje się po każdym ruchu (`henriksen-trojki`) i wraca po wyjściu; koniec = brak ruchów
-  (`thEnd`: gwiazdki z największego kafla 96/192, punkty = log2(max/3)+1, sesja `cfg:{mode:"trojki"}`, `recs[0]={sc,mx}`). Nowa gra liczy się do limitu.
+  (`thEnd`: gwiazdki z największego kafla 96/192, punkty = log2(max/3)+1, sesja `cfg:{mode:"trojki"}`, `recs[0]={sc,mx}`). Nowa gra liczy się do limitu. Pod planszą ranking `thRank`: 5 najlepszych wyników (wszystkie plansze) i 8 ostatnich partii.
+  Id sesji łamigłówek to liczby (`Date.now()`) – baza ma `bigint`; starsze tekstowe „lg…” są zamieniane przy starcie.
+  Poziomy Block Out i Mostów są otwarte do najdalej zaliczonego + 1.
   Zasady rodzica jak w szachach, wspólny kod: `RSEC` (sz / lg: klucze `szLimit`/`szRules` i `lgLimit`/`lgRules`, znaczniki `szx`/`szgate` i `lgx`/`lggate`,
   teksty edytora), `rlR(s)`, `szLimitToday(s)`, `szBonus(s)`, `szLeft(s)`, `szGateOk(s)`; edytor `#szrules` z `SZR.sec` (przycisk „Zasady łamigłówek”
   na ekranie `#lg`). Limit liczy rozpoczęte poziomy (`lgPlayedToday`, licznik `henriksen-lgdzien`); `lgLimCard`, `lgGuard` (z `applyMods`).
@@ -222,6 +224,9 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `admin_stats()` (security definer, rzuca błąd dla nie-admina) zwraca liczby: użytkownicy, nowi w 7 dni, rodzice, dzieci
   (czekające), rodziny (czekające), aktywni i sesje w 7 dni, ligi, konta bez profilu, ostatnia sesja. `renderAdmin()` rysuje kafle
   `.adm-k` (przyciski); brak funkcji w bazie = komunikat „uruchom admin.sql”. SQL testowany lokalnie na Postgresie z atrapą `auth`.
+  Karty dzieci „Co robią dzieci” (`renderAdmKids`, `admin_kids` w `supabase/admin3.sql`): sesje, szachy (partie, W·R·P, minuty w 7 dni)
+  i łamigłówki (`admin_lg_mode`: dla blockout / mosty / trojki – partie dziś / 7 dni / razem, minuty gry z end−start (max 60 min na sesję),
+  najdalszy poziom, liczba 3★, rekord i największy kafel Trójek, 5 ostatnich partii). Po zmianie admin3.sql trzeba go uruchomić w Supabase ponownie.
   Kafel otwiera okno `#admd` z listą z `admin_details(p_kind)` (`supabase/admin2.sql`; users/families/parents/students/active/
   sessions/leagues/nofamily), wiersze rysuje `ADM_ROW[kind]`.
   Pod kaflami „Co robią dzieci” (`renderAdmKids`, `#adm-kids`, `supabase/admin3.sql`: `admin_kids()`): karta każdego dziecka – sesje dziś / w 7 dni, punkty w tygodniu,
