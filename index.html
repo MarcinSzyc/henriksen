@@ -6346,7 +6346,10 @@ if(["lgm","lgs"].includes(CUR)&&subjOn("lg")&&(!modOn("lg-mosty")||!szGateOk("lg
 const BR_CORE=(()=>{
   const MAT={road:{name:"Droga",cost:20,max:2.3,dens:1.2,str:900,c:"#495057"},wood:{name:"Drewno",cost:12,max:2.3,dens:.8,str:700,c:"#b5793a"},
     steel:{name:"Stal",cost:30,max:3.2,dens:1.5,str:1800,c:"#8aa0b8"},rope:{name:"Lina",cost:8,max:4.5,dens:.3,str:1000,c:"#c9a26b",rope:true}};
-  const CARS={car:{name:"Auto",m:20,len:1.4,v:2.4},truck:{name:"Ciężarówka",m:45,len:2.2,v:1.9}};
+  // pojazd = części (nadwozie, lokomotywa, wagony), każda na dwóch kołach (przesunięcia od środka pojazdu); ciężar dzieli się na wszystkie koła
+  const CARS={car:{name:"Auto",fall:"Auto wpadło do wody!",m:20,v:2.4,parts:[{k:"car",w:[-.7,.7]}]},
+    truck:{name:"Ciężarówka",fall:"Ciężarówka wpadła do wody!",m:45,v:1.9,parts:[{k:"truck",w:[-1.1,.9]}]},
+    train:{name:"Pociąg",fall:"Pociąg wpadł do wody!",m:60,v:2,parts:[{k:"loco",w:[1.3,2.7]},{k:"wagon",w:[-1.5,-.1]},{k:"wagon",w:[-4.3,-2.9]}]}};
   const G=9.8,WATER=-5;let SUB=30,IT=4,COMP=1e-6,OVER=8;
   const blen=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
   const cost=(L,d)=>{const P=L.an.concat(d.n);return Math.round(d.b.reduce((s,[a,b,m])=>s+MAT[m].cost*blen(P[a],P[b]),0));};
@@ -6356,7 +6359,8 @@ const BR_CORE=(()=>{
     const B=d.b.map(([a,b,mat])=>{const len=blen(P[a],P[b]),M=MAT[mat];N[a].m+=M.dens*len/2;N[b].m+=M.dens*len/2;return {a,b,mat,len,f:0,over:0,broken:false};});
     N.forEach(n=>{if(!n.m) n.m=.2;n.w=n.fix?0:1/n.m;});
     const C=CARS[L.car||"car"];
-    return {L,N,B,t:0,car:{x:-2.4,y:L.ly,vy:0,run:false,dead:false,win:false,ang:0,C,wh:[{x:0,y:L.ly,vy:0,on:null},{x:0,y:L.ly,vy:0,on:null}]},res:null};}
+    const off=C.parts.flatMap(q=>q.w),wh=off.map(o=>({o,x:0,y:L.ly,vy:0,on:null,rot:0}));
+    return {L,N,B,t:0,car:{x:-1.7-Math.max(...off),y:L.ly,run:false,dead:false,win:false,C,wh},res:null};}
   // podpora koła w punkcie x (najwyższa droga / teren nie wyżej niż y+0.35)
   function support(S,x,y){const L=S.L;let best=null;
     if(x<=0&&L.ly<=y+.35) best={y:L.ly};if(x>=L.w&&L.ry<=y+.35&&(!best||L.ry>best.y)) best={y:L.ry};
@@ -6368,13 +6372,12 @@ const BR_CORE=(()=>{
     // samochód: rusza po 1 s (most najpierw się układa), koła szukają podpory
     S.t+=dt;if(S.t>1) car.run=true;
     if(car.run&&!car.dead) car.x+=C.v*dt;
-    const W=C.m*G/2;
-    car.wh.forEach((w,k)=>{w.x=car.x+(k?C.len/2:-C.len/2);const s=support(S,w.x,w.y);
+    const W=C.m*G/car.wh.length;
+    car.wh.forEach(w=>{const nx=car.x+w.o;w.rot-=(nx-w.x)/.27;w.x=nx;const s=support(S,w.x,w.y);
       if(s&&w.y<=s.y+.05){w.y=s.y;w.vy=0;w.on=s;}else{w.vy-=G*dt;w.y+=w.vy*dt;const s2=support(S,w.x,w.y+.3);if(s2&&w.y<s2.y){w.y=s2.y;w.vy=0;w.on=s2;}else w.on=null;}});
-    car.y=(car.wh[0].y+car.wh[1].y)/2;car.ang=Math.atan2(car.wh[1].y-car.wh[0].y,C.len);
-    if(car.y<WATER+.5){car.dead=true;S.res={ok:false,why:"Auto wpadło do wody!"};}
-    if(car.wh[0].x>S.L.w+1.5&&!car.dead){car.win=true;S.res={ok:true};}
-    if(S.t>40&&!S.res) S.res={ok:false,why:"Auto nie dojechało."};
+    if(car.wh.some(w=>w.y<WATER+.5)){car.dead=true;S.res={ok:false,why:C.fall};}
+    if(car.wh.every(w=>w.x>S.L.w+1.5)&&!car.dead){car.win=true;S.res={ok:true};}
+    if(S.t>40&&!S.res) S.res={ok:false,why:C.name+" nie dojechał"+(C.name==="Pociąg"?"":"o")+"."};
     for(let s=0;s<sub;s++){
       N.forEach(n=>{n.fx=0;n.fy=0;});
       car.wh.forEach(w=>{if(w.on&&w.on.b){const b=w.on.b;N[b.a].fy-=W*(1-w.on.t);N[b.b].fy-=W*w.on.t;}});
@@ -6405,7 +6408,9 @@ const BR_LEVELS=[
   {"name":"Pod górkę","w":6,"ly":0,"ry":1,"an":[[0,0],[6,1],[0,-1],[6,0]],"mats":["road","wood"],"car":"car","tip":"Drugi brzeg jest wyżej. Droga może iść pod górkę – byle nie za stromo.","budget":290,"s3":178,"s2":223},
   {"name":"Ciężarówka","w":8,"ly":0,"ry":0,"an":[[0,0],[8,0]],"mats":["road","wood","steel"],"car":"truck","tip":"Ciężarówka waży ponad dwa razy więcej niż auto. Stal jest droższa, ale dużo mocniejsza.","budget":1090,"s3":679,"s2":849},
   {"name":"Długi most","w":10,"ly":0,"ry":0,"an":[[0,0],[10,0],[5,-1]],"pil":[[5,-1]],"mats":["road","wood","steel"],"car":"car","tip":"Stalowa belka może być dłuższa (do 3 kratek) – sięgnie dalej od filaru.","budget":680,"s3":424,"s2":530},
-  {"name":"Wielki finał","w":10,"ly":0,"ry":0,"an":[[0,0],[10,0]],"mats":["road","wood","steel"],"car":"truck","tip":"Najdłuższa przepaść i najcięższy ładunek. Użyj wszystkiego, czego się nauczyłeś!","budget":1390,"s3":864,"s2":1080}
+  {"name":"Pociąg","w":8,"ly":0,"ry":0,"an":[[0,0],[8,0],[4,-1]],"pil":[[4,-1]],"mats":["road","wood","steel"],"car":"train","tip":"Pociąg jest długi – stoi na kilku przęsłach naraz. Ciężar rozkłada się na wszystkie koła.","budget":370,"s3":226,"s2":283},
+  {"name":"Wielki finał","w":10,"ly":0,"ry":0,"an":[[0,0],[10,0]],"mats":["road","wood","steel"],"car":"truck","tip":"Najdłuższa przepaść i najcięższy ładunek. Użyj wszystkiego, czego się nauczyłeś!","budget":1390,"s3":864,"s2":1080},
+  {"name":"Ekspres","w":10,"ly":0,"ry":0,"an":[[0,0],[10,0]],"mats":["road","wood","steel"],"car":"train","tip":"Ostatnie wyzwanie: cały pociąg nad najdłuższą przepaścią. Kratownica z najmocniejszego materiału!","budget":1390,"s3":864,"s2":1080}
 ];
 const BR_FACTS=["Most Golden Gate w San Francisco otwarto w 1937 roku. Ma ok. 2,7 km długości.",
   "Trójkąt nie zmieni kształtu, dopóki żaden bok się nie złamie. Dlatego mosty i dźwigi są pełne trójkątów.",
@@ -6469,13 +6474,61 @@ function brDraw(){const c=$("br-cv").getContext("2d"),V=BR.v,L=BR.L,sc=V.sc,S=BR
   N.forEach((n,i)=>{const an=i<L.an.length;c.beginPath();c.arc(brX(n.x),brY(n.y),sc*(an?.2:.13),0,7);c.fillStyle=an?"#e03131":"#fff";c.fill();c.lineWidth=2;c.strokeStyle=an?"#fff":"#343a40";c.stroke();});
   if(S) brCar(c,S);
 }
-function brCar(c,S){const car=S.car,C=car.C,sc=BR.v.sc,x=(car.wh[0].x+car.wh[1].x)/2,y=car.y,truck=C.m>30;
-  c.save();c.translate(brX(x),brY(y));c.rotate(-car.ang);const len=C.len*sc,r=sc*.2;
-  c.fillStyle=truck?"#f59f00":"#e03131";c.beginPath();c.roundRect(-len/2-r,-r*2.6,len+2*r,r*2,r*.6);c.fill();
-  if(truck){c.fillStyle="#495057";c.fillRect(-len/2-r,-r*4.6,len*.62,r*2.1);c.fillStyle="#f59f00";c.fillRect(len*.18,-r*4,len*.3+r,r*1.6);c.fillStyle="#a5d8ff";c.fillRect(len*.24,-r*3.7,len*.18,r*.9);}
-  else{c.fillStyle="#e03131";c.beginPath();c.roundRect(-len*.3,-r*4.1,len*.62,r*1.7,r*.6);c.fill();c.fillStyle="#a5d8ff";c.fillRect(-len*.22,-r*3.8,len*.2,r*1);c.fillRect(len*.04,-r*3.8,len*.2,r*1);}
-  c.fillStyle="#212529";[-len/2,len/2].forEach(wx=>{c.beginPath();c.arc(wx,-r*.7,r*.95,0,7);c.fill();});c.fillStyle="#adb5bd";[-len/2,len/2].forEach(wx=>{c.beginPath();c.arc(wx,-r*.7,r*.4,0,7);c.fill();});
-  c.restore();}
+// pojazdy: każda część stoi na swoich dwóch kołach (przechyla się z mostem); rysunek w jednostkach kratki, y w górę
+function brCar(c,S){const car=S.car,u=BR.v.sc;let wi=0;
+  const parts=car.C.parts.map(q=>{const a=car.wh[wi++],b=car.wh[wi++];return {k:q.k,a,b,x:(a.x+b.x)/2,y:(a.y+b.y)/2,ang:Math.atan2(b.y-a.y,b.x-a.x),half:(b.x-a.x)/2};});
+  const P=(x,y)=>[x*u,-y*u],mv=(x,y)=>c.moveTo(...P(x,y)),ln=(x,y)=>c.lineTo(...P(x,y)),qd=(cx,cy,x,y)=>c.quadraticCurveTo(...P(cx,cy),...P(x,y));
+  const rr=(x0,y0,x1,y1,r,fill)=>{c.beginPath();c.roundRect(x0*u,-y1*u,(x1-x0)*u,(y1-y0)*u,r*u);c.fillStyle=fill;c.fill();};
+  const grad=(y0,y1,a,b)=>{const g=c.createLinearGradient(0,-y1*u,0,-y0*u);g.addColorStop(0,a);g.addColorStop(1,b);return g;};
+  const wheel=(x,rot,r=.27)=>{c.save();c.translate(x*u,-r*u);c.fillStyle="#1d1f24";c.beginPath();c.arc(0,0,r*u,0,7);c.fill();c.fillStyle="#ced4da";c.beginPath();c.arc(0,0,r*.58*u,0,7);c.fill();
+    c.rotate(rot);c.strokeStyle="#868e96";c.lineWidth=Math.max(1,u*.035);for(let k=0;k<4;k++){c.rotate(Math.PI/2);c.beginPath();c.moveTo(0,0);c.lineTo(r*.55*u,0);c.stroke();}
+    c.fillStyle="#495057";c.beginPath();c.arc(0,0,r*.18*u,0,7);c.fill();c.restore();};
+  const glass=(pts)=>{c.beginPath();pts.forEach(([x,y],i)=>i?ln(x,y):mv(x,y));c.closePath();c.fillStyle=grad(pts[2][1],pts[0][1],"#e7f5ff","#74c0fc");c.fill();c.strokeStyle="rgba(0,0,0,.25)";c.lineWidth=Math.max(1,u*.025);c.stroke();};
+  const face=(x,y)=>{c.fillStyle="#ffd8a8";c.beginPath();c.arc(x*u,-y*u,.11*u,0,7);c.fill();c.fillStyle="#5c3d2e";c.beginPath();c.arc(x*u,-(y+.05)*u,.11*u,Math.PI,0);c.fill();c.fillStyle="#1b1b2f";c.beginPath();c.arc((x+.04)*u,-(y-.01)*u,.018*u,0,7);c.fill();};
+  // sprzęgi między wagonami
+  for(let k=0;k+1<parts.length;k++){const A=parts[k],B=parts[k+1];c.strokeStyle="#343a40";c.lineWidth=Math.max(2,u*.07);c.beginPath();c.moveTo(brX(A.a.x-.75),brY(A.a.y+.4));c.lineTo(brX(B.b.x+.75),brY(B.b.y+.4));c.stroke();}
+  for(const p of parts){c.save();c.translate(brX(p.x),brY(p.y));c.rotate(-p.ang);const h=p.half,ra=p.a.rot,rb=p.b.rot;
+    if(p.k==="car"){
+      c.fillStyle="rgba(0,0,0,.18)";c.beginPath();c.ellipse(0,0,1.1*u,.08*u,0,0,7);c.fill();
+      c.beginPath();mv(-1.08,.24);ln(-1.12,.6);qd(-1.1,.72,-.92,.74);ln(-.55,.76);qd(-.42,1.06,-.22,1.08);ln(.36,1.08);qd(.5,1.06,.74,.78);ln(1.0,.72);qd(1.14,.66,1.14,.44);ln(1.1,.24);c.closePath();
+      c.fillStyle=grad(.24,1.08,"#ff8787","#c92a2a");c.fill();c.strokeStyle="#a61e1e";c.lineWidth=Math.max(1,u*.03);c.stroke();
+      glass([[-.4,.98],[.0,.98],[.0,.78],[-.5,.78]]);glass([[.06,.98],[.36,.98],[.62,.78],[.06,.78]]);face(.3,.87);
+      c.strokeStyle="rgba(0,0,0,.25)";c.beginPath();mv(.03,.3);ln(.03,.74);c.stroke();rr(.12,.58,.26,.62,.02,"#868e96");
+      c.fillStyle="#ffe066";c.beginPath();c.ellipse(1.1*u,-.54*u,.05*u,.08*u,0,0,7);c.fill();rr(-1.14,.48,-1.06,.6,.02,"#ff3b3b");
+      rr(-1.12,.22,1.12,.32,.05,"#343a40");
+      [[-h,ra],[h,rb]].forEach(([x])=>{c.fillStyle="#7a1515";c.beginPath();c.arc(x*u,-.27*u,.33*u,Math.PI,0);c.fill();});wheel(-h,ra);wheel(h,rb);}
+    else if(p.k==="truck"){
+      c.fillStyle="rgba(0,0,0,.18)";c.beginPath();c.ellipse(0,0,1.6*u,.1*u,0,0,7);c.fill();
+      rr(-1.6,.28,1.5,.46,.04,"#343a40");
+      rr(-1.6,.46,.28,1.6,.06,grad(.46,1.6,"#4dabf7","#1864ab"));c.strokeStyle="rgba(255,255,255,.25)";c.lineWidth=Math.max(1,u*.03);for(let x=-1.45;x<.25;x+=.22){c.beginPath();mv(x,.52);ln(x,1.54);c.stroke();}
+      c.fillStyle="#fff";c.font=`900 ${.26*u}px system-ui`;c.textAlign="center";c.textBaseline="middle";c.fillText(((PREFS.name||"Henriksen")+"").toUpperCase().slice(0,10),-.66*u,-1.03*u);
+      c.beginPath();mv(.36,.46);ln(.36,1.38);ln(.98,1.38);qd(1.18,1.36,1.32,1.0);ln(1.48,.9);ln(1.5,.46);c.closePath();c.fillStyle=grad(.46,1.38,"#ffd43b","#f08c00");c.fill();c.strokeStyle="#c26a00";c.stroke();
+      glass([[.52,1.28],[.96,1.28],[1.22,.98],[.52,.98]]);face(.8,1.08);
+      rr(1.38,.5,1.5,.82,.02,"#868e96");c.fillStyle="#ffe066";c.beginPath();c.ellipse(1.5*u,-.62*u,.04*u,.07*u,0,0,7);c.fill();
+      wheel(-h,ra);wheel(-h+.58,ra);wheel(h,rb);}
+    else if(p.k==="loco"){
+      rr(-1.35,.3,1.45,.48,.04,"#212529");
+      rr(-.55,.48,1.3,1.08,.28,grad(.48,1.08,"#ff6b6b","#a61e1e"));[-.2,.35,.9].forEach(x=>rr(x,.48,x+.07,1.08,.02,"#fcc419"));
+      rr(.92,1.06,1.16,1.42,.03,"#212529");rr(.86,1.38,1.22,1.5,.04,"#343a40");c.fillStyle="#fcc419";c.beginPath();c.arc(.42*u,-1.08*u,.16*u,Math.PI,0);c.fill();
+      rr(-1.35,.48,-.45,1.42,.05,grad(.48,1.42,"#e03131","#9b1c1c"));rr(-1.45,1.4,-.35,1.52,.04,"#212529");glass([[-1.18,1.3],[-.62,1.3],[-.62,.98],[-1.18,.98]]);face(-.85,1.08);
+      c.beginPath();mv(1.3,.3);ln(1.62,.3);ln(1.3,.62);c.closePath();c.fillStyle="#adb5bd";c.fill();
+      c.fillStyle="#ffe066";c.beginPath();c.arc(1.33*u,-.85*u,.08*u,0,7);c.fill();
+      wheel(-h,ra,.3);wheel(0,(ra+rb)/2,.3);wheel(h,rb,.3);
+      c.strokeStyle="#adb5bd";c.lineWidth=Math.max(2,u*.05);c.beginPath();mv(-h+.15*Math.cos(ra),.3+.15*Math.sin(ra));ln(h+.15*Math.cos(rb),.3+.15*Math.sin(rb));c.stroke();}
+    else{const col=p.a===car.wh[2]?["#69db7c","#2b8a3e"]:["#74c0fc","#1971c2"];
+      rr(-1.25,.3,1.25,.46,.04,"#212529");rr(-1.2,.46,1.2,1.32,.08,grad(.46,1.32,col[0],col[1]));
+      c.beginPath();mv(-1.28,1.3);qd(0,1.55,1.28,1.3);c.closePath();c.fillStyle="#495057";c.fill();
+      [-.8,-.15,.5].forEach((x,i)=>{glass([[x,1.18],[x+.42,1.18],[x+.42,.8],[x,.8]]);if((i+(p.a===car.wh[2]?1:0))%2===0) face(x+.21,.9);});
+      wheel(-h,ra);wheel(h,rb);}
+    c.restore();}
+  // dym z komina lokomotywy
+  if(BR.puffs) BR.puffs.forEach(q=>{c.fillStyle=`rgba(240,240,240,${Math.max(0,q.a)})`;c.beginPath();c.arc(brX(q.x),brY(q.y),q.r*u,0,7);c.fill();});
+}
+// dym: nowe kłęby co ok. 0,12 s nad kominem, unoszą się i rozpływają
+function brPuffs(S,dt){const L=S.car.C.parts.findIndex(q=>q.k==="loco");if(L<0) return;BR.puffs=BR.puffs||[];
+  BR.puffs.forEach(q=>{q.y+=dt*.9;q.x-=dt*.6;q.r+=dt*.25;q.a-=dt*.7;});BR.puffs=BR.puffs.filter(q=>q.a>0);
+  BR.pt=(BR.pt||0)+dt;if(BR.pt>.12&&S.car.run){BR.pt=0;const a=S.car.wh[L*2],b=S.car.wh[L*2+1],ang=Math.atan2(b.y-a.y,b.x-a.x),cx=(a.x+b.x)/2,cy=(a.y+b.y)/2;
+    BR.puffs.push({x:cx+1.04*Math.cos(ang)-1.5*Math.sin(ang),y:cy+1.04*Math.sin(ang)+1.5*Math.cos(ang),r:.14,a:.85});}}
 // budowa: przeciągnij od kotwy/węzła; koniec przyciąga się do kratki w zasięgu materiału
 function brWorld(e){const R=$("br-cv").getBoundingClientRect();return [(e.clientX-R.left-BR.v.ox)/BR.v.sc,(BR.v.oy-(e.clientY-R.top))/BR.v.sc];}
 function brTarget(from,w){const P=brP(),A=P[from],M=BR_CORE.MAT[BR.mat],L=BR.L;let best=null;
@@ -6506,11 +6559,11 @@ $("br-clear").addEventListener("click",async()=>{if(!BR||BR.S||!BR.d.b.length) r
 $("br-go").addEventListener("click",()=>{if(!BR) return;if(BR.S){brStop();return;}
   const c=brCost();if(c>BR.L.budget){toast(`Za drogo! Masz ${BR.L.budget} 💰, a most kosztuje ${c}.`);sfx("bad");return;}
   if(!BR.d.b.some(b=>b[2]==="road")){toast("Auto potrzebuje drogi – zbuduj ją z szarych belek.");return;}
-  BR.S=BR_CORE.make(BR.L,BR.d);BR.last=performance.now();brInfo();BR.raf=requestAnimationFrame(brTick);});
+  BR.S=BR_CORE.make(BR.L,BR.d);BR.puffs=[];BR.last=performance.now();brInfo();BR.raf=requestAnimationFrame(brTick);});
 function brStop(){cancelAnimationFrame(BR.raf);BR.S=null;brInfo();brDraw();}
 function brTick(t){if(!BR||!BR.S) return;const S=BR.S;let dt=Math.min(.05,(t-BR.last)/1000);BR.last=t;
   const broke=S.B.filter(b=>b.broken).length;
-  while(dt>1e-4){const h=Math.min(1/60,dt);BR_CORE.step(S,h);dt-=h;if(S.res) break;}
+  while(dt>1e-4){const h=Math.min(1/60,dt);BR_CORE.step(S,h);brPuffs(S,h);dt-=h;if(S.res) break;}
   if(S.B.filter(b=>b.broken).length>broke) sfx("boom");brDraw();
   if(S.res&&!BR.done){BR.done=true;const r=S.res;setTimeout(()=>{BR.done=false;r.ok?brWin():brFail(r.why);},r.ok?300:1200);}
   if(BR.S) BR.raf=requestAnimationFrame(brTick);}

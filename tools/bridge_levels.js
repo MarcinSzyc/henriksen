@@ -33,8 +33,14 @@ const LV=[
  {name:"Długi most",w:10,ly:0,ry:0,an:[[0,0],[10,0],[5,-1]],pil:[[5,-1]],mats:["road","wood","steel"],car:"car",
   tip:"Stalowa belka może być dłuższa (do 3 kratek) – sięgnie dalej od filaru.",
   ref:{n:[[2,0],[4,0],[6,0],[8,0]],b:[[0,3,"road"],[3,4,"road"],[4,5,"road"],[5,6,"road"],[6,1,"road"],[2,4,"wood"],[2,5,"wood"],[2,3,"steel"],[2,6,"steel"]]}},
+ {name:"Pociąg",w:8,ly:0,ry:0,an:[[0,0],[8,0],[4,-1]],pil:[[4,-1]],mats:["road","wood","steel"],car:"train",
+  tip:"Pociąg jest długi – stoi na kilku przęsłach naraz. Ciężar rozkłada się na wszystkie koła.",
+  ref:{n:[[2,0],[4,0],[6,0]],b:[[0,3,"road"],[3,4,"road"],[4,5,"road"],[5,1,"road"],[2,3,"wood"],[2,4,"wood"],[2,5,"wood"]]},fail:{n:[[2,0],[4,0],[6,0]],b:[[0,3,"road"],[3,4,"road"],[4,5,"road"],[5,1,"road"]]}},
  {name:"Wielki finał",w:10,ly:0,ry:0,an:[[0,0],[10,0]],mats:["road","wood","steel"],car:"truck",
   tip:"Najdłuższa przepaść i najcięższy ładunek. Użyj wszystkiego, czego się nauczyłeś!",
+  ref:W(10,"steel"),fail:W(10,"wood")},
+ {name:"Ekspres",w:10,ly:0,ry:0,an:[[0,0],[10,0]],mats:["road","wood","steel"],car:"train",
+  tip:"Ostatnie wyzwanie: cały pociąg nad najdłuższą przepaścią. Kratownica z najmocniejszego materiału!",
   ref:W(10,"steel"),fail:W(10,"wood")},
 ];
 let ok=true;const out=[];

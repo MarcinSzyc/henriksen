@@ -186,9 +186,9 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   **Mosty** (jak Bridge Constructor; widoki `#lgm` lista, `#lgs` gra; hashe `#mosty`, `#mosty-gra`; moduł `lg-mosty`, puchar `lg-mosty`):
   fizyka `BR_CORE` (między `/*BR-CORE*/` i `/*BR-END*/`, kopia `tools/bridge_core.js` – zmieniaj oba): węzły-przeguby i belki jako więzy XPBD
   (SUB 30 kroków × IT 4 iteracje na klatkę), siła belki z mnożnika λ, belka pęka po kilku krokach ponad `MAT[m].str`. Materiały `MAT`: droga
-  (po niej jedzie auto), drewno, stal (dłuższa i mocniejsza), lina (na przyszłość). Auto/ciężarówka `CARS`: dwa koła szukają podpory (`support`:
+  (po niej jedzie auto), drewno, stal (dłuższa i mocniejsza), lina (na przyszłość). Pojazdy `CARS` (auto, ciężarówka, pociąg = lokomotywa + 2 wagony): każda część na dwóch kołach (`parts[].w` = przesunięcia), ciężar dzielony na wszystkie koła; rysunek `brCar` (część przechyla się z mostem, kręcące się koła, kierowcy, dym z komina `brPuffs`), koła szukają podpory (`support`:
   teren albo droga), ciężar idzie na węzły belki pod kołem; rusza po 1 s (most najpierw układa się pod własnym ciężarem); woda = `WATER`.
-  10 poziomów `BR_LEVELS` z `tools/bridge_levels.js` (każdy ma most wzorcowy sprawdzany fizyką, a „naiwny” musi się zawalić; budżet = wzorzec × 1,6,
+  12 poziomów `BR_LEVELS` (2 z pociągiem) z `tools/bridge_levels.js` (każdy ma most wzorcowy sprawdzany fizyką, a „naiwny” musi się zawalić; budżet = wzorzec × 1,6,
   3★ ≤ koszt wzorca, 2★ ≤ × 1,25). Budowa: przeciągnij od kotwy/węzła, koniec przyciąga się do kratki w zasięgu materiału (`brTarget`), 🗑️ usuwa belkę,
   Cofnij, Zburz; projekt każdego poziomu zapisany w `henriksen-mosty`. Jazda: belki kolorowane obciążeniem (zielone → czerwone), pęknięte spadają.
   Wygrana: gwiazdki z kosztu, punkty `gwiazdki × (1 + nr/3)`, ciekawostka o mostach (`BR_FACTS`). Sesja `cfg:{mode:"mosty",lvl}`, `recs[0]={st,cost,w}`.

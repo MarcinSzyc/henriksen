@@ -5,7 +5,10 @@
 const BR_CORE=(()=>{
   const MAT={road:{name:"Droga",cost:20,max:2.3,dens:1.2,str:900,c:"#495057"},wood:{name:"Drewno",cost:12,max:2.3,dens:.8,str:700,c:"#b5793a"},
     steel:{name:"Stal",cost:30,max:3.2,dens:1.5,str:1800,c:"#8aa0b8"},rope:{name:"Lina",cost:8,max:4.5,dens:.3,str:1000,c:"#c9a26b",rope:true}};
-  const CARS={car:{name:"Auto",m:20,len:1.4,v:2.4},truck:{name:"Ciężarówka",m:45,len:2.2,v:1.9}};
+  // pojazd = części (nadwozie, lokomotywa, wagony), każda na dwóch kołach (przesunięcia od środka pojazdu); ciężar dzieli się na wszystkie koła
+  const CARS={car:{name:"Auto",fall:"Auto wpadło do wody!",m:20,v:2.4,parts:[{k:"car",w:[-.7,.7]}]},
+    truck:{name:"Ciężarówka",fall:"Ciężarówka wpadła do wody!",m:45,v:1.9,parts:[{k:"truck",w:[-1.1,.9]}]},
+    train:{name:"Pociąg",fall:"Pociąg wpadł do wody!",m:60,v:2,parts:[{k:"loco",w:[1.3,2.7]},{k:"wagon",w:[-1.5,-.1]},{k:"wagon",w:[-4.3,-2.9]}]}};
   const G=9.8,WATER=-5;let SUB=30,IT=4,COMP=1e-6,OVER=8;
   const blen=(a,b)=>Math.hypot(a[0]-b[0],a[1]-b[1]);
   const cost=(L,d)=>{const P=L.an.concat(d.n);return Math.round(d.b.reduce((s,[a,b,m])=>s+MAT[m].cost*blen(P[a],P[b]),0));};
@@ -15,7 +18,8 @@ const BR_CORE=(()=>{
     const B=d.b.map(([a,b,mat])=>{const len=blen(P[a],P[b]),M=MAT[mat];N[a].m+=M.dens*len/2;N[b].m+=M.dens*len/2;return {a,b,mat,len,f:0,over:0,broken:false};});
     N.forEach(n=>{if(!n.m) n.m=.2;n.w=n.fix?0:1/n.m;});
     const C=CARS[L.car||"car"];
-    return {L,N,B,t:0,car:{x:-2.4,y:L.ly,vy:0,run:false,dead:false,win:false,ang:0,C,wh:[{x:0,y:L.ly,vy:0,on:null},{x:0,y:L.ly,vy:0,on:null}]},res:null};}
+    const off=C.parts.flatMap(q=>q.w),wh=off.map(o=>({o,x:0,y:L.ly,vy:0,on:null,rot:0}));
+    return {L,N,B,t:0,car:{x:-1.7-Math.max(...off),y:L.ly,run:false,dead:false,win:false,C,wh},res:null};}
   // podpora koła w punkcie x (najwyższa droga / teren nie wyżej niż y+0.35)
   function support(S,x,y){const L=S.L;let best=null;
     if(x<=0&&L.ly<=y+.35) best={y:L.ly};if(x>=L.w&&L.ry<=y+.35&&(!best||L.ry>best.y)) best={y:L.ry};
@@ -27,13 +31,12 @@ const BR_CORE=(()=>{
     // samochód: rusza po 1 s (most najpierw się układa), koła szukają podpory
     S.t+=dt;if(S.t>1) car.run=true;
     if(car.run&&!car.dead) car.x+=C.v*dt;
-    const W=C.m*G/2;
-    car.wh.forEach((w,k)=>{w.x=car.x+(k?C.len/2:-C.len/2);const s=support(S,w.x,w.y);
+    const W=C.m*G/car.wh.length;
+    car.wh.forEach(w=>{const nx=car.x+w.o;w.rot-=(nx-w.x)/.27;w.x=nx;const s=support(S,w.x,w.y);
       if(s&&w.y<=s.y+.05){w.y=s.y;w.vy=0;w.on=s;}else{w.vy-=G*dt;w.y+=w.vy*dt;const s2=support(S,w.x,w.y+.3);if(s2&&w.y<s2.y){w.y=s2.y;w.vy=0;w.on=s2;}else w.on=null;}});
-    car.y=(car.wh[0].y+car.wh[1].y)/2;car.ang=Math.atan2(car.wh[1].y-car.wh[0].y,C.len);
-    if(car.y<WATER+.5){car.dead=true;S.res={ok:false,why:"Auto wpadło do wody!"};}
-    if(car.wh[0].x>S.L.w+1.5&&!car.dead){car.win=true;S.res={ok:true};}
-    if(S.t>40&&!S.res) S.res={ok:false,why:"Auto nie dojechało."};
+    if(car.wh.some(w=>w.y<WATER+.5)){car.dead=true;S.res={ok:false,why:C.fall};}
+    if(car.wh.every(w=>w.x>S.L.w+1.5)&&!car.dead){car.win=true;S.res={ok:true};}
+    if(S.t>40&&!S.res) S.res={ok:false,why:C.name+" nie dojechał"+(C.name==="Pociąg"?"":"o")+"."};
     for(let s=0;s<sub;s++){
       N.forEach(n=>{n.fx=0;n.fy=0;});
       car.wh.forEach(w=>{if(w.on&&w.on.b){const b=w.on.b;N[b.a].fy-=W*(1-w.on.t);N[b.b].fy-=W*w.on.t;}});
