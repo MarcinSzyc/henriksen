@@ -1302,7 +1302,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Łamigłówki</h1><div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div id="lg-gates" class="lg-gates"></div>
-  <button type="button" class="more pmore" id="lg-rules-btn" hidden style="margin-bottom:14px"><span><b>👨‍👧 Zasady łamigłówek dla dziecka</b><small>Osobno dla każdej gry: limit, ćwiczenia przed grą i za dodatkowe poziomy</small></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  <button type="button" class="more pmore" id="lg-rules-btn" hidden style="margin-bottom:14px"><span><b>👨‍👧 Zasady łamigłówek dla dziecka</b><small>Osobno dla każdej gry: limit gier, ćwiczenia przed grą i za dodatkowe gry</small></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
   <div class="tiles2 mat-tiles">
     <button type="button" class="tile mt" id="lg-t-bo" style="--gc:#e64980"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="#fff" stroke="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="15" height="13" rx="3"/><rect x="21" y="4" width="15" height="13" rx="3"/><rect x="3" y="20" width="22" height="13" rx="3"/><path d="M30 20h7v13h-7z" opacity=".55"/></svg></span><span class="tt">Block Out</span><small id="lg-t-bo-s"></small></button>
     <button type="button" class="tile mt" id="lg-t-br" style="--gc:#1c7ed6"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 28h36M5 28l6-14h18l6 14M11 14l6 14 6-14 6 14"/></svg></span><span class="tt">Mosty</span><small id="lg-t-br-s"></small></button>
@@ -5482,8 +5482,9 @@ const RSEC={sz:{r:"szRules",l:"szLimit",x:"szx",g:"szgate",def:2,u:n=>partii(n),
     extraT:"Każdy poziom ponad limit wymaga pakietu",perT:"Poziomów za jedno przejście pakietu",maxT:"Najwięcej dodatkowych poziomów dziennie",
     gateT:"Łamigłówki otwierają się dopiero po pakiecie",gateN:"Codziennie najpierw ten pakiet – dopiero potem łamigłówki."}};
 // każda łamigłówka ma własne zasady (bo / br / th); stare wspólne „lg” zostają w danych, ale nic ich już nie czyta
-const lgSecOf=(id,name,unit,one,N,D,def)=>({r:id+"Rules",l:id+"Limit",x:id+"x",g:id+"gate",def,u:unit,one,title:`Zasady: ${name}`,limT:`Limit: ${name}`,N,D,
-  extraT:`Każdy kolejny raz ponad limit wymaga pakietu`,perT:`Ile więcej za jedno przejście pakietu`,maxT:`Najwięcej dodatkowych dziennie`,
+const gier=n=>n===1?"gra":n%10>=2&&n%10<=4&&!(n%100>=12&&n%100<=14)?"gry":"gier";
+const lgSecOf=(id,name,unit,one,N,D,def)=>({r:id+"Rules",l:id+"Limit",x:id+"x",g:id+"gate",def,u:n=>gier(n),one:"jedna gra",title:`Zasady: ${name}`,limT:`Limit gier: ${name}`,N,D,
+  extraT:`Każda gra ponad limit wymaga pakietu`,perT:`Gier za jedno przejście pakietu`,maxT:`Najwięcej dodatkowych gier dziennie`,
   gateT:`${name}: najpierw pakiet ćwiczeń`,gateN:`Codziennie najpierw ten pakiet – dopiero potem ${name}.`});
 Object.assign(RSEC,{
   bo:lgSecOf("bo","Block Out",n=>poziomow(n),"jeden poziom",[[3,"3"],[5,"5"],[10,"10"],[15,"15"],[20,"20"]],[[0,"Bez gry"],[3,"3"],[5,"5"],[10,"10"],[20,"20"],[-1,"Bez limitu"]],5),
@@ -6239,9 +6240,9 @@ const boStarMap=()=>{const m={};loadHist().forEach(s=>{if(s.subj==="lg"&&s.cfg&&
 const boPts=(k,st)=>st*(Math.floor(k/10)+1);
 // dzienny limit poziomów (zasady rodzica jak w szachach): liczy rozpoczęte poziomy
 const LG_DAYK="henriksen-lgdzien";
-const LGG={bo:{mode:"blockout",name:"Block Out",op:"otworzy",mod:"lg-blockout",tile:"lg-t-bo",u:n=>poziomow(n)},br:{mode:"mosty",name:"Mosty",op:"otworzą",mod:"lg-mosty",tile:"lg-t-br",u:n=>poziomow(n)},
-  fl:{mode:"flow",name:"Flow",op:"otworzy",mod:"lg-flow",tile:"lg-t-fl",u:n=>poziomow(n)},
-  th:{mode:"trojki",name:"Trójki",op:"otworzą",mod:"lg-trojki",tile:"lg-t-th",u:n=>partii(n)}};
+const LGG={bo:{mode:"blockout",name:"Block Out",op:"otworzy",mod:"lg-blockout",tile:"lg-t-bo",u:n=>gier(n)},br:{mode:"mosty",name:"Mosty",op:"otworzą",mod:"lg-mosty",tile:"lg-t-br",u:n=>gier(n)},
+  fl:{mode:"flow",name:"Flow",op:"otworzy",mod:"lg-flow",tile:"lg-t-fl",u:n=>gier(n)},
+  th:{mode:"trojki",name:"Trójki",op:"otworzą",mod:"lg-trojki",tile:"lg-t-th",u:n=>gier(n)}};
 // dzienny limit każdej gry: rozpoczęte poziomy / partie dziś (licznik albo historia, większe)
 function lgPlayedToday(g){const d=new Date().toDateString();let n=0;try{const x=JSON.parse(localStorage.getItem(LG_DAYK)||"{}");if(x.d===d&&x.n&&typeof x.n==="object") n=x.n[g]||0;}catch(e){}
   const t0=dayKey(Date.now());return Math.max(n,loadHist().filter(s=>s.subj==="lg"&&s.start>=t0&&s.cfg&&s.cfg.mode===LGG[g].mode).length);}
@@ -6249,9 +6250,9 @@ function lgCount(g){const d=new Date().toDateString();let x={};try{x=JSON.parse(
   const n=x.d===d&&x.n&&typeof x.n==="object"?x.n:{};n[g]=lgPlayedToday(g)+1;try{localStorage.setItem(LG_DAYK,JSON.stringify({d,n}));}catch(e){}}
 function lgLimCard(g){const G=LGG[g],U=G.u;
   const left=szLeft(g);if(left===null) return "";const B=szBonus(g),X=B.full?null:B.X,get=B.max?Math.min(B.per,B.max-B.got):B.per;
-  if(left) return `<div class="szlim"><div class="szlim-h">${G.name}: dziś ${left===1?"został":U(left).endsWith("y")||U(left)==="partie"?"zostały":"zostało"} ci <b>${left}</b> ${U(left)}</div>${B.got?`<small>w tym ${B.got} za ćwiczenia – brawo!</small>`:""}</div>`;
+  if(left) return `<div class="szlim"><div class="szlim-h">${G.name}: dziś ${left===1?"została":U(left)==="gry"?"zostały":"zostało"} ci <b>${left}</b> ${U(left)}</div>${B.got?`<small>w tym ${B.got} za ćwiczenia – brawo!</small>`:""}</div>`;
   const more=X&&X.pk?`<div class="szlim-more"><b>Chcesz jeszcze? 😉</b><span>Zrób te ćwiczenia, a dostaniesz ${get} ${U(get)} więcej:</span>${szRuleList(X,RSEC[g].x).replace(/Zrobione (\d+) z (\d+)/,`Zrobione $1 z $2 → +${get} ${U(get)}`)}</div>`:"";
-  return `<div class="szlim done"><div class="szlim-e" aria-hidden="true">🙌</div><div class="szlim-h">${G.name}: na dziś wystarczy!</div><span class="szlim-s">Świetna robota. Wróć jutro po więcej.</span>${B.full?`<small>Dodatkowe za ćwiczenia też już wykorzystane (${B.max}).</small>`:""}</div>${more}`;
+  return `<div class="szlim done"><div class="szlim-e" aria-hidden="true">🙌</div><div class="szlim-h">${G.name}: na dziś wystarczy!</div><span class="szlim-s">Świetna robota. Wróć jutro po więcej.</span>${B.full?`<small>Dodatkowe gry za ćwiczenia też już wykorzystane (${B.max}).</small>`:""}</div>${more}`;
 }
 function renderLg(){
   $("lg-rules-btn").hidden=!(ME&&ME.role==="parent");
@@ -6262,7 +6263,7 @@ function renderLg(){
   {const bm=brStarMap(),bs=Object.values(bm).reduce((a,b)=>a+b,0);$("lg-t-br-s").textContent=bs?`Gwiazdki: ${bs} z ${BR_LEVELS.length*3}`:"Zbuduj most, który utrzyma auto";}
   {const m=flStarMap(),st=Object.values(m).reduce((a,b)=>a+b,0);$("lg-t-fl-s").textContent=st?`Gwiazdki: ${st} z ${FL_LEVELS.length*3}`:"Połącz kropki w tym samym kolorze";}
   {const m=boStarMap(),st=Object.values(m).reduce((a,b)=>a+b,0);$("lg-t-bo-s").textContent=st?`Gwiazdki: ${st} z ${BO_LEVELS.length*3}`:"Kolorowe klocki do drzwi";}
-  Object.keys(LGG).forEach(g=>{const left=szLeft(g);if(left!==null) $(LGG[g].tile+"-s").textContent+=left?` · dziś jeszcze ${left}`:" · na dziś koniec";});
+  Object.keys(LGG).forEach(g=>{const left=szLeft(g);if(left!==null) $(LGG[g].tile+"-s").textContent+=left?` · dziś jeszcze ${left} ${gier(left)}`:" · na dziś koniec";});
 }
 function renderLgb(){
   const m=boStarMap(),left=szLeft("bo"),top=Math.max(-1,...Object.keys(m).map(Number));$("lgb-lim").hidden=left===null;$("lgb-lim").innerHTML=lgLimCard("bo");

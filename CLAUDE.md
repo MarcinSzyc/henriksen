@@ -208,7 +208,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   połączone i plansza pełna (`flCheck`). Gwiazdki: ruchy ≤ liczba par 3★, ≤ +3 2★; „Pomoc” pokazuje jedną rurkę z rozwiązania (najwyżej 2★). Kolory po angielsku
   (`FL_COL`: kolor, en, pl) – przy połączeniu pary dymek „RED – czerwony”, na końcu lista słówek. Sesja `cfg:{mode:"flow",lvl}`, punkty `gwiazdki × (świat+1)`.
   Zasady rodzica **osobno dla każdej gry** (`LGG`: bo = Block Out, br = Mosty, th = Trójki, fl = Flow; klucze `boLimit`/`boRules`, `brLimit`/`brRules`,
-  `thLimit`/`thRules` w `PARENT_KEYS`, znaczniki `box`/`bogate` itd., `RSEC[g]` z `lgSecOf`): limit dzienny (Block Out i Mosty – poziomy, Trójki – partie),
+  `thLimit`/`thRules` w `PARENT_KEYS`, znaczniki `box`/`bogate` itd., `RSEC[g]` z `lgSecOf`): „limit gier” dziennie (jednostka `gier(n)`: gra/gry/gier – każdy rozpoczęty poziom albo partia to jedna gra),
   wyjątki na dni, „najpierw pakiet” i dodatkowe za pakiet. Licznik `henriksen-lgdzien` = `{d, n:{bo,br,th}}`, `lgPlayedToday(g)` (też z historii po `cfg.mode`),
   `lgCount(g)`, karta `lgLimCard(g)` (lista poziomów, w Trójkach `#th-lim`), blokady na ekranie `#lg` w `#lg-gates` (zablokowana gra znika z kafli),
   `lgGuard` sprawdza grę bieżącego ekranu. Edytor `#szrules` z zakładkami gier `#szr-games` (`SZR.sec` = bo/br/th). Stare wspólne `lgLimit`/`lgRules` nic już nie robią.
