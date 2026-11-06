@@ -192,6 +192,11 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   3★ ≤ koszt wzorca, 2★ ≤ × 1,25). Budowa: przeciągnij od kotwy/węzła, koniec przyciąga się do kratki w zasięgu materiału (`brTarget`), 🗑️ usuwa belkę,
   Cofnij, Zburz; projekt każdego poziomu zapisany w `henriksen-mosty`. Jazda: belki kolorowane obciążeniem (zielone → czerwone), pęknięte spadają.
   Wygrana: gwiazdki z kosztu, punkty `gwiazdki × (1 + nr/3)`, ciekawostka o mostach (`BR_FACTS`). Sesja `cfg:{mode:"mosty",lvl}`, `recs[0]={st,cost,w}`.
+  **Trójki** (jak Threes!; widok `#lgt`, hash `#trojki`, moduł `lg-trojki`, puchar `lg-trojki`): plansza 4×4, przesunięcie palcem/strzałką
+  (`thGo`): każdy kafel o jedno pole, 1+2=3, od 3 łączą się równe (`thCan`); nowy kafel wjeżdża z brzegu w jednym z ruszonych rzędów,
+  talia po 4× 1/2/3 + czasem bonus (`thDraw`), podgląd „Następny”. Wynik jak w Threes (3^(log2(v/3)+1)), przy łączeniu dymek „6+6”, przy nowym
+  największym kaflu podpowiedź „48 = 3 × 16”. Gra zapisuje się po każdym ruchu (`henriksen-trojki`) i wraca po wyjściu; koniec = brak ruchów
+  (`thEnd`: gwiazdki z największego kafla 96/192, punkty = log2(max/3)+1, sesja `cfg:{mode:"trojki"}`, `recs[0]={sc,mx}`). Nowa gra liczy się do limitu.
   Zasady rodzica jak w szachach, wspólny kod: `RSEC` (sz / lg: klucze `szLimit`/`szRules` i `lgLimit`/`lgRules`, znaczniki `szx`/`szgate` i `lgx`/`lggate`,
   teksty edytora), `rlR(s)`, `szLimitToday(s)`, `szBonus(s)`, `szLeft(s)`, `szGateOk(s)`; edytor `#szrules` z `SZR.sec` (przycisk „Zasady łamigłówek”
   na ekranie `#lg`). Limit liczy rozpoczęte poziomy (`lgPlayedToday`, licznik `henriksen-lgdzien`); `lgLimCard`, `lgGuard` (z `applyMods`).

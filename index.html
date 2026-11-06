@@ -784,6 +784,20 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .br-mats button{flex:1;min-height:56px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--text);font:inherit;font-weight:800;font-size:.85rem;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;padding:4px 2px}
 .br-mats button i{width:26px;height:6px;border-radius:3px}.br-mats button small{font-weight:600;color:var(--muted);font-size:.68rem}.br-mats button.sel{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent) inset}
 #br-cost b.over{color:#e03131}.br-go{flex:1.4!important;margin:0!important}.br-go.stop{background:#868e96}.br-fact{text-align:left;background:var(--bg);border-radius:12px;padding:8px 10px}
+.th-wrap{display:flex;justify-content:center;margin:6px 0}
+.th-board{position:relative;width:min(100%,400px);aspect-ratio:1;background:#bbd9d9;border-radius:18px;touch-action:none;padding:6px;box-sizing:border-box}
+.th-board.nope{animation:bonope .3s}
+.th-c,.th-t,.th-eq{position:absolute;left:6px;top:6px;width:calc((100% - 12px)/4);height:calc((100% - 12px)/4);transform:translate(calc(var(--c)*100%),calc(var(--r)*100%));box-sizing:border-box;padding:4px}
+.th-c::before{content:"";display:block;width:100%;height:100%;border-radius:12px;background:#cde6e6}
+.th-t{transition:transform .12s ease-out;font-size:clamp(1.4rem,9vw,2.6rem)}.th-t b{display:flex;align-items:center;justify-content:center;width:100%;height:100%;border-radius:12px;font-weight:900;box-shadow:0 5px 0 rgba(0,0,0,.18)}
+.th-t.t1 b{background:#66ccff;color:#fff}.th-t.t2 b{background:#ff6680;color:#fff}.th-t.t3 b{background:#fff;color:#1b1b2f;box-shadow:0 5px 0 #f5b041}.th-t.top b{color:#e8590c}
+.th-t.pop b{animation:thpop .22s}@keyframes thpop{50%{transform:scale(1.15)}}
+.th-t.in-L b{animation:thinL .18s}.th-t.in-R b{animation:thinR .18s}.th-t.in-U b{animation:thinU .18s}.th-t.in-D b{animation:thinD .18s}
+@keyframes thinL{from{transform:translateX(60%);opacity:0}}@keyframes thinR{from{transform:translateX(-60%);opacity:0}}@keyframes thinU{from{transform:translateY(60%);opacity:0}}@keyframes thinD{from{transform:translateY(-60%);opacity:0}}
+.th-eq{display:flex;align-items:flex-start;justify-content:center;font-weight:900;font-size:1.25rem;color:#1971c2;pointer-events:none;animation:theq .9s forwards;z-index:2;text-shadow:0 1px 0 #fff}@keyframes theq{to{opacity:0;margin-top:-30px}}
+.th-nxw{display:flex;align-items:center;gap:6px}.th-nx{position:relative;left:auto;top:auto;transform:none;width:34px;height:44px;padding:0;display:inline-block}.th-nx{font-size:1.2rem}.th-nx b{box-shadow:none}
+.th-wm{display:flex!important;gap:3px}.th-wm i{font-style:normal;width:20px;height:26px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.9rem}
+.th-wm .t1{background:#66ccff;color:#fff}.th-wm .t2{background:#ff6680;color:#fff}.th-wm .t3{background:#fff;color:#1b1b2f}
 .tile.lg{background:linear-gradient(135deg,#ff6b6b,#7048e8)}
 .bo-wm{display:grid!important;grid-template-columns:repeat(2,18px);gap:4px}.bo-wm i{width:18px;height:18px;border-radius:5px;background:var(--c);box-shadow:inset 0 3px 0 rgba(255,255,255,.35)}
 .bo-lv{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:14px}
@@ -1282,6 +1296,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="tiles2 mat-tiles">
     <button type="button" class="tile mt" id="lg-t-bo" style="--gc:#e64980"><span class="wm bo-wm" aria-hidden="true"><i style="--c:#ff4d6d"></i><i style="--c:#2f80ff"></i><i style="--c:#ffb703"></i><i style="--c:#2bc76a"></i></span><span class="tt">Block Out</span><small id="lg-t-bo-s"></small></button>
     <button type="button" class="tile mt" id="lg-t-br" style="--gc:#1c7ed6"><span class="wm" aria-hidden="true">🌉</span><span class="tt">Mosty</span><small id="lg-t-br-s"></small></button>
+    <button type="button" class="tile mt" id="lg-t-th" style="--gc:#f08c00"><span class="wm th-wm" aria-hidden="true"><i class="t1">1</i><i class="t2">2</i><i class="t3">3</i></span><span class="tt">Trójki</span><small id="lg-t-th-s"></small></button>
   </div>
 </div>
 <div class="wrap" id="lgb" hidden>
@@ -1307,6 +1322,16 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="bo-ctl"><button type="button" class="again" id="br-undo">↶ Cofnij</button><button type="button" class="again" id="br-clear">Zburz</button><button type="button" class="go-btn br-go" id="br-go">▶ Jedź!</button></div>
   <p class="abnote bo-tip" id="br-tip"></p>
   <div class="bo-end" id="br-end" hidden></div>
+</div>
+<div class="wrap" id="lgt" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Trójki</h1><div class="right">
+    <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="bo-top"><span id="th-score"></span><span class="th-nxw">Następny: <span id="th-next" class="th-t th-nx"></span></span></div>
+  <div class="th-wrap"><div class="th-board" id="th-board"></div></div>
+  <div class="bo-top"><span id="th-best"></span><span id="th-rec"></span></div>
+  <p class="abnote bo-tip">Przesuń palcem po planszy. 1 łączy się tylko z 2, a od 3 w górę – tylko takie same liczby. Po każdym ruchu z brzegu wjeżdża nowy kafel.</p>
+  <button type="button" class="again" id="th-new" style="width:100%">⟲ Nowa gra</button>
+  <div class="bo-end" id="th-end" hidden></div>
 </div>
 <div class="wrap" id="lgg" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Block Out</h1><div class="right">
@@ -2742,8 +2767,8 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",lgm:"#mosty",lgs:"#mosty-gra",lg:"#lamiglowki",lgb:"#block-out",lgg:"#block-out-gra",szw:"#szachy-wyglad",szrules:"#szachy-zasady",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szop:"#szachy-otwarcia",szcf:"#szachy-ciekawostki",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",lgm:"lgm",lgs:"lgs",lg:"lg",lgb:"lgb",lgg:"lgg",szw:"szw",szrules:"szrules",sz:"sz",sz3:"sz3",szl:"szl",szop:"szop",szcf:"szcf",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",lgt:"#trojki",lgm:"#mosty",lgs:"#mosty-gra",lg:"#lamiglowki",lgb:"#block-out",lgg:"#block-out-gra",szw:"#szachy-wyglad",szrules:"#szachy-zasady",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szop:"#szachy-otwarcia",szcf:"#szachy-ciekawostki",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",lgt:"lgt",lgm:"lgm",lgs:"lgs",lg:"lg",lgb:"lgb",lgg:"lgg",szw:"szw",szrules:"szrules",sz:"sz",sz3:"sz3",szl:"szl",szop:"szop",szcf:"szcf",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
@@ -2761,7 +2786,7 @@ function go(v){
   showView(v);
 }
 addEventListener("popstate",()=>{const v=Object.keys(HASH).find(k=>HASH[k]&&HASH[k]===location.hash)||"home";
-  showView(v==="play"&&!ACTIVE?"home":v==="plw"&&!PW?"plws":v==="pldt"&&!PD?"pld":v==="plz"&&!PZ?"plzs":v==="enq"&&!EN?"en":v==="enset"&&!ENM?"en":v==="szg"&&!SZ?"sz":v==="lgg"&&!BO?"lgb":v==="lgs"&&!BR?"lgm":v);});
+  showView(v==="play"&&!ACTIVE?"home":v==="plw"&&!PW?"plws":v==="pldt"&&!PD?"pld":v==="plz"&&!PZ?"plzs":v==="enq"&&!EN?"en":v==="enset"&&!ENM?"en":v==="szg"&&!SZ?"sz":v==="lgg"&&!BO?"lgb":v==="lgs"&&!BR?"lgm":v==="lgt"&&!TH?"lg":v);});
 document.querySelectorAll("[data-back]").forEach(b=>b.addEventListener("click",()=>{if(location.hash) history.back(); else showView("home");}));
 // logo aplikacji obok „wstecz” w nagłówku każdego ekranu: od razu na stronę główną (rozpoczęte gry zostają do dokończenia)
 document.querySelectorAll("header [data-back]").forEach(b=>{const h=document.createElement("button");h.type="button";h.className="home-btn";h.setAttribute("aria-label","Strona główna");
@@ -4642,7 +4667,7 @@ const CUP_CATS=[
   {id:"en-tobe",subj:"en",name:"To be",base:50},{id:"en-slowka",subj:"en",name:"Słówka angielskie",base:75},{id:"en-zdania",subj:"en",name:"Zdania",base:100},
   {id:"zd",subj:"zd",name:"Edukacja zdrowotna",base:60},
   {id:"sz-nauka",subj:"sz",name:"Samouczek szachowy",base:15},{id:"sz-zadania",subj:"sz",name:"Zadania szachowe",base:40},{id:"sz-gra",subj:"sz",name:"Partie z komputerem",base:20},
-  {id:"lg-blockout",subj:"lg",name:"Block Out",base:40},{id:"lg-mosty",subj:"lg",name:"Mosty",base:25}
+  {id:"lg-blockout",subj:"lg",name:"Block Out",base:40},{id:"lg-mosty",subj:"lg",name:"Mosty",base:25},{id:"lg-trojki",subj:"lg",name:"Trójki",base:30}
 ];
 const CUP_LV=[{k:"b",name:"Brąz",to:"brązu",x:1,c:"#cd7f32"},{k:"s",name:"Srebro",to:"srebra",x:3,c:"#b4bfcf"},
   {k:"g",name:"Złoto",to:"złota",x:8,c:"#f2c230"},{k:"d",name:"Diament",to:"diamentu",x:20,c:"#4dd4ff"}];
@@ -4995,7 +5020,7 @@ const MODS=[
     {k:"zd-styl",name:"Zdrowy styl życia",sub:"mierniki zdrowia, hartowanie"},{k:"zd-cialo",name:"Moje ciało się zmienia",sub:"dojrzewanie, higiena, żelazo"},
     {k:"zd-zach",name:"Zachowania chroniące i ryzykowne",sub:"środowisko, zdrowe nawyki"}]},
   {g:"Szachy",items:[{k:"sz-nauka",name:"Samouczek",sub:"ruchy figur, szach, mat, roszada"},{k:"sz-zadania",name:"Zadania",sub:"mat w 1, 2 i 3"},{k:"sz-gra",name:"Graj z komputerem",sub:"przeciwnicy do odblokowania"},{k:"sz-3d",name:"Szachy 3D",sub:"plansza 3D, wybuchy, piłkarze"},{k:"sz-otwarcia",nw:1,name:"Otwarcia",sub:"znane otwarcia z historią"},{k:"sz-ciekawostki",nw:1,name:"Ciekawostki",sub:"fakty o szachach"}]},
-  {g:"Łamigłówki",items:[{k:"lg-blockout",name:"Block Out",sub:"kolorowe klocki do drzwi"},{k:"lg-mosty",nw:1,name:"Mosty",sub:"budowanie mostów z fizyką"}]},
+  {g:"Łamigłówki",items:[{k:"lg-blockout",name:"Block Out",sub:"kolorowe klocki do drzwi"},{k:"lg-mosty",nw:1,name:"Mosty",sub:"budowanie mostów z fizyką"},{k:"lg-trojki",nw:1,name:"Trójki",sub:"łączenie liczb 1+2=3, 3+3=6…"}]},
   {g:"Historia",items:[{k:"his",name:"Historia",sub:"kafel „Wkrótce” – daty, bitwy, królowie"}]},
   {g:"Przyroda",items:[{k:"nat",name:"Przyroda",sub:"kafel „Wkrótce” – rośliny, zwierzęta, mapa"}]},
   {g:"Inne",always:true,items:[{k:"stats",name:"Statystyki",sub:"punkty, seria, wyniki"},{k:"cups",name:"Nagrody",sub:"puchary, animacje, filmiki"},
@@ -6178,7 +6203,8 @@ function renderLg(){
   const gate=!szGateOk("lg"),G=rlR("lg").gate;$("lg-rules-btn").hidden=!(ME&&ME.role==="parent");
   document.querySelectorAll("[data-lggate]").forEach(el=>{el.hidden=!gate;if(gate) el.innerHTML=`<div class="sz-gate-i" aria-hidden="true">🔒</div><div class="rt"><b>Łamigłówki otworzą się po ćwiczeniach</b><small>${esc(G.name)}</small></div><div class="sz-gate-l">${szRuleList(G,"lggate")}</div>`;});
   const m=boStarMap(),st=Object.values(m).reduce((a,b)=>a+b,0);
-  $("lg-t-bo").hidden=gate||!modOn("lg-blockout");$("lg-t-br").hidden=gate||!modOn("lg-mosty");
+  $("lg-t-bo").hidden=gate||!modOn("lg-blockout");$("lg-t-br").hidden=gate||!modOn("lg-mosty");$("lg-t-th").hidden=gate||!modOn("lg-trojki");
+  {const R=thRecord();let sv=null;try{sv=JSON.parse(localStorage.getItem(THK)||"null");}catch(e){}$("lg-t-th-s").textContent=sv&&sv.g?`Gra w toku · kafel ${thMax(sv.g)}`:R.sc?`Rekord: ${R.sc} · kafel ${R.mx}`:"1+2=3, 3+3=6, 6+6=12…";}
   {const bm=brStarMap(),bs=Object.values(bm).reduce((a,b)=>a+b,0);$("lg-t-br-s").textContent=bs?`Gwiazdki: ${bs} z ${BR_LEVELS.length*3}`:"Zbuduj most, który utrzyma auto";}
   $("lg-t-bo-s").textContent=st?`Gwiazdki: ${st} z ${BO_LEVELS.length*3}`:"Kolorowe klocki do drzwi";
   const left=szLeft("lg");if(left!==null&&!gate) $("lg-t-bo-s").textContent+=left?` · dziś jeszcze ${left}`:" · na dziś koniec";
@@ -6301,13 +6327,14 @@ $("bo-hint").addEventListener("click",boHint);
 $("bo-end").addEventListener("click",e=>{const b=e.target.closest("[data-boa]");if(!b) return;const a=b.dataset.boa;
   if(a==="next") return lgPlay(BO.k+1);if(a==="again") return lgPlay(BO.k);BO=null;go("lgb");});
 $("lgb-list").addEventListener("click",e=>{const b=e.target.closest("[data-bo]");if(b&&!b.disabled) lgPlay(+b.dataset.bo);});
-$("lg-t-bo").addEventListener("click",()=>go("lgb"));$("lg-t-br").addEventListener("click",()=>go("lgm"));
+$("lg-t-bo").addEventListener("click",()=>go("lgb"));$("lg-t-br").addEventListener("click",()=>go("lgm"));$("lg-t-th").addEventListener("click",()=>thOpen());
 $("t-lg").addEventListener("click",()=>go("lg"));
 $("lg-rules-btn").addEventListener("click",()=>{SZR={kid:SZR.kid,prefs:null,sec:"lg"};go("szrules");});
 addEventListener("resize",()=>{if(CUR==="lgg"&&BO&&!BO.drag) boDraw();});
 // rodzic wyłączył łamigłówki albo dziś obowiązuje blokada – wyjście z ekranów łamigłówek
-function lgGuard(){if(["lgm","lgs"].includes(CUR)&&subjOn("lg")&&(!modOn("lg-mosty")||!szGateOk("lg"))){toast(!modOn("lg-mosty")?"Rodzic wyłączył tę łamigłówkę.":"Łamigłówki otworzą się po ćwiczeniach od rodzica.");return go("lg");}
-  if(!["lg","lgb","lgg","lgm","lgs"].includes(CUR)) return;
+function lgGuard(){if(CUR==="lgt"&&subjOn("lg")&&(!modOn("lg-trojki")||!szGateOk("lg"))){toast("Łamigłówki otworzą się po ćwiczeniach od rodzica.");return go("lg");}
+if(["lgm","lgs"].includes(CUR)&&subjOn("lg")&&(!modOn("lg-mosty")||!szGateOk("lg"))){toast(!modOn("lg-mosty")?"Rodzic wyłączył tę łamigłówkę.":"Łamigłówki otworzą się po ćwiczeniach od rodzica.");return go("lg");}
+  if(!["lg","lgb","lgg","lgm","lgs","lgt"].includes(CUR)) return;
   if(!subjOn("lg")){toast("Rodzic wyłączył łamigłówki.");return go("home");}
   if((CUR==="lgb"||CUR==="lgg")&&(!modOn("lg-blockout")||!szGateOk("lg"))){toast(!modOn("lg-blockout")?"Rodzic wyłączył tę łamigłówkę.":"Łamigłówki otworzą się po ćwiczeniach od rodzica.");go("lg");}}
 
@@ -6505,6 +6532,72 @@ $("br-end").addEventListener("click",e=>{const b=e.target.closest("[data-bra]");
   if(a==="fix") return brStop();if(a==="next"){BR.S=null;return brPlay(BR.k+1);}BR.S=null;BR=null;go("lgm");});
 $("lgm-list").addEventListener("click",e=>{const b=e.target.closest("[data-br]");if(b&&!b.disabled) brPlay(+b.dataset.br);});
 addEventListener("resize",()=>{if(CUR==="lgs"&&BR){brSize();brDraw();}});
+
+/* --- Łamigłówki: Trójki (jak Threes!) – 1+2=3, potem równe się łączą: 3+3=6, 6+6=12…; po ruchu wjeżdża nowy kafel --- */
+const THK="henriksen-trojki"; // przerwana gra (wraca po wyjściu)
+let TH=null;
+const thCan=(a,b)=>a+b===3||a>=3&&a===b;
+const thScore=g=>g.flat().reduce((s,v)=>s+(v>=3?3**(Math.log2(v/3)+1):0),0);
+const thMax=g=>Math.max(...g.flat());
+// talia: po cztery 1, 2 i 3; przy dużych kaflach czasem bonus (6…max/8)
+function thDraw(){if(!TH.deck.length){TH.deck=[1,1,1,1,2,2,2,2,3,3,3,3];shuffle(TH.deck);}
+  const mx=thMax(TH.g);if(mx>=48&&Math.random()<1/21){const opts=[];for(let v=6;v<=mx/8;v*=2) opts.push(v);if(opts.length) return opts[Math.floor(Math.random()*opts.length)];}
+  return TH.deck.pop();}
+function thNew(){const g=[[0,0,0,0],[0,0,0,0],[0,0,0,0],[0,0,0,0]];TH={g,deck:[],next:0,moves:0,start:Date.now(),id:"lg"+Date.now().toString(36),best:0};
+  const cells=shuffle([...Array(16).keys()]).slice(0,9);cells.forEach(k=>{g[k>>2][k&3]=thDraw();});TH.next=thDraw();TH.best=thMax(g);thSave();}
+const thSave=()=>{try{localStorage.setItem(THK,JSON.stringify(TH));}catch(e){}};
+// ruch: każdy kafel o jedno pole w stronę ruchu (wolne pole albo łączenie); zwraca przesunięcia do animacji
+function thMove(dir){const g=TH.g,moves=[],moved=new Set(),merges=[];
+  const cell=(l,i)=>dir==="L"?[l,i]:dir==="R"?[l,3-i]:dir==="U"?[i,l]:[3-i,l];
+  for(let l=0;l<4;l++){const done=[false,false,false,false];
+    for(let i=1;i<4;i++){const [r,c]=cell(l,i),[r0,c0]=cell(l,i-1),v=g[r][c];if(!v) continue;const t=g[r0][c0];
+      if(!t){g[r0][c0]=v;g[r][c]=0;moves.push([r,c,r0,c0]);moved.add(l);}
+      else if(!done[i-1]&&thCan(t,v)){g[r0][c0]=t+v;g[r][c]=0;done[i-1]=true;moves.push([r,c,r0,c0]);moved.add(l);merges.push([r0,c0,t,v]);}}}
+  if(!moved.size) return null;
+  const L=[...moved],l=L[Math.floor(Math.random()*L.length)],[nr,nc]=cell(l,3);g[nr][nc]=TH.next;TH.next=thDraw();TH.moves++;
+  return {moves,merges,add:[nr,nc,dir]};}
+const thCanMove=()=>["L","R","U","D"].some(d=>{const g=TH.g;for(let l=0;l<4;l++) for(let i=1;i<4;i++){const cell=(i)=>d==="L"?[l,i]:d==="R"?[l,3-i]:d==="U"?[i,l]:[3-i,l];
+  const [r,c]=cell(i),[r0,c0]=cell(i-1);if(g[r][c]&&(!g[r0][c0]||thCan(g[r0][c0],g[r][c]))) return true;}return false;});
+const thCls=v=>v===1?"t1":v===2?"t2":v>=TH.best&&v>=12?"t3 top":"t3";
+function thRender(an){const B=$("th-board");
+  let h="";for(let k=0;k<16;k++) h+=`<div class="th-c" style="--r:${k>>2};--c:${k&3}"></div>`;
+  TH.g.forEach((row,r)=>row.forEach((v,c)=>{if(!v) return;const isNew=an&&an.add&&an.add[0]===r&&an.add[1]===c,mg=an&&an.merges.some(m=>m[0]===r&&m[1]===c);
+    h+=`<div class="th-t ${thCls(v)}${isNew?" in-"+an.add[2]:""}${mg?" pop":""}" style="--r:${r};--c:${c}"><b style="font-size:${v>=1000?.62:v>=100?.78:1}em">${v}</b></div>`;}));
+  B.innerHTML=h;
+  $("th-next").className="th-t th-nx "+(TH.next===1?"t1":TH.next===2?"t2":"t3");$("th-next").innerHTML=`<b>${TH.next>3?"+":TH.next}</b>`;
+  $("th-score").innerHTML=`Wynik: <b>${thScore(TH.g)}</b>`;$("th-best").textContent=`Największy: ${thMax(TH.g)}`;
+  if(an) an.merges.slice(0,3).forEach(([r,c,a,b])=>{const f=document.createElement("div");f.className="th-eq";f.style.cssText=`--r:${r};--c:${c}`;f.textContent=`${a}+${b}`;B.appendChild(f);setTimeout(()=>f.remove(),900);});}
+function thGo(dir){if(!TH||TH.over) return;const an=thMove(dir);if(!an){const B=$("th-board");B.classList.remove("nope");void B.offsetWidth;B.classList.add("nope");return;}
+  if(an.merges.length) sfx("ok");const mx=thMax(TH.g);
+  if(mx>TH.best&&mx>=12){TH.best=mx;toast(`Nowy kafel ${mx}! To ${3} × ${mx/3}${mx>=24?` = ${mx/2} + ${mx/2}`:""}.`);}
+  thSave();thRender(an);if(!thCanMove()) setTimeout(thEnd,500);}
+function thEnd(){if(!TH||TH.over) return;TH.over=true;const sc=thScore(TH.g),mx=thMax(TH.g),st=mx>=192?3:mx>=96?2:1,w=Math.max(1,Math.round(Math.log2(mx/3)+1)),pct={3:100,2:75,1:50}[st];
+  try{localStorage.removeItem(THK);}catch(e){}
+  const H=loadHist();H.push({id:TH.id,subj:"lg",start:TH.start,end:Date.now(),status:"done",cfg:{mode:"trojki"},n:1,done:1,
+    recs:[{t:`Trójki: ${mx}`,ok:true,st,sc,mx,w,tries:[],h:0,ms:Date.now()-TH.start}],pct,grade:grade(pct).n,errors:0,hints:0,pts:w,ptsMax:w});saveHist(H);
+  const best=thRecord();sfx("final");
+  $("th-end").innerHTML=`<div class="bo-card"><div class="bo-stars">${[1,2,3].map(n=>`<span class="${n<=st?"on":""}" style="animation-delay:${n*.18}s">★</span>`).join("")}</div><b>Koniec ruchów!</b>`+
+    `<small>Wynik: ${sc} · największy kafel: ${mx}${best.sc<=sc?" · rekord!":` · rekord: ${best.sc}`}</small><div class="bo-pts">+${w} pkt</div>`+
+    `<small class="br-fact">💡 ${mx} = 3 × ${mx/3}. Każdy kafel to 3 razy potęga dwójki: 3, 6, 12, 24, 48, 96, 192…</small>`+
+    `<div class="bo-btns"><button type="button" class="go-btn" data-tha="new">Nowa gra</button><button type="button" class="again" data-tha="list">Wróć</button></div></div>`;
+  $("th-end").hidden=false;try{setTimeout(cupsCheck,1500);}catch(e){}}
+const thRecord=()=>loadHist().filter(s=>s.subj==="lg"&&s.cfg&&s.cfg.mode==="trojki").reduce((a,s)=>{const r=s.recs[0]||{};return {sc:Math.max(a.sc,r.sc||0),mx:Math.max(a.mx,r.mx||0)};},{sc:0,mx:0});
+function thOpen(fresh){
+  if(!szGateOk("lg")){toast("Łamigłówki otworzą się po ćwiczeniach od rodzica.");return go("lg");}
+  let sv=null;try{sv=JSON.parse(localStorage.getItem(THK)||"null");}catch(e){}
+  if(sv&&sv.g&&!fresh) TH=sv;
+  else{if(szLeft("lg")===0){toast("Na dziś wystarczy łamigłówek!");return go("lg");}lgCount();thNew();}
+  if(CUR!=="lgt") go("lgt");$("th-end").hidden=true;thRender();
+  const R=thRecord();$("th-rec").textContent=R.sc?`Rekord: ${R.sc} · kafel ${R.mx}`:"Połącz 1 z 2, a potem równe liczby.";}
+// sterowanie: przesunięcie palcem po planszy albo strzałki
+{let p0=null;const B=$("th-board");
+  B.addEventListener("pointerdown",e=>{p0=[e.clientX,e.clientY];try{B.setPointerCapture(e.pointerId);}catch(x){}e.preventDefault();});
+  B.addEventListener("pointerup",e=>{if(!p0) return;const dx=e.clientX-p0[0],dy=e.clientY-p0[1];p0=null;if(Math.max(Math.abs(dx),Math.abs(dy))<24) return;
+    thGo(Math.abs(dx)>Math.abs(dy)?(dx>0?"R":"L"):(dy>0?"D":"U"));});
+  B.addEventListener("pointercancel",()=>{p0=null;});
+  addEventListener("keydown",e=>{if(CUR!=="lgt") return;const d={ArrowLeft:"L",ArrowRight:"R",ArrowUp:"U",ArrowDown:"D"}[e.key];if(d){e.preventDefault();thGo(d);}});}
+$("th-new").addEventListener("click",async()=>{if(TH&&!TH.over&&TH.moves>0&&!await askYes("Zacząć od nowa?","Obecna gra przepadnie.","Nowa gra","Gram dalej")) return;try{localStorage.removeItem(THK);}catch(e){}thOpen(true);});
+$("th-end").addEventListener("click",e=>{const b=e.target.closest("[data-tha]");if(!b) return;$("th-end").hidden=true;if(b.dataset.tha==="new") return thOpen(true);go("lg");});
 
 /* --- zadania --- */
 async function szPuzzles(theme,n,tag){
