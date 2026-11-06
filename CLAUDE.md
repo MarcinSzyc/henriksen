@@ -201,7 +201,12 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   (`thEnd`: gwiazdki z największego kafla 96/192, punkty = log2(max/3)+1, sesja `cfg:{mode:"trojki"}`, `recs[0]={sc,mx}`). Nowa gra liczy się do limitu. Pod planszą ranking `thRank`: 5 najlepszych wyników (wszystkie plansze) i 8 ostatnich partii.
   Id sesji łamigłówek to liczby (`Date.now()`) – baza ma `bigint`; starsze tekstowe „lg…” są zamieniane przy starcie.
   Poziomy Block Out i Mostów są otwarte do najdalej zaliczonego + 1.
-  Zasady rodzica jak w szachach, wspólny kod: `RSEC` (sz / lg: klucze `szLimit`/`szRules` i `lgLimit`/`lgRules`, znaczniki `szx`/`szgate` i `lgx`/`lggate`,
+  Zasady rodzica **osobno dla każdej gry** (`LGG`: bo = Block Out, br = Mosty, th = Trójki; klucze `boLimit`/`boRules`, `brLimit`/`brRules`,
+  `thLimit`/`thRules` w `PARENT_KEYS`, znaczniki `box`/`bogate` itd., `RSEC[g]` z `lgSecOf`): limit dzienny (Block Out i Mosty – poziomy, Trójki – partie),
+  wyjątki na dni, „najpierw pakiet” i dodatkowe za pakiet. Licznik `henriksen-lgdzien` = `{d, n:{bo,br,th}}`, `lgPlayedToday(g)` (też z historii po `cfg.mode`),
+  `lgCount(g)`, karta `lgLimCard(g)` (lista poziomów, w Trójkach `#th-lim`), blokady na ekranie `#lg` w `#lg-gates` (zablokowana gra znika z kafli),
+  `lgGuard` sprawdza grę bieżącego ekranu. Edytor `#szrules` z zakładkami gier `#szr-games` (`SZR.sec` = bo/br/th). Stare wspólne `lgLimit`/`lgRules` nic już nie robią.
+  Dawny opis wspólnych zasad: `RSEC` (sz / lg: klucze `szLimit`/`szRules` i `lgLimit`/`lgRules`, znaczniki `szx`/`szgate` i `lgx`/`lggate`,
   teksty edytora), `rlR(s)`, `szLimitToday(s)`, `szBonus(s)`, `szLeft(s)`, `szGateOk(s)`; edytor `#szrules` z `SZR.sec` (przycisk „Zasady łamigłówek”
   na ekranie `#lg`). Limit liczy rozpoczęte poziomy (`lgPlayedToday`, licznik `henriksen-lgdzien`); `lgLimCard`, `lgGuard` (z `applyMods`).
 - **Edukacja zdrowotna** (widok `#zd`, hash `#zdrowie`, przedmiot `subj:"zd"`): kafel „Sprawdzian 29.10” (`ZD_DATE`, wszystkie pytania

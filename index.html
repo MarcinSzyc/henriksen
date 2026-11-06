@@ -802,6 +802,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .th-nxw{display:flex;align-items:center;gap:6px}.th-nx{position:relative;left:auto;top:auto;transform:none;width:34px;height:44px;padding:0;display:inline-block}.th-nx{font-size:1.2rem}.th-nx b{box-shadow:none}
 .th-wm{display:flex!important;gap:3px}.th-wm i{font-style:normal;width:20px;height:26px;border-radius:5px;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:.9rem}
 .th-wm .t1{background:#66ccff;color:#fff}.th-wm .t2{background:#ff6680;color:#fff}.th-wm .t3{background:#fff;color:#1b1b2f}
+.lg-gates{display:flex;flex-direction:column;gap:10px;margin-bottom:12px}.lg-gates:empty{display:none}
 .tile.lg{background:linear-gradient(135deg,#ff6b6b,#7048e8)}
 .bo-wm{display:grid!important;grid-template-columns:repeat(2,18px);gap:4px}.bo-wm i{width:18px;height:18px;border-radius:5px;background:var(--c);box-shadow:inset 0 3px 0 rgba(255,255,255,.35)}
 .bo-lv{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:8px 0 18px}#lgb-list .lbl{margin:0}
@@ -1245,6 +1246,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Zasady szachów</h1><div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div class="fchips who" id="szr-kids" role="group" aria-label="Dziecko"></div>
+  <div class="segs" id="szr-games" role="group" aria-label="Gra" hidden></div>
   <div id="szr-body"></div>
   <button type="button" class="go-btn" id="szr-save" hidden>Zapisz</button>
   <div class="abnote" id="szr-msg" aria-live="polite"></div>
@@ -1300,8 +1302,8 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 <div class="wrap" id="lg" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Łamigłówki</h1><div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
-  <div class="sz-gate" data-lggate hidden></div>
-  <button type="button" class="more pmore" id="lg-rules-btn" hidden style="margin-bottom:14px"><span><b>👨‍👧 Zasady łamigłówek dla dziecka</b><small>Limit poziomów, wyjątki na dni, ćwiczenia za dodatkowe poziomy</small></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
+  <div id="lg-gates" class="lg-gates"></div>
+  <button type="button" class="more pmore" id="lg-rules-btn" hidden style="margin-bottom:14px"><span><b>👨‍👧 Zasady łamigłówek dla dziecka</b><small>Osobno dla każdej gry: limit, ćwiczenia przed grą i za dodatkowe poziomy</small></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
   <div class="tiles2 mat-tiles">
     <button type="button" class="tile mt" id="lg-t-bo" style="--gc:#e64980"><span class="wm bo-wm" aria-hidden="true"><i style="--c:#ff4d6d"></i><i style="--c:#2f80ff"></i><i style="--c:#ffb703"></i><i style="--c:#2bc76a"></i></span><span class="tt">Block Out</span><small id="lg-t-bo-s"></small></button>
     <button type="button" class="tile mt" id="lg-t-br" style="--gc:#1c7ed6"><span class="wm" aria-hidden="true">🌉</span><span class="tt">Mosty</span><small id="lg-t-br-s"></small></button>
@@ -1336,6 +1338,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Trójki</h1><div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div class="bo-top"><span id="th-score"></span><span class="th-nxw">Następny: <span id="th-next" class="th-t th-nx"></span></span></div>
+  <div id="th-lim" class="szlim-wrap" hidden></div>
   <div class="segs" id="th-size" role="group" aria-label="Wielkość planszy"></div>
   <div class="th-wrap"><div class="th-board" id="th-board"></div></div>
   <div class="bo-top"><span id="th-best"></span><span id="th-rec"></span></div>
@@ -1856,8 +1859,8 @@ const BADGES={
 const BADGE_NAMES={ball:"Piłka",crown:"Korona",bolt:"Błyskawica",rocket:"Rakieta",none:"Bez znaczka"};
 const SUBS=[["streak","Seria dni"],["date","Data"],["none","Nic"]];
 const NAME_PRESETS=["Henriksen","Kapitan H","Nr 10","Ekipa H"];
-let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null,mods:{},rewSeen:[],tasks:[],taskSeen:[],lib:{ex:[],pk:[]},szSkin:"classic",szBoard:"brown",szPcs:"auto",szTalk:true,szVoice:true,szWho:"zbyszek",szEmo:true,szFx:true,szAnim:true,szLimit:0,szRules:{},lgLimit:0,lgRules:{},szBadges:true};
-try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{},rewSeen:Array.isArray(p.rewSeen)?p.rewSeen.filter(x=>typeof x==="string"):[],tasks:Array.isArray(p.tasks)?p.tasks.filter(t=>t&&t.id&&Array.isArray(t.packs)):[],taskSeen:Array.isArray(p.taskSeen)?p.taskSeen:[],lib:p.lib&&typeof p.lib==="object"?{ex:Array.isArray(p.lib.ex)?p.lib.ex:[],pk:Array.isArray(p.lib.pk)?p.lib.pk:[]}:{ex:[],pk:[]},szSkin:["classic","pilkarze","dino","roboty"].includes(p.szSkin)?p.szSkin:"classic",szBoard:typeof p.szBoard==="string"?p.szBoard:"brown",szPcs:typeof p.szPcs==="string"?p.szPcs:"auto",szTalk:p.szTalk!==false,szVoice:p.szVoice!==false,szWho:["zbyszek","janusz","grazyna"].includes(p.szWho)?p.szWho:"zbyszek",szEmo:p.szEmo!==false,szFx:p.szFx!==false,szAnim:p.szAnim!==false,szLimit:Math.max(0,Math.min(50,+p.szLimit||0)),szRules:p.szRules&&typeof p.szRules==="object"?p.szRules:{},lgLimit:Math.max(0,+p.lgLimit||0),lgRules:p.lgRules&&typeof p.lgRules==="object"?p.lgRules:{},szBadges:p.szBadges!==false};}catch(e){}
+let PREFS={name:"",badge:"ball",sub:"streak",theme:"auto",awake:true,dots:true,pct:false,grade:false,pts:true,hints:true,sound:true,modals:true,goals:true,fx:!matchMedia("(prefers-reduced-motion: reduce)").matches,fxOff:[],fxTier:1,cups:{},cupRewards:{},cupSeen:null,mods:{},rewSeen:[],tasks:[],taskSeen:[],lib:{ex:[],pk:[]},szSkin:"classic",szBoard:"brown",szPcs:"auto",szTalk:true,szVoice:true,szWho:"zbyszek",szEmo:true,szFx:true,szAnim:true,szLimit:0,szRules:{},lgLimit:0,lgRules:{},boLimit:0,boRules:{},brLimit:0,brRules:{},thLimit:0,thRules:{},szBadges:true};
+try{const p=JSON.parse(localStorage.getItem(PKEY));if(p) PREFS={name:typeof p.name==="string"?p.name.trim().slice(0,20):"",badge:Object.keys(BADGES).includes(p.badge)?p.badge:"ball",sub:["streak","date","none"].includes(p.sub)?p.sub:"streak",theme:["light","dark"].includes(p.theme)?p.theme:"auto",awake:p.awake!==false,dots:p.dots!==false,pct:!!p.pct,grade:!!p.grade,pts:p.pts!==false,hints:p.hints!==false,sound:p.sound!==false,modals:p.modals!==false,goals:p.goals!==false,fx:typeof p.fx==="boolean"?p.fx:PREFS.fx,fxOff:Array.isArray(p.fxOff)?p.fxOff.filter(x=>typeof x==="string"):[],fxTier:Math.max(1,Math.min(3,+p.fxTier||1)),cups:p.cups&&typeof p.cups==="object"?p.cups:{},cupRewards:p.cupRewards&&typeof p.cupRewards==="object"?p.cupRewards:{},cupSeen:p.cupSeen&&typeof p.cupSeen==="object"?p.cupSeen:null,mods:p.mods&&typeof p.mods==="object"?p.mods:{},rewSeen:Array.isArray(p.rewSeen)?p.rewSeen.filter(x=>typeof x==="string"):[],tasks:Array.isArray(p.tasks)?p.tasks.filter(t=>t&&t.id&&Array.isArray(t.packs)):[],taskSeen:Array.isArray(p.taskSeen)?p.taskSeen:[],lib:p.lib&&typeof p.lib==="object"?{ex:Array.isArray(p.lib.ex)?p.lib.ex:[],pk:Array.isArray(p.lib.pk)?p.lib.pk:[]}:{ex:[],pk:[]},szSkin:["classic","pilkarze","dino","roboty"].includes(p.szSkin)?p.szSkin:"classic",szBoard:typeof p.szBoard==="string"?p.szBoard:"brown",szPcs:typeof p.szPcs==="string"?p.szPcs:"auto",szTalk:p.szTalk!==false,szVoice:p.szVoice!==false,szWho:["zbyszek","janusz","grazyna"].includes(p.szWho)?p.szWho:"zbyszek",szEmo:p.szEmo!==false,szFx:p.szFx!==false,szAnim:p.szAnim!==false,szLimit:Math.max(0,Math.min(50,+p.szLimit||0)),szRules:p.szRules&&typeof p.szRules==="object"?p.szRules:{},lgLimit:Math.max(0,+p.lgLimit||0),lgRules:p.lgRules&&typeof p.lgRules==="object"?p.lgRules:{},boLimit:Math.max(0,+p.boLimit||0),boRules:p.boRules&&typeof p.boRules==="object"?p.boRules:{},brLimit:Math.max(0,+p.brLimit||0),brRules:p.brRules&&typeof p.brRules==="object"?p.brRules:{},thLimit:Math.max(0,+p.thLimit||0),thRules:p.thRules&&typeof p.thRules==="object"?p.thRules:{},szBadges:p.szBadges!==false};}catch(e){}
 /* bez zaznaczania i menu po przytrzymaniu (poza polami do wpisywania) */
 ["contextmenu","selectstart"].forEach(ev=>document.addEventListener(ev,e=>{if(!e.target.closest||!e.target.closest("input")) e.preventDefault();}));
 const KEY="tabliczka100-postep";
@@ -4683,7 +4686,7 @@ const CUP_CATS=[
 const CUP_LV=[{k:"b",name:"Brąz",to:"brązu",x:1,c:"#cd7f32"},{k:"s",name:"Srebro",to:"srebra",x:3,c:"#b4bfcf"},
   {k:"g",name:"Złoto",to:"złota",x:8,c:"#f2c230"},{k:"d",name:"Diament",to:"diamentu",x:20,c:"#4dd4ff"}];
 const CUP_STEPS=[20,30,50,75,100,150,200,300,400,500,750,1000,1500,2000,3000,4000,5000,7500,10000];
-const PARENT_KEYS=["cups","cupRewards","mods","tasks","szLimit","szRules","lgLimit","lgRules"]; // ustawia rodzic – przy konflikcie wygrywa wersja z bazy
+const PARENT_KEYS=["cups","cupRewards","mods","tasks","szLimit","szRules","lgLimit","lgRules","boLimit","boRules","brLimit","brRules","thLimit","thRules"]; // ustawia rodzic – przy konflikcie wygrywa wersja z bazy
 const cupCat=(s,r)=>{const sj=s.subj||"mat";if(sj==="zd") return "zd";return sj==="mat"?"mat"+(Array.isArray(r.t)?r.t[1]:""):sj+"-"+((s.cfg&&s.cfg.mode)||(sj==="en"?"tobe":"slowka"));};
 function cupCounts(H){const c={};for(const s of H) for(const r of s.recs||[]) if(r.ok){const k=cupCat(s,r);c[k]=(c[k]||0)+recW(s,r);}return c;} // punkty, nie liczba zadań
 const cupBase=(P,id)=>(P&&P.cups&&+P.cups[id])||CUP_CATS.find(x=>x.id===id).base;
@@ -5462,6 +5465,14 @@ const RSEC={sz:{r:"szRules",l:"szLimit",x:"szx",g:"szgate",def:2,u:n=>partii(n),
     N:[[3,"3"],[5,"5"],[10,"10"],[15,"15"],[20,"20"]],D:[[0,"Bez gry"],[3,"3"],[5,"5"],[10,"10"],[20,"20"],[-1,"Bez limitu"]],
     extraT:"Każdy poziom ponad limit wymaga pakietu",perT:"Poziomów za jedno przejście pakietu",maxT:"Najwięcej dodatkowych poziomów dziennie",
     gateT:"Łamigłówki otwierają się dopiero po pakiecie",gateN:"Codziennie najpierw ten pakiet – dopiero potem łamigłówki."}};
+// każda łamigłówka ma własne zasady (bo / br / th); stare wspólne „lg” zostają w danych, ale nic ich już nie czyta
+const lgSecOf=(id,name,unit,one,N,D,def)=>({r:id+"Rules",l:id+"Limit",x:id+"x",g:id+"gate",def,u:unit,one,title:`Zasady: ${name}`,limT:`Limit: ${name}`,N,D,
+  extraT:`Każdy kolejny raz ponad limit wymaga pakietu`,perT:`Ile więcej za jedno przejście pakietu`,maxT:`Najwięcej dodatkowych dziennie`,
+  gateT:`${name}: najpierw pakiet ćwiczeń`,gateN:`Codziennie najpierw ten pakiet – dopiero potem ${name}.`});
+Object.assign(RSEC,{
+  bo:lgSecOf("bo","Block Out",n=>poziomow(n),"jeden poziom",[[3,"3"],[5,"5"],[10,"10"],[15,"15"],[20,"20"]],[[0,"Bez gry"],[3,"3"],[5,"5"],[10,"10"],[20,"20"],[-1,"Bez limitu"]],5),
+  br:lgSecOf("br","Mosty",n=>poziomow(n),"jeden poziom",[[1,"1"],[2,"2"],[3,"3"],[5,"5"],[10,"10"]],[[0,"Bez gry"],[1,"1"],[2,"2"],[3,"3"],[5,"5"],[-1,"Bez limitu"]],3),
+  th:lgSecOf("th","Trójki",n=>partii(n),"jedna partia",[[1,"1"],[2,"2"],[3,"3"],[5,"5"],[10,"10"]],[[0,"Bez gry"],[1,"1"],[2,"2"],[3,"3"],[5,"5"],[-1,"Bez limitu"]],2)});
 const rlR=s=>{const v=PREFS[RSEC[s].r];return v&&typeof v==="object"?v:{};};
 const rlSec=tag=>Object.keys(RSEC).find(k=>RSEC[k].x===tag||RSEC[k].g===tag)||"sz";
 const szR=()=>rlR("sz");
@@ -5490,7 +5501,7 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-szrun]");i
 // partie za pakiet: extra.n = ile za jedno przejście (domyślnie 1), extra.max = najwięcej dodatkowych dziennie (0 = bez ograniczenia)
 function szBonus(s="sz"){const X=rlR(s).extra;if(!szRuleOk(X)) return {X:null,got:0,per:1,max:0,full:false};
   const per=Math.max(1,+X.n||1),max=Math.max(0,+X.max||0),raw=szRuleDone(X,RSEC[s].x)*per,got=max?Math.min(max,raw):raw;return {X,got,per,max,full:!!max&&got>=max};}
-const szLeft=(s="sz")=>{const L=szLimitToday(s);if(L==null) return null;return Math.max(0,L+szBonus(s).got-(s==="sz"?szPlayedToday():lgPlayedToday()));};
+const szLeft=(s="sz")=>{const L=szLimitToday(s);if(L==null) return null;return Math.max(0,L+szBonus(s).got-(s==="sz"?szPlayedToday():lgPlayedToday(s)));};
 const szGateOk=(s="sz")=>{const G=rlR(s).gate;return !szRuleOk(G)||szRuleDone(G,RSEC[s].g)>0;};
 function szCountGame(){const d=new Date().toDateString();try{localStorage.setItem(SZ_DAYK,JSON.stringify({d,n:szPlayedToday()+1}));}catch(e){}}
 const szWins=id=>szHist("gra").filter(s=>s.cfg.opp===id&&s.recs[0]&&s.recs[0].ok).length;
@@ -6211,37 +6222,41 @@ const boStarMap=()=>{const m={};loadHist().forEach(s=>{if(s.subj==="lg"&&s.cfg&&
 const boPts=(k,st)=>st*(Math.floor(k/10)+1);
 // dzienny limit poziomów (zasady rodzica jak w szachach): liczy rozpoczęte poziomy
 const LG_DAYK="henriksen-lgdzien";
-function lgPlayedToday(){const d=new Date().toDateString();let n=0;try{const x=JSON.parse(localStorage.getItem(LG_DAYK)||"{}");if(x.d===d) n=x.n||0;}catch(e){}
-  const t0=dayKey(Date.now());return Math.max(n,loadHist().filter(s=>s.subj==="lg"&&s.start>=t0).length);}
-function lgCount(){const d=new Date().toDateString();try{localStorage.setItem(LG_DAYK,JSON.stringify({d,n:lgPlayedToday()+1}));}catch(e){}}
-function lgLimCard(){
-  const left=szLeft("lg");if(left===null) return "";const B=szBonus("lg"),X=B.full?null:B.X,get=B.max?Math.min(B.per,B.max-B.got):B.per;
-  if(left) return `<div class="szlim"><div class="szlim-h">Dziś ${left===1?"został":poziomow(left)==="poziomy"?"zostały":"zostało"} ci <b>${left}</b> ${poziomow(left)}</div>${B.got?`<small>w tym ${B.got} za ćwiczenia – brawo!</small>`:""}</div>`;
-  const more=X&&X.pk?`<div class="szlim-more"><b>Chcesz jeszcze? 😉</b><span>Zrób te ćwiczenia, a dostaniesz ${get} ${poziomow(get)} więcej:</span>${szRuleList(X,"lgx").replace(/Zrobione (\d+) z (\d+)/,`Zrobione $1 z $2 → +${get} ${poziomow(get)}`)}</div>`:"";
-  return `<div class="szlim done"><div class="szlim-e" aria-hidden="true">🙌</div><div class="szlim-h">Na dziś wystarczy łamigłówek!</div><span class="szlim-s">Świetna robota. Wróć jutro po więcej.</span>${B.full?`<small>Dodatkowe poziomy za ćwiczenia też już wykorzystane (${B.max}).</small>`:""}</div>${more}`;
+const LGG={bo:{mode:"blockout",name:"Block Out",op:"otworzy",mod:"lg-blockout",tile:"lg-t-bo",u:n=>poziomow(n)},br:{mode:"mosty",name:"Mosty",op:"otworzą",mod:"lg-mosty",tile:"lg-t-br",u:n=>poziomow(n)},
+  th:{mode:"trojki",name:"Trójki",op:"otworzą",mod:"lg-trojki",tile:"lg-t-th",u:n=>partii(n)}};
+// dzienny limit każdej gry: rozpoczęte poziomy / partie dziś (licznik albo historia, większe)
+function lgPlayedToday(g){const d=new Date().toDateString();let n=0;try{const x=JSON.parse(localStorage.getItem(LG_DAYK)||"{}");if(x.d===d&&x.n&&typeof x.n==="object") n=x.n[g]||0;}catch(e){}
+  const t0=dayKey(Date.now());return Math.max(n,loadHist().filter(s=>s.subj==="lg"&&s.start>=t0&&s.cfg&&s.cfg.mode===LGG[g].mode).length);}
+function lgCount(g){const d=new Date().toDateString();let x={};try{x=JSON.parse(localStorage.getItem(LG_DAYK)||"{}");}catch(e){}
+  const n=x.d===d&&x.n&&typeof x.n==="object"?x.n:{};n[g]=lgPlayedToday(g)+1;try{localStorage.setItem(LG_DAYK,JSON.stringify({d,n}));}catch(e){}}
+function lgLimCard(g){const G=LGG[g],U=G.u;
+  const left=szLeft(g);if(left===null) return "";const B=szBonus(g),X=B.full?null:B.X,get=B.max?Math.min(B.per,B.max-B.got):B.per;
+  if(left) return `<div class="szlim"><div class="szlim-h">${G.name}: dziś ${left===1?"został":U(left).endsWith("y")||U(left)==="partie"?"zostały":"zostało"} ci <b>${left}</b> ${U(left)}</div>${B.got?`<small>w tym ${B.got} za ćwiczenia – brawo!</small>`:""}</div>`;
+  const more=X&&X.pk?`<div class="szlim-more"><b>Chcesz jeszcze? 😉</b><span>Zrób te ćwiczenia, a dostaniesz ${get} ${U(get)} więcej:</span>${szRuleList(X,RSEC[g].x).replace(/Zrobione (\d+) z (\d+)/,`Zrobione $1 z $2 → +${get} ${U(get)}`)}</div>`:"";
+  return `<div class="szlim done"><div class="szlim-e" aria-hidden="true">🙌</div><div class="szlim-h">${G.name}: na dziś wystarczy!</div><span class="szlim-s">Świetna robota. Wróć jutro po więcej.</span>${B.full?`<small>Dodatkowe za ćwiczenia też już wykorzystane (${B.max}).</small>`:""}</div>${more}`;
 }
 function renderLg(){
-  const gate=!szGateOk("lg"),G=rlR("lg").gate;$("lg-rules-btn").hidden=!(ME&&ME.role==="parent");
-  document.querySelectorAll("[data-lggate]").forEach(el=>{el.hidden=!gate;if(gate) el.innerHTML=`<div class="sz-gate-i" aria-hidden="true">🔒</div><div class="rt"><b>Łamigłówki otworzą się po ćwiczeniach</b><small>${esc(G.name)}</small></div><div class="sz-gate-l">${szRuleList(G,"lggate")}</div>`;});
-  const m=boStarMap(),st=Object.values(m).reduce((a,b)=>a+b,0);
-  $("lg-t-bo").hidden=gate||!modOn("lg-blockout");$("lg-t-br").hidden=gate||!modOn("lg-mosty");$("lg-t-th").hidden=gate||!modOn("lg-trojki");
+  $("lg-rules-btn").hidden=!(ME&&ME.role==="parent");
+  const gated=Object.keys(LGG).filter(g=>modOn(LGG[g].mod)&&!szGateOk(g));
+  $("lg-gates").innerHTML=gated.map(g=>{const R=rlR(g).gate;return `<div class="sz-gate"><div class="sz-gate-i" aria-hidden="true">🔒</div><div class="rt"><b>${LGG[g].name} ${LGG[g].op} się po ćwiczeniach</b><small>${esc(R.name)}</small></div><div class="sz-gate-l">${szRuleList(R,RSEC[g].g)}</div></div>`;}).join("");
+  Object.keys(LGG).forEach(g=>{$(LGG[g].tile).hidden=!modOn(LGG[g].mod)||gated.includes(g);});
   {const R=thRecord(null);let sv=null;try{sv=JSON.parse(localStorage.getItem(THK)||"null");}catch(e){}$("lg-t-th-s").textContent=sv&&sv.g?`Gra w toku · kafel ${thMax(sv.g)}`:R.sc?`Rekord: ${R.sc} · kafel ${R.mx}`:"1+2=3, 3+3=6, 6+6=12…";}
   {const bm=brStarMap(),bs=Object.values(bm).reduce((a,b)=>a+b,0);$("lg-t-br-s").textContent=bs?`Gwiazdki: ${bs} z ${BR_LEVELS.length*3}`:"Zbuduj most, który utrzyma auto";}
-  $("lg-t-bo-s").textContent=st?`Gwiazdki: ${st} z ${BO_LEVELS.length*3}`:"Kolorowe klocki do drzwi";
-  const left=szLeft("lg");if(left!==null&&!gate) $("lg-t-bo-s").textContent+=left?` · dziś jeszcze ${left}`:" · na dziś koniec";
+  {const m=boStarMap(),st=Object.values(m).reduce((a,b)=>a+b,0);$("lg-t-bo-s").textContent=st?`Gwiazdki: ${st} z ${BO_LEVELS.length*3}`:"Kolorowe klocki do drzwi";}
+  Object.keys(LGG).forEach(g=>{const left=szLeft(g);if(left!==null) $(LGG[g].tile+"-s").textContent+=left?` · dziś jeszcze ${left}`:" · na dziś koniec";});
 }
 function renderLgb(){
-  const m=boStarMap(),left=szLeft("lg"),top=Math.max(-1,...Object.keys(m).map(Number));$("lgb-lim").hidden=left===null;$("lgb-lim").innerHTML=lgLimCard();
+  const m=boStarMap(),left=szLeft("bo"),top=Math.max(-1,...Object.keys(m).map(Number));$("lgb-lim").hidden=left===null;$("lgb-lim").innerHTML=lgLimCard("bo");
   $("lgb-list").innerHTML=BO_WORLDS.map((W,w)=>`<div class="lbl">Świat ${w+1}: ${W.name}</div><div class="bo-lv">`+
     Array.from({length:10},(_,j)=>{const k=w*10+j,s=m[k]||0,open=k<=top+1;
       return `<button type="button" data-bo="${k}" class="${s?"done":""}"${open&&left!==0?"":" disabled"} aria-label="Poziom ${k+1}${s?`, ${s} z 3 gwiazdek`:open?"":", zablokowany"}"><b>${open?k+1:"🔒"}</b><small>${s?"★".repeat(s)+"<s>"+"★".repeat(3-s)+"</s>":"&nbsp;"}</small></button>`;}).join("")+`</div>`).join("");
 }
 let BO=null;
 function lgPlay(k,again){
-  if(!szGateOk("lg")){toast("Łamigłówki otworzą się po ćwiczeniach od rodzica.");return go("lg");}
-  if(szLeft("lg")===0){toast("Na dziś wystarczy łamigłówek!");return go("lgb");}
+  if(!szGateOk("bo")){toast("Block Out otworzy się po ćwiczeniach od rodzica.");return go("lg");}
+  if(szLeft("bo")===0){toast("Na dziś wystarczy Block Outa!");return go("lgb");}
   if(k>=BO_LEVELS.length){toast("Wszystkie poziomy przeszedłeś – brawo! Nowe wkrótce.");return go("lgb");}
-  lgCount();const L=boLevel(k);
+  lgCount("bo");const L=boLevel(k);
   BO={L,k,st:BO_CORE.start(L),moves:0,undo:[],hint:0,start:Date.now(),id:Date.now()};
   if(CUR!=="lgg") go("lgg");boDraw();
 }
@@ -6295,7 +6310,7 @@ function boWin(){if(!BO||BO.won) return;BO.won=true;const L=BO.L,mv=BO.moves,st0
   const H=loadHist();H.push({id:BO.id,subj:"lg",start:BO.start,end:Date.now(),status:"done",cfg:{mode:"blockout",lvl:BO.k,...(BO.tag||{})},n:1,done:1,
     recs:[{t:`Block Out ${BO.k+1}`,ok:true,st,mv,par:L.par,w,tries:[],h:BO.hint,ms:Date.now()-BO.start}],pct,grade:grade(pct).n,errors:0,hints:BO.hint,pts:w,ptsMax:boPts(BO.k,3)});saveHist(H);
   sfx("final");try{const dpr=devicePixelRatio||1;cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;cx.setTransform(dpr,0,0,dpr,0,0);for(let k=0;k<st;k++) setTimeout(()=>burst(innerWidth*(.25+Math.random()*.5),innerHeight*(.2+Math.random()*.3)),k*260);}catch(e){}
-  const nxt=BO.k+1<BO_LEVELS.length,left=szLeft("lg");
+  const nxt=BO.k+1<BO_LEVELS.length,left=szLeft("bo");
   $("bo-end").innerHTML=`<div class="bo-card"><div class="bo-stars">${[1,2,3].map(n=>`<span class="${n<=st?"on":""}" style="animation-delay:${n*.18}s">★</span>`).join("")}</div>`+
     `<b>${st===3?"Mistrzowsko!":st===2?"Super!":"Udało się!"}</b><small>Ruchy: ${mv} · na 3 gwiazdki: ${L.par}${BO.hint?" · z podpowiedzią najwyżej 2★":""}</small>`+
     `<div class="bo-pts">+${w} pkt${st>best&&best?" · nowy rekord!":""}</div>`+
@@ -6350,14 +6365,14 @@ $("bo-end").addEventListener("click",e=>{const b=e.target.closest("[data-boa]");
 $("lgb-list").addEventListener("click",e=>{const b=e.target.closest("[data-bo]");if(b&&!b.disabled) lgPlay(+b.dataset.bo);});
 $("lg-t-bo").addEventListener("click",()=>go("lgb"));$("lg-t-br").addEventListener("click",()=>go("lgm"));$("lg-t-th").addEventListener("click",()=>thOpen());
 $("t-lg").addEventListener("click",()=>go("lg"));
-$("lg-rules-btn").addEventListener("click",()=>{SZR={kid:SZR.kid,prefs:null,sec:"lg"};go("szrules");});
+$("lg-rules-btn").addEventListener("click",()=>{SZR={kid:SZR.kid,prefs:null,sec:"bo"};go("szrules");});
 addEventListener("resize",()=>{if(CUR==="lgg"&&BO&&!BO.drag) boDraw();});
 // rodzic wyłączył łamigłówki albo dziś obowiązuje blokada – wyjście z ekranów łamigłówek
-function lgGuard(){if(CUR==="lgt"&&subjOn("lg")&&(!modOn("lg-trojki")||!szGateOk("lg"))){toast("Łamigłówki otworzą się po ćwiczeniach od rodzica.");return go("lg");}
-if(["lgm","lgs"].includes(CUR)&&subjOn("lg")&&(!modOn("lg-mosty")||!szGateOk("lg"))){toast(!modOn("lg-mosty")?"Rodzic wyłączył tę łamigłówkę.":"Łamigłówki otworzą się po ćwiczeniach od rodzica.");return go("lg");}
-  if(!["lg","lgb","lgg","lgm","lgs","lgt"].includes(CUR)) return;
+function lgGuard(){if(!["lg","lgb","lgg","lgm","lgs","lgt"].includes(CUR)) return;
   if(!subjOn("lg")){toast("Rodzic wyłączył łamigłówki.");return go("home");}
-  if((CUR==="lgb"||CUR==="lgg")&&(!modOn("lg-blockout")||!szGateOk("lg"))){toast(!modOn("lg-blockout")?"Rodzic wyłączył tę łamigłówkę.":"Łamigłówki otworzą się po ćwiczeniach od rodzica.");go("lg");}}
+  const g=CUR==="lgb"||CUR==="lgg"?"bo":CUR==="lgm"||CUR==="lgs"?"br":CUR==="lgt"?"th":null;if(!g) return;
+  if(!modOn(LGG[g].mod)){toast("Rodzic wyłączył tę łamigłówkę.");return go("lg");}
+  if(!szGateOk(g)){toast(`${LGG[g].name} ${LGG[g].op} się po ćwiczeniach od rodzica.`);go("lg");}}
 
 /* --- Łamigłówki: Mosty (buduj z belek, potem jedzie auto; fizyka BR_CORE z tools/bridge_core.js) --- */
 /*BR-CORE*/
@@ -6394,7 +6409,7 @@ const BR_CORE=(()=>{
     S.t+=dt;if(S.t>1) car.run=true;
     if(car.run&&!car.dead) car.x+=C.v*dt;
     const W=C.m*G/car.wh.length;
-    car.wh.forEach(w=>{const nx=car.x+w.o;w.rot-=(nx-w.x)/.27;w.x=nx;const s=support(S,w.x,w.y);
+    car.wh.forEach(w=>{const nx=car.x+w.o;w.rot+=(nx-w.x)/.27;w.x=nx;const s=support(S,w.x,w.y);
       if(s&&w.y<=s.y+.05){w.y=s.y;w.vy=0;w.on=s;}else{w.vy-=G*dt;w.y+=w.vy*dt;const s2=support(S,w.x,w.y+.3);if(s2&&w.y<s2.y){w.y=s2.y;w.vy=0;w.on=s2;}else w.on=null;}});
     if(car.wh.some(w=>w.y<WATER+.5)){car.dead=true;S.res={ok:false,why:C.fall};}
     if(car.wh.every(w=>w.x>S.L.w+1.5)&&!car.dead){car.win=true;S.res={ok:true};}
@@ -6443,15 +6458,15 @@ const BRK="henriksen-mosty"; // zapisane projekty mostów {nr poziomu: projekt}
 const brSaved=()=>{try{return JSON.parse(localStorage.getItem(BRK)||"{}");}catch(e){return {};}};
 const brStarMap=()=>{const m={};loadHist().forEach(s=>{if(s.subj==="lg"&&s.cfg&&s.cfg.mode==="mosty"&&s.status==="done"){const r=s.recs[0]||{};m[s.cfg.lvl]=Math.max(m[s.cfg.lvl]||0,r.st||1);}});return m;};
 const brPts=(k,st)=>st*(1+Math.floor(k/3));
-function renderLgm(){const m=brStarMap(),left=szLeft("lg");$("lgm-lim").hidden=left===null;$("lgm-lim").innerHTML=lgLimCard();
+function renderLgm(){const m=brStarMap(),left=szLeft("br");$("lgm-lim").hidden=left===null;$("lgm-lim").innerHTML=lgLimCard("br");
   const top=Math.max(-1,...Object.keys(m).map(Number));$("lgm-list").innerHTML=`<div class="bo-lv">`+BR_LEVELS.map((L,k)=>{const s=m[k]||0,open=k<=top+1;
     return `<button type="button" data-br="${k}" class="${s?"done":""}"${open&&left!==0?"":" disabled"} aria-label="Most ${k+1}: ${L.name}${s?`, ${s} z 3 gwiazdek`:""}"><b>${open?k+1:"🔒"}</b><small>${s?"★".repeat(s)+"<s>"+"★".repeat(3-s)+"</s>":"&nbsp;"}</small></button>`;}).join("")+`</div>`;}
 let BR=null;
 function brPlay(k){
-  if(!szGateOk("lg")){toast("Łamigłówki otworzą się po ćwiczeniach od rodzica.");return go("lg");}
-  if(szLeft("lg")===0){toast("Na dziś wystarczy łamigłówek!");return go("lgm");}
+  if(!szGateOk("br")){toast("Mosty otworzą się po ćwiczeniach od rodzica.");return go("lg");}
+  if(szLeft("br")===0){toast("Na dziś wystarczy mostów!");return go("lgm");}
   if(k>=BR_LEVELS.length){toast("Wszystkie mosty zbudowane – brawo! Nowe wkrótce.");return go("lgm");}
-  lgCount();const L=BR_LEVELS[k],sv=brSaved()[k];
+  lgCount("br");const L=BR_LEVELS[k],sv=brSaved()[k];
   BR={L,k,d:sv&&sv.n&&sv.b?{n:sv.n.map(p=>p.slice()),b:sv.b.map(b=>b.slice())}:{n:[],b:[]},mat:L.mats[0],undo:[],S:null,start:Date.now(),id:Date.now()};
   if(CUR!=="lgs") go("lgs");brUI();
 }
@@ -6511,10 +6526,11 @@ function brCar(c,S){const car=S.car,u=BR.v.sc;let wi=0;
   for(const p of parts){c.save();c.translate(brX(p.x),brY(p.y));c.rotate(-p.ang);const h=p.half,ra=p.a.rot,rb=p.b.rot;
     if(p.k==="car"){
       c.fillStyle="rgba(0,0,0,.18)";c.beginPath();c.ellipse(0,0,1.1*u,.08*u,0,0,7);c.fill();
-      c.beginPath();mv(-1.08,.24);ln(-1.12,.6);qd(-1.1,.72,-.92,.74);ln(-.55,.76);qd(-.42,1.06,-.22,1.08);ln(.36,1.08);qd(.5,1.06,.74,.78);ln(1.0,.72);qd(1.14,.66,1.14,.44);ln(1.1,.24);c.closePath();
+      c.beginPath();mv(-1.08,.24);ln(-1.1,.66);qd(-1.08,.78,-.9,.8);ln(-.72,.82);qd(-.6,1.08,-.4,1.1);ln(.12,1.1);qd(.24,1.08,.46,.82);ln(1.0,.74);qd(1.16,.7,1.16,.46);ln(1.12,.24);c.closePath();
       c.fillStyle=grad(.24,1.08,"#ff8787","#c92a2a");c.fill();c.strokeStyle="#a61e1e";c.lineWidth=Math.max(1,u*.03);c.stroke();
-      glass([[-.4,.98],[.0,.98],[.0,.78],[-.5,.78]]);glass([[.06,.98],[.36,.98],[.62,.78],[.06,.78]]);face(.3,.87);
-      c.strokeStyle="rgba(0,0,0,.25)";c.beginPath();mv(.03,.3);ln(.03,.74);c.stroke();rr(.12,.58,.26,.62,.02,"#868e96");
+      glass([[-.52,1.01],[-.2,1.01],[-.2,.84],[-.62,.84]]);glass([[-.14,1.01],[.12,1.01],[.34,.84],[-.14,.84]]);face(.02,.92);
+      c.strokeStyle="rgba(0,0,0,.25)";c.beginPath();mv(-.17,.3);ln(-.17,.8);c.stroke();rr(-.08,.6,.06,.64,.02,"#868e96");
+      rr(1.05,.36,1.18,.5,.03,"#495057");c.strokeStyle="rgba(255,255,255,.5)";c.beginPath();mv(.5,.8);qd(.8,.78,1.0,.74);c.stroke();
       c.fillStyle="#ffe066";c.beginPath();c.ellipse(1.1*u,-.54*u,.05*u,.08*u,0,0,7);c.fill();rr(-1.14,.48,-1.06,.6,.02,"#ff3b3b");
       rr(-1.12,.22,1.12,.32,.05,"#343a40");
       [[-h,ra],[h,rb]].forEach(([x])=>{c.fillStyle="#7a1515";c.beginPath();c.arc(x*u,-.27*u,.33*u,Math.PI,0);c.fill();});wheel(-h,ra);wheel(h,rb);}
@@ -6595,7 +6611,7 @@ function brWin(){if(!BR||!BR.S) return;cancelAnimationFrame(BR.raf);const L=BR.L
   const H=loadHist();H.push({id:Date.now(),subj:"lg",start:BR.start,end:Date.now(),status:"done",cfg:{mode:"mosty",lvl:BR.k},n:1,done:1,
     recs:[{t:`Most ${BR.k+1}: ${L.name}`,ok:true,st,cost:c,w,tries:[],h:0,ms:Date.now()-BR.start}],pct,grade:grade(pct).n,errors:0,hints:0,pts:w,ptsMax:brPts(BR.k,3)});saveHist(H);
   sfx("final");try{const dpr=devicePixelRatio||1;cv.width=innerWidth*dpr;cv.height=innerHeight*dpr;cx.setTransform(dpr,0,0,dpr,0,0);for(let k=0;k<st;k++) setTimeout(()=>burst(innerWidth*(.25+Math.random()*.5),innerHeight*(.2+Math.random()*.3)),k*260);}catch(e){}
-  const nxt=BR.k+1<BR_LEVELS.length,left=szLeft("lg");
+  const nxt=BR.k+1<BR_LEVELS.length,left=szLeft("br");
   $("br-end").innerHTML=`<div class="bo-card"><div class="bo-stars">${[1,2,3].map(n=>`<span class="${n<=st?"on":""}" style="animation-delay:${n*.18}s">★</span>`).join("")}</div>`+
     `<b>${st===3?"Inżynier roku!":st===2?"Mocny most!":"Przejechało!"}</b><small>Koszt: ${c} 💰 · na 3★: do ${L.s3}${st<3?" – spróbuj taniej!":""}</small><div class="bo-pts">+${w} pkt${st>best&&best?" · nowy rekord!":""}</div>`+
     `<small class="br-fact">💡 ${BR_FACTS[BR.k%BR_FACTS.length]}</small>`+
@@ -6665,7 +6681,7 @@ function thEnd(){if(!TH||TH.over) return;TH.over=true;const n=TH.n,sc=thScore(TH
   $("th-end").innerHTML=`<div class="bo-card"><div class="bo-stars">${[1,2,3].map(k=>`<span class="${k<=st?"on":""}" style="animation-delay:${k*.18}s">★</span>`).join("")}</div><b>Koniec ruchów!</b>`+
     `<small>Wynik: ${sc} · największy kafel: ${mx}${sc>before.sc?" · rekord!":` · rekord: ${before.sc}`}</small><small>Na 3★ na planszy ${n}×${n}: kafel ${s3}</small><div class="bo-pts">+${w} pkt</div>`+
     `<small class="br-fact">💡 ${mx} = 3 × ${mx/3}. Każdy kafel to 3 razy potęga dwójki: 3, 6, 12, 24, 48, 96, 192…</small>`+
-    `<div class="bo-btns"><button type="button" class="go-btn" data-tha="new">Nowa gra</button><button type="button" class="again" data-tha="list">Wróć</button></div></div>`;
+    (szLeft("th")===0?`<small>To była ostatnia partia na dziś.</small>`:"")+`<div class="bo-btns"><button type="button" class="go-btn" data-tha="new">Nowa gra</button><button type="button" class="again" data-tha="list">Wróć</button></div></div>`;
   $("th-end").hidden=false;thRank();try{setTimeout(cupsCheck,1500);}catch(e){}}
 const thRecord=n=>loadHist().filter(s=>s.subj==="lg"&&s.cfg&&s.cfg.mode==="trojki"&&(n==null||(s.cfg.n||4)===n)).reduce((a,s)=>{const r=s.recs[0]||{};return {sc:Math.max(a.sc,r.sc||0),mx:Math.max(a.mx,r.mx||0)};},{sc:0,mx:0});
 // ranking: najlepsze wyniki (wszystkie plansze) i ostatnie partie
@@ -6676,11 +6692,11 @@ function thRank(){const H=loadHist().filter(s=>s.subj==="lg"&&s.cfg&&s.cfg.mode=
   $("th-rank").innerHTML=`<div class="lbl">🏆 Najlepsze wyniki</div><div class="th-rl">${best.map((s,k)=>row(s,k,true)).join("")}</div>`+
     `<div class="lbl">🕑 Ostatnie partie</div><div class="th-rl">${last.map((s,k)=>row(s,k,false)).join("")}</div>`;}
 function thOpen(fresh,n){
-  if(!szGateOk("lg")){toast("Łamigłówki otworzą się po ćwiczeniach od rodzica.");return go("lg");}
+  if(!szGateOk("th")){toast("Trójki otworzą się po ćwiczeniach od rodzica.");return go("lg");}
   let sv=null;try{sv=JSON.parse(localStorage.getItem(THK)||"null");}catch(e){}
   if(sv&&sv.g&&Array.isArray(sv.id)&&!fresh){TH=sv;TH.n=TH.n||TH.g.length;}
-  else{if(szLeft("lg")===0){toast("Na dziś wystarczy łamigłówek!");return go("lg");}lgCount();THN=n||THN;try{localStorage.setItem("henriksen-trojki-n",THN);}catch(e){}thNew(THN);}
-  if(CUR!=="lgt") go("lgt");$("th-end").hidden=true;thRender();thRank();}
+  else{if(szLeft("th")===0){toast("Na dziś wystarczy Trójek!");if(CUR!=="lgt") go("lgt");$("th-lim").innerHTML=lgLimCard("th");$("th-lim").hidden=false;return;}lgCount("th");THN=n||THN;try{localStorage.setItem("henriksen-trojki-n",THN);}catch(e){}thNew(THN);}
+  if(CUR!=="lgt") go("lgt");$("th-end").hidden=true;thRender();thRank();const left=szLeft("th");$("th-lim").hidden=left===null;$("th-lim").innerHTML=lgLimCard("th");}
 try{THN=+localStorage.getItem("henriksen-trojki-n")||4;}catch(e){}
 // sterowanie: przesunięcie palcem po planszy albo strzałki
 {let p0=null;const B=$("th-board");
@@ -7041,7 +7057,8 @@ const szrXV=(id,v)=>id==="szr-xm"&&!v?"Bez limitu":`${v} ${RSEC[SZR.sec||"sz"].u
 const szrRange=(id,min,max,v,lab)=>`<div class="szr-rg"><input type="range" id="${id}" min="${min}" max="${max}" step="1" value="${v}" aria-label="${lab}"><b id="${id}-v">${szrXV(id,v)}</b></div>`;
 const szrXNote=()=>{const U=RSEC[SZR.sec||"sz"];return `Każde dzisiejsze przejście pakietu (wszystkie ćwiczenia) = ${SZR.extra&&SZR.xn>1?`${SZR.xn} ${U.u(SZR.xn)}`:U.one} więcej${SZR.extra&&SZR.xm?`, ale najwyżej ${SZR.xm} ${U.u(SZR.xm)} ponad limit dziennie`:""}. Działa, gdy jest limit.`;};
 async function renderSzRules(){
-  const RS=RSEC[SZR.sec||"sz"],U=RS.u;$("szrules").querySelector("h1").textContent=RS.title;
+  const RS=RSEC[SZR.sec||"sz"],U=RS.u;$("szrules").querySelector("h1").textContent=SZR.sec in LGG?"Zasady łamigłówek":RS.title;
+  $("szr-games").hidden=!(SZR.sec in LGG);$("szr-games").innerHTML=Object.keys(LGG).map(g=>`<button type="button" data-g="${g}" class="${g===SZR.sec?"sel":""}" aria-pressed="${g===SZR.sec}">${LGG[g].name}</button>`).join("");
   const body=$("szr-body"),msg=$("szr-msg");msg.textContent="";$("szr-save").hidden=true;
   if(!(ME&&ME.role==="parent")){body.innerHTML='<p class="abnote">Ten widok jest dla rodzica.</p>';$("szr-kids").innerHTML="";return;}
   if(!FAMILY){try{await sbLoad();const {data}=await SB.from("profiles").select("id,name,role").eq("family_id",ME.family);FAMILY=(data||[]).filter(p=>p.role==="student");}catch(e){FAMILY=[];}}
@@ -7072,6 +7089,7 @@ async function renderSzRules(){
     ${SZR.extra||SZR.gate?`<div class="lbl">Ocena w ćwiczeniach co najmniej</div>${seg("szr-g",SZR_G,SZR.g||0)}<p class="abnote">Ćwiczenie z niższą oceną trzeba powtórzyć.</p>`:""}`;
   const name=(FAMILY.find(p=>p.id===SZR.kid)||{}).name||"dziecka";$("szr-save").hidden=false;$("szr-save").textContent=`Zapisz dla: ${name}`;
 }
+$("szr-games").addEventListener("click",e=>{const b=e.target.closest("[data-g]");if(!b||b.dataset.g===SZR.sec) return;SZR={kid:SZR.kid,prefs:null,sec:b.dataset.g};renderSzRules();});
 $("szr-kids").addEventListener("click",e=>{const b=e.target.closest("button[data-id]");if(!b||b.dataset.id===SZR.kid) return;SZR={kid:b.dataset.id,prefs:null,sec:SZR.sec};renderSzRules();});
 $("szr-body").addEventListener("click",e=>{
   const l=e.target.closest("#szr-lim [data-n]");if(l){SZR.limit=SZR.limPrev=+l.dataset.n;return renderSzRules();}

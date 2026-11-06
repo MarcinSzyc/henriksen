@@ -32,7 +32,7 @@ const BR_CORE=(()=>{
     S.t+=dt;if(S.t>1) car.run=true;
     if(car.run&&!car.dead) car.x+=C.v*dt;
     const W=C.m*G/car.wh.length;
-    car.wh.forEach(w=>{const nx=car.x+w.o;w.rot-=(nx-w.x)/.27;w.x=nx;const s=support(S,w.x,w.y);
+    car.wh.forEach(w=>{const nx=car.x+w.o;w.rot+=(nx-w.x)/.27;w.x=nx;const s=support(S,w.x,w.y);
       if(s&&w.y<=s.y+.05){w.y=s.y;w.vy=0;w.on=s;}else{w.vy-=G*dt;w.y+=w.vy*dt;const s2=support(S,w.x,w.y+.3);if(s2&&w.y<s2.y){w.y=s2.y;w.vy=0;w.on=s2;}else w.on=null;}});
     if(car.wh.some(w=>w.y<WATER+.5)){car.dead=true;S.res={ok:false,why:C.fall};}
     if(car.wh.every(w=>w.x>S.L.w+1.5)&&!car.dead){car.win=true;S.res={ok:true};}
