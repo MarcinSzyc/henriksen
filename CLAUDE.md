@@ -351,6 +351,11 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   Każdy kafel to moduł w „Co widzi dziecko” (`mat-<id zestawu>`, `mat-hard`, `mat-own`).
   Kafle zestawów i tematów zdrowia mają ramkę `statBox(doneStats(sesje))`: ostatni wynik, średnia, ile razy, kiedy (`agoTxt`);
   w liście `#sets` i na pasku Sprawdzianu to samo w jednej linijce (`lastTxt`). `setLast(id)` / `zdLast(mode)` zwracają te statystyki.
+- **Matematyka › Nauka** (kafel `#mat-t-learn` nad ćwiczeniami, `#matl` lista, `#matlv` lekcja; hashe `#matematyka-nauka`, `#matematyka-lekcja`, moduł `mat-nauka`):
+  12 sposobów z różnych krajów `MX` `{id,name,ic,tone,from,b:()=>[…]}` – `b` losuje nowy przykład przy każdym otwarciu i „🔄 Inny przykład”: mnożenie kreskami
+  (`mxLines`: kreski i kolorowe przecięcia, obrót −45°, setki/dziesiątki/jedności), w kratkę/gelosia (`mxLattice`, cyfry po skosach), połowa i podwójnie (rosyjskie),
+  egipskie (podwajanie), razy 9 na palcach (`mxFingers`), razy 11, metoda okienek, na krzyż, dzielenie „na przystanku”, kawałkami (chunking), egipskie, cechy podzielności.
+  Pochodzenie opisane ostrożnie (np. „japońskie” kreski – nie wiadomo skąd). „✏️ Spróbuj sam” (`mxTry`, odpowiedź po dotknięciu), przeczytane w `henriksen-lekcje-mat`.
 - **Nowa sesja (`#ask`):** najpierw lista zestawów `SETS` (`{id,name,n,cfg,info?}`, brakujące pola z `CFG0`;
   ostatni wynik po `cfg.set` w historii) plus „Poćwicz trudne” (`practice(allHard())`), potem „Ułóż własne”:
   działania, „Liczby do”, licznik `NSTEPS` i zwinięte „Więcej opcji” (dzielenie, dziesiątki, ułamki, zakres a/b/c, inny zakres).
