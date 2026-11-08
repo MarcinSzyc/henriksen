@@ -2865,7 +2865,13 @@ const HASH={home:"",matl:"#matematyka-nauka",matlv:"#matematyka-lekcja",enl:"#an
 const VIEWS={home:"home",matl:"matl",matlv:"matlv",enl:"enl",enlv:"enlv",ena:"ena",lgf:"lgf",lgfg:"lgfg",lgt:"lgt",lgm:"lgm",lgs:"lgs",lg:"lg",lgb:"lgb",lgg:"lgg",szw:"szw",szrules:"szrules",sz:"sz",sz3:"sz3",szl:"szl",szop:"szop",szcf:"szcf",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 // znaczek „nowe” po skosie w rogu kafla: przez 7 dni od data-new="rrrr-mm-dd" (dodawaj przy każdej nowej sekcji)
-function newBadges(){const now=Date.now();document.querySelectorAll("[data-new]").forEach(el=>{const t=new Date(el.dataset.new+"T00:00").getTime(),on=now<t+7*864e5,b=el.querySelector(":scope>.nowe");
+// kafel nadrzędny dziedziczy najnowszą datę z kafli w środku (aż do ekranu startowego); ukryte (wyłączone przez rodzica) się nie liczą
+const NEW_TREE={"t-math":["mat-t-learn"],"t-en":["en-t-learn","en-t-a1"],"t-lg":["lg-t-bo","lg-t-br","lg-t-th","lg-t-fl"],"t-sz":["sz-t-open","sz-t-facts"]};
+function newDate(id){const el=$(id);if(!el||el.hidden) return "";const own=el.dataset.own??(el.dataset.own=el.dataset.new||"");
+  return [own,...(NEW_TREE[id]||[]).map(newDate)].reduce((a,b)=>b>a?b:a,"");}
+function newBadges(){const now=Date.now();Object.keys(NEW_TREE).forEach(id=>{const el=$(id);if(!el) return;const d=newDate(id);if(d) el.dataset.new=d; else delete el.dataset.new;
+    if(!d){const b=el.querySelector(":scope>.nowe");if(b) b.remove();el.classList.remove("has-new");}});
+  document.querySelectorAll("[data-new]").forEach(el=>{const t=new Date(el.dataset.new+"T00:00").getTime(),on=now<t+7*864e5,b=el.querySelector(":scope>.nowe");
   if(on&&!b) el.insertAdjacentHTML("beforeend",'<span class="nowe" aria-hidden="true">nowe</span>');if(!on&&b) b.remove();el.classList.toggle("has-new",on);});}
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
