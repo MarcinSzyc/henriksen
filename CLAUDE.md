@@ -240,7 +240,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   „🤩 Ciekawostka”, „Następna lekcja”. Quizów jeszcze nie ma – mają dojść przed kartkówkami/sprawdzianami. Czytanie: `nature/audio/<id>.m4a`
   (ElevenLabs, teksty w `tools/przyroda_nagrania.md`) albo lektor telefonu; wspólny odtwarzacz z Historią (`HIS_AUD`, `hisStop`). Przeczytane: `henriksen-przyroda-czytane`.
   Nagrania z ElevenLabs: mp3 z Downloads → sprawdź treść Whisperem (`~/.cache/henriksen-whisper`, przez WAV 16 kHz) → `afconvert -f m4af -d aac -b 64000 -c 1`
-  → `history/audio/<id>.m4a` albo `nature/audio/<id>.m4a`. Gotowe: wszystkie 8 opowiastek Historii; Przyroda rozdz. I–III. Długie nagranie całego rozdziału (`tools/przyroda_rozdzialy.md`): Whisper z `word_timestamps` → `tools/nagrania_tnij.py` (granice po tytułach lekcji) → kawałki z WAV 44,1 kHz z krótkim wyciszeniem → m4a; sprawdzić początek i koniec każdego kawałka Whisperem.
+  → `history/audio/<id>.m4a` albo `nature/audio/<id>.m4a`. Gotowe: wszystkie 8 opowiastek Historii; Przyroda rozdz. I–IV i VI–VIII (brak V). Długie nagranie całego rozdziału (`tools/przyroda_rozdzialy.md`): Whisper z `word_timestamps` → `tools/nagrania_tnij.py` (granice po tytułach lekcji) → kawałki z WAV 44,1 kHz z krótkim wyciszeniem → m4a; sprawdzić początek i koniec każdego kawałka Whisperem.
 - **Edukacja zdrowotna** (widok `#zd`, hash `#zdrowie`, przedmiot `subj:"zd"`): kafel „Sprawdzian 29.10” (`ZD_DATE`, wszystkie pytania
   w losowej kolejności, `cfg.mode:"spr"`) i 4 tematy z lekcji (`ZD_TOPICS`: wartosc, styl, cialo, zach – `cfg.mode` = id tematu).
   Pytanie `{q,c,bad,why}` albo prawda/fałsz `PF(q,ok,why)`; `why` = zdanie z notatki. Gra w quizie angielskim (`enStart`,
