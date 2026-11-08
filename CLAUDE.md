@@ -240,7 +240,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   „🤩 Ciekawostka”, „Następna lekcja”. Quizów jeszcze nie ma – mają dojść przed kartkówkami/sprawdzianami. Czytanie: `nature/audio/<id>.m4a`
   (ElevenLabs, teksty w `tools/przyroda_nagrania.md`) albo lektor telefonu; wspólny odtwarzacz z Historią (`HIS_AUD`, `hisStop`). Przeczytane: `henriksen-przyroda-czytane`.
   Nagrania z ElevenLabs: mp3 z Downloads → sprawdź treść Whisperem (`~/.cache/henriksen-whisper`, przez WAV 16 kHz) → `afconvert -f m4af -d aac -b 64000 -c 1`
-  → `history/audio/<id>.m4a` albo `nature/audio/<id>.m4a`. Gotowe: Historia `przeszlosc`.
+  → `history/audio/<id>.m4a` albo `nature/audio/<id>.m4a`. Gotowe: wszystkie 8 opowiastek Historii.
 - **Edukacja zdrowotna** (widok `#zd`, hash `#zdrowie`, przedmiot `subj:"zd"`): kafel „Sprawdzian 29.10” (`ZD_DATE`, wszystkie pytania
   w losowej kolejności, `cfg.mode:"spr"`) i 4 tematy z lekcji (`ZD_TOPICS`: wartosc, styl, cialo, zach – `cfg.mode` = id tematu).
   Pytanie `{q,c,bad,why}` albo prawda/fałsz `PF(q,ok,why)`; `why` = zdanie z notatki. Gra w quizie angielskim (`enStart`,
