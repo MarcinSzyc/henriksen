@@ -234,6 +234,13 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   Opowiastki `HIS` `{id,ch,name,ic,tone,story:[akapity HTML],keep:[zapamiętaj],qs}` – fakty sprawdzone, nowe dopisuj tylko pewne. Pod opowiastką „Sprawdź się”
   (quiz `enStart` z `cfg.subj:"his", mode:id`), na dole „Sprawdzian z historii” (`mode:"spr"`, wszystkie pytania). „🎧 Posłuchaj”: najpierw nagranie
   `history/audio/<id>.m4a` (ElevenLabs – teksty w `tools/historia_nagrania.md`), bez niego lektor telefonu (`speechSynthesis`, pl-PL). Przeczytane: `henriksen-historia-czytane`.
+- **Przyroda** (kafel `#t-nat` – już nie „Wkrótce”, widoki `#nat` lista, `#natv` lekcja; hashe `#przyroda`, `#przyroda-lekcja`; moduł `nat`):
+  Nauka według podręcznika „Odkrywam przyrodę 4” (Nowa Era, nowa podstawa) – rozdziały i tytuły lekcji jak w spisie treści (`NAT_CH`; rozdział bez lekcji pokazuje
+  tytuły jako „wkrótce”). Gotowe rozdziały I–IV (21 lekcji `NAT` `{id,ch,name,ic,tone,story,keep,fun?}`), V–VIII do napisania. Lekcja: opis, „📌 Zapamiętaj”,
+  „🤩 Ciekawostka”, „Następna lekcja”. Quizów jeszcze nie ma – mają dojść przed kartkówkami/sprawdzianami. Czytanie: `nature/audio/<id>.m4a`
+  (ElevenLabs, teksty w `tools/przyroda_nagrania.md`) albo lektor telefonu; wspólny odtwarzacz z Historią (`HIS_AUD`, `hisStop`). Przeczytane: `henriksen-przyroda-czytane`.
+  Nagrania z ElevenLabs: mp3 z Downloads → sprawdź treść Whisperem (`~/.cache/henriksen-whisper`, przez WAV 16 kHz) → `afconvert -f m4af -d aac -b 64000 -c 1`
+  → `history/audio/<id>.m4a` albo `nature/audio/<id>.m4a`. Gotowe: Historia `przeszlosc`.
 - **Edukacja zdrowotna** (widok `#zd`, hash `#zdrowie`, przedmiot `subj:"zd"`): kafel „Sprawdzian 29.10” (`ZD_DATE`, wszystkie pytania
   w losowej kolejności, `cfg.mode:"spr"`) i 4 tematy z lekcji (`ZD_TOPICS`: wartosc, styl, cialo, zach – `cfg.mode` = id tematu).
   Pytanie `{q,c,bad,why}` albo prawda/fałsz `PF(q,ok,why)`; `why` = zdanie z notatki. Gra w quizie angielskim (`enStart`,
