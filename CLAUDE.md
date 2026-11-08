@@ -228,6 +228,12 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   Dawny opis wspólnych zasad: `RSEC` (sz / lg: klucze `szLimit`/`szRules` i `lgLimit`/`lgRules`, znaczniki `szx`/`szgate` i `lgx`/`lggate`,
   teksty edytora), `rlR(s)`, `szLimitToday(s)`, `szBonus(s)`, `szLeft(s)`, `szGateOk(s)`; edytor `#szrules` z `SZR.sec` (przycisk „Zasady łamigłówek”
   na ekranie `#lg`). Limit liczy rozpoczęte poziomy (`lgPlayedToday`, licznik `henriksen-lgdzien`); `lgLimCard`, `lgGuard` (z `applyMods`).
+- **Historia** (kafel `#t-his` – już nie „Wkrótce”, widoki `#his` lista, `#hisv` opowiastka; hashe `#historia`, `#historia-opowiastka`; przedmiot `subj:"his"`,
+  moduł `his` (cała Historia), puchar `his`, ligi `LIG_CATS.his`). Klasa 4, semestr 1 („Wczoraj i dziś”, Nowa Era): rozdział 1 „Z historią na Ty” (źródła,
+  czas i wieki, mapa i plan, rodzina, mała i wielka ojczyzna z symbolami) i rozdział 2 „Pierwsi Piastowie” (legenda o Lechu, Mieszko I i 966, Bolesław Chrobry, 1000, 1025).
+  Opowiastki `HIS` `{id,ch,name,ic,tone,story:[akapity HTML],keep:[zapamiętaj],qs}` – fakty sprawdzone, nowe dopisuj tylko pewne. Pod opowiastką „Sprawdź się”
+  (quiz `enStart` z `cfg.subj:"his", mode:id`), na dole „Sprawdzian z historii” (`mode:"spr"`, wszystkie pytania). „🎧 Posłuchaj”: najpierw nagranie
+  `history/audio/<id>.m4a` (ElevenLabs – teksty w `tools/historia_nagrania.md`), bez niego lektor telefonu (`speechSynthesis`, pl-PL). Przeczytane: `henriksen-historia-czytane`.
 - **Edukacja zdrowotna** (widok `#zd`, hash `#zdrowie`, przedmiot `subj:"zd"`): kafel „Sprawdzian 29.10” (`ZD_DATE`, wszystkie pytania
   w losowej kolejności, `cfg.mode:"spr"`) i 4 tematy z lekcji (`ZD_TOPICS`: wartosc, styl, cialo, zach – `cfg.mode` = id tematu).
   Pytanie `{q,c,bad,why}` albo prawda/fałsz `PF(q,ok,why)`; `why` = zdanie z notatki. Gra w quizie angielskim (`enStart`,

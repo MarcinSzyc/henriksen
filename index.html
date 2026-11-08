@@ -531,6 +531,10 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 #en-types b{font-size:1.1rem;text-align:center}#en-types small{text-align:center}
 .lx-go{margin-bottom:12px}.lx-d{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:4px 10px}.lx-d summary{display:flex;justify-content:space-between;align-items:center;padding:10px 2px;cursor:pointer}.lx-d summary small{color:var(--muted)}.lx-d[open] summary{margin-bottom:6px}.lx-d .lx-t{margin-bottom:8px}.lx-d .lx-ex{margin-bottom:8px}
 #mat-t-learn .wm,#en-t-learn .wm{font-size:3rem}
+#his-list .lbl{margin:18px 4px 8px}#his-list .lbl:first-child{margin-top:6px}
+.his-hero{font-size:4.5rem;text-align:center;line-height:1;padding:18px 0;border-radius:22px;background:linear-gradient(135deg,var(--gc),rgba(0,0,0,.35))}
+.his-p{font-size:1.08rem;line-height:1.6;margin:0}.his-play{width:100%}.lx-tip ul{margin:6px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:4px}
+.his-ic{filter:grayscale(1) brightness(2.5);opacity:.4}
 .mx-svg{width:100%;max-width:340px;align-self:center;color:var(--fg);background:var(--card);border:2px solid var(--line);border-radius:16px}
 .mx-steps{margin:0;padding-left:22px;display:flex;flex-direction:column;gap:6px}.mx-from{color:var(--muted);font-weight:800;font-size:.85rem}
 .mx-big{font-family:var(--display);font-size:1.5rem;text-align:center;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:12px}.mx-hi{color:#d6336c}
@@ -1052,7 +1056,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tile math" id="t-math"><span class="wm" aria-hidden="true">+−×÷</span><span class="tt">Matematyka</span><small id="t-math-s">Wybierz ćwiczenia i zaczynamy</small></button>
     <button type="button" class="tile pl" id="t-pl"><span class="wm" aria-hidden="true">ą ę ć ż ó</span><span class="tt">Polski</span><small>Słówka i dyktanda</small></button>
     <button type="button" class="tile en" id="t-en" data-new="2026-11-08"><span class="wm wm-img" aria-hidden="true"><svg width="58" height="36" viewBox="0 0 60 36"><rect x="1.5" y="1.5" width="57" height="33" rx="3" fill="none" stroke="#fff" stroke-width="3"/><rect x="3" y="3" width="25" height="17" fill="#fff"/><path d="M28 7.5H57M28 13.5H57M28 19.5H57M3 25.5H57M3 31H57" stroke="#fff" stroke-width="3"/></svg><svg width="58" height="36" viewBox="0 0 60 36"><rect x="1.5" y="1.5" width="57" height="33" rx="3" fill="none" stroke="#fff" stroke-width="3"/><path d="M3 3L57 33M57 3L3 33" stroke="#fff" stroke-width="4"/><path d="M30 3V33M3 18H57" stroke="#fff" stroke-width="8"/></svg></span><span class="tt">Angielski</span><small>Słówka i tematyczne zadania</small></button>
-    <button type="button" class="tile his" id="t-his" data-soon aria-describedby="soon-his"><span class="wm wm-img" aria-hidden="true"><svg width="104" height="84" viewBox="0 0 120 96" fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><path d="M40 44C52 40 70 40 82 42C88 36 94 26 100 18L104 15L106 21C110 26 114 32 114 37C114 40 110 41 106 39C102 37 98 38 96 42C94 50 92 56 88 60C84 66 70 68 56 67C46 67 36 64 34 56C33 50 35 46 40 44Z" stroke="none"/><path d="M84 62L88 93M78 64L74 93M46 64L42 93M54 66L54 93" fill="none" stroke-width="5"/><path d="M36 48C26 50 24 62 28 74" fill="none" stroke-width="5"/><path d="M57 44L70 44L73 24L62 22Z" stroke="none"/><circle cx="68" cy="15" r="6" stroke="none"/><path d="M68 9V3" fill="none" stroke-width="2.5"/><path d="M64 44L71 58M71 28L82 32" fill="none" stroke-width="5"/><path d="M60 42C46 34 44 12 56 1" fill="none" stroke-width="4"/><path d="M52 32L43 30M49 24L40 21M49 16L40 12M51 9L44 3" fill="none" stroke-width="3"/><path d="M38 59L117 10" fill="none" stroke-width="2.5"/><path d="M107 16L117 10L113 21Z" stroke="none"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Historia</span><small id="soon-his">Daty, bitwy, królowie</small></button>
+    <button type="button" class="tile his" id="t-his" data-new="2026-11-08"><span class="wm wm-img" aria-hidden="true"><svg width="104" height="84" viewBox="0 0 120 96" fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><path d="M40 44C52 40 70 40 82 42C88 36 94 26 100 18L104 15L106 21C110 26 114 32 114 37C114 40 110 41 106 39C102 37 98 38 96 42C94 50 92 56 88 60C84 66 70 68 56 67C46 67 36 64 34 56C33 50 35 46 40 44Z" stroke="none"/><path d="M84 62L88 93M78 64L74 93M46 64L42 93M54 66L54 93" fill="none" stroke-width="5"/><path d="M36 48C26 50 24 62 28 74" fill="none" stroke-width="5"/><path d="M57 44L70 44L73 24L62 22Z" stroke="none"/><circle cx="68" cy="15" r="6" stroke="none"/><path d="M68 9V3" fill="none" stroke-width="2.5"/><path d="M64 44L71 58M71 28L82 32" fill="none" stroke-width="5"/><path d="M60 42C46 34 44 12 56 1" fill="none" stroke-width="4"/><path d="M52 32L43 30M49 24L40 21M49 16L40 12M51 9L44 3" fill="none" stroke-width="3"/><path d="M38 59L117 10" fill="none" stroke-width="2.5"/><path d="M107 16L117 10L113 21Z" stroke="none"/></svg></span><span class="tt">Historia</span><small id="t-his-s">Opowiastki o przeszłości i quizy</small></button>
     <button type="button" class="tile nat" id="t-nat" data-soon aria-describedby="soon-nat"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 32C6 14 18 4 36 4c0 18-10 28-26 28z" fill="#fff"/><path d="M6 32L24 14" stroke="rgba(0,0,0,.35)"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Przyroda</span><small id="soon-nat">Rośliny, zwierzęta, mapa</small></button>
     <button type="button" class="tile hea" id="t-zd"><span class="wm wm-img" aria-hidden="true"><svg width="42" height="36" viewBox="0 0 42 36" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 33C8 24 3 17 3 11a9 9 0 0 1 18-2 9 9 0 0 1 18 2c0 6-5 13-18 22z" fill="#fff"/><path d="M7 17h7l3-5 4 9 3-6h11" stroke="rgba(0,0,0,.35)" stroke-width="2.5"/></svg></span><span class="tt">Edukacja zdrowotna</span><small id="t-zd-s">Sprawdzian 29.10 i ćwiczenia</small></button>
   </div>
@@ -1471,6 +1475,17 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 <div class="wrap" id="matlv" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Lekcja</h1></header>
   <div class="lx" id="matlv-body"></div>
+</div>
+<div class="wrap" id="his" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Historia</h1></header>
+  <div class="lbl en-sec">📘 Nauka – opowiastki</div>
+  <div id="his-list"></div>
+  <div class="lbl en-sec">🎯 Quiz</div>
+  <button type="button" class="tile his pl-t" id="his-spr"><span class="wm" aria-hidden="true">?</span><span class="tt">Sprawdzian z historii</span><small id="his-spr-s"></small></button>
+</div>
+<div class="wrap" id="hisv" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Opowiastka</h1></header>
+  <div class="lx" id="hisv-body"></div>
 </div>
 <div class="wrap" id="enl" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Nauka</h1></header>
@@ -2861,8 +2876,8 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",matl:"#matematyka-nauka",matlv:"#matematyka-lekcja",enl:"#angielski-nauka",enlv:"#angielski-lekcja",ena:"#angielski-a1",lgf:"#flow",lgfg:"#flow-gra",lgt:"#trojki",lgm:"#mosty",lgs:"#mosty-gra",lg:"#lamiglowki",lgb:"#block-out",lgg:"#block-out-gra",szw:"#szachy-wyglad",szrules:"#szachy-zasady",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szop:"#szachy-otwarcia",szcf:"#szachy-ciekawostki",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",matl:"matl",matlv:"matlv",enl:"enl",enlv:"enlv",ena:"ena",lgf:"lgf",lgfg:"lgfg",lgt:"lgt",lgm:"lgm",lgs:"lgs",lg:"lg",lgb:"lgb",lgg:"lgg",szw:"szw",szrules:"szrules",sz:"sz",sz3:"sz3",szl:"szl",szop:"szop",szcf:"szcf",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",his:"#historia",hisv:"#historia-opowiastka",matl:"#matematyka-nauka",matlv:"#matematyka-lekcja",enl:"#angielski-nauka",enlv:"#angielski-lekcja",ena:"#angielski-a1",lgf:"#flow",lgfg:"#flow-gra",lgt:"#trojki",lgm:"#mosty",lgs:"#mosty-gra",lg:"#lamiglowki",lgb:"#block-out",lgg:"#block-out-gra",szw:"#szachy-wyglad",szrules:"#szachy-zasady",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szop:"#szachy-otwarcia",szcf:"#szachy-ciekawostki",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",his:"his",hisv:"hisv",matl:"matl",matlv:"matlv",enl:"enl",enlv:"enlv",ena:"ena",lgf:"lgf",lgfg:"lgfg",lgt:"lgt",lgm:"lgm",lgs:"lgs",lg:"lg",lgb:"lgb",lgg:"lgg",szw:"szw",szrules:"szrules",sz:"sz",sz3:"sz3",szl:"szl",szop:"szop",szcf:"szcf",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 // znaczek „nowe” po skosie w rogu kafla: przez 7 dni od data-new="rrrr-mm-dd" (dodawaj przy każdej nowej sekcji)
 // kafel nadrzędny dziedziczy najnowszą datę z kafli w środku (aż do ekranu startowego); ukryte (wyłączone przez rodzica) się nie liczą
@@ -2890,7 +2905,7 @@ function go(v){
   showView(v);
 }
 addEventListener("popstate",()=>{const v=Object.keys(HASH).find(k=>HASH[k]&&HASH[k]===location.hash)||"home";
-  showView(v==="play"&&!ACTIVE?"home":v==="plw"&&!PW?"plws":v==="pldt"&&!PD?"pld":v==="plz"&&!PZ?"plzs":v==="enq"&&!EN?"en":v==="enset"&&!ENM?"en":v==="szg"&&!SZ?"sz":v==="lgg"&&!BO?"lgb":v==="lgs"&&!BR?"lgm":v==="lgt"&&!TH?"lg":v==="lgfg"&&!FL?"lgf":v==="enlv"&&!LXC?"enl":v==="matlv"&&!MXC?"matl":v);});
+  showView(v==="play"&&!ACTIVE?"home":v==="plw"&&!PW?"plws":v==="pldt"&&!PD?"pld":v==="plz"&&!PZ?"plzs":v==="enq"&&!EN?"en":v==="enset"&&!ENM?"en":v==="szg"&&!SZ?"sz":v==="lgg"&&!BO?"lgb":v==="lgs"&&!BR?"lgm":v==="lgt"&&!TH?"lg":v==="lgfg"&&!FL?"lgf":v==="enlv"&&!LXC?"enl":v==="matlv"&&!MXC?"matl":v==="hisv"&&!HISC?"his":v);});
 document.querySelectorAll("[data-back]").forEach(b=>b.addEventListener("click",()=>{if(location.hash) history.back(); else showView("home");}));
 // logo aplikacji obok „wstecz” w nagłówku każdego ekranu: od razu na stronę główną (rozpoczęte gry zostają do dokończenia)
 document.querySelectorAll("header [data-back]").forEach(b=>{const h=document.createElement("button");h.type="button";h.className="home-btn";h.setAttribute("aria-label","Strona główna");
@@ -2961,7 +2976,7 @@ function topHard(recs){
 let HARD=[];
 /* Statystyki dla dziecka: przedmiot (zakładki), seria, punkty dziennie, rekordy, jedno zdanie motywacji */
 let SUBJ="all",parOpen=false;
-const SUBJ_SOON={his:"Historia już wkrótce"};
+const SUBJ_SOON={};
 const subjOf=s=>s.subj||"mat"; // starsze sesje są z matematyki
 const dayKey=t=>{const d=new Date(t);d.setHours(0,0,0,0);return d.getTime();};
 const addDays=(k,n)=>{const d=new Date(k);d.setDate(d.getDate()+n);return d.getTime();};
@@ -3251,7 +3266,7 @@ function plLiveNow(){
 }
 function plShow(v){
   if(v==="pl") renderPl();
-  if(v==="szw") renderSzw();if(v==="szrules"){SZR={kid:SZR.kid,prefs:null,sec:SZR.sec};renderSzRules();}document.querySelectorAll("[data-lgr]").forEach(b=>{b.hidden=!(ME&&ME.role==="parent");});if(v==="ena") renderEnA1();if(v==="enl") renderEnl();if(v==="matl") renderMatl();if(v==="lg") renderLg();if(v==="lgb") renderLgb();if(v==="lgm") renderLgm();if(v==="lgf") renderLgf();try{if(v!=="lgs"&&BR&&BR.S) brStop();}catch(e){} /* zawsze świeże cele i ustawienia dziecka (np. po dodaniu celu) */if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();if(v==="szop") renderSzop();if(v==="szcf") renderSzcf();
+  if(v==="szw") renderSzw();if(v==="szrules"){SZR={kid:SZR.kid,prefs:null,sec:SZR.sec};renderSzRules();}document.querySelectorAll("[data-lgr]").forEach(b=>{b.hidden=!(ME&&ME.role==="parent");});if(v==="ena") renderEnA1();if(v==="enl") renderEnl();if(v==="matl") renderMatl();if(v==="his") renderHis();if(v!=="hisv"){try{hisStop();}catch(e){}}if(v==="lg") renderLg();if(v==="lgb") renderLgb();if(v==="lgm") renderLgm();if(v==="lgf") renderLgf();try{if(v!=="lgs"&&BR&&BR.S) brStop();}catch(e){} /* zawsze świeże cele i ustawienia dziecka (np. po dodaniu celu) */if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();if(v==="szop") renderSzop();if(v==="szcf") renderSzcf();
   if(window.S3&&v!=="szg") S3.pause();if(v==="szz") renderSzz();if(v==="szo") renderSzo();
   if(v==="plws") renderPws();
   if(v==="pld") renderPd();
@@ -4676,6 +4691,140 @@ $("zd-spr").addEventListener("click",()=>enStart(zdAll,{subj:"zd",mode:"spr",tit
 $("zd-topics").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(!b) return;const t=ZD_TOPICS.find(x=>x.id===b.dataset.t);
   enStart(()=>zdTopic(t.id),{subj:"zd",mode:t.id,title:t.name,unit:"pytań"});});
 
+/* --- Historia: opowiastki dla klasy 4 (semestr 1: „Z historią na Ty” i pierwsi Piastowie) ---
+   Opowiastka: {id,ch (rozdział),name,ic (emoji),tone,story:[akapity],keep:[zapamiętaj],qs:[{q,c,bad,why}]}.
+   Czytanie na głos: nagranie history/audio/<id>.m4a (ElevenLabs, jeśli jest), inaczej lektor telefonu (speechSynthesis pl-PL).
+   Quiz w enStart (cfg.subj "his", mode = id opowiastki albo "spr" = sprawdzian ze wszystkiego). Fakty sprawdzone – nowe dopisuj tylko pewne. */
+const HIS_CH=[["ch1","Rozdział 1: Z historią na Ty"],["ch2","Rozdział 2: Pierwsi Piastowie"]];
+const HIS=[
+  {id:"przeszlosc",ch:"ch1",name:"Podróż w przeszłość",ic:"🔍",tone:"#a61e4d",
+   story:["Wyobraź sobie, że znajdujesz na strychu starą skrzynię. W środku jest pożółkły list, czarno-białe zdjęcie i dziwna moneta. Każda z tych rzeczy opowiada jakąś historię – trzeba tylko umieć ją odczytać.",
+     "Tym właśnie zajmują się <b>historycy</b>. Historia to nauka o przeszłości – o tym, jak żyli ludzie dawniej, co budowali, w co wierzyli i o co walczyli. Historyk jest trochę jak detektyw: zbiera ślady i układa z nich opowieść.",
+     "Takie ślady to <b>źródła historyczne</b>. Bywają <b>pisane</b> – kroniki, listy, dokumenty, pamiętniki – i <b>niepisane</b>: monety, narzędzia, budowle, obrazy, a nawet stare piosenki i opowieści przekazywane z ust do ust.",
+     "Najstarsze ślady leżą często głęboko pod ziemią. Wydobywa je <b>archeolog</b> podczas wykopalisk: delikatnie odkopuje garnki, groty strzał czy fundamenty domów sprzed setek lat.",
+     "Uważaj tylko na baśnie i legendy! Są piękne i dużo mówią o tym, co ludzie dawniej myśleli, ale wydarzyły się w nich też rzeczy zmyślone – na przykład smoki."],
+   keep:["Historia = nauka o przeszłości.","Źródła historyczne dzielimy na pisane (kroniki, listy) i niepisane (monety, budowle, obrazy, opowieści).","Archeolog szuka śladów przeszłości w ziemi."],
+   qs:[{q:"Czym zajmuje się historia?",c:"Badaniem przeszłości",bad:["Badaniem gwiazd","Badaniem roślin","Przewidywaniem pogody"],why:"Historia to nauka o przeszłości."},
+     {q:"Które źródło historyczne jest PISANE?",c:"Kronika",bad:["Moneta","Stary garnek","Zamek"],why:"Źródła pisane to np. kroniki, listy, dokumenty."},
+     {q:"Które źródło jest NIEPISANE?",c:"Miecz rycerza",bad:["List","Pamiętnik","Dokument króla"],why:"Przedmioty, budowle i obrazy to źródła niepisane."},
+     {q:"Kto szuka śladów przeszłości podczas wykopalisk?",c:"Archeolog",bad:["Astronom","Geograf","Lekarz"],why:"Archeolog odkopuje przedmioty i budowle sprzed setek lat."},
+     PF("W legendach wszystko wydarzyło się naprawdę.",false,"Legendy mają w sobie zmyślone elementy, np. smoki.")]},
+  {id:"czas",ch:"ch1",name:"Jak liczymy czas?",ic:"⏳",tone:"#5f3dc4",
+   story:["Kiedy babcia mówi „dawno, dawno temu”, nie wiadomo, czy chodzi o 10, czy o 1000 lat. Dlatego historycy umówili się, jak dokładnie liczyć czas.",
+     "Najkrótsze odcinki to <b>rok</b>. Sto lat to <b>wiek</b> (stulecie), a tysiąc lat – <b>tysiąclecie</b>. Lata od 1 do 100 to I wiek, od 101 do 200 – II wiek i tak dalej. My żyjemy w XXI wieku.",
+     "Skąd wziął się rok 1? Dawno temu umówiono się, że będzie to rok <b>narodzin Jezusa Chrystusa</b>. Wszystko, co było później, to lata <b>naszej ery (n.e.)</b>, a to, co wcześniej – lata <b>przed naszą erą (p.n.e.)</b>. Przed naszą erą liczymy jakby do tyłu: rok 300 p.n.e. był wcześniej niż rok 100 p.n.e.!",
+     "Żeby wszystko zobaczyć naraz, rysujemy <b>oś czasu</b> – linię, na której zaznaczamy wydarzenia po kolei. Wieki zapisujemy zwykle <b>cyframi rzymskimi</b>: I = 1, V = 5, X = 10, L = 50, C = 100, D = 500, M = 1000."],
+   keep:["Wiek = 100 lat, tysiąclecie = 1000 lat.","Rok 1 – narodziny Chrystusa; p.n.e. = przed naszą erą, n.e. = naszej ery.","Wiek zapisujemy cyframi rzymskimi: rok 966 to X wiek, rok 2026 to XXI wiek.","Sztuczka: skreśl dwie ostatnie cyfry roku i dodaj 1 (966 → 9 + 1 = X wiek)."],
+   qs:[{q:"Ile lat ma jeden wiek?",c:"100",bad:["10","50","1000"],why:"Wiek (stulecie) to 100 lat."},
+     {q:"W którym wieku był rok 966?",c:"X wiek",bad:["IX wiek","XI wiek","VI wiek"],why:"Skreślamy 66, zostaje 9, dodajemy 1 – X wiek."},
+     {q:"Co oznacza skrót p.n.e.?",c:"Przed naszą erą",bad:["Po naszej erze","Pierwsza nowa era","Polska nowa era"],why:"p.n.e. = przed naszą erą, czyli przed rokiem 1."},
+     {q:"Co oznacza rzymska cyfra X?",c:"10",bad:["5","50","100"],why:"I = 1, V = 5, X = 10, L = 50, C = 100."},
+     {q:"Który rok był WCZEŚNIEJ?",c:"300 p.n.e.",bad:["100 p.n.e.","100 n.e.","300 n.e."],why:"Przed naszą erą liczymy do tyłu – 300 p.n.e. był dawniej niż 100 p.n.e."},
+     {q:"W którym wieku żyjemy?",c:"XXI",bad:["XX","XIX","XXII"],why:"Lata 2001–2100 to XXI wiek."}]},
+  {id:"mapa",ch:"ch1",name:"Mapa i plan",ic:"🗺️",tone:"#2b8a3e",
+   story:["Piraci w książkach mają mapę skarbów – i bez niej ani rusz. Historycy też korzystają z map, bo pokazują one, gdzie działy się wydarzenia: gdzie stał gród, gdzie była bitwa, dokąd sięgało państwo.",
+     "<b>Plan</b> pokazuje mały teren bardzo dokładnie – na przykład twoje osiedle, szkołę albo zamek. <b>Mapa</b> pokazuje duży obszar – województwo, Polskę, cały świat – ale mniej szczegółów.",
+     "Na każdej mapie znajdziesz <b>legendę</b> – to nie bajka, tylko objaśnienie znaków, np. kropka to miasto, a skrzyżowane miecze to bitwa. Jest też <b>skala</b>, która mówi, ile razy teren został zmniejszony, np. 1 cm na mapie to 10 km w terenie.",
+     "A <b>róża wiatrów</b> pokazuje kierunki: północ (N) zwykle jest na górze mapy, południe (S) na dole, wschód (E) po prawej, a zachód (W) po lewej."],
+   keep:["Plan – mały teren, dużo szczegółów; mapa – duży obszar.","Legenda mapy objaśnia znaki, skala mówi, ile razy teren zmniejszono.","Na mapie północ jest zwykle na górze, wschód po prawej."],
+   qs:[{q:"Co pokaże dokładnie twoją szkołę i boisko?",c:"Plan",bad:["Mapa świata","Globus","Oś czasu"],why:"Plan pokazuje mały teren bardzo dokładnie."},
+     {q:"Co to jest legenda mapy?",c:"Objaśnienie znaków na mapie",bad:["Bajka o mapie","Nazwa mapy","Spis miast"],why:"Legenda wyjaśnia, co oznaczają znaki na mapie."},
+     {q:"Gdzie zwykle jest północ na mapie?",c:"Na górze",bad:["Na dole","Po prawej","Po lewej"],why:"Północ (N) jest zwykle na górze mapy."},
+     {q:"Co pokazuje skala mapy?",c:"Ile razy teren został zmniejszony",bad:["Wysokość gór","Kolory państw","Liczbę mieszkańców"],why:"Skala mówi, np. że 1 cm na mapie to 10 km w terenie."},
+     {q:"Jaki kierunek jest na mapie po prawej stronie?",c:"Wschód",bad:["Zachód","Północ","Południe"],why:"Wschód (E) jest po prawej, zachód (W) po lewej."}]},
+  {id:"rodzina",ch:"ch1",name:"Moja rodzina, moja historia",ic:"🌳",tone:"#e8590c",
+   story:["Każdy z nas ma swoją własną historię – i zaczyna się ona w rodzinie. Rodzice, dziadkowie, pradziadkowie… każdy z nich przeżył coś ciekawego, o czym warto zapytać.",
+     "Rodzinę można narysować jako <b>drzewo genealogiczne</b>. Na samym dole jesteś ty, wyżej rodzice, jeszcze wyżej dziadkowie i pradziadkowie. Ci, którzy żyli przed nami, to nasi <b>przodkowie</b>, a ci, którzy przyjdą po nas – <b>potomkowie</b>.",
+     "Ludzie w podobnym wieku tworzą jedno <b>pokolenie</b>: ty i twoje rodzeństwo, kuzyni – to jedno pokolenie, rodzice – drugie, dziadkowie – trzecie. Jedno pokolenie to mniej więcej 25–30 lat.",
+     "Pamiątki rodzinne – stare zdjęcia, medale, listy, przepisy babci – to też źródła historyczne! Można je zebrać w <b>kronice rodzinnej</b>."],
+   keep:["Drzewo genealogiczne pokazuje członków rodziny i ich pokrewieństwo.","Przodkowie żyli przed nami, potomkowie przyjdą po nas.","Jedno pokolenie to ok. 25–30 lat."],
+   qs:[{q:"Jak nazywa się rysunek pokazujący członków rodziny?",c:"Drzewo genealogiczne",bad:["Oś czasu","Mapa rodzinna","Plan domu"],why:"Drzewo genealogiczne pokazuje pokrewieństwo w rodzinie."},
+     {q:"Kim są dla ciebie pradziadkowie?",c:"Przodkami",bad:["Potomkami","Rówieśnikami","Sąsiadami"],why:"Przodkowie to ci, którzy żyli przed nami."},
+     {q:"Ile mniej więcej lat trwa jedno pokolenie?",c:"25–30 lat",bad:["5 lat","100 lat","2 lata"],why:"Pokolenie to ok. 25–30 lat."},
+     PF("Stare zdjęcia z albumu rodzinnego mogą być źródłem historycznym.",true,"Pamiątki rodzinne to też źródła historyczne.")]},
+  {id:"ojczyzna",ch:"ch1",name:"Mała i wielka ojczyzna",ic:"🏡",tone:"#0c8599",
+   story:["<b>Mała ojczyzna</b> to miejsce, z którym czujesz się najbardziej związany – twoje miasto, wieś albo dzielnica. Ma swoją historię, zabytki, tradycje, a czasem nawet własną gwarę, czyli sposób mówienia.",
+     "Kilka małych ojczyzn tworzy <b>region</b>, np. Mazowsze, Śląsk, Pomorze, Podhale czy Kaszuby. Każdy region ma swoje stroje ludowe, potrawy i zwyczaje.",
+     "A wszystkie razem tworzą naszą <b>wielką ojczyznę – Polskę</b>. Jej stolicą jest <b>Warszawa</b>.",
+     "Polska ma swoje <b>symbole narodowe</b>: <b>godło</b> – białego orła w złotej koronie na czerwonym tle; <b>flagę</b> – biało-czerwoną (biały kolor u góry); i <b>hymn</b> – „Mazurek Dąbrowskiego”, który zaczyna się słowami „Jeszcze Polska nie zginęła”. Hymnu słuchamy na stojąco.",
+     "Ważne święta państwowe to <b>3 Maja</b> – rocznica uchwalenia Konstytucji 3 maja w 1791 roku – i <b>11 Listopada</b> – Narodowe Święto Niepodległości, bo w 1918 roku Polska odzyskała niepodległość."],
+   keep:["Mała ojczyzna – miejsce, gdzie mieszkasz; region – większy obszar z własnymi tradycjami.","Godło: biały orzeł w koronie na czerwonym tle. Flaga: biało-czerwona. Hymn: „Mazurek Dąbrowskiego”.","Stolica Polski: Warszawa. Święta: 3 Maja i 11 Listopada (odzyskanie niepodległości w 1918 r.)."],
+   qs:[{q:"Co jest na godle Polski?",c:"Biały orzeł w koronie na czerwonym tle",bad:["Czerwony orzeł na białym tle","Biały lew","Złoty smok"],why:"Godło Polski to biały orzeł w złotej koronie na czerwonym tle."},
+     {q:"Jak nazywa się hymn Polski?",c:"Mazurek Dąbrowskiego",bad:["Bogurodzica","Rota","Sto lat"],why:"Hymn Polski to „Mazurek Dąbrowskiego”."},
+     {q:"Jaki kolor jest na górze polskiej flagi?",c:"Biały",bad:["Czerwony","Niebieski","Zielony"],why:"Flaga jest biało-czerwona: biały u góry, czerwony na dole."},
+     {q:"Co świętujemy 11 listopada?",c:"Odzyskanie niepodległości",bad:["Chrzest Polski","Konstytucję 3 maja","Koronację Chrobrego"],why:"11 listopada 1918 r. Polska odzyskała niepodległość."},
+     {q:"Jak nazywa się miejsce, z którym czujesz się najbardziej związany?",c:"Mała ojczyzna",bad:["Stolica","Kontynent","Państwo"],why:"Mała ojczyzna to twoja miejscowość, okolica."},
+     {q:"Która to stolica Polski?",c:"Warszawa",bad:["Kraków","Gniezno","Poznań"],why:"Stolicą Polski jest Warszawa."}]},
+  {id:"lech",ch:"ch2",name:"Legenda o Lechu, Czechu i Rusie",ic:"🦅",tone:"#c92a2a",
+   story:["Dawno, dawno temu żyło trzech braci: <b>Lech, Czech i Rus</b>. Ze swoimi ludźmi wędrowali przez lasy i rzeki, szukając miejsca, gdzie mogliby zamieszkać.",
+     "W końcu bracia postanowili się rozstać. Czech poszedł na południe, Rus na wschód, a Lech ruszył dalej na północ.",
+     "Pewnego wieczoru Lech zobaczył na wysokim dębie wielkie gniazdo. Siedział w nim <b>biały orzeł</b>, a za nim zachodziło słońce i niebo było czerwone. „To znak!” – zawołał Lech. Postanowił, że tu zamieszka, a gród nazwał <b>Gniezno</b> – od orlego gniazda.",
+     "Biały orzeł na czerwonym tle stał się znakiem jego ludu – i do dziś jest w godle Polski. Pamiętaj jednak: to <b>legenda</b>. Nie wiadomo, czy Lech żył naprawdę, ale Gniezno to prawdziwy, bardzo stary gród – jedna z pierwszych stolic Polski."],
+   keep:["Według legendy Lech założył Gniezno w miejscu, gdzie zobaczył gniazdo białego orła.","Biały orzeł na czerwonym tle – stąd nasze godło.","To legenda, ale Gniezno jest prawdziwe i było jedną z pierwszych stolic Polski."],
+   qs:[{q:"Jakiego ptaka zobaczył Lech w gnieździe?",c:"Białego orła",bad:["Czarnego kruka","Szarego sokoła","Złotego bociana"],why:"Lech zobaczył białego orła na tle czerwonego nieba."},
+     {q:"Jaki gród założył Lech według legendy?",c:"Gniezno",bad:["Kraków","Warszawę","Gdańsk"],why:"Gniezno – od orlego gniazda."},
+     {q:"Dokąd poszedł Rus?",c:"Na wschód",bad:["Na zachód","Na północ","Na południe"],why:"Czech poszedł na południe, Rus na wschód, Lech na północ."},
+     PF("Historia o Lechu, Czechu i Rusie to legenda.",true,"To legenda – nie wiadomo, czy bracia żyli naprawdę.")]},
+  {id:"mieszko",ch:"ch2",name:"Mieszko I i chrzest Polski",ic:"✝️",tone:"#1864ab",
+   story:["Ponad tysiąc lat temu na ziemiach polskich mieszkał lud Polan. Ich władcą był <b>Mieszko I</b> z rodu <b>Piastów</b> – pierwszy władca Polski, o którym wiemy na pewno, że istniał.",
+     "Mieszko miał silną drużynę wojów, ale miał też kłopot: sąsiedzi byli chrześcijanami, a Polanie wierzyli w dawnych bogów. Państwo pogańskie łatwo mogło zostać napadnięte pod pretekstem nawracania.",
+     "Mieszko wymyślił mądry plan. Ożenił się z czeską księżniczką <b>Dobrawą</b>, która była chrześcijanką, a w roku <b>966</b> sam przyjął chrzest. Tę datę nazywamy <b>chrztem Polski</b>.",
+     "Dzięki temu Polska stała się państwem chrześcijańskim, równym innym w Europie. Przybyli duchowni, którzy umieli czytać i pisać, zaczęto budować kościoły z kamienia, a o Polsce zaczęto pisać w kronikach."],
+   keep:["Mieszko I z dynastii Piastów – pierwszy znany władca Polski.","966 – chrzest Polski (X wiek).","Żona Mieszka: czeska księżniczka Dobrawa."],
+   qs:[{q:"W którym roku Mieszko I przyjął chrzest?",c:"966",bad:["1000","1025","1410"],why:"Chrzest Polski był w roku 966."},
+     {q:"Z jakiego rodu był Mieszko I?",c:"Piastów",bad:["Jagiellonów","Wazów","Habsburgów"],why:"Mieszko I był z dynastii Piastów."},
+     {q:"Jak miała na imię żona Mieszka I?",c:"Dobrawa",bad:["Jadwiga","Bona","Anna"],why:"Dobrawa była czeską księżniczką i chrześcijanką."},
+     {q:"Dlaczego chrzest był ważny dla Polski?",c:"Polska stała się państwem chrześcijańskim, równym innym w Europie",bad:["Polska dostała morze","Mieszko został cesarzem","Zbudowano pierwszy samochód"],why:"Chrzest wprowadził Polskę do grona państw chrześcijańskich."},
+     {q:"W którym wieku był chrzest Polski?",c:"X wiek",bad:["IX wiek","XI wiek","XX wiek"],why:"Rok 966 to X wiek."}]},
+  {id:"chrobry",ch:"ch2",name:"Bolesław Chrobry – pierwszy król",ic:"👑",tone:"#e67700",
+   story:["Po śmierci Mieszka władzę objął jego syn <b>Bolesław</b>. Nazwano go <b>Chrobrym</b>, czyli dzielnym, bo był odważnym wojownikiem i powiększył swoje państwo.",
+     "Bolesław przyjaźnił się z biskupem <b>Wojciechem</b>, który pojechał nawracać pogańskich Prusów. Niestety Prusowie go zabili. Bolesław wykupił ciało Wojciecha – podobno za tyle złota, ile ważyło – i pochował je w Gnieźnie. Wojciech został <b>świętym</b>.",
+     "W roku <b>1000</b> do grobu świętego Wojciecha przyjechał sam cesarz <b>Otton III</b>. To spotkanie nazywamy <b>zjazdem gnieźnieńskim</b>. Cesarz traktował Bolesława jak przyjaciela, a w Gnieźnie powstało arcybiskupstwo – Polska miała teraz własny Kościół.",
+     "Bolesław marzył o koronie. Udało mu się dopiero pod koniec życia: w roku <b>1025</b> został koronowany i stał się <b>pierwszym królem Polski</b>."],
+   keep:["Bolesław Chrobry – syn Mieszka I, „chrobry” = dzielny.","1000 – zjazd gnieźnieński (cesarz Otton III u grobu św. Wojciecha).","1025 – koronacja: Bolesław Chrobry pierwszym królem Polski."],
+   qs:[{q:"Kto był pierwszym królem Polski?",c:"Bolesław Chrobry",bad:["Mieszko I","Kazimierz Wielki","Władysław Jagiełło"],why:"Bolesław Chrobry koronował się w 1025 roku."},
+     {q:"Co znaczy przydomek „Chrobry”?",c:"Dzielny",bad:["Mądry","Bogaty","Wysoki"],why:"Chrobry = dzielny, odważny."},
+     {q:"W którym roku był zjazd gnieźnieński?",c:"1000",bad:["966","1025","1410"],why:"Zjazd gnieźnieński odbył się w roku 1000."},
+     {q:"Kto przyjechał do Gniezna w roku 1000?",c:"Cesarz Otton III",bad:["Mieszko I","Król Czech","Papież"],why:"Cesarz Otton III przybył do grobu św. Wojciecha."},
+     {q:"Czyim synem był Bolesław Chrobry?",c:"Mieszka I",bad:["Lecha","Kazimierza Wielkiego","Ottona III"],why:"Bolesław był synem Mieszka I i Dobrawy."},
+     {q:"W którym roku Bolesław został królem?",c:"1025",bad:["1000","966","1050"],why:"Koronacja Bolesława Chrobrego – 1025 r."}]},
+];
+const HIS_NEW="2026-11-08";
+const hisQ=(x,t)=>({lab:x.lab||t.name,q:x.q,c:x.c,pf:!!x.pf,three:false,long:!x.pf,opts:x.pf?["Prawda","Fałsz"]:shuffle([x.c,...x.bad]),why:x.why});
+const hisQs=id=>id==="spr"?shuffle(HIS.flatMap(t=>t.qs.map(x=>hisQ(x,t)))):shuffle(HIS.find(t=>t.id===id).qs.map(x=>hisQ(x,HIS.find(t=>t.id===id))));
+const hisLast=mode=>doneStats(loadHist().filter(s=>s.subj==="his"&&s.status==="done"&&s.cfg&&s.cfg.mode===mode));
+const HISK="henriksen-historia-czytane";
+const hisRead=()=>{try{return JSON.parse(localStorage.getItem(HISK)||"[]");}catch(e){return [];}};
+function renderHis(){const R=hisRead(),N=HIS.reduce((a,t)=>a+t.qs.length,0),sp=hisLast("spr");
+  $("his-list").innerHTML=HIS_CH.map(([ch,name])=>`<div class="lbl">${name}</div><div class="tiles2 mat-tiles">`+HIS.filter(t=>t.ch===ch).map(t=>{const x=hisLast(t.id);
+    return `<button type="button" class="tile mt" data-h="${t.id}" data-new="${HIS_NEW}" style="--gc:${t.tone}"><span class="wm his-ic" aria-hidden="true">${t.ic}</span>${x?statBox(x):R.includes(t.id)?'<span class="mt-last"><b>✓ Przeczytane</b></span>':""}<span class="tt">${t.name}</span><small>Opowiastka + ${t.qs.length} pytań</small></button>`;}).join("")+`</div>`).join("");
+  $("his-spr-s").textContent=sp?lastTxt(sp):`Wszystkie tematy · ${N} pytań`;newBadges();}
+let HISC=null;
+const hisAudio=id=>`history/audio/${id}.m4a`;
+function hisOpen(id){const t=HIS.find(x=>x.id===id);if(!t) return;HISC=t;hisStop();
+  const R=hisRead();if(!R.includes(id)){try{localStorage.setItem(HISK,JSON.stringify([...R,id]));}catch(e){}}
+  $("hisv").querySelector("h1").textContent=t.name;
+  $("hisv-body").innerHTML=`<div class="his-hero" style="--gc:${t.tone}" aria-hidden="true">${t.ic}</div>`+
+    `<button type="button" class="again his-play" id="his-play">🎧 Posłuchaj opowiastki</button>`+
+    t.story.map(p=>`<p class="his-p">${p}</p>`).join("")+
+    `<div class="lx-tip"><b>📌 Zapamiętaj</b><ul>${t.keep.map(k=>`<li>${k}</li>`).join("")}</ul></div>`+
+    `<button type="button" class="go-btn" id="his-quiz">Sprawdź się – ${t.qs.length} pytań ▶</button>`;
+  go("hisv");}
+// czytanie: najpierw nagranie z ElevenLabs (jeśli jest), inaczej lektor telefonu po polsku
+const HIS_AUD=new Audio();HIS_AUD.preload="none";let HIS_TTS=false;
+function hisStop(){try{HIS_AUD.pause();}catch(e){}try{speechSynthesis.cancel();}catch(e){}HIS_TTS=false;const b=$("his-play");if(b) b.textContent="🎧 Posłuchaj opowiastki";}
+async function hisPlay(){const t=HISC,b=$("his-play");if(!t) return;
+  if(!HIS_AUD.paused||HIS_TTS){hisStop();return;}
+  b.textContent="⏸ Zatrzymaj";
+  try{const r=await fetch(hisAudio(t.id),{method:"HEAD"});if(r.ok){HIS_AUD.src=hisAudio(t.id);HIS_AUD.onended=hisStop;await HIS_AUD.play();return;}}catch(e){}
+  try{const txt=(t.name+". "+t.story.join(" ")).replace(/<[^>]+>/g,"");const u=new SpeechSynthesisUtterance(txt);u.lang="pl-PL";u.rate=.95;
+    const v=speechSynthesis.getVoices().find(x=>/^pl/i.test(x.lang));if(v) u.voice=v;u.onend=hisStop;HIS_TTS=true;speechSynthesis.speak(u);}
+  catch(e){hisStop();toast("Ten telefon nie umie czytać na głos.");}}
+$("hisv-body").addEventListener("click",e=>{if(e.target.closest("#his-play")) return hisPlay();if(e.target.closest("#his-quiz")&&HISC){hisStop();const t=HISC;enStart(()=>hisQs(t.id),{subj:"his",mode:t.id,title:t.name,unit:"pytań"});}});
+$("his-list").addEventListener("click",e=>{const b=e.target.closest("[data-h]");if(b) hisOpen(b.dataset.h);});
+$("his-spr").addEventListener("click",()=>enStart(()=>hisQs("spr"),{subj:"his",mode:"spr",title:"Sprawdzian z historii",unit:"pytań"}));
+$("t-his").addEventListener("click",()=>go("his"));
+
 /* --- Angielski: Słówka (A1/A2, w tematach) i Zdania; ten sam quiz co To be (enStart / enShow) ---
    Zdanie: "angielski|polski|3 złe angielskie (;)|3 złe polskie (;)" – złe wersje to typowe pomyłki i zmienione szczegóły. */
 /* Słówka angielskie w tematach: "angielski=polski" rozdzielone ";", część mowy z p tematu albo po @ (n rzeczownik, v czasownik,
@@ -5114,14 +5263,14 @@ if(syncOn()) syncSoon(2500);
    Próg brązu ustawia rodzic (PREFS.cups[kategoria], domyślnie base), kolejne poziomy = próg × x. Nagrody od rodzica:
    PREFS.cupRewards[poziom]. Liczone z historii, więc obejmują też wcześniejsze wyniki; PREFS.cupSeen pamięta pokazane
    puchary, żeby „Nowy puchar!” wyskoczył raz. Rodzic zmienia progi dziecka przez jego wiersz w settings (sync go dociąga). */
-const CUP_SUBJ={mat:"Matematyka",pl:"Polski",en:"Angielski",zd:"Edukacja zdrowotna",sz:"Szachy",lg:"Łamigłówki"};
+const CUP_SUBJ={mat:"Matematyka",pl:"Polski",en:"Angielski",zd:"Edukacja zdrowotna",his:"Historia",sz:"Szachy",lg:"Łamigłówki"};
 const CUP_CATS=[
   {id:"mat×",subj:"mat",name:"Mnożenie",base:150},{id:"mat:",subj:"mat",name:"Dzielenie",base:150},
   {id:"mat+",subj:"mat",name:"Dodawanie",base:100},{id:"mat−",subj:"mat",name:"Odejmowanie",base:100},
   {id:"pl-slowka",subj:"pl",name:"Słówka: ó/u, rz/ż, ch/h",base:75},{id:"pl-dyktando",subj:"pl",name:"Dyktanda",base:75},
   {id:"pl-znaczenia",subj:"pl",name:"Znaczenie słów",base:100},
   {id:"en-tobe",subj:"en",name:"To be",base:50},{id:"en-slowka",subj:"en",name:"Słówka angielskie",base:75},{id:"en-zdania",subj:"en",name:"Zdania",base:100},{id:"en-a1",subj:"en",name:"Podstawy A1",base:60},
-  {id:"zd",subj:"zd",name:"Edukacja zdrowotna",base:60},
+  {id:"zd",subj:"zd",name:"Edukacja zdrowotna",base:60},{id:"his",subj:"his",name:"Historia",base:40},
   {id:"sz-nauka",subj:"sz",name:"Samouczek szachowy",base:15},{id:"sz-zadania",subj:"sz",name:"Zadania szachowe",base:40},{id:"sz-gra",subj:"sz",name:"Partie z komputerem",base:20},
   {id:"lg-blockout",subj:"lg",name:"Block Out",base:40},{id:"lg-mosty",subj:"lg",name:"Mosty",base:25},{id:"lg-trojki",subj:"lg",name:"Trójki",base:30},{id:"lg-flow",subj:"lg",name:"Flow",base:40}
 ];
@@ -5129,7 +5278,7 @@ const CUP_LV=[{k:"b",name:"Brąz",to:"brązu",x:1,c:"#cd7f32"},{k:"s",name:"Sreb
   {k:"g",name:"Złoto",to:"złota",x:8,c:"#f2c230"},{k:"d",name:"Diament",to:"diamentu",x:20,c:"#4dd4ff"}];
 const CUP_STEPS=[20,30,50,75,100,150,200,300,400,500,750,1000,1500,2000,3000,4000,5000,7500,10000];
 const PARENT_KEYS=["cups","cupRewards","mods","tasks","szLimit","szRules","lgLimit","lgRules","boLimit","boRules","brLimit","brRules","thLimit","thRules","flLimit","flRules"]; // ustawia rodzic – przy konflikcie wygrywa wersja z bazy
-const cupCat=(s,r)=>{const sj=s.subj||"mat";if(sj==="zd") return "zd";return sj==="mat"?"mat"+(Array.isArray(r.t)?r.t[1]:""):sj+"-"+((s.cfg&&s.cfg.mode)||(sj==="en"?"tobe":"slowka"));};
+const cupCat=(s,r)=>{const sj=s.subj||"mat";if(sj==="zd"||sj==="his") return sj;return sj==="mat"?"mat"+(Array.isArray(r.t)?r.t[1]:""):sj+"-"+((s.cfg&&s.cfg.mode)||(sj==="en"?"tobe":"slowka"));};
 function cupCounts(H){const c={};for(const s of H) for(const r of s.recs||[]) if(r.ok){const k=cupCat(s,r);c[k]=(c[k]||0)+recW(s,r);}return c;} // punkty, nie liczba zadań
 const cupBase=(P,id)=>(P&&P.cups&&+P.cups[id])||CUP_CATS.find(x=>x.id===id).base;
 const cupLevel=(n,base)=>CUP_LV.reduce((l,L,k)=>n>=base*L.x?k:l,-1);
@@ -5341,7 +5490,7 @@ function histSummary(H,P){
   let n=0,d=act.has(T)?T:addDays(T,-1);while(act.has(d)){n++;d=addDays(d,-1);}
   const c=cupCounts(H),cups={b:0,s:0,g:0,d:0}; // najwyższy puchar w każdej kategorii
   CUP_CATS.forEach(x=>{const l=cupLevel(c[x.id]||0,cupBase(P,x.id));if(l>=0) cups[CUP_LV[l].k]++;});
-  subj._on=["mat","pl","en","zd","sz","lg"].filter(k=>subjOn(k));
+  subj._on=["mat","pl","en","zd","sz","lg"].filter(k=>subjOn(k)).concat(modOn("his")?["his"]:[]);
   return {week_start:ymd(MON),week_pts:week,total_pts:total,streak:n,cups,subj};
 }
 async function ligPublish(){ // osobno od reszty synchronizacji: brak tabel lig nie może jej zatrzymać
@@ -5409,7 +5558,7 @@ async function renderLig(){
   }catch(x){$("lig-rank").innerHTML='<li class="none">Nie udało się wczytać rankingu.</li>';}
 }
 // punkty w rankingu dla okresu (LIGMODE) i przedmiotu; „ten tydzień” z nieaktualnym podsumowaniem = 0
-const LIG_CATS={all:{name:"Wszystko",c:"var(--accent)"},mat:{name:"Matematyka",c:"#5c7cfa"},pl:{name:"Polski",c:"#f76707"},en:{name:"Angielski",c:"#12b886"},sz:{name:"Szachy",c:"#2b8a3e"},lg:{name:"Łamigłówki",c:"#e64980"}};
+const LIG_CATS={all:{name:"Wszystko",c:"var(--accent)"},mat:{name:"Matematyka",c:"#5c7cfa"},pl:{name:"Polski",c:"#f76707"},en:{name:"Angielski",c:"#12b886"},sz:{name:"Szachy",c:"#2b8a3e"},lg:{name:"Łamigłówki",c:"#e64980"},his:{name:"Historia",c:"#a61e4d"}};
 let LIGCAT="all";
 function ligVal(r,cat){const wk=LIGMODE==="week";if(cat==="all") return wk?r.week_pts:r.total_pts;
   const x=(r.subj||{})[cat]||{};return wk?(r.this_week===false?0:x.w||0):x.t||0;}
@@ -5478,7 +5627,7 @@ const MODS=[
     {k:"zd-zach",name:"Zachowania chroniące i ryzykowne",sub:"środowisko, zdrowe nawyki"}]},
   {g:"Szachy",items:[{k:"sz-nauka",name:"Samouczek",sub:"ruchy figur, szach, mat, roszada"},{k:"sz-zadania",name:"Zadania",sub:"mat w 1, 2 i 3"},{k:"sz-gra",name:"Graj z komputerem",sub:"przeciwnicy do odblokowania"},{k:"sz-3d",name:"Szachy 3D",sub:"plansza 3D, wybuchy, piłkarze"},{k:"sz-otwarcia",nw:1,name:"Otwarcia",sub:"znane otwarcia z historią"},{k:"sz-ciekawostki",nw:1,name:"Ciekawostki",sub:"fakty o szachach"}]},
   {g:"Łamigłówki",items:[{k:"lg-blockout",name:"Block Out",sub:"kolorowe klocki do drzwi"},{k:"lg-mosty",nw:1,name:"Mosty",sub:"budowanie mostów z fizyką"},{k:"lg-trojki",nw:1,name:"Trójki",sub:"łączenie liczb 1+2=3, 3+3=6…"},{k:"lg-flow",nw:1,name:"Flow",sub:"połącz kropki rurkami, kolory po angielsku"}]},
-  {g:"Historia",items:[{k:"his",name:"Historia",sub:"kafel „Wkrótce” – daty, bitwy, królowie"}]},
+  {g:"Historia",items:[{k:"his",name:"Historia",sub:"opowiastki z przeszłości i quizy"}]},
   {g:"Przyroda",items:[{k:"nat",name:"Przyroda",sub:"kafel „Wkrótce” – rośliny, zwierzęta, mapa"}]},
   {g:"Inne",always:true,items:[{k:"stats",name:"Statystyki",sub:"punkty, seria, wyniki"},{k:"cups",name:"Nagrody",sub:"puchary, animacje, filmiki"},
     {k:"lig",name:"Ligi",sub:"ranking z kolegami"},{k:"help",name:"Instrukcje",sub:"konto, PIN, puchary, ligi"}]}
@@ -8060,7 +8209,7 @@ function gameBegin(){
   PW=PD=PZ=EN=null;
 }
 // odtworzenie gry z migawki
-const enMakeFor=(c,n)=>c.subj==="zd"?(c.mode==="spr"?zdAll:()=>zdTopic(c.mode))
+const enMakeFor=(c,n)=>c.subj==="his"?()=>hisQs(c.mode):c.subj==="zd"?(c.mode==="spr"?zdAll:()=>zdTopic(c.mode))
   :c.mode==="a1"?()=>a1Qs(c.topic||"mix",n):c.mode==="tobe"?()=>enToBeQs(n,c.types||["form"]):()=>enVocabQs(c.mode,{lvl:c.lvl||"a1",dir:c.dir||"mix",topics:c.topics||[],n});
 function resumeGame(g){
   if(g.type==="pw"){PW={id:g.id,start:g.start,cfg:g.cfg,i:g.i,recs:g.recs,words:g.words.map(f=>WORDS.find(w=>w.full===f)),wrong:[],locked:false,over:false};
