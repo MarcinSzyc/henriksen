@@ -260,3 +260,239 @@ Niektóre zwierzęta zasypiają: jeż zapada w sen zimowy (hibernację), a nied�
 
 W upale zwierzęta chowają się w cieniu, są aktywne w nocy albo kąpią się. Pies chłodzi się, ziajając z wywieszonym językiem, a człowiek – pocąc się.
 
+# Rozdział V. Jak działają organizmy?
+
+## V.1 Cechy organizmów  (plik: cechy)
+
+Cechy organizmów.
+
+Jak odróżnić żywy organizm od kamienia? Wszystkie organizmy – od bakterii po słonia i człowieka – mają wspólne cechy, czyli czynności życiowe.
+
+Organizmy odżywiają się (pobierają pokarm, z którego mają energię i budulec), oddychają (uwalniają energię z pokarmu) i wydalają zbędne, szkodliwe substancje.
+
+Organizmy rosną i rozwijają się – z nasionka wyrasta drzewo, a z kijanki żaba. Rozmnażają się, czyli wydają na świat potomstwo, i reagują na bodźce: roślina obraca się do światła, a kot ucieka przed psem.
+
+Większość organizmów potrafi też się poruszać. Rośliny poruszają się powoli – otwierają i zamykają kwiaty albo kierują liście do słońca.
+
+## V.2 Jak są zbudowane organizmy?  (plik: komorka)
+
+Jak są zbudowane organizmy?.
+
+Wszystkie organizmy zbudowane są z komórek – to najmniejsze żywe „cegiełki”. Większość z nich zobaczysz dopiero pod mikroskopem.
+
+Niektóre organizmy to tylko jedna komórka – na przykład bakterie albo pantofelek żyjący w kałużach. Inne, jak drzewo, pies czy człowiek, są wielokomórkowe i mają miliardy komórek.
+
+U organizmów wielokomórkowych podobne komórki tworzą tkanki, tkanki tworzą narządy (np. serce, liść), a narządy współpracują w układach narządów (np. układ krwionośny).
+
+Każda komórka ma błonę, cytoplazmę i zwykle jądro, które nią „kieruje”. Komórka roślinna ma do tego sztywną ścianę komórkową, zielone chloroplasty i dużą wakuolę z sokiem – tego nie ma komórka zwierzęca.
+
+## V.3 Rośliny – organizmy samożywne  (plik: samozywne)
+
+Rośliny – organizmy samożywne.
+
+Rośliny nie jedzą tak jak my – one same wytwarzają sobie pokarm. Dlatego nazywamy je organizmami samożywnymi.
+
+Ten proces to fotosynteza. Roślina pobiera korzeniami wodę, a liśćmi dwutlenek węgla z powietrza. Dzięki energii światła zamienia je w cukier (glukozę), który jest jej pokarmem.
+
+Fotosynteza zachodzi w zielonych chloroplastach, w których jest zielony barwnik – chlorofil. To dlatego liście są zielone!
+
+Przy okazji roślina wydziela tlen – ten, którym oddychamy. Bez roślin nie byłoby na Ziemi ani pokarmu, ani tlenu dla zwierząt i ludzi.
+
+## V.4 Zwierzęta – organizmy cudzożywne  (plik: cudzozywne)
+
+Zwierzęta – organizmy cudzożywne.
+
+Zwierzęta nie potrafią same wytworzyć pokarmu – muszą zjadać inne organizmy. To organizmy cudzożywne.
+
+Roślinożercy jedzą rośliny (zając, krowa, sarna). Mięsożercy polują na inne zwierzęta (wilk, orzeł, kot). Wszystkożercy jedzą i rośliny, i zwierzęta (dzik, niedźwiedź, człowiek). Są też pasożyty, które żyją kosztem innych, np. kleszcz.
+
+Kto kogo zjada, pokazuje łańcuch pokarmowy, np.: trawa → zając → lis. Zawsze zaczyna się od rośliny, bo to ona wytwarza pokarm.
+
+Szczątki martwych roślin i zwierząt rozkładają grzyby i bakterie. Dzięki nim w glebie powstaje próchnica, z której korzystają znów rośliny – i koło się zamyka.
+
+# Rozdział VI. Jak działa moje ciało?
+
+## VI.1 Ciało człowieka – niezwykła maszyna. Jak się poruszam?  (plik: ruch)
+
+Ciało człowieka – niezwykła maszyna. Jak się poruszam?.
+
+Twoje ciało to świetnie zgrana maszyna, w której pracuje wiele układów naraz. Za ruch odpowiadają kości i mięśnie.
+
+Kości tworzą szkielet, który podtrzymuje ciało i chroni ważne narządy: czaszka chroni mózg, a żebra – serce i płuca. Podporą ciała jest kręgosłup. Dorosły człowiek ma ok. 206 kości.
+
+Kości łączą się w stawach (kolano, łokieć), dzięki którym możemy się zginać. A poruszają nimi mięśnie, które się kurczą i rozkurczają – często pracują parami: jeden zgina rękę w łokciu, drugi ją prostuje.
+
+Żeby kości i mięśnie były zdrowe, potrzebny jest ruch, prosta postawa przy biurku, lekki plecak i jedzenie bogate w wapń (mleko, sery, jogurty).
+
+## VI.2 Poznaję składniki pokarmowe  (plik: pokarm)
+
+Poznaję składniki pokarmowe.
+
+Jedzenie daje ciału energię i budulec. W pokarmach są różne składniki pokarmowe.
+
+Białka to budulec – są w mięsie, rybach, jajach, nabiale i fasoli. Węglowodany (cukry) dają energię – w pieczywie, kaszach, makaronie, owocach. Tłuszcze to zapas energii – w maśle, olejach, orzechach.
+
+Witaminy i sole mineralne (np. wapń, żelazo) są potrzebne do prawidłowej pracy ciała – najwięcej ich w warzywach i owocach. Bardzo ważna jest też woda – najlepszy napój na pragnienie.
+
+Pokarm wędruje przez układ pokarmowy: jama ustna (zęby i ślina) → przełyk → żołądek → jelito cienkie (tu składniki przechodzą do krwi) → jelito grube. Zdrowo jemy, gdy na talerzu jest dużo warzyw i owoców, a słodyczy i chipsów – jak najmniej.
+
+## VI.3 Po co oddychamy?  (plik: oddech)
+
+Po co oddychamy?.
+
+Oddychamy przez całe życie, nawet we śnie. Ale po co? Żeby dostarczyć ciału tlen. Dzięki tlenowi komórki uwalniają energię z pokarmu.
+
+Powietrze wpada przez nos, który je ogrzewa, nawilża i oczyszcza z kurzu. Potem przechodzi przez gardło, krtań (tu powstaje głos), tchawicę i oskrzela do płuc.
+
+W płucach są miliony maleńkich pęcherzyków płucnych. Tam tlen przechodzi do krwi, a z krwi do płuc trafia dwutlenek węgla, który wydychamy.
+
+Płucom szkodzi dym papierosowy i smog. Pomaga im ruch na świeżym powietrzu i wietrzenie pokoju.
+
+## VI.4 Po co krew krąży w ciele?  (plik: krew)
+
+Po co krew krąży w ciele?.
+
+Krew to „transport” twojego ciała. Rozwozi do wszystkich komórek tlen i składniki pokarmowe, a zabiera z nich dwutlenek węgla i inne zbędne substancje.
+
+Krew pompuje serce – mięsień wielkości twojej pięści, który pracuje bez przerwy całe życie. Krew płynie naczyniami krwionośnymi: tętnicami od serca, żyłami do serca i najcieńszymi naczyniami włosowatymi.
+
+W krwi są czerwone krwinki (przenoszą tlen), białe krwinki (walczą z zarazkami) i płytki krwi, dzięki którym rana przestaje krwawić.
+
+Uderzenia serca możesz poczuć na nadgarstku albo na szyi – to tętno. Po biegu bije szybciej, bo mięśnie potrzebują więcej tlenu.
+
+## VI.5 Mózg – centrum dowodzenia  (plik: mozg)
+
+Mózg – centrum dowodzenia.
+
+Wszystkim w ciele kieruje układ nerwowy. Jego najważniejsza część to mózg, ukryty bezpiecznie w czaszce. Od mózgu biegnie wzdłuż kręgosłupa rdzeń kręgowy, a po całym ciele rozchodzą się nerwy.
+
+Mózg odbiera informacje od narządów zmysłów: oczu (wzrok), uszu (słuch i równowaga), nosa (węch), języka (smak) i skóry (dotyk, ciepło, zimno, ból).
+
+Na tej podstawie mózg decyduje, co zrobić – i wysyła polecenia do mięśni. Dzięki niemu też myślisz, uczysz się, pamiętasz i czujesz emocje.
+
+Mózg trzeba chronić: noś kask na rowerze i hulajnodze, wysypiaj się i nie słuchaj bardzo głośnej muzyki przez słuchawki.
+
+## VI.6 Jak zmieniamy się w ciągu życia?  (plik: rozwoj)
+
+Jak zmieniamy się w ciągu życia?.
+
+Każdy człowiek przechodzi przez kolejne etapy życia: niemowlęctwo, dzieciństwo, dojrzewanie, dorosłość i starość.
+
+Teraz jesteś w dzieciństwie, ale niedługo zacznie się dojrzewanie. U dziewczynek zwykle zaczyna się wcześniej niż u chłopców. Ciało szybko rośnie, zmienia kształt, pojawiają się włosy pod pachami, a chłopcom zmienia się głos.
+
+W tym czasie zmieniają się też uczucia – czasem jest się bardziej drażliwym albo smutnym. To normalne i dobrze o tym porozmawiać z kimś bliskim.
+
+W okresie dojrzewania ważna jest higiena: codzienny prysznic, czyste ubrania, dezodorant, mycie twarzy. Każdy dojrzewa we własnym tempie – nie ma się czego wstydzić.
+
+## VI.7 Jak chronić się przed chorobami?  (plik: choroby)
+
+Jak chronić się przed chorobami?.
+
+Wiele chorób wywołują wirusy (grypa, przeziębienie, ospa) i bakterie (angina). Przenoszą się przez kichanie i kaszel, brudne ręce albo nieumyte jedzenie.
+
+Najprostsza ochrona to mycie rąk mydłem – po toalecie, przed jedzeniem i po powrocie do domu. Kichamy w zgięcie łokcia, myjemy owoce i warzywa. Przed niektórymi groźnymi chorobami chronią szczepienia.
+
+Po spacerze w lesie albo na łące sprawdź skórę – kleszcze mogą przenosić choroby (np. boreliozę). Nie dotykaj dzikich zwierząt i nie zbieraj nieznanych roślin, owoców i grzybów – mogą być trujące.
+
+Silny organizm lepiej się broni: pomaga sen, ruch, zdrowe jedzenie i ubieranie się odpowiednio do pogody. W nagłym wypadku dzwonimy pod numer alarmowy 112.
+
+# Rozdział VII. Życie na lądzie
+
+## VII.1 Jak żyje się na lądzie?  (plik: lad)
+
+Jak żyje się na lądzie?.
+
+Na lądzie łatwo o tlen – jest go dużo w powietrzu. Ale są też trudności: woda, której nie zawsze jest pod dostatkiem, i temperatura, która zmienia się z dnia na noc i z lata na zimę.
+
+Organizmy chronią się przed utratą wody: skórę gadów pokrywają łuski, liście wielu roślin mają woskową warstwę, a rośliny pobierają wodę z gleby korzeniami.
+
+Powietrze nie podtrzymuje ciała tak jak woda. Dlatego zwierzęta lądowe mają mocny szkielet i kończyny, a rośliny – sztywne, często zdrewniałe łodygi.
+
+Zwierzęta poruszają się na lądzie na różne sposoby: chodzą, biegają, skaczą, pełzają albo latają.
+
+## VII.2 Poznaję las  (plik: las)
+
+Poznaję las.
+
+Las to coś więcej niż dużo drzew – to dom tysięcy roślin, grzybów i zwierząt, ułożony w warstwy jak piętra w bloku.
+
+Najniżej jest runo leśne – mchy, porosty i grzyby. Nad nim warstwa zielna: paprocie, kwiaty i krzewinki, np. borówka. Wyżej warstwa krzewów (podszyt): leszczyna, jarzębina, młode drzewka. Na samej górze korony drzew.
+
+Gdy rosną tylko drzewa iglaste (sosna, świerk), mamy las iglasty (bór). Gdy liściaste (dąb, buk, grab) – las liściasty. A gdy jedne i drugie – las mieszany.
+
+Las daje tlen, schronienie zwierzętom, drewno, grzyby i jagody, chroni glebę przed wiatrem i zatrzymuje wodę.
+
+## VII.3 Życie w lesie  (plik: wlesie)
+
+Życie w lesie.
+
+Każda warstwa lasu ma swoich mieszkańców. W runie żyją mrówki, ślimaki, żuki, jeże i ryjówki, a dziki szukają tam pożywienia.
+
+Wśród krzewów gniazdują ptaki, np. rudziki. Na pniach pracuje dzięcioł, wykuwając dziuple i wyjadając larwy owadów. W koronach drzew mieszkają wiewiórki i wiele ptaków. Nocą poluje sowa.
+
+W lesie wszyscy są powiązani łańcuchami pokarmowymi, np.: liście dębu → gąsienica → sikora → jastrząb.
+
+W lesie zachowuj się jak gość: bądź cicho, nie śmieć, nie łam gałęzi, nie zrywaj grzybów, których nie znasz, i nigdy nie rozpalaj ogniska w niedozwolonym miejscu.
+
+## VII.4 Życie na łące  (plik: laka)
+
+Życie na łące.
+
+Łąka to teren porośnięty głównie trawami i innymi roślinami zielnymi. Często jest wilgotna, a ludzie ją koszą – z suszonej trawy powstaje siano dla zwierząt.
+
+Na łące rosną kolorowe kwiaty: mniszek lekarski (dmuchawiec), koniczyna, stokrotka, jaskier.
+
+Do kwiatów przylatują pszczoły, trzmiele i motyle – piją nektar i przenoszą pyłek, czyli zapylają kwiaty. Bez nich rośliny nie wydałyby nasion.
+
+W trawie cykają koniki polne, pod ziemią kopie korytarze kret, a po łące spaceruje bocian i poluje na żaby i owady.
+
+## VII.5 Co rośnie na polu?  (plik: pole)
+
+Co rośnie na polu?.
+
+Pole uprawne to miejsce, gdzie rolnik sieje i zbiera rośliny, które zjadamy my albo zwierzęta hodowlane.
+
+Najczęściej uprawia się zboża: pszenicę, żyto, jęczmień, owies i kukurydzę – z nich jest mąka, kasza i płatki. Na polach rosną też ziemniaki i buraki (z buraków cukrowych robi się cukier) oraz żółty rzepak, z którego jest olej.
+
+Na polu pojawiają się też chwasty – rośliny, których rolnik nie siał, np. czerwony mak polny i niebieski chaber.
+
+Na polach żyją myszy polne, zające, bażanty i skowronki. Niektóre zwierzęta szkodzą uprawom (np. stonka ziemniaczana), a inne pomagają rolnikowi – biedronka zjada mszyce, a ptaki owady.
+
+# Rozdział VIII. Życie w wodzie
+
+## VIII.1 Jak żyje się w wodzie?  (plik: wwodzie)
+
+Jak żyje się w wodzie?.
+
+Woda jest gęstsza od powietrza – trudniej się w niej poruszać, ale lepiej utrzymuje ciało. Dlatego ryby mają opływowy kształt ciała i płetwy, a ich łuski pokrywa śliski śluz.
+
+W wodzie jest mniej tlenu niż w powietrzu. Ryby oddychają skrzelami, które pobierają tlen rozpuszczony w wodzie. Ssaki wodne, jak foka czy delfin, muszą wypływać, żeby zaczerpnąć powietrza.
+
+Światło dociera tylko płytko pod wodę, więc rośliny rosną blisko powierzchni albo przy brzegu. Niektóre mają liście pływające po wodzie, jak grzybienie (lilie wodne).
+
+Temperatura wody zmienia się wolniej niż powietrza. Zimą jezioro zamarza tylko od góry, a przy dnie woda ma ok. 4°C – dzięki temu ryby przeżywają zimę.
+
+## VIII.2 Poznaję rzekę  (plik: rzeka)
+
+Poznaję rzekę.
+
+Rzeka zaczyna się w źródle, a kończy w ujściu – tam wpada do morza, jeziora albo innej rzeki. Mniejsze rzeki, które do niej wpadają, to dopływy.
+
+W górnym biegu rzeka płynie szybko, woda jest zimna i dobrze natleniona, a dno kamieniste – żyje tam np. pstrąg. W dolnym biegu płynie wolno, jest szeroka i kręta, a dno jest muliste.
+
+Rzeka ma dwa brzegi. Który jest lewy, a który prawy? Ustal to, stając tyłem do źródła, czyli patrząc w kierunku, w którym płynie woda.
+
+Najdłuższa rzeka Polski to Wisła (ponad 1000 km). Zaczyna się w Beskidzie Śląskim na Baraniej Górze, płynie przez Kraków i Warszawę i wpada do Morza Bałtyckiego. Nad rzekami poluje czapla i kolorowy zimorodek.
+
+## VIII.3 Poznaję jezioro  (plik: jezioro)
+
+Poznaję jezioro.
+
+Jezioro to zbiornik wody stojącej, który wypełnia zagłębienie terenu. W Polsce najwięcej jezior jest na północy kraju, na pojezierzach.
+
+Przy brzegu rosną szuwary – trzcina i pałka wodna. Trochę dalej pływają liście grzybieni i grążeli. Tam gniazdują kaczki, łabędzie i perkozy, a w wodzie żyją żaby i traszki.
+
+Dalej od brzegu jest toń wodna, w której pływają ryby, np. okoń i szczupak, oraz maleńkie organizmy unoszące się w wodzie – plankton. Nad wodą latają ważki, których larwy żyją w jeziorze.
+
+Największe jezioro w Polsce to Śniardwy, a najgłębsze – Hańcza (ponad 100 metrów głębokości).
+

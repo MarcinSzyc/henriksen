@@ -236,7 +236,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   `history/audio/<id>.m4a` (ElevenLabs – teksty w `tools/historia_nagrania.md`), bez niego lektor telefonu (`speechSynthesis`, pl-PL). Przeczytane: `henriksen-historia-czytane`.
 - **Przyroda** (kafel `#t-nat` – już nie „Wkrótce”, widoki `#nat` lista, `#natv` lekcja; hashe `#przyroda`, `#przyroda-lekcja`; moduł `nat`):
   Nauka według podręcznika „Odkrywam przyrodę 4” (Nowa Era, nowa podstawa) – rozdziały i tytuły lekcji jak w spisie treści (`NAT_CH`; rozdział bez lekcji pokazuje
-  tytuły jako „wkrótce”). Gotowe rozdziały I–IV (21 lekcji `NAT` `{id,ch,name,ic,tone,story,keep,fun?}`), V–VIII do napisania. Lekcja: opis, „📌 Zapamiętaj”,
+  tytuły jako „wkrótce”). Gotowe wszystkie rozdziały I–VIII (40 lekcji `NAT` `{id,ch,name,ic,tone,story,keep,fun?}`; listy „wkrótce” w `NAT_CH` już nieużywane). Lekcja: opis, „📌 Zapamiętaj”,
   „🤩 Ciekawostka”, „Następna lekcja”. Quizów jeszcze nie ma – mają dojść przed kartkówkami/sprawdzianami. Czytanie: `nature/audio/<id>.m4a`
   (ElevenLabs, teksty w `tools/przyroda_nagrania.md`) albo lektor telefonu; wspólny odtwarzacz z Historią (`HIS_AUD`, `hisStop`). Przeczytane: `henriksen-przyroda-czytane`.
   Nagrania z ElevenLabs: mp3 z Downloads → sprawdź treść Whisperem (`~/.cache/henriksen-whisper`, przez WAV 16 kHz) → `afconvert -f m4af -d aac -b 64000 -c 1`
