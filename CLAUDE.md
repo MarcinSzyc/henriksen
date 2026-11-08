@@ -72,7 +72,7 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
   ruchy SAN, przeciwnik, kolor, 2D/3D, `as`, `cfg`); przycisk „⏸ Przerwij” (`pause`) i zwykłe wyjście zostawiają ją do dokończenia – kafel „Dokończ”
   na starcie (`renderResume`, `k:"sz"`) i na górze listy przeciwników (`szResBar`); `szResume` odtwarza partię bez liczenia do dziennego limitu;
   ✕ usuwa bez zapisu w historii; nowa partia pyta o zastąpienie; koniec partii (`szGameEnd`) kasuje zapis. Gość nie zapisuje. Lekcje i zadania bez zapisu.
-  Limit partii z komputerem dziennie: `PREFS.szLimit` (0 = bez limitu, klucz rodzica w `PARENT_KEYS`), ustawiany w „Co widzi dziecko” (`#kc-szlim`, `KC.szLimit`);
+  Limit partii z komputerem dziennie: `PREFS.szLimit` (0 = bez limitu, klucz rodzica w `PARENT_KEYS`), ustawiany tylko w Zasadach szachów (`#szrules`; dawny wybór w „Co widzi dziecko” usunięty – był dublem). Zapis „Co widzi dziecko” pobiera świeże ustawienia dziecka z bazy i zmienia tylko `mods`;
   `szLeft()` = limit − rozpoczęte dziś (licznik `henriksen-szdzien` albo ukończone z historii, większe); `szGame` blokuje start, `#szo-lim` pokazuje stan.
   Moduł `sz-3d` ukrywa kafel Szachy 3D.
   Otwarcia (kafel `#sz-t-open`, widok `#szop`, hash `#szachy-otwarcia`, moduł `sz-otwarcia`): `SZ_OPEN` = 11 otwarć `{id,name,ico,side,moves (SAN),

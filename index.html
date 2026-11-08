@@ -5978,7 +5978,7 @@ async function renderKidCfg(){
   if(!KC.prefs){
     list.innerHTML='<p class="abnote">Wczytuję ustawienia…</p>';
     try{const {data,error}=await SB.from("settings").select("prefs,plp").eq("user_id",KC.kid).maybeSingle();if(error) throw error;
-      KC.prefs=data?data.prefs||{}:{};KC.plp=data?data.plp:{};KC.mods={...(KC.prefs.mods||{})};KC.szLimit=+KC.prefs.szLimit||0;
+      KC.prefs=data?data.prefs||{}:{};KC.plp=data?data.plp:{};KC.mods={...(KC.prefs.mods||{})};
       if(KC.mods.soon===false){for(const k of ["his","nat"]) if(!(k in KC.mods)) KC.mods[k]=false;}delete KC.mods.soon;} // dawne „Kafle Wkrótce” → osobno Historia i Przyroda
     catch(x){list.innerHTML='<p class="abnote">Nie udało się wczytać ustawień – sprawdź internet.</p>';return;}
   }
@@ -5991,8 +5991,6 @@ async function renderKidCfg(){
       `<button type="button" class="kc-master${n?" sel":""}" data-all="${gi}" role="switch" aria-checked="${n>0}" aria-label="${g.g} – cały kafel"><i class="tg" aria-hidden="true"></i></button></div>`+
       (many?`<div class="grp"${open?"":" hidden"}>`+g.items.map(x=>{const on=modOn(x.k,{mods:KC.mods});
       return `<button type="button" class="row sw${on?" sel":""}" data-k="${x.k}" aria-pressed="${on}"><span class="rt"><b>${x.name}</b><small>${x.sub}</small></span><i class="tg" aria-hidden="true"></i></button>`;}).join("")+`</div>`:"");}).join("")+
-    (modOn("sz-gra",{mods:KC.mods})?`<div class="lbl">Szachy: partie z komputerem dziennie</div><div class="segs" id="kc-szlim">${[0,1,2,3,5,10].map(n=>{const on=(KC.szLimit||0)===n;return `<button type="button" data-n="${n}" class="${on?"sel":""}" aria-pressed="${on}">${n||"Bez limitu"}</button>`;}).join("")}</div>
-      <p class="abnote">Samouczek i zadania bez limitu. Żeby całkiem wyłączyć granie, wyłącz „Graj z komputerem” w Szachach powyżej.</p>`:"")+
     `<div class="lbl">Tak zobaczy ekran startowy</div><div class="kc-phone" aria-hidden="true"><div class="kc-inner" id="kc-inner"></div></div>`;
   kcPreview();
 }
@@ -6009,7 +6007,6 @@ function kcPreview(){
 }
 $("kc-kids").addEventListener("click",e=>{const b=e.target.closest("button");if(!b||b.dataset.id===KC.kid) return;KC={kid:b.dataset.id,prefs:null,mods:{},open:KC.open};renderKidCfg();});
 $("kc-list").addEventListener("click",e=>{
-  const lim=e.target.closest("#kc-szlim [data-n]");if(lim){KC.szLimit=+lim.dataset.n;renderKidCfg();return;}
   const a=e.target.closest("button[data-g]");if(a){const g=+a.dataset.g;KC.open.has(g)?KC.open.delete(g):KC.open.add(g);renderKidCfg();return;}
   // cały kafel: coś włączone → wyłącz wszystko w grupie, wszystko wyłączone → włącz wszystko
   const m=e.target.closest("button[data-all]");if(m){const g=MODS[+m.dataset.all],any=g.items.some(x=>modOn(x.k,{mods:KC.mods}));
@@ -6019,8 +6016,10 @@ $("kc-list").addEventListener("click",e=>{
   if(modOn(k,{mods:KC.mods})) KC.mods[k]=false; else if(MOD_OLD[k]) KC.mods[k]=true; else delete KC.mods[k];renderKidCfg();});
 $("kc-save").addEventListener("click",async()=>{
   const b=$("kc-save");b.disabled=true;
-  try{const prefs={...KC.prefs,mods:KC.mods,szLimit:KC.szLimit||0};
-    const r=await SB.from("settings").upsert({user_id:KC.kid,prefs,plp:KC.plp||{}},{onConflict:"user_id"});if(r.error) throw r.error;
+  // świeże ustawienia dziecka z bazy – zmieniamy tylko moduły, żeby nie nadpisać zasad szachów/łamigłówek czy celów zapisanych w międzyczasie
+  try{const {data:cur,error:e0}=await SB.from("settings").select("prefs,plp").eq("user_id",KC.kid).maybeSingle();if(e0) throw e0;
+    const prefs={...(cur&&cur.prefs||KC.prefs||{}),mods:KC.mods}; // limit partii ustawia się w Zasadach szachów (#szrules)
+    const r=await SB.from("settings").upsert({user_id:KC.kid,prefs,plp:cur&&cur.plp||KC.plp||{}},{onConflict:"user_id"});if(r.error) throw r.error;
     KC.prefs=prefs;$("kc-msg").textContent="Zapisane. Telefon dziecka zmieni się przy najbliższym otwarciu aplikacji.";}
   catch(x){$("kc-msg").textContent=acctErr(x);}
   b.disabled=false;
