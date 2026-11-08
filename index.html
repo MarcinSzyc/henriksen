@@ -49,6 +49,8 @@ header .grow{flex:1;min-width:0}
 .hrow h1{font-size:1.75rem;line-height:1.1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .badge{display:inline-flex;color:var(--badge)}.badge svg{width:24px;height:24px;display:block}
 .edit-btn{width:44px;height:44px;flex:none;border:0;background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;margin-left:-6px}
+.nowe{position:absolute;top:14px;right:-34px;transform:rotate(45deg);background:#ffd43b;color:#1b1b2f;font-weight:900;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:4px 36px;box-shadow:0 2px 6px rgba(0,0,0,.3);pointer-events:none;z-index:2;line-height:1}
+.tile.has-new .wm{right:62px}
 .tiles2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .home-sep{display:flex;align-items:center;gap:10px;margin:18px 2px 12px;color:var(--muted);font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.home-sep::before,.home-sep::after{content:"";flex:1;height:1px;background:var(--line)}
 .tile{flex:1;min-height:170px;border:0;border-radius:28px;color:#fff;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px;padding:22px;text-align:left;position:relative;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.18)}
@@ -528,6 +530,17 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 #enq-opts.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}#enq-opts.three button{min-height:84px;font-size:1.8rem}
 #subj button{font-size:.82rem;padding:0 2px}
 #en-types b{font-size:1.1rem;text-align:center}#en-types small{text-align:center}
+.lx-go{margin-bottom:12px}.lx-d{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:4px 10px}.lx-d summary{display:flex;justify-content:space-between;align-items:center;padding:10px 2px;cursor:pointer}.lx-d summary small{color:var(--muted)}.lx-d[open] summary{margin-bottom:6px}.lx-d .lx-t{margin-bottom:8px}.lx-d .lx-ex{margin-bottom:8px}
+.tile.en-t5{background:linear-gradient(135deg,#1971c2,#5f3dc4)}.en-sec{margin:14px 4px 0}.en-sec:first-of-type{margin-top:4px}
+.lx{display:flex;flex-direction:column;gap:12px;font-weight:600;line-height:1.45}.lx p{margin:0}.lx h3{margin:6px 2px 0;font-family:var(--display);font-size:1.15rem}
+.lx-t{width:100%;border-collapse:separate;border-spacing:0;background:var(--card);border:2px solid var(--line);border-radius:14px;overflow:hidden;font-size:.92rem}
+.lx-t th{text-align:left;background:rgba(127,127,127,.12);padding:8px 10px;font-size:.8rem;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.lx-t td{padding:8px 10px;border-top:1px solid var(--line)}
+.lx-ex{display:flex;flex-direction:column;gap:6px}.lx-ex div{background:var(--card);border-left:5px solid #12b886;border-radius:10px;padding:8px 12px;display:flex;flex-direction:column}
+.lx-ex b{font-size:1.05rem}.lx-ex span{color:var(--muted);font-size:.9rem}
+.lx-tip{background:rgba(252,196,25,.15);border:2px solid #fcc419;border-radius:14px;padding:10px 12px}
+.lx-bad{display:flex;flex-direction:column;gap:2px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 12px}.lx-bad span:first-child{color:#e03131}.lx-bad span:last-child{color:#2b8a3e}
+.tile.en-t4{background:linear-gradient(135deg,#f76707,#9c36b5)}
 .tile.en-t2{background:linear-gradient(135deg,#15aabf,#0b5563)}.tile.en-t3{background:linear-gradient(135deg,#40c057,#2b6b2f)}
 #en .tile .wm{font-size:2.6rem;top:14px}
 .en-dir{display:flex;flex-direction:column;gap:8px}
@@ -1032,7 +1045,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="tiles2">
     <button type="button" class="tile math" id="t-math"><span class="wm" aria-hidden="true">+−×÷</span><span class="tt">Matematyka</span><small id="t-math-s">Wybierz ćwiczenia i zaczynamy</small></button>
     <button type="button" class="tile pl" id="t-pl"><span class="wm" aria-hidden="true">ą ę ć ż ó</span><span class="tt">Polski</span><small>Słówka i dyktanda</small></button>
-    <button type="button" class="tile en" id="t-en"><span class="wm wm-img" aria-hidden="true"><svg width="58" height="36" viewBox="0 0 60 36"><rect x="1.5" y="1.5" width="57" height="33" rx="3" fill="none" stroke="#fff" stroke-width="3"/><rect x="3" y="3" width="25" height="17" fill="#fff"/><path d="M28 7.5H57M28 13.5H57M28 19.5H57M3 25.5H57M3 31H57" stroke="#fff" stroke-width="3"/></svg><svg width="58" height="36" viewBox="0 0 60 36"><rect x="1.5" y="1.5" width="57" height="33" rx="3" fill="none" stroke="#fff" stroke-width="3"/><path d="M3 3L57 33M57 3L3 33" stroke="#fff" stroke-width="4"/><path d="M30 3V33M3 18H57" stroke="#fff" stroke-width="8"/></svg></span><span class="tt">Angielski</span><small>Słówka i tematyczne zadania</small></button>
+    <button type="button" class="tile en" id="t-en" data-new="2026-11-08"><span class="wm wm-img" aria-hidden="true"><svg width="58" height="36" viewBox="0 0 60 36"><rect x="1.5" y="1.5" width="57" height="33" rx="3" fill="none" stroke="#fff" stroke-width="3"/><rect x="3" y="3" width="25" height="17" fill="#fff"/><path d="M28 7.5H57M28 13.5H57M28 19.5H57M3 25.5H57M3 31H57" stroke="#fff" stroke-width="3"/></svg><svg width="58" height="36" viewBox="0 0 60 36"><rect x="1.5" y="1.5" width="57" height="33" rx="3" fill="none" stroke="#fff" stroke-width="3"/><path d="M3 3L57 33M57 3L3 33" stroke="#fff" stroke-width="4"/><path d="M30 3V33M3 18H57" stroke="#fff" stroke-width="8"/></svg></span><span class="tt">Angielski</span><small>Słówka i tematyczne zadania</small></button>
     <button type="button" class="tile his" id="t-his" data-soon aria-describedby="soon-his"><span class="wm wm-img" aria-hidden="true"><svg width="104" height="84" viewBox="0 0 120 96" fill="#fff" stroke="#fff" stroke-linecap="round" stroke-linejoin="round"><path d="M40 44C52 40 70 40 82 42C88 36 94 26 100 18L104 15L106 21C110 26 114 32 114 37C114 40 110 41 106 39C102 37 98 38 96 42C94 50 92 56 88 60C84 66 70 68 56 67C46 67 36 64 34 56C33 50 35 46 40 44Z" stroke="none"/><path d="M84 62L88 93M78 64L74 93M46 64L42 93M54 66L54 93" fill="none" stroke-width="5"/><path d="M36 48C26 50 24 62 28 74" fill="none" stroke-width="5"/><path d="M57 44L70 44L73 24L62 22Z" stroke="none"/><circle cx="68" cy="15" r="6" stroke="none"/><path d="M68 9V3" fill="none" stroke-width="2.5"/><path d="M64 44L71 58M71 28L82 32" fill="none" stroke-width="5"/><path d="M60 42C46 34 44 12 56 1" fill="none" stroke-width="4"/><path d="M52 32L43 30M49 24L40 21M49 16L40 12M51 9L44 3" fill="none" stroke-width="3"/><path d="M38 59L117 10" fill="none" stroke-width="2.5"/><path d="M107 16L117 10L113 21Z" stroke="none"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Historia</span><small id="soon-his">Daty, bitwy, królowie</small></button>
     <button type="button" class="tile nat" id="t-nat" data-soon aria-describedby="soon-nat"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M6 32C6 14 18 4 36 4c0 18-10 28-26 28z" fill="#fff"/><path d="M6 32L24 14" stroke="rgba(0,0,0,.35)"/></svg></span><span class="soon">Wkrótce</span><span class="tt">Przyroda</span><small id="soon-nat">Rośliny, zwierzęta, mapa</small></button>
     <button type="button" class="tile hea" id="t-zd"><span class="wm wm-img" aria-hidden="true"><svg width="42" height="36" viewBox="0 0 42 36" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M21 33C8 24 3 17 3 11a9 9 0 0 1 18-2 9 9 0 0 1 18 2c0 6-5 13-18 22z" fill="#fff"/><path d="M7 17h7l3-5 4 9 3-6h11" stroke="rgba(0,0,0,.35)" stroke-width="2.5"/></svg></span><span class="tt">Edukacja zdrowotna</span><small id="t-zd-s">Sprawdzian 29.10 i ćwiczenia</small></button>
@@ -1040,7 +1053,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="home-sep" id="games-sep" aria-hidden="true"><span>Gry</span></div>
   <div class="tiles2" id="games">
     <button type="button" class="tile sz" id="t-sz"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="#fff" stroke="none" stroke-linecap="round" stroke-linejoin="round"><path d="M10 33h22v-4H10z"/><path d="M13 29c0-5 2-8 6-11l-2-3-5 3-4-3 7-8c2-2 4-4 8-4 6 0 11 6 11 15v11z"/><circle cx="21" cy="9" r="1.6" fill="rgba(0,0,0,.35)"/></svg></span><span class="tt">Szachy</span><small>Samouczek, zadania i gra z komputerem</small></button>
-    <button type="button" class="tile lg" id="t-lg"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="#fff" stroke="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10h8a4.5 4.5 0 1 1 9 0h8v8a4.5 4.5 0 1 1 0 9v6h-8a4.5 4.5 0 1 0-9 0H5v-8a4.5 4.5 0 1 0 0-9z"/></svg></span><span class="tt">Łamigłówki</span><small>Block Out i więcej</small></button>
+    <button type="button" class="tile lg" id="t-lg" data-new="2026-11-06"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="#fff" stroke="none" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10h8a4.5 4.5 0 1 1 9 0h8v8a4.5 4.5 0 1 1 0 9v6h-8a4.5 4.5 0 1 0-9 0H5v-8a4.5 4.5 0 1 0 0-9z"/></svg></span><span class="tt">Łamigłówki</span><small>Block Out i więcej</small></button>
   </div>
   <div class="home-sep" id="set-sep" aria-hidden="true"><span>Ustawienia</span></div>
   <button type="button" class="sbar" id="t-stats"><span class="si" aria-hidden="true"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17l5-5 4 3 8-8"/><path d="M15 7h5v5"/></svg></span>
@@ -1242,8 +1255,8 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <button type="button" class="tile mt" id="sz-t-puz" style="--gc:#c2410c"><span class="wm" aria-hidden="true">#</span><span class="tt">Zadania</span><small id="sz-t-puz-s"></small></button>
     <button type="button" class="tile mt sz3-tile" id="sz-t-3d" style="--gc:#7048e8"><span class="wm" aria-hidden="true">3D</span><span class="tt">Szachy 3D</span><small>Figury jak prawdziwe, wybuchy i fajerwerki</small></button>
     <button type="button" class="tile mt" id="sz-t-play" style="--gc:#495057"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="#fff" stroke="none" stroke-linecap="round" stroke-linejoin="round"><path d="M6 30h28v4H6z"/><path d="M6 27L4 9l9 7 7-12 7 12 9-7-2 18z"/></svg></span><span class="tt">Graj z komputerem</span><small id="sz-t-play-s"></small></button>
-    <button type="button" class="tile mt" id="sz-t-open" style="--gc:#1971c2"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="#fff" stroke="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7c6-2 11-1 17 3 6-4 11-5 17-3v24c-6-2-11-1-17 3-6-4-11-5-17-3z"/><path d="M20 10v24" stroke="rgba(0,0,0,.35)" stroke-width="2.5"/></svg></span><span class="tt">Otwarcia</span><small id="sz-t-open-s"></small></button>
-    <button type="button" class="tile mt" id="sz-t-facts" style="--gc:#e8590c"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="#fff" stroke="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 3a12 12 0 0 0-7 21.7V28h14v-3.3A12 12 0 0 0 20 3z"/><path d="M14 30h12v3H14z"/></svg></span><span class="tt">Ciekawostki</span><small>Skąd są szachy, rekordy, mistrzowie</small></button>
+    <button type="button" class="tile mt" id="sz-t-open" data-new="2026-11-05" style="--gc:#1971c2"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="#fff" stroke="none" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7c6-2 11-1 17 3 6-4 11-5 17-3v24c-6-2-11-1-17 3-6-4-11-5-17-3z"/><path d="M20 10v24" stroke="rgba(0,0,0,.35)" stroke-width="2.5"/></svg></span><span class="tt">Otwarcia</span><small id="sz-t-open-s"></small></button>
+    <button type="button" class="tile mt" id="sz-t-facts" data-new="2026-11-05" style="--gc:#e8590c"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="#fff" stroke="none" stroke-linecap="round" stroke-linejoin="round"><path d="M20 3a12 12 0 0 0-7 21.7V28h14v-3.3A12 12 0 0 0 20 3z"/><path d="M14 30h12v3H14z"/></svg></span><span class="tt">Ciekawostki</span><small>Skąd są szachy, rekordy, mistrzowie</small></button>
   </div>
 </div>
 <div class="wrap" id="szrules" hidden>
@@ -1309,10 +1322,10 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div id="lg-gates" class="lg-gates"></div>
   <button type="button" class="more pmore" id="lg-rules-btn" hidden style="margin-bottom:14px"><span><b>👨‍👧 Zasady łamigłówek dla dziecka</b><small>Osobno dla każdej gry: limit gier, ćwiczenia przed grą i za dodatkowe gry</small></span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 5l7 7-7 7"/></svg></button>
   <div class="tiles2 mat-tiles">
-    <button type="button" class="tile mt" id="lg-t-bo" style="--gc:#e64980"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="#fff" stroke="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="15" height="13" rx="3"/><rect x="21" y="4" width="15" height="13" rx="3"/><rect x="3" y="20" width="22" height="13" rx="3"/><path d="M30 20h7v13h-7z" opacity=".55"/></svg></span><span class="tt">Block Out</span><small id="lg-t-bo-s"></small></button>
-    <button type="button" class="tile mt" id="lg-t-br" style="--gc:#1c7ed6"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 28h36M5 28l6-14h18l6 14M11 14l6 14 6-14 6 14"/></svg></span><span class="tt">Mosty</span><small id="lg-t-br-s"></small></button>
-    <button type="button" class="tile mt" id="lg-t-th" style="--gc:#f08c00"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="#fff" stroke="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="9" width="11" height="18" rx="3"/><rect x="14.5" y="9" width="11" height="18" rx="3"/><rect x="27" y="9" width="11" height="18" rx="3"/><text x="32.5" y="23" text-anchor="middle" font-size="12" font-weight="900" fill="rgba(0,0,0,.4)" font-family="system-ui">3</text></svg></span><span class="tt">Trójki</span><small id="lg-t-th-s"></small></button>
-    <button type="button" class="tile mt" id="lg-t-fl" style="--gc:#0ca678"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="#fff" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h14v22h12" fill="none"/><circle cx="7" cy="7" r="3.5"/><circle cx="33" cy="29" r="3.5"/><path d="M31 7h2" fill="none"/></svg></span><span class="tt">Flow</span><small id="lg-t-fl-s"></small></button>
+    <button type="button" class="tile mt" id="lg-t-bo" data-new="2026-11-06" style="--gc:#e64980"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="#fff" stroke="none" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="15" height="13" rx="3"/><rect x="21" y="4" width="15" height="13" rx="3"/><rect x="3" y="20" width="22" height="13" rx="3"/><path d="M30 20h7v13h-7z" opacity=".55"/></svg></span><span class="tt">Block Out</span><small id="lg-t-bo-s"></small></button>
+    <button type="button" class="tile mt" id="lg-t-br" data-new="2026-11-06" style="--gc:#1c7ed6"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 28h36M5 28l6-14h18l6 14M11 14l6 14 6-14 6 14"/></svg></span><span class="tt">Mosty</span><small id="lg-t-br-s"></small></button>
+    <button type="button" class="tile mt" id="lg-t-th" data-new="2026-11-06" style="--gc:#f08c00"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="#fff" stroke="none" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="9" width="11" height="18" rx="3"/><rect x="14.5" y="9" width="11" height="18" rx="3"/><rect x="27" y="9" width="11" height="18" rx="3"/><text x="32.5" y="23" text-anchor="middle" font-size="12" font-weight="900" fill="rgba(0,0,0,.4)" font-family="system-ui">3</text></svg></span><span class="tt">Trójki</span><small id="lg-t-th-s"></small></button>
+    <button type="button" class="tile mt" id="lg-t-fl" data-new="2026-11-06" style="--gc:#0ca678"><span class="wm wm-img" aria-hidden="true"><svg width="40" height="36" viewBox="0 0 40 36" fill="#fff" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M7 7h14v22h12" fill="none"/><circle cx="7" cy="7" r="3.5"/><circle cx="33" cy="29" r="3.5"/><path d="M31 7h2" fill="none"/></svg></span><span class="tt">Flow</span><small id="lg-t-fl-s"></small></button>
   </div>
 </div>
 <div class="wrap" id="lgb" hidden>
@@ -1435,13 +1448,35 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 <div class="wrap" id="en" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć do startu"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Angielski</h1><div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
+  <div class="lbl en-sec">📘 Nauka</div>
+  <button type="button" class="tile en pl-t en-t5" id="en-t-learn" data-new="2026-11-08"><span class="wm" aria-hidden="true">ABC</span><span class="tt">Jak to działa?</span><small>Lekcje: to be, skróty isn't, have, can, do / does, a / an i inne – z przykładami</small></button>
+  <div class="lbl en-sec">🎯 Quizy</div>
   <button type="button" class="tile en pl-t" id="en-t-tobe"><span class="wm" aria-hidden="true">am · is · are</span><span class="tt">To be</span><small id="en-t-tobe-s">Ja jestem, on jest, oni są – i pytania</small></button>
   <button type="button" class="tile en pl-t en-t2" id="en-t-v"><span class="wm" aria-hidden="true">A1 · A2</span><span class="tt">Słówka</span><small id="en-t-v-s">Słowa A1 i A2, po polsku i po angielsku</small></button>
   <button type="button" class="tile en pl-t en-t3" id="en-t-z"><span class="wm" aria-hidden="true">„…”</span><span class="tt">Zdania</span><small id="en-t-z-s">Całe zdania do przetłumaczenia</small></button>
+  <button type="button" class="tile en pl-t en-t4" id="en-t-a1" data-new="2026-11-08"><span class="wm" aria-hidden="true">isn't · can't</span><span class="tt">Podstawy A1</span><small>Skróty isn't, haven't, can't, do / does, a / an i więcej</small></button>
+</div>
+
+<div class="wrap" id="enl" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Nauka</h1></header>
+  <p class="abnote">Przeczytaj lekcję, a potem sprawdź się w quizie z tego tematu.</p>
+  <div class="tiles2 mat-tiles" id="enl-list"></div>
+</div>
+<div class="wrap" id="enlv" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Lekcja</h1></header>
+  <div class="lx" id="enlv-body"></div>
+</div>
+<div class="wrap" id="ena" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Podstawy A1</h1></header>
+  <button type="button" class="more pmore lx-go" onclick="go('enl')"><span><b>📘 Lekcje do tych tematów</b><small>Najpierw przeczytaj, potem quiz</small></span></button>
+  <button type="button" class="tile en pl-t en-t4" id="ena-mix"><span class="wm" aria-hidden="true">A1</span><span class="tt">Wszystko na raz</span><small id="ena-mix-s"></small></button>
+  <div class="lbl" style="margin-top:12px">Tematy</div>
+  <div class="tiles2 mat-tiles" id="ena-topics"></div>
 </div>
 
 <div class="wrap" id="ent" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">To be</h1></header>
+  <button type="button" class="more pmore lx-go" data-lxgo="tobe"><span><b>📘 Lekcja: to be – jak to działa?</b><small>Wyjaśnienie zasad, przykłady i typowe błędy</small></span></button>
   <div class="tile en en-t" aria-hidden="true"><span class="wm">am · is · are</span><span class="tt">Ja jestem</span><small id="en-last">Ja jestem, on jest, oni są – i pytania</small></div>
   <div class="lbl">Co ćwiczysz</div>
   <div class="pl-pairs" id="en-types" role="group" aria-label="Co ćwiczysz"></div>
@@ -1454,6 +1489,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 
 <div class="wrap" id="enset" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow" id="enset-t">Słówka</h1></header>
+  <button type="button" class="more pmore lx-go" data-lxgo="enset"><span><b>📘 Lekcja do tego quizu</b><small>Wyjaśnienie zasad, przykłady i typowe błędy</small></span></button>
   <div class="lbl">Poziom</div>
   <div class="segs pl-len" id="enset-lvl" role="group" aria-label="Poziom"></div>
   <div class="en-tw" id="enset-tw"><div class="lbl">Tematy</div>
@@ -2807,9 +2843,12 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",lgf:"#flow",lgfg:"#flow-gra",lgt:"#trojki",lgm:"#mosty",lgs:"#mosty-gra",lg:"#lamiglowki",lgb:"#block-out",lgg:"#block-out-gra",szw:"#szachy-wyglad",szrules:"#szachy-zasady",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szop:"#szachy-otwarcia",szcf:"#szachy-ciekawostki",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",lgf:"lgf",lgfg:"lgfg",lgt:"lgt",lgm:"lgm",lgs:"lgs",lg:"lg",lgb:"lgb",lgg:"lgg",szw:"szw",szrules:"szrules",sz:"sz",sz3:"sz3",szl:"szl",szop:"szop",szcf:"szcf",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",enl:"#angielski-nauka",enlv:"#angielski-lekcja",ena:"#angielski-a1",lgf:"#flow",lgfg:"#flow-gra",lgt:"#trojki",lgm:"#mosty",lgs:"#mosty-gra",lg:"#lamiglowki",lgb:"#block-out",lgg:"#block-out-gra",szw:"#szachy-wyglad",szrules:"#szachy-zasady",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szop:"#szachy-otwarcia",szcf:"#szachy-ciekawostki",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",enl:"enl",enlv:"enlv",ena:"ena",lgf:"lgf",lgfg:"lgfg",lgt:"lgt",lgm:"lgm",lgs:"lgs",lg:"lg",lgb:"lgb",lgg:"lgg",szw:"szw",szrules:"szrules",sz:"sz",sz3:"sz3",szl:"szl",szop:"szop",szcf:"szcf",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
+// znaczek „nowe” po skosie w rogu kafla: przez 7 dni od data-new="rrrr-mm-dd" (dodawaj przy każdej nowej sekcji)
+function newBadges(){const now=Date.now();document.querySelectorAll("[data-new]").forEach(el=>{const t=new Date(el.dataset.new+"T00:00").getTime(),on=now<t+7*864e5,b=el.querySelector(":scope>.nowe");
+  if(on&&!b) el.insertAdjacentHTML("beforeend",'<span class="nowe" aria-hidden="true">nowe</span>');if(!on&&b) b.remove();el.classList.toggle("has-new",on);});}
 function showView(v){
   if(CUR!==v) plLeave(CUR);CUR=v;
   for(const k in VIEWS) $(VIEWS[k]).hidden=k!==v;
@@ -2819,6 +2858,7 @@ function showView(v){
   try{addGoalUpd();}catch(e){}
   if(v==="stats"){renderStats();renderWho();}
   if(v==="play") refit();
+  try{newBadges();}catch(e){}
   scrollTo(0,0);
 }
 function go(v){
@@ -2826,7 +2866,7 @@ function go(v){
   showView(v);
 }
 addEventListener("popstate",()=>{const v=Object.keys(HASH).find(k=>HASH[k]&&HASH[k]===location.hash)||"home";
-  showView(v==="play"&&!ACTIVE?"home":v==="plw"&&!PW?"plws":v==="pldt"&&!PD?"pld":v==="plz"&&!PZ?"plzs":v==="enq"&&!EN?"en":v==="enset"&&!ENM?"en":v==="szg"&&!SZ?"sz":v==="lgg"&&!BO?"lgb":v==="lgs"&&!BR?"lgm":v==="lgt"&&!TH?"lg":v==="lgfg"&&!FL?"lgf":v);});
+  showView(v==="play"&&!ACTIVE?"home":v==="plw"&&!PW?"plws":v==="pldt"&&!PD?"pld":v==="plz"&&!PZ?"plzs":v==="enq"&&!EN?"en":v==="enset"&&!ENM?"en":v==="szg"&&!SZ?"sz":v==="lgg"&&!BO?"lgb":v==="lgs"&&!BR?"lgm":v==="lgt"&&!TH?"lg":v==="lgfg"&&!FL?"lgf":v==="enlv"&&!LXC?"enl":v);});
 document.querySelectorAll("[data-back]").forEach(b=>b.addEventListener("click",()=>{if(location.hash) history.back(); else showView("home");}));
 // logo aplikacji obok „wstecz” w nagłówku każdego ekranu: od razu na stronę główną (rozpoczęte gry zostają do dokończenia)
 document.querySelectorAll("header [data-back]").forEach(b=>{const h=document.createElement("button");h.type="button";h.className="home-btn";h.setAttribute("aria-label","Strona główna");
@@ -3187,7 +3227,7 @@ function plLiveNow(){
 }
 function plShow(v){
   if(v==="pl") renderPl();
-  if(v==="szw") renderSzw();if(v==="szrules"){SZR={kid:SZR.kid,prefs:null,sec:SZR.sec};renderSzRules();}document.querySelectorAll("[data-lgr]").forEach(b=>{b.hidden=!(ME&&ME.role==="parent");});if(v==="lg") renderLg();if(v==="lgb") renderLgb();if(v==="lgm") renderLgm();if(v==="lgf") renderLgf();try{if(v!=="lgs"&&BR&&BR.S) brStop();}catch(e){} /* zawsze świeże cele i ustawienia dziecka (np. po dodaniu celu) */if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();if(v==="szop") renderSzop();if(v==="szcf") renderSzcf();
+  if(v==="szw") renderSzw();if(v==="szrules"){SZR={kid:SZR.kid,prefs:null,sec:SZR.sec};renderSzRules();}document.querySelectorAll("[data-lgr]").forEach(b=>{b.hidden=!(ME&&ME.role==="parent");});if(v==="ena") renderEnA1();if(v==="enl") renderEnl();if(v==="lg") renderLg();if(v==="lgb") renderLgb();if(v==="lgm") renderLgm();if(v==="lgf") renderLgf();try{if(v!=="lgs"&&BR&&BR.S) brStop();}catch(e){} /* zawsze świeże cele i ustawienia dziecka (np. po dodaniu celu) */if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();if(v==="szop") renderSzop();if(v==="szcf") renderSzcf();
   if(window.S3&&v!=="szg") S3.pause();if(v==="szz") renderSzz();if(v==="szo") renderSzo();
   if(v==="plws") renderPws();
   if(v==="pld") renderPd();
@@ -4190,6 +4230,234 @@ function enFinish(){
 $("enq-end").addEventListener("click",e=>{const b=e.target.closest("[data-a]");if(!b||!EN) return;
   if(b.dataset.a==="back") history.back(); else enStart(EN.make,EN.cfg);});
 
+/* --- Angielski: Podstawy A1 – krótkie tematy gramatyczne (skróty isn't / haven't / can't, do / does, there is…) ---
+   Każdy temat ma generatory zadań: zwracają {lab,q,c,bad,why}; a1Q tasuje odpowiedzi. Quiz to ten sam enStart co To be,
+   sesja cfg:{mode:"a1",topic:id}. Punkty: wybór formy 1, całe zdanie 2 (ptsW). */
+const a1R=a=>a[Math.floor(Math.random()*a.length)];
+const a1Q=x=>{const opts=shuffle([x.c,...[...new Set(x.bad)].filter(b=>b!==x.c).slice(0,3)]);return {lab:x.lab,q:x.q,c:x.c,opts,why:x.why,long:x.c.length>14||opts.some(o=>o.length>14)};};
+const A1_BE=[["I","am","I'm","I'm not","Ja"],["You","are","You're","aren't","Ty"],["He","is","He's","isn't","On"],["She","is","She's","isn't","Ona"],
+  ["It","is","It's","isn't","To"],["We","are","We're","aren't","My"],["They","are","They're","aren't","Oni"]];
+const A1_ADJ=["happy","tired","hungry","at home","at school","in the park","late","ten years old","cold","in the garden"];
+const A1_HAVE=[["I","have","haven't"],["You","have","haven't"],["He","has","hasn't"],["She","has","hasn't"],["It","has","hasn't"],["We","have","haven't"],["They","have","haven't"]];
+const A1_THING=["a dog","a bike","a sister","a new phone","blue eyes","a red ball","two cats","a big garden"];
+const A1_CAN=[["swim","pływać"],["ride a bike","jeździć na rowerze"],["play football","grać w piłkę"],["sing","śpiewać"],["cook","gotować"],["dance","tańczyć"],["speak English","mówić po angielsku"],["read","czytać"]];
+const A1_DO=[["like pizza","likes pizza"],["play football","plays football"],["watch TV","watches TV"],["eat apples","eats apples"],["go to school","goes to school"],["read books","reads books"],["have breakfast","has breakfast"],["drink milk","drinks milk"]];
+const A1_HE=["He","She","My dad","Tom","My sister"],A1_THEY=["I","You","We","They","My friends"];
+const A1_PLURAL=[["cat","cats"],["dog","dogs"],["box","boxes"],["bus","buses"],["watch","watches"],["baby","babies"],["city","cities"],["toy","toys"],["boy","boys"],
+  ["child","children"],["man","men"],["woman","women"],["foot","feet"],["tooth","teeth"],["mouse","mice"],["sheep","sheep"],["fish","fish"],["knife","knives"],
+  ["person","people"],["leaf","leaves"],["tomato","tomatoes"],["dish","dishes"]];
+const A1_IRR={child:"child → children",man:"man → men",woman:"woman → women",foot:"foot → feet",tooth:"tooth → teeth",mouse:"mouse → mice",sheep:"sheep → sheep (bez zmian)",fish:"fish → fish (bez zmian)",person:"person → people"};
+const a1PlWhy=(s,p)=>A1_IRR[s]?`To wyjątek – trzeba go zapamiętać: ${A1_IRR[s]}.`:/(s|x|ch|sh)$/.test(s)?"Po -s, -x, -ch, -sh dodajemy -es: box → boxes.":/[^aeiou]y$/.test(s)?"Spółgłoska + y → -ies: baby → babies.":
+  /[aeiou]y$/.test(s)?"Samogłoska + y → zwykłe -s: toy → toys.":/f(e)?$/.test(s)?"Końcówka -f / -fe → -ves: knife → knives.":s==="tomato"?"Niektóre słowa na -o dostają -es: tomato → tomatoes.":"Zwykle dodajemy -s: cat → cats.";
+const A1_POSS=[["I","my","mój"],["you","your","twój"],["he","his","jego"],["she","her","jej"],["we","our","nasz"],["they","their","ich"],["it","its","jego/jej (o rzeczy, zwierzęciu)"]];
+const A1_QW=[["What","Co / Jak",["___ is your name?","___ is this?","___ do you like?"]],["Where","Gdzie",["___ do you live?","___ is my bag?","___ are you from?"]],
+  ["Who","Kto",["___ is that girl?","___ is your teacher?"]],["When","Kiedy",["___ is your birthday?","___ do you get up?"]],["How old","Ile lat",["___ are you?","___ is your sister?"]],
+  ["How many","Ile sztuk",["___ brothers have you got?","___ apples are there?"]],["What colour","Jaki kolor",["___ is your bike?","___ are your eyes?"]],["Why","Dlaczego",["___ are you sad?","___ is he late?"]]];
+const lc=s=>s==="I"?"I":s.charAt(0).toLowerCase()+s.slice(1);
+const A1_TOPICS=[
+  {id:"be-neg",name:"Skróty: isn't, aren't, I'm",ic:"isn't",tone:"#12b886",gen:[
+    ()=>{const p=a1R([["is not","isn't"],["are not","aren't"],["I am","I'm"],["I am not","I'm not"],["you are","you're"],["he is","he's"],["she is","she's"],["it is","it's"],["we are","we're"],["they are","they're"]]);
+      const all=["isn't","aren't","I'm","you're","he's","she's","it's","we're","they're","I'm not"];
+      return {lab:"Skrót",q:`${p[0]} = ?`,c:p[1],bad:[p[1].replace("'",""),p[1].replace("n't","'nt"),...shuffle(all.filter(x=>x!==p[1]))].filter(x=>x!==p[1]),
+        why:`${p[1]} to skrót od ${p[0]}. Apostrof (') stoi w miejscu, gdzie zniknęła litera.`};},
+    ()=>{const s=a1R(A1_BE.slice(1)),a=a1R(A1_ADJ);return {lab:"Przeczenie",q:`${s[0]} ___ ${a}. (nie)`,c:s[3],bad:[s[3]==="isn't"?"aren't":"isn't","not is","am not","don't"],
+      why:`${s[0]} ${s[1]} not = ${s[0]} ${s[3]}. Z he / she / it: isn't, z you / we / they: aren't.`};},
+    ()=>{const a=a1R(A1_ADJ);return {lab:"Przeczenie",q:`___ ${a}. (Ja nie jestem)`,c:"I'm not",bad:["I isn't","I amn't","I not","I aren't"],
+      why:"I am not = I'm not. Nie ma formy „I amn't”."};},
+    ()=>{const s=a1R(A1_BE),a=a1R(A1_ADJ),other=["am","is","are"].filter(v=>v!==s[1]);
+      const trap={They:"There are",It:"Its",You:"Your",He:"His",She:"Her",We:"Were"}[s[0]]||"I is";
+      return {lab:"Co znaczy skrót?",q:`${s[2]} ${a}. → ${s[2]} = ?`,c:`${s[0]} ${s[1]}`,bad:[`${s[0]} ${other[0]}`,`${s[0]} ${other[1]}`,trap],
+        why:`${s[2]} = ${s[0]} ${s[1]}.${s[0]==="They"?" Uwaga: they're (oni są) brzmi jak there (tam) i their (ich).":s[0]==="It"?" Uwaga: it's = it is, a its (bez apostrofu) = jego/jej.":""}`};},
+    ()=>{const s=a1R(A1_BE.slice(1)),a=a1R(A1_ADJ);return {lab:"Pytanie",q:`___ ${lc(s[0])} ${a}?`,c:s[1]==="is"?"Is":"Are",bad:[s[1]==="is"?"Are":"Is","Am","Does","Do"],
+      why:`W pytaniu is / are idzie na początek: ${s[0]} ${s[1]} ${a}. → ${s[1]==="is"?"Is":"Are"} ${lc(s[0])} ${a}?`};}]},
+  {id:"have",name:"have / has / haven't",ic:"haven't",tone:"#1c7ed6",gen:[
+    ()=>{const s=a1R(A1_HAVE),t=a1R(A1_THING);return {lab:"Mieć",q:`${s[0]} ___ got ${t}.`,c:s[1],bad:[s[1]==="has"?"have":"has","is","am","haves"],
+      why:`He / she / it → has got. I / you / we / they → have got.`};},
+    ()=>{const s=a1R(A1_HAVE),t=a1R(A1_THING);return {lab:"Nie mieć",q:`${s[0]} ___ got ${t}. (nie)`,c:s[2],bad:[s[2]==="hasn't"?"haven't":"hasn't","isn't","don't","hasn't not"],
+      why:`have not = haven't, has not = hasn't. He / she / it: hasn't got.`};},
+    ()=>{const s=a1R(A1_HAVE.filter(x=>x[0]!=="I")),t=a1R(A1_THING),c=s[1]==="has"?"Has":"Have";return {lab:"Pytanie",q:`___ ${lc(s[0])} got ${t}?`,c,bad:[c==="Has"?"Have":"Has","Is","Does","Do"],
+      why:`W pytaniu have / has idzie na początek: ${c} ${lc(s[0])} got…?`};},
+    ()=>{const p=a1R([["have not","haven't"],["has not","hasn't"],["I have","I've"],["they have","they've"],["we have","we've"]]);
+      return {lab:"Skrót",q:`${p[0]} = ?`,c:p[1],bad:[p[1].replace("'",""),p[1].replace("n't","'nt"),...["haven't","hasn't","I've","isn't"]].filter(x=>x!==p[1]),
+        why:`${p[1]} to skrót od ${p[0]}.`};},
+    ()=>{const s=a1R(A1_HAVE.filter(x=>x[0]!=="I"&&x[0]!=="You")),yes=Math.random()<.5,t=a1R(A1_THING),Q=s[1]==="has"?"Has":"Have",pr=lc(s[0]);
+      return {lab:"Krótka odpowiedź",q:`${Q} ${pr} got ${t}? – ${yes?"Yes":"No"}, ${pr} ___.`,c:yes?s[1]:s[2],bad:yes?[s[1]==="has"?"have":"has","is","does"]:[s[2]==="hasn't"?"haven't":"hasn't","isn't","doesn't"],
+        why:`Na pytanie z ${Q.toLowerCase()} odpowiadamy tym samym słowem: Yes, ${pr} ${s[1]}. / No, ${pr} ${s[2]}.`};}]},
+  {id:"can",name:"can / can't",ic:"can't",tone:"#7048e8",gen:[
+    ()=>{const s=a1R(A1_HE.concat(A1_THEY)),a=a1R(A1_CAN);return {lab:"Umieć",q:`${s} ___ ${a[0]}. (umie / umiem)`,c:"can",bad:["cans","can to","is can"],
+      why:"Can jest takie samo dla każdej osoby – bez -s: he can, she can. Po can nie ma „to”."};},
+    ()=>{const s=a1R(A1_HE.concat(A1_THEY)),a=a1R(A1_CAN);return {lab:"Nie umieć",q:`${s} ___ ${a[0]}. (nie)`,c:"can't",bad:["don't can","not can","doesn't can","cann't"],
+      why:"Przeczenie: can't (= cannot). Nie mówimy „don't can”."};},
+    ()=>{const a=a1R(A1_CAN),s=a1R(["you","he","she","they"]);return {lab:"Pytanie",q:`___ ${s} ${a[0]}?`,c:"Can",bad:["Do","Does","Are"],
+      why:`W pytaniu can idzie na początek: Can ${s} ${a[0]}?`};},
+    ()=>{const a=a1R(A1_CAN);return {lab:"Przetłumacz",q:`Umiem ${a[1]}.`,c:`I can ${a[0]}.`,bad:[`I can to ${a[0]}.`,`I cans ${a[0]}.`,`I am can ${a[0]}.`],
+      why:`Ja umiem = I can, a po can od razu czasownik bez „to”.`};},
+    ()=>({lab:"Skrót",q:"cannot = ?",c:"can't",bad:["cant","can'nt","don't"],why:"cannot = can't (apostrof zamiast „no”)."})]},
+  {id:"do",name:"do / does / don't",ic:"doesn't",tone:"#e8590c",gen:[
+    ()=>{const s=a1R(A1_HE),v=a1R(A1_DO),w=v[0].split(" ")[0],c=v[1].split(" ")[0];return {lab:"Ona robi",q:`${s} ___ ${v[0].split(" ").slice(1).join(" ")}. (${w})`,c,bad:[w,w+"ing",`is ${w}`],
+      why:`He / she / it w czasie teraźniejszym → czasownik z -s / -es: ${w} → ${c}.`};},
+    ()=>{const s=a1R(A1_THEY),v=a1R(A1_DO),w=v[0].split(" ")[0];return {lab:"My robimy",q:`${s} ___ ${v[0].split(" ").slice(1).join(" ")}. (${w})`,c:w,bad:[v[1].split(" ")[0],w+"ing",`are ${w}`],
+      why:`I / you / we / they → czasownik bez -s: ${w}.`};},
+    ()=>{const he=Math.random()<.5,s=a1R(he?A1_HE:A1_THEY),v=a1R(A1_DO);return {lab:"Nie robi",q:`${s} ___ ${v[0]}. (nie)`,c:he?"doesn't":"don't",bad:[he?"don't":"doesn't",he?"isn't":"aren't","not"],
+      why:`Przeczenie: he / she / it → doesn't, reszta → don't. Po doesn't czasownik już bez -s: ${he?"he doesn't "+v[0].split(" ")[0]:"they don't "+v[0].split(" ")[0]}.`};},
+    ()=>{const he=Math.random()<.5,s=he?a1R(["he","she","Tom"]):a1R(["you","they","we"]),v=a1R(A1_DO),c=he?"Does":"Do";return {lab:"Pytanie",q:`___ ${s} ${v[0]}?`,c,bad:[he?"Do":"Does",he?"Is":"Are","Has"],
+      why:`Pytanie: ${c} + osoba + czasownik bez -s. He / she / it → Does, reszta → Do.`};},
+    ()=>{const p=a1R([["do not","don't"],["does not","doesn't"]]);return {lab:"Skrót",q:`${p[0]} = ?`,c:p[1],bad:[p[1].replace("'",""),p[1].replace("n't","'nt"),p[1]==="don't"?"doesn't":"don't"],why:`${p[0]} = ${p[1]}.`};}]},
+  {id:"there",name:"there is / there are",ic:"there is",tone:"#0c8599",gen:[
+    ()=>{const one=Math.random()<.5,it=one?a1R(["a cat","a big tree","a ball","an apple","a bike"]):a1R(["two dogs","three books","some apples","many cars","five chairs"]),pl=a1R(["in the garden","in my room","on the table","in the park"]);
+      return {lab:"Jest / są",q:`There ___ ${it} ${pl}.`,c:one?"is":"are",bad:[one?"are":"is","am","be"],why:`Jedna rzecz → there is, wiele → there are.`};},
+    ()=>{const one=Math.random()<.5,it=one?a1R(["a cat","a TV","a park","a bus"]):a1R(["any apples","any books","any cars","any shops"]),pl=a1R(["in the kitchen","near my school","here","in the box"]);
+      return {lab:"Nie ma",q:`There ___ ${it} ${pl}. (nie)`,c:one?"isn't":"aren't",bad:[one?"aren't":"isn't","don't","not"],why:"there is not = there isn't, there are not = there aren't."};},
+    ()=>{const one=Math.random()<.5,it=one?a1R(["a cat","a shop","a bus stop","a swimming pool"]):a1R(["any dogs","any trees","any children","any toys"]),pl=a1R(["in the garden","near here","in your room","in the town"]);
+      return {lab:"Pytanie",q:`___ there ${it} ${pl}?`,c:one?"Is":"Are",bad:[one?"Are":"Is","Do","Does"],why:"W pytaniu zamieniamy kolejność: there is → Is there…? there are → Are there…?"};}]},
+  {id:"a-an",name:"a / an",ic:"an",tone:"#d6336c",gen:[
+    ()=>{const v=Math.random()<.5,w=v?a1R(["apple","egg","orange","elephant","umbrella","ice cream","owl","octopus","old car","English book"]):a1R(["banana","cat","book","house","pen","horse","car","teacher","new bike","big apple","yellow egg"]);
+      return {lab:"a czy an?",q:`___ ${w}`,c:v?"an":"a",bad:[v?"a":"an"],
+        why:`an przed samogłoską (a, e, i, o, u) na początku słowa: an apple. a przed spółgłoską: a cat.${/^(big|yellow|new)/.test(w)?" Liczy się pierwsze słowo – tu „"+w.split(" ")[0]+"”.":""}`};}]},
+  {id:"plural",name:"Liczba mnoga",ic:"-s",tone:"#2b8a3e",gen:[
+    ()=>{const [s,p]=a1R(A1_PLURAL);const bad=[s+"s",s+"es",s.replace(/y$/,"ies"),s.replace(/fe?$/,"ves"),p+"s",s].filter(x=>x!==p);
+      return {lab:"Jeden → dwa",q:`one ${s} → two ___`,c:p,bad:shuffle([...new Set(bad)]),why:a1PlWhy(s,p)};}]},
+  {id:"poss",name:"my, your, his, her",ic:"my",tone:"#f08c00",gen:[
+    ()=>{const p=a1R(A1_POSS);return {lab:"Czyj?",q:`${p[0]} → ?`,c:p[1],bad:A1_POSS.filter(x=>x!==p).map(x=>x[1]).sort(()=>Math.random()-.5),why:`${p[0]} → ${p[1]} (${p[2]}).`};},
+    ()=>{const p=a1R(A1_POSS.slice(0,6));return {lab:"Przetłumacz",q:`To jest ${p[2]} pies. → This is ___ dog.`,c:p[1],bad:A1_POSS.slice(0,6).filter(x=>x!==p).map(x=>x[1]).concat([p[0]]),why:`${p[2]} = ${p[1]}.`};},
+    ()=>{const x=a1R([["Tom has a dog.","His","his = jego (o chłopcu)"],["Anna has a cat.","Her","her = jej (o dziewczynce)"],["Tom and Anna have a house.","Their","their = ich"],["We have a car.","Our","our = nasz"]]);
+      return {lab:"Czyj?",q:`${x[0]} ___ ${x[0].split(" ").pop().replace(".","")} is big.`,c:x[1],bad:["His","Her","Their","Our","My"],why:x[2]};}]},
+  {id:"this",name:"this / that / these / those",ic:"this",tone:"#5c7cfa",gen:[
+    ()=>{const pl=Math.random()<.5,near=Math.random()<.5,c=pl?(near?"These":"Those"):(near?"This":"That"),n=pl?a1R(["shoes","books","dogs","pencils","cars"]):a1R(["book","bag","dog","car","house"]);
+      return {lab:"Ten czy tamten?",q:`___ ${pl?"are":"is"} my ${n}. (${pl?(near?"te – blisko":"tamte – daleko"):(near?"ten – blisko":"tamten – daleko")})`,c,bad:["This","That","These","Those"],
+        why:"this – ten (blisko), that – tamten (daleko); these / those – to samo w liczbie mnogiej."};},
+    ()=>{const p=a1R([["this","these"],["that","those"]]);return {lab:"Liczba mnoga",q:`${p[0]} → wiele rzeczy?`,c:p[1],bad:["this","that","these","those","thises"],why:`${p[0]} (jeden) → ${p[1]} (wiele).`};}]},
+  {id:"qw",name:"Pytania: what, where, who…",ic:"?",tone:"#c2255c",gen:[
+    ()=>{const w=a1R(A1_QW);return {lab:"Słowo pytające",q:`${a1R(w[2])} (${w[1]})`,c:w[0],bad:shuffle(A1_QW.filter(x=>x!==w).map(x=>x[0])),why:`${w[0]} = ${w[1].toLowerCase()}.`};}]},
+];
+const A1_BY=Object.fromEntries(A1_TOPICS.map(t=>[t.id,t]));
+// zestaw: n zadań, bez powtórzeń treści; "mix" = wszystkie tematy na raz
+function a1Qs(id,n=12){const T=id==="mix"?A1_TOPICS:[A1_BY[id]],out=[],seen=new Set();
+  for(let k=0;k<400&&out.length<n;k++){const t=a1R(T),x=a1R(t.gen)();if(seen.has(x.q)) continue;seen.add(x.q);out.push(a1Q({...x,lab:id==="mix"?t.name:x.lab}));}
+  return out;}
+const A1_NEW="2026-11-08";
+const a1Last=id=>doneStats(loadHist().filter(s=>s.subj==="en"&&s.status==="done"&&s.cfg&&s.cfg.mode==="a1"&&s.cfg.topic===id));
+function renderEnA1(){
+  const mx=a1Last("mix");$("ena-mix-s").textContent=mx?lastTxt(mx):`Wszystkie ${A1_TOPICS.length} tematów na raz`;
+  $("ena-topics").innerHTML=A1_TOPICS.map(t=>{const x=a1Last(t.id);
+    return `<button type="button" class="tile mt" data-t="${t.id}" data-new="${A1_NEW}" style="--gc:${t.tone}"><span class="wm" aria-hidden="true">${esc(t.ic)}</span>${statBox(x)}<span class="tt">${t.name}</span><small>12 zadań</small></button>`;}).join("");
+  newBadges();
+}
+const a1Start=id=>enStart(()=>a1Qs(id),{mode:"a1",topic:id,title:id==="mix"?"Podstawy A1":A1_BY[id].name,unit:"zadań"});
+$("en-t-a1").addEventListener("click",()=>go("ena"));
+$("ena-mix").addEventListener("click",()=>a1Start("mix"));
+$("ena-topics").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(b) a1Start(b.dataset.t);});
+
+/* --- Angielski: Nauka – lekcje wyjaśniające zasady, które sprawdzają quizy (To be i tematy A1) ---
+   Lekcja: {id,name,ic,tone,quiz:id tematu A1 albo "tobe",b:[bloki HTML]}; pomocnicze lxT (tabela), lxE (przykłady), lxTip, lxBad.
+   Przeczytane lekcje (na tym telefonie) w henriksen-lekcje. */
+const lxT=(head,rows)=>`<table class="lx-t"><thead><tr>${head.map(h=>`<th>${h}</th>`).join("")}</tr></thead><tbody>${rows.map(r=>`<tr>${r.map(c=>`<td>${c}</td>`).join("")}</tr>`).join("")}</tbody></table>`;
+const lxE=pairs=>`<div class="lx-ex">${pairs.map(([en,pl])=>`<div><b>${en}</b><span>${pl}</span></div>`).join("")}</div>`;
+const lxTip=t=>`<div class="lx-tip">💡 ${t}</div>`;
+const lxBad=(bad,good)=>`<div class="lx-bad"><span>❌ ${bad}</span><span>✅ ${good}</span></div>`;
+const lxH=t=>`<h3>${t}</h3>`;
+const LX=[
+  {id:"tobe",name:"To be – am, is, are",ic:"am",tone:"#12b886",quiz:"tobe",b:[
+    `<p>„To be” znaczy <b>być</b>. Po angielsku zmienia się zależnie od osoby – są tylko trzy formy: <b>am, is, are</b>.</p>`,
+    lxT(["Osoba","Pełna forma","Skrót","Po polsku"],[["I","I am","I'm","ja jestem"],["you","you are","you're","ty jesteś"],["he","he is","he's","on jest"],["she","she is","she's","ona jest"],["it","it is","it's","to / ono jest"],["we","we are","we're","my jesteśmy"],["they","they are","they're","oni / one są"]]),
+    lxTip("Łatwo zapamiętać: <b>I → am</b>, jedna osoba (he, she, it) → <b>is</b>, reszta → <b>are</b>."),
+    lxH("Pytanie"),`<p>Żeby zapytać, zamieniamy kolejność – am / is / are idzie na początek.</p>`,
+    lxE([["He is happy.","On jest szczęśliwy."],["Is he happy?","Czy on jest szczęśliwy?"],["Are you ten?","Czy masz dziesięć lat?"]]),
+    lxH("Krótka odpowiedź"),lxE([["Is she red? – Yes, she is.","Tak."],["Are they at home? – No, they aren't.","Nie."]]),
+    lxBad("Yes, she's.","Yes, she is. – w krótkiej odpowiedzi „tak” nie skracamy")]},
+  {id:"slowka",name:"Słówka – słowniczek",ic:"A1·A2",tone:"#15aabf",quiz:"slowka",b:()=>[
+    `<p>Wszystkie słówka z quizu, w tematach. <b>Jak się uczyć:</b> zasłoń palcem jedną kolumnę, powiedz słowo na głos, odsłoń i sprawdź. Najpierw A1, potem A2.</p>`,
+    lxTip("W quizie złe odpowiedzi są z tego samego tematu i tej samej części mowy – więc trzeba naprawdę znać słowo, nie tylko zgadywać po temacie."),
+    ...EN_TOPICS.map(t=>{const W=ENW.filter(x=>x.t===t.id);return `<details class="lx-d"><summary><b>${t.name}</b><small>${W.length} słów</small></summary>${lxT(["Angielski","Polski","Poziom"],W.map(x=>[`<b>${esc(x.en)}</b>`,esc(x.pl),x.lvl.toUpperCase()]))}</details>`;})]},
+  {id:"zdania",name:"Zdania – jak tłumaczyć",ic:"„…”",tone:"#40c057",quiz:"zdania",b:()=>[
+    `<p>W quizie tłumaczysz całe zdania. Złe odpowiedzi to <b>typowe pułapki</b> – zwykle różnią się jednym słowem albo końcówką. Czytaj zdanie do końca!</p>`,
+    lxH("Na co uważać"),
+    lxBad("I have ten years.","I am ten years old. – wiek mówimy z „be”: mam 10 lat = jestem 10 lat stary"),
+    lxBad("She like pizza.","She likes pizza. – he / she / it → -s"),
+    lxBad("He is my sister.","She is my sister. – he = on, she = ona"),
+    lxTip("Sprawdź po kolei: <b>kto</b> (I, she, they…), <b>forma czasownika</b> (is / are, like / likes), <b>szczegóły</b> (liczby, kolory, czyj: my / your)."),
+    ...["a1","a2"].map(l=>`<details class="lx-d"${l==="a1"?" open":""}><summary><b>Zdania ${l.toUpperCase()}</b><small>${ENS.filter(x=>x.lvl===l).length} zdań</small></summary>${lxE(ENS.filter(x=>x.lvl===l).map(x=>[esc(x.en),esc(x.pl)]))}</details>`)]},
+  {id:"be-neg",name:"Skróty: isn't, aren't, I'm",ic:"isn't",tone:"#20c997",quiz:"be-neg",b:[
+    `<p>Mówiąc po angielsku, prawie zawsze <b>skracamy</b> am / is / are. Apostrof <b>'</b> stoi w miejscu, gdzie „zjedliśmy” literę.</p>`,
+    lxT(["Pełna forma","Skrót"],[["I am","I'm"],["you are","you're"],["he is / she is / it is","he's / she's / it's"],["we are / they are","we're / they're"]]),
+    lxH("Przeczenie – nie jestem, nie jest"),`<p>Dodajemy <b>not</b>, a potem skracamy: <b>is not → isn't</b>, <b>are not → aren't</b>.</p>`,
+    lxT(["Pełna forma","Skrót","Po polsku"],[["I am not","I'm not","ja nie jestem"],["he / she / it is not","isn't","nie jest"],["you / we / they are not","aren't","nie jesteś / nie jesteśmy / nie są"]]),
+    lxE([["She isn't hungry.","Ona nie jest głodna."],["We aren't at school.","Nie jesteśmy w szkole."],["I'm not tired.","Nie jestem zmęczony."]]),
+    lxBad("I amn't tired.","I'm not tired. – formy „amn't” nie ma"),
+    lxBad("He aren't late.","He isn't late. – he / she / it → isn't"),
+    lxTip("Uważaj na słowa, które brzmią podobnie: <b>it's</b> (= it is) i <b>its</b> (jego/jej), <b>they're</b> (= they are), <b>their</b> (ich) i <b>there</b> (tam), <b>you're</b> (= you are) i <b>your</b> (twój).")]},
+  {id:"have",name:"have / has / haven't",ic:"have",tone:"#1c7ed6",quiz:"have",b:[
+    `<p><b>Have got</b> znaczy <b>mieć</b>: I have got a dog – mam psa. Dla he / she / it zamieniamy have na <b>has</b>.</p>`,
+    lxT(["Osoba","Mam","Nie mam"],[["I / you / we / they","have got","haven't got"],["he / she / it","has got","hasn't got"]]),
+    lxE([["She has got blue eyes.","Ona ma niebieskie oczy."],["We haven't got a car.","Nie mamy samochodu."],["I've got a sister.","Mam siostrę. (I've = I have)"]]),
+    lxH("Pytanie i krótka odpowiedź"),`<p>Have / has idzie na początek, a w odpowiedzi powtarzamy to samo słowo.</p>`,
+    lxE([["Have you got a pen? – Yes, I have.","Masz długopis? – Tak."],["Has he got a bike? – No, he hasn't.","Czy on ma rower? – Nie."]]),
+    lxBad("She have got a cat.","She has got a cat."),lxBad("He hasn't got not a dog.","He hasn't got a dog. – „not” jest już w hasn't"),
+    lxTip("haven't = have not, hasn't = has not. Pisze się ze znakiem ' w miejscu litery o.")]},
+  {id:"can",name:"can / can't",ic:"can",tone:"#7048e8",quiz:"can",b:[
+    `<p><b>Can</b> znaczy <b>umiem / potrafię / mogę</b>. To łatwe słowo, bo <b>nigdy się nie zmienia</b> – takie samo dla każdej osoby.</p>`,
+    lxT(["","Umiem","Nie umiem"],[["każda osoba","I / he / they <b>can</b> swim","I / he / they <b>can't</b> swim"]]),
+    lxE([["I can swim.","Umiem pływać."],["She can't cook.","Ona nie umie gotować."],["Can you ride a bike?","Umiesz jeździć na rowerze?"],["Yes, I can. / No, I can't.","Tak. / Nie."]]),
+    lxBad("He cans swim.","He can swim. – can bez -s"),lxBad("I can to swim.","I can swim. – po can bez „to”"),lxBad("I don't can sing.","I can't sing."),
+    lxTip("can't = cannot (pisze się razem!).")]},
+  {id:"do",name:"do / does / don't",ic:"does",tone:"#e8590c",quiz:"do",b:[
+    `<p>Czas <b>Present Simple</b> mówi o tym, co robimy zwykle, często, zawsze: I play football – gram w piłkę.</p>`,
+    lxH("He / she / it → końcówka -s"),
+    lxT(["I / you / we / they","he / she / it"],[["I play","he plays"],["I like","she likes"],["I watch","he watches (-es po ch, sh, s, x)"],["I go","she goes"],["I have","he has (wyjątek)"]]),
+    lxH("Przeczenie: don't / doesn't"),lxT(["I / you / we / they","he / she / it"],[["I don't like milk.","She doesn't like milk."]]),
+    lxTip("Po <b>doesn't</b> czasownik jest już <b>bez -s</b>: she doesn't like (nie: doesn't likes)."),
+    lxH("Pytanie: Do / Does"),lxE([["Do you like pizza? – Yes, I do.","Lubisz pizzę? – Tak."],["Does he play football? – No, he doesn't.","Czy on gra w piłkę? – Nie."]]),
+    lxBad("She like pizza.","She likes pizza."),lxBad("Does he plays?","Does he play?"),lxBad("He don't like fish.","He doesn't like fish.")]},
+  {id:"there",name:"there is / there are",ic:"there",tone:"#0c8599",quiz:"there",b:[
+    `<p><b>There is / there are</b> znaczy <b>jest / są</b> (coś gdzieś się znajduje). Często tłumaczymy też jako „mam w pokoju…”, „w ogrodzie rośnie…”.</p>`,
+    lxT(["","Jedna rzecz","Wiele rzeczy"],[["jest / są","There <b>is</b> a cat.","There <b>are</b> two cats."],["nie ma","There <b>isn't</b> a park.","There <b>aren't</b> any shops."],["czy jest?","<b>Is</b> there a park?","<b>Are</b> there any shops?"]]),
+    lxE([["There is a big tree in the garden.","W ogrodzie jest duże drzewo."],["There are three books on the table.","Na stole są trzy książki."],["Is there a bus stop near here?","Czy jest tu w pobliżu przystanek?"]]),
+    lxTip("W przeczeniach i pytaniach z liczbą mnogą zwykle dodajemy <b>any</b>: There aren't any apples."),
+    lxBad("There are a cat.","There is a cat.")]},
+  {id:"a-an",name:"a / an",ic:"an",tone:"#d6336c",quiz:"a-an",b:[
+    `<p><b>A</b> i <b>an</b> znaczą „jakiś / jeden”. Stawiamy je przed jedną rzeczą, której nie znamy bliżej. Który wybrać, zależy od <b>dźwięku na początku następnego słowa</b>.</p>`,
+    lxT(["an – przed samogłoską","a – przed spółgłoską"],[["an apple","a banana"],["an egg","a cat"],["an orange","a dog"],["an elephant","a house"],["an umbrella","a pen"]]),
+    lxTip("Samogłoski to <b>a, e, i, o, u</b>. Patrzymy na słowo zaraz po a/an: <b>an apple</b>, ale <b>a big apple</b> (bo „big” zaczyna się od b)."),
+    lxBad("a orange","an orange"),lxBad("an new bike","a new bike")]},
+  {id:"plural",name:"Liczba mnoga",ic:"-s",tone:"#2b8a3e",quiz:"plural",b:[
+    `<p>Gdy rzeczy jest więcej niż jedna, zwykle dodajemy <b>-s</b>: one cat → two cats. Są jednak reguły i wyjątki.</p>`,
+    lxT(["Reguła","Przykład"],[["zwykle + s","cat → cats, toy → toys"],["po s, x, ch, sh + es","bus → buses, box → boxes, watch → watches"],["spółgłoska + y → ies","baby → babies, city → cities"],["f / fe → ves","knife → knives, leaf → leaves"],["niektóre na -o + es","tomato → tomatoes"]]),
+    lxH("Wyjątki – trzeba zapamiętać"),
+    lxT(["Jeden","Wiele"],[["child","children"],["man","men"],["woman","women"],["person","people"],["foot","feet"],["tooth","teeth"],["mouse","mice"],["sheep","sheep"],["fish","fish"]]),
+    lxBad("two childs","two children"),lxBad("three sheeps","three sheep")]},
+  {id:"poss",name:"my, your, his, her",ic:"my",tone:"#f08c00",quiz:"poss",b:[
+    `<p>Te słowa mówią, <b>czyje</b> coś jest. Stoją przed rzeczą: my dog – mój pies.</p>`,
+    lxT(["Osoba","Czyje?","Po polsku"],[["I","my","mój, moja"],["you","your","twój"],["he","his","jego"],["she","her","jej"],["it","its","jego / jej (zwierzę, rzecz)"],["we","our","nasz"],["they","their","ich"]]),
+    lxE([["This is my bike.","To mój rower."],["Tom has a dog. His dog is big.","Tom ma psa. Jego pies jest duży."],["Anna has a cat. Her cat is black.","Anna ma kota. Jej kot jest czarny."]]),
+    lxTip("<b>his</b> – gdy właścicielem jest chłopak / mężczyzna, <b>her</b> – gdy dziewczyna / kobieta. Nie patrzymy na rodzaj rzeczy, tylko na to, czyja jest!"),
+    lxBad("This is he dog.","This is his dog.")]},
+  {id:"this",name:"this, that, these, those",ic:"this",tone:"#5c7cfa",quiz:"this",b:[
+    `<p>Tymi słowami pokazujemy rzeczy – blisko albo daleko, jedną albo wiele.</p>`,
+    lxT(["","Blisko 👇","Daleko 👉"],[["jedna rzecz","<b>this</b> – ten, ta, to","<b>that</b> – tamten"],["wiele rzeczy","<b>these</b> – te","<b>those</b> – tamte"]]),
+    lxE([["This is my book.","To (tu) jest moja książka."],["That is my house.","Tamto jest mój dom."],["These are my shoes.","To są moje buty."],["Those are my friends.","Tamci to moi przyjaciele."]]),
+    lxTip("Z <b>this / that</b> używamy <b>is</b>, a z <b>these / those</b> – <b>are</b>.")]},
+  {id:"qw",name:"Pytania: what, where, who…",ic:"?",tone:"#c2255c",quiz:"qw",b:[
+    `<p>Słowa pytające stoją <b>na początku</b> pytania.</p>`,
+    lxT(["Słowo","Znaczy","Przykład"],[["What","co / jaki","What is your name?"],["Where","gdzie","Where do you live?"],["Who","kto","Who is that girl?"],["When","kiedy","When is your birthday?"],["Why","dlaczego","Why are you sad?"],["How old","ile lat","How old are you?"],["How many","ile (sztuk)","How many brothers have you got?"],["What colour","jaki kolor","What colour is your bike?"]]),
+    lxTip("Na „Jak masz na imię?” mówimy <b>What</b> is your name? – a nie „How”.")]},
+];
+const LXK="henriksen-lekcje";
+const lxRead=()=>{try{return JSON.parse(localStorage.getItem(LXK)||"[]");}catch(e){return [];}};
+function renderEnl(){const R=lxRead();
+  $("enl-list").innerHTML=LX.map(l=>`<button type="button" class="tile mt" data-lx="${l.id}"${l.id==="tobe"?"":` data-new="${A1_NEW}"`} style="--gc:${l.tone}"><span class="wm" aria-hidden="true">${esc(l.ic)}</span>${R.includes(l.id)?'<span class="mt-last"><b>✓ Przeczytane</b></span>':""}<span class="tt">${l.name}</span><small>Lekcja + quiz</small></button>`).join("");
+  newBadges();}
+let LXC=null;
+function lxOpen(id){const l=LX.find(x=>x.id===id);if(!l) return;LXC=l;
+  $("enlv").querySelector("h1").textContent=l.name;
+  $("enlv-body").innerHTML=(typeof l.b==="function"?l.b():l.b).join("")+`<button type="button" class="go-btn" id="lx-quiz">Sprawdź się – quiz ▶</button>`;
+  const R=lxRead();if(!R.includes(id)){try{localStorage.setItem(LXK,JSON.stringify([...R,id]));}catch(e){}}
+  go("enlv");}
+$("enl-list").addEventListener("click",e=>{const b=e.target.closest("[data-lx]");if(b) lxOpen(b.dataset.lx);});
+$("enlv-body").addEventListener("click",e=>{if(!e.target.closest("#lx-quiz")||!LXC) return;if(LXC.quiz==="tobe") go("ent"); else if(LXC.quiz==="slowka"||LXC.quiz==="zdania"){ENM=LXC.quiz;go("enset");} else a1Start(LXC.quiz);});
+// na ekranie każdego quizu: przycisk do lekcji z tymi zasadami
+document.addEventListener("click",e=>{const b=e.target.closest("[data-lxgo]");if(!b) return;lxOpen(b.dataset.lxgo==="enset"?ENM:b.dataset.lxgo);});
+$("en-t-learn").addEventListener("click",()=>go("enl"));
+
 /* ===== Edukacja zdrowotna: pytania z lekcji (karta „Zdrowie jako wartość” i zeszyt), quiz z angielskiego (enStart) =====
    Pytanie: {q, c, bad:[złe], why} – why to zdanie z notatki. Prawda/fałsz: c "Prawda"/"Fałsz", bez bad.
    „Sprawdzian 29.10” = wszystkie pytania w losowej kolejności; tematy osobno. Temat „Miejsce zdrowia w hierarchii” nie ma notatek. */
@@ -4704,7 +4972,7 @@ const CUP_CATS=[
   {id:"mat+",subj:"mat",name:"Dodawanie",base:100},{id:"mat−",subj:"mat",name:"Odejmowanie",base:100},
   {id:"pl-slowka",subj:"pl",name:"Słówka: ó/u, rz/ż, ch/h",base:75},{id:"pl-dyktando",subj:"pl",name:"Dyktanda",base:75},
   {id:"pl-znaczenia",subj:"pl",name:"Znaczenie słów",base:100},
-  {id:"en-tobe",subj:"en",name:"To be",base:50},{id:"en-slowka",subj:"en",name:"Słówka angielskie",base:75},{id:"en-zdania",subj:"en",name:"Zdania",base:100},
+  {id:"en-tobe",subj:"en",name:"To be",base:50},{id:"en-slowka",subj:"en",name:"Słówka angielskie",base:75},{id:"en-zdania",subj:"en",name:"Zdania",base:100},{id:"en-a1",subj:"en",name:"Podstawy A1",base:60},
   {id:"zd",subj:"zd",name:"Edukacja zdrowotna",base:60},
   {id:"sz-nauka",subj:"sz",name:"Samouczek szachowy",base:15},{id:"sz-zadania",subj:"sz",name:"Zadania szachowe",base:40},{id:"sz-gra",subj:"sz",name:"Partie z komputerem",base:20},
   {id:"lg-blockout",subj:"lg",name:"Block Out",base:40},{id:"lg-mosty",subj:"lg",name:"Mosty",base:25},{id:"lg-trojki",subj:"lg",name:"Trójki",base:30},{id:"lg-flow",subj:"lg",name:"Flow",base:40}
@@ -4866,6 +5134,7 @@ function ptsW(s,r){
     const w=WORDS.find(x=>x.full===r.t);return w&&w.desc?3:2;
   }
   if(sj==="en"){
+    if(m==="a1") return (r.c||"").split(" ").length>=3?2:1; // całe zdanie 2, wybór formy 1
     if(m==="slowka"){const x=ENW.find(y=>y.en===r.c&&y.pl===r.t||y.en===r.t&&y.pl===r.c);return (x&&x.lvl==="a2"?2:1)+(x&&r.c===x.en?1:0);}
     if(m==="zdania"){const x=ENS.find(y=>y.en===r.c||y.en===r.t);return (x&&x.lvl==="a2"?5:3)+(x&&r.c===x.en?1:0);}
     return /[?.]$/.test(r.c||"")?2:1; // To be: pytania i krótkie odpowiedzi 2, odmiana i am/is/are 1
@@ -4891,7 +5160,7 @@ const PTS_INFO=[
     ["Znaczenie słów – łatwe / średnie / trudne","ponury / skrupulatny / lakoniczny","2 / 3 / 5"],["…za synonim, przeciwieństwo albo zdanie z luką","","+1"]]],
   ["Angielski",[["To be – odmiana i am / is / are","On jest → He is",1],["To be – pytania i Who / What","Is he red?",2],["To be – krótkie odpowiedzi","Yes, she is.",2],
     ["Słówka A1 / A2 (z angielskiego na polski)","dog → pies","1 / 2"],["…z polskiego na angielski","pies → dog","+1"],
-    ["Zdania A1 / A2 (z angielskiego na polski)","She is my sister.","3 / 5"],["…z polskiego na angielski","","+1"]]],
+    ["Zdania A1 / A2 (z angielskiego na polski)","She is my sister.","3 / 5"],["…z polskiego na angielski","","+1"],["Podstawy A1 – wybór formy / całe zdanie","isn't / I can swim.","1 / 2"]]],
   ["Szachy",[["Samouczek – każda plansza (najkrócej, bez pomyłki)","",1],["Zadanie mat w 1 / w 2 / w 3","","2 / 3 / 5"],
     ["Wygrana z komputerem","Paweł … Kazimierz","3 – 15"]]]
 ];
@@ -5055,7 +5324,7 @@ const MODS=[
     {k:"mat-muldiv",name:"Mnożenie i dzielenie",sub:"30 działań do 100"},{k:"mat-addsub",name:"Dodawanie i odejmowanie",sub:"do 1000"},
     {k:"mat-tens",name:"Pełne dziesiątki",sub:"np. 40 × 30"},{k:"mat-hard",name:"Poćwicz trudne",sub:"działania z błędami"},{k:"mat-own",name:"Ułóż własne",sub:"własne działania i zakresy"}]},
   {g:"Polski",items:[{k:"pl-slowka",name:"Słówka",sub:"ó/u, rz/ż, ch/h"},{k:"pl-dyktando",name:"Dyktanda",sub:"cały tekst z lukami"},{k:"pl-znaczenia",name:"Znaczenie słów",sub:"quiz i słowo dnia"}]},
-  {g:"Angielski",items:[{k:"en-tobe",name:"To be",sub:"am, is, are"},{k:"en-slowka",name:"Słówka",sub:"A1 i A2 w tematach"},{k:"en-zdania",name:"Zdania",sub:"tłumaczenie całych zdań"}]},
+  {g:"Angielski",items:[{k:"en-tobe",name:"To be",sub:"am, is, are"},{k:"en-slowka",name:"Słówka",sub:"A1 i A2 w tematach"},{k:"en-zdania",name:"Zdania",sub:"tłumaczenie całych zdań"},{k:"en-nauka",nw:1,name:"Nauka",sub:"lekcje z wyjaśnieniem zasad"},{k:"en-a1",nw:1,name:"Podstawy A1",sub:"skróty isn't, haven't, can't i inne tematy"}]},
   {g:"Edukacja zdrowotna",items:[{k:"zd-spr",name:"Sprawdzian 29.10",sub:"wszystkie tematy"},{k:"zd-wartosc",name:"Zdrowie jako wartość",sub:"definicja i wymiary zdrowia"},
     {k:"zd-styl",name:"Zdrowy styl życia",sub:"mierniki zdrowia, hartowanie"},{k:"zd-cialo",name:"Moje ciało się zmienia",sub:"dojrzewanie, higiena, żelazo"},
     {k:"zd-zach",name:"Zachowania chroniące i ryzykowne",sub:"środowisko, zdrowe nawyki"}]},
@@ -5084,7 +5353,7 @@ function applyMods(){
   const show=(id,on)=>{const el=$(id);if(el) el.hidden=!on;};
   show("t-math",subjOn("mat"));if(CUR==="mat") renderMat();show("t-pl",subjOn("pl"));show("t-en",subjOn("en"));
   show("pl-t-w",modOn("pl-slowka"));show("pl-t-d",modOn("pl-dyktando"));show("pl-t-z",modOn("pl-znaczenia"));show("pz-day",modOn("pl-znaczenia"));
-  show("en-t-tobe",modOn("en-tobe"));show("en-t-v",modOn("en-slowka"));show("en-t-z",modOn("en-zdania"));
+  show("en-t-tobe",modOn("en-tobe"));show("en-t-v",modOn("en-slowka"));show("en-t-z",modOn("en-zdania"));show("en-t-a1",modOn("en-a1"));show("en-t-learn",modOn("en-nauka"));document.querySelectorAll("#en .en-sec").forEach(e=>{e.hidden=!modOn("en-nauka");});
   show("t-zd",subjOn("zd"));show("zd-spr",modOn("zd-spr"));show("zd-tw",ZD_TOPICS.some(t=>modOn("zd-"+t.id)));if(CUR==="zd") renderZd();
   show("t-sz",subjOn("sz"));show("t-lg",subjOn("lg"));show("games-sep",subjOn("sz")||subjOn("lg"));try{lgGuard();}catch(e){}show("t-his",modOn("his"));show("t-nat",modOn("nat"));szGuard();
   {const g=$("t-math").parentElement;g.querySelectorAll(":scope>[data-soon]").forEach(b=>g.appendChild(b));} // kafle „Wkrótce” zawsze na końcu
@@ -7637,7 +7906,7 @@ function gameBegin(){
 }
 // odtworzenie gry z migawki
 const enMakeFor=(c,n)=>c.subj==="zd"?(c.mode==="spr"?zdAll:()=>zdTopic(c.mode))
-  :c.mode==="tobe"?()=>enToBeQs(n,c.types||["form"]):()=>enVocabQs(c.mode,{lvl:c.lvl||"a1",dir:c.dir||"mix",topics:c.topics||[],n});
+  :c.mode==="a1"?()=>a1Qs(c.topic||"mix",n):c.mode==="tobe"?()=>enToBeQs(n,c.types||["form"]):()=>enVocabQs(c.mode,{lvl:c.lvl||"a1",dir:c.dir||"mix",topics:c.topics||[],n});
 function resumeGame(g){
   if(g.type==="pw"){PW={id:g.id,start:g.start,cfg:g.cfg,i:g.i,recs:g.recs,words:g.words.map(f=>WORDS.find(w=>w.full===f)),wrong:[],locked:false,over:false};
     if(PW.words.some(w=>!w)) return false;$("pw-game").hidden=false;$("pw-end").hidden=true;$("pw-end").innerHTML="";go("plw");pwShow();}

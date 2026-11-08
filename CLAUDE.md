@@ -4,6 +4,9 @@ Aplikacja PWA do ćwiczenia matematyki dla dziecka (poziom ok. 4 klasy), docelow
 Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen/
 
 ## Zasady projektu
+- **Nowa sekcja / kafel = znaczek „nowe”:** dodaj `data-new="rrrr-mm-dd"` (dzień dodania) do kafla; `newBadges()` (z `showView`, także po rysowaniu
+  kafli w JS) przez 7 dni dokleja ukośny pasek `.nowe` w prawym górnym rogu i przesuwa znak wodny (`.has-new`).
+- **Każdy quiz ma swoją lekcję** w Angielski › Nauka (`LX`) – nowy quiz = nowa lekcja z zasadami, które sprawdza.
 - **Bez builda i bez zależności.** Cała aplikacja to jeden plik `index.html` (HTML + CSS + JS inline).
 - **Interfejs po polsku**, młodzieżowy ton, duże przyciski pod telefon (głównie iPhone).
 - Tryb jasny/ciemny przez zmienne CSS na `:root`.
@@ -45,6 +48,14 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
     Wybór tematów w ustawieniach (`PLP.ev.topics`, pusta lista = wszystkie). **Zdania:** `EN_SENT`
     (`"angielski|polski|3 złe angielskie;…|3 złe polskie;…"` – typowe pomyłki). Ustawienia `PLP.ev` / `PLP.ez` (lvl a1/a2/all, dir pl/en/mix, n).
   - W statystykach zakładka Angielski bez szczegółów rodzica.
+  - Ekran Angielski ma dwie części: **📘 Nauka** (kafel `#en-t-learn` → `#enl` lista lekcji, `#enlv` lekcja; hashe `#angielski-nauka`, `#angielski-lekcja`,
+    moduł `en-nauka`) i **🎯 Quizy** (To be, Słówka, Zdania, Podstawy A1). Lekcje `LX` `{id,name,ic,tone,quiz,b}` – `b` = bloki HTML albo funkcja
+    (Słówka: słowniczek z `ENW` w tematach, Zdania: pułapki + lista z `ENS`); pomocnicze `lxT` tabela, `lxE` przykłady EN/PL, `lxTip`, `lxBad` (❌/✅).
+    „Sprawdź się – quiz” na końcu lekcji, a na ekranach quizów przycisk „📘 Lekcja” (`[data-lxgo]`). Przeczytane lekcje: `henriksen-lekcje` (✓ na kaflu).
+  - **Podstawy A1** (kafel `#en-t-a1`, widok `#ena`, hash `#angielski-a1`, moduł `en-a1`, puchar `en-a1`): 10 tematów `A1_TOPICS` – skróty isn't/aren't/I'm,
+    have/has/haven't, can/can't, do/does/don't, there is/are, a/an, liczba mnoga, my/your/his/her, this/that/these/those, słowa pytające.
+    Temat = generatory `gen` zwracające `{lab,q,c,bad,why}` (`a1Q` tasuje), `a1Qs(id,12)` bez powtórek, „Wszystko na raz” = `mix`. Quiz `enStart`,
+    sesja `cfg:{mode:"a1",topic}`, punkty: wybór formy 1, całe zdanie 2 (`ptsW`, `PTS_INFO`).
 - **Szachy** (kafel `#t-sz`, widoki `#sz` (3 kafle), `#szl` lekcje, `#szz` ustawienia zadań, `#szo` przeciwnicy, `#szg` jedna szachownica `#szb`;
   hashe `#szachy…`; przedmiot `subj:"sz"`, moduły `sz-nauka` / `sz-zadania` / `sz-gra`). Pliki w `chess/`: `chess.js` (chess.js 1.4.0 ESM, BSD,
   wczytywany `szLoad()` przez `import()`), `puzzles.json` (480 zadań mat w 1/2/3 z bazy Lichess, CC0; skrypt `tools/lichess_puzzles.py`),
