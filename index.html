@@ -50,7 +50,6 @@ header .grow{flex:1;min-width:0}
 .badge{display:inline-flex;color:var(--badge)}.badge svg{width:24px;height:24px;display:block}
 .edit-btn{width:44px;height:44px;flex:none;border:0;background:transparent;color:var(--muted);display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;margin-left:-6px}
 .nowe{position:absolute;top:14px;right:-34px;transform:rotate(45deg);background:#ffd43b;color:#1b1b2f;font-weight:900;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;padding:4px 36px;box-shadow:0 2px 6px rgba(0,0,0,.3);pointer-events:none;z-index:2;line-height:1}
-.tile.has-new .wm{right:62px}
 .tiles2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
 .home-sep{display:flex;align-items:center;gap:10px;margin:18px 2px 12px;color:var(--muted);font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}.home-sep::before,.home-sep::after{content:"";flex:1;height:1px;background:var(--line)}
 .tile{flex:1;min-height:170px;border:0;border-radius:28px;color:#fff;font:inherit;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;gap:6px;padding:22px;text-align:left;position:relative;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.18)}
@@ -65,9 +64,9 @@ header .grow{flex:1;min-width:0}
 .tiles2 .tile{aspect-ratio:1/1;min-height:0;padding:18px}
 .tiles2 .tile .tt{font-size:min(1.75rem,6vw)} /* „Matematyka” mieści się w kwadracie na wąskim telefonie */
 .tiles2 .tile small{font-size:.88rem;line-height:1.3}
-.tile .wm{position:absolute;top:10px;right:16px;left:16px;text-align:right;font-family:var(--display);font-weight:800;font-size:4.6rem;line-height:1;color:rgba(255,255,255,.17);white-space:nowrap;pointer-events:none}
+.tile .wm{position:absolute;top:10px;right:16px;left:16px;text-align:left;font-family:var(--display);font-weight:800;font-size:4.6rem;line-height:1;color:rgba(255,255,255,.17);white-space:nowrap;pointer-events:none}
 .tiles2 .wm{font-size:1.75rem;top:14px;left:14px;right:14px;letter-spacing:.02em}
-.tile .wm.wm-img{color:#fff;opacity:.17;display:flex;justify-content:flex-end;gap:5px;top:14px}
+.tile .wm.wm-img{color:#fff;opacity:.17;display:flex;justify-content:flex-start;gap:5px;top:14px}
 /* wszystkie znaki wodne na kaflach tej samej wysokości co napisy (+−×÷, ąęćżó) */
 .tile .wm.wm-img svg{display:block;flex:none;height:28px;width:auto}
 #t-en .wm.wm-img{top:18px;gap:4px}#t-en .wm.wm-img svg{height:20px} /* dwie flagi obok siebie – niższe, żeby zajmowały tyle miejsca co inne znaki */
@@ -659,7 +658,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .matsi{background:linear-gradient(135deg,#5c7cfa,#3b2bb5)!important}
 .tile.mt{background:linear-gradient(135deg,color-mix(in srgb,var(--gc) 75%,#fff),color-mix(in srgb,var(--gc) 80%,#000))}
 .tile.mt.own-t{background:transparent;border:2px dashed var(--line);color:var(--fg);box-shadow:none}.tile.own-t .wm{color:var(--line)}
-.mt-last{position:absolute;top:12px;left:12px;right:12px;width:max-content;max-width:calc(100% - 24px);padding:3px 9px;border-radius:12px;background:rgba(0,0,0,.28);font-weight:800;font-size:.72rem;line-height:1.25}
+.mt-last{position:static;align-self:flex-start;width:max-content;max-width:100%;margin-bottom:2px;padding:3px 9px;border-radius:12px;background:rgba(0,0,0,.28);font-weight:800;font-size:.72rem;line-height:1.25}
 .mt-st{display:flex;flex-direction:column;gap:0;font-weight:700;font-size:.68rem;line-height:1.22;top:10px;left:10px;padding:3px 8px}.mt-st b{font-weight:800}
 .mat-tiles .tile .tt{font-size:min(1.35rem,5vw);line-height:1.1}
 .reqsi{background:linear-gradient(135deg,#e8590c,#b93a0a)!important}.req-bar{border-color:#e8590c}.req-bar small{color:#e8590c}
