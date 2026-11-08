@@ -6116,7 +6116,7 @@ const SZ_LINES=/*LINES*/{"zbyszek": {"cap": ["Aua! Bolało!", "Panie, za co?!", 
 const szPick=a=>a[Math.floor(Math.random()*a.length)];
 let SZ_TL=null,SZ_LAST_T=null;
 let SZ_SRC=null;const SZ_CLIPS={};
-function szHush(){clearTimeout(SZ_TL);const t=$("szg-talk");if(t) t.hidden=true;try{SZ_AUD.pause();}catch(e){}if(SZ_SRC){try{SZ_SRC.stop();}catch(e){}SZ_SRC=null;}}
+function szHush(){clearTimeout(SZ_TL);const t=$("szg-talk");if(t) t.hidden=true;try{SZ_AUD.pause();}catch(e){}if(SZ_SRC){try{SZ_SRC.stop();}catch(e){}SZ_SRC=null;}SZ_SRC_END=0;clearTimeout(SZ_WAITT);}
 // nagranie kwestii przez Web Audio (jak próbki dźwięków); brak pliku = sam dymek
 // nagranie kwestii: element <audio> (na iPhonie gra też przy przełączniku wyciszenia i po odblokowaniu pierwszym dotknięciem
 // może grać bez dotknięcia, np. po ruchu komputera); gdy play() odmówi – zapas przez Web Audio
@@ -6128,6 +6128,11 @@ try{if(navigator.audioSession) navigator.audioSession.type="playback";}catch(e){
 // po powrocie do aplikacji iOS potrafi znów zablokować <audio> – odblokuj przy następnym dotknięciu i obudź Web Audio
 document.addEventListener("visibilitychange",()=>{if(document.visibilityState!=="visible") return;delete SZ_AUD.dataset.ok;if(AC&&AC.state!=="running") AC.resume().catch(()=>{});});
 function szBubbleFor(ms){const t=$("szg-talk");if(t&&!t.hidden){clearTimeout(SZ_TL);SZ_TL=setTimeout(()=>{t.hidden=true;},Math.max(2600,ms+500));}}
+// czy komentator jeszcze mówi (element audio albo zapasowe Web Audio) – wtedy nowa kwestia przepada, żeby nie urwać poprzedniej
+let SZ_SRC_END=0,SZ_WAITT=null;
+const szVoiceLeft=()=>{if(SZ_AUD&&!SZ_AUD.paused&&isFinite(SZ_AUD.duration)) return (SZ_AUD.duration-SZ_AUD.currentTime)*1000;const c=window.SZ_AC;return c?Math.max(0,(SZ_SRC_END-c.currentTime)*1000):0;};
+const szVoiceBusy=()=>{if(!PREFS.szVoice) return false;if(SZ_AUD&&!SZ_AUD.paused&&!SZ_AUD.ended&&SZ_AUD.currentTime>0) return true;
+  const c=window.SZ_AC||null;return !!(SZ_SRC&&c&&c.currentTime<SZ_SRC_END);};
 async function szClip(u){if(!PREFS.szVoice||SZ_CLIPS[u]===false) return;
   try{SZ_AUD.pause();SZ_AUD.src=u;SZ_AUD.currentTime=0;SZ_AUD.onloadedmetadata=()=>szBubbleFor(SZ_AUD.duration*1000);
     SZ_AUD.onerror=()=>{if(SZ_AUD.error&&SZ_AUD.error.code===4&&SZ_AUD.src.endsWith(u)) SZ_CLIPS[u]=false;};await SZ_AUD.play();return;} // 4 = brak pliku; przerwane wczytanie nie wyłącza nagrania na zawsze
@@ -6135,11 +6140,13 @@ async function szClip(u){if(!PREFS.szVoice||SZ_CLIPS[u]===false) return;
   const c=ac();if(!c) return;
   try{let miss=false;const b=SZ_CLIPS[u]||(SZ_CLIPS[u]=await fetch(u).then(r=>{if(!r.ok){miss=true;throw 0;}return r.arrayBuffer();}).then(a=>new Promise((ok,no)=>c.decodeAudioData(a,ok,no))).catch(e=>{if(miss) return false;throw e;}));
     if(!b) return;
-    if(SZ_SRC) try{SZ_SRC.stop();}catch(e){}const src=c.createBufferSource();src.buffer=b;src.connect(c.destination);src.start();SZ_SRC=src;szBubbleFor(b.duration*1000);}
+    if(SZ_SRC) try{SZ_SRC.stop();}catch(e){}const src=c.createBufferSource();src.buffer=b;src.connect(c.destination);src.start();SZ_SRC=src;SZ_SRC_END=c.currentTime+b.duration;window.SZ_AC=c;szBubbleFor(b.duration*1000);}
   catch(e){delete SZ_CLIPS[u];}} // błąd chwilowy (np. przerwane audio) – następnym razem spróbuj znowu
 function szSay(cat,who,box){
   if(!PREFS.szTalk&&!PREFS.szVoice&&!(PREFS.szEmo&&!box)) return;who=who||SZ_TALKERS.find(x=>x.id===PREFS.szWho)||SZ_TALKERS[0];
   const W=SZ_LINES[who.id],c=W[cat]?cat:"cap",n=Math.floor(Math.random()*W[c].length),text=W[c][n];
+  // poprzednie nagranie trwa – nie urywaj go: zwykła kwestia przepada (mina reaguje), a mat czeka, aż komentator skończy
+  if(szVoiceBusy()){if(cat==="mateW"||cat==="mateL"){clearTimeout(SZ_WAITT);SZ_WAITT=setTimeout(()=>szSay(cat,who,box),Math.max(150,szVoiceLeft()+150));return;}if(!box) szFace(SZ_MOOD[c]||"idle",c,who.id);return;}
   const t=box||$("szg-talk");t.innerHTML=`<img src="chess/avatars/${who.id}.svg" alt=""><div><b>${who.name}</b><span>${text}</span></div>`;
   if(PREFS.szTalk){t.hidden=false;t.style.animation="none";void t.offsetWidth;t.style.animation="";clearTimeout(SZ_TL);SZ_TL=setTimeout(()=>{t.hidden=true;},2600);}szClip(szVoice(who.id,`${c}-${n}`));if(!box){szFace(SZ_MOOD[c]||"idle",c,who.id);const bu=$("szg-bust"),on=!bu.hidden;t.classList.toggle("bz-say",on);t.style.top=on?bu.offsetTop+14+"px":"";}}
 // mina u góry ekranu: dziecko zbija = płacz, komputer zbija albo wygrywa = radość, szach od dziecka = przerażenie, promocja = zachwyt
