@@ -7,6 +7,9 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
 - **Nowa sekcja / kafel = znaczek „nowe”:** dodaj `data-new="rrrr-mm-dd"` (dzień dodania) do kafla; `newBadges()` (z `showView`, także po rysowaniu
   kafli w JS) przez 7 dni dokleja ukośny pasek `.nowe` w prawym górnym rogu i oznacza kafel `.has-new`. Nowość w środku pokazuje się na każdym kaflu nadrzędnym aż do startu: `NEW_TREE` (id kafla → id kafli w środku), `newDate(id)` bierze najnowszą datę z włączonych (nieukrytych) kafli – przy nowej sekcji dopisz jej kafel do `NEW_TREE`. Znaki wodne `.wm` są zawsze w lewym górnym rogu (prawy róg jest na znaczek); ramka wyniku `.mt-last` stoi nad tytułem, nie w rogu.
 - **Każdy quiz ma swoją lekcję** w Angielski › Nauka (`LX`) – nowy quiz = nowa lekcja z zasadami, które sprawdza.
+- **Quiz dopiero po lekcji:** na końcu lekcji przycisk „✅ Przeczytałem, rozumiem” (`okEnd`, `[data-okk]`) zapisuje `PREFS.lxOk` (`en:<lekcja>`, `his:<opowiastka>`, `nat:<lekcja>`; synchronizuje się z kontem).
+  Do tego czasu kafle quizów mają kłódkę (`.lxl`, `LOCK_TXT`), a dotknięcie otwiera lekcję (`lxNeed`, `lxNeedAll` dla „Wszystko na raz”, Sprawdzian z historii po wszystkich opowiastkach).
+  Rodzic ma wszystko otwarte (`okHas`); cele od rodzica i „Dokończ” nie są blokowane. Przyroda: „rozumiem” przed „Następna lekcja” (pod przyszłe quizy).
 - **Bez builda i bez zależności.** Cała aplikacja to jeden plik `index.html` (HTML + CSS + JS inline).
 - **Interfejs po polsku**, młodzieżowy ton, duże przyciski pod telefon (głównie iPhone).
 - Tryb jasny/ciemny przez zmienne CSS na `:root`.

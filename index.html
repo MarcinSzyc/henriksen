@@ -529,7 +529,12 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 #enq-opts.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}#enq-opts.three button{min-height:84px;font-size:1.8rem}
 #subj button{font-size:.82rem;padding:0 2px}
 #en-types b{font-size:1.1rem;text-align:center}#en-types small{text-align:center}
-.lx-go{margin-bottom:12px}.lx-d{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:4px 10px}.lx-d summary{display:flex;justify-content:space-between;align-items:center;padding:10px 2px;cursor:pointer}.lx-d summary small{color:var(--muted)}.lx-d[open] summary{margin-bottom:6px}.lx-d .lx-t{margin-bottom:8px}.lx-d .lx-ex{margin-bottom:8px}
+.lx-go{margin-bottom:12px}.more.lx-go{background:linear-gradient(135deg,#1c7ed6,#7048e8);border:0;color:#fff;box-shadow:0 6px 18px rgba(28,126,214,.35)}.more.lx-go small{color:rgba(255,255,255,.85)}
+.tile.lxl{filter:saturate(.25) brightness(.85)}.tile.lxl small{font-weight:800}
+.ok-btn{background:linear-gradient(135deg,#2f9e44,#12b886);color:#fff;margin-top:6px;line-height:1.15;padding:10px 14px}.ok-btn small{display:block;font-family:var(--body);font-size:.85rem;font-weight:700;opacity:.9;margin-top:3px}
+.lx-end{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.ok-done{align-self:center;text-align:center;font-weight:800;color:#2f9e44;margin:8px 0 2px}
+.lx-d{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:4px 10px}.lx-d summary{display:flex;justify-content:space-between;align-items:center;padding:10px 2px;cursor:pointer}.lx-d summary small{color:var(--muted)}.lx-d[open] summary{margin-bottom:6px}.lx-d .lx-t{margin-bottom:8px}.lx-d .lx-ex{margin-bottom:8px}
 #mat-t-learn .wm,#en-t-learn .wm{font-size:3rem}
 #his-list .lbl,#nat-list .lbl{margin:18px 4px 8px}#his-list .lbl:first-child,#nat-list .lbl:first-child{margin-top:6px}.nat-soon{opacity:.45;cursor:default;background:linear-gradient(135deg,#868e96,#495057)!important}
 .his-hero{font-size:4.5rem;text-align:center;line-height:1;padding:18px 0;border-radius:22px;background:linear-gradient(135deg,var(--gc),rgba(0,0,0,.35))}
@@ -552,7 +557,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .lx-bad{display:flex;flex-direction:column;gap:2px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 12px}.lx-bad span:first-child{color:#e03131}.lx-bad span:last-child{color:#2b8a3e}
 .tile.en-t4{background:linear-gradient(135deg,#f76707,#9c36b5)}.tile.en-t6{background:linear-gradient(135deg,#1c7ed6,#c2255c)}
 .lx-clk{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}.lx-clk>div{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;font-size:.82rem}.lx-clk span{color:var(--muted);font-weight:700}
-#ena-mix .wm,#enh-mix .wm{font-size:2.9rem}
+#ena-mix .wm,#enh-mix .wm,#en-t-learn .wm{font-size:2.9rem}
 .en-clk{display:flex;justify-content:center;margin:2px 0 6px}.en-clk[hidden]{display:none}
 .tile.en-t2{background:linear-gradient(135deg,#15aabf,#0b5563)}.tile.en-t3{background:linear-gradient(135deg,#40c057,#2b6b2f)}
 #en .tile .wm{font-size:2.6rem;top:14px}
@@ -4399,15 +4404,16 @@ function a1Qs(id,n=12){const T=id==="mix"?A1_TOPICS:[A1_BY[id]],out=[],seen=new 
 const A1_NEW="2026-11-08";
 const a1Last=id=>doneStats(loadHist().filter(s=>s.subj==="en"&&s.status==="done"&&s.cfg&&s.cfg.mode==="a1"&&s.cfg.topic===id));
 function renderEnA1(){
-  const mx=a1Last("mix");$("ena-mix-s").textContent=mx?lastTxt(mx):`Wszystkie ${A1_TOPICS.length} tematów na raz`;
-  $("ena-topics").innerHTML=A1_TOPICS.map(t=>{const x=a1Last(t.id);
-    return `<button type="button" class="tile mt" data-t="${t.id}" data-new="${A1_NEW}" style="--gc:${t.tone}"><span class="wm" aria-hidden="true">${esc(t.ic)}</span>${statBox(x)}<span class="tt">${t.name}</span><small>12 zadań</small></button>`;}).join("");
+  const mx=a1Last("mix"),mok=A1_TOPICS.every(t=>lxQuizOk(t.id)),left=A1_TOPICS.filter(t=>!lxQuizOk(t.id)).length;
+  $("ena-mix-s").textContent=!mok?`🔒 Najpierw wszystkie lekcje (zostało ${left})`:mx?lastTxt(mx):`Wszystkie ${A1_TOPICS.length} tematów na raz`;$("ena-mix").classList.toggle("lxl",!mok);
+  $("ena-topics").innerHTML=A1_TOPICS.map(t=>{const x=a1Last(t.id),ok=lxQuizOk(t.id);
+    return `<button type="button" class="tile mt${ok?"":" lxl"}" data-t="${t.id}" data-new="${A1_NEW}" style="--gc:${t.tone}"><span class="wm" aria-hidden="true">${esc(t.ic)}</span>${statBox(x)}<span class="tt">${t.name}</span><small>${ok?"12 zadań":LOCK_TXT}</small></button>`;}).join("");
   newBadges();
 }
 const a1Start=id=>enStart(()=>a1Qs(id),{mode:"a1",topic:id,title:id==="mix"?"Podstawy A1":A1_BY[id].name,unit:"zadań"});
 $("en-t-a1").addEventListener("click",()=>go("ena"));
-$("ena-mix").addEventListener("click",()=>a1Start("mix"));
-$("ena-topics").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(b) a1Start(b.dataset.t);});
+$("ena-mix").addEventListener("click",()=>{if(!lxNeedAll(A1_TOPICS.map(t=>t.id))) a1Start("mix");});
+$("ena-topics").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(b&&!lxNeed(b.dataset.t)) a1Start(b.dataset.t);});
 
 /* --- Angielski: Godziny – What time is it? (o'clock, half past, past / to, „three fifteen”, a.m. / p.m., skróty, at / in) ---
    Tematy jak w Podstawach A1: generatory {lab,q,c,bad,why,clk?}, clk = [h,m] rysuje tarczę zegara (clkSvg) nad pytaniem.
@@ -4507,15 +4513,15 @@ function timeQs(id,n=12){const T=id==="mix"?TIME_TOPICS:[TIME_BY[id]],out=[],see
   return out;}
 const timeLast=id=>doneStats(loadHist().filter(s=>s.subj==="en"&&s.status==="done"&&s.cfg&&s.cfg.mode==="czas"&&s.cfg.topic===id));
 function renderEnH(){
-  const mx=timeLast("mix");$("enh-mix-s").textContent=mx?lastTxt(mx):`Wszystkie ${TIME_TOPICS.length} tematów na raz`;
+  const mx=timeLast("mix"),ok=lxQuizOk("czas");$("enh-mix-s").textContent=!ok?LOCK_TXT:mx?lastTxt(mx):`Wszystkie ${TIME_TOPICS.length} tematów na raz`;$("enh-mix").classList.toggle("lxl",!ok);
   $("enh-topics").innerHTML=TIME_TOPICS.map(t=>{const x=timeLast(t.id);
-    return `<button type="button" class="tile mt" data-t="${t.id}" data-new="${TIME_NEW}" style="--gc:${t.tone}"><span class="wm" aria-hidden="true">${esc(t.ic)}</span>${statBox(x)}<span class="tt">${esc(t.name)}</span><small>12 zadań</small></button>`;}).join("");
+    return `<button type="button" class="tile mt${ok?"":" lxl"}" data-t="${t.id}" data-new="${TIME_NEW}" style="--gc:${t.tone}"><span class="wm" aria-hidden="true">${esc(t.ic)}</span>${statBox(x)}<span class="tt">${esc(t.name)}</span><small>${ok?"12 zadań":LOCK_TXT}</small></button>`;}).join("");
   newBadges();
 }
 const timeStart=id=>enStart(()=>timeQs(id),{mode:"czas",topic:id,title:"Godziny",unit:"zadań"});
 $("en-t-time").addEventListener("click",()=>go("enh"));
-$("enh-mix").addEventListener("click",()=>timeStart("mix"));
-$("enh-topics").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(b) timeStart(b.dataset.t);});
+$("enh-mix").addEventListener("click",()=>{if(!lxNeed("czas")) timeStart("mix");});
+$("enh-topics").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(b&&!lxNeed("czas")) timeStart(b.dataset.t);});
 
 /* --- Angielski: Nauka – lekcje wyjaśniające zasady, które sprawdzają quizy (To be i tematy A1) ---
    Lekcja: {id,name,ic,tone,quiz:id tematu A1 albo "tobe",b:[bloki HTML]}; pomocnicze lxT (tabela), lxE (przykłady), lxTip, lxBad.
@@ -4638,18 +4644,32 @@ const LX=[
     lxE([["What time do you get up? – At seven o'clock.","O której wstajesz? – O siódmej."],["I play football in the afternoon.","Gram w piłkę po południu."]]),
     lxBad("What hour is it?","What time is it?")];}},
 ];
+// „Przeczytałem, rozumiem”: quiz otwiera się dopiero po potwierdzeniu lekcji na jej końcu. PREFS.lxOk = klucze en:<lekcja>, his:<opowiastka>, nat:<lekcja>
+// (w PREFS, więc idzie z synchronizacją konta). Rodzic ma wszystko otwarte. Cele od rodzica (exRun) i „Dokończ” nie są blokowane.
+const okMine=k=>(PREFS.lxOk||[]).includes(k),okHas=k=>!!(ME&&ME.role==="parent")||okMine(k);
+function okSet(k){if(!okMine(k)){PREFS.lxOk=[...(PREFS.lxOk||[]),k];savePrefs();}}
+const lxOfQuiz=q=>LX.find(l=>l.quiz===q),lxQuizOk=q=>{const l=lxOfQuiz(q);return !l||okHas("en:"+l.id);};
+const LOCK_TXT="🔒 Najpierw przeczytaj lekcję";
+function lxNeed(q){if(lxQuizOk(q)) return false;toast("🔒 Najpierw lekcja – na jej końcu odblokujesz quiz");lxOpen(lxOfQuiz(q).id);return true;}
+function lxNeedAll(qs){const q=qs.find(x=>!lxQuizOk(x));if(!q) return false;toast("🔒 Najpierw przeczytaj wszystkie lekcje z tych tematów");lxOpen(lxOfQuiz(q).id);return true;}
+const okEnd=(k,ok,quizBtn,what)=>ok?`<div class="ok-done">✓ Rozumiem – ${what} odblokowany</div>${quizBtn}`
+  :`<button type="button" class="go-btn ok-btn" data-okk="${k}">✅ Przeczytałem, rozumiem<small>odblokuj ${what}</small></button>`;
 const LXK="henriksen-lekcje";
 const lxRead=()=>{try{return JSON.parse(localStorage.getItem(LXK)||"[]");}catch(e){return [];}};
 function renderEnl(){const R=lxRead();
-  $("enl-list").innerHTML=LX.map(l=>`<button type="button" class="tile mt" data-lx="${l.id}"${l.id==="tobe"?"":` data-new="${l.nw||A1_NEW}"`} style="--gc:${l.tone}"><span class="wm" aria-hidden="true">${esc(l.ic)}</span>${R.includes(l.id)?'<span class="mt-last"><b>✓ Przeczytane</b></span>':""}<span class="tt">${l.name}</span><small>Lekcja + quiz</small></button>`).join("");
+  $("enl-list").innerHTML=LX.map(l=>`<button type="button" class="tile mt" data-lx="${l.id}"${l.id==="tobe"?"":` data-new="${l.nw||A1_NEW}"`} style="--gc:${l.tone}"><span class="wm" aria-hidden="true">${esc(l.ic)}</span>${okMine("en:"+l.id)?'<span class="mt-last"><b>✓ Rozumiem</b></span>':""}<span class="tt">${l.name}</span><small>${okMine("en:"+l.id)?"Lekcja + quiz":"Przeczytaj i odblokuj quiz"}</small></button>`).join("");
   newBadges();}
 let LXC=null;
+const lxEnd=l=>okEnd("en:"+l.id,okHas("en:"+l.id),`<button type="button" class="go-btn" id="lx-quiz">Sprawdź się – quiz ▶</button>`,"quiz");
 function lxOpen(id){const l=LX.find(x=>x.id===id);if(!l) return;LXC=l;
   $("enlv").querySelector("h1").textContent=l.name;
-  $("enlv-body").innerHTML=(typeof l.b==="function"?l.b():l.b).join("")+`<button type="button" class="go-btn" id="lx-quiz">Sprawdź się – quiz ▶</button>`;
+  $("enlv-body").innerHTML=(typeof l.b==="function"?l.b():l.b).join("")+`<div class="lx-end" id="lx-end">${lxEnd(l)}</div>`;
   const R=lxRead();if(!R.includes(id)){try{localStorage.setItem(LXK,JSON.stringify([...R,id]));}catch(e){}}
   go("enlv");}
 $("enl-list").addEventListener("click",e=>{const b=e.target.closest("[data-lx]");if(b) lxOpen(b.dataset.lx);});
+document.addEventListener("click",e=>{const b=e.target.closest("[data-okk]");if(!b) return;const k=b.dataset.okk,s=k.split(":")[0];okSet(k);sfx("cheer");
+  if(s==="en"&&LXC) $("lx-end").innerHTML=lxEnd(LXC);else if(s==="his"&&HISC) $("his-end").innerHTML=hisEnd(HISC);else if(s==="nat"&&NATC) $("nat-end").innerHTML=natEnd(NATC);
+  toast(s==="nat"?"Super, lekcja zaliczona ✓":"🔓 Quiz odblokowany!");});
 $("enlv-body").addEventListener("click",e=>{if(!e.target.closest("#lx-quiz")||!LXC) return;if(LXC.quiz==="tobe") go("ent"); else if(LXC.quiz==="slowka"||LXC.quiz==="zdania"){ENM=LXC.quiz;go("enset");} else if(LXC.quiz==="czas") go("enh"); else a1Start(LXC.quiz);});
 // na ekranie każdego quizu: przycisk do lekcji z tymi zasadami
 document.addEventListener("click",e=>{const b=e.target.closest("[data-lxgo]");if(!b) return;lxOpen(b.dataset.lxgo==="enset"?ENM:b.dataset.lxgo);});
@@ -4955,9 +4975,11 @@ const HISK="henriksen-historia-czytane";
 const hisRead=()=>{try{return JSON.parse(localStorage.getItem(HISK)||"[]");}catch(e){return [];}};
 function renderHis(){const R=hisRead(),N=HIS.reduce((a,t)=>a+t.qs.length,0),sp=hisLast("spr");
   $("his-list").innerHTML=HIS_CH.map(([ch,name])=>`<div class="lbl">${name}</div><div class="tiles2 mat-tiles">`+HIS.filter(t=>t.ch===ch).map(t=>{const x=hisLast(t.id);
-    return `<button type="button" class="tile mt" data-h="${t.id}" data-new="${HIS_NEW}" style="--gc:${t.tone}"><span class="wm his-ic" aria-hidden="true">${t.ic}</span>${x?statBox(x):R.includes(t.id)?'<span class="mt-last"><b>✓ Przeczytane</b></span>':""}<span class="tt">${t.name}</span><small>Opowiastka + ${t.qs.length} pytań</small></button>`;}).join("")+`</div>`).join("");
-  $("his-spr-s").textContent=sp?lastTxt(sp):`Wszystkie tematy · ${N} pytań`;newBadges();}
+    return `<button type="button" class="tile mt" data-h="${t.id}" data-new="${HIS_NEW}" style="--gc:${t.tone}"><span class="wm his-ic" aria-hidden="true">${t.ic}</span>${x?statBox(x):okMine("his:"+t.id)?'<span class="mt-last"><b>✓ Rozumiem</b></span>':""}<span class="tt">${t.name}</span><small>${okHas("his:"+t.id)?`Opowiastka + ${t.qs.length} pytań`:"Przeczytaj i odblokuj pytania"}</small></button>`;}).join("")+`</div>`).join("");
+  const left=HIS.filter(t=>!okHas("his:"+t.id)).length;$("his-spr").classList.toggle("lxl",left>0);
+  $("his-spr-s").textContent=left?`🔒 Najpierw wszystkie opowiastki (zostało ${left})`:sp?lastTxt(sp):`Wszystkie tematy · ${N} pytań`;newBadges();}
 let HISC=null;
+const hisEnd=t=>okEnd("his:"+t.id,okHas("his:"+t.id),`<button type="button" class="go-btn" id="his-quiz">Sprawdź się – ${t.qs.length} pytań ▶</button>`,"quiz");
 const hisAudio=id=>`history/audio/${id}.m4a`;
 function hisOpen(id){const t=HIS.find(x=>x.id===id);if(!t) return;HISC=t;hisStop();
   const R=hisRead();if(!R.includes(id)){try{localStorage.setItem(HISK,JSON.stringify([...R,id]));}catch(e){}}
@@ -4966,7 +4988,7 @@ function hisOpen(id){const t=HIS.find(x=>x.id===id);if(!t) return;HISC=t;hisStop
     `<button type="button" class="again his-play" id="his-play">🎧 Posłuchaj opowiastki</button>`+
     t.story.map(p=>`<p class="his-p">${p}</p>`).join("")+
     `<div class="lx-tip"><b>📌 Zapamiętaj</b><ul>${t.keep.map(k=>`<li>${k}</li>`).join("")}</ul></div>`+
-    `<button type="button" class="go-btn" id="his-quiz">Sprawdź się – ${t.qs.length} pytań ▶</button>`;
+    `<div class="lx-end" id="his-end">${hisEnd(t)}</div>`;
   go("hisv");}
 // czytanie: najpierw nagranie z ElevenLabs (jeśli jest), inaczej lektor telefonu po polsku
 const HIS_AUD=new Audio();HIS_AUD.preload="none";let HIS_TTS=false;
@@ -4980,7 +5002,7 @@ async function hisPlay(){const t=HISC,b=$("his-play");if(!t) return;
   catch(e){hisStop();toast("Ten telefon nie umie czytać na głos.");}}
 $("hisv-body").addEventListener("click",e=>{if(e.target.closest("#his-play")) return hisPlay();if(e.target.closest("#his-quiz")&&HISC){hisStop();const t=HISC;enStart(()=>hisQs(t.id),{subj:"his",mode:t.id,title:t.name,unit:"pytań"});}});
 $("his-list").addEventListener("click",e=>{const b=e.target.closest("[data-h]");if(b) hisOpen(b.dataset.h);});
-$("his-spr").addEventListener("click",()=>enStart(()=>hisQs("spr"),{subj:"his",mode:"spr",title:"Sprawdzian z historii",unit:"pytań"}));
+$("his-spr").addEventListener("click",()=>{const t=HIS.find(x=>!okHas("his:"+x.id));if(t){toast("🔒 Najpierw przeczytaj wszystkie opowiastki");hisOpen(t.id);return;}enStart(()=>hisQs("spr"),{subj:"his",mode:"spr",title:"Sprawdzian z historii",unit:"pytań"});});
 $("t-his").addEventListener("click",()=>go("his"));
 
 /* --- Przyroda: Nauka według podręcznika „Odkrywam przyrodę 4” (Nowa Era, nowa podstawa) ---
@@ -5254,10 +5276,13 @@ const NATK="henriksen-przyroda-czytane";
 const natRead=()=>{try{return JSON.parse(localStorage.getItem(NATK)||"[]");}catch(e){return [];}};
 function renderNat(){const R=natRead();
   $("nat-list").innerHTML=NAT_CH.map(([ch,name,soon])=>{const L=NAT.filter(t=>t.ch===ch);
-    return `<div class="lbl">${ch}. ${name}</div><div class="tiles2 mat-tiles">`+(L.length?L.map((t,k)=>`<button type="button" class="tile mt" data-n="${t.id}" data-new="${NAT_NEW}" style="--gc:${t.tone}"><span class="wm his-ic" aria-hidden="true">${t.ic}</span>${R.includes(t.id)?'<span class="mt-last"><b>✓ Przeczytane</b></span>':""}<span class="tt">${t.name}</span><small>Lekcja ${k+1}</small></button>`).join("")
+    return `<div class="lbl">${ch}. ${name}</div><div class="tiles2 mat-tiles">`+(L.length?L.map((t,k)=>`<button type="button" class="tile mt" data-n="${t.id}" data-new="${NAT_NEW}" style="--gc:${t.tone}"><span class="wm his-ic" aria-hidden="true">${t.ic}</span>${okMine("nat:"+t.id)?'<span class="mt-last"><b>✓ Rozumiem</b></span>':R.includes(t.id)?'<span class="mt-last">Przeczytane</span>':""}<span class="tt">${t.name}</span><small>Lekcja ${k+1}</small></button>`).join("")
       :soon.map((n,k)=>`<div class="tile mt nat-soon" aria-disabled="true"><span class="tt">${n}</span><small>Lekcja ${k+1} · wkrótce</small></div>`).join(""))+`</div>`;}).join("");
   newBadges();}
 let NATC=null;
+function natEnd(t){const L=NAT.filter(x=>x.ch===t.ch),nx=L[L.indexOf(t)+1];
+  const nb=nx?`<button type="button" class="go-btn" data-nnext="${nx.id}">Następna lekcja: ${nx.name} ▶</button>`:`<button type="button" class="go-btn" data-nnext="">Wróć do spisu lekcji</button>`;
+  return okHas("nat:"+t.id)?`<div class="ok-done">✓ Rozumiem</div>${nb}`:`<button type="button" class="go-btn ok-btn" data-okk="nat:${t.id}">✅ Przeczytałem, rozumiem<small>zaliczam lekcję</small></button>`;}
 function natOpen(id){const t=NAT.find(x=>x.id===id);if(!t) return;NATC=t;hisStop();
   const R=natRead();if(!R.includes(id)){try{localStorage.setItem(NATK,JSON.stringify([...R,id]));}catch(e){}}
   const ch=NAT_CH.find(c=>c[0]===t.ch),L=NAT.filter(x=>x.ch===t.ch),k=L.indexOf(t),nx=L[k+1];
@@ -5265,7 +5290,7 @@ function natOpen(id){const t=NAT.find(x=>x.id===id);if(!t) return;NATC=t;hisStop
   $("natv-body").innerHTML=`<div class="mx-from">Rozdział ${ch[0]}. ${ch[1]} · lekcja ${k+1}</div><div class="his-hero" style="--gc:${t.tone}" aria-hidden="true">${t.ic}</div>`+
     `<button type="button" class="again his-play" id="nat-play">🎧 Posłuchaj lekcji</button>`+t.story.map(p=>`<p class="his-p">${p}</p>`).join("")+
     `<div class="lx-tip"><b>📌 Zapamiętaj</b><ul>${t.keep.map(x=>`<li>${x}</li>`).join("")}</ul></div>`+(t.fun?`<div class="lx-ex"><div><b>🤩 Ciekawostka</b><span>${t.fun}</span></div></div>`:"")+
-    (nx?`<button type="button" class="go-btn" data-nnext="${nx.id}">Następna lekcja: ${nx.name} ▶</button>`:`<button type="button" class="go-btn" data-nnext="">Wróć do spisu lekcji</button>`);
+    `<div class="lx-end" id="nat-end">${natEnd(t)}</div>`;
   go("natv");scrollTo(0,0);}
 const natAudio=id=>`nature/audio/${id}.m4a`;
 async function natPlay(){const t=NATC,b=$("nat-play");if(!t) return;
@@ -5394,11 +5419,11 @@ let ENM=null;
 const enLast=mode=>{const h=loadHist().filter(s=>s.subj==="en"&&s.status==="done"&&(s.cfg.mode||"tobe")===mode);return h.length?h[h.length-1]:null;};
 function renderEnHub(){
   [["tobe","en-t-tobe-s","Ja jestem, on jest, oni są – i pytania"],["slowka","en-t-v-s",`${ENW.length} słów A1 i A2 w ${EN_TOPICS.length} tematach, też piłka nożna`],["zdania","en-t-z-s",`${ENS.length} zdań do przetłumaczenia`]]
-    .forEach(([m,id,def])=>{const l=enLast(m);$(id).textContent=l?`Ostatnio: ${l.pct}% · ocena ${l.grade}`:def;});
+    .forEach(([m,id,def])=>{const l=enLast(m),ok=lxQuizOk(m);$(id).textContent=!ok?LOCK_TXT:l?`Ostatnio: ${l.pct}% · ocena ${l.grade}`:def;$(id.slice(0,-2)).classList.toggle("lxl",!ok);});
 }
-$("en-t-tobe").addEventListener("click",()=>go("ent"));
-$("en-t-v").addEventListener("click",()=>{ENM="slowka";go("enset");});
-$("en-t-z").addEventListener("click",()=>{ENM="zdania";go("enset");});
+$("en-t-tobe").addEventListener("click",()=>{if(!lxNeed("tobe")) go("ent");});
+$("en-t-v").addEventListener("click",()=>{if(!lxNeed("slowka")){ENM="slowka";go("enset");}});
+$("en-t-z").addEventListener("click",()=>{if(!lxNeed("zdania")){ENM="zdania";go("enset");}});
 function renderEnSet(){
   const o=PLP[ENM==="slowka"?"ev":"ez"];
   $("enset-t").textContent=EN_MODES[ENM].title;
