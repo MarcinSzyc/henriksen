@@ -552,6 +552,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .lx-bad{display:flex;flex-direction:column;gap:2px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 12px}.lx-bad span:first-child{color:#e03131}.lx-bad span:last-child{color:#2b8a3e}
 .tile.en-t4{background:linear-gradient(135deg,#f76707,#9c36b5)}.tile.en-t6{background:linear-gradient(135deg,#1c7ed6,#c2255c)}
 .lx-clk{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}.lx-clk>div{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;font-size:.82rem}.lx-clk span{color:var(--muted);font-weight:700}
+#ena-mix .wm,#enh-mix .wm{font-size:2.9rem}
 .en-clk{display:flex;justify-content:center;margin:2px 0 6px}.en-clk[hidden]{display:none}
 .tile.en-t2{background:linear-gradient(135deg,#15aabf,#0b5563)}.tile.en-t3{background:linear-gradient(135deg,#40c057,#2b6b2f)}
 #en .tile .wm{font-size:2.6rem;top:14px}
@@ -1519,7 +1520,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 <div class="wrap" id="enh" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Godziny</h1></header>
   <button type="button" class="more pmore lx-go" data-lxgo="czas"><span><b>📘 Lekcja: jak mówić, która godzina</b><small>o'clock, past i to, a.m. i p.m., skróty – z zegarami</small></span></button>
-  <button type="button" class="tile en pl-t en-t6" id="enh-mix"><span class="wm" aria-hidden="true">🕒</span><span class="tt">Wszystko na raz</span><small id="enh-mix-s"></small></button>
+  <button type="button" class="tile en pl-t en-t6" id="enh-mix"><span class="wm" aria-hidden="true">12:00</span><span class="tt">Wszystko na raz</span><small id="enh-mix-s"></small></button>
   <div class="lbl" style="margin-top:12px">Tematy</div>
   <div class="tiles2 mat-tiles" id="enh-topics"></div>
 </div>
