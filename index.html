@@ -550,7 +550,9 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .lx-ex b{font-size:1.05rem}.lx-ex span{color:var(--muted);font-size:.9rem}
 .lx-tip{background:rgba(252,196,25,.15);border:2px solid #fcc419;border-radius:14px;padding:10px 12px}
 .lx-bad{display:flex;flex-direction:column;gap:2px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 12px}.lx-bad span:first-child{color:#e03131}.lx-bad span:last-child{color:#2b8a3e}
-.tile.en-t4{background:linear-gradient(135deg,#f76707,#9c36b5)}
+.tile.en-t4{background:linear-gradient(135deg,#f76707,#9c36b5)}.tile.en-t6{background:linear-gradient(135deg,#1c7ed6,#c2255c)}
+.lx-clk{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}.lx-clk>div{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;font-size:.82rem}.lx-clk span{color:var(--muted);font-weight:700}
+.en-clk{display:flex;justify-content:center;margin:2px 0 6px}.en-clk[hidden]{display:none}
 .tile.en-t2{background:linear-gradient(135deg,#15aabf,#0b5563)}.tile.en-t3{background:linear-gradient(135deg,#40c057,#2b6b2f)}
 #en .tile .wm{font-size:2.6rem;top:14px}
 .en-dir{display:flex;flex-direction:column;gap:8px}
@@ -1459,12 +1461,13 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć do startu"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Angielski</h1><div class="right">
     <button type="button" class="menu-btn" data-menu aria-label="Ustawienia" aria-haspopup="dialog"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></button></div></header>
   <div class="lbl en-sec">📘 Nauka</div>
-  <button type="button" class="tile en pl-t en-t5" id="en-t-learn" data-new="2026-11-08"><span class="wm" aria-hidden="true">ABC</span><span class="tt">Jak to działa?</span><small>Lekcje: to be, skróty isn't, have, can, do / does, a / an i inne – z przykładami</small></button>
+  <button type="button" class="tile en pl-t en-t5" id="en-t-learn" data-new="2026-11-08"><span class="wm" aria-hidden="true">ABC</span><span class="tt">Jak to działa?</span><small>Lekcje: to be, skróty isn't, have, can, do / does, a / an, godziny i inne – z przykładami</small></button>
   <div class="lbl en-sec">🎯 Quizy</div>
   <button type="button" class="tile en pl-t" id="en-t-tobe"><span class="wm" aria-hidden="true">am · is · are</span><span class="tt">To be</span><small id="en-t-tobe-s">Ja jestem, on jest, oni są – i pytania</small></button>
   <button type="button" class="tile en pl-t en-t2" id="en-t-v"><span class="wm" aria-hidden="true">A1 · A2</span><span class="tt">Słówka</span><small id="en-t-v-s">Słowa A1 i A2, po polsku i po angielsku</small></button>
   <button type="button" class="tile en pl-t en-t3" id="en-t-z"><span class="wm" aria-hidden="true">„…”</span><span class="tt">Zdania</span><small id="en-t-z-s">Całe zdania do przetłumaczenia</small></button>
   <button type="button" class="tile en pl-t en-t4" id="en-t-a1" data-new="2026-11-08"><span class="wm" aria-hidden="true">isn't · can't</span><span class="tt">Podstawy A1</span><small>Skróty isn't, haven't, can't, do / does, a / an i więcej</small></button>
+  <button type="button" class="tile en pl-t en-t6" id="en-t-time" data-new="2026-11-10"><span class="wm" aria-hidden="true">3:15</span><span class="tt">Godziny</span><small>What time is it? o'clock, half past, a.m. i p.m.</small></button>
 </div>
 
 <div class="wrap" id="matl" hidden>
@@ -1513,6 +1516,14 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <div class="tiles2 mat-tiles" id="ena-topics"></div>
 </div>
 
+<div class="wrap" id="enh" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Godziny</h1></header>
+  <button type="button" class="more pmore lx-go" data-lxgo="czas"><span><b>📘 Lekcja: jak mówić, która godzina</b><small>o'clock, past i to, a.m. i p.m., skróty – z zegarami</small></span></button>
+  <button type="button" class="tile en pl-t en-t6" id="enh-mix"><span class="wm" aria-hidden="true">🕒</span><span class="tt">Wszystko na raz</span><small id="enh-mix-s"></small></button>
+  <div class="lbl" style="margin-top:12px">Tematy</div>
+  <div class="tiles2 mat-tiles" id="enh-topics"></div>
+</div>
+
 <div class="wrap" id="ent" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">To be</h1></header>
   <button type="button" class="more pmore lx-go" data-lxgo="tobe"><span><b>📘 Lekcja: to be – jak to działa?</b><small>Wyjaśnienie zasad, przykłady i typowe błędy</small></span></button>
@@ -1553,6 +1564,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
     <div class="card pl-card" id="enq-card">
       <span class="tpts" id="enq-tpts" aria-label="Punkty za to zadanie"></span>
       <div class="pl-tags"><span class="pl-tag" id="enq-type">Jak to powiesz po angielsku?</span></div>
+      <div class="en-clk" id="enq-clk" hidden></div>
       <div class="eq pz-q en-q" id="enq-q" aria-live="polite"><span id="enq-qt"></span></div>
       <div class="msg" id="enq-msg"></div>
     </div>
@@ -2885,12 +2897,12 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",nat:"#przyroda",natv:"#przyroda-lekcja",his:"#historia",hisv:"#historia-opowiastka",matl:"#matematyka-nauka",matlv:"#matematyka-lekcja",enl:"#angielski-nauka",enlv:"#angielski-lekcja",ena:"#angielski-a1",lgf:"#flow",lgfg:"#flow-gra",lgt:"#trojki",lgm:"#mosty",lgs:"#mosty-gra",lg:"#lamiglowki",lgb:"#block-out",lgg:"#block-out-gra",szw:"#szachy-wyglad",szrules:"#szachy-zasady",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szop:"#szachy-otwarcia",szcf:"#szachy-ciekawostki",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",nat:"nat",natv:"natv",his:"his",hisv:"hisv",matl:"matl",matlv:"matlv",enl:"enl",enlv:"enlv",ena:"ena",lgf:"lgf",lgfg:"lgfg",lgt:"lgt",lgm:"lgm",lgs:"lgs",lg:"lg",lgb:"lgb",lgg:"lgg",szw:"szw",szrules:"szrules",sz:"sz",sz3:"sz3",szl:"szl",szop:"szop",szcf:"szcf",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",nat:"#przyroda",natv:"#przyroda-lekcja",his:"#historia",hisv:"#historia-opowiastka",matl:"#matematyka-nauka",matlv:"#matematyka-lekcja",enl:"#angielski-nauka",enlv:"#angielski-lekcja",ena:"#angielski-a1",enh:"#angielski-godziny",lgf:"#flow",lgfg:"#flow-gra",lgt:"#trojki",lgm:"#mosty",lgs:"#mosty-gra",lg:"#lamiglowki",lgb:"#block-out",lgg:"#block-out-gra",szw:"#szachy-wyglad",szrules:"#szachy-zasady",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szop:"#szachy-otwarcia",szcf:"#szachy-ciekawostki",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",nat:"nat",natv:"natv",his:"his",hisv:"hisv",matl:"matl",matlv:"matlv",enl:"enl",enlv:"enlv",ena:"ena",enh:"enh",lgf:"lgf",lgfg:"lgfg",lgt:"lgt",lgm:"lgm",lgs:"lgs",lg:"lg",lgb:"lgb",lgg:"lgg",szw:"szw",szrules:"szrules",sz:"sz",sz3:"sz3",szl:"szl",szop:"szop",szcf:"szcf",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 // znaczek „nowe” po skosie w rogu kafla: przez 7 dni od data-new="rrrr-mm-dd" (dodawaj przy każdej nowej sekcji)
 // kafel nadrzędny dziedziczy najnowszą datę z kafli w środku (aż do ekranu startowego); ukryte (wyłączone przez rodzica) się nie liczą
-const NEW_TREE={"t-math":["mat-t-learn"],"t-en":["en-t-learn","en-t-a1"],"t-lg":["lg-t-bo","lg-t-br","lg-t-th","lg-t-fl"],"t-sz":["sz-t-open","sz-t-facts"]};
+const NEW_TREE={"t-math":["mat-t-learn"],"t-en":["en-t-learn","en-t-a1","en-t-time"],"t-lg":["lg-t-bo","lg-t-br","lg-t-th","lg-t-fl"],"t-sz":["sz-t-open","sz-t-facts"]};
 function newDate(id){const el=$(id);if(!el||el.hidden) return "";const own=el.dataset.own??(el.dataset.own=el.dataset.new||"");
   return [own,...(NEW_TREE[id]||[]).map(newDate)].reduce((a,b)=>b>a?b:a,"");}
 function newBadges(){const now=Date.now();Object.keys(NEW_TREE).forEach(id=>{const el=$(id);if(!el) return;const d=newDate(id);if(d) el.dataset.new=d; else delete el.dataset.new;
@@ -3275,7 +3287,7 @@ function plLiveNow(){
 }
 function plShow(v){
   if(v==="pl") renderPl();
-  if(v==="szw") renderSzw();if(v==="szrules"){SZR={kid:SZR.kid,prefs:null,sec:SZR.sec};renderSzRules();}document.querySelectorAll("[data-lgr]").forEach(b=>{b.hidden=!(ME&&ME.role==="parent");});if(v==="ena") renderEnA1();if(v==="enl") renderEnl();if(v==="matl") renderMatl();if(v==="his") renderHis();if(v==="nat") renderNat();if(v!=="hisv"&&v!=="natv"){try{hisStop();}catch(e){}}if(v==="lg") renderLg();if(v==="lgb") renderLgb();if(v==="lgm") renderLgm();if(v==="lgf") renderLgf();try{if(v!=="lgs"&&BR&&BR.S) brStop();}catch(e){} /* zawsze świeże cele i ustawienia dziecka (np. po dodaniu celu) */if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();if(v==="szop") renderSzop();if(v==="szcf") renderSzcf();
+  if(v==="szw") renderSzw();if(v==="szrules"){SZR={kid:SZR.kid,prefs:null,sec:SZR.sec};renderSzRules();}document.querySelectorAll("[data-lgr]").forEach(b=>{b.hidden=!(ME&&ME.role==="parent");});if(v==="ena") renderEnA1();if(v==="enh") renderEnH();if(v==="enl") renderEnl();if(v==="matl") renderMatl();if(v==="his") renderHis();if(v==="nat") renderNat();if(v!=="hisv"&&v!=="natv"){try{hisStop();}catch(e){}}if(v==="lg") renderLg();if(v==="lgb") renderLgb();if(v==="lgm") renderLgm();if(v==="lgf") renderLgf();try{if(v!=="lgs"&&BR&&BR.S) brStop();}catch(e){} /* zawsze świeże cele i ustawienia dziecka (np. po dodaniu celu) */if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();if(v==="szop") renderSzop();if(v==="szcf") renderSzcf();
   if(window.S3&&v!=="szg") S3.pause();if(v==="szz") renderSzz();if(v==="szo") renderSzo();
   if(v==="plws") renderPws();
   if(v==="pld") renderPd();
@@ -4229,7 +4241,7 @@ function enShow(){
   FXC={card:$("enq-card"),eq:$("enq-q"),box:$("enq-qt")};
   $("enq-card").classList.remove("ok","bad");P.t0=Date.now();
   $("enq-count").textContent=`${P.i+1} / ${n}`;
-  $("enq-type").textContent=q.lab;$("enq-qt").textContent=q.q;$("enq-msg").textContent="";$("enq-q").classList.toggle("long",!!q.long);
+  $("enq-type").textContent=q.lab;$("enq-qt").textContent=q.q;$("enq-clk").hidden=!q.clk;$("enq-clk").innerHTML=q.clk?clkSvg(q.clk[0],q.clk[1]):"";$("enq-msg").textContent="";$("enq-q").classList.toggle("long",!!q.long);
   $("enq-why").hidden=true;$("enq-next").hidden=true;$("enq-opts").hidden=false;
   $("enq-opts").classList.toggle("three",!!q.three);
   $("enq-opts").replaceChildren(...q.opts.map(o=>{const b=document.createElement("button");b.type="button";b.textContent=o;b.dataset.o=o;if(!q.long) b.className="w";return b;}));
@@ -4282,7 +4294,7 @@ $("enq-end").addEventListener("click",e=>{const b=e.target.closest("[data-a]");i
    Każdy temat ma generatory zadań: zwracają {lab,q,c,bad,why}; a1Q tasuje odpowiedzi. Quiz to ten sam enStart co To be,
    sesja cfg:{mode:"a1",topic:id}. Punkty: wybór formy 1, całe zdanie 2 (ptsW). */
 const a1R=a=>a[Math.floor(Math.random()*a.length)];
-const a1Q=x=>{const opts=shuffle([x.c,...[...new Set(x.bad)].filter(b=>b!==x.c).slice(0,3)]);return {lab:x.lab,q:x.q,c:x.c,opts,why:x.why,long:x.c.length>14||opts.some(o=>o.length>14)};};
+const a1Q=x=>{const opts=shuffle([x.c,...[...new Set(x.bad)].filter(b=>b!==x.c).slice(0,3)]);return {lab:x.lab,q:x.q,c:x.c,opts,why:x.why,...(x.clk?{clk:x.clk}:{}),long:x.c.length>14||opts.some(o=>o.length>14)};};
 const A1_BE=[["I","am","I'm","I'm not","Ja"],["You","are","You're","aren't","Ty"],["He","is","He's","isn't","On"],["She","is","She's","isn't","Ona"],
   ["It","is","It's","isn't","To"],["We","are","We're","aren't","My"],["They","are","They're","aren't","Oni"]];
 const A1_ADJ=["happy","tired","hungry","at home","at school","in the park","late","ten years old","cold","in the garden"];
@@ -4396,6 +4408,114 @@ $("en-t-a1").addEventListener("click",()=>go("ena"));
 $("ena-mix").addEventListener("click",()=>a1Start("mix"));
 $("ena-topics").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(b) a1Start(b.dataset.t);});
 
+/* --- Angielski: Godziny – What time is it? (o'clock, half past, past / to, „three fifteen”, a.m. / p.m., skróty, at / in) ---
+   Tematy jak w Podstawach A1: generatory {lab,q,c,bad,why,clk?}, clk = [h,m] rysuje tarczę zegara (clkSvg) nad pytaniem.
+   Sesja cfg:{mode:"czas",topic:id}, punkty jak w A1 (całe zdanie 2, krótka forma 1). Lekcja LX "czas". */
+const TW=["twelve","one","two","three","four","five","six","seven","eight","nine","ten","eleven","twelve"];
+const TMW={5:"five",10:"ten",15:"quarter",20:"twenty",25:"twenty-five",30:"half"};
+const TPN=["dwunasta","pierwsza","druga","trzecia","czwarta","piąta","szósta","siódma","ósma","dziewiąta","dziesiąta","jedenasta","dwunasta"];
+const TPG=["dwunastej","pierwszej","drugiej","trzeciej","czwartej","piątej","szóstej","siódmej","ósmej","dziewiątej","dziesiątej","jedenastej","dwunastej"];
+const TPM={5:"pięć",10:"dziesięć",15:"kwadrans",20:"dwadzieścia",25:"dwadzieścia pięć"};
+const tNx=h=>h%12+1,tPad=m=>String(m).padStart(2,"0");
+const tNum=n=>n<13?TW[n]:n<20?["thirteen","fourteen","fifteen","sixteen","seventeen","eighteen","nineteen"][n-13]:["twenty","thirty","forty","fifty"][Math.floor(n/10)-2]+(n%10?"-"+TW[n%10]:"");
+const tEn=(h,m)=>m===0?`${TW[h]} o'clock`:m<=30?`${TMW[m]} past ${TW[h]}`:`${TMW[60-m]} to ${TW[tNx(h)]}`;
+const tDig=(h,m)=>m===0?`${TW[h]} o'clock`:m<10?`${TW[h]} oh ${TW[m]}`:m===10?`${TW[h]} ten`:m===11?`${TW[h]} eleven`:m===12?`${TW[h]} twelve`:`${TW[h]} ${tNum(m)}`;
+const tPl=(h,m)=>m===0?TPN[h]:m===30?`wpół do ${TPG[tNx(h)]}`:m<30?`${TPM[m]} po ${TPG[h]}`:`za ${TPM[60-m]} ${TPN[tNx(h)]}`;
+const tH=()=>1+Math.floor(Math.random()*12),tM5=()=>5*Math.floor(Math.random()*12);
+// tarcza zegara: wskazówka godzinowa przesuwa się z minutami
+function clkSvg(h,m,s=128){const R=50,hand=(a,l,w,c)=>{const r=(a-90)*Math.PI/180;return `<line x1="60" y1="60" x2="${(60+l*Math.cos(r)).toFixed(1)}" y2="${(60+l*Math.sin(r)).toFixed(1)}" stroke="${c}" stroke-width="${w}" stroke-linecap="round"/>`;};
+  let t="";for(let k=0;k<60;k++){const r=(k*6-90)*Math.PI/180,big=k%5===0,a=big?42:45;t+=`<line x1="${(60+a*Math.cos(r)).toFixed(1)}" y1="${(60+a*Math.sin(r)).toFixed(1)}" x2="${(60+47*Math.cos(r)).toFixed(1)}" y2="${(60+47*Math.sin(r)).toFixed(1)}" stroke="#495057" stroke-width="${big?2.4:1}"/>`;}
+  for(let n=1;n<=12;n++){const r=(n*30-90)*Math.PI/180;t+=`<text x="${(60+34*Math.cos(r)).toFixed(1)}" y="${(60+34*Math.sin(r)+4).toFixed(1)}" text-anchor="middle" font-size="11" font-weight="800" fill="#212529">${n}</text>`;}
+  return `<svg width="${s}" height="${s}" viewBox="0 0 120 120" role="img" aria-label="Zegar: ${h}:${tPad(m)}"><circle cx="60" cy="60" r="${R+4}" fill="#fff" stroke="#3b5bdb" stroke-width="5"/>${t}`+
+    hand((h%12+m/60)*30,22,6,"#212529")+hand(m*6,36,3.5,"#e03131")+`<circle cx="60" cy="60" r="3.5" fill="#e03131"/></svg>`;}
+const T_ABBR=[["o'clock","of the clock – pełna godzina"],["a.m.","przed południem (ante meridiem)"],["p.m.","po południu (post meridiem)"],["min","minute – minuta"],["mins","minutes – minuty"],
+  ["h / hr","hour – godzina"],["hrs","hours – godziny"],["sec / s","second – sekunda"],["What's the time?","What is the time?"],["It's","It is"]];
+const TIME_TOPICS=[
+  {id:"full",name:"Pełne godziny – o'clock",ic:"3:00",tone:"#1c7ed6",gen:[
+    ()=>{const h=tH(),o=tNx(h+5);return {lab:"Która godzina?",q:"What time is it?",clk:[h,0],c:`It's ${TW[h]} o'clock.`,bad:[`It's ${TW[h]} hours.`,`It's ${TW[h]} clock.`,`It's ${TW[o]} o'clock.`,`It's o'clock ${TW[h]}.`],
+      why:`Pełna godzina = liczba + o'clock (skrót od „of the clock”). Nie mówimy „hours”. Krótka wskazówka pokazuje ${h}.`};},
+    ()=>{const h=tH();return {lab:"Przetłumacz",q:`Jest ${TPN[h]}.`,c:`It's ${TW[h]} o'clock.`,bad:[`It's ${TW[h]} hours.`,`It's the ${TW[h]}.`,`Is ${TW[h]} o'clock.`,`It's ${TW[tNx(h)]} o'clock.`],
+      why:`Jest ${TPN[h]} = It's ${TW[h]} o'clock. It's = It is.`};},
+    ()=>{const h=tH();return {lab:"Jak w zegarku?",q:`${TW[h]} o'clock = ?`,clk:null,c:`${h}:00`,bad:[`${tNx(h)}:00`,`${h}:30`,`12:${tPad(h*5%60)}`,`${h}:12`],why:`${TW[h]} o'clock = ${h}:00.`};}]},
+  {id:"half",name:"half past, quarter past, quarter to",ic:"½",tone:"#7048e8",gen:[
+    ()=>{const h=tH(),m=[15,30,45][Math.floor(Math.random()*3)],n=TW[tNx(h)],H=TW[h];
+      const bad=m===30?[`half past ${n}`,`half to ${n}`,`quarter past ${H}`]:m===15?[`quarter to ${H}`,`quarter past ${n}`,`half past ${H}`]:[`quarter past ${n}`,`quarter to ${H}`,`half to ${n}`];
+      return {lab:"Która godzina?",q:"What time is it?",clk:[h,m],c:`It's ${tEn(h,m)}.`,bad:bad.map(b=>`It's ${b}.`),
+        why:m===30?`Wpół do ${TPG[tNx(h)]} = half past ${H} – połowa PO ${TPG[h]}.`:m===15?`Kwadrans po ${TPG[h]} = quarter past ${H}.`:`Za kwadrans ${TPN[tNx(h)]} = quarter to ${n}.`};},
+    ()=>{const h=tH(),m=[15,30,45][Math.floor(Math.random()*3)],n=TW[tNx(h)],H=TW[h];
+      return {lab:"Przetłumacz",q:`Jest ${tPl(h,m)}.`,c:`It's ${tEn(h,m)}.`,bad:(m===30?[`half past ${n}`,`half to ${n}`,`half ${n}`]:m===15?[`quarter to ${H}`,`quarter past ${n}`,`quarter ${H}`]:[`quarter past ${n}`,`quarter to ${H}`,`quarter to ${TW[tNx(tNx(h))]}`]).map(b=>`It's ${b}.`),
+        why:m===30?`Uwaga, pułapka! Wpół do ${TPG[tNx(h)]} to ${h}:30, a po angielsku mówimy, PO której godzinie jesteśmy: half past ${H}.`:m===15?`kwadrans po = quarter past.`:`za kwadrans = quarter to (do następnej godziny).`};},
+    ()=>{const h=tH(),m=[15,30,45][Math.floor(Math.random()*3)];return {lab:"Jak w zegarku?",q:`${tEn(h,m)} = ?`,c:`${h}:${tPad(m)}`,
+      bad:[`${tNx(h)}:${tPad(m)}`,`${h}:${tPad(60-m===m?45:60-m)}`,`${tNx(h)}:${tPad(60-m===m?15:60-m)}`,`${h===1?12:h-1}:${tPad(m)}`],why:`${tEn(h,m)} = ${h}:${tPad(m)}.${m===45?` „to” = do następnej godziny: za 15 minut ${tNx(h)}:00.`:""}`};}]},
+  {id:"pastto",name:"Minuty: past i to",ic:"10 to",tone:"#e8590c",gen:[
+    ()=>{let m;do m=tM5();while(m===0||m===30);const h=tH(),n=TW[tNx(h)],H=TW[h],mw=TMW[m<=30?m:60-m];
+      return {lab:"Która godzina?",q:"What time is it?",clk:[h,m],c:`It's ${tEn(h,m)}.`,bad:(m<30?[`${mw} to ${H}`,`${mw} past ${n}`,`${mw} to ${n}`]:[`${mw} past ${H}`,`${mw} to ${H}`,`${mw} past ${n}`]).map(b=>`It's ${b}.`),
+        why:m<30?`Długa wskazówka po prawej stronie (minuty 1–30) → past: ${m} minut po ${TPG[h]}.`:`Długa wskazówka po lewej stronie (minuty 31–59) → to: brakuje ${60-m} minut do ${TPG[tNx(h)]}.`};},
+    ()=>{let m;do m=tM5();while(m===0||m===30);const h=tH();return {lab:"Jak w zegarku?",q:`${tEn(h,m)} = ?`,c:`${h}:${tPad(m)}`,
+      bad:[`${h}:${tPad(60-m)}`,`${tNx(h)}:${tPad(m)}`,`${m<30?tNx(h):h===1?12:h-1}:${tPad(60-m)}`],why:m<30?`past = po: ${m} minut po ${h}:00 → ${h}:${tPad(m)}.`:`to = do: ${60-m} minut do ${tNx(h)}:00 → ${h}:${tPad(m)}.`};},
+    ()=>{let m;do m=tM5();while(m===0||m===30||m===15||m===45);const h=tH();return {lab:"Przetłumacz",q:`Jest ${tPl(h,m)}.`,c:`It's ${tEn(h,m)}.`,
+      bad:[m<30?`It's ${TMW[m]} to ${TW[h]}.`:`It's ${TMW[60-m]} past ${TW[tNx(h)]}.`,m<30?`It's ${TMW[m]} past ${TW[tNx(h)]}.`:`It's ${TMW[60-m]} to ${TW[h]}.`,`It's ${TW[h]} ${TMW[m<30?m:60-m]}.`],
+      why:m<30?`„po” = past.`:`„za … ${TPN[tNx(h)]}” = … to ${TW[tNx(h)]}.`};},
+    ()=>{const to=Math.random()<.5;return {lab:"Zasada",q:to?"Minuty 31–59 (do następnej godziny) → ?":"Minuty 1–30 (po pełnej godzinie) → ?",c:to?"to":"past",bad:[to?"past":"to","at","on"],
+      why:"past = po (prawa połowa zegara), to = do / za (lewa połowa, liczymy minuty do następnej godziny)."};}]},
+  {id:"digital",name:"Jak w telefonie: three fifteen",ic:"7:05",tone:"#0c8599",gen:[
+    ()=>{const h=tH(),m=1+Math.floor(Math.random()*59);return {lab:"Powiedz godzinę",q:`${h}:${tPad(m)}`,c:tDig(h,m),
+      bad:[`${tNum(m)} ${TW[h]}`,tDig(tNx(h),m),`${TW[h]} and ${tNum(m)}`,tDig(h,m===30?45:(m+10)%60||5)],why:`Najprościej: najpierw godzina, potem minuty: ${h}:${tPad(m)} = ${tDig(h,m)}.${m<10?" Zero czytamy „oh”.":""}`};},
+    ()=>{const h=tH(),m=1+Math.floor(Math.random()*9);return {lab:"Zero = oh",q:`${h}:0${m}`,c:tDig(h,m),bad:[`${TW[h]} ${TW[m]}`,`${TW[h]} zero ${TW[m]}`,`${TW[m]} past ${TW[h]} o'clock`],
+      why:`Zero przed minutami czytamy „oh” (jak literę O): ${h}:0${m} = ${tDig(h,m)}.`};},
+    ()=>{const h=tH(),m=11+Math.floor(Math.random()*48);return {lab:"Jak w zegarku?",q:`${tDig(h,m)} = ?`,c:`${h}:${tPad(m)}`,
+      bad:[`${tNx(h)}:${tPad(m)}`,`${h}:${tPad((m+10)%60)}`,`${h}:${tPad(60-m)}`,`${h===1?12:h-1}:${tPad(m)}`],why:`${tDig(h,m)} = ${h}:${tPad(m)}.`};}]},
+  {id:"ampm",name:"a.m. i p.m.",ic:"p.m.",tone:"#c2255c",gen:[
+    ()=>{const H=Math.floor(Math.random()*24),m=[0,15,30,45][Math.floor(Math.random()*4)],h=H%12||12,am=H<12;
+      return {lab:"Zamień na a.m. / p.m.",q:`${H}:${tPad(m)}`,c:`${h}:${tPad(m)} ${am?"a.m.":"p.m."}`,bad:[`${h}:${tPad(m)} ${am?"p.m.":"a.m."}`,`${H===12?24:H}:${tPad(m)} ${am?"a.m.":"p.m."}`,`${tNx(h)}:${tPad(m)} ${am?"a.m.":"p.m."}`,`${h===1?12:h-1}:${tPad(m)} ${am?"a.m.":"p.m."}`,`${tNx(h)}:${tPad(m)} ${am?"p.m.":"a.m."}`],
+        why:am?`Od północy do 11:59 → a.m. (przed południem)${H===0?". Uwaga: godzina 0 to 12 a.m.":""}.`:`Od 12:00 → p.m. (po południu)${H>12?`: ${H} − 12 = ${h}`:""}.`};},
+    ()=>{const H=13+Math.floor(Math.random()*11),m=[0,15,30,45][Math.floor(Math.random()*4)],h=H-12;
+      return {lab:"Jak u nas?",q:`${h}:${tPad(m)} p.m. = ?`,c:`${H}:${tPad(m)}`,bad:[`${h}:${tPad(m)}`,`${H+1}:${tPad(m)}`,`${H-2}:${tPad(m)}`,`${h+10}:${tPad(m)}`].filter(x=>x!==`${H}:${tPad(m)}`),
+        why:`p.m. = po południu: dodaj 12 → ${h} + 12 = ${H}.`};},
+    ()=>{const am=Math.random()<.5;return {lab:"Co znaczy skrót?",q:`${am?"a.m.":"p.m."} = ?`,c:am?"przed południem (0:00–11:59)":"po południu (12:00–23:59)",
+      bad:[am?"po południu (12:00–23:59)":"przed południem (0:00–11:59)","tylko rano (6:00–9:00)","tylko w nocy (22:00–6:00)"],
+      why:am?"a.m. = ante meridiem (łacina) – przed południem.":"p.m. = post meridiem (łacina) – po południu."};},
+    ()=>{const x=a1R([["Lekcje zaczynają się o 8:00 rano.","School starts at 8","a.m."],["Film zaczyna się o 19:00.","The film starts at 7","p.m."],["Kładę się spać o 21:00.","I go to bed at 9","p.m."],
+      ["Wstaję o 7:00 rano.","I get up at 7","a.m."],["Trening jest o 17:30.","Football training is at 5:30","p.m."],["Śniadanie jest o 6:30.","Breakfast is at 6:30","a.m."]]);
+      return {lab:"Dokończ",q:`${x[0]} → ${x[1]} ___.`,c:x[2],bad:[x[2]==="a.m."?"p.m.":"a.m.","o'clock","hours"],why:x[2]==="a.m."?"Przed południem → a.m.":"Po południu i wieczorem → p.m."};},
+    ()=>{const noon=Math.random()<.5;return {lab:"Południe czy północ?",q:noon?"12:00 w dzień = ?":"0:00 w nocy = ?",c:noon?"noon (12 p.m.)":"midnight (12 a.m.)",
+      bad:[noon?"midnight (12 a.m.)":"noon (12 p.m.)",noon?"afternoon (12 a.m.)":"night (12 p.m.)",noon?"twelve hours":"zero o'clock"],
+      why:"noon = południe (12 p.m.), midnight = północ (12 a.m.). Łatwo pomylić 12 a.m. i 12 p.m., dlatego Anglicy często mówią po prostu noon albo midnight."};}]},
+  {id:"short",name:"Skróty: o'clock, min, h…",ic:"min",tone:"#2b8a3e",gen:[
+    ()=>{const p=a1R(T_ABBR);return {lab:"Co znaczy skrót?",q:`${p[0]} = ?`,c:p[1],bad:shuffle(T_ABBR.filter(x=>x!==p).map(x=>x[1])),why:`${p[0]} = ${p[1]}.`};},
+    ()=>{const p=a1R(T_ABBR.slice(3,8));return {lab:"Jaki skrót?",q:`${p[1].split(" – ")[0]} → skrót?`,c:p[0],bad:shuffle(T_ABBR.slice(3,8).filter(x=>x!==p).map(x=>x[0])),why:`${p[1].split(" – ")[0]} = ${p[0]}.`};},
+    ()=>{const x=a1R([["15 min","a quarter of an hour",["a quarter past","half an hour","fifteen hours"],"15 minut = kwadrans = a quarter of an hour."],["30 min","half an hour",["half past","a quarter of an hour","thirty hours"],"30 minut = pół godziny = half an hour."],
+      ["2 h","two hours",["two o'clock","two minutes","twelve hours"],"h = hour, więc 2 h = two hours (dwie godziny trwania, nie godzina na zegarze)."],["60 mins","one hour",["sixty hours","six minutes","half an hour"],"60 minut = jedna godzina = one hour."],
+      ["90 min","an hour and a half",["half past nine","ninety hours","a quarter of an hour"],"90 minut = półtorej godziny = an hour and a half (tyle trwa mecz piłki nożnej!)."]]);
+      return {lab:"Ile to czasu?",q:`${x[0]} = ?`,c:x[1],bad:x[2],why:x[3]};}]},
+  {id:"ask",name:"What time…? at / in",ic:"at 7",tone:"#f08c00",gen:[
+    ()=>({lab:"Przetłumacz",q:"Która jest godzina?",c:"What time is it?",bad:["How much time is it?","What hour is it?","How late is it?","Which time is it?"],
+      why:"Pytamy: What time is it? albo What's the time? „How much time” znaczy „ile mamy czasu”."}),
+    ()=>{const x=a1R([["O której wstajesz?","What time do you get up?"],["O której idziesz spać?","What time do you go to bed?"],["O której zaczyna się film?","What time does the film start?"]]);
+      return {lab:"Przetłumacz",q:x[0],c:x[1],bad:[x[1].replace("What time","What hour"),x[1].replace("What time","How time"),x[1].replace("What time","When time")],why:"O której…? = What time…? (albo When…?)."};},
+    ()=>{const x=a1R([["I get up ___ seven o'clock.","at"],["School starts ___ 8 a.m.","at"],["We have lunch ___ noon.","at"],["My dog sleeps ___ night.","at"],
+      ["I have breakfast ___ the morning.","in"],["We play football ___ the afternoon.","in"],["I read books ___ the evening.","in"]]);
+      return {lab:"at czy in?",q:x[0],c:x[1],bad:x[1]==="at"?["in","on","to"]:["at","on","to"],why:"at + godzina (at seven, at noon) i at night. in the morning / in the afternoon / in the evening."};},
+    ()=>{const h=tH(),m=[0,15,30,45][Math.floor(Math.random()*4)],pl=m===0?`O ${TPG[h]}.`:m===30?`O wpół do ${TPG[tNx(h)]}.`:m===15?`Kwadrans po ${TPG[h]}.`:`Za kwadrans ${TPN[tNx(h)]}.`;
+      const c=`At ${tEn(h,m)}.`;
+      return {lab:"Odpowiedz: O której?",q:pl,clk:[h,m],c,bad:[`In ${tEn(h,m)}.`,`On ${tEn(h,m)}.`,m===30?`At half past ${TW[tNx(h)]}.`:`At ${tEn(tNx(h),m)}.`],why:`O której? → At + godzina: ${c}`};}]},
+];
+const TIME_BY=Object.fromEntries(TIME_TOPICS.map(t=>[t.id,t])),TIME_NEW="2026-11-10";
+function timeQs(id,n=12){const T=id==="mix"?TIME_TOPICS:[TIME_BY[id]],out=[],seen=new Set();
+  for(let k=0;k<400&&out.length<n;k++){const t=a1R(T),x=a1R(t.gen)();if(seen.has(x.q+x.c)) continue;seen.add(x.q+x.c);out.push(a1Q({...x,lab:id==="mix"?t.name:x.lab}));}
+  return out;}
+const timeLast=id=>doneStats(loadHist().filter(s=>s.subj==="en"&&s.status==="done"&&s.cfg&&s.cfg.mode==="czas"&&s.cfg.topic===id));
+function renderEnH(){
+  const mx=timeLast("mix");$("enh-mix-s").textContent=mx?lastTxt(mx):`Wszystkie ${TIME_TOPICS.length} tematów na raz`;
+  $("enh-topics").innerHTML=TIME_TOPICS.map(t=>{const x=timeLast(t.id);
+    return `<button type="button" class="tile mt" data-t="${t.id}" data-new="${TIME_NEW}" style="--gc:${t.tone}"><span class="wm" aria-hidden="true">${esc(t.ic)}</span>${statBox(x)}<span class="tt">${esc(t.name)}</span><small>12 zadań</small></button>`;}).join("");
+  newBadges();
+}
+const timeStart=id=>enStart(()=>timeQs(id),{mode:"czas",topic:id,title:"Godziny",unit:"zadań"});
+$("en-t-time").addEventListener("click",()=>go("enh"));
+$("enh-mix").addEventListener("click",()=>timeStart("mix"));
+$("enh-topics").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(b) timeStart(b.dataset.t);});
+
 /* --- Angielski: Nauka – lekcje wyjaśniające zasady, które sprawdzają quizy (To be i tematy A1) ---
    Lekcja: {id,name,ic,tone,quiz:id tematu A1 albo "tobe",b:[bloki HTML]}; pomocnicze lxT (tabela), lxE (przykłady), lxTip, lxBad.
    Przeczytane lekcje (na tym telefonie) w henriksen-lekcje. */
@@ -4488,11 +4608,39 @@ const LX=[
     `<p>Słowa pytające stoją <b>na początku</b> pytania.</p>`,
     lxT(["Słowo","Znaczy","Przykład"],[["What","co / jaki","What is your name?"],["Where","gdzie","Where do you live?"],["Who","kto","Who is that girl?"],["When","kiedy","When is your birthday?"],["Why","dlaczego","Why are you sad?"],["How old","ile lat","How old are you?"],["How many","ile (sztuk)","How many brothers have you got?"],["What colour","jaki kolor","What colour is your bike?"]]),
     lxTip("Na „Jak masz na imię?” mówimy <b>What</b> is your name? – a nie „How”.")]},
+  {id:"czas",name:"Godziny – What time is it?",ic:"3:15",tone:"#1c7ed6",quiz:"czas",nw:TIME_NEW,b:()=>{
+    const clk=L=>`<div class="lx-clk">${L.map(([h,m,t])=>`<div>${clkSvg(h,m,96)}<b>${h}:${tPad(m)}</b><span>${t||tEn(h,m)}</span></div>`).join("")}</div>`;
+    return [
+    `<p>Pytamy: <b>What time is it?</b> albo <b>What's the time?</b> (= What is the time?). Odpowiadamy: <b>It's …</b> (= It is …).</p>`,
+    lxTip("Na zegarze <b>krótka</b> wskazówka pokazuje godzinę, a <b>długa</b> (czerwona) – minuty."),
+    lxH("Pełne godziny – o'clock"),`<p>Gdy długa wskazówka stoi na 12, mówimy liczbę i <b>o'clock</b>. To skrót od „of the clock” – „według zegara”.</p>`,
+    clk([[3,0],[7,0],[12,0]]),
+    lxBad("It's three hours.","It's three o'clock. – „hours” to godziny trwania, nie godzina na zegarze"),
+    lxH("Po i do – past i to"),
+    `<p>Zegar dzielimy na pół. Gdy długa wskazówka jest po <b>prawej</b> stronie (minuty 1–30), mówimy, ile minut jest <b>po</b> godzinie: <b>past</b>. Gdy jest po <b>lewej</b> (31–59), mówimy, ile minut brakuje <b>do</b> następnej godziny: <b>to</b>.</p>`,
+    lxT(["Minuty","Po angielsku"],[["5","five"],["10","ten"],["15","quarter (kwadrans)"],["20","twenty"],["25","twenty-five"],["30","half (pół)"]]),
+    clk([[3,10],[3,15],[3,30],[3,45],[3,50],[3,25]]),
+    lxT(["Po polsku","Po angielsku"],[["kwadrans po trzeciej","quarter past three"],["dziesięć po trzeciej","ten past three"],["wpół do czwartej","half past three"],["za kwadrans czwarta","quarter to four"],["za dziesięć czwarta","ten to four"]]),
+    lxBad("half past four (3:30)","half past three – po polsku „wpół DO czwartej”, a po angielsku „pół PO trzeciej”"),
+    lxTip("Przy <b>past</b> godzina jest ta, która już była (3:20 → twenty past <b>three</b>). Przy <b>to</b> – ta, która dopiero będzie (3:40 → twenty to <b>four</b>)."),
+    lxH("Jak w telefonie – three fifteen"),`<p>Najprościej: najpierw godzina, potem minuty – tak jak widać na telefonie. Ten sposób jest zawsze dobry, także dla minut innych niż co 5.</p>`,
+    lxE([["3:15 – three fifteen","kwadrans po trzeciej"],["6:45 – six forty-five","za kwadrans siódma"],["8:22 – eight twenty-two","osiem dwadzieścia dwa"],["7:05 – seven oh five","zero czytamy „oh”"]]),
+    lxH("a.m. i p.m."),`<p>W Anglii i USA zwykle nie mówi się „15:00”. Zegar ma 12 godzin, a skróty z łaciny mówią, która to połowa doby.</p>`,
+    lxT(["Skrót","Z łaciny","Znaczy","Godziny"],[["<b>a.m.</b>","ante meridiem","przed południem","0:00 – 11:59"],["<b>p.m.</b>","post meridiem","po południu","12:00 – 23:59"]]),
+    lxE([["7:00 → 7 a.m.","siódma rano"],["15:00 → 3 p.m.","15 − 12 = 3"],["20:30 → 8:30 p.m.","wpół do dziewiątej wieczorem"],["noon = 12 p.m.","południe"],["midnight = 12 a.m.","północ"]]),
+    lxTip("Z naszej godziny na p.m.: <b>odejmij 12</b> (19:00 → 7 p.m.). Z p.m. na naszą: <b>dodaj 12</b> (4 p.m. → 16:00)."),
+    lxBad("It's 3 p.m. o'clock.","It's 3 p.m. albo It's three o'clock – o'clock nie łączymy z a.m. / p.m."),
+    lxH("Inne skróty"),
+    lxT(["Skrót","Pełne słowo","Po polsku"],[["min / mins","minute / minutes","minuta / minuty"],["h / hr / hrs","hour / hours","godzina / godziny"],["sec / s","second","sekunda"],["What's","What is","Co jest"],["It's","It is","Jest"]]),
+    lxE([["15 min","a quarter of an hour – kwadrans"],["30 min","half an hour – pół godziny"],["90 min","an hour and a half – półtorej godziny (tyle trwa mecz!)"]]),
+    lxH("O której? – at i in"),`<p>Przed godziną stawiamy <b>at</b>: at seven o'clock, at half past three, at noon, at night. Pory dnia mają <b>in the</b>: in the morning, in the afternoon, in the evening.</p>`,
+    lxE([["What time do you get up? – At seven o'clock.","O której wstajesz? – O siódmej."],["I play football in the afternoon.","Gram w piłkę po południu."]]),
+    lxBad("What hour is it?","What time is it?")];}},
 ];
 const LXK="henriksen-lekcje";
 const lxRead=()=>{try{return JSON.parse(localStorage.getItem(LXK)||"[]");}catch(e){return [];}};
 function renderEnl(){const R=lxRead();
-  $("enl-list").innerHTML=LX.map(l=>`<button type="button" class="tile mt" data-lx="${l.id}"${l.id==="tobe"?"":` data-new="${A1_NEW}"`} style="--gc:${l.tone}"><span class="wm" aria-hidden="true">${esc(l.ic)}</span>${R.includes(l.id)?'<span class="mt-last"><b>✓ Przeczytane</b></span>':""}<span class="tt">${l.name}</span><small>Lekcja + quiz</small></button>`).join("");
+  $("enl-list").innerHTML=LX.map(l=>`<button type="button" class="tile mt" data-lx="${l.id}"${l.id==="tobe"?"":` data-new="${l.nw||A1_NEW}"`} style="--gc:${l.tone}"><span class="wm" aria-hidden="true">${esc(l.ic)}</span>${R.includes(l.id)?'<span class="mt-last"><b>✓ Przeczytane</b></span>':""}<span class="tt">${l.name}</span><small>Lekcja + quiz</small></button>`).join("");
   newBadges();}
 let LXC=null;
 function lxOpen(id){const l=LX.find(x=>x.id===id);if(!l) return;LXC=l;
@@ -4501,7 +4649,7 @@ function lxOpen(id){const l=LX.find(x=>x.id===id);if(!l) return;LXC=l;
   const R=lxRead();if(!R.includes(id)){try{localStorage.setItem(LXK,JSON.stringify([...R,id]));}catch(e){}}
   go("enlv");}
 $("enl-list").addEventListener("click",e=>{const b=e.target.closest("[data-lx]");if(b) lxOpen(b.dataset.lx);});
-$("enlv-body").addEventListener("click",e=>{if(!e.target.closest("#lx-quiz")||!LXC) return;if(LXC.quiz==="tobe") go("ent"); else if(LXC.quiz==="slowka"||LXC.quiz==="zdania"){ENM=LXC.quiz;go("enset");} else a1Start(LXC.quiz);});
+$("enlv-body").addEventListener("click",e=>{if(!e.target.closest("#lx-quiz")||!LXC) return;if(LXC.quiz==="tobe") go("ent"); else if(LXC.quiz==="slowka"||LXC.quiz==="zdania"){ENM=LXC.quiz;go("enset");} else if(LXC.quiz==="czas") go("enh"); else a1Start(LXC.quiz);});
 // na ekranie każdego quizu: przycisk do lekcji z tymi zasadami
 document.addEventListener("click",e=>{const b=e.target.closest("[data-lxgo]");if(!b) return;lxOpen(b.dataset.lxgo==="enset"?ENM:b.dataset.lxgo);});
 $("en-t-learn").addEventListener("click",()=>go("enl"));
@@ -5574,7 +5722,7 @@ const CUP_CATS=[
   {id:"mat+",subj:"mat",name:"Dodawanie",base:100},{id:"mat−",subj:"mat",name:"Odejmowanie",base:100},
   {id:"pl-slowka",subj:"pl",name:"Słówka: ó/u, rz/ż, ch/h",base:75},{id:"pl-dyktando",subj:"pl",name:"Dyktanda",base:75},
   {id:"pl-znaczenia",subj:"pl",name:"Znaczenie słów",base:100},
-  {id:"en-tobe",subj:"en",name:"To be",base:50},{id:"en-slowka",subj:"en",name:"Słówka angielskie",base:75},{id:"en-zdania",subj:"en",name:"Zdania",base:100},{id:"en-a1",subj:"en",name:"Podstawy A1",base:60},
+  {id:"en-tobe",subj:"en",name:"To be",base:50},{id:"en-slowka",subj:"en",name:"Słówka angielskie",base:75},{id:"en-zdania",subj:"en",name:"Zdania",base:100},{id:"en-a1",subj:"en",name:"Podstawy A1",base:60},{id:"en-czas",subj:"en",name:"Godziny",base:60},
   {id:"zd",subj:"zd",name:"Edukacja zdrowotna",base:60},{id:"his",subj:"his",name:"Historia",base:40},
   {id:"sz-nauka",subj:"sz",name:"Samouczek szachowy",base:15},{id:"sz-zadania",subj:"sz",name:"Zadania szachowe",base:40},{id:"sz-gra",subj:"sz",name:"Partie z komputerem",base:20},
   {id:"lg-blockout",subj:"lg",name:"Block Out",base:40},{id:"lg-mosty",subj:"lg",name:"Mosty",base:25},{id:"lg-trojki",subj:"lg",name:"Trójki",base:30},{id:"lg-flow",subj:"lg",name:"Flow",base:40}
@@ -5736,7 +5884,7 @@ function ptsW(s,r){
     const w=WORDS.find(x=>x.full===r.t);return w&&w.desc?3:2;
   }
   if(sj==="en"){
-    if(m==="a1") return (r.c||"").split(" ").length>=3?2:1; // całe zdanie 2, wybór formy 1
+    if(m==="a1"||m==="czas") return (r.c||"").split(" ").length>=3?2:1; // całe zdanie 2, wybór formy 1
     if(m==="slowka"){const x=ENW.find(y=>y.en===r.c&&y.pl===r.t||y.en===r.t&&y.pl===r.c);return (x&&x.lvl==="a2"?2:1)+(x&&r.c===x.en?1:0);}
     if(m==="zdania"){const x=ENS.find(y=>y.en===r.c||y.en===r.t);return (x&&x.lvl==="a2"?5:3)+(x&&r.c===x.en?1:0);}
     return /[?.]$/.test(r.c||"")?2:1; // To be: pytania i krótkie odpowiedzi 2, odmiana i am/is/are 1
@@ -5762,7 +5910,7 @@ const PTS_INFO=[
     ["Znaczenie słów – łatwe / średnie / trudne","ponury / skrupulatny / lakoniczny","2 / 3 / 5"],["…za synonim, przeciwieństwo albo zdanie z luką","","+1"]]],
   ["Angielski",[["To be – odmiana i am / is / are","On jest → He is",1],["To be – pytania i Who / What","Is he red?",2],["To be – krótkie odpowiedzi","Yes, she is.",2],
     ["Słówka A1 / A2 (z angielskiego na polski)","dog → pies","1 / 2"],["…z polskiego na angielski","pies → dog","+1"],
-    ["Zdania A1 / A2 (z angielskiego na polski)","She is my sister.","3 / 5"],["…z polskiego na angielski","","+1"],["Podstawy A1 – wybór formy / całe zdanie","isn't / I can swim.","1 / 2"]]],
+    ["Zdania A1 / A2 (z angielskiego na polski)","She is my sister.","3 / 5"],["…z polskiego na angielski","","+1"],["Podstawy A1 – wybór formy / całe zdanie","isn't / I can swim.","1 / 2"],["Godziny – krótka forma / całe zdanie","3:15 / It's quarter past three.","1 / 2"]]],
   ["Szachy",[["Samouczek – każda plansza (najkrócej, bez pomyłki)","",1],["Zadanie mat w 1 / w 2 / w 3","","2 / 3 / 5"],
     ["Wygrana z komputerem","Paweł … Kazimierz","3 – 15"]]]
 ];
@@ -5926,7 +6074,7 @@ const MODS=[
     {k:"mat-muldiv",name:"Mnożenie i dzielenie",sub:"30 działań do 100"},{k:"mat-addsub",name:"Dodawanie i odejmowanie",sub:"do 1000"},
     {k:"mat-tens",name:"Pełne dziesiątki",sub:"np. 40 × 30"},{k:"mat-hard",name:"Poćwicz trudne",sub:"działania z błędami"},{k:"mat-own",name:"Ułóż własne",sub:"własne działania i zakresy"}]},
   {g:"Polski",items:[{k:"pl-slowka",name:"Słówka",sub:"ó/u, rz/ż, ch/h"},{k:"pl-dyktando",name:"Dyktanda",sub:"cały tekst z lukami"},{k:"pl-znaczenia",name:"Znaczenie słów",sub:"quiz i słowo dnia"}]},
-  {g:"Angielski",items:[{k:"en-tobe",name:"To be",sub:"am, is, are"},{k:"en-slowka",name:"Słówka",sub:"A1 i A2 w tematach"},{k:"en-zdania",name:"Zdania",sub:"tłumaczenie całych zdań"},{k:"en-nauka",nw:1,name:"Nauka",sub:"lekcje z wyjaśnieniem zasad"},{k:"en-a1",nw:1,name:"Podstawy A1",sub:"skróty isn't, haven't, can't i inne tematy"}]},
+  {g:"Angielski",items:[{k:"en-tobe",name:"To be",sub:"am, is, are"},{k:"en-slowka",name:"Słówka",sub:"A1 i A2 w tematach"},{k:"en-zdania",name:"Zdania",sub:"tłumaczenie całych zdań"},{k:"en-nauka",nw:1,name:"Nauka",sub:"lekcje z wyjaśnieniem zasad"},{k:"en-a1",nw:1,name:"Podstawy A1",sub:"skróty isn't, haven't, can't i inne tematy"},{k:"en-czas",nw:1,name:"Godziny",sub:"What time is it? o'clock, past / to, a.m. i p.m."}]},
   {g:"Edukacja zdrowotna",items:[{k:"zd-spr",name:"Sprawdzian 29.10",sub:"wszystkie tematy"},{k:"zd-wartosc",name:"Zdrowie jako wartość",sub:"definicja i wymiary zdrowia"},
     {k:"zd-styl",name:"Zdrowy styl życia",sub:"mierniki zdrowia, hartowanie"},{k:"zd-cialo",name:"Moje ciało się zmienia",sub:"dojrzewanie, higiena, żelazo"},
     {k:"zd-zach",name:"Zachowania chroniące i ryzykowne",sub:"środowisko, zdrowe nawyki"}]},
@@ -5955,7 +6103,7 @@ function applyMods(){
   const show=(id,on)=>{const el=$(id);if(el) el.hidden=!on;};
   show("t-math",subjOn("mat"));if(CUR==="mat") renderMat();show("t-pl",subjOn("pl"));show("t-en",subjOn("en"));
   show("pl-t-w",modOn("pl-slowka"));show("pl-t-d",modOn("pl-dyktando"));show("pl-t-z",modOn("pl-znaczenia"));show("pz-day",modOn("pl-znaczenia"));
-  show("en-t-tobe",modOn("en-tobe"));show("en-t-v",modOn("en-slowka"));show("en-t-z",modOn("en-zdania"));show("en-t-a1",modOn("en-a1"));show("en-t-learn",modOn("en-nauka"));show("mat-t-learn",modOn("mat-nauka"));document.querySelectorAll("#mat .mat-sec").forEach(e=>{e.hidden=!modOn("mat-nauka");});document.querySelectorAll("#en .en-sec").forEach(e=>{e.hidden=!modOn("en-nauka");});
+  show("en-t-tobe",modOn("en-tobe"));show("en-t-v",modOn("en-slowka"));show("en-t-z",modOn("en-zdania"));show("en-t-a1",modOn("en-a1"));show("en-t-time",modOn("en-czas"));show("en-t-learn",modOn("en-nauka"));show("mat-t-learn",modOn("mat-nauka"));document.querySelectorAll("#mat .mat-sec").forEach(e=>{e.hidden=!modOn("mat-nauka");});document.querySelectorAll("#en .en-sec").forEach(e=>{e.hidden=!modOn("en-nauka");});
   show("t-zd",subjOn("zd"));show("zd-spr",modOn("zd-spr"));show("zd-tw",ZD_TOPICS.some(t=>modOn("zd-"+t.id)));if(CUR==="zd") renderZd();
   show("t-sz",subjOn("sz"));show("t-lg",subjOn("lg"));show("games-sep",subjOn("sz")||subjOn("lg"));try{lgGuard();}catch(e){}show("t-his",modOn("his"));show("t-nat",modOn("nat"));szGuard();
   {const g=$("t-math").parentElement;g.querySelectorAll(":scope>[data-soon]").forEach(b=>g.appendChild(b));} // kafle „Wkrótce” zawsze na końcu
@@ -8514,7 +8662,7 @@ function gameBegin(){
 }
 // odtworzenie gry z migawki
 const enMakeFor=(c,n)=>c.subj==="his"?()=>hisQs(c.mode):c.subj==="zd"?(c.mode==="spr"?zdAll:()=>zdTopic(c.mode))
-  :c.mode==="a1"?()=>a1Qs(c.topic||"mix",n):c.mode==="tobe"?()=>enToBeQs(n,c.types||["form"]):()=>enVocabQs(c.mode,{lvl:c.lvl||"a1",dir:c.dir||"mix",topics:c.topics||[],n});
+  :c.mode==="a1"?()=>a1Qs(c.topic||"mix",n):c.mode==="czas"?()=>timeQs(c.topic||"mix",n):c.mode==="tobe"?()=>enToBeQs(n,c.types||["form"]):()=>enVocabQs(c.mode,{lvl:c.lvl||"a1",dir:c.dir||"mix",topics:c.topics||[],n});
 function resumeGame(g){
   if(g.type==="pw"){PW={id:g.id,start:g.start,cfg:g.cfg,i:g.i,recs:g.recs,words:g.words.map(f=>WORDS.find(w=>w.full===f)),wrong:[],locked:false,over:false};
     if(PW.words.some(w=>!w)) return false;$("pw-game").hidden=false;$("pw-end").hidden=true;$("pw-end").innerHTML="";go("plw");pwShow();}

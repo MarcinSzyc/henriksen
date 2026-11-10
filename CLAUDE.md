@@ -56,6 +56,10 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
     have/has/haven't, can/can't, do/does/don't, there is/are, a/an, liczba mnoga, my/your/his/her, this/that/these/those, słowa pytające.
     Temat = generatory `gen` zwracające `{lab,q,c,bad,why}` (`a1Q` tasuje), `a1Qs(id,12)` bez powtórek, „Wszystko na raz” = `mix`. Quiz `enStart`,
     sesja `cfg:{mode:"a1",topic}`, punkty: wybór formy 1, całe zdanie 2 (`ptsW`, `PTS_INFO`).
+  - **Godziny** (kafel `#en-t-time`, widok `#enh`, hash `#angielski-godziny`, moduł `en-czas`, puchar `en-czas`, lekcja `LX` „czas”): 7 tematów `TIME_TOPICS`
+    (pełne godziny o'clock, half / quarter past / to, minuty past i to, „three fifteen” i „oh”, a.m. / p.m. z noon i midnight, skróty min / h / hrs / sec,
+    What time…? i at / in) – generatory jak w A1, `timeQs(id,12)`, sesja `cfg:{mode:"czas",topic}`, punkty jak A1. Pole `clk:[h,m]` w pytaniu rysuje
+    tarczę `clkSvg(h,m)` nad treścią (`#enq-clk`, `a1Q` je przenosi). Nazwy: `tEn` (past / to), `tDig` (cyfrowo), `tPl` (po polsku, „wpół do” = half past poprzedniej).
 - **Szachy** (kafel `#t-sz`, widoki `#sz` (3 kafle), `#szl` lekcje, `#szz` ustawienia zadań, `#szo` przeciwnicy, `#szg` jedna szachownica `#szb`;
   hashe `#szachy…`; przedmiot `subj:"sz"`, moduły `sz-nauka` / `sz-zadania` / `sz-gra`). Pliki w `chess/`: `chess.js` (chess.js 1.4.0 ESM, BSD,
   wczytywany `szLoad()` przez `import()`), `puzzles.json` (480 zadań mat w 1/2/3 z bazy Lichess, CC0; skrypt `tools/lichess_puzzles.py`),
