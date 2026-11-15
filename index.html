@@ -555,7 +555,7 @@ h1{font-family:var(--display);font-weight:800;font-size:1.35rem;margin:0}
 .lx-ex b{font-size:1.05rem}.lx-ex span{color:var(--muted);font-size:.9rem}
 .lx-tip{background:rgba(252,196,25,.15);border:2px solid #fcc419;border-radius:14px;padding:10px 12px}
 .lx-bad{display:flex;flex-direction:column;gap:2px;background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 12px}.lx-bad span:first-child{color:#e03131}.lx-bad span:last-child{color:#2b8a3e}
-.tile.en-t4{background:linear-gradient(135deg,#f76707,#9c36b5)}.tile.en-t6{background:linear-gradient(135deg,#1c7ed6,#c2255c)}
+.tile.en-t4{background:linear-gradient(135deg,#f76707,#9c36b5)}.tile.en-t6{background:linear-gradient(135deg,#1c7ed6,#c2255c)}.tile.en-t7{background:linear-gradient(135deg,#7048e8,#0ca678)}
 .lx-clk{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:8px}.lx-clk>div{background:var(--card);border:2px solid var(--line);border-radius:14px;padding:8px 4px;display:flex;flex-direction:column;align-items:center;gap:2px;text-align:center;font-size:.82rem}.lx-clk span{color:var(--muted);font-weight:700}
 #ena-mix .wm,#enh-mix .wm,#en-t-learn .wm{font-size:2.9rem}
 .en-clk{display:flex;justify-content:center;margin:2px 0 6px}.en-clk[hidden]{display:none}
@@ -1474,6 +1474,7 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <button type="button" class="tile en pl-t en-t3" id="en-t-z"><span class="wm" aria-hidden="true">„…”</span><span class="tt">Zdania</span><small id="en-t-z-s">Całe zdania do przetłumaczenia</small></button>
   <button type="button" class="tile en pl-t en-t4" id="en-t-a1" data-new="2026-11-08"><span class="wm" aria-hidden="true">isn't · can't</span><span class="tt">Podstawy A1</span><small>Skróty isn't, haven't, can't, do / does, a / an i więcej</small></button>
   <button type="button" class="tile en pl-t en-t6" id="en-t-time" data-new="2026-11-10"><span class="wm" aria-hidden="true">3:15</span><span class="tt">Godziny</span><small>What time is it? o'clock, half past, a.m. i p.m.</small></button>
+  <button type="button" class="tile en pl-t en-t7" id="en-t-whose" data-new="2026-11-15"><span class="wm" aria-hidden="true">Whose?</span><span class="tt">Czyje to?</span><small>Whose…? my, his, her, their i Bartek's book</small></button>
 </div>
 
 <div class="wrap" id="matl" hidden>
@@ -1528,6 +1529,14 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
   <button type="button" class="tile en pl-t en-t6" id="enh-mix"><span class="wm" aria-hidden="true">12:00</span><span class="tt">Wszystko na raz</span><small id="enh-mix-s"></small></button>
   <div class="lbl" style="margin-top:12px">Tematy</div>
   <div class="tiles2 mat-tiles" id="enh-topics"></div>
+</div>
+
+<div class="wrap" id="enw" hidden>
+  <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Czyje to?</h1></header>
+  <button type="button" class="more pmore lx-go" data-lxgo="whose"><span><b>📘 Lekcja: Whose? – czyje to jest</b><small>my, your, his…, imię + 's i przydatne zwroty</small></span></button>
+  <button type="button" class="tile en pl-t en-t7" id="enw-mix"><span class="wm" aria-hidden="true">Whose?</span><span class="tt">Wszystko na raz</span><small id="enw-mix-s"></small></button>
+  <div class="lbl" style="margin-top:12px">Tematy</div>
+  <div class="tiles2 mat-tiles" id="enw-topics"></div>
 </div>
 
 <div class="wrap" id="ent" hidden>
@@ -2903,12 +2912,12 @@ const isWrong=(x,t)=>Math.abs(+String(x).replace(",",".")-answer(t))>1e-9;
 const sec=ms=>(ms/1000).toFixed(1).replace(".",",")+" s";
 
 /* Nawigacja: start (kafle) / gra / statystyki; przycisk "wstecz" telefonu wraca na start */
-const HASH={home:"",nat:"#przyroda",natv:"#przyroda-lekcja",his:"#historia",hisv:"#historia-opowiastka",matl:"#matematyka-nauka",matlv:"#matematyka-lekcja",enl:"#angielski-nauka",enlv:"#angielski-lekcja",ena:"#angielski-a1",enh:"#angielski-godziny",lgf:"#flow",lgfg:"#flow-gra",lgt:"#trojki",lgm:"#mosty",lgs:"#mosty-gra",lg:"#lamiglowki",lgb:"#block-out",lgg:"#block-out-gra",szw:"#szachy-wyglad",szrules:"#szachy-zasady",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szop:"#szachy-otwarcia",szcf:"#szachy-ciekawostki",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
-const VIEWS={home:"home",nat:"nat",natv:"natv",his:"his",hisv:"hisv",matl:"matl",matlv:"matlv",enl:"enl",enlv:"enlv",ena:"ena",enh:"enh",lgf:"lgf",lgfg:"lgfg",lgt:"lgt",lgm:"lgm",lgs:"lgs",lg:"lg",lgb:"lgb",lgg:"lgg",szw:"szw",szrules:"szrules",sz:"sz",sz3:"sz3",szl:"szl",szop:"szop",szcf:"szcf",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
+const HASH={home:"",nat:"#przyroda",natv:"#przyroda-lekcja",his:"#historia",hisv:"#historia-opowiastka",matl:"#matematyka-nauka",matlv:"#matematyka-lekcja",enl:"#angielski-nauka",enlv:"#angielski-lekcja",ena:"#angielski-a1",enh:"#angielski-godziny",enw:"#angielski-czyje",lgf:"#flow",lgfg:"#flow-gra",lgt:"#trojki",lgm:"#mosty",lgs:"#mosty-gra",lg:"#lamiglowki",lgb:"#block-out",lgg:"#block-out-gra",szw:"#szachy-wyglad",szrules:"#szachy-zasady",sz:"#szachy",sz3:"#szachy-3d",szl:"#szachy-nauka",szop:"#szachy-otwarcia",szcf:"#szachy-ciekawostki",szz:"#szachy-zadania",szo:"#szachy-gra-wybor",szg:"#szachy-plansza",play:"#gra",stats:"#statystyki",pl:"#polski",plws:"#slowka",plw:"#slowka-gra",pld:"#dyktanda",pldt:"#dyktando",plzs:"#znaczenia",plz:"#znaczenia-gra",plzk:"#slownik",mat:"#matematyka",cups:"#puchary",lig:"#ligi",help:"#pomoc",kidcfg:"#co-widzi-dziecko",ptask:"#zadania",zd:"#zdrowie",reqs:"#prosby",admin:"#administracja",en:"#angielski",ent:"#to-be",enset:"#angielski-cwicz",enq:"#angielski-gra"};
+const VIEWS={home:"home",nat:"nat",natv:"natv",his:"his",hisv:"hisv",matl:"matl",matlv:"matlv",enl:"enl",enlv:"enlv",ena:"ena",enh:"enh",enw:"enw",lgf:"lgf",lgfg:"lgfg",lgt:"lgt",lgm:"lgm",lgs:"lgs",lg:"lg",lgb:"lgb",lgg:"lgg",szw:"szw",szrules:"szrules",sz:"sz",sz3:"sz3",szl:"szl",szop:"szop",szcf:"szcf",szz:"szz",szo:"szo",szg:"szg",play:"play",stats:"stats-v",pl:"pl",plws:"plws",plw:"plw",pld:"pld",pldt:"pldt",plzs:"plzs",plz:"plz",plzk:"plzk",mat:"mat",cups:"cups",lig:"lig",help:"help",kidcfg:"kidcfg",ptask:"ptask",zd:"zd",reqs:"reqs",admin:"admin",en:"en",ent:"ent",enset:"enset",enq:"enq"};
 let CUR="home";
 // znaczek „nowe” po skosie w rogu kafla: przez 7 dni od data-new="rrrr-mm-dd" (dodawaj przy każdej nowej sekcji)
 // kafel nadrzędny dziedziczy najnowszą datę z kafli w środku (aż do ekranu startowego); ukryte (wyłączone przez rodzica) się nie liczą
-const NEW_TREE={"t-math":["mat-t-learn"],"t-en":["en-t-learn","en-t-a1","en-t-time"],"t-lg":["lg-t-bo","lg-t-br","lg-t-th","lg-t-fl"],"t-sz":["sz-t-open","sz-t-facts"]};
+const NEW_TREE={"t-math":["mat-t-learn"],"t-en":["en-t-learn","en-t-a1","en-t-time","en-t-whose"],"t-lg":["lg-t-bo","lg-t-br","lg-t-th","lg-t-fl"],"t-sz":["sz-t-open","sz-t-facts"]};
 function newDate(id){const el=$(id);if(!el||el.hidden) return "";const own=el.dataset.own??(el.dataset.own=el.dataset.new||"");
   return [own,...(NEW_TREE[id]||[]).map(newDate)].reduce((a,b)=>b>a?b:a,"");}
 function newBadges(){const now=Date.now();Object.keys(NEW_TREE).forEach(id=>{const el=$(id);if(!el) return;const d=newDate(id);if(d) el.dataset.new=d; else delete el.dataset.new;
@@ -3293,7 +3302,7 @@ function plLiveNow(){
 }
 function plShow(v){
   if(v==="pl") renderPl();
-  if(v==="szw") renderSzw();if(v==="szrules"){SZR={kid:SZR.kid,prefs:null,sec:SZR.sec};renderSzRules();}document.querySelectorAll("[data-lgr]").forEach(b=>{b.hidden=!(ME&&ME.role==="parent");});if(v==="ena") renderEnA1();if(v==="enh") renderEnH();if(v==="enl") renderEnl();if(v==="matl") renderMatl();if(v==="his") renderHis();if(v==="nat") renderNat();if(v!=="hisv"&&v!=="natv"){try{hisStop();}catch(e){}}if(v==="lg") renderLg();if(v==="lgb") renderLgb();if(v==="lgm") renderLgm();if(v==="lgf") renderLgf();try{if(v!=="lgs"&&BR&&BR.S) brStop();}catch(e){} /* zawsze świeże cele i ustawienia dziecka (np. po dodaniu celu) */if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();if(v==="szop") renderSzop();if(v==="szcf") renderSzcf();
+  if(v==="szw") renderSzw();if(v==="szrules"){SZR={kid:SZR.kid,prefs:null,sec:SZR.sec};renderSzRules();}document.querySelectorAll("[data-lgr]").forEach(b=>{b.hidden=!(ME&&ME.role==="parent");});if(v==="ena") renderEnA1();if(v==="enh") renderEnH();if(v==="enw") renderEnW();if(v==="enl") renderEnl();if(v==="matl") renderMatl();if(v==="his") renderHis();if(v==="nat") renderNat();if(v!=="hisv"&&v!=="natv"){try{hisStop();}catch(e){}}if(v==="lg") renderLg();if(v==="lgb") renderLgb();if(v==="lgm") renderLgm();if(v==="lgf") renderLgf();try{if(v!=="lgs"&&BR&&BR.S) brStop();}catch(e){} /* zawsze świeże cele i ustawienia dziecka (np. po dodaniu celu) */if(v!=="szg") szHush();else szFace();if(v==="sz"){SZ3D=false;renderSz();}if(v==="sz3"){SZ3D=true;renderSz();}if(v==="szl") renderSzl();if(v==="szop") renderSzop();if(v==="szcf") renderSzcf();
   if(window.S3&&v!=="szg") S3.pause();if(v==="szz") renderSzz();if(v==="szo") renderSzo();
   if(v==="plws") renderPws();
   if(v==="pld") renderPd();
@@ -4523,6 +4532,65 @@ $("en-t-time").addEventListener("click",()=>go("enh"));
 $("enh-mix").addEventListener("click",()=>{if(!lxNeed("czas")) timeStart("mix");});
 $("enh-topics").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(b&&!lxNeed("czas")) timeStart(b.dataset.t);});
 
+/* --- Angielski: Czyje to? – Whose…? (my / your / his…, Whose + rzecz, imię + 's, zwroty z lekcji) ---
+   Tematy jak w Godzinach i A1 (generatory {lab,q,c,bad,why}, a1Q), sesja cfg:{mode:"whose",topic}, punkty jak A1. Lekcja LX "whose". */
+const WH_P=[["I","my","mój / moja"],["you","your","twój / twoja"],["he","his","jego"],["she","her","jej"],["it","its","jego / jej (zwierzę, rzecz)"],["we","our","nasz / nasza"],["they","their","ich"]];
+const WH_ALL=WH_P.map(x=>x[1]);
+const WH_THING=[["book","książka"],["laptop","laptop"],["guitar","gitara"],["hairbrush","szczotka do włosów"],["helmet","kask"],["bike","rower"],["phone","telefon"],["water bottle","bidon"],["board game","gra planszowa"],["sketchbook","szkicownik"],["charger","ładowarka"],["bag","torba"]];
+const WH_PL=[["sunglasses","okulary przeciwsłoneczne"],["glasses","okulary"],["shoes","buty"],["books","książki"],["comics","komiksy"],["games","gry"]];
+// imię: [angielski, dopełniacz po polsku]
+const WH_WHO=[["Bartek","Bartka"],["Hania","Hani"],["Laura","Laury"],["Sam","Sama"],["Mr Brown","pana Browna"],["Ms White","pani White"],["Ella","Elli"],["Adam","Adama"],["Grace","Grace"],["Dan","Dana"]];
+const WH_SENT=[["Ada loves music. It's ___ guitar.","her","Ada to dziewczyna → her (jej)."],["Tom loves football. It's ___ ball.","his","Tom to chłopiec → his (jego)."],
+  ["My brothers like games. ___ favourite game is Super Cars.","Their","bracia = oni (they) → their (ich)."],["We can't miss ___ bus to the cinema.","our","we → our (nasz)."],
+  ["I've got a dog. ___ dog is black.","My","I → my (mój)."],["Is it ___ water bottle, Ella? (twój)","your","you → your (twój)."],["The cat is hungry. ___ bowl is empty.","Its","kot (it) → its (jego – o zwierzęciu)."],
+  ["Mum and Dad have a new car. ___ car is red.","Their","mama i tata = oni → their."],["My sister has a cat. ___ cat is white.","Her","siostra (she) → her."]];
+const WH_PHR=[["Help me, please!","Pomóż mi, proszę!"],["What's happening?","Co się dzieje?"],["It's my fault.","To moja wina."],["What a great idea!","Świetny pomysł!"],["What a mess!","Co za bałagan!"],["Whose is it?","Czyje to jest?"]];
+const WH_TOPICS=[
+  {id:"poss",name:"my, your, his, her, our, their",ic:"my",tone:"#f08c00",gen:[
+    ()=>{const p=a1R(WH_P);return {lab:"Czyj?",q:`${p[0]} → ?`,c:p[1],bad:shuffle(WH_ALL.filter(x=>x!==p[1])),why:`${p[0]} → ${p[1]} (${p[2]}).`};},
+    ()=>{const x=a1R(WH_SENT);return {lab:"Uzupełnij",q:x[0],c:x[1],bad:shuffle(WH_ALL.filter(w=>w!==x[1].toLowerCase()).map(w=>x[1][0]===x[1][0].toUpperCase()?w[0].toUpperCase()+w.slice(1):w)),why:x[2]};},
+    ()=>{const p=a1R(WH_P.filter(x=>x[0]!=="it")),t=a1R(WH_THING);return {lab:"Uzupełnij",q:`(${p[0]}) It's ___ ${t[0]}.`,c:p[1],bad:shuffle(WH_ALL.filter(x=>x!==p[1]).concat([p[0]])),why:`${p[0]} → ${p[1]} (${p[2]}). Stoi przed rzeczą: ${p[1]} ${t[0]}.`};},
+    ()=>{const x=a1R([["he","his","he's"],["it","its","it's"],["they","their","they're"],["you","your","you're"]]);return {lab:"Uwaga, pułapka!",q:`Czyje? (${x[0]}) → ___ book`,c:x[1],bad:[x[2],x[1]+"'s",x[0]],
+      why:`Czyje = ${x[1]}, bez apostrofu. ${x[2]} to skrót od ${x[0]} ${x[0]==="it"||x[0]==="he"?"is":"are"}.`};}]},
+  {id:"whose",name:"Whose…? – czyje to?",ic:"Whose?",tone:"#7048e8",gen:[
+    ()=>{const t=a1R(WH_THING);return {lab:"Uzupełnij",q:`___ ${t[0]} is it?`,c:"Whose",bad:["Who","Who's","What","Which"],why:"Whose = czyj / czyja / czyje. Who = kto, Who's = Who is (kto jest)."};},
+    ()=>{const t=a1R(WH_THING);return {lab:"Przetłumacz",q:`Czyj / czyja to jest ${t[1]}?`,c:`Whose ${t[0]} is it?`,bad:[`Who ${t[0]} is it?`,`Who's ${t[0]} is it?`,`Whose is it ${t[0]}?`,`Whose ${t[0]} are they?`],
+      why:`Whose + rzecz + is it? Jedna rzecz → is it.`};},
+    ()=>{const t=a1R(WH_PL);return {lab:"Przetłumacz",q:`Czyje to są ${t[1]}?`,c:`Whose ${t[0]} are they?`,bad:[`Whose ${t[0]} is it?`,`Who ${t[0]} are they?`,`Whose are they ${t[0]}?`],
+      why:`${t[0]} to liczba mnoga → Whose ${t[0]} are they?`};},
+    ()=>{const pl=Math.random()<.5,t=pl?a1R(WH_PL):a1R(WH_THING),w=a1R(WH_WHO);return {lab:"Odpowiedz",q:`Whose ${t[0]} ${pl?"are they":"is it"}? (${w[0]})`,c:`${pl?"They're":"It's"} ${w[0]}'s.`,
+      bad:[`${pl?"It's":"They're"} ${w[0]}'s.`,`${pl?"They're":"It's"} ${w[0]}.`,`${pl?"They're":"It's"} of ${w[0]}.`],why:`${pl?"are they? → They're":"is it? → It's"} ${w[0]}'s.`};},
+    ()=>({lab:"Who czy Whose?",q:"___ is your teacher? (Kto jest…)",c:"Who",bad:["Whose","Who's","What"],why:"Kto? = Who. Whose = czyj."})]},
+  {id:"s",name:"Bartek's book – imię + 's",ic:"'s",tone:"#12b886",gen:[
+    ()=>{const w=a1R(WH_WHO),t=a1R(WH_THING);return {lab:"Przetłumacz",q:`To jest ${t[1]} ${w[1]}.`,c:`It's ${w[0]}'s ${t[0]}.`,bad:[`It's ${t[0]} ${w[0]}.`,`It's ${w[0]} ${t[0]}.`,`It's ${w[0]}s' ${t[0]}.`,`It's the ${t[0]} of ${w[0]}s.`],
+      why:`Czyjaś rzecz: imię + 's + rzecz: ${w[0]}'s ${t[0]} (najpierw kto, potem co).`};},
+    ()=>{const w=a1R(WH_WHO),t=a1R(WH_PL);return {lab:"Przetłumacz",q:`To są ${t[1]} ${w[1]}.`,c:`They're ${w[0]}'s ${t[0]}.`,bad:[`It's ${w[0]}'s ${t[0]}.`,`They're ${t[0]} ${w[0]}.`,`They're ${w[0]} ${t[0]}.`],
+      why:`${t[0]} to liczba mnoga → They're ${w[0]}'s ${t[0]}.`};},
+    ()=>{const w=a1R(WH_WHO),t=a1R(WH_THING);return {lab:"Uzupełnij",q:`It's ___ ${t[0]}. (${w[1]})`,c:`${w[0]}'s`,bad:[w[0],`${w[0]}s`,`${w[0]}s'`],why:`Do imienia dodajemy 's: ${w[0]}'s.`};},
+    ()=>({lab:"Przetłumacz",q:"rzeczy dzieci",c:"the children's things",bad:["the childrens' things","the childs things","the things children"],why:"children (dzieci) nie kończy się na -s, więc dodajemy 's: children's."}),
+    ()=>{const t=a1R(WH_THING);return {lab:"Uzupełnij",q:`Is it ___ ${t[0]}? – No, it isn't. It's Adam's. (twój)`,c:"your",bad:["you","you're","yours"],why:"twój = your (przed rzeczą). you're = you are."};}]},
+  {id:"phr",name:"Zwroty: Help me! What a mess!",ic:"!",tone:"#d6336c",gen:[
+    ()=>{const p=a1R(WH_PHR);return {lab:"Co to znaczy?",q:p[0],c:p[1],bad:shuffle(WH_PHR.filter(x=>x!==p).map(x=>x[1])),why:`${p[0]} = ${p[1]}`};},
+    ()=>{const p=a1R(WH_PHR);return {lab:"Jak to powiedzieć?",q:p[1],c:p[0],bad:shuffle(WH_PHR.filter(x=>x!==p).map(x=>x[0])),why:`${p[1]} = ${p[0]}`};},
+    ()=>({lab:"Wybierz",q:"Mum: What's ___? What a mess!",c:"happening",bad:["a great idea","my fault","help"],why:"What's happening? = Co się dzieje?"}),
+    ()=>({lab:"Wybierz",q:"Ella: Sorry! It's our ___.",c:"fault",bad:["help","idea","mess"],why:"It's our fault. = To nasza wina."})]},
+];
+const WH_BY=Object.fromEntries(WH_TOPICS.map(t=>[t.id,t])),WH_NEW="2026-11-15";
+function whQs(id,n=12){const T=id==="mix"?WH_TOPICS:[WH_BY[id]],out=[],seen=new Set();
+  for(let k=0;k<400&&out.length<n;k++){const t=a1R(T),x=a1R(t.gen)();if(seen.has(x.q+x.c)) continue;seen.add(x.q+x.c);out.push(a1Q({...x,lab:id==="mix"?t.name:x.lab}));}
+  return out;}
+const whLast=id=>doneStats(loadHist().filter(s=>s.subj==="en"&&s.status==="done"&&s.cfg&&s.cfg.mode==="whose"&&s.cfg.topic===id));
+function renderEnW(){
+  const mx=whLast("mix"),ok=lxQuizOk("whose");$("enw-mix-s").textContent=!ok?LOCK_TXT:mx?lastTxt(mx):`Wszystkie ${WH_TOPICS.length} tematy na raz`;$("enw-mix").classList.toggle("lxl",!ok);
+  $("enw-topics").innerHTML=WH_TOPICS.map(t=>{const x=whLast(t.id);
+    return `<button type="button" class="tile mt${ok?"":" lxl"}" data-t="${t.id}" data-new="${WH_NEW}" style="--gc:${t.tone}"><span class="wm" aria-hidden="true">${esc(t.ic)}</span>${statBox(x)}<span class="tt">${esc(t.name)}</span><small>${ok?"12 zadań":LOCK_TXT}</small></button>`;}).join("");
+  newBadges();
+}
+const whStart=id=>enStart(()=>whQs(id),{mode:"whose",topic:id,title:"Czyje to?",unit:"zadań"});
+$("en-t-whose").addEventListener("click",()=>go("enw"));
+$("enw-mix").addEventListener("click",()=>{if(!lxNeed("whose")) whStart("mix");});
+$("enw-topics").addEventListener("click",e=>{const b=e.target.closest("button[data-t]");if(b&&!lxNeed("whose")) whStart(b.dataset.t);});
+
 /* --- Angielski: Nauka – lekcje wyjaśniające zasady, które sprawdzają quizy (To be i tematy A1) ---
    Lekcja: {id,name,ic,tone,quiz:id tematu A1 albo "tobe",b:[bloki HTML]}; pomocnicze lxT (tabela), lxE (przykłady), lxTip, lxBad.
    Przeczytane lekcje (na tym telefonie) w henriksen-lekcje. */
@@ -4643,6 +4711,20 @@ const LX=[
     lxH("O której? – at i in"),`<p>Przed godziną stawiamy <b>at</b>: at seven o'clock, at half past three, at noon, at night. Pory dnia mają <b>in the</b>: in the morning, in the afternoon, in the evening.</p>`,
     lxE([["What time do you get up? – At seven o'clock.","O której wstajesz? – O siódmej."],["I play football in the afternoon.","Gram w piłkę po południu."]]),
     lxBad("What hour is it?","What time is it?")];}},
+  {id:"whose",name:"Czyje to? – Whose…?",ic:"Whose?",tone:"#7048e8",quiz:"whose",nw:WH_NEW,b:[
+    `<p><b>Whose?</b> znaczy <b>czyj? czyja? czyje?</b> Pytamy nim, do kogo coś należy.</p>`,
+    lxH("my, your, his… – czyje to"),`<p>Te słowa stoją <b>przed rzeczą</b> i mówią, czyja ona jest.</p>`,
+    lxT(["Osoba","Czyje?","Przykład","Po polsku"],[["I","my","my book","moja książka"],["you","your","your book","twoja książka"],["he","his","his book","jego książka"],["she","her","her book","jej książka"],["it","its","its bowl","jego miska (o zwierzęciu, rzeczy)"],["we","our","our book","nasza książka"],["they","their","their book","ich książka"]]),
+    lxTip("<b>his</b> – gdy właścicielem jest chłopiec / mężczyzna, <b>her</b> – dziewczynka / kobieta. Patrzymy na właściciela, nie na rzecz!"),
+    lxH("Pytanie: Whose…?"),`<p><b>Whose + rzecz + is it?</b> – o jednej rzeczy. <b>Whose + rzeczy + are they?</b> – o wielu.</p>`,
+    lxE([["Whose laptop is it? – It's my laptop.","Czyj to laptop? – To mój laptop."],["Whose sunglasses are they? – They're his sunglasses.","Czyje to okulary? – To jego okulary."]]),
+    lxH("Imię + 's – książka Bartka"),`<p>Gdy mówimy o konkretnej osobie, dodajemy do imienia <b>'s</b>. Najpierw <b>kto</b>, potem <b>co</b>.</p>`,
+    lxE([["It's Bartek's book.","To książka Bartka."],["Whose laptop is it? – It's Hania's laptop.","Czyj to laptop? – To laptop Hani."],["They're Mr Brown's sunglasses.","To okulary pana Browna."],["It's Laura's. ","To (rzecz) Laury – rzeczy nie trzeba powtarzać."],["the children's things","rzeczy dzieci"]]),
+    lxBad("It's book Bartek.","It's Bartek's book."),
+    lxH("Uwaga na podobne słowa"),
+    lxT(["Czyje?","Skrót – to coś innego!"],[["<b>whose</b> – czyj","<b>who's</b> = who is – kto jest"],["<b>its</b> – jego (zwierzęcia)","<b>it's</b> = it is – to jest"],["<b>their</b> – ich","<b>they're</b> = they are – oni są"],["<b>your</b> – twój","<b>you're</b> = you are – ty jesteś"]]),
+    lxH("Przydatne zwroty z lekcji"),
+    lxE([["Help me, please!","Pomóż mi, proszę!"],["What's happening?","Co się dzieje?"],["It's my fault.","To moja wina."],["What a great idea!","Świetny pomysł!"],["What a mess!","Co za bałagan!"]])]},
 ];
 // „Przeczytałem, rozumiem”: quiz otwiera się dopiero po potwierdzeniu lekcji na jej końcu. PREFS.lxOk = klucze en:<lekcja>, his:<opowiastka>, nat:<lekcja>
 // (w PREFS, więc idzie z synchronizacją konta). Rodzic ma wszystko otwarte. Cele od rodzica (exRun) i „Dokończ” nie są blokowane.
@@ -4670,7 +4752,7 @@ $("enl-list").addEventListener("click",e=>{const b=e.target.closest("[data-lx]")
 document.addEventListener("click",e=>{const b=e.target.closest("[data-okk]");if(!b) return;const k=b.dataset.okk,s=k.split(":")[0];okSet(k);sfx("cheer");
   if(s==="en"&&LXC) $("lx-end").innerHTML=lxEnd(LXC);else if(s==="his"&&HISC) $("his-end").innerHTML=hisEnd(HISC);else if(s==="nat"&&NATC) $("nat-end").innerHTML=natEnd(NATC);
   toast(s==="nat"?"Super, lekcja zaliczona ✓":"🔓 Quiz odblokowany!");});
-$("enlv-body").addEventListener("click",e=>{if(!e.target.closest("#lx-quiz")||!LXC) return;if(LXC.quiz==="tobe") go("ent"); else if(LXC.quiz==="slowka"||LXC.quiz==="zdania"){ENM=LXC.quiz;go("enset");} else if(LXC.quiz==="czas") go("enh"); else a1Start(LXC.quiz);});
+$("enlv-body").addEventListener("click",e=>{if(!e.target.closest("#lx-quiz")||!LXC) return;if(LXC.quiz==="tobe") go("ent"); else if(LXC.quiz==="slowka"||LXC.quiz==="zdania"){ENM=LXC.quiz;go("enset");} else if(LXC.quiz==="czas") go("enh"); else if(LXC.quiz==="whose") go("enw"); else a1Start(LXC.quiz);});
 // na ekranie każdego quizu: przycisk do lekcji z tymi zasadami
 document.addEventListener("click",e=>{const b=e.target.closest("[data-lxgo]");if(!b) return;lxOpen(b.dataset.lxgo==="enset"?ENM:b.dataset.lxgo);});
 $("en-t-learn").addEventListener("click",()=>go("enl"));
@@ -5098,7 +5180,27 @@ const NAT=[
      "Rośliny dzielimy na <b>drzewa</b> (jeden gruby, zdrewniały pień), <b>krzewy</b> (kilka cieńszych pędów) i <b>rośliny zielne</b> (miękkie łodygi, np. mniszek czy trawa). Drzewa mogą być <b>liściaste</b> (dąb, klon, brzoza) albo <b>iglaste</b> (sosna, świerk).",
      "Wśród zwierząt spotkasz <b>ssaki</b> (wiewiórka, jeż), <b>ptaki</b> (wróbel, sikorka, kos), <b>owady</b> (biedronka, pszczoła, motyl) i wiele innych.",
      "Nie wszystkie zwierzęta łatwo zobaczyć, ale zostawiają <b>ślady</b>: tropy na śniegu, nadgryzione szyszki, pióra, gniazda. Do rozpoznawania gatunków służą <b>atlasy</b> i <b>klucze do oznaczania</b>."],
-   keep:["Rośliny: drzewa, krzewy, rośliny zielne; drzewa liściaste i iglaste.","Zwierzęta w okolicy: ssaki, ptaki, owady.","Gatunki rozpoznajemy z atlasem lub kluczem; zwierzęta zdradzają ślady."]},
+   keep:["Rośliny: drzewa, krzewy, rośliny zielne; drzewa liściaste i iglaste.","Zwierzęta w okolicy: ssaki, ptaki, owady.","Gatunki rozpoznajemy z atlasem lub kluczem; zwierzęta zdradzają ślady."],
+   more:["<b>Jak rośliny dbają o nas?</b> Wytwarzają <b>tlen</b>, którym oddychamy, i pochłaniają <b>dwutlenek węgla</b>. Rośliny w pokoju oczyszczają powietrze i je <b>nawilżają</b>.",
+     "<b>Opieka nad zwierzęciem domowym</b> (pies, kot, chomik, królik, papużka): jedzenie o stałych porach i zawsze świeża woda, zabawa i przytulanie, spacery (pies), czyste legowisko lub klatka, wizyty u <b>weterynarza</b> i szczepienia.",
+     "<b>Wyposażenie:</b> miska na jedzenie i wodę, legowisko; pies – smycz i obroża; kot – kuweta i drapak; chomik, królik, papużka – klatka.",
+     "<b>Małe zwierzęta w domu:</b> <b>pająk</b> pomaga – łapie muchy i inne owady; <b>pluskwa domowa</b> szkodzi zdrowiu – kłuje i ssie krew; <b>rybik cukrowy</b> nie zwalcza szkodników i nie roznosi chorób."],
+   qs:[{q:"Jak rośliny dbają o człowieka?",c:"Wytwarzają tlen i pochłaniają dwutlenek węgla",bad:["Pochłaniają tlen i wytwarzają dwutlenek węgla","Ogrzewają powietrze w pokoju","Zjadają kurz z mebli"],why:"Rośliny wytwarzają tlen, którym oddychamy, i pochłaniają dwutlenek węgla."},
+     {q:"Rośliny w pokoju nawilżają powietrze.",c:"Prawda",pf:1,why:"Rośliny oddają do powietrza parę wodną – w pokoju jest wilgotniej."},
+     {q:"Roślina z kilkoma cieńszymi, zdrewniałymi pędami to…",c:"krzew",bad:["drzewo","roślina zielna","mech"],why:"Krzew ma kilka cieńszych pędów, drzewo – jeden gruby pień."},
+     {q:"Która roślina jest rośliną zielną?",c:"Mniszek",bad:["Dąb","Sosna","Leszczyna"],why:"Rośliny zielne mają miękkie łodygi – np. mniszek i trawa."},
+     {q:"Które drzewo jest iglaste?",c:"Świerk",bad:["Dąb","Klon","Brzoza"],why:"Iglaste: sosna, świerk. Liściaste: dąb, klon, brzoza."},
+     {q:"Do której grupy zwierząt należy wróbel?",c:"Ptaki",bad:["Ssaki","Owady","Płazy"],why:"Wróbel, sikorka i kos to ptaki."},
+     {q:"Do której grupy zwierząt należy jeż?",c:"Ssaki",bad:["Ptaki","Owady","Gady"],why:"Jeż i wiewiórka to ssaki."},
+     {q:"Czym posłużysz się, żeby rozpoznać gatunek rośliny?",c:"Atlasem albo kluczem do oznaczania",bad:["Kompasem","Termometrem","Linijką"],why:"Gatunki rozpoznajemy z atlasem lub kluczem do oznaczania."},
+     {q:"Po czym poznasz, że w okolicy żyje zwierzę, którego nie widać?",c:"Po śladach: tropach, nadgryzionych szyszkach, piórach",bad:["Po kolorze nieba","Po kształcie chmur","Po temperaturze powietrza"],why:"Zwierzęta zostawiają ślady: tropy, nadgryzione szyszki, pióra, gniazda."},
+     {q:"Czego potrzebuje pies, żeby był zdrowy i zadowolony?",c:"Jedzenia, świeżej wody, spacerów, zabawy i weterynarza",bad:["Tylko jedzenia raz w tygodniu","Ciszy i zamknięcia w klatce","Słodyczy za każdym razem"],why:"Zwierzę potrzebuje jedzenia, wody, ruchu, uwagi i opieki weterynarza."},
+     {q:"Do kogo idziemy z chorym zwierzęciem?",c:"Do weterynarza",bad:["Do pediatry","Do leśniczego","Do fryzjera"],why:"Zwierzęta leczy weterynarz."},
+     {q:"Co jest potrzebne kotu w domu?",c:"Miska, kuweta i drapak",bad:["Akwarium z filtrem","Kołowrotek i trociny","Siodło i uzda"],why:"Kot potrzebuje miski, kuwety i drapaka."},
+     {q:"Pająk w domu…",c:"pomaga – łapie muchy i inne owady",bad:["roznosi choroby","gryzie ludzi w nocy","niszczy rośliny doniczkowe"],why:"Pająk pomaga w walce ze szkodnikami – łapie owady w sieć."},
+     {q:"Które zwierzę w domu szkodzi zdrowiu człowieka, bo kłuje i ssie krew?",c:"Pluskwa domowa",bad:["Pająk","Rybik cukrowy","Biedronka"],why:"Pluskwa domowa kłuje i ssie krew – szkodzi zdrowiu."},
+     {q:"Rybik cukrowy nie zwalcza szkodników i nie roznosi chorób.",c:"Prawda",pf:1,why:"Rybik cukrowy jest dla nas obojętny – nie pomaga i nie szkodzi zdrowiu."},
+     {q:"Które zwierzęta to zwierzęta domowe?",c:"Pies, kot, chomik, królik",bad:["Lis, sarna, dzik","Wróbel, kos, sikorka","Mrówka, mucha, komar"],why:"Zwierzęta domowe mieszkają z nami w domu i opiekujemy się nimi."}]},
   // III. Obserwuję zjawiska przyrodnicze
   {id:"materia",ch:"III",name:"Materia wokół nas",ic:"🧊",tone:"#1c7ed6",
    story:["Wszystko, co ma masę i zajmuje miejsce, to <b>materia</b>: kamień, woda w szklance i powietrze w balonie.",
@@ -5276,13 +5378,17 @@ const NATK="henriksen-przyroda-czytane";
 const natRead=()=>{try{return JSON.parse(localStorage.getItem(NATK)||"[]");}catch(e){return [];}};
 function renderNat(){const R=natRead();
   $("nat-list").innerHTML=NAT_CH.map(([ch,name,soon])=>{const L=NAT.filter(t=>t.ch===ch);
-    return `<div class="lbl">${ch}. ${name}</div><div class="tiles2 mat-tiles">`+(L.length?L.map((t,k)=>`<button type="button" class="tile mt" data-n="${t.id}" data-new="${NAT_NEW}" style="--gc:${t.tone}"><span class="wm his-ic" aria-hidden="true">${t.ic}</span>${okMine("nat:"+t.id)?'<span class="mt-last"><b>✓ Rozumiem</b></span>':R.includes(t.id)?'<span class="mt-last">Przeczytane</span>':""}<span class="tt">${t.name}</span><small>Lekcja ${k+1}</small></button>`).join("")
+    return `<div class="lbl">${ch}. ${name}</div><div class="tiles2 mat-tiles">`+(L.length?L.map((t,k)=>`<button type="button" class="tile mt" data-n="${t.id}" data-new="${NAT_NEW}" style="--gc:${t.tone}"><span class="wm his-ic" aria-hidden="true">${t.ic}</span>${t.qs&&natLast(t.id)?statBox(natLast(t.id)):okMine("nat:"+t.id)?'<span class="mt-last"><b>✓ Rozumiem</b></span>':R.includes(t.id)?'<span class="mt-last">Przeczytane</span>':""}<span class="tt">${t.name}</span><small>Lekcja ${k+1}${t.qs?" · quiz":""}</small></button>`).join("")
       :soon.map((n,k)=>`<div class="tile mt nat-soon" aria-disabled="true"><span class="tt">${n}</span><small>Lekcja ${k+1} · wkrótce</small></div>`).join(""))+`</div>`;}).join("");
   newBadges();}
 let NATC=null;
 function natEnd(t){const L=NAT.filter(x=>x.ch===t.ch),nx=L[L.indexOf(t)+1];
   const nb=nx?`<button type="button" class="go-btn" data-nnext="${nx.id}">Następna lekcja: ${nx.name} ▶</button>`:`<button type="button" class="go-btn" data-nnext="">Wróć do spisu lekcji</button>`;
-  return okHas("nat:"+t.id)?`<div class="ok-done">✓ Rozumiem</div>${nb}`:`<button type="button" class="go-btn ok-btn" data-okk="nat:${t.id}">✅ Przeczytałem, rozumiem<small>zaliczam lekcję</small></button>`;}
+  const qb=t.qs?`<button type="button" class="go-btn" id="nat-quiz">Sprawdź się – ${t.qs.length} pytań ▶</button>`:"";
+  return okHas("nat:"+t.id)?`<div class="ok-done">✓ Rozumiem${qb?" – quiz odblokowany":""}</div>${qb}${nb}`:`<button type="button" class="go-btn ok-btn" data-okk="nat:${t.id}">✅ Przeczytałem, rozumiem<small>${qb?"odblokuj quiz":"zaliczam lekcję"}</small></button>`;}
+// quiz do lekcji z pytaniami (qs, jak w Historii): sesja subj "nat", mode = id lekcji
+const natQs=id=>{const t=NAT.find(x=>x.id===id);return shuffle(t.qs.map(x=>hisQ(x,t)));};
+const natLast=id=>doneStats(loadHist().filter(s=>s.subj==="nat"&&s.status==="done"&&s.cfg&&s.cfg.mode===id));
 function natOpen(id){const t=NAT.find(x=>x.id===id);if(!t) return;NATC=t;hisStop();
   const R=natRead();if(!R.includes(id)){try{localStorage.setItem(NATK,JSON.stringify([...R,id]));}catch(e){}}
   const ch=NAT_CH.find(c=>c[0]===t.ch),L=NAT.filter(x=>x.ch===t.ch),k=L.indexOf(t),nx=L[k+1];
@@ -5290,6 +5396,7 @@ function natOpen(id){const t=NAT.find(x=>x.id===id);if(!t) return;NATC=t;hisStop
   $("natv-body").innerHTML=`<div class="mx-from">Rozdział ${ch[0]}. ${ch[1]} · lekcja ${k+1}</div><div class="his-hero" style="--gc:${t.tone}" aria-hidden="true">${t.ic}</div>`+
     `<button type="button" class="again his-play" id="nat-play">🎧 Posłuchaj lekcji</button>`+t.story.map(p=>`<p class="his-p">${p}</p>`).join("")+
     `<div class="lx-tip"><b>📌 Zapamiętaj</b><ul>${t.keep.map(x=>`<li>${x}</li>`).join("")}</ul></div>`+(t.fun?`<div class="lx-ex"><div><b>🤩 Ciekawostka</b><span>${t.fun}</span></div></div>`:"")+
+    (t.more?`<div class="lx-tip"><b>📒 Z zeszytu ćwiczeń</b><ul>${t.more.map(x=>`<li>${x}</li>`).join("")}</ul></div>`:"")+
     `<div class="lx-end" id="nat-end">${natEnd(t)}</div>`;
   go("natv");scrollTo(0,0);}
 const natAudio=id=>`nature/audio/${id}.m4a`;
@@ -5300,7 +5407,7 @@ async function natPlay(){const t=NATC,b=$("nat-play");if(!t) return;
   try{const txt=(t.name+". "+t.story.join(" ")).replace(/<[^>]+>/g,"");const u=new SpeechSynthesisUtterance(txt);u.lang="pl-PL";u.rate=.95;
     const v=speechSynthesis.getVoices().find(x=>/^pl/i.test(x.lang));if(v) u.voice=v;u.onend=done;HIS_TTS=true;speechSynthesis.speak(u);}
   catch(e){done();toast("Ten telefon nie umie czytać na głos.");}}
-$("natv-body").addEventListener("click",e=>{if(e.target.closest("#nat-play")) return natPlay();const b=e.target.closest("[data-nnext]");if(!b) return;hisStop();if(b.dataset.nnext) natOpen(b.dataset.nnext); else go("nat");});
+$("natv-body").addEventListener("click",e=>{if(e.target.closest("#nat-play")) return natPlay();if(e.target.closest("#nat-quiz")&&NATC){hisStop();const t=NATC;return enStart(()=>natQs(t.id),{subj:"nat",mode:t.id,title:t.name,unit:"pytań"});}const b=e.target.closest("[data-nnext]");if(!b) return;hisStop();if(b.dataset.nnext) natOpen(b.dataset.nnext); else go("nat");});
 $("nat-list").addEventListener("click",e=>{const b=e.target.closest("[data-n]");if(b) natOpen(b.dataset.n);});
 $("t-nat").addEventListener("click",()=>go("nat"));
 
@@ -5742,14 +5849,14 @@ if(syncOn()) syncSoon(2500);
    Próg brązu ustawia rodzic (PREFS.cups[kategoria], domyślnie base), kolejne poziomy = próg × x. Nagrody od rodzica:
    PREFS.cupRewards[poziom]. Liczone z historii, więc obejmują też wcześniejsze wyniki; PREFS.cupSeen pamięta pokazane
    puchary, żeby „Nowy puchar!” wyskoczył raz. Rodzic zmienia progi dziecka przez jego wiersz w settings (sync go dociąga). */
-const CUP_SUBJ={mat:"Matematyka",pl:"Polski",en:"Angielski",zd:"Edukacja zdrowotna",his:"Historia",sz:"Szachy",lg:"Łamigłówki"};
+const CUP_SUBJ={mat:"Matematyka",pl:"Polski",en:"Angielski",zd:"Edukacja zdrowotna",his:"Historia",nat:"Przyroda",sz:"Szachy",lg:"Łamigłówki"};
 const CUP_CATS=[
   {id:"mat×",subj:"mat",name:"Mnożenie",base:150},{id:"mat:",subj:"mat",name:"Dzielenie",base:150},
   {id:"mat+",subj:"mat",name:"Dodawanie",base:100},{id:"mat−",subj:"mat",name:"Odejmowanie",base:100},
   {id:"pl-slowka",subj:"pl",name:"Słówka: ó/u, rz/ż, ch/h",base:75},{id:"pl-dyktando",subj:"pl",name:"Dyktanda",base:75},
   {id:"pl-znaczenia",subj:"pl",name:"Znaczenie słów",base:100},
-  {id:"en-tobe",subj:"en",name:"To be",base:50},{id:"en-slowka",subj:"en",name:"Słówka angielskie",base:75},{id:"en-zdania",subj:"en",name:"Zdania",base:100},{id:"en-a1",subj:"en",name:"Podstawy A1",base:60},{id:"en-czas",subj:"en",name:"Godziny",base:60},
-  {id:"zd",subj:"zd",name:"Edukacja zdrowotna",base:60},{id:"his",subj:"his",name:"Historia",base:40},
+  {id:"en-tobe",subj:"en",name:"To be",base:50},{id:"en-slowka",subj:"en",name:"Słówka angielskie",base:75},{id:"en-zdania",subj:"en",name:"Zdania",base:100},{id:"en-a1",subj:"en",name:"Podstawy A1",base:60},{id:"en-czas",subj:"en",name:"Godziny",base:60},{id:"en-whose",subj:"en",name:"Czyje to?",base:60},
+  {id:"zd",subj:"zd",name:"Edukacja zdrowotna",base:60},{id:"his",subj:"his",name:"Historia",base:40},{id:"nat",subj:"nat",name:"Przyroda",base:40},
   {id:"sz-nauka",subj:"sz",name:"Samouczek szachowy",base:15},{id:"sz-zadania",subj:"sz",name:"Zadania szachowe",base:40},{id:"sz-gra",subj:"sz",name:"Partie z komputerem",base:20},
   {id:"lg-blockout",subj:"lg",name:"Block Out",base:40},{id:"lg-mosty",subj:"lg",name:"Mosty",base:25},{id:"lg-trojki",subj:"lg",name:"Trójki",base:30},{id:"lg-flow",subj:"lg",name:"Flow",base:40}
 ];
@@ -5757,7 +5864,7 @@ const CUP_LV=[{k:"b",name:"Brąz",to:"brązu",x:1,c:"#cd7f32"},{k:"s",name:"Sreb
   {k:"g",name:"Złoto",to:"złota",x:8,c:"#f2c230"},{k:"d",name:"Diament",to:"diamentu",x:20,c:"#4dd4ff"}];
 const CUP_STEPS=[20,30,50,75,100,150,200,300,400,500,750,1000,1500,2000,3000,4000,5000,7500,10000];
 const PARENT_KEYS=["cups","cupRewards","mods","tasks","szLimit","szRules","lgLimit","lgRules","boLimit","boRules","brLimit","brRules","thLimit","thRules","flLimit","flRules"]; // ustawia rodzic – przy konflikcie wygrywa wersja z bazy
-const cupCat=(s,r)=>{const sj=s.subj||"mat";if(sj==="zd"||sj==="his") return sj;return sj==="mat"?"mat"+(Array.isArray(r.t)?r.t[1]:""):sj+"-"+((s.cfg&&s.cfg.mode)||(sj==="en"?"tobe":"slowka"));};
+const cupCat=(s,r)=>{const sj=s.subj||"mat";if(sj==="zd"||sj==="his"||sj==="nat") return sj;return sj==="mat"?"mat"+(Array.isArray(r.t)?r.t[1]:""):sj+"-"+((s.cfg&&s.cfg.mode)||(sj==="en"?"tobe":"slowka"));};
 function cupCounts(H){const c={};for(const s of H) for(const r of s.recs||[]) if(r.ok){const k=cupCat(s,r);c[k]=(c[k]||0)+recW(s,r);}return c;} // punkty, nie liczba zadań
 const cupBase=(P,id)=>(P&&P.cups&&+P.cups[id])||CUP_CATS.find(x=>x.id===id).base;
 const cupLevel=(n,base)=>CUP_LV.reduce((l,L,k)=>n>=base*L.x?k:l,-1);
@@ -5910,7 +6017,7 @@ function ptsW(s,r){
     const w=WORDS.find(x=>x.full===r.t);return w&&w.desc?3:2;
   }
   if(sj==="en"){
-    if(m==="a1"||m==="czas") return (r.c||"").split(" ").length>=3?2:1; // całe zdanie 2, wybór formy 1
+    if(m==="a1"||m==="czas"||m==="whose") return (r.c||"").split(" ").length>=3?2:1; // całe zdanie 2, wybór formy 1
     if(m==="slowka"){const x=ENW.find(y=>y.en===r.c&&y.pl===r.t||y.en===r.t&&y.pl===r.c);return (x&&x.lvl==="a2"?2:1)+(x&&r.c===x.en?1:0);}
     if(m==="zdania"){const x=ENS.find(y=>y.en===r.c||y.en===r.t);return (x&&x.lvl==="a2"?5:3)+(x&&r.c===x.en?1:0);}
     return /[?.]$/.test(r.c||"")?2:1; // To be: pytania i krótkie odpowiedzi 2, odmiana i am/is/are 1
@@ -5936,7 +6043,7 @@ const PTS_INFO=[
     ["Znaczenie słów – łatwe / średnie / trudne","ponury / skrupulatny / lakoniczny","2 / 3 / 5"],["…za synonim, przeciwieństwo albo zdanie z luką","","+1"]]],
   ["Angielski",[["To be – odmiana i am / is / are","On jest → He is",1],["To be – pytania i Who / What","Is he red?",2],["To be – krótkie odpowiedzi","Yes, she is.",2],
     ["Słówka A1 / A2 (z angielskiego na polski)","dog → pies","1 / 2"],["…z polskiego na angielski","pies → dog","+1"],
-    ["Zdania A1 / A2 (z angielskiego na polski)","She is my sister.","3 / 5"],["…z polskiego na angielski","","+1"],["Podstawy A1 – wybór formy / całe zdanie","isn't / I can swim.","1 / 2"],["Godziny – krótka forma / całe zdanie","3:15 / It's quarter past three.","1 / 2"]]],
+    ["Zdania A1 / A2 (z angielskiego na polski)","She is my sister.","3 / 5"],["…z polskiego na angielski","","+1"],["Podstawy A1 – wybór formy / całe zdanie","isn't / I can swim.","1 / 2"],["Godziny – krótka forma / całe zdanie","3:15 / It's quarter past three.","1 / 2"],["Czyje to? – jedno słowo / całe zdanie","his / Whose laptop is it?","1 / 2"]]],
   ["Szachy",[["Samouczek – każda plansza (najkrócej, bez pomyłki)","",1],["Zadanie mat w 1 / w 2 / w 3","","2 / 3 / 5"],
     ["Wygrana z komputerem","Paweł … Kazimierz","3 – 15"]]]
 ];
@@ -6100,7 +6207,7 @@ const MODS=[
     {k:"mat-muldiv",name:"Mnożenie i dzielenie",sub:"30 działań do 100"},{k:"mat-addsub",name:"Dodawanie i odejmowanie",sub:"do 1000"},
     {k:"mat-tens",name:"Pełne dziesiątki",sub:"np. 40 × 30"},{k:"mat-hard",name:"Poćwicz trudne",sub:"działania z błędami"},{k:"mat-own",name:"Ułóż własne",sub:"własne działania i zakresy"}]},
   {g:"Polski",items:[{k:"pl-slowka",name:"Słówka",sub:"ó/u, rz/ż, ch/h"},{k:"pl-dyktando",name:"Dyktanda",sub:"cały tekst z lukami"},{k:"pl-znaczenia",name:"Znaczenie słów",sub:"quiz i słowo dnia"}]},
-  {g:"Angielski",items:[{k:"en-tobe",name:"To be",sub:"am, is, are"},{k:"en-slowka",name:"Słówka",sub:"A1 i A2 w tematach"},{k:"en-zdania",name:"Zdania",sub:"tłumaczenie całych zdań"},{k:"en-nauka",nw:1,name:"Nauka",sub:"lekcje z wyjaśnieniem zasad"},{k:"en-a1",nw:1,name:"Podstawy A1",sub:"skróty isn't, haven't, can't i inne tematy"},{k:"en-czas",nw:1,name:"Godziny",sub:"What time is it? o'clock, past / to, a.m. i p.m."}]},
+  {g:"Angielski",items:[{k:"en-tobe",name:"To be",sub:"am, is, are"},{k:"en-slowka",name:"Słówka",sub:"A1 i A2 w tematach"},{k:"en-zdania",name:"Zdania",sub:"tłumaczenie całych zdań"},{k:"en-nauka",nw:1,name:"Nauka",sub:"lekcje z wyjaśnieniem zasad"},{k:"en-a1",nw:1,name:"Podstawy A1",sub:"skróty isn't, haven't, can't i inne tematy"},{k:"en-czas",nw:1,name:"Godziny",sub:"What time is it? o'clock, past / to, a.m. i p.m."},{k:"en-whose",nw:1,name:"Czyje to?",sub:"Whose…? my, his, her, their, imię + 's"}]},
   {g:"Edukacja zdrowotna",items:[{k:"zd-spr",name:"Sprawdzian 29.10",sub:"wszystkie tematy"},{k:"zd-wartosc",name:"Zdrowie jako wartość",sub:"definicja i wymiary zdrowia"},
     {k:"zd-styl",name:"Zdrowy styl życia",sub:"mierniki zdrowia, hartowanie"},{k:"zd-cialo",name:"Moje ciało się zmienia",sub:"dojrzewanie, higiena, żelazo"},
     {k:"zd-zach",name:"Zachowania chroniące i ryzykowne",sub:"środowisko, zdrowe nawyki"}]},
@@ -6129,7 +6236,7 @@ function applyMods(){
   const show=(id,on)=>{const el=$(id);if(el) el.hidden=!on;};
   show("t-math",subjOn("mat"));if(CUR==="mat") renderMat();show("t-pl",subjOn("pl"));show("t-en",subjOn("en"));
   show("pl-t-w",modOn("pl-slowka"));show("pl-t-d",modOn("pl-dyktando"));show("pl-t-z",modOn("pl-znaczenia"));show("pz-day",modOn("pl-znaczenia"));
-  show("en-t-tobe",modOn("en-tobe"));show("en-t-v",modOn("en-slowka"));show("en-t-z",modOn("en-zdania"));show("en-t-a1",modOn("en-a1"));show("en-t-time",modOn("en-czas"));show("en-t-learn",modOn("en-nauka"));show("mat-t-learn",modOn("mat-nauka"));document.querySelectorAll("#mat .mat-sec").forEach(e=>{e.hidden=!modOn("mat-nauka");});document.querySelectorAll("#en .en-sec").forEach(e=>{e.hidden=!modOn("en-nauka");});
+  show("en-t-tobe",modOn("en-tobe"));show("en-t-v",modOn("en-slowka"));show("en-t-z",modOn("en-zdania"));show("en-t-a1",modOn("en-a1"));show("en-t-time",modOn("en-czas"));show("en-t-whose",modOn("en-whose"));show("en-t-learn",modOn("en-nauka"));show("mat-t-learn",modOn("mat-nauka"));document.querySelectorAll("#mat .mat-sec").forEach(e=>{e.hidden=!modOn("mat-nauka");});document.querySelectorAll("#en .en-sec").forEach(e=>{e.hidden=!modOn("en-nauka");});
   show("t-zd",subjOn("zd"));show("zd-spr",modOn("zd-spr"));show("zd-tw",ZD_TOPICS.some(t=>modOn("zd-"+t.id)));if(CUR==="zd") renderZd();
   show("t-sz",subjOn("sz"));show("t-lg",subjOn("lg"));show("games-sep",subjOn("sz")||subjOn("lg"));try{lgGuard();}catch(e){}show("t-his",modOn("his"));show("t-nat",modOn("nat"));szGuard();
   {const g=$("t-math").parentElement;g.querySelectorAll(":scope>[data-soon]").forEach(b=>g.appendChild(b));} // kafle „Wkrótce” zawsze na końcu
@@ -6336,7 +6443,7 @@ $("adm-refresh").addEventListener("click",()=>{loadReqs();renderAdmin();});
 /* szczegóły za kaflem (admin2.sql: admin_details) – lista w oknie */
 const admD=t=>{if(t==null) return "–";const d=new Date(typeof t==="number"||/^\d+$/.test(t)?+t:t);
   return isNaN(d)?"–":d.toLocaleString("pl-PL",{day:"numeric",month:"numeric",year:"2-digit",hour:"2-digit",minute:"2-digit"});};
-const ROLE={parent:"rodzic",student:"dziecko"},SUBJN={mat:"matematyka",pl:"polski",en:"angielski",zd:"edukacja zdrowotna",sz:"szachy",lg:"łamigłówki"};
+const ROLE={parent:"rodzic",student:"dziecko"},SUBJN={mat:"matematyka",pl:"polski",en:"angielski",zd:"edukacja zdrowotna",sz:"szachy",lg:"łamigłówki",his:"historia",nat:"przyroda"};
 const admSt=st=>st==="pending"?'<span class="adm-pend">czeka</span>':"";
 const ADM_ROW={
   users:x=>[`<b>${esc(x.name||"(bez profilu)")}</b> ${x.role?`<small>${ROLE[x.role]||x.role}</small>`:""} ${admSt(x.status)}`,esc(x.email||""),
@@ -8668,7 +8775,7 @@ function gameSnap(){
     title:`Dyktando: ${PD.d.title}`,done:Object.keys(PD.fill).length,n:PD.recs.length};
   if(PZ&&!PZ.over) return {type:"pz",id:PZ.id,start:PZ.start,cfg:PZ.cfg,i:PZ.i,recs:PZ.recs,qs:PZ.qs,words:PZ.words.map(w=>w.w),seen:[...PZ.seen],title:"Znaczenie słów",done:cnt(PZ.recs),n:PZ.recs.length};
   if(EN&&!EN.over) return {type:"en",id:EN.id,start:EN.start,cfg:EN.cfg,i:EN.i,recs:EN.recs,qs:EN.qs,
-    title:(EN.cfg.subj==="zd"?"":"Angielski: ")+enTitle(EN.cfg),done:cnt(EN.recs),n:EN.recs.length};
+    title:(EN.cfg.subj&&EN.cfg.subj!=="en"?"":"Angielski: ")+enTitle(EN.cfg),done:cnt(EN.recs),n:EN.recs.length};
   return null;
 }
 function resumeSave(){
@@ -8687,8 +8794,8 @@ function gameBegin(){
   PW=PD=PZ=EN=null;
 }
 // odtworzenie gry z migawki
-const enMakeFor=(c,n)=>c.subj==="his"?()=>hisQs(c.mode):c.subj==="zd"?(c.mode==="spr"?zdAll:()=>zdTopic(c.mode))
-  :c.mode==="a1"?()=>a1Qs(c.topic||"mix",n):c.mode==="czas"?()=>timeQs(c.topic||"mix",n):c.mode==="tobe"?()=>enToBeQs(n,c.types||["form"]):()=>enVocabQs(c.mode,{lvl:c.lvl||"a1",dir:c.dir||"mix",topics:c.topics||[],n});
+const enMakeFor=(c,n)=>c.subj==="his"?()=>hisQs(c.mode):c.subj==="nat"?()=>natQs(c.mode):c.subj==="zd"?(c.mode==="spr"?zdAll:()=>zdTopic(c.mode))
+  :c.mode==="a1"?()=>a1Qs(c.topic||"mix",n):c.mode==="czas"?()=>timeQs(c.topic||"mix",n):c.mode==="whose"?()=>whQs(c.topic||"mix",n):c.mode==="tobe"?()=>enToBeQs(n,c.types||["form"]):()=>enVocabQs(c.mode,{lvl:c.lvl||"a1",dir:c.dir||"mix",topics:c.topics||[],n});
 function resumeGame(g){
   if(g.type==="pw"){PW={id:g.id,start:g.start,cfg:g.cfg,i:g.i,recs:g.recs,words:g.words.map(f=>WORDS.find(w=>w.full===f)),wrong:[],locked:false,over:false};
     if(PW.words.some(w=>!w)) return false;$("pw-game").hidden=false;$("pw-end").hidden=true;$("pw-end").innerHTML="";go("plw");pwShow();}

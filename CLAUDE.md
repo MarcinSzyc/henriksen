@@ -63,6 +63,9 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
     (pełne godziny o'clock, half / quarter past / to, minuty past i to, „three fifteen” i „oh”, a.m. / p.m. z noon i midnight, skróty min / h / hrs / sec,
     What time…? i at / in) – generatory jak w A1, `timeQs(id,12)`, sesja `cfg:{mode:"czas",topic}`, punkty jak A1. Pole `clk:[h,m]` w pytaniu rysuje
     tarczę `clkSvg(h,m)` nad treścią (`#enq-clk`, `a1Q` je przenosi). Nazwy: `tEn` (past / to), `tDig` (cyfrowo), `tPl` (po polsku, „wpół do” = half past poprzedniej).
+  - **Czyje to?** (kafel `#en-t-whose`, widok `#enw`, hash `#angielski-czyje`, moduł `en-whose`, puchar `en-whose`, lekcja `LX` „whose”): 4 tematy `WH_TOPICS`
+    (my/your/his… z pułapkami it's/they're, Whose…? is it / are they, imię + 's, zwroty z lekcji: Help me, What's happening?, It's my fault, What a mess!),
+    `whQs`, sesja `cfg:{mode:"whose",topic}`, punkty jak A1.
 - **Szachy** (kafel `#t-sz`, widoki `#sz` (3 kafle), `#szl` lekcje, `#szz` ustawienia zadań, `#szo` przeciwnicy, `#szg` jedna szachownica `#szb`;
   hashe `#szachy…`; przedmiot `subj:"sz"`, moduły `sz-nauka` / `sz-zadania` / `sz-gra`). Pliki w `chess/`: `chess.js` (chess.js 1.4.0 ESM, BSD,
   wczytywany `szLoad()` przez `import()`), `puzzles.json` (480 zadań mat w 1/2/3 z bazy Lichess, CC0; skrypt `tools/lichess_puzzles.py`),
@@ -244,7 +247,8 @@ Hosting: GitHub Pages (`main` / root) → https://marcinszyc.github.io/henriksen
 - **Przyroda** (kafel `#t-nat` – już nie „Wkrótce”, widoki `#nat` lista, `#natv` lekcja; hashe `#przyroda`, `#przyroda-lekcja`; moduł `nat`):
   Nauka według podręcznika „Odkrywam przyrodę 4” (Nowa Era, nowa podstawa) – rozdziały i tytuły lekcji jak w spisie treści (`NAT_CH`; rozdział bez lekcji pokazuje
   tytuły jako „wkrótce”). Gotowe wszystkie rozdziały I–VIII (40 lekcji `NAT` `{id,ch,name,ic,tone,story,keep,fun?}`; listy „wkrótce” w `NAT_CH` już nieużywane). Lekcja: opis, „📌 Zapamiętaj”,
-  „🤩 Ciekawostka”, „Następna lekcja”. Quizów jeszcze nie ma – mają dojść przed kartkówkami/sprawdzianami. Czytanie: `nature/audio/<id>.m4a`
+  „🤩 Ciekawostka”, opcjonalnie `more` („📒 Z zeszytu ćwiczeń”, poza nagraniem), „Następna lekcja”. Lekcja z `qs` (jak w Historii) ma quiz po „rozumiem”
+  (`natQs`, `#nat-quiz`, sesja `subj:"nat"`, `mode` = id lekcji, puchar `nat`) – na razie tylko „Rośliny i zwierzęta w mojej okolicy” (`okolica`). Czytanie: `nature/audio/<id>.m4a`
   (ElevenLabs, teksty w `tools/przyroda_nagrania.md`) albo lektor telefonu; wspólny odtwarzacz z Historią (`HIS_AUD`, `hisStop`). Przeczytane: `henriksen-przyroda-czytane`.
   Nagrania z ElevenLabs: mp3 z Downloads → sprawdź treść Whisperem (`~/.cache/henriksen-whisper`, przez WAV 16 kHz) → `afconvert -f m4af -d aac -b 64000 -c 1`
   → `history/audio/<id>.m4a` albo `nature/audio/<id>.m4a`. Gotowe: wszystkie 8 opowiastek Historii; wszystkie 40 lekcji Przyrody. Długie nagranie całego rozdziału (`tools/przyroda_rozdzialy.md`): Whisper z `word_timestamps` → `tools/nagrania_tnij.py` (granice po tytułach lekcji) → kawałki z WAV 44,1 kHz z krótkim wyciszeniem → m4a; sprawdzić początek i koniec każdego kawałka Whisperem.
