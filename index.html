@@ -1488,7 +1488,11 @@ try{const t=JSON.parse(localStorage.getItem("henriksen-ustawienia")).theme;if(t=
 </div>
 <div class="wrap" id="nat" hidden>
   <header><button type="button" class="menu-btn" data-back aria-label="Wróć"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><path d="M12.5 4L6.5 10l6 6" stroke="currentColor" stroke-width="2.6" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></button><h1 class="grow">Przyroda</h1></header>
-  <p class="abnote">Lekcje w tej samej kolejności co w podręczniku „Odkrywam przyrodę 4”. Przeczytaj albo posłuchaj – quizy dojdą przed kartkówkami.</p>
+  <div id="nat-qsec" data-own="2026-11-15"><div class="lbl en-sec">🎯 Quizy</div>
+  <p class="abnote">Quiz otwiera się po przeczytaniu lekcji i „Przeczytałem, rozumiem”.</p>
+  <div class="tiles2 mat-tiles" id="nat-quizzes"></div></div>
+  <div class="lbl en-sec">📘 Lekcje</div>
+  <p class="abnote">Lekcje w tej samej kolejności co w podręczniku „Odkrywam przyrodę 4”. Przeczytaj albo posłuchaj.</p>
   <div id="nat-list"></div>
 </div>
 <div class="wrap" id="natv" hidden>
@@ -2917,7 +2921,7 @@ const VIEWS={home:"home",nat:"nat",natv:"natv",his:"his",hisv:"hisv",matl:"matl"
 let CUR="home";
 // znaczek „nowe” po skosie w rogu kafla: przez 7 dni od data-new="rrrr-mm-dd" (dodawaj przy każdej nowej sekcji)
 // kafel nadrzędny dziedziczy najnowszą datę z kafli w środku (aż do ekranu startowego); ukryte (wyłączone przez rodzica) się nie liczą
-const NEW_TREE={"t-math":["mat-t-learn"],"t-en":["en-t-learn","en-t-a1","en-t-time","en-t-whose"],"t-lg":["lg-t-bo","lg-t-br","lg-t-th","lg-t-fl"],"t-sz":["sz-t-open","sz-t-facts"]};
+const NEW_TREE={"t-math":["mat-t-learn"],"t-en":["en-t-learn","en-t-a1","en-t-time","en-t-whose"],"t-lg":["lg-t-bo","lg-t-br","lg-t-th","lg-t-fl"],"t-sz":["sz-t-open","sz-t-facts"],"t-nat":["nat-qsec"]};
 function newDate(id){const el=$(id);if(!el||el.hidden) return "";const own=el.dataset.own??(el.dataset.own=el.dataset.new||"");
   return [own,...(NEW_TREE[id]||[]).map(newDate)].reduce((a,b)=>b>a?b:a,"");}
 function newBadges(){const now=Date.now();Object.keys(NEW_TREE).forEach(id=>{const el=$(id);if(!el) return;const d=newDate(id);if(d) el.dataset.new=d; else delete el.dataset.new;
@@ -5376,7 +5380,10 @@ const NAT=[
 const NAT_NEW="2026-11-08";
 const NATK="henriksen-przyroda-czytane";
 const natRead=()=>{try{return JSON.parse(localStorage.getItem(NATK)||"[]");}catch(e){return [];}};
-function renderNat(){const R=natRead();
+function renderNat(){const R=natRead(),Q=NAT.filter(t=>t.qs);
+  $("nat-qsec").hidden=!Q.length;
+  $("nat-quizzes").innerHTML=Q.map(t=>{const ok=okHas("nat:"+t.id),x=natLast(t.id);
+    return `<button type="button" class="tile mt${ok?"":" lxl"}" data-nq="${t.id}" data-new="2026-11-15" style="--gc:${t.tone}"><span class="wm his-ic" aria-hidden="true">${t.ic}</span>${statBox(x)}<span class="tt">${t.name}</span><small>${ok?`${t.qs.length} pytań`:LOCK_TXT}</small></button>`;}).join("");
   $("nat-list").innerHTML=NAT_CH.map(([ch,name,soon])=>{const L=NAT.filter(t=>t.ch===ch);
     return `<div class="lbl">${ch}. ${name}</div><div class="tiles2 mat-tiles">`+(L.length?L.map((t,k)=>`<button type="button" class="tile mt" data-n="${t.id}" data-new="${NAT_NEW}" style="--gc:${t.tone}"><span class="wm his-ic" aria-hidden="true">${t.ic}</span>${t.qs&&natLast(t.id)?statBox(natLast(t.id)):okMine("nat:"+t.id)?'<span class="mt-last"><b>✓ Rozumiem</b></span>':R.includes(t.id)?'<span class="mt-last">Przeczytane</span>':""}<span class="tt">${t.name}</span><small>Lekcja ${k+1}${t.qs?" · quiz":""}</small></button>`).join("")
       :soon.map((n,k)=>`<div class="tile mt nat-soon" aria-disabled="true"><span class="tt">${n}</span><small>Lekcja ${k+1} · wkrótce</small></div>`).join(""))+`</div>`;}).join("");
@@ -5409,6 +5416,8 @@ async function natPlay(){const t=NATC,b=$("nat-play");if(!t) return;
   catch(e){done();toast("Ten telefon nie umie czytać na głos.");}}
 $("natv-body").addEventListener("click",e=>{if(e.target.closest("#nat-play")) return natPlay();if(e.target.closest("#nat-quiz")&&NATC){hisStop();const t=NATC;return enStart(()=>natQs(t.id),{subj:"nat",mode:t.id,title:t.name,unit:"pytań"});}const b=e.target.closest("[data-nnext]");if(!b) return;hisStop();if(b.dataset.nnext) natOpen(b.dataset.nnext); else go("nat");});
 $("nat-list").addEventListener("click",e=>{const b=e.target.closest("[data-n]");if(b) natOpen(b.dataset.n);});
+$("nat-quizzes").addEventListener("click",e=>{const b=e.target.closest("[data-nq]");if(!b) return;const t=NAT.find(x=>x.id===b.dataset.nq);
+  if(!okHas("nat:"+t.id)){toast("🔒 Najpierw lekcja – na jej końcu odblokujesz quiz");return natOpen(t.id);}enStart(()=>natQs(t.id),{subj:"nat",mode:t.id,title:t.name,unit:"pytań"});});
 $("t-nat").addEventListener("click",()=>go("nat"));
 
 /* --- Angielski: Słówka (A1/A2, w tematach) i Zdania; ten sam quiz co To be (enStart / enShow) ---
